@@ -961,6 +961,7 @@ final class KMKeyboard extends WebView {
     // Now to finalize the actual window.
     subKeysWindow = new PopupWindow(contentView, (int) pvWidth, (int) pvHeight, false);
     subKeysWindow.setTouchable(true);
+    subKeysWindow.setClippingEnabled(false);
     subKeysWindow.setOnDismissListener(new OnDismissListener() {
       @Override
       public void onDismiss() {
