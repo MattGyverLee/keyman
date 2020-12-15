@@ -182,6 +182,8 @@ public class MainActivity extends AppCompatActivity implements OnKeyboardEventLi
 
     setContentView(R.layout.activity_main);
 
+    checkOverlayPermission();
+
     toolbar = (Toolbar) findViewById(R.id.titlebar);
     setSupportActionBar(toolbar);
     getSupportActionBar().setTitle(null);
@@ -888,6 +890,11 @@ public class MainActivity extends AppCompatActivity implements OnKeyboardEventLi
   private void showSettings() {
     Intent settingsIntent = new Intent(this, KeymanSettingsActivity.class);
     startActivity(settingsIntent);
+  }
+
+  private void checkOverlayPermission() {
+    Intent overlayPermissionIntent = new Intent(this, CheckOverlayPermissionActivity.class);
+    startActivity(overlayPermissionIntent);
   }
 
   /**
