@@ -2524,8 +2524,10 @@ public final class KMManager {
   public static int getKeyboardHeightMax(Context context, int orientation) {
     if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
       return (int) KMManager.KeyboardHeight_Context_Landscape_Default * 2;
-    } else /* if (orientation == Configuration.ORIENTATION_PORTRAIT) */ {
+    } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
       return (int) KMManager.KeyboardHeight_Context_Portrait_Default * 2;
+    } else {
+      return KMManager.KeyboardHeight_Reset;
     }
   }
 
@@ -2537,8 +2539,10 @@ public final class KMManager {
   public static int getKeyboardHeightMin(Context context, int orientation) {
     if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
       return (int) KMManager.KeyboardHeight_Context_Landscape_Default / 2;
-    } else /* if (orientation == Configuration.ORIENTATION_PORTRAIT) */ {
+    } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
       return (int) KMManager.KeyboardHeight_Context_Portrait_Default / 2;
+    } else {
+      return KMManager.KeyboardHeight_Reset;
     }
   }
 
