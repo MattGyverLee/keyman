@@ -347,7 +347,7 @@ public final class KMManager {
   public static final int KeyboardHeight_Reset = 0; // Zero value for constructor
   public static int KeyboardHeight_Context_Portrait_Default = 0; // Default portrait height
   public static int KeyboardHeight_Context_Landscape_Default = 0; // Default landscape height
-
+  
   // Default prediction/correction setting
   public static final int KMDefault_Suggestion = SuggestionType.PREDICTIONS_WITH_CORRECTIONS.toInt();
 
@@ -503,7 +503,7 @@ public final class KMManager {
     CloudDownloadMgr.getInstance().initialize(appContext);
 
     KeyboardHeight_Context_Portrait_Default = getDefaultKeyboardHeight(context, Configuration.ORIENTATION_PORTRAIT); 
-    KeyboardHeight_Context_Landscape_Default = getDefaultKeyboardHeight(context, Configuration.ORIENTATION_LANDSCAPE);  
+    KeyboardHeight_Context_Landscape_Default = getDefaultKeyboardHeight(context, Configuration.ORIENTATION_LANDSCAPE);
   }
 
   public static void executeResourceUpdate(Context aContext)
@@ -2273,12 +2273,9 @@ public final class KMManager {
       }
       height = defaultHeightForContext;
     } else {
-      // Applying gating to 50%-200% of default height (following Keyman) 
-      if (height < (defaultHeightForContext / 2)) {
-        height = (int) (defaultHeightForContext / 2);
-      } else if (height > (defaultHeightForContext * 2)) {
-        height = (int) (defaultHeightForContext * 2);
-      } 
+      // Applying gating to 50%-200% of default height (following Keyman)
+      height = Math.max((int) getKeyboardHeightMin(context), height);
+      height = Math.min((int) getKeyboardHeightMax(context), height); 
 
       // Store the new height based on the current orientation
       if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -2324,6 +2321,32 @@ public final class KMManager {
     int defaultHeight = (int) newResources.getDimension(R.dimen.keyboard_height);
 
     return defaultHeight;
+  }
+
+  public static int getKeyboardHeightMax(Context context) {
+    int orientation = getOrientation(context);
+    return getKeyboardHeightMax(context, orientation);
+  }
+
+  public static int getKeyboardHeightMax(Context context, int orientation) {
+    if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+      return (int) KMManager.KeyboardHeight_Context_Landscape_Default * 2;
+    } else /* if (orientation == Configuration.ORIENTATION_PORTRAIT) */ {
+      return (int) KMManager.KeyboardHeight_Context_Portrait_Default * 2;
+    }
+  }
+
+  public static int getKeyboardHeightMin(Context context) {
+    int orientation = getOrientation(context);
+    return getKeyboardHeightMin(context, orientation);
+  }
+
+  public static int getKeyboardHeightMin(Context context, int orientation) {
+    if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+      return (int) KMManager.KeyboardHeight_Context_Landscape_Default / 2;
+    } else /* if (orientation == Configuration.ORIENTATION_PORTRAIT) */ {
+      return (int) KMManager.KeyboardHeight_Context_Portrait_Default / 2;
+    }
   }
 
   /**
