@@ -1,0 +1,12 @@
+let graboid = this.container = document.createElement("div");
+      graboid.className = "grab-bar";
+      graboid.style.width = 10 + "%";
+      graboid.style.float = this.rtl ? "right" : "left";
+      graboid.style.marginLeft = this.rtl ? "0px" : "10px";
+      graboid.style.marginRight = this.rtl ? "10px" : "0px";
+      graboid.style.height = "100%";
+      let handle = this.graboid = document.createElement("img");
+      handle.className = "kmw-resize-handle";
+      handle.src = "assets/resize-handle.png";
+      graboid.appendChild(handle)
+      container.appendChild(graboid);
