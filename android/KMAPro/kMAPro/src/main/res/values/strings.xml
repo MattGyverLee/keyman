@@ -278,4 +278,16 @@
 
   <!-- Context: anywhere -->
   <string name="unable_to_open_browser" comment="Notification when a browser activity cannot be launched">Unable to launch web browser</string>
+
+  <!-- Context: Keyboard Height Adjustment -->
+  <string name="adjust_keyboard_height" comment="Menu item to adjust keyboard height">Adjust Keyboard Height</string>
+
+  <!-- Context: Keyboard Height Adjustment -->
+  <string name="adjust_keyboard_height_instructions" comment="Instructions for adjusting keyboard height">Drag the bar up or down to adjust the keyboard height. Changes are saved automatically.</string>
+
+  <!-- Context: Keyboard Height Adjustment -->
+  <string name="keyboard_height_value" comment="Current keyboard height in dp">Keyboard height: %1$d dp</string>
+
+  <!-- Context: Keyboard Height Adjustment -->
+  <string name="reset_to_default" comment="Button to reset keyboard height to default">Reset to Default</string>
 </resources>
