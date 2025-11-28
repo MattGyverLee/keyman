@@ -51,6 +51,11 @@ class ProjectBuilder {
       }
     }
 
+    // Validate that the project doesn't contain both .kmn and .xml keyboard files with the same name
+    if(!this.validateNoDuplicateKeyboardSources()) {
+      return false;
+    }
+
     // Go through the various file types and build them
     for(const builder of buildActivities) {
       if(builder.sourceExtension == KeymanFileTypes.Source.Project) {
@@ -130,6 +135,46 @@ class ProjectBuilder {
     }
 
     return result;
+  }
+
+  /**
+   * Validates that the project doesn't contain both .kmn and .xml keyboard files
+   * with the same base name. This would cause one to overwrite the other during compilation.
+   * @returns true if validation passes, false if duplicate sources are found
+   */
+  private validateNoDuplicateKeyboardSources(): boolean {
+    // Build maps of keyboard files by their base name (without extension)
+    const kmnFiles = new Map<string, string>(); // basename -> full filename
+    const xmlFiles = new Map<string, string>(); // basename -> full filename
+
+    for(const file of this.project.files) {
+      const fileType = file.fileType.toLowerCase();
+
+      if(fileType === KeymanFileTypes.Source.KeymanKeyboard) {
+        const basename = path.basename(file.filename, KeymanFileTypes.Source.KeymanKeyboard);
+        kmnFiles.set(basename.toLowerCase(), file.filename);
+      }
+      else if(fileType === KeymanFileTypes.Source.LdmlKeyboard) {
+        const basename = path.basename(file.filename, KeymanFileTypes.Source.LdmlKeyboard);
+        xmlFiles.set(basename.toLowerCase(), file.filename);
+      }
+    }
+
+    // Check for duplicates
+    for(const [basename, kmnFile] of kmnFiles) {
+      if(xmlFiles.has(basename)) {
+        const xmlFile = xmlFiles.get(basename);
+        this.callbacks.reportMessage(
+          InfrastructureMessages.Fatal_DuplicateKeyboardSourceFiles({
+            kmnFile: kmnFile,
+            xmlFile: xmlFile
+          })
+        );
+        return false;
+      }
+    }
+
+    return true;
   }
 
 }
