@@ -14,6 +14,7 @@ import {
   KmnKeySpec,
   KmnRuleElement,
   KmnStoreType,
+  KmnPlatform,
   SYSTEM_STORES,
 } from './kmn-ast.js';
 
@@ -41,8 +42,18 @@ export class KmnParser {
 
     while (this.lineIndex < this.lines.length) {
       const line = this.currentLine();
-      const trimmed = this.stripComment(line).trim();
+      let trimmed = this.stripComment(line).trim();
 
+      if (!trimmed) {
+        this.lineIndex++;
+        continue;
+      }
+
+      // Check for platform prefix ($keymanonly: or $keymanweb:)
+      const { platform, content } = this.extractPlatformPrefix(trimmed);
+      trimmed = content;
+
+      // Skip empty content after platform prefix
       if (!trimmed) {
         this.lineIndex++;
         continue;
@@ -51,7 +62,10 @@ export class KmnParser {
       // Parse different line types
       if (trimmed.toLowerCase().startsWith('store(')) {
         const store = this.parseStore(trimmed);
-        if (store) keyboard.stores.push(store);
+        if (store) {
+          store.platform = platform;
+          keyboard.stores.push(store);
+        }
       } else if (trimmed.toLowerCase().startsWith('begin ')) {
         keyboard.begin = this.parseBegin(trimmed);
       } else if (trimmed.toLowerCase().startsWith('group(')) {
@@ -70,6 +84,7 @@ export class KmnParser {
         }
         const rule = this.parseRule(trimmed);
         if (rule) {
+          rule.platform = platform;
           keyboard.groups[keyboard.groups.length - 1].rules.push(rule);
         }
       }
@@ -116,6 +131,22 @@ export class KmnParser {
   }
 
   /**
+   * Extract platform prefix ($keymanonly: or $keymanweb:) from line
+   */
+  private extractPlatformPrefix(line: string): { platform?: KmnPlatform; content: string } {
+    // Match $keymanonly: or $keymanweb: at start of line
+    const match = line.match(/^\$keymanonly\s*:\s*/i);
+    if (match) {
+      return { platform: 'desktop', content: line.slice(match[0].length).trim() };
+    }
+    const matchWeb = line.match(/^\$keymanweb\s*:\s*/i);
+    if (matchWeb) {
+      return { platform: 'web', content: line.slice(matchWeb[0].length).trim() };
+    }
+    return { content: line };
+  }
+
+  /**
    * Parse a store definition
    */
   private parseStore(line: string): KmnStore | null {
@@ -126,7 +157,17 @@ export class KmnParser {
 
     const isSystem = match[1] === '&';
     const name = match[2];
-    const valueStr = match[3].trim();
+    let valueStr = match[3].trim();
+
+    // Handle line continuations (backslash at end of line)
+    while (valueStr.endsWith('\\')) {
+      valueStr = valueStr.slice(0, -1).trim(); // Remove trailing backslash
+      this.lineIndex++;
+      if (this.lineIndex < this.lines.length) {
+        const nextLine = this.stripComment(this.currentLine()).trim();
+        valueStr += ' ' + nextLine;
+      }
+    }
 
     return {
       name,
@@ -146,19 +187,90 @@ export class KmnParser {
    * Parse store value (handles strings, U+XXXX sequences, nul, ranges, etc.)
    */
   private parseStoreValue(valueStr: string): string {
-    // Handle quoted strings
-    if (valueStr.startsWith("'") || valueStr.startsWith('"')) {
-      return this.parseQuotedString(valueStr);
+    // Handle mixed format: U+XXXX sequences, quoted strings, etc.
+    // Parse token by token
+    let result = '';
+    let i = 0;
+    const str = valueStr.trim();
+
+    while (i < str.length) {
+      // Skip whitespace
+      while (i < str.length && /\s/.test(str[i])) i++;
+      if (i >= str.length) break;
+
+      const remaining = str.substring(i);
+
+      // Quoted string
+      if (remaining.startsWith("'") || remaining.startsWith('"')) {
+        const quote = remaining[0];
+        let j = 1;
+        while (j < remaining.length && remaining[j] !== quote) j++;
+        result += remaining.substring(1, j);
+        i += j + 1;
+      }
+      // Unicode codepoint - check for range notation (U+XXXX .. U+YYYY)
+      else if (remaining.match(/^U\+[0-9A-Fa-f]+/i)) {
+        const match = remaining.match(/^U\+([0-9A-Fa-f]+)/i)!;
+        const startCodepoint = parseInt(match[1], 16);
+        let nextIdx = match[0].length;
+
+        // Skip whitespace
+        while (nextIdx < remaining.length && /\s/.test(remaining[nextIdx])) nextIdx++;
+
+        // Check for range operator ".."
+        if (remaining.substring(nextIdx).startsWith('..')) {
+          nextIdx += 2;
+          // Skip whitespace
+          while (nextIdx < remaining.length && /\s/.test(remaining[nextIdx])) nextIdx++;
+
+          // Parse end of range
+          const endMatch = remaining.substring(nextIdx).match(/^U\+([0-9A-Fa-f]+)/i);
+          if (endMatch) {
+            const endCodepoint = parseInt(endMatch[1], 16);
+            // Expand the range
+            for (let cp = startCodepoint; cp <= endCodepoint; cp++) {
+              result += String.fromCodePoint(cp);
+            }
+            i += nextIdx + endMatch[0].length;
+          } else {
+            // Range syntax error - just use the start value
+            result += String.fromCodePoint(startCodepoint);
+            i += match[0].length;
+          }
+        } else {
+          // Single unicode character
+          result += String.fromCodePoint(startCodepoint);
+          i += match[0].length;
+        }
+      }
+      // nul keyword
+      else if (remaining.match(/^nul\b/i)) {
+        result += KmnParser.NUL_MARKER;
+        i += 3;
+      }
+      // Virtual key in brackets (for key stores)
+      else if (remaining.startsWith('[')) {
+        const bracketEnd = remaining.indexOf(']');
+        if (bracketEnd !== -1) {
+          result += remaining.substring(0, bracketEnd + 1);
+          i += bracketEnd + 1;
+        } else {
+          i++;
+        }
+      }
+      // Character ranges like [a-z]
+      else if (remaining.match(/^\[[^\]]+\]/)) {
+        const match = remaining.match(/^\[[^\]]+\]/)!;
+        result += match[0];
+        i += match[0].length;
+      }
+      else {
+        // Unknown - skip
+        i++;
+      }
     }
 
-    // Handle space-separated U+XXXX sequences (and nul keywords)
-    // e.g., "U+0020 U+0030 U+0029 nul nul"
-    if (valueStr.match(/^(U\+[0-9A-Fa-f]+|nul)(\s|$)/i)) {
-      return this.parseSpaceSeparatedValues(valueStr);
-    }
-
-    // Handle other value types (ranges, etc.)
-    return valueStr;
+    return result;
   }
 
   /**
@@ -333,10 +445,17 @@ export class KmnParser {
   }
 
   /**
-   * Parse a key specification: [SHIFT K_A] or 'a'
+   * Parse a key specification: [SHIFT K_A] or 'a' or any(store)
    */
   private parseKeySpec(keyStr: string): KmnKeySpec {
     const spec: KmnKeySpec = {};
+
+    // Handle any(store) as key
+    const anyMatch = keyStr.match(/^any\s*\(\s*(\w+)\s*\)$/i);
+    if (anyMatch) {
+      spec.anyStoreName = anyMatch[1];
+      return spec;
+    }
 
     // Handle virtual key in brackets: [SHIFT K_A]
     if (keyStr.startsWith('[')) {

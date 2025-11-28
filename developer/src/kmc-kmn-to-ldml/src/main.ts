@@ -7,7 +7,7 @@
  */
 
 export { KmnParser, parseKmn } from './kmn-parser.js';
-export { LdmlGenerator, generateLdml, LdmlGeneratorOptions } from './ldml-generator.js';
+export { LdmlGenerator, generateLdml, LdmlGeneratorOptions, UnsupportedKeyboardError } from './ldml-generator.js';
 export {
   TouchLayoutConverter,
   TouchLayoutConversionResult,

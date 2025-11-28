@@ -7,10 +7,15 @@
     "strict": true,
     "declaration": true,
     "outDir": "build",
-    "rootDir": "."
+    "rootDir": ".",
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*.ts",
     "test/**/*.ts"
+  ],
+  "exclude": [
+    "test/compile-compare-test.ts",
+    "test/functional-diff-test.ts"
   ]
 }
