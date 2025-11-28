@@ -44,7 +44,8 @@ export class TouchLayoutCompiler {
   generateTouchLayout(keyboard: LKKeyboard): TouchLayoutFile | null {
     const touchLayers = keyboard.layers?.filter((l: LKLayers) => l.formId === 'touch');
     if (!touchLayers || touchLayers.length === 0) {
-      return null;
+      // No touch layers defined - auto-generate from hardware layers
+      return this.generateTouchLayoutFromHardware(keyboard);
     }
 
     const result: TouchLayoutFile = {};
@@ -289,5 +290,173 @@ export class TouchLayoutCompiler {
   private isSpecialKey(keyId: string): boolean {
     const specialKeys = ['shift', 'bksp', 'space', 'enter', 'numeric', 'menu'];
     return specialKeys.includes(keyId.toLowerCase());
+  }
+
+  /**
+   * Auto-generate touch layout from hardware layers when no touch layers exist.
+   * Converts hardware keyboard layouts (us/iso/jis/etc) to touch-friendly format.
+   * Includes caps-lock layer with multitap and nextlayer logic.
+   */
+  private generateTouchLayoutFromHardware(keyboard: LKKeyboard): TouchLayoutFile | null {
+    const hardwareLayers = keyboard.layers?.filter((l: LKLayers) => l.formId !== 'touch');
+    if (!hardwareLayers || hardwareLayers.length === 0) {
+      return null;
+    }
+
+    // Use the first hardware layer definition
+    const hwLayers = hardwareLayers[0];
+    const platformLayers: TouchLayoutLayer[] = [];
+
+    // Check if keyboard uses caps/casing
+    const hasCapsLayer = this.keyboardUsesCasing(keyboard, hwLayers);
+
+    // Generate layers from hardware definitions
+    for (const layer of hwLayers.layer || []) {
+      const touchLayer = this.convertHardwareLayerToTouch(layer, keyboard, hasCapsLayer);
+      platformLayers.push(touchLayer);
+    }
+
+    // Generate caps-lock layer with multitap if keyboard uses casing
+    if (hasCapsLayer) {
+      const capsLayer = this.generateCapsLockLayer(keyboard, hwLayers);
+      if (capsLayer) {
+        platformLayers.push(capsLayer);
+      }
+    }
+
+    const platform: TouchLayoutPlatform = {
+      font: 'Tahoma',
+      layer: platformLayers,
+      defaultHint: 'longpress'
+    };
+
+    // Only generate tablet version when auto-generating (no need for both if they're the same)
+    return {
+      tablet: platform
+    };
+  }
+
+  /**
+   * Check if keyboard uses casing (has shift/caps layers or uppercase keys)
+   */
+  private keyboardUsesCasing(keyboard: LKKeyboard, hwLayers: LKLayers): boolean {
+    // Check if there's a shift layer
+    const hasShiftLayer = hwLayers.layer?.some(l =>
+      l.modifiers?.includes('shift') || l.id?.toLowerCase().includes('shift')
+    );
+
+    if (hasShiftLayer) {
+      return true;
+    }
+
+    // Check if any keys have uppercase output
+    for (const key of Array.from(this.keyBag.values())) {
+      if (key.output && key.output.match(/[A-Z]/)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /**
+   * Convert a hardware layer to a touch layer
+   */
+  private convertHardwareLayerToTouch(
+    hwLayer: LKLayer,
+    keyboard: LKKeyboard,
+    hasCapsLayer: boolean
+  ): TouchLayoutLayer {
+    const rows: TouchLayoutRow[] = [];
+    const layerId = this.mapLayerId(hwLayer.id, hwLayer.modifiers);
+    const isDefaultLayer = layerId === 'default';
+    const isCapsLayer = layerId.toLowerCase().includes('shift') || layerId.toLowerCase().includes('caps');
+
+    // Convert each hardware row to a touch row
+    for (const hwRow of hwLayer.row || []) {
+      const keyIds = hwRow.keys?.trim().split(/\s+/) || [];
+      const keys: TouchLayoutKey[] = [];
+
+      for (const keyId of keyIds) {
+        const touchKey = this.generateKey(keyId, keyboard, layerId);
+
+        // Add nextlayer for non-default, non-caps layers to return to default
+        if (!isDefaultLayer && !isCapsLayer && hasCapsLayer) {
+          touchKey.nextlayer = 'default';
+        }
+
+        keys.push(touchKey);
+      }
+
+      if (keys.length > 0) {
+        rows.push({ id: rows.length + 1, key: keys });
+      }
+    }
+
+    return {
+      id: layerId,
+      row: rows
+    };
+  }
+
+  /**
+   * Generate a caps-lock layer with multitap for uppercase characters
+   */
+  private generateCapsLockLayer(keyboard: LKKeyboard, hwLayers: LKLayers): TouchLayoutLayer | null {
+    // Find the base/default layer
+    const baseLayer = hwLayers.layer?.find(l =>
+      !l.modifiers || l.modifiers === 'none' || l.id === 'base' || l.id === 'default'
+    );
+
+    // Find the shift layer for uppercase mapping
+    const shiftLayer = hwLayers.layer?.find(l =>
+      l.modifiers?.includes('shift') || l.id?.toLowerCase().includes('shift')
+    );
+
+    if (!baseLayer) {
+      return null;
+    }
+
+    const rows: TouchLayoutRow[] = [];
+
+    // Process each row
+    for (let rowIdx = 0; rowIdx < (baseLayer.row?.length || 0); rowIdx++) {
+      const baseRow = baseLayer.row![rowIdx];
+      const shiftRow = shiftLayer?.row?.[rowIdx];
+
+      const baseKeyIds = baseRow.keys?.trim().split(/\s+/) || [];
+      const shiftKeyIds = shiftRow?.keys?.trim().split(/\s+/) || [];
+      const keys: TouchLayoutKey[] = [];
+
+      for (let keyIdx = 0; keyIdx < baseKeyIds.length; keyIdx++) {
+        const baseKeyId = baseKeyIds[keyIdx];
+        const shiftKeyId = shiftKeyIds[keyIdx];
+
+        // Get the shift (uppercase) version if available
+        const primaryKeyId = shiftKeyId || baseKeyId;
+        const touchKey = this.generateKey(primaryKeyId, keyboard, 'caps');
+
+        // Add multitap: shift key first, then base key, cycling back to shift
+        if (shiftKeyId && baseKeyId && shiftKeyId !== baseKeyId) {
+          const multitapIds = `${shiftKeyId} ${baseKeyId}`;
+          const sk = this.keyFactory.generateMultitap(multitapIds);
+          if (sk && sk.length > 0) {
+            touchKey.sk = sk;
+          }
+        }
+
+        // Caps layer stays on caps (no nextlayer to avoid going back to default)
+        keys.push(touchKey);
+      }
+
+      if (keys.length > 0) {
+        rows.push({ id: rows.length + 1, key: keys });
+      }
+    }
+
+    return {
+      id: 'caps',
+      row: rows
+    };
   }
 }
