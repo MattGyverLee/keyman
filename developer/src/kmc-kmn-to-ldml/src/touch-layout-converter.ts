@@ -58,7 +58,29 @@ export interface LdmlTouchLayer {
 }
 
 /**
- * Convert touch layout JSON to LDML structures
+ * Converts Keyman touch layout JSON to LDML keyboard structures.
+ *
+ * This class takes the .keyman-touch-layout JSON format (used by legacy Keyman keyboards)
+ * and converts it to LDML keyboard elements (keys, flicks, layers). This enables migration
+ * of existing touch layouts to the LDML format.
+ *
+ * The converter handles:
+ * - Key definitions with outputs
+ * - Long-press (subkey) gestures
+ * - Multitap sequences
+ * - Flick gestures (directional swipes)
+ * - Gap/spacer keys
+ * - Custom key widths
+ * - Layer switching keys
+ * - Special keys (shift, backspace, etc.)
+ * - Phone and tablet layouts with different device widths
+ *
+ * @example
+ * ```typescript
+ * const converter = new TouchLayoutConverter();
+ * const result = converter.convert(touchLayoutJson);
+ * console.log(`Converted ${result.keys.length} keys and ${result.layers.length} layers`);
+ * ```
  */
 export class TouchLayoutConverter {
   private keys: Map<string, LdmlTouchKey> = new Map();

@@ -18,7 +18,28 @@ import {
 } from './kmn-ast.js';
 
 /**
- * Parse a KMN keyboard source file into an AST
+ * Parser for Keyman KMN keyboard source files.
+ *
+ * This class parses legacy .kmn keyboard source files into an Abstract Syntax Tree (AST)
+ * representation that can be used for conversion to LDML format or other processing.
+ *
+ * The parser handles:
+ * - Store definitions (system and user-defined)
+ * - Begin statements (Unicode/ANSI mode and initial group)
+ * - Group definitions (using keys, readonly flags)
+ * - Rules (context + key > output)
+ * - Comments (c ...)
+ * - Unicode escapes (U+XXXX)
+ * - Virtual keys (K_, T_, U_ codes)
+ * - Modifiers (SHIFT, CTRL, ALT, CAPS, NCAPS)
+ * - Functions (any, index, use, deadkey, etc.)
+ *
+ * @example
+ * ```typescript
+ * const parser = new KmnParser();
+ * const ast = parser.parse(kmnSource, 'my_keyboard.kmn');
+ * console.log(`Found ${ast.groups.length} groups`);
+ * ```
  */
 export class KmnParser {
   private lines: string[] = [];
@@ -26,7 +47,15 @@ export class KmnParser {
   private filename: string = '';
 
   /**
-   * Parse KMN source text into AST
+   * Parse KMN source text into an Abstract Syntax Tree.
+   *
+   * Processes the entire KMN source file line by line, extracting stores, groups,
+   * and rules. The parser maintains line number information for error reporting
+   * and debugging.
+   *
+   * @param source - The complete KMN keyboard source code
+   * @param filename - Optional filename for error reporting
+   * @returns Parsed keyboard AST containing stores, groups, and metadata
    */
   public parse(source: string, filename?: string): KmnKeyboard {
     this.filename = filename || '';
@@ -85,7 +114,14 @@ export class KmnParser {
   }
 
   /**
-   * Strip comments (c ...) and trailing whitespace
+   * Strip KMN comments from a line while preserving strings.
+   *
+   * KMN uses 'c ' (with space) as a comment marker. This method carefully
+   * removes comments while not stripping 'c' characters that appear inside
+   * quoted strings.
+   *
+   * @param line - The line to process
+   * @returns Line with comments removed
    */
   private stripComment(line: string): string {
     // Handle 'c ' at start of line (comment)
@@ -116,7 +152,16 @@ export class KmnParser {
   }
 
   /**
-   * Parse a store definition
+   * Parse a store definition from a KMN line.
+   *
+   * Stores in KMN can be system stores (prefixed with &) or user-defined stores.
+   * Format: store(name) value or store(&NAME) value
+   *
+   * System stores include: &NAME, &VERSION, &COPYRIGHT, &TARGETS, etc.
+   * User stores can be used with any(), index(), etc. in rules.
+   *
+   * @param line - The store definition line
+   * @returns Parsed store object or null if invalid
    */
   private parseStore(line: string): KmnStore | null {
     // store(&NAME) 'value' or store(name) value

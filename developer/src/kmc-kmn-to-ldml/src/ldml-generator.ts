@@ -141,7 +141,41 @@ interface SkippedRuleInfo {
 }
 
 /**
- * Generate LDML keyboard XML from KMN AST
+ * Generates LDML keyboard XML from KMN Abstract Syntax Tree.
+ *
+ * This class converts parsed KMN keyboard definitions into LDML Keyboard 3.0 XML format.
+ * It handles the conversion of KMN-specific concepts to their LDML equivalents:
+ *
+ * Conversion mappings:
+ * - KMN stores → LDML variables (string/set)
+ * - KMN groups → LDML layers
+ * - KMN rules → LDML transforms
+ * - KMN any()/index() → LDML set mappings
+ * - KMN virtual keys → LDML hardware keys
+ * - KMN deadkeys → LDML markers
+ *
+ * Features:
+ * - Automatic hardware layer generation from rules
+ * - Set mapping optimization for any()/index() patterns
+ * - Marker-based deadkey conversion
+ * - Display hint generation for combining keys
+ * - Touch layout integration
+ * - Comprehensive validation and error reporting
+ *
+ * Limitations:
+ * - Mnemonic layouts not supported (use positional only)
+ * - Some advanced KMN features may be skipped with warnings
+ * - Option variables (if/set) generate warnings
+ *
+ * @example
+ * ```typescript
+ * const generator = new LdmlGenerator({
+ *   locale: 'fr',
+ *   hardwareForm: 'iso',
+ *   useSetMapping: true
+ * });
+ * const ldmlXml = generator.generate(kmnAst);
+ * ```
  */
 export class LdmlGenerator {
   private options: LdmlGeneratorOptions;

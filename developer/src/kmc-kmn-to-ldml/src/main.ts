@@ -21,7 +21,9 @@ import { TouchLayoutConverter, generateLdmlFromTouchLayout } from './touch-layou
 import { TouchLayout } from '@keymanapp/common-types';
 
 /**
- * Options for the KMN to LDML converter
+ * Options for the KMN to LDML converter.
+ *
+ * Extends LdmlGeneratorOptions with additional options for touch layout integration.
  */
 export interface KmnToLdmlOptions extends LdmlGeneratorOptions {
   /** Touch layout JSON content (optional) */
@@ -31,11 +33,31 @@ export interface KmnToLdmlOptions extends LdmlGeneratorOptions {
 }
 
 /**
- * Convert a KMN keyboard to LDML XML
+ * Convert a KMN keyboard source file to LDML XML.
  *
- * @param kmnSource - KMN keyboard source text
- * @param options - Conversion options
- * @returns LDML XML string
+ * This is the primary entry point for converting legacy Keyman (.kmn) keyboard source
+ * files to the modern LDML Keyboard 3.0 XML format. The conversion process:
+ * 1. Parses the KMN source into an AST
+ * 2. Generates LDML XML from the AST
+ * 3. Optionally merges touch layout data
+ *
+ * @param kmnSource - Complete KMN keyboard source code as string
+ * @param options - Conversion options including locale, hardware form, touch layout, etc.
+ * @returns Complete LDML keyboard XML string ready to be saved as .xml file
+ *
+ * @throws {UnsupportedKeyboardError} If the KMN keyboard uses unsupported features
+ *                                     (e.g., mnemonic layouts)
+ *
+ * @example
+ * ```typescript
+ * const kmnSource = fs.readFileSync('my_keyboard.kmn', 'utf8');
+ * const ldmlXml = convertKmnToLdml(kmnSource, {
+ *   locale: 'en',
+ *   hardwareForm: 'us',
+ *   useSetMapping: true
+ * });
+ * fs.writeFileSync('my_keyboard.xml', ldmlXml);
+ * ```
  */
 export function convertKmnToLdml(kmnSource: string, options: KmnToLdmlOptions = {}): string {
   // Parse KMN source
@@ -65,7 +87,29 @@ export function convertKmnToLdml(kmnSource: string, options: KmnToLdmlOptions = 
 }
 
 /**
- * Converter class for more control over the conversion process
+ * Object-oriented converter class for more control over the conversion process.
+ *
+ * This class provides a stateful interface to the KMN to LDML conversion pipeline,
+ * allowing for finer-grained control and access to intermediate results. Use this
+ * class when you need to:
+ * - Inspect the parsed KMN AST before conversion
+ * - Convert only specific parts (e.g., touch layout only)
+ * - Reuse parser/generator instances for multiple conversions
+ * - Access detailed conversion metadata
+ *
+ * For simple one-shot conversions, use the {@link convertKmnToLdml} function instead.
+ *
+ * @example
+ * ```typescript
+ * const converter = new KmnToLdmlConverter({ locale: 'fr', hardwareForm: 'iso' });
+ *
+ * // Parse and inspect AST
+ * const ast = converter.parseKmn(kmnSource);
+ * console.log(`Found ${ast.groups.length} groups`);
+ *
+ * // Convert to LDML
+ * const ldml = converter.convert(kmnSource, touchLayout);
+ * ```
  */
 export class KmnToLdmlConverter {
   private parser: KmnParser;
@@ -79,7 +123,11 @@ export class KmnToLdmlConverter {
   }
 
   /**
-   * Convert KMN source to LDML
+   * Convert KMN source to LDML XML.
+   *
+   * @param kmnSource - Complete KMN keyboard source code
+   * @param touchLayout - Optional touch layout data to merge into the LDML
+   * @returns Complete LDML keyboard XML string
    */
   public convert(kmnSource: string, touchLayout?: TouchLayout.TouchLayoutFile): string {
     const keyboard = this.parser.parse(kmnSource);
@@ -95,14 +143,25 @@ export class KmnToLdmlConverter {
   }
 
   /**
-   * Get the parsed KMN AST (for debugging/inspection)
+   * Parse KMN source to AST without converting to LDML.
+   *
+   * Useful for debugging, inspection, or custom processing of the parsed structure.
+   *
+   * @param kmnSource - Complete KMN keyboard source code
+   * @returns Parsed KMN AST with stores, groups, and rules
    */
   public parseKmn(kmnSource: string) {
     return this.parser.parse(kmnSource);
   }
 
   /**
-   * Convert only the touch layout (for debugging/inspection)
+   * Convert only the touch layout to LDML structures without full keyboard conversion.
+   *
+   * Useful for testing touch layout conversion or when you only need the touch
+   * layer definitions without the full keyboard.
+   *
+   * @param touchLayout - Touch layout JSON data
+   * @returns Converted LDML structures (keys, flicks, layers)
    */
   public convertTouchLayout(touchLayout: TouchLayout.TouchLayoutFile) {
     return this.touchConverter.convert(touchLayout);
