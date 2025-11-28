@@ -15,6 +15,48 @@ import {
   KmnIndexElement,
 } from './kmn-ast.js';
 
+import {
+  TouchLayoutConverter,
+  TouchLayoutConversionResult,
+  LdmlTouchKey,
+  LdmlFlick,
+} from './touch-layout-converter.js';
+
+/**
+ * Error thrown when a KMN keyboard cannot be converted to LDML
+ * due to fundamental incompatibilities (e.g., mnemonic keyboards)
+ */
+export class UnsupportedKeyboardError extends Error {
+  /** Type of unsupported feature */
+  public readonly featureType: 'mnemonic' | 'other';
+  /** Name of the keyboard (if available) */
+  public readonly keyboardName?: string;
+
+  constructor(message: string, featureType: 'mnemonic' | 'other', keyboardName?: string) {
+    super(message);
+    this.name = 'UnsupportedKeyboardError';
+    this.featureType = featureType;
+    this.keyboardName = keyboardName;
+  }
+}
+
+/**
+ * Hardware form types supported by LDML
+ */
+export type HardwareForm = 'us' | 'iso' | 'jis' | 'abnt2' | 'ks';
+
+/**
+ * Display override for a character or key
+ */
+export interface DisplayOverride {
+  /** Character output to override display for */
+  output?: string;
+  /** Key ID to override display for (mutually exclusive with output) */
+  keyId?: string;
+  /** Display text to show */
+  display: string;
+}
+
 /**
  * Options for LDML generation
  */
@@ -29,6 +71,24 @@ export interface LdmlGeneratorOptions {
   includeTouch?: boolean;
   /** Use set mapping for any()/index() patterns (more compact) */
   useSetMapping?: boolean;
+  /** Hardware form type (default: 'us') */
+  hardwareForm?: HardwareForm;
+  /** Additional locales supported by this keyboard */
+  additionalLocales?: string[];
+  /** Layout type indicator (e.g., 'QWERTY', 'AZERTY') */
+  layoutType?: string;
+  /** Script indicator for status bar */
+  indicator?: string;
+  /** Display overrides for keytops */
+  displayOverrides?: DisplayOverride[];
+  /** Base character for displaying combining marks (default: U+25CC) */
+  displayBaseCharacter?: string;
+  /** Disable automatic normalization */
+  disableNormalization?: boolean;
+  /** Touch layout data (parsed JSON) */
+  touchLayout?: unknown;
+  /** CLDR imports to include */
+  imports?: Array<{ base?: 'cldr'; path: string }>;
 }
 
 /**
@@ -53,6 +113,34 @@ interface AnalyzedRule {
 }
 
 /**
+ * Information about a combining key (key used in context rules)
+ */
+interface CombiningKeyInfo {
+  /** Key ID with modifiers (e.g., "T_R:shift") */
+  keyWithMods: string;
+  /** Marker name for this combining key */
+  markerName: string;
+  /** Rules that use this key for combining */
+  rules: KmnRule[];
+  /** Default output when no context (from rules without context) */
+  defaultOutput?: string;
+}
+
+/**
+ * Information about a skipped rule
+ */
+interface SkippedRuleInfo {
+  /** Line number in original KMN */
+  line: number;
+  /** Reason for skipping */
+  reason: string;
+  /** Option names involved (for if/set) */
+  options?: string[];
+  /** Brief description of the rule */
+  description: string;
+}
+
+/**
  * Generate LDML keyboard XML from KMN AST
  */
 export class LdmlGenerator {
@@ -68,6 +156,20 @@ export class LdmlGenerator {
   private vkeyToHardware: Map<string, string> = new Map();
   // Store lookup cache
   private storeMap: Map<string, KmnStore> = new Map();
+  // Keys that are used in context rules (need marker output for combining)
+  private combiningKeys: Map<string, CombiningKeyInfo> = new Map();
+  // Touch layout converter
+  private touchConverter: TouchLayoutConverter = new TouchLayoutConverter();
+  // Touch layout conversion result
+  private touchResult: TouchLayoutConversionResult | null = null;
+  // Display overrides collected from keyboard
+  private displayOverrides: DisplayOverride[] = [];
+  // Backspace rules for custom deletion behavior
+  private backspaceRules: Array<{ from: string; to: string }> = [];
+  // Skipped rules (if/set conditions not supported by LDML)
+  private skippedRules: SkippedRuleInfo[] = [];
+  // Option names found in if/set rules
+  private optionNames: Set<string> = new Set();
 
   constructor(options: LdmlGeneratorOptions = {}) {
     this.options = {
@@ -76,20 +178,65 @@ export class LdmlGenerator {
       includeHardware: true,
       includeTouch: true,
       useSetMapping: true, // Enable set mapping by default
+      hardwareForm: 'us',
       ...options,
     };
   }
 
   /**
+   * Check if keyboard is mnemonic (character-based rather than positional)
+   */
+  public isMnemonic(keyboard: KmnKeyboard): boolean {
+    const mnemonicStore = keyboard.stores.find(
+      s => s.isSystem && s.name.toUpperCase() === 'MNEMONICLAYOUT'
+    );
+    return mnemonicStore?.value === '1';
+  }
+
+  /**
    * Generate LDML XML string from KMN keyboard
+   * @throws UnsupportedKeyboardError if keyboard is mnemonic (not supported by LDML)
    */
   public generate(keyboard: KmnKeyboard): string {
     this.keyboard = keyboard;
     this.keys.clear();
     this.markers.clear();
     this.storeMap.clear();
+    this.combiningKeys.clear();
+    this.displayOverrides = [...(this.options.displayOverrides || [])];
+    this.backspaceRules = [];
+    this.skippedRules = [];
+    this.optionNames.clear();
+    this.touchResult = null;
     this.initVkeyMapping();
     this.buildStoreMap();
+
+    // Scan for if/set rules and collect option names
+    this.scanForIfSetRules();
+
+    // Check for mnemonic keyboard - LDML doesn't support this
+    if (this.isMnemonic(keyboard)) {
+      const name = this.getStoreValue('NAME') || keyboard.filename || 'Unknown';
+      throw new UnsupportedKeyboardError(
+        `Cannot convert mnemonic keyboard "${name}" to LDML. ` +
+        `LDML uses positional key mapping (physical keys) while mnemonic keyboards ` +
+        `use character-based mapping that adapts to the user's base keyboard layout. ` +
+        `These concepts are fundamentally incompatible.`,
+        'mnemonic',
+        name
+      );
+    }
+
+    // Identify combining keys (keys used in context rules for character combining)
+    this.identifyCombiningKeys();
+
+    // Collect backspace rules
+    this.collectBackspaceRules();
+
+    // Convert touch layout if provided
+    if (this.options.touchLayout) {
+      this.touchResult = this.touchConverter.convert(this.options.touchLayout as any);
+    }
 
     // Extract metadata
     const name = this.getStoreValue('NAME') || 'Converted Keyboard';
@@ -801,6 +948,91 @@ export class LdmlGenerator {
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&apos;');
+  }
+
+  /**
+   * Scan for if/set rules and collect option names
+   * These rules cannot be converted to LDML and will be skipped
+   */
+  private scanForIfSetRules(): void {
+    for (const group of this.keyboard.groups) {
+      for (const rule of group.rules) {
+        // Check for if() or set() in context
+        const hasIfSet = rule.context.some(e => e.type === 'if' || e.type === 'set');
+        if (hasIfSet) {
+          // Extract option names
+          for (const elem of rule.context) {
+            if (elem.type === 'if' || elem.type === 'set') {
+              const optionName = (elem as any).option || 'unknown';
+              this.optionNames.add(optionName);
+            }
+          }
+
+          // Record skipped rule
+          this.skippedRules.push({
+            line: rule.line || 0,
+            reason: 'if/set conditions not supported by LDML',
+            options: [...this.optionNames],
+            description: `Rule with ${hasIfSet ? 'if/set' : 'conditional'} logic`
+          });
+        }
+      }
+    }
+  }
+
+  /**
+   * Identify combining keys (keys used in context rules)
+   * These keys need special marker output for character combining
+   */
+  private identifyCombiningKeys(): void {
+    for (const group of this.keyboard.groups) {
+      if (!group.usingKeys) continue;
+
+      for (const rule of group.rules) {
+        // Rules with context that produce output with markers
+        if (rule.context.length > 0 && rule.key) {
+          const keyId = this.getKeyId(rule.key);
+          if (!keyId) continue;
+
+          const modifiers = this.getModifierString(rule.key);
+          const keyWithMods = `${keyId}:${modifiers}`;
+
+          // Check if output includes marker
+          const hasMarkerOutput = rule.output.some(e => e.type === 'deadkey');
+          if (hasMarkerOutput) {
+            const deadkeyElem = rule.output.find(e => e.type === 'deadkey');
+            const markerName = (deadkeyElem && deadkeyElem.type === 'deadkey') ? deadkeyElem.name : 'marker';
+
+            if (!this.combiningKeys.has(keyWithMods)) {
+              this.combiningKeys.set(keyWithMods, {
+                keyWithMods,
+                markerName,
+                rules: [],
+              });
+            }
+            this.combiningKeys.get(keyWithMods)!.rules.push(rule);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * Collect backspace rules for custom deletion behavior
+   */
+  private collectBackspaceRules(): void {
+    for (const group of this.keyboard.groups) {
+      for (const rule of group.rules) {
+        // Look for backspace key rules
+        if (rule.key?.vkey === 'K_BKSP') {
+          const from = this.ruleContextToPattern(rule);
+          const to = this.getOutputString(rule.output);
+          if (from && to !== null) {
+            this.backspaceRules.push({ from, to });
+          }
+        }
+      }
+    }
   }
 }
 
