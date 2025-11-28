@@ -201,5 +201,24 @@ export class InfrastructureMessages {
     `Failed to generate new project '${def(o.id)}'.`,
   )});
 
+  // Project conversion messages
+  static INFO_ConvertingProject = SevInfo | 0x0029;
+  static Info_ConvertingProject = (o:{source:string, format:string}) => ({filename:o.source, ...m(
+    this.INFO_ConvertingProject,
+    `Converting project '${def(o.source)}' to ${def(o.format)} format.`,
+  )});
+
+  static INFO_ProjectConversionComplete = SevInfo | 0x002A;
+  static Info_ProjectConversionComplete = (o:{source:string, destination:string}) => ({filename:o.source, ...m(
+    this.INFO_ProjectConversionComplete,
+    `Conversion complete. New project created at '${def(o.destination)}'.`,
+  )});
+
+  static WARN_MultipleProjectFiles = SevInfo | 0x002B;
+  static Warn_MultipleProjectFiles = (o:{directory:string}) => m(
+    this.WARN_MultipleProjectFiles,
+    `Multiple .kpj files found in directory '${def(o.directory)}'. Using first found.`,
+  );
+
 }
 

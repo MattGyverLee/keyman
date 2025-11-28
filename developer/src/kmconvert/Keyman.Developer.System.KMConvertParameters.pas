@@ -6,7 +6,8 @@ uses
   UKeymanTargets;
 
 type
-  TKMConvertMode = (cmImportWindows, cmTemplate, cmLexicalModel, cmLdmlKeyboard);
+  TKMConvertMode = (cmImportWindows, cmTemplate, cmLexicalModel, cmLdmlKeyboard,
+    cmConvertKmnToLdml, cmConvertLdmlToKmn);
 
   TKMConvertParameters = record
   private
@@ -27,6 +28,8 @@ type
     FModelIdUniq: string;
     FEmitUsage: Boolean;
     FDescription: string;
+    FSourceProject: string;
+    FSourceKmn: string;
 
     function CheckParam(name, value: string): Boolean;
     function SetKLID(const value: string): Boolean;
@@ -46,6 +49,8 @@ type
     function ValidateBCP47Tag(const component, tag: string): Boolean;
     procedure OutputText(const msg: string = '');
     function SetDescription(const value: string): Boolean;
+    function SetSourceProject(const value: string): Boolean;
+    function SetSourceKmn(const value: string): Boolean;
   public
     type TOutputTextProc = reference to procedure(msg: string);
     var OnOutputText: TOutputTextProc;
@@ -72,6 +77,8 @@ type
     property ModelIdAuthor: string read FModelIdAuthor;
     property ModelIdLanguage: string read FModelIdLanguage;
     property ModelIdUniq: string read FModelIdUniq;
+    property SourceProject: string read FSourceProject;
+    property SourceKmn: string read FSourceKmn;
   end;
 
 implementation
@@ -121,6 +128,10 @@ begin
     FMode := cmLexicalModel
   else if ModeString = 'ldml-keyboard' then
     FMode := cmLdmlKeyboard
+  else if ModeString = 'convert-kmn-to-ldml' then
+    FMode := cmConvertKmnToLdml
+  else if ModeString = 'convert-ldml-to-kmn' then
+    FMode := cmConvertLdmlToKmn
   else
   begin
     FEmitUsage := True;
@@ -162,21 +173,30 @@ begin
   OutputText('kmconvert lexical-model -id-author <id-author> -id-language <id-language> -id-uniq <id-uniq> [additional-options]');
   OutputText('  Creates a wordlist lexical model project in the repository template format');
   OutputText;
+  OutputText('kmconvert convert-kmn-to-ldml -source-project <path> [additional-options]');
+  OutputText('  Converts a KMN-based keyboard project to LDML format');
+  OutputText('  Warning: If .kpj file is not specified, results may not be as desired');
+  OutputText;
+  OutputText('kmconvert convert-ldml-to-kmn -source-project <path> [additional-options]');
+  OutputText('  Converts an LDML-based keyboard project to KMN format (not yet implemented)');
+  OutputText;
   OutputText('Parameters:');
-  OutputText('  -nologo                Don''t show the program description and copyright banner');
-  OutputText('  -klid <source-klid>    The KLID of the keyboard to import, per LoadKeyboardLayout');
-  OutputText('  -id <keyboard_id>      The id of the keyboard to create');
-  OutputText('                         (in `import-windows` mode, can be a format string)');
-  OutputText('  -o <destination>       The target folder to write the project into, defaults to "."');
-  OutputText('  -author <data>         Name of author of the keyboard/model, no default');
-  OutputText('  -description <data>    Short plain-text description of the keyboard/model, no default');
-  OutputText('  -name <data>           Name of the keyboard/model, e.g. "My First Keyboard", "%s Basic" ');
-  OutputText('                         (format strings are only valid in `import-windows` mode)');
-  OutputText('  -copyright <data>      Copyright string for the keyboard/model, defaults to "Copyright (C)"');
-  OutputText('  -full-copyright <data> Longer copyright string for the keyboard/model, defaults to "Copyright (C) yyyy"');
-  OutputText('  -version <data>        Version number of the keyboard/model, defaults to "1.0"');
-  OutputText('  -languages <data>      Space-separated list of BCP 47 tags, e.g. "en-US tpi-PG"');
-  OutputText('  -targets <data>        Space-separate list of targets, e.g. "linux windows mobile"');
+  OutputText('  -nologo                   Don''t show the program description and copyright banner');
+  OutputText('  -klid <source-klid>       The KLID of the keyboard to import, per LoadKeyboardLayout');
+  OutputText('  -source-project <path>    Path to source .kpj file or folder for conversion');
+  OutputText('  -source-kmn <path>        Path to specific .kmn file to convert (if multiple in project)');
+  OutputText('  -id <keyboard_id>         The id of the keyboard to create');
+  OutputText('                            (in `import-windows` mode, can be a format string)');
+  OutputText('  -o <destination>          The target folder to write the project into, defaults to "."');
+  OutputText('  -author <data>            Name of author of the keyboard/model, no default');
+  OutputText('  -description <data>       Short plain-text description of the keyboard/model, no default');
+  OutputText('  -name <data>              Name of the keyboard/model, e.g. "My First Keyboard", "%s Basic" ');
+  OutputText('                            (format strings are only valid in `import-windows` mode)');
+  OutputText('  -copyright <data>         Copyright string for the keyboard/model, defaults to "Copyright (C)"');
+  OutputText('  -full-copyright <data>    Longer copyright string for the keyboard/model, defaults to "Copyright (C) yyyy"');
+  OutputText('  -version <data>           Version number of the keyboard/model, defaults to "1.0"');
+  OutputText('  -languages <data>         Space-separated list of BCP 47 tags, e.g. "en-US tpi-PG"');
+  OutputText('  -targets <data>           Space-separate list of targets, e.g. "linux windows mobile"');
   OutputText;
   // Model parameters
   OutputText('Note: model identifiers are constructed from params: <id-author>.<id-language>.<id-uniq>');
@@ -203,6 +223,8 @@ begin
   else if name = '-id-author' then Result := SetModelIdAuthor(value)
   else if name = '-id-language' then Result := SetModelIdLanguage(value)
   else if name = '-id-uniq' then Result := SetModelIdUniq(value)
+  else if name = '-source-project' then Result := SetSourceProject(value)
+  else if name = '-source-kmn' then Result := SetSourceKmn(value)
   else
   begin
     OutputText('Invalid parameter: '+name);
@@ -383,6 +405,18 @@ begin
     Exit(False);
 
   FModelIdUniq := Value;
+  Result := True;
+end;
+
+function TKMConvertParameters.SetSourceProject(const value: string): Boolean;
+begin
+  FSourceProject := Value;
+  Result := True;
+end;
+
+function TKMConvertParameters.SetSourceKmn(const value: string): Boolean;
+begin
+  FSourceKmn := Value;
   Result := True;
 end;
 
