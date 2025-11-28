@@ -96,6 +96,10 @@ export class InfrastructureMessages {
   static Error_InvalidMessageFormat = (o:{message:string}) => m(this.ERROR_InvalidMessageFormat,
     `Invalid parameter: --message ${def(o.message)} must match format '[KM]#####[:Disable|Info|Hint|Warn|Error]'`);
 
+  static FATAL_DuplicateKeyboardSourceFiles = SevFatal | 0x0018;
+  static Fatal_DuplicateKeyboardSourceFiles = (o:{kmnFile: string, xmlFile: string}) => m(this.FATAL_DuplicateKeyboardSourceFiles,
+    `Project contains both KMN keyboard source '${def(o.kmnFile)}' and LDML keyboard source '${def(o.xmlFile)}' with the same base name. Only one keyboard source type is allowed per keyboard.`);
+
   static ERROR_MessageNamespaceNotFound = SevError | 0x0017;
   static Error_MessageNamespaceNotFound = (o:{code: number}) => m(this.ERROR_MessageNamespaceNotFound,
     `Invalid parameter: --message ${def(o.code?CompilerError.formatCode(o.code):undefined)} does not have a recognized namespace`);
