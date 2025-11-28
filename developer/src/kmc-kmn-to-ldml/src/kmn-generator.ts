@@ -1,12 +1,41 @@
 /*
  * Keyman is copyright (C) SIL International. MIT License.
  *
- * Generates KMN keyboard source from LDML AST.
- * This is the reverse of the LDML generator - for round-trip testing.
+ * KMN Generator: Converts LDML keyboard XML to KMN source format
+ *
+ * This module provides reverse conversion from LDML (Locale Data Markup Language)
+ * keyboard format to legacy KMN (Keyman) source format. It enables round-trip
+ * conversion testing and migration paths from LDML back to KMN when needed.
+ *
+ * Key features:
+ * - Parses LDML XML and generates equivalent KMN source code
+ * - Converts LDML layers to KMN key rules with modifiers
+ * - Maps LDML variables to KMN stores
+ * - Transforms LDML transforms to KMN transform groups
+ * - Handles markers (deadkeys), sets, and Unicode character output
+ * - Preserves metadata (name, version, copyright, author)
+ *
+ * Limitations:
+ * - Some LDML features may not have direct KMN equivalents
+ * - Touch-specific features may be simplified
+ * - Complex transforms may require manual adjustment
+ * - Generated KMN may need manual refinement for production use
+ *
+ * @example
+ * ```typescript
+ * import { generateKmn } from '@keymanapp/kmc-kmn-to-ldml';
+ *
+ * const ldmlXml = fs.readFileSync('keyboard.xml', 'utf-8');
+ * const kmnSource = generateKmn(ldmlXml);
+ * fs.writeFileSync('keyboard.kmn', kmnSource, 'utf-8');
+ * ```
  */
 
 /**
- * Simplified LDML keyboard representation for conversion
+ * Simplified LDML keyboard representation for conversion.
+ *
+ * This interface represents the parsed structure of an LDML keyboard
+ * that can be converted to KMN format.
  */
 export interface LdmlKeyboardData {
   locale: string;
@@ -55,13 +84,44 @@ export interface LdmlTransformData {
 }
 
 /**
- * Generate KMN source from LDML keyboard data
+ * KMN Generator Class
+ *
+ * Generates KMN keyboard source code from parsed LDML keyboard data.
+ *
+ * This class converts LDML structures to their KMN equivalents:
+ * - LDML info → KMN system stores (&NAME, &VERSION, etc.)
+ * - LDML variables (string/set/uset) → KMN user stores
+ * - LDML layers with modifiers → KMN key rules with modifier combinations
+ * - LDML transforms → KMN transform groups
+ * - LDML markers → KMN deadkeys (dk)
+ * - LDML variable references → KMN any()/index() functions
+ *
+ * The generated KMN follows standard Keyman keyboard conventions and
+ * should compile successfully with the Keyman Developer compiler.
+ *
+ * @example
+ * ```typescript
+ * const generator = new KmnGenerator();
+ * const ldmlData = parseLdmlXml(xmlString);
+ * const kmnSource = generator.generate(ldmlData);
+ * ```
  */
 export class KmnGenerator {
   private indent = '';
 
   /**
-   * Generate KMN source string from LDML data
+   * Generate KMN source string from LDML keyboard data.
+   *
+   * This method orchestrates the complete KMN generation process:
+   * 1. Writes header comment with source information
+   * 2. Generates system stores (NAME, VERSION, COPYRIGHT, etc.)
+   * 3. Generates user stores from LDML variables
+   * 4. Writes begin Unicode statement
+   * 5. Generates main group with key rules from layers
+   * 6. Generates transform group if transforms are present
+   *
+   * @param ldml - Parsed LDML keyboard data structure
+   * @returns Complete KMN source code as a string
    */
   public generate(ldml: LdmlKeyboardData): string {
     const lines: string[] = [];
@@ -122,7 +182,21 @@ export class KmnGenerator {
   }
 
   /**
-   * Generate key rules from layers
+   * Generate key rules from LDML layers.
+   *
+   * Converts LDML layer definitions to KMN key rules. Each layer represents
+   * a modifier state (e.g., base, shift, ctrl+alt), and each key in the layer
+   * generates a corresponding KMN rule.
+   *
+   * Hardware layers are converted to virtual key rules with modifiers:
+   * - `+ [K_A] > 'a'` (base layer)
+   * - `+ [SHIFT K_A] > 'A'` (shift layer)
+   * - `+ [RALT K_A] > 'α'` (altGr layer)
+   *
+   * Touch-specific keys (T_ prefix) are generated as touch key rules.
+   *
+   * @param ldml - Parsed LDML keyboard data
+   * @returns Array of KMN rule strings
    */
   private generateKeyRules(ldml: LdmlKeyboardData): string[] {
     const rules: string[] = [];
@@ -168,7 +242,20 @@ export class KmnGenerator {
   }
 
   /**
-   * Convert LDML modifiers to KMN format
+   * Convert LDML modifier string to KMN modifier format.
+   *
+   * LDML uses modifier names like "shift", "ctrl", "altR", "caps".
+   * KMN uses uppercase names like "SHIFT", "CTRL", "RALT", "CAPS".
+   *
+   * @param modifiers - LDML modifier string (e.g., "shift", "ctrl+shift")
+   * @returns KMN modifier string (e.g., "SHIFT", "CTRL SHIFT")
+   *
+   * @example
+   * ```typescript
+   * ldmlModifiersToKmn("shift") → "SHIFT"
+   * ldmlModifiersToKmn("ctrl+altR") → "CTRL RALT"
+   * ldmlModifiersToKmn("none") → ""
+   * ```
    */
   private ldmlModifiersToKmn(modifiers?: string): string {
     if (!modifiers || modifiers === 'none') {
@@ -185,7 +272,13 @@ export class KmnGenerator {
   }
 
   /**
-   * Format a virtual key for KMN
+   * Format a virtual key code for KMN rule syntax.
+   *
+   * Combines a key ID with optional modifiers into KMN virtual key format.
+   *
+   * @param keyId - Virtual key identifier (e.g., "K_A", "K_SPACE")
+   * @param modifiers - KMN modifier string (e.g., "SHIFT", "CTRL RALT")
+   * @returns Formatted virtual key (e.g., "[K_A]", "[SHIFT K_A]")
    */
   private formatVKey(keyId: string, modifiers: string): string {
     if (modifiers) {
@@ -195,7 +288,24 @@ export class KmnGenerator {
   }
 
   /**
-   * Format output for KMN
+   * Format output text for KMN rule syntax.
+   *
+   * Converts LDML output strings to KMN output format:
+   * - Markers (\m{name}) → deadkeys (dk(name))
+   * - Single ASCII characters → quoted literals ('a')
+   * - Unicode characters → U+xxxx format
+   * - Multi-character output → space-separated sequence
+   *
+   * @param output - LDML output string
+   * @returns KMN-formatted output string
+   *
+   * @example
+   * ```typescript
+   * formatOutput("a") → "'a'"
+   * formatOutput("α") → "U+03B1"
+   * formatOutput("abc") → "'a' 'b' 'c'"
+   * formatOutput("\\m{acute}") → "dk(acute)"
+   * ```
    */
   private formatOutput(output: string): string {
     // Check for markers
@@ -230,7 +340,16 @@ export class KmnGenerator {
   }
 
   /**
-   * Format store value
+   * Format a value for KMN store definition.
+   *
+   * Converts LDML variable values to KMN store syntax based on type:
+   * - string: Single-quoted literal
+   * - set: Double-quoted character sequence
+   * - uset: Unicode set notation (preserved)
+   *
+   * @param value - Variable value string
+   * @param type - Variable type ('string', 'set', or 'uset')
+   * @returns KMN-formatted store value
    */
   private formatStoreValue(value: string, type: string): string {
     if (type === 'uset') {
@@ -258,7 +377,15 @@ export class KmnGenerator {
   }
 
   /**
-   * Format transform pattern (context)
+   * Format LDML transform pattern (context) to KMN format.
+   *
+   * Converts LDML transform 'from' attribute to KMN context:
+   * - Markers (\m{name}) → deadkeys (dk(name))
+   * - Variable references ($[name]) → any(name)
+   * - Literal text → quoted strings
+   *
+   * @param from - LDML transform 'from' attribute
+   * @returns KMN context pattern
    */
   private formatTransformPattern(from: string): string {
     // Convert LDML markers to KMN deadkeys
@@ -283,7 +410,14 @@ export class KmnGenerator {
   }
 
   /**
-   * Escape special characters for KMN strings
+   * Escape special characters for KMN string literals.
+   *
+   * KMN requires escaping:
+   * - Single quotes (') → doubled ('')
+   * - Backslashes (\) → doubled (\\)
+   *
+   * @param str - String to escape
+   * @returns Escaped string safe for KMN
    */
   private escapeKmn(str: string): string {
     return str.replace(/'/g, "''").replace(/\\/g, '\\\\');
@@ -291,8 +425,25 @@ export class KmnGenerator {
 }
 
 /**
- * Parse LDML XML to LdmlKeyboardData
- * Simplified parser for testing purposes
+ * Parse LDML XML to LdmlKeyboardData structure.
+ *
+ * This is a simplified XML parser that extracts essential LDML keyboard
+ * elements using regex patterns. It's designed for conversion purposes
+ * and may not handle all edge cases.
+ *
+ * Extracted elements:
+ * - Keyboard metadata (locale, name, version, author)
+ * - Key definitions with output and attributes
+ * - Layer definitions (hardware and touch)
+ * - Variables (string, set, uset)
+ * - Transform rules
+ *
+ * @param xml - LDML keyboard XML string
+ * @returns Parsed keyboard data structure
+ *
+ * @remarks
+ * This parser uses regex for simplicity. For production use with complex
+ * LDML files, consider using a full XML parser.
  */
 export function parseLdmlXml(xml: string): LdmlKeyboardData {
   const data: LdmlKeyboardData = {
@@ -414,7 +565,24 @@ function unescapeXml(str: string): string {
 }
 
 /**
- * Convenience function to convert LDML XML to KMN
+ * Convert LDML keyboard XML to KMN source code.
+ *
+ * This is a convenience function that combines parsing and generation
+ * into a single operation. It parses the LDML XML and generates the
+ * equivalent KMN source code.
+ *
+ * @param ldmlXml - LDML keyboard XML string
+ * @returns KMN source code string
+ *
+ * @example
+ * ```typescript
+ * import { generateKmn } from '@keymanapp/kmc-kmn-to-ldml';
+ * import * as fs from 'fs';
+ *
+ * const ldmlXml = fs.readFileSync('my-keyboard.xml', 'utf-8');
+ * const kmnSource = generateKmn(ldmlXml);
+ * fs.writeFileSync('my-keyboard.kmn', kmnSource, 'utf-8');
+ * ```
  */
 export function generateKmn(ldmlXml: string): string {
   const data = parseLdmlXml(ldmlXml);

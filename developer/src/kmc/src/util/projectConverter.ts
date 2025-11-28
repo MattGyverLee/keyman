@@ -6,7 +6,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { convertKmnToLdml } from '@keymanapp/kmc-kmn-to-ldml';
+import { convertKmnToLdml, generateKmn } from '@keymanapp/kmc-kmn-to-ldml';
 import { InfrastructureMessages } from '../messages/infrastructureMessages.js';
 import { CompilerCallbacks } from '@keymanapp/developer-utils';
 
@@ -198,21 +198,115 @@ export class ProjectConverter {
   }
 
   /**
-   * Convert an LDML-based project to KMN format (future implementation)
+   * Convert an LDML-based project to KMN format.
+   *
+   * This method performs reverse conversion from LDML to KMN format:
+   * 1. Parses source LDML project structure
+   * 2. Reads LDML XML keyboard file
+   * 3. Generates equivalent KMN source code
+   * 4. Creates new .kpj project file
+   * 5. Copies resource files (if enabled)
+   * 6. Updates .kps package file (if enabled)
+   *
+   * @param sourcePath - Path to source LDML project directory or .kpj file
+   * @param outputDir - Output directory for converted KMN project
+   * @param options - Conversion options
+   * @returns Conversion result with generated/copied files and any warnings/errors
    */
   async convertLdmlToKmn(
     sourcePath: string,
     outputDir: string,
     options: ConvertProjectOptions = {}
   ): Promise<ConversionResult> {
-    return {
+    const result: ConversionResult = {
       success: false,
       outputDir,
       generatedFiles: [],
       copiedFiles: [],
       warnings: [],
-      errors: ['LDML to KMN conversion is not yet implemented']
+      errors: []
     };
+
+    try {
+      // Parse source project
+      const sourceInfo = await this.parseSourceProject(sourcePath, 'ldml', options);
+
+      if (!sourceInfo.projectFile) {
+        result.warnings.push('No .kpj file found. Results may not be as desired. Please verify that only intended files are copied.');
+      }
+
+      // Validate source
+      if (!fs.existsSync(sourceInfo.sourceFile)) {
+        result.errors.push(`Source LDML file not found: ${sourceInfo.sourceFile}`);
+        return result;
+      }
+
+      // Create output directory
+      if (fs.existsSync(outputDir)) {
+        result.errors.push(`Output directory already exists: ${outputDir}`);
+        return result;
+      }
+      fs.mkdirSync(outputDir, { recursive: true });
+
+      // Create source subdirectory
+      const outputSourceDir = path.join(outputDir, 'source');
+      fs.mkdirSync(outputSourceDir, { recursive: true });
+
+      // Read LDML source
+      const ldmlXml = fs.readFileSync(sourceInfo.sourceFile, 'utf-8');
+
+      // Convert LDML to KMN
+      const keyboardId = options.keyboardId || sourceInfo.keyboardId;
+      const kmnSource = generateKmn(ldmlXml);
+
+      // Write KMN file
+      const kmnFile = path.join(outputSourceDir, `${keyboardId}.kmn`);
+      fs.writeFileSync(kmnFile, kmnSource, 'utf-8');
+      result.generatedFiles.push(kmnFile);
+
+      // Add warning about manual review
+      result.warnings.push('Generated KMN code should be manually reviewed. Some LDML features may not have direct KMN equivalents.');
+
+      // Copy resource files
+      if (options.copyResources !== false) {
+        const copied = await this.copyResourceFiles(sourceInfo, outputDir);
+        result.copiedFiles.push(...copied);
+      }
+
+      // Generate new .kpj file
+      const projectFile = await this.generateKmnProjectFile(
+        sourceInfo,
+        outputDir,
+        keyboardId,
+        options
+      );
+      result.outputProjectFile = projectFile;
+      result.generatedFiles.push(projectFile);
+
+      // Update .kps package file
+      if (options.updatePackage !== false && sourceInfo.packageFile) {
+        const updatedKps = await this.updatePackageFile(
+          sourceInfo.packageFile,
+          outputDir,
+          keyboardId,
+          'kmn'
+        );
+        if (updatedKps) {
+          result.generatedFiles.push(updatedKps);
+        }
+      }
+
+      result.success = true;
+      this.callbacks.reportMessage(InfrastructureMessages.Info_ProjectConversionComplete({
+        source: sourcePath,
+        destination: outputDir
+      }));
+
+    } catch (error) {
+      result.errors.push(error instanceof Error ? error.message : String(error));
+    }
+
+    return result;
   }
 
   /**
@@ -424,6 +518,45 @@ export class ProjectConverter {
       <Filepath>source/${keyboardId}.xml</Filepath>
       <FileVersion></FileVersion>
       <FileType>.xml</FileType>
+      <Details>
+        <Name>${source.metadata.name || keyboardId}</Name>
+        <Copyright>${source.metadata.copyright || 'Copyright © ' + new Date().getFullYear()}</Copyright>
+        <Version>${source.metadata.version || '1.0'}</Version>
+      </Details>
+    </File>
+  </Files>
+</KeymanDeveloperProject>`;
+
+    fs.writeFileSync(projectFile, kpj, 'utf-8');
+    return projectFile;
+  }
+
+  /**
+   * Generate new .kpj file for KMN project
+   */
+  private async generateKmnProjectFile(
+    source: ProjectInfo,
+    destDir: string,
+    keyboardId: string,
+    options: ConvertProjectOptions
+  ): Promise<string> {
+    const projectFile = path.join(destDir, `${keyboardId}.kpj`);
+
+    // Create basic .kpj structure for KMN project
+    const kpj = `<?xml version="1.0" encoding="utf-8"?>
+<KeymanDeveloperProject>
+  <Options>
+    <BuildPath>$PROJECTPATH/build</BuildPath>
+    <CompilerWarningsAsErrors>True</CompilerWarningsAsErrors>
+    <WarnDeprecatedCode>True</WarnDeprecatedCode>
+  </Options>
+  <Files>
+    <File>
+      <ID>id_${keyboardId}</ID>
+      <Filename>${keyboardId}.kmn</Filename>
+      <Filepath>source/${keyboardId}.kmn</Filepath>
+      <FileVersion></FileVersion>
+      <FileType>.kmn</FileType>
       <Details>
         <Name>${source.metadata.name || keyboardId}</Name>
         <Copyright>${source.metadata.copyright || 'Copyright © ' + new Date().getFullYear()}</Copyright>
