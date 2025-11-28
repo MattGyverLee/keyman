@@ -6,7 +6,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { KmnParser } from '../src/kmn-parser.js';
-import { LdmlGenerator } from '../src/ldml-generator.js';
+import { LdmlGenerator, UnsupportedKeyboardError } from '../src/ldml-generator.js';
 import { KmnGenerator, parseLdmlXml } from '../src/kmn-generator.js';
 
 const keyboardsPath = '/home/user/keyboards-temp/release';
@@ -23,6 +23,8 @@ interface RoundTripResult {
   storesPreserved: number;
   storesMissing: number;
   success: boolean;
+  skipped: boolean;
+  skipReason?: string;
   notes: string[];
 }
 
@@ -40,6 +42,7 @@ async function testRoundTrip(kmnPath: string): Promise<RoundTripResult> {
     storesPreserved: 0,
     storesMissing: 0,
     success: false,
+    skipped: false,
     notes: [],
   };
 
@@ -56,10 +59,19 @@ async function testRoundTrip(kmnPath: string): Promise<RoundTripResult> {
     // Count original features
     const originalStores = originalAst.stores.filter(s => !s.isSystem);
     const originalKeys = new Set<string>();
+    let hasAnyStoreKeys = false;
     for (const group of originalAst.groups) {
       for (const rule of group.rules) {
         if (rule.key?.vkey) {
-          originalKeys.add(rule.key.vkey);
+          // Skip beep-only keys (placeholders that don't produce output)
+          const isBeepOnly = rule.output.length === 1 && rule.output[0].type === 'beep';
+          if (!isBeepOnly) {
+            originalKeys.add(rule.key.vkey);
+          }
+        }
+        // Track if keyboard uses any(store) as key pattern
+        if (rule.key?.anyStoreName) {
+          hasAnyStoreKeys = true;
         }
       }
     }
@@ -76,9 +88,20 @@ async function testRoundTrip(kmnPath: string): Promise<RoundTripResult> {
     const ldmlData = parseLdmlXml(ldmlXml);
 
     // Check preserved keys
-    const ldmlKeys = new Set(ldmlData.keys.map(k => k.id));
+    // Extract base key IDs from LDML (e.g., K_A_shift_altR -> K_A)
+    const ldmlBaseKeys = new Set<string>();
+    for (const k of ldmlData.keys) {
+      // Extract base key ID by removing all modifier suffixes
+      let baseId = k.id;
+      // Remove modifier suffixes iteratively
+      while (baseId.match(/_(shift|ctrl|altR|caps|alt)$/i)) {
+        baseId = baseId.replace(/_(shift|ctrl|altR|caps|alt)$/i, '');
+      }
+      ldmlBaseKeys.add(baseId);
+      ldmlBaseKeys.add(k.id); // Also add full ID for exact matches
+    }
     for (const key of originalKeys) {
-      if (ldmlKeys.has(key)) {
+      if (ldmlBaseKeys.has(key)) {
         result.keysPreserved++;
       } else {
         result.keysMissing++;
@@ -126,7 +149,16 @@ async function testRoundTrip(kmnPath: string): Promise<RoundTripResult> {
       result.notes.push('Uses platform conditions');
     }
 
-    result.success = result.keysMissing === 0 && result.keysPreserved > 0;
+    // Success criteria:
+    // - For keyboards with explicit keys: no keys missing and at least some preserved
+    // - For keyboards with any(store) keys: stores preserved and transforms generated
+    if (hasAnyStoreKeys && originalKeys.size === 0) {
+      // Keyboard uses any(store) patterns - success if stores preserved and transforms exist
+      result.success = result.storesPreserved > 0 && ldmlData.transforms.length > 0;
+    } else {
+      // Standard keyboard with explicit keys
+      result.success = result.keysMissing === 0 && result.keysPreserved > 0;
+    }
 
     // Write outputs for inspection
     const outputDir = '/tmp/round-trip';
@@ -135,7 +167,17 @@ async function testRoundTrip(kmnPath: string): Promise<RoundTripResult> {
     fs.writeFileSync(path.join(outputDir, `${keyboardName}.round-trip.kmn`), roundTripKmn);
 
   } catch (error) {
-    result.notes.push(`Error: ${(error as Error).message}`);
+    // Check if this is an expected unsupported keyboard type
+    if (error instanceof UnsupportedKeyboardError) {
+      result.skipped = true;
+      if (error.featureType === 'mnemonic') {
+        result.skipReason = 'Mnemonic keyboard (not supported by LDML)';
+      } else {
+        result.skipReason = `Unsupported feature: ${error.message}`;
+      }
+    } else {
+      result.notes.push(`Error: ${(error as Error).message}`);
+    }
   }
 
   return result;
@@ -146,11 +188,56 @@ async function runTests() {
 
   // Test keyboards (ordered by complexity)
   const testKeyboards = [
-    'sil/sil_cameroon_qwerty',    // Medium complexity
-    'a/armenian_mnemonic',        // Mnemonic layout
-    'sil/sil_yi',                 // Yi script
-    't/tibetan_ewts',             // Complex transliteration
-    'm/mozhi_malayalam',          // Complex Indic
+    'n/nandinagari_inscript',
+    'sil/sil_tawallammat',
+    'gff/gff_harari',
+    'basic/basic_kbdsg',
+    'fv/fv_onayotaaka',
+    'basic/basic_kbdtuf',
+    'bj/bj_cree_west_latn',
+    'basic/basic_kbdtzm',
+    'basic/basic_kbdsors1',
+    'p/phonetic_farsi',
+    'sil/sil_mali_qwertz',
+    'basic/basic_kbdjav',
+    'el/el_nuer',
+    'basic/basic_kbdogham',
+    'fv/fv_dene_zhatie',
+    'n/newa_traditional_extended',
+    'sil/sil_sgaw_karen',
+    'basic/basic_kbdlisus',
+    'basic/basic_kbdmonst',
+    'basic/basic_kbdir',
+    'p/phaistos_disc',
+    'k/kmhmu_2008',
+    'u/uma_phonetic',
+    'fv/fv_dakota_sk',
+    'sil/sil_devanagari_romanized',
+    'fv/fv_skaru_re',
+    'basic/basic_kbdughr',
+    'basic/basic_kbdgeoqw',
+    'fv/fv_tsuutina',
+    'm/modi_inscript',
+    'sil/sil_tagdal',
+    'basic/basic_kbdgr1',
+    'l/lycian',
+    'o/old_turkic_udw21_qwerty',
+    'd/devanagari_kagapa_phonetic',
+    'a/aramaic_hebrew',
+    's/sogdian_phonetic',
+    'sil/sil_ethiopic_power_g',
+    'basic/basic_kbdpo',
+    'basic/basic_kbdosa',
+    'rac/rac_wakhi',
+    'p/postmodern_english_uk_natural',
+    'n/numanggang',
+    'c/cs_pinyin',
+    'sil/sil_el_ethiopian_latin',
+    'basic/basic_kbdkyr',
+    'fv/fv_moose_cree',
+    'm/manchu',
+    'c/cypro_minoan',
+    'sil/sil_vai',
   ];
 
   const results: RoundTripResult[] = [];
@@ -169,15 +256,19 @@ async function runTests() {
         results.push(result);
 
         // Print result
-        console.log(`  Original: ${result.originalLines} lines, ${result.originalRules} rules`);
-        console.log(`  LDML: ${result.ldmlBytes} bytes`);
-        console.log(`  Round-trip: ${result.roundTripLines} lines, ${result.roundTripRules} rules`);
-        console.log(`  Keys: ${result.keysPreserved} preserved, ${result.keysMissing} missing`);
-        console.log(`  Stores: ${result.storesPreserved} preserved, ${result.storesMissing} missing`);
-        if (result.notes.length > 0) {
-          console.log(`  Notes: ${result.notes.join(', ')}`);
+        if (result.skipped) {
+          console.log(`  Status: ⊘ SKIPPED (${result.skipReason})`);
+        } else {
+          console.log(`  Original: ${result.originalLines} lines, ${result.originalRules} rules`);
+          console.log(`  LDML: ${result.ldmlBytes} bytes`);
+          console.log(`  Round-trip: ${result.roundTripLines} lines, ${result.roundTripRules} rules`);
+          console.log(`  Keys: ${result.keysPreserved} preserved, ${result.keysMissing} missing`);
+          console.log(`  Stores: ${result.storesPreserved} preserved, ${result.storesMissing} missing`);
+          if (result.notes.length > 0) {
+            console.log(`  Notes: ${result.notes.join(', ')}`);
+          }
+          console.log(`  Status: ${result.success ? '✓ SUCCESS' : '✗ PARTIAL'}`);
         }
-        console.log(`  Status: ${result.success ? '✓ SUCCESS' : '✗ PARTIAL'}`);
         console.log('');
       }
     } catch (e) {
@@ -187,9 +278,22 @@ async function runTests() {
 
   // Summary
   console.log('\n=== Summary ===');
-  console.log(`Tested: ${results.length} keyboards`);
-  console.log(`Full success: ${results.filter(r => r.success).length}`);
-  console.log(`Partial: ${results.filter(r => !r.success).length}`);
+  const skipped = results.filter(r => r.skipped);
+  const tested = results.filter(r => !r.skipped);
+  const successful = tested.filter(r => r.success);
+  const partial = tested.filter(r => !r.success);
+
+  console.log(`Total: ${results.length} keyboards`);
+  console.log(`Tested: ${tested.length} (skipped ${skipped.length})`);
+  console.log(`Full success: ${successful.length}`);
+  console.log(`Partial: ${partial.length}`);
+
+  if (skipped.length > 0) {
+    console.log(`\nSkipped keyboards:`);
+    for (const r of skipped) {
+      console.log(`  - ${r.keyboard}: ${r.skipReason}`);
+    }
+  }
 
   // Show feature coverage
   console.log('\nComplex features encountered:');

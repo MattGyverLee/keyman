@@ -33,6 +33,8 @@ export interface KmnStore {
   line: number;
   /** Store type flags */
   storeType?: KmnStoreType;
+  /** Platform condition ($keymanonly:/$keymanweb:) */
+  platform?: KmnPlatform;
 }
 
 export enum KmnStoreType {
@@ -42,6 +44,11 @@ export enum KmnStoreType {
   Debug = 0x08,
   Call = 0x10,
 }
+
+/**
+ * Platform condition for $keymanonly:/$keymanweb: prefixes
+ */
+export type KmnPlatform = 'desktop' | 'web' | 'any';
 
 /**
  * Begin statement: begin Unicode > use(groupname)
@@ -87,6 +94,8 @@ export interface KmnRule {
   isMatch?: boolean;
   /** Whether this is a nomatch rule */
   isNomatch?: boolean;
+  /** Platform condition ($keymanonly:/$keymanweb:) */
+  platform?: KmnPlatform;
 }
 
 /**
@@ -97,6 +106,8 @@ export interface KmnKeySpec {
   vkey?: string;
   /** Character literal (e.g., 'a') */
   char?: string;
+  /** Store name when key is any(store) pattern */
+  anyStoreName?: string;
   /** Modifiers */
   shift?: boolean;
   ctrl?: boolean;

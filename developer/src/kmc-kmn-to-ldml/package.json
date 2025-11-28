@@ -35,10 +35,10 @@
     "@keymanapp/common-types": "*"
   },
   "devDependencies": {
-    "typescript": "^5.4.5",
-    "mocha": "^10.4.0",
-    "chai": "^5.1.1",
     "@types/mocha": "^10.0.7",
-    "@types/node": "^20.14.9"
+    "@types/node": "^20.19.25",
+    "chai": "^5.1.1",
+    "mocha": "^10.4.0",
+    "typescript": "^5.4.5"
   }
 }
