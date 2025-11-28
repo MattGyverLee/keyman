@@ -13,7 +13,22 @@ import TouchLayoutSubKey = TouchLayout.TouchLayoutSubKey;
 
 /**
  * Factory for creating TouchLayoutSubKey objects from key IDs.
- * Consolidates logic for subkeys, multitap, and flick generation.
+ *
+ * This class consolidates the logic for generating touch layout subkey objects
+ * used in various gesture contexts:
+ * - Long-press (subkeys): Alternative characters shown when holding a key
+ * - Multitap: Characters that cycle when tapping a key repeatedly
+ * - Flick gestures: Characters activated by flicking in different directions
+ *
+ * The factory ensures consistent formatting of key IDs (K_ prefix for named keys,
+ * U_ prefix for Unicode codepoints) and proper marker expansion in key outputs.
+ *
+ * @example
+ * ```typescript
+ * const factory = new KeySubKeyFactory(keyBag, expander);
+ * const subkeys = factory.generateSubkeys('a e i o u', 'a'); // 'a' is default
+ * const multitap = factory.generateMultitap('a b c');
+ * ```
  */
 export class KeySubKeyFactory {
   constructor(

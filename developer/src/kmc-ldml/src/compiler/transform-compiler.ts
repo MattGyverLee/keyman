@@ -39,7 +39,33 @@ interface CompiledReorder {
 
 /**
  * Compiles LDML transform rules to JavaScript functions.
- * Handles simple transforms, set mappings, and reorder rules.
+ *
+ * This compiler transforms LDML transform specifications into executable JavaScript
+ * functions that handle text processing in KeymanWeb. It supports:
+ *
+ * Transform types:
+ * - Simple transforms: Pattern-based text substitution using regex
+ * - Set mapping transforms: Character-to-character mapping via sets
+ * - Reorder transforms: Script-specific character reordering (Thai, Lao, etc.)
+ * - Backspace transforms: Special handling of backspace behavior
+ *
+ * Generated functions:
+ * - gs(): Main transform function for text processing
+ * - gbs(): Backspace transform function for special backspace behavior
+ *
+ * The compiler handles:
+ * - Variable expansion (string, set, uset)
+ * - Marker conversion to regex patterns or sentinel values
+ * - Unicode escape processing
+ * - Set-based character mapping with capture groups
+ * - Complex reordering logic for scripts with non-phonetic character order
+ *
+ * @example
+ * ```typescript
+ * const compiler = new TransformCompiler(expander, variables, markerMap);
+ * compiler.generateTransformFunction(keyboard, builder);
+ * compiler.generateBackspaceFunction(keyboard, builder);
+ * ```
  */
 export class TransformCompiler {
   constructor(

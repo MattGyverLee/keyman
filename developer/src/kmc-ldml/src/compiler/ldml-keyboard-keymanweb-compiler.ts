@@ -22,15 +22,29 @@ import LKFlick = LDMLKeyboard.LKFlick;
 import LKVariables = LDMLKeyboard.LKVariables;
 
 /**
- * Compiles LDML keyboard XML to JavaScript for KeymanWeb
+ * Compiles LDML keyboard XML to JavaScript for KeymanWeb (mobile/web platforms).
  *
- * Refactored architecture with separated concerns:
- * - JavaScriptBuilder: Clean code generation with proper indentation
- * - HardwareLayoutRegistry: Centralized VK code mappings
- * - VariableExpander: Marker and variable expansion logic
- * - KeySubKeyFactory: Key/subkey generation
- * - TouchLayoutCompiler: Touch layout generation
- * - TransformCompiler: Transform and reorder logic
+ * This compiler transforms LDML keyboard specifications into JavaScript code that can
+ * be executed by KeymanWeb on mobile and web platforms. It generates:
+ * - Touch layouts (KVKL) for on-screen keyboards
+ * - Hardware layer definitions (KLS) for physical keyboard support
+ * - Transform functions (gs/gbs) for text processing and reordering
+ * - Variable and marker data structures for runtime use
+ *
+ * Architecture:
+ * The compiler uses a modular architecture with separated concerns:
+ * - {@link JavaScriptBuilder}: Clean code generation with proper indentation
+ * - {@link HardwareLayoutRegistry}: Centralized VK code mappings for different keyboard forms
+ * - {@link VariableExpander}: Handles marker and variable expansion in patterns
+ * - {@link KeySubKeyFactory}: Creates touch layout keys and subkeys
+ * - {@link TouchLayoutCompiler}: Generates complete touch layouts with gestures
+ * - {@link TransformCompiler}: Compiles transform rules and reorder logic
+ *
+ * @example
+ * ```typescript
+ * const compiler = new LdmlKeyboardKeymanWebCompiler(callbacks, options);
+ * const jsCode = compiler.compile(ldmlKeyboard, 'my_keyboard');
+ * ```
  */
 export class LdmlKeyboardKeymanWebCompiler {
   private readonly options: LdmlCompilerOptions;
@@ -54,10 +68,21 @@ export class LdmlKeyboardKeymanWebCompiler {
   }
 
   /**
-   * Compile LDML keyboard to JavaScript string
-   * @param keyboard - The parsed LDML keyboard
+   * Compile LDML keyboard to JavaScript string for KeymanWeb.
+   *
+   * This method orchestrates the complete compilation process:
+   * 1. Builds lookup caches for keys, flicks, markers, and variables
+   * 2. Initializes component instances (expander, factory, compilers)
+   * 3. Generates touch layout (KVKL) from touch or hardware layers
+   * 4. Generates hardware layer strings (KLS) for physical keyboard support
+   * 5. Generates transform functions for text processing
+   * 6. Assembles all components into a complete JavaScript keyboard file
+   *
+   * @param keyboard - The parsed LDML keyboard specification
    * @param keyboardId - The keyboard identifier (e.g., "sil_cameroon_qwerty")
-   * @returns JavaScript string or null on error
+   *                     Used to generate the JavaScript function name
+   * @returns JavaScript string containing the complete keyboard implementation,
+   *          or null if compilation fails
    */
   public compile(keyboard: LKKeyboard, keyboardId: string): string | null {
     // Build lookup caches
@@ -141,7 +166,13 @@ export class LdmlKeyboardKeymanWebCompiler {
   }
 
   /**
-   * Detect RTL from locale or keyboard settings
+   * Detect if keyboard uses right-to-left (RTL) text direction.
+   *
+   * Checks the keyboard's locale against a list of known RTL language codes.
+   * This information is used to set the KRTL property in the generated JavaScript.
+   *
+   * @param keyboard - The LDML keyboard specification
+   * @returns true if the keyboard should use RTL text direction
    */
   private detectRTL(keyboard: LKKeyboard): boolean {
     // Check locale for RTL scripts
@@ -152,7 +183,12 @@ export class LdmlKeyboardKeymanWebCompiler {
   }
 
   /**
-   * Build a lookup map of key definitions by ID
+   * Build a lookup map of key definitions by ID for fast access.
+   *
+   * Creates an index of all key elements from the LDML keyboard specification,
+   * allowing O(1) lookup by key ID during layout generation and compilation.
+   *
+   * @param keyboard - The LDML keyboard specification
    */
   private buildKeyBag(keyboard: LKKeyboard): void {
     this.keyBag.clear();
@@ -166,7 +202,12 @@ export class LdmlKeyboardKeymanWebCompiler {
   }
 
   /**
-   * Build a lookup map of flick definitions by ID
+   * Build a lookup map of flick gesture definitions by ID for fast access.
+   *
+   * Creates an index of all flick gesture elements from the LDML keyboard,
+   * allowing efficient lookup when processing keys that reference flick gestures.
+   *
+   * @param keyboard - The LDML keyboard specification
    */
   private buildFlickBag(keyboard: LKKeyboard): void {
     this.flickBag.clear();
@@ -180,7 +221,16 @@ export class LdmlKeyboardKeymanWebCompiler {
   }
 
   /**
-   * Build marker name to index mapping from transforms
+   * Build marker name to index mapping from transforms and key outputs.
+   *
+   * Scans the entire keyboard specification to find all marker references and assigns
+   * them sequential indices starting from 1 (as per LDML spec). These indices are used
+   * in the generated JavaScript to represent markers as sentinel values in the text.
+   *
+   * Markers are special placeholders in LDML that can be used in transforms to match
+   * or insert invisible position markers in the text buffer.
+   *
+   * @param keyboard - The LDML keyboard specification
    */
   private buildMarkerMap(keyboard: LKKeyboard): void {
     this.markerMap.clear();
@@ -220,7 +270,18 @@ export class LdmlKeyboardKeymanWebCompiler {
   }
 
   /**
-   * Generate variables data structure
+   * Generate JavaScript code for variables data structures.
+   *
+   * Converts LDML variable definitions (string, set, uset) into JavaScript objects
+   * that can be accessed at runtime by the transform functions. Variables are stored
+   * as properties on the keyboard object:
+   * - this._vs: string variables (as object with name -> value mapping)
+   * - this._vset: set variables (as object with name -> array mapping)
+   * - this._vuset: Unicode set variables (as object with name -> regex string mapping)
+   *
+   * @param keyboard - The LDML keyboard specification
+   * @param builder - The JavaScript builder to append code to
+   * @returns Generated JavaScript code string, or empty string if no variables
    */
   private generateVariablesData(keyboard: LKKeyboard, builder: JavaScriptBuilder): string {
     if (!this.variables) return '';
@@ -260,15 +321,22 @@ export class LdmlKeyboardKeymanWebCompiler {
   }
 
   /**
-   * Generate marker data structure
+   * Generate JavaScript code for marker data structure.
+   *
+   * Converts the marker map into a JavaScript object (this._mk) that maps
+   * marker names to their assigned indices. This allows runtime code to
+   * access marker indices by name.
+   *
+   * @param builder - The JavaScript builder to append code to
+   * @returns Generated JavaScript code string, or empty string if no markers
    */
   private generateMarkerData(builder: JavaScriptBuilder): string {
     if (this.markerMap.size === 0) return '';
 
     const markers: Record<string, number> = {};
-    for (const [name, index] of this.markerMap) {
+    this.markerMap.forEach((index, name) => {
       markers[name] = index;
-    }
+    });
 
     const tab = builder.tab;
     const nl = builder.nl;
@@ -276,7 +344,17 @@ export class LdmlKeyboardKeymanWebCompiler {
   }
 
   /**
-   * Generate hardware layer strings (KLS) from LDML hardware layers
+   * Generate hardware layer strings (KLS) from LDML hardware layers.
+   *
+   * Converts hardware keyboard layer definitions into the KLS format expected by
+   * KeymanWeb. The KLS structure maps layer IDs to arrays of 65 output strings,
+   * where each index corresponds to a specific virtual key code position.
+   *
+   * This enables hardware keyboard support by defining what each physical key outputs
+   * in different modifier states (base, shift, alt, etc.).
+   *
+   * @param keyboard - The LDML keyboard specification
+   * @returns Object mapping layer IDs to string arrays, or null if no hardware layers
    */
   private generateHardwareLayerStrings(keyboard: LKKeyboard): Record<string, string[]> | null {
     const hardwareLayers = keyboard.layers?.filter(l => l.formId !== 'touch');
@@ -327,7 +405,15 @@ export class LdmlKeyboardKeymanWebCompiler {
   }
 
   /**
-   * Map LDML layer id/modifiers to touch layout layer id
+   * Map LDML layer id/modifiers to KeymanWeb layer id.
+   *
+   * Translates LDML layer identifiers and modifier combinations into the
+   * standardized layer IDs expected by KeymanWeb (e.g., 'default', 'shift',
+   * 'rightalt', 'rightalt-shift'). Custom layer IDs are passed through unchanged.
+   *
+   * @param id - The LDML layer ID
+   * @param modifiers - Space-separated list of modifiers (e.g., 'shift', 'alt')
+   * @returns KeymanWeb layer identifier
    */
   private mapLayerId(id: string, modifiers: string): string {
     // Handle common mappings
@@ -348,7 +434,13 @@ export class LdmlKeyboardKeymanWebCompiler {
   }
 
   /**
-   * Escape a string for JavaScript output
+   * Escape a string for safe inclusion in JavaScript string literals.
+   *
+   * Handles special characters, control characters, and ensures the resulting
+   * string can be safely embedded in double-quoted JavaScript strings.
+   *
+   * @param s - The string to escape
+   * @returns Escaped string safe for JavaScript
    */
   private escapeString(s: string): string {
     return s
@@ -360,7 +452,13 @@ export class LdmlKeyboardKeymanWebCompiler {
   }
 
   /**
-   * Sanitize an ID for use as a JavaScript identifier
+   * Sanitize an ID for use as a JavaScript identifier.
+   *
+   * Replaces all non-alphanumeric characters (except underscore) with underscores
+   * to ensure the resulting string is a valid JavaScript identifier.
+   *
+   * @param id - The ID to sanitize
+   * @returns Sanitized identifier safe for use in JavaScript
    */
   private sanitizeId(id: string): string {
     return id.replace(/[^a-zA-Z0-9_]/g, '_');

@@ -15,8 +15,29 @@ import LKVariables = LDMLKeyboard.LKVariables;
 export type ExpansionMode = 'pattern' | 'output' | 'text';
 
 /**
- * Handles expansion of string variables, set variables, and markers
- * in LDML keyboard patterns and outputs.
+ * Handles expansion of string variables, set variables, and markers in LDML keyboard
+ * patterns and outputs.
+ *
+ * This class is responsible for transforming LDML-specific syntax into runtime
+ * representations that can be used in JavaScript code:
+ *
+ * - String variables: ${varname} → expanded literal value
+ * - Set variables: $[setname] → regex alternation (?:a|b|c)
+ * - Unicode sets: $[usetname] → character class [a-z]
+ * - Markers: \m{markername} → sentinel values for runtime matching
+ * - Unicode escapes: \u{XXXX} → actual Unicode characters
+ *
+ * The class handles different expansion modes:
+ * - Pattern mode: For transform 'from' patterns (markers become regex patterns)
+ * - Output mode: For transform 'to' and key outputs (markers become sentinel values)
+ * - Text mode: For display strings (no special processing)
+ *
+ * @example
+ * ```typescript
+ * const expander = new VariableExpander(variables, markerMap);
+ * const pattern = expander.convertMarkersToPattern('\\m{vowel}a');
+ * const output = expander.convertMarkersToOutput('b\\m{consonant}');
+ * ```
  */
 export class VariableExpander {
   constructor(

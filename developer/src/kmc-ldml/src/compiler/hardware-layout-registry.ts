@@ -20,7 +20,21 @@ export interface HardwareFormLayout {
 
 /**
  * Registry for hardware keyboard layouts.
- * Provides VK code mappings for different physical keyboard forms.
+ *
+ * Provides Virtual Key (VK) code mappings for different physical keyboard forms
+ * (US/ANSI, ISO, JIS, ABNT2, KS). This enables accurate mapping between physical
+ * key positions and their corresponding VK codes, which vary across keyboard layouts.
+ *
+ * VK codes are Windows Virtual Key codes that identify physical key positions
+ * regardless of the characters they produce. For example:
+ * - VK 65 is the 'A' key position
+ * - VK 192 is the backtick/tilde key position
+ * - VK 226 is the extra ISO key between left shift and Z
+ *
+ * The registry also provides conversion from VK codes to KLS (Keyboard Layer String)
+ * array indices, which is the format used by KeymanWeb to store layer outputs.
+ *
+ * @see {@link https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes}
  */
 export class HardwareLayoutRegistry {
   // Base VK codes shared across most layouts

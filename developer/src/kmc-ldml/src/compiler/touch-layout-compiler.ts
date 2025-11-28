@@ -26,7 +26,27 @@ import TouchLayoutFlick = TouchLayout.TouchLayoutFlick;
 
 /**
  * Compiles LDML touch layers to KeymanWeb TouchLayoutFile format.
- * Handles layers, rows, keys, flicks, long-press, and multitap.
+ *
+ * This compiler transforms LDML touch layer definitions into the TouchLayoutFile
+ * (KVKL) format used by KeymanWeb for on-screen keyboards. It supports:
+ * - Multiple platform layouts (phone/tablet) based on device width
+ * - Layer-based layouts with modifier states (default, shift, alt, etc.)
+ * - Rich gesture support: long-press, multitap, and flick gestures
+ * - Special keys (shift, backspace, space, enter, etc.)
+ * - Gap keys for layout spacing
+ * - Layer switching keys
+ * - Auto-generation of touch layouts from hardware layer definitions
+ * - Automatic caps-lock layer generation with multitap toggling
+ *
+ * When no touch layers are defined in the LDML source, the compiler can
+ * automatically generate a touch-friendly layout from hardware keyboard layers,
+ * including intelligent caps-lock behavior.
+ *
+ * @example
+ * ```typescript
+ * const compiler = new TouchLayoutCompiler(keyFactory, keyBag, flickBag, callbacks);
+ * const touchLayout = compiler.generateTouchLayout(keyboard);
+ * ```
  */
 export class TouchLayoutCompiler {
   constructor(

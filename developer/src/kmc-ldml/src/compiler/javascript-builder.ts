@@ -6,7 +6,28 @@
 
 /**
  * Builder for generating properly indented JavaScript code.
- * Replaces manual string concatenation with a cleaner API.
+ *
+ * This utility class provides a fluent API for programmatically generating JavaScript
+ * code with consistent indentation and formatting. It supports both minified and
+ * pretty-printed output based on the debug option.
+ *
+ * Features:
+ * - Automatic indentation management with block nesting
+ * - Method chaining for fluent code construction
+ * - Conditional formatting (debug vs. production)
+ * - Support for comments and blank lines in debug mode
+ *
+ * @example
+ * ```typescript
+ * const builder = new JavaScriptBuilder({ debug: true });
+ * builder
+ *   .openBlock('function myFunc()')
+ *     .append('var x = 1;')
+ *     .comment('Process the value')
+ *     .append('return x * 2;')
+ *   .closeBlock();
+ * const code = builder.toString();
+ * ```
  */
 export class JavaScriptBuilder {
   private result: string = '';
