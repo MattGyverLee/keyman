@@ -1,0 +1,48 @@
+{
+  "name": "@keymanapp/kmc-kmn-to-ldml",
+  "description": "Keyman KMN to LDML Keyboard Converter",
+  "keywords": [
+    "keyboard",
+    "keyman",
+    "kmn",
+    "ldml",
+    "converter"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./build/src/main.d.ts",
+      "import": "./build/src/main.js"
+    }
+  },
+  "main": "./build/src/main.js",
+  "types": "./build/src/main.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keymanapp/keyman.git"
+  },
+  "author": "SIL International",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/keymanapp/keyman/issues"
+  },
+  "homepage": "https://keyman.com",
+  "dependencies": {
+    "@keymanapp/common-types": "*",
+    "@keymanapp/developer-utils": "*",
+    "@keymanapp/kmc-ldml": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "mocha": "^10.4.0",
+    "chai": "^5.1.1",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "^20.14.9",
+    "@keymanapp/kmc-kmn": "*",
+    "@keymanapp/developer-test-helpers": "*"
+  }
+}

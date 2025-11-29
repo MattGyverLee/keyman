@@ -38,6 +38,7 @@
     "@keymanapp/kmc-generate": "*",
     "@keymanapp/kmc-keyboard-info": "*",
     "@keymanapp/kmc-kmn": "*",
+    "@keymanapp/kmc-kmn-to-ldml": "*",
     "@keymanapp/kmc-ldml": "*",
     "@keymanapp/kmc-model": "*",
     "@keymanapp/kmc-model-info": "*",

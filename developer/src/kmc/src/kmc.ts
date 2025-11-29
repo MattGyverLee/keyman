@@ -15,6 +15,7 @@ import { declareMessage } from './commands/messageCommand.js';
 import { kmcSentryOptions } from './util/kmcSentryOptions.js';
 import { declareGenerate } from './commands/generate.js';
 import { declareCopy } from './commands/copy.js';
+import { declareConvertProject } from './commands/convertProject.js';
 
 await TestKeymanSentry.runTestIfCLRequested(kmcSentryOptions);
 if(KeymanSentry.isEnabled()) {
@@ -63,6 +64,7 @@ async function run() {
   declareMessage(program);
   declareGenerate(program);
   declareCopy(program);
+  declareConvertProject(program);
 
   /* Future commands:
   declareClean(program);

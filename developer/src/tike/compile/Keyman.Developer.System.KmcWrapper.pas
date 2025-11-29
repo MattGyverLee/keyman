@@ -18,6 +18,7 @@ type
   public
     function Compile(ProjectFile: TProjectFile; const infile, outfile: string; debug: Boolean; Callback: TUtilExecuteCallbackEvent = nil): Boolean;
     function Copy(const source, dest, cwd: string; relocateExternal: Boolean; Callback: TUtilExecuteCallbackEvent = nil): Boolean;
+    function ConvertProject(const source, outputDir, format: string; const sourceKmn: string = ''; copyResources: Boolean = True; updatePackage: Boolean = True; Callback: TUtilExecuteCallbackEvent = nil): Boolean;
   end;
 
 const
@@ -99,6 +100,51 @@ begin
     cmdline := cmdline + ['--relocate-external'];
 
   Result := Run(cmdline, cwd, dest, Callback);
+end;
+
+function TKmcWrapper.ConvertProject(
+  const source: string;
+  const outputDir: string;
+  const format: string;
+  const sourceKmn: string;
+  copyResources: Boolean;
+  updatePackage: Boolean;
+  Callback: TUtilExecuteCallbackEvent
+): Boolean;
+var
+  cmdline: TArray<string>;
+  cwd: string;
+begin
+  // Build command: kmc convert project <source> --format <format> --output <outputDir> [options]
+  cmdline := [
+    'convert',
+    'project',
+    source,
+    '--format', format,
+    '--output', outputDir,
+    '--log-format', 'tsv',
+    '--log-level', 'info'
+  ];
+
+  // Add optional source-kmn parameter
+  if sourceKmn <> '' then
+    cmdline := cmdline + ['--source-kmn', sourceKmn];
+
+  // Add resource copying option
+  if not copyResources then
+    cmdline := cmdline + ['--no-copy-resources'];
+
+  // Add package update option
+  if not updatePackage then
+    cmdline := cmdline + ['--no-update-package'];
+
+  // Set working directory to source project directory
+  if DirectoryExists(source) then
+    cwd := source
+  else
+    cwd := ExtractFileDir(source);
+
+  Result := Run(cmdline, cwd, source, Callback);
 end;
 
 function TKmcWrapper.Run(
