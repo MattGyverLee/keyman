@@ -178,7 +178,7 @@ begin
   OutputText('  Warning: If .kpj file is not specified, results may not be as desired');
   OutputText;
   OutputText('kmconvert convert-ldml-to-kmn -source-project <path> [additional-options]');
-  OutputText('  Converts an LDML-based keyboard project to KMN format (not yet implemented)');
+  OutputText('  Converts an LDML-based keyboard project to KMN format');
   OutputText;
   OutputText('Parameters:');
   OutputText('  -nologo                   Don''t show the program description and copyright banner');

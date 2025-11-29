@@ -10,6 +10,7 @@ const
   SHelpTopic_Context_CloneGitHubProjectParameters = 'context/clone-github-project-parameters';
   SHelpTopic_Context_CloneKeymanCloudProjectParameters = 'context/clone-keyman-cloud-project-parameters';
   SHelpTopic_Context_CloneLocalProjectParameters = 'context/clone-local-project-parameters';
+  SHelpTopic_Context_ConvertProject = 'context/convert-project';
   SHelpTopic_Context_Debug = 'context/debug';
   SHelpTopic_Context_LdmlDebug = 'context/ldml-debug';
   SHelpTopic_Context_LdmlEditor = 'context/ldml-editor';

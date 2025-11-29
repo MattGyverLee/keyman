@@ -202,6 +202,123 @@ begin
   end;
 end;
 
+function DoConvertProject(FParameters: TKMConvertParameters; const ToFormat: string): Boolean;
+var
+  cmd: string;
+  cmdOutput: string;
+  exitCode: Integer;
+begin
+  // Build kmc command
+  cmd := '"' + ExtractFilePath(ParamStr(0)) + '..\..\..\node_modules\.bin\kmc.cmd" convert project';
+  cmd := cmd + ' "' + FParameters.SourceProject + '"';
+  cmd := cmd + ' --format ' + ToFormat;
+  cmd := cmd + ' --output "' + FParameters.Destination + '"';
+
+  if FParameters.SourceKmn <> '' then
+    cmd := cmd + ' --source-kmn "' + FParameters.SourceKmn + '"';
+
+  writeln('Executing: kmc convert project');
+  writeln('Source: ' + FParameters.SourceProject);
+  writeln('Destination: ' + FParameters.Destination);
+  writeln('Format: ' + ToFormat);
+  writeln;
+
+  // Execute kmc and capture output
+  Result := ExecuteCommandLine(cmd, cmdOutput, exitCode);
+
+  if Result and (exitCode = 0) then
+  begin
+    writeln(cmdOutput);
+    writeln;
+    writeln('Conversion completed successfully.');
+    Result := True;
+  end
+  else
+  begin
+    writeln('ERROR: Conversion failed');
+    writeln(cmdOutput);
+    Result := False;
+  end;
+end;
+
+function ExecuteCommandLine(const CommandLine: string; var Output: string; var ExitCode: Integer): Boolean;
+var
+  StartupInfo: TStartupInfo;
+  ProcessInfo: TProcessInformation;
+  SecurityAttr: TSecurityAttributes;
+  PipeRead, PipeWrite: THandle;
+  Buffer: array[0..255] of AnsiChar;
+  BytesRead: DWORD;
+  Success: Boolean;
+begin
+  Result := False;
+  Output := '';
+  ExitCode := -1;
+
+  // Set up security attributes for pipe
+  SecurityAttr.nLength := SizeOf(TSecurityAttributes);
+  SecurityAttr.bInheritHandle := True;
+  SecurityAttr.lpSecurityDescriptor := nil;
+
+  // Create pipe for stdout
+  if not CreatePipe(PipeRead, PipeWrite, @SecurityAttr, 0) then
+    Exit;
+
+  try
+    // Set up startup info
+    FillChar(StartupInfo, SizeOf(TStartupInfo), 0);
+    StartupInfo.cb := SizeOf(TStartupInfo);
+    StartupInfo.dwFlags := STARTF_USESHOWWINDOW or STARTF_USESTDHANDLES;
+    StartupInfo.wShowWindow := SW_HIDE;
+    StartupInfo.hStdOutput := PipeWrite;
+    StartupInfo.hStdError := PipeWrite;
+
+    // Create process
+    Success := CreateProcess(
+      nil,
+      PChar(CommandLine),
+      nil,
+      nil,
+      True,
+      CREATE_NO_WINDOW,
+      nil,
+      nil,
+      StartupInfo,
+      ProcessInfo
+    );
+
+    if not Success then
+      Exit;
+
+    try
+      CloseHandle(PipeWrite);
+      PipeWrite := 0;
+
+      // Read output
+      repeat
+        Success := ReadFile(PipeRead, Buffer, SizeOf(Buffer), BytesRead, nil);
+        if BytesRead > 0 then
+          Output := Output + Copy(string(Buffer), 1, BytesRead);
+      until not Success or (BytesRead = 0);
+
+      // Wait for process to complete
+      WaitForSingleObject(ProcessInfo.hProcess, INFINITE);
+
+      // Get exit code
+      GetExitCodeProcess(ProcessInfo.hProcess, DWORD(ExitCode));
+
+      Result := True;
+    finally
+      CloseHandle(ProcessInfo.hProcess);
+      CloseHandle(ProcessInfo.hThread);
+    end;
+  finally
+    if PipeWrite <> 0 then
+      CloseHandle(PipeWrite);
+    CloseHandle(PipeRead);
+  end;
+end;
+
 procedure WriteBanner;
 begin
   writeln(SKeymanDeveloperName + ' Conversion Utility');
@@ -249,6 +366,10 @@ begin
       Result := DoCreateLDMLKeyboardTemplate(FParameters);
     cmLexicalModel:
       Result := DoCreateModelTemplate(FParameters);
+    cmConvertKmnToLdml:
+      Result := DoConvertProject(FParameters, 'ldml');
+    cmConvertLdmlToKmn:
+      Result := DoConvertProject(FParameters, 'kmn');
   end;
 end;
 
