@@ -6,15 +6,13 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { KmnParser } from '../src/kmn-parser.js';
 import { LdmlGenerator } from '../src/ldml-generator.js';
-
-// Test with sil_cameroon_qwerty
-const keyboardsPath = '/home/user/keyboards-temp/release/sil/sil_cameroon_qwerty/source';
+import { makePathToFixture } from './helpers/index.js';
 
 async function testConverter() {
   console.log('Testing KMN to LDML converter...\n');
 
-  // Read KMN file
-  const kmnPath = path.join(keyboardsPath, 'sil_cameroon_qwerty.kmn');
+  // Read KMN file from fixtures
+  const kmnPath = makePathToFixture('keyboards', 'sil_cameroon_qwerty', 'sil_cameroon_qwerty.kmn');
   console.log(`Reading: ${kmnPath}`);
 
   const kmnSource = fs.readFileSync(kmnPath, 'utf-8');
@@ -62,10 +60,10 @@ async function testConverter() {
   console.log(lines.join('\n'));
   console.log('...\n');
 
-  // Write output for inspection
-  const outputPath = '/tmp/sil_cameroon_qwerty.xml';
-  fs.writeFileSync(outputPath, ldml);
-  console.log(`Full output written to: ${outputPath}`);
+  // Write output for inspection (optional - comment out if not needed)
+  // const outputPath = path.join(process.cwd(), 'sil_cameroon_qwerty.xml');
+  // fs.writeFileSync(outputPath, ldml);
+  // console.log(`Full output written to: ${outputPath}`);
 }
 
 testConverter().catch(console.error);

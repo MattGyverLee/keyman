@@ -13,8 +13,7 @@ import { LdmlKeyboardCompiler } from '@keymanapp/kmc-ldml';
 import { KmnCompiler } from '@keymanapp/kmc-kmn';
 import { TestCompilerCallbacks } from '@keymanapp/developer-test-helpers';
 import { LDMLKeyboardXMLSourceFileReader } from '@keymanapp/developer-utils';
-
-const keyboardsPath = '/home/user/keyboards-temp/release';
+import { makePathToFixture, getAvailableKeyboards, findKmnFiles } from './helpers/index.js';
 
 interface ComparisonResult {
   keyboard: string;
@@ -28,7 +27,7 @@ interface ComparisonResult {
 }
 
 async function compareKeyboard(kmnPath: string): Promise<ComparisonResult> {
-  const keyboardName = path.basename(path.dirname(path.dirname(kmnPath)));
+  const keyboardName = path.basename(path.dirname(kmnPath));
   const result: ComparisonResult = {
     keyboard: keyboardName,
     skipped: false,
@@ -161,38 +160,31 @@ async function compareKeyboard(kmnPath: string): Promise<ComparisonResult> {
 async function runComparison() {
   console.log('=== KMN vs LDML Compilation Comparison ===\n');
 
-  // Test a subset of keyboards that we know work in round-trip
-  const testKeyboards = [
-    'n/nandinagari_inscript',
-    'sil/sil_tawallammat',
-    'basic/basic_kbdsg',
-    'fv/fv_onayotaaka',
-    'bj/bj_cree_west_latn',
-    'basic/basic_kbdjav',
-    'basic/basic_kbdogham',
-    'sil/sil_sgaw_karen',
-    'm/manchu',
-    'c/cypro_minoan',
-  ];
+  // Get all available test keyboards from fixtures
+  const keyboards = getAvailableKeyboards();
+
+  if (keyboards.length === 0) {
+    console.log('No test keyboards found in fixtures/keyboards/');
+    console.log('Expected keyboards in: test/fixtures/keyboards/<keyboard_name>/');
+    return;
+  }
 
   const results: ComparisonResult[] = [];
 
-  for (const kb of testKeyboards) {
-    try {
-      const keyboardDir = path.join(keyboardsPath, kb);
-      const sourcePath = path.join(keyboardDir, 'source');
+  for (const keyboardName of keyboards) {
+    const kmnFiles = findKmnFiles(keyboardName);
 
-      if (!fs.existsSync(sourcePath)) {
-        console.log(`Skipping ${kb}: source directory not found`);
-        continue;
-      }
+    if (kmnFiles.length === 0) {
+      console.log(`Skipping ${keyboardName}: No .kmn file found`);
+      continue;
+    }
 
-      const files = fs.readdirSync(sourcePath);
-      const kmnFile = files.find(f => f.endsWith('.kmn'));
+    // Test each .kmn file
+    for (const kmnPath of kmnFiles) {
+      console.log(`\nComparing: ${keyboardName} (${path.basename(kmnPath)})`);
 
-      if (kmnFile) {
-        console.log(`\nComparing: ${kb}`);
-        const result = await compareKeyboard(path.join(sourcePath, kmnFile));
+      try {
+        const result = await compareKeyboard(kmnPath);
         results.push(result);
 
         if (result.skipped) {
@@ -216,9 +208,9 @@ async function runComparison() {
             console.log(`  ✓ Outputs are functionally similar`);
           }
         }
+      } catch (e) {
+        console.log(`  Error: ${(e as Error).message}`);
       }
-    } catch (e) {
-      console.log(`  Error: ${(e as Error).message}`);
     }
   }
 

@@ -8,8 +8,7 @@ import * as path from 'path';
 import { KmnParser } from '../src/kmn-parser.js';
 import { LdmlGenerator } from '../src/ldml-generator.js';
 import { KmnGenerator, parseLdmlXml } from '../src/kmn-generator.js';
-
-const keyboardsPath = '/home/user/keyboards-temp/release';
+import { makePathToFixture, getAvailableKeyboards, findKmnFiles } from './helpers/index.js';
 
 interface RoundTripResult {
   keyboard: string;
@@ -27,7 +26,7 @@ interface RoundTripResult {
 }
 
 async function testRoundTrip(kmnPath: string): Promise<RoundTripResult> {
-  const keyboardName = path.basename(path.dirname(path.dirname(kmnPath)));
+  const keyboardName = path.basename(path.dirname(kmnPath));
   const result: RoundTripResult = {
     keyboard: keyboardName,
     originalLines: 0,
@@ -128,11 +127,11 @@ async function testRoundTrip(kmnPath: string): Promise<RoundTripResult> {
 
     result.success = result.keysMissing === 0 && result.keysPreserved > 0;
 
-    // Write outputs for inspection
-    const outputDir = '/tmp/round-trip';
-    fs.mkdirSync(outputDir, { recursive: true });
-    fs.writeFileSync(path.join(outputDir, `${keyboardName}.ldml.xml`), ldmlXml);
-    fs.writeFileSync(path.join(outputDir, `${keyboardName}.round-trip.kmn`), roundTripKmn);
+    // Write outputs for inspection (optional - comment out if not needed)
+    // const outputDir = path.join(__dirname, '../build/round-trip');
+    // fs.mkdirSync(outputDir, { recursive: true });
+    // fs.writeFileSync(path.join(outputDir, `${keyboardName}.ldml.xml`), ldmlXml);
+    // fs.writeFileSync(path.join(outputDir, `${keyboardName}.round-trip.kmn`), roundTripKmn);
 
   } catch (error) {
     result.notes.push(`Error: ${(error as Error).message}`);
@@ -144,28 +143,31 @@ async function testRoundTrip(kmnPath: string): Promise<RoundTripResult> {
 async function runTests() {
   console.log('=== KMN → LDML → KMN Round-Trip Test ===\n');
 
-  // Test keyboards (ordered by complexity)
-  const testKeyboards = [
-    'sil/sil_cameroon_qwerty',    // Medium complexity
-    'a/armenian_mnemonic',        // Mnemonic layout
-    'sil/sil_yi',                 // Yi script
-    't/tibetan_ewts',             // Complex transliteration
-    'm/mozhi_malayalam',          // Complex Indic
-  ];
+  // Get all available test keyboards from fixtures
+  const keyboards = getAvailableKeyboards();
+
+  if (keyboards.length === 0) {
+    console.log('No test keyboards found in fixtures/keyboards/');
+    console.log('Expected keyboards in: test/fixtures/keyboards/<keyboard_name>/');
+    return;
+  }
 
   const results: RoundTripResult[] = [];
 
-  for (const kb of testKeyboards) {
-    const kbPath = path.join(keyboardsPath, kb);
-    const sourcePath = path.join(kbPath, 'source');
+  for (const keyboardName of keyboards) {
+    const kmnFiles = findKmnFiles(keyboardName);
 
-    // Find .kmn file
-    try {
-      const files = fs.readdirSync(sourcePath);
-      const kmnFile = files.find(f => f.endsWith('.kmn'));
-      if (kmnFile) {
-        console.log(`Testing: ${kb}`);
-        const result = await testRoundTrip(path.join(sourcePath, kmnFile));
+    if (kmnFiles.length === 0) {
+      console.log(`Skipping ${keyboardName}: No .kmn file found\n`);
+      continue;
+    }
+
+    // Test each .kmn file (usually just one per keyboard)
+    for (const kmnPath of kmnFiles) {
+      console.log(`Testing: ${keyboardName} (${path.basename(kmnPath)})`);
+
+      try {
+        const result = await testRoundTrip(kmnPath);
         results.push(result);
 
         // Print result
@@ -179,9 +181,9 @@ async function runTests() {
         }
         console.log(`  Status: ${result.success ? '✓ SUCCESS' : '✗ PARTIAL'}`);
         console.log('');
+      } catch (e) {
+        console.log(`  Error: ${(e as Error).message}\n`);
       }
-    } catch (e) {
-      console.log(`  Error: ${(e as Error).message}\n`);
     }
   }
 
@@ -205,7 +207,7 @@ async function runTests() {
     console.log(`  ${feature}: ${count} keyboards`);
   }
 
-  console.log('\nOutput files written to /tmp/round-trip/');
+  // console.log('\nOutput files written to build/round-trip/ (if enabled)');
 }
 
 runTests().catch(console.error);
