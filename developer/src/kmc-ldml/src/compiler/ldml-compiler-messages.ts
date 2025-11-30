@@ -283,18 +283,6 @@ export class LdmlCompilerMessages {
     `Width must be between 1-999 (millimeters), inclusive.` // sync with layr_max_minDeviceWidth / layr_max_maxDeviceWidth (from spec)
   );
 
-  static WARN_FlickNotFoundInFlickBag = SevWarn | 0x002E;
-  static Warn_FlickNotFoundInFlickBag = (o: { flickId: string, keyId: string }, compileContext?: ObjectWithCompileContext) => mx(
-    this.WARN_FlickNotFoundInFlickBag, compileContext,
-    `Flick '${def(o.flickId)}' referenced by key '${def(o.keyId)}' not found in flick definitions. Flick gestures will not work for this key.`
-  );
-
-  static WARN_KeyNotFoundForTouchLayout = SevWarn | 0x002F;
-  static Warn_KeyNotFoundForTouchLayout = (o: { keyId: string, layerId: string }, compileContext?: ObjectWithCompileContext) => mx(
-    this.WARN_KeyNotFoundForTouchLayout, compileContext,
-    `Key '${def(o.keyId)}' referenced in layer '${def(o.layerId)}' not found in key definitions. Key may not display or function correctly.`
-  );
-
   // Available: 0x02E-0x2F
 
   static ERROR_InvalidQuadEscape = SevError | 0x0030;

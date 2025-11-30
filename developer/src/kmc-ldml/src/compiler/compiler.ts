@@ -31,7 +31,6 @@ import { SectionIdent, constants } from '@keymanapp/ldml-keyboard-constants';
 import { KmnCompiler } from '@keymanapp/kmc-kmn';
 import { KMXPlusMetadataCompiler } from './metadata-compiler.js';
 import { LdmlKeyboardVisualKeyboardCompiler } from './visual-keyboard-compiler.js';
-import { LdmlKeyboardKeymanWebCompiler } from './ldml-keyboard-keymanweb-compiler.js';
 import { LinterKeycaps } from './linter-keycaps.js';
 
 export const SECTION_COMPILERS = [
@@ -75,10 +74,6 @@ export interface LdmlKeyboardCompilerArtifacts extends KeymanCompilerArtifacts {
    * desktop projects alongside .kmx
    */
   kvk?: KeymanCompilerArtifactOptional;
-  /**
-   * JavaScript keyboard filedata and filename - for KeymanWeb, Android, iOS
-   */
-  js?: KeymanCompilerArtifactOptional;
 };
 
 export interface LdmlKeyboardCompilerResult extends KeymanCompilerResult {
@@ -181,17 +176,15 @@ export class LdmlKeyboardCompiler implements KeymanCompiler {
     // const tl = tlcompiler.compile(source);
     // const tlwriter = new TouchLayoutFileWriter();
 
-    // Generate JavaScript for KeymanWeb (mobile/web platforms)
-    const kmwCompiler = new LdmlKeyboardKeymanWebCompiler(this.callbacks, compilerOptions);
-    const jsString = kmwCompiler.compile(source.keyboard3, keyboardId);
-    const encoder = new TextEncoder();
-    const jsBinary = jsString ? encoder.encode(jsString) : null;
+    //KMW17.0: const kmwcompiler = new LdmlKeyboardKeymanWebCompiler(this.callbacks, compilerOptions);
+    //KMW17.0: const kmw_string = kmwcompiler.compile(inputFilename, source);
+    //KMW17.0: const encoder = new TextEncoder();
+    //KMW17.0: const kmw_binary = encoder.encode(kmw_string);
 
     return {
       artifacts: {
         kmx: { data: kmxBinary, filename: outputFilename },
         kvk: kvkBinary ? { data: kvkBinary, filename: outputFilename.replace(/\.kmx$/, '.kvk') } : null,
-        js: jsBinary ? { data: jsBinary, filename: outputFilename.replace(/\.kmx$/, '.js') } : null,
       }
     };
   }
@@ -202,7 +195,6 @@ export class LdmlKeyboardCompiler implements KeymanCompiler {
    *
    * - .kmx file - binary keyboard used by Keyman on desktop platforms
    * - .kvk file - binary on screen keyboard used by Keyman on desktop platforms
-   * - .js file - JavaScript keyboard used by KeymanWeb on mobile/web platforms
    *
    * @param artifacts - object containing artifact binary data to write out
    * @returns true on success
@@ -214,10 +206,6 @@ export class LdmlKeyboardCompiler implements KeymanCompiler {
 
     if (artifacts.kvk) {
       this.callbacks.fs.writeFileSync(artifacts.kvk.filename, artifacts.kvk.data);
-    }
-
-    if (artifacts.js) {
-      this.callbacks.fs.writeFileSync(artifacts.js.filename, artifacts.js.data);
     }
 
     return true;
