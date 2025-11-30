@@ -8,13 +8,15 @@ import * as path from 'path';
 import { KmnParser } from '../src/kmn-parser.js';
 import { LdmlGenerator } from '../src/ldml-generator.js';
 import { KmnGenerator, parseLdmlXml } from '../src/kmn-generator.js';
-import { makePathToFixture, getAvailableKeyboards, findKmnFiles } from './helpers/index.js';
+import { makePathToFixture, getAvailableKeyboards, findKmnFiles, validateLdmlXml } from './helpers/index.js';
 
 interface RoundTripResult {
   keyboard: string;
   originalLines: number;
   originalRules: number;
   ldmlBytes: number;
+  ldmlValid: boolean;
+  ldmlErrors: string[];
   roundTripLines: number;
   roundTripRules: number;
   keysPreserved: number;
@@ -32,6 +34,8 @@ async function testRoundTrip(kmnPath: string): Promise<RoundTripResult> {
     originalLines: 0,
     originalRules: 0,
     ldmlBytes: 0,
+    ldmlValid: false,
+    ldmlErrors: [],
     roundTripLines: 0,
     roundTripRules: 0,
     keysPreserved: 0,
@@ -70,6 +74,16 @@ async function testRoundTrip(kmnPath: string): Promise<RoundTripResult> {
     });
     const ldmlXml = ldmlGenerator.generate(originalAst);
     result.ldmlBytes = ldmlXml.length;
+
+    // Validate generated LDML against schema
+    const validation = validateLdmlXml(ldmlXml);
+    result.ldmlValid = validation.isValid;
+    result.ldmlErrors = validation.errors;
+
+    if (!validation.isValid) {
+      result.notes.push('LDML failed schema validation');
+      // Don't fail completely, continue to see what was generated
+    }
 
     // Parse LDML
     const ldmlData = parseLdmlXml(ldmlXml);
@@ -125,7 +139,8 @@ async function testRoundTrip(kmnPath: string): Promise<RoundTripResult> {
       result.notes.push('Uses platform conditions');
     }
 
-    result.success = result.keysMissing === 0 && result.keysPreserved > 0;
+    // Success requires valid LDML schema and preserved keys
+    result.success = result.ldmlValid && result.keysMissing === 0 && result.keysPreserved > 0;
 
     // Write outputs for inspection (optional - comment out if not needed)
     // const outputDir = path.join(__dirname, '../build/round-trip');
@@ -172,7 +187,13 @@ async function runTests() {
 
         // Print result
         console.log(`  Original: ${result.originalLines} lines, ${result.originalRules} rules`);
-        console.log(`  LDML: ${result.ldmlBytes} bytes`);
+        console.log(`  LDML: ${result.ldmlBytes} bytes, ${result.ldmlValid ? '✓ valid' : '✗ invalid'}`);
+        if (!result.ldmlValid && result.ldmlErrors.length > 0) {
+          console.log(`  LDML Errors: ${result.ldmlErrors.slice(0, 3).join('; ')}`);
+          if (result.ldmlErrors.length > 3) {
+            console.log(`    ... and ${result.ldmlErrors.length - 3} more errors`);
+          }
+        }
         console.log(`  Round-trip: ${result.roundTripLines} lines, ${result.roundTripRules} rules`);
         console.log(`  Keys: ${result.keysPreserved} preserved, ${result.keysMissing} missing`);
         console.log(`  Stores: ${result.storesPreserved} preserved, ${result.storesMissing} missing`);
@@ -192,6 +213,8 @@ async function runTests() {
   console.log(`Tested: ${results.length} keyboards`);
   console.log(`Full success: ${results.filter(r => r.success).length}`);
   console.log(`Partial: ${results.filter(r => !r.success).length}`);
+  console.log(`LDML valid: ${results.filter(r => r.ldmlValid).length}`);
+  console.log(`LDML invalid: ${results.filter(r => !r.ldmlValid).length}`);
 
   // Show feature coverage
   console.log('\nComplex features encountered:');

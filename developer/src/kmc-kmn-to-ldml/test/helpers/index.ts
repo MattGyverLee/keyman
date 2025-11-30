@@ -7,6 +7,8 @@
 import { fileURLToPath } from 'url';
 import * as path from 'path';
 import * as fs from 'fs';
+import { LDMLKeyboardXMLSourceFileReader } from '@keymanapp/developer-utils';
+import { TestCompilerCallbacks } from '@keymanapp/developer-test-helpers';
 
 /**
  * Builds a path to the fixture with the given path components.
@@ -59,4 +61,56 @@ export function findKmnFiles(keyboardName: string): string[] {
   return fs.readdirSync(keyboardDir)
     .filter(file => file.endsWith('.kmn'))
     .map(file => path.join(keyboardDir, file));
+}
+
+/**
+ * Get all LDML reference keyboard files from CLDR standards
+ * @returns Array of absolute paths to LDML XML files
+ */
+export function getLdmlReferenceFiles(): string[] {
+  const ldmlDir = makePathToFixture('ldml-reference');
+  if (!fs.existsSync(ldmlDir)) {
+    return [];
+  }
+  return fs.readdirSync(ldmlDir)
+    .filter(file => file.endsWith('.xml') && !file.includes('-test'))
+    .map(file => path.join(ldmlDir, file));
+}
+
+/**
+ * Validate LDML XML against the LDML Keyboard 3.0 JSON schema
+ *
+ * @param ldmlXml LDML XML string to validate
+ * @param callbacks Optional callbacks for error reporting (if not provided, creates new instance)
+ * @returns Object with isValid flag and any validation errors
+ */
+export function validateLdmlXml(ldmlXml: string, callbacks?: TestCompilerCallbacks): {
+  isValid: boolean;
+  errors: string[];
+} {
+  const cb = callbacks || new TestCompilerCallbacks();
+  const reader = new LDMLKeyboardXMLSourceFileReader({
+    cldrImportsPath: fileURLToPath(new URL('../../../../../../../resources/standards-data/ldml-keyboards/46/import/', import.meta.url)),
+    localImportsPaths: []
+  }, cb);
+
+  try {
+    const source = reader.load(Buffer.from(ldmlXml));
+    if (!source) {
+      return {
+        isValid: false,
+        errors: ['Failed to parse LDML XML']
+      };
+    }
+
+    const isValid = reader.validate(source);
+    const errors = cb.messages.map(m => `${m.message} (${m.code})`);
+
+    return { isValid, errors };
+  } catch (e) {
+    return {
+      isValid: false,
+      errors: [(e as Error).message]
+    };
+  }
 }
