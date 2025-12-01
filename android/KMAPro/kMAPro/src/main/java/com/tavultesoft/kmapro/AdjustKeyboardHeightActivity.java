@@ -18,7 +18,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.tavultesoft.kmea.KMManager;
+import com.keyman.engine.KMManager;
 
 /**
  * Activity that allows the user to adjust the keyboard height by dragging a resize bar.
