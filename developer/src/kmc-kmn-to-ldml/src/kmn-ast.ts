@@ -102,7 +102,12 @@ export interface KmnKeySpec {
   /** Modifiers */
   shift?: boolean;
   ctrl?: boolean;
+  /** Generic ALT modifier (use lalt or ralt for specific side) */
   alt?: boolean;
+  /** Left ALT modifier */
+  lalt?: boolean;
+  /** Right ALT (AltGr) modifier */
+  ralt?: boolean;
   caps?: boolean;
   ncaps?: boolean;
   /** For mnemonic keyboards */

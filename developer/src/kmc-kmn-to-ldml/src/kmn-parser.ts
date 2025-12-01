@@ -416,7 +416,16 @@ export class KmnParser {
         const upper = part.toUpperCase();
         if (upper === 'SHIFT') spec.shift = true;
         else if (upper === 'CTRL' || upper === 'LCTRL' || upper === 'RCTRL') spec.ctrl = true;
-        else if (upper === 'ALT' || upper === 'LALT' || upper === 'RALT') spec.alt = true;
+        else if (upper === 'ALT') {
+          // Generic ALT - set all alt flags for backwards compatibility
+          spec.alt = true;
+        }
+        else if (upper === 'LALT') {
+          spec.lalt = true;
+        }
+        else if (upper === 'RALT') {
+          spec.ralt = true;
+        }
         else if (upper === 'CAPS') spec.caps = true;
         else if (upper === 'NCAPS') spec.ncaps = true;
         else if (upper.startsWith('K_') || upper.startsWith('T_') || upper.startsWith('U_')) {

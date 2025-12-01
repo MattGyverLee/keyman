@@ -348,10 +348,13 @@ export class KmnGenerator {
     // Remove common modifier suffixes from key IDs
     return keyId
       .replace(/_shift_altR$/, '')
+      .replace(/_shift_altL$/, '')
       .replace(/_shift_ctrl$/, '')
       .replace(/_ctrl_altR$/, '')
+      .replace(/_ctrl_altL$/, '')
       .replace(/_shift$/, '')
       .replace(/_altR$/, '')
+      .replace(/_altL$/, '')
       .replace(/_ctrl$/, '')
       .replace(/_caps$/, '');
   }
@@ -368,7 +371,8 @@ export class KmnGenerator {
    * @example
    * ```typescript
    * ldmlModifiersToKmn("shift") → "SHIFT"
-   * ldmlModifiersToKmn("ctrl+altR") → "CTRL RALT"
+   * ldmlModifiersToKmn("ctrl altR") → "CTRL RALT"
+   * ldmlModifiersToKmn("altL") → "LALT"
    * ldmlModifiersToKmn("none") → ""
    * ```
    */
@@ -380,7 +384,12 @@ export class KmnGenerator {
     const parts: string[] = [];
     if (modifiers.includes('shift')) parts.push('SHIFT');
     if (modifiers.includes('ctrl')) parts.push('CTRL');
-    if (modifiers.includes('altR') || modifiers.includes('alt')) parts.push('RALT');
+    // Handle altL and altR distinctly
+    if (modifiers.includes('altL')) {
+      parts.push('LALT');
+    } else if (modifiers.includes('altR') || modifiers.includes('alt')) {
+      parts.push('RALT');
+    }
     if (modifiers.includes('caps')) parts.push('CAPS');
 
     return parts.join(' ');

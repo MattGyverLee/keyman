@@ -62,6 +62,20 @@ export interface DisplayOverride {
 /**
  * Options for LDML generation
  */
+/**
+ * Warning reported during LDML generation
+ */
+export interface LdmlGeneratorWarning {
+  /** Warning code */
+  code: 'skipped-rule' | 'unsupported-feature' | 'platform-condition';
+  /** Human-readable message */
+  message: string;
+  /** Line number in original KMN (if applicable) */
+  line?: number;
+  /** Additional details */
+  details?: Record<string, unknown>;
+}
+
 export interface LdmlGeneratorOptions {
   /** Locale code for the keyboard */
   locale?: string;
@@ -91,6 +105,8 @@ export interface LdmlGeneratorOptions {
   touchLayout?: unknown;
   /** CLDR imports to include */
   imports?: Array<{ base?: 'cldr'; path: string }>;
+  /** Callback for warnings during generation */
+  onWarning?: (warning: LdmlGeneratorWarning) => void;
 }
 
 /**
@@ -206,11 +222,13 @@ export class LdmlGenerator {
   private skippedRules: SkippedRuleInfo[] = [];
   // Option names found in if/set rules
   private optionNames: Set<string> = new Set();
+  // Warnings generated during conversion
+  private warnings: LdmlGeneratorWarning[] = [];
 
   constructor(options: LdmlGeneratorOptions = {}) {
     this.options = {
       locale: 'und',
-      conformsTo: '45',
+      conformsTo: '46',
       includeHardware: true,
       includeTouch: true,
       useSetMapping: true, // Enable set mapping by default
@@ -230,6 +248,23 @@ export class LdmlGenerator {
   }
 
   /**
+   * Get warnings generated during the last conversion
+   */
+  public getWarnings(): LdmlGeneratorWarning[] {
+    return [...this.warnings];
+  }
+
+  /**
+   * Emit a warning during generation
+   */
+  private emitWarning(warning: LdmlGeneratorWarning): void {
+    this.warnings.push(warning);
+    if (this.options.onWarning) {
+      this.options.onWarning(warning);
+    }
+  }
+
+  /**
    * Generate LDML XML string from KMN keyboard
    * @throws UnsupportedKeyboardError if keyboard is mnemonic (not supported by LDML)
    */
@@ -243,6 +278,7 @@ export class LdmlGenerator {
     this.backspaceRules = [];
     this.skippedRules = [];
     this.optionNames.clear();
+    this.warnings = [];
     this.touchResult = null;
     this.initVkeyMapping();
     this.buildStoreMap();
@@ -456,12 +492,28 @@ export class LdmlGenerator {
 
   /**
    * Get modifier string for LDML
+   *
+   * Maps KMN modifiers to LDML modifiers:
+   * - SHIFT -> shift
+   * - CTRL/LCTRL/RCTRL -> ctrl
+   * - ALT (generic) -> altR (assumes AltGr for international keyboards)
+   * - LALT -> altL
+   * - RALT -> altR
+   * - CAPS -> caps
    */
   private getModifierString(key: KmnKeySpec): string {
     const mods: string[] = [];
     if (key.shift) mods.push('shift');
     if (key.ctrl) mods.push('ctrl');
-    if (key.alt) mods.push('altR'); // RALT in KMN is typically altR in LDML
+    // Handle ALT modifiers with proper distinction
+    if (key.lalt) {
+      mods.push('altL');
+    } else if (key.ralt) {
+      mods.push('altR');
+    } else if (key.alt) {
+      // Generic ALT - default to altR (AltGr) for international keyboards
+      mods.push('altR');
+    }
     if (key.caps) mods.push('caps');
     return mods.length > 0 ? mods.join(' ') : 'none';
   }
@@ -618,6 +670,19 @@ export class LdmlGenerator {
             pattern += `$[${elem.storeName}]`;
           }
           break;
+        case 'notany':
+          // Negative match: any character NOT in the set
+          // LDML uses [^...] regex notation, so we expand the store inline
+          const notStore = this.storeMap.get(elem.storeName.toLowerCase());
+          if (notStore) {
+            // Build negated character class from store value
+            const chars = this.escapeXml(notStore.value, notStore.valueFormat);
+            pattern += `[^${chars}]`;
+          } else {
+            // Fallback: reference by name (may not work in all LDML processors)
+            pattern += `[^$[${elem.storeName}]]`;
+          }
+          break;
         // Handle other context types
       }
     }
@@ -693,7 +758,7 @@ export class LdmlGenerator {
     if (modifiers === 'none') {
       return baseKeyId;
     }
-    // Generate variant ID like K_A_shift, K_A_altR, K_A_shift_altR
+    // Generate variant ID like K_A_shift, K_A_altR, K_A_altL, K_A_shift_altR
     const modSuffix = modifiers.replace(/ /g, '_');
     return `${baseKeyId}_${modSuffix}`;
   }
@@ -1068,6 +1133,17 @@ export class LdmlGenerator {
         case 'any':
           pattern += `$[${elem.storeName}]`;
           break;
+        case 'notany': {
+          // Negative match: any character NOT in the set
+          const notStore = this.storeMap.get(elem.storeName.toLowerCase());
+          if (notStore) {
+            const chars = this.escapeXml(notStore.value, notStore.valueFormat);
+            pattern += `[^${chars}]`;
+          } else {
+            pattern += `[^$[${elem.storeName}]]`;
+          }
+          break;
+        }
         // Handle other context types
       }
     }
@@ -1135,14 +1211,31 @@ export class LdmlGenerator {
   private scanForIfSetRules(): void {
     for (const group of this.keyboard.groups) {
       for (const rule of group.rules) {
-        // Check for if() or set() in context
-        const hasIfSet = rule.context.some(e => e.type === 'if' || e.type === 'set');
-        if (hasIfSet) {
+        // Check for if() or set() in context or output
+        const hasIfInContext = rule.context.some(e => e.type === 'if');
+        const hasSetInOutput = rule.output.some(e => e.type === 'set');
+        const hasPlatformCondition = rule.context.some(e =>
+          e.type === 'if' && (e as KmnIfElement).optionName === 'platform'
+        );
+        const hasLayerCondition = rule.context.some(e =>
+          e.type === 'if' && (e as KmnIfElement).optionName === 'layer'
+        );
+
+        if (hasIfInContext || hasSetInOutput) {
           // Extract option names
+          const ruleOptions: string[] = [];
           for (const elem of rule.context) {
-            if (elem.type === 'if' || elem.type === 'set') {
-              const optionName = (elem as any).option || 'unknown';
-              this.optionNames.add(optionName);
+            if (elem.type === 'if') {
+              const ifElem = elem as KmnIfElement;
+              ruleOptions.push(ifElem.optionName);
+              this.optionNames.add(ifElem.optionName);
+            }
+          }
+          for (const elem of rule.output) {
+            if (elem.type === 'set') {
+              const setElem = elem as { type: 'set'; optionName: string; value: string };
+              ruleOptions.push(setElem.optionName);
+              this.optionNames.add(setElem.optionName);
             }
           }
 
@@ -1150,8 +1243,25 @@ export class LdmlGenerator {
           this.skippedRules.push({
             line: rule.line || 0,
             reason: 'if/set conditions not supported by LDML',
-            options: [...this.optionNames],
-            description: `Rule with ${hasIfSet ? 'if/set' : 'conditional'} logic`
+            options: ruleOptions,
+            description: `Rule with if/set logic`
+          });
+
+          // Emit warning
+          this.emitWarning({
+            code: 'skipped-rule',
+            message: `Line ${rule.line || '?'}: Rule with if/set conditions skipped (options: ${ruleOptions.join(', ')})`,
+            line: rule.line,
+            details: { options: ruleOptions, group: group.name }
+          });
+        } else if (hasPlatformCondition || hasLayerCondition) {
+          // Emit warning for platform/layer conditions (they may partially work)
+          const conditionType = hasPlatformCondition ? 'platform()' : 'layer()';
+          this.emitWarning({
+            code: 'platform-condition',
+            message: `Line ${rule.line || '?'}: Rule with ${conditionType} condition may not convert correctly`,
+            line: rule.line,
+            details: { conditionType, group: group.name }
           });
         }
       }

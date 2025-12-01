@@ -448,7 +448,6 @@ export class ProjectConverter {
    * Parse .kpj file to extract metadata
    */
   private parseProjectFile(projectFile: string): ProjectMetadata {
-    // Basic XML parsing - in real implementation, use proper XML parser
     const content = fs.readFileSync(projectFile, 'utf-8');
 
     return {
@@ -461,11 +460,36 @@ export class ProjectConverter {
   }
 
   /**
-   * Extract value from XML content (simple regex-based)
+   * Extract value from XML content with proper handling of entities and CDATA
    */
   private extractXmlValue(content: string, tagName: string): string | undefined {
-    const match = content.match(new RegExp(`<${tagName}>([^<]*)</${tagName}>`));
-    return match ? match[1] : undefined;
+    // Match tag content including CDATA sections
+    const regex = new RegExp(`<${tagName}>\\s*(?:<!\\[CDATA\\[([\\s\\S]*?)\\]\\]>|([\\s\\S]*?))\\s*</${tagName}>`, 'i');
+    const match = content.match(regex);
+
+    if (!match) {
+      return undefined;
+    }
+
+    // CDATA content is in group 1, regular content in group 2
+    const value = match[1] ?? match[2] ?? '';
+
+    // Decode XML entities
+    return this.decodeXmlEntities(value.trim());
+  }
+
+  /**
+   * Decode common XML entities
+   */
+  private decodeXmlEntities(str: string): string {
+    return str
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&amp;/g, '&')
+      .replace(/&quot;/g, '"')
+      .replace(/&apos;/g, "'")
+      .replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(parseInt(dec, 10)))
+      .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)));
   }
 
   /**

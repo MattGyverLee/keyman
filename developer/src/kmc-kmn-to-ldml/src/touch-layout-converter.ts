@@ -91,6 +91,8 @@ export class TouchLayoutConverter {
   private flicks: Map<string, LdmlFlick> = new Map();
   private flickCounter = 0;
   private guidCounter = 0;
+  private subkeyCounter = 0;
+  private keyCounter = 0;
 
   /** Map from key signature to GUID-based ID */
   private signatureToGuid: Map<string, string> = new Map();
@@ -106,6 +108,8 @@ export class TouchLayoutConverter {
     this.flicks.clear();
     this.flickCounter = 0;
     this.guidCounter = 0;
+    this.subkeyCounter = 0;
+    this.keyCounter = 0;
     this.signatureToGuid.clear();
     this.guidToOriginal.clear();
 
@@ -356,7 +360,7 @@ export class TouchLayoutConverter {
       const code = subkey.text.codePointAt(0)!;
       return `U_${code.toString(16).toUpperCase().padStart(4, '0')}`;
     }
-    return `T_SK_${Date.now()}`;
+    return `T_SK_${this.subkeyCounter++}`;
   }
 
   /**
@@ -493,7 +497,7 @@ export class TouchLayoutConverter {
       const code = key.text.codePointAt(0)!;
       return `U_${code.toString(16).toUpperCase().padStart(4, '0')}`;
     }
-    return `T_KEY_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
+    return `T_KEY_${this.keyCounter++}`;
   }
 
   /**
