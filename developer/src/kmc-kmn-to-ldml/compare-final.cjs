@@ -11,30 +11,22 @@ function normalizeKey(key) {
   delete normalized.font; // Not supported in LDML
   delete normalized.layer; // Touch-layout specific, not in LDML (for regular keys)
   delete normalized.fontsize; // Not yet implemented
+  delete normalized.text; // Display text not supported in LDML
+  delete normalized.sp; // Special key type not supported in LDML
 
-  // Normalize sp to number (original has strings like "1", round-trip has numbers)
-  if (normalized.sp && typeof normalized.sp === 'string') {
-    normalized.sp = parseInt(normalized.sp);
-  }
-
-  // Normalize multitap sp values
+  // Remove sp from multitap and subkeys as well
   if (normalized.multitap) {
     normalized.multitap = normalized.multitap.map(mt => {
       const normMt = {...mt};
-      if (normMt.sp && typeof normMt.sp === 'string') {
-        normMt.sp = parseInt(normMt.sp);
-      }
+      delete normMt.sp;
       return normMt;
     });
   }
 
-  // Normalize subkeys sp values
   if (normalized.sk) {
     normalized.sk = normalized.sk.map(sk => {
       const normSk = {...sk};
-      if (normSk.sp && typeof normSk.sp === 'string') {
-        normSk.sp = parseInt(normSk.sp);
-      }
+      delete normSk.sp;
       return normSk;
     });
   }

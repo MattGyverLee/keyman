@@ -27,6 +27,8 @@ export interface TouchLayoutConversionResult {
   phoneMinWidth?: number;
   /** Minimum device width for tablet layout */
   tabletMinWidth?: number;
+  /** Mapping from LDML key ID (with GUID) back to original touch layout key ID */
+  keyIdMap?: Map<string, string>;
 }
 
 export interface LdmlTouchKey {
@@ -39,6 +41,8 @@ export interface LdmlTouchKey {
   gap?: boolean;
   width?: number;
   layerId?: string;
+  /** Original touch layout key ID (before GUID was added) */
+  originalId?: string;
 }
 
 export interface LdmlFlick {
@@ -86,6 +90,13 @@ export class TouchLayoutConverter {
   private keys: Map<string, LdmlTouchKey> = new Map();
   private flicks: Map<string, LdmlFlick> = new Map();
   private flickCounter = 0;
+  private guidCounter = 0;
+
+  /** Map from key signature to GUID-based ID */
+  private signatureToGuid: Map<string, string> = new Map();
+
+  /** Map from GUID-based ID back to original touch layout ID */
+  private guidToOriginal: Map<string, string> = new Map();
 
   /**
    * Convert a touch layout file to LDML structures
@@ -94,6 +105,9 @@ export class TouchLayoutConverter {
     this.keys.clear();
     this.flicks.clear();
     this.flickCounter = 0;
+    this.guidCounter = 0;
+    this.signatureToGuid.clear();
+    this.guidToOriginal.clear();
 
     const layers: LdmlTouchLayer[] = [];
 
@@ -112,12 +126,36 @@ export class TouchLayoutConverter {
       }
     }
 
+    // Merge keys with identical definitions
+    const { mergedKeys, keyRedirects } = this.mergeIdenticalKeys();
+
+    // Update longPressKeyIds and multiTapKeyIds references in merged keys
+    for (const key of mergedKeys) {
+      if (key.longPressKeyIds) {
+        const ids = key.longPressKeyIds.split(/\s+/);
+        const updatedIds = ids.map(id => keyRedirects.get(id) || id);
+        key.longPressKeyIds = updatedIds.join(' ');
+      }
+      if (key.multiTapKeyIds) {
+        const ids = key.multiTapKeyIds.split(/\s+/);
+        const updatedIds = ids.map(id => keyRedirects.get(id) || id);
+        key.multiTapKeyIds = updatedIds.join(' ');
+      }
+      if (key.longPressDefaultKeyId) {
+        key.longPressDefaultKeyId = keyRedirects.get(key.longPressDefaultKeyId) || key.longPressDefaultKeyId;
+      }
+    }
+
+    // Update layer references to use merged keys
+    const updatedLayers = this.updateLayerReferences(layers, keyRedirects);
+
     return {
-      keys: Array.from(this.keys.values()),
+      keys: mergedKeys,
       flicks: Array.from(this.flicks.values()),
-      layers,
+      layers: updatedLayers,
       phoneMinWidth: layout.phone ? 0 : undefined,
       tabletMinWidth: layout.tablet ? 400 : undefined,
+      keyIdMap: this.guidToOriginal,
     };
   }
 
@@ -163,96 +201,30 @@ export class TouchLayoutConverter {
    * Convert a single key
    */
   private convertKey(key: TouchLayoutKey, currentLayerId: string): LdmlTouchKey {
-    const baseKeyId = key.id || this.generateKeyId(key);
+    const originalKeyId = key.id || this.generateKeyId(key);
 
-    // Check if we already have this key
-    if (this.keys.has(baseKeyId)) {
-      const existing = this.keys.get(baseKeyId)!;
+    // Generate a unique signature for this key based on its properties
+    const signature = this.generateKeySignature(key);
 
-      // Check if properties match
-      const currentText = key.text && !key.text.startsWith('*') ? key.text : undefined;
-      const currentNextLayer = key.nextlayer ? this.mapLayerId(key.nextlayer) : undefined;
-      const currentWidth = key.width ? key.width / 100 : undefined;
-      const hasSubkeys = key.sk && key.sk.length > 0;
-
-      // If key properties differ, create a layer-specific variant
-      const textDiffers = existing.output !== currentText;
-      const nextLayerDiffers = existing.layerId !== currentNextLayer;
-      const widthDiffers = existing.width !== currentWidth;
-      const subkeysDiffer = (!!existing.longPressKeyIds) !== hasSubkeys;
-
-      if (textDiffers || nextLayerDiffers || widthDiffers || subkeysDiffer) {
-        // Create a unique variant ID
-        const variantId = `${baseKeyId}_${currentLayerId}`;
-
-        // Check if this variant already exists
-        if (this.keys.has(variantId)) {
-          return this.keys.get(variantId)!;
-        }
-
-        // Create new variant with unique ID
-        // Fall through to create it below, using variantId
-        const keyId = variantId;
-
-        // Continue with creation using the variant ID
-        const ldmlKey: LdmlTouchKey = {
-          id: keyId,
-        };
-
-        // Set output from text
-        if (key.text && !key.text.startsWith('*')) {
-          ldmlKey.output = key.text;
-        }
-
-        // Handle special key types
-        if (key.sp === TouchLayout.TouchLayoutKeySp.spacer || key.sp === TouchLayout.TouchLayoutKeySp.blank) {
-          ldmlKey.gap = true;
-        }
-
-        // Handle width
-        if (key.width) {
-          ldmlKey.width = key.width / 100;
-        }
-
-        // Handle layer switch
-        if (key.nextlayer) {
-          ldmlKey.layerId = this.mapLayerId(key.nextlayer);
-        }
-
-        // Handle long press, flicks, multitap (same as below)
-        if (key.sk && key.sk.length > 0) {
-          const subkeyIds = key.sk.map(sk => this.convertSubkey(sk, currentLayerId));
-          ldmlKey.longPressKeyIds = subkeyIds.join(' ');
-          const defaultSk = key.sk.find(sk => sk.default);
-          if (defaultSk) {
-            ldmlKey.longPressDefaultKeyId = this.getSubkeyId(defaultSk);
-          }
-        }
-
-        if (key.flick) {
-          const flickId = this.convertFlick(key.flick, keyId);
-          if (flickId) {
-            ldmlKey.flickId = flickId;
-          }
-        }
-
-        if (key.multitap && key.multitap.length > 0) {
-          const multitapIds = key.multitap.map(mt => this.convertSubkey(mt, currentLayerId));
-          ldmlKey.multiTapKeyIds = multitapIds.join(' ');
-        }
-
-        this.keys.set(keyId, ldmlKey);
-        return ldmlKey;
-      }
-
-      // Properties match, reuse existing
-      return existing;
+    // Check if we already have a key with this exact signature
+    if (this.signatureToGuid.has(signature)) {
+      const guidKey = this.signatureToGuid.get(signature)!;
+      return this.keys.get(guidKey)!;
     }
 
-    const keyId = baseKeyId;
+    // Generate a GUID-based key ID: originalId-{counter}
+    const guidKeyId = `${originalKeyId}-${this.guidCounter++}`;
+
+    // Store mappings
+    this.signatureToGuid.set(signature, guidKeyId);
+    this.guidToOriginal.set(guidKeyId, originalKeyId);
+
+    // Use the GUID-based ID for LDML
+    const keyId = guidKeyId;
 
     const ldmlKey: LdmlTouchKey = {
       id: keyId,
+      originalId: originalKeyId,
     };
 
     // Set output from text
@@ -306,57 +278,70 @@ export class TouchLayoutConverter {
   }
 
   /**
-   * Convert a subkey and return its ID
+   * Convert a subkey and return its GUID-based ID
    * @param subkey The subkey to convert
-   * @param parentLayerId The layer ID where this subkey is being used (for multitap context)
+   * @param parentLayerId The layer ID where this subkey is being used (for context)
    */
   private convertSubkey(subkey: TouchLayoutSubKey, parentLayerId?: string): string {
-    let id = this.getSubkeyId(subkey);
+    let originalId = this.getSubkeyId(subkey);
 
     // If the subkey has a layer attribute, it means we need to use the version of this key
     // from that layer's modifier context (e.g., K_A with layer="shift" means K_A_shift)
     if (subkey.layer) {
       // Check if the ID already has a modifier suffix (e.g., K_A_shift)
-      const hasModifierSuffix = /_(shift|ctrl|alt|altR|caps)$/.test(id);
+      const hasModifierSuffix = /_(shift|ctrl|alt|altR|caps)$/.test(originalId);
 
       if (!hasModifierSuffix) {
         // Standard key (K_*) without a modifier - append the layer as modifier
         const modifierSuffix = subkey.layer.replace('default', '');
         if (modifierSuffix) {
-          id = `${id}_${modifierSuffix}`;
+          originalId = `${originalId}_${modifierSuffix}`;
         }
       }
     }
 
-    // Check if a key definition already exists
-    if (this.keys.has(id)) {
-      const existing = this.keys.get(id)!;
-      // Reuse existing key if output matches or no special handling needed
-      if (existing.output === subkey.text || (!subkey.nextlayer && !subkey.layer)) {
-        return id;
-      }
+    // Generate a unique signature for this subkey
+    const signature = this.generateSubkeySignature(subkey, parentLayerId, originalId);
+
+    // Check if we already have a key with this exact signature
+    if (this.signatureToGuid.has(signature)) {
+      return this.signatureToGuid.get(signature)!;
     }
 
-    // For multitap/subkeys with nextlayer that have different output, create layer-specific key
-    const needsLayerSpecificKey = subkey.nextlayer && parentLayerId;
-    const keyLookupId = needsLayerSpecificKey ? `${id}@${parentLayerId}` : id;
+    // Generate a GUID-based key ID
+    const guidKeyId = `${originalId}-${this.guidCounter++}`;
 
-    // Add key definition if not exists
-    if (!this.keys.has(keyLookupId)) {
-      const keyDef: LdmlTouchKey = {
-        id,
-        output: subkey.text,
-      };
+    // Store mappings
+    this.signatureToGuid.set(signature, guidKeyId);
+    this.guidToOriginal.set(guidKeyId, originalId);
 
-      // Store the nextlayer context for multitap items
-      if (needsLayerSpecificKey && subkey.nextlayer) {
-        keyDef.layerId = this.mapLayerId(subkey.nextlayer);
-      }
+    // Create the key definition
+    const keyDef: LdmlTouchKey = {
+      id: guidKeyId,
+      originalId: originalId,
+      output: subkey.text,
+    };
 
-      this.keys.set(keyLookupId, keyDef);
+    // Store the nextlayer context
+    if (subkey.nextlayer) {
+      keyDef.layerId = this.mapLayerId(subkey.nextlayer);
     }
 
-    return id;
+    this.keys.set(guidKeyId, keyDef);
+    return guidKeyId;
+  }
+
+  /**
+   * Generate a unique signature for a subkey
+   */
+  private generateSubkeySignature(subkey: TouchLayoutSubKey, parentLayerId: string | undefined, originalId: string): string {
+    return JSON.stringify({
+      id: originalId,
+      text: subkey.text,
+      nextlayer: subkey.nextlayer,
+      layer: subkey.layer,
+      parent: parentLayerId,
+    });
   }
 
   /**
@@ -372,6 +357,98 @@ export class TouchLayoutConverter {
       return `U_${code.toString(16).toUpperCase().padStart(4, '0')}`;
     }
     return `T_SK_${Date.now()}`;
+  }
+
+  /**
+   * Generate a unique signature for a key based on its properties
+   * This creates a deterministic unique ID when the same logical key has different properties
+   */
+  private generateKeySignature(key: TouchLayoutKey): string {
+    const baseId = key.id || this.generateKeyId(key);
+
+    // Build a signature from key properties
+    const parts = [baseId];
+
+    // Include distinguishing properties in the signature
+    if (key.nextlayer) {
+      parts.push(`nl_${key.nextlayer}`);
+    }
+    if (key.width && key.width !== 100) {
+      parts.push(`w_${key.width}`);
+    }
+    if (key.sk && key.sk.length > 0) {
+      parts.push(`sk_${key.sk.length}`);
+      // Include subkey details for uniqueness
+      const skSignature = key.sk.map(sk =>
+        `${sk.id || sk.text}_${sk.nextlayer || ''}`
+      ).join('_');
+      parts.push(skSignature);
+    }
+    if (key.text && !key.text.startsWith('*') && key.text !== key.id) {
+      // Include text if it differs from ID (for display variants)
+      const textHex = Array.from(key.text).map(c =>
+        c.codePointAt(0)!.toString(16)
+      ).join('');
+      parts.push(`t_${textHex}`);
+    }
+
+    // If signature is just the base ID, return it
+    if (parts.length === 1) {
+      return baseId;
+    }
+
+    // Otherwise create a unique variant ID
+    return parts.join('_');
+  }
+
+  /**
+   * Merge keys with identical definitions to reduce duplication
+   * Returns merged keys and a map of redirects (oldId -> newId)
+   */
+  private mergeIdenticalKeys(): { mergedKeys: LdmlTouchKey[]; keyRedirects: Map<string, string> } {
+    const keys = Array.from(this.keys.values());
+    const keySignatures = new Map<string, string>(); // signature -> canonical key ID
+    const keyRedirects = new Map<string, string>(); // old key ID -> canonical key ID
+    const mergedKeys: LdmlTouchKey[] = [];
+
+    for (const key of keys) {
+      // Create a signature based on key properties (excluding the ID itself)
+      const sig = JSON.stringify({
+        output: key.output,
+        gap: key.gap,
+        width: key.width,
+        layerId: key.layerId,
+        longPressKeyIds: key.longPressKeyIds,
+        longPressDefaultKeyId: key.longPressDefaultKeyId,
+        multiTapKeyIds: key.multiTapKeyIds,
+        flickId: key.flickId,
+        originalId: key.originalId,
+      });
+
+      if (keySignatures.has(sig)) {
+        // Duplicate found - redirect to canonical key
+        const canonicalId = keySignatures.get(sig)!;
+        keyRedirects.set(key.id, canonicalId);
+      } else {
+        // First occurrence - this is the canonical key
+        keySignatures.set(sig, key.id);
+        mergedKeys.push(key);
+      }
+    }
+
+    return { mergedKeys, keyRedirects };
+  }
+
+  /**
+   * Update layer row references to use merged key IDs
+   */
+  private updateLayerReferences(layers: LdmlTouchLayer[], keyRedirects: Map<string, string>): LdmlTouchLayer[] {
+    return layers.map(layer => ({
+      ...layer,
+      rows: layer.rows.map(row =>
+        row.map(keyId => keyRedirects.get(keyId) || keyId)
+      ),
+    }));
   }
 
   /**
@@ -566,7 +643,7 @@ export function extractTouchLayoutFromLdml(
         const ldmlKey = keyMap.get(keyId);
         if (!ldmlKey) continue;
 
-        const touchKey = convertLdmlKeyToTouch(ldmlKey, keyMap, flickMap);
+        const touchKey = convertLdmlKeyToTouch(ldmlKey, keyMap, flickMap, touchLayer.id);
         row.key.push(touchKey);
       }
 
@@ -593,13 +670,16 @@ export function extractTouchLayoutFromLdml(
 function convertLdmlKeyToTouch(
   ldmlKey: LdmlTouchKey,
   keyMap: Map<string, LdmlTouchKey>,
-  flickMap: Map<string, LdmlFlick>
+  flickMap: Map<string, LdmlFlick>,
+  currentLayerId: string
 ): TouchLayoutKey {
-  // Strip layer suffix from variant keys (e.g., K_LOWER_symbol_caps -> K_LOWER)
-  let baseKeyId = ldmlKey.id;
-  const variantMatch = ldmlKey.id.match(/^([A-Z_0-9]+)_(default|shift|symbol|caps|symbol-caps)$/);
-  if (variantMatch) {
-    baseKeyId = variantMatch[1];
+  // Extract base key ID from GUID-based ID (format: originalId-{counter})
+  // Use originalId if available, otherwise parse from GUID
+  let baseKeyId = ldmlKey.originalId || ldmlKey.id;
+
+  // If no originalId, try to parse from GUID format (originalId-number)
+  if (!ldmlKey.originalId && /-\d+$/.test(ldmlKey.id)) {
+    baseKeyId = ldmlKey.id.replace(/-\d+$/, '');
   }
 
   const touchKey: TouchLayoutKey = {
@@ -617,8 +697,20 @@ function convertLdmlKeyToTouch(
     if (!touchKey.text) touchKey.text = '*BkSp*';
     touchKey.sp = TouchLayout.TouchLayoutKeySp.special;
   } else if (baseKeyId === 'K_SHIFT') {
-    if (!touchKey.text) touchKey.text = '*Shift*';
-    touchKey.sp = TouchLayout.TouchLayoutKeySp.special;
+    // Determine if shift is active based on current layer
+    // On shift layer: shift is active (*Shifted*, sp=2)
+    // On caps layer: shift is locked (*ShiftedLock*, sp=2)
+    // On other layers: shift is inactive (*Shift*, sp=1)
+    if (currentLayerId === 'shift') {
+      if (!touchKey.text) touchKey.text = '*Shifted*';
+      touchKey.sp = TouchLayout.TouchLayoutKeySp.specialActive;
+    } else if (currentLayerId === 'caps') {
+      if (!touchKey.text) touchKey.text = '*ShiftedLock*';
+      touchKey.sp = TouchLayout.TouchLayoutKeySp.specialActive;
+    } else {
+      if (!touchKey.text) touchKey.text = '*Shift*';
+      touchKey.sp = TouchLayout.TouchLayoutKeySp.special;
+    }
     if (ldmlKey.layerId) {
       touchKey.nextlayer = mapLdmlLayerIdToTouch(ldmlKey.layerId);
     }
@@ -635,14 +727,41 @@ function convertLdmlKeyToTouch(
       touchKey.nextlayer = mapLdmlLayerIdToTouch(ldmlKey.layerId);
     }
   } else if (baseKeyId === 'K_LOWER') {
+    // K_LOWER is typically active when on numeric/symbol layers
+    // For simplicity, always mark as active (sp=2) since it's a toggle
     if (!touchKey.text) touchKey.text = '*abc*';
-    touchKey.sp = TouchLayout.TouchLayoutKeySp.specialActive; // K_LOWER uses sp=2
+    touchKey.sp = TouchLayout.TouchLayoutKeySp.specialActive;
     if (ldmlKey.layerId) {
       touchKey.nextlayer = mapLdmlLayerIdToTouch(ldmlKey.layerId);
     }
-  } else if (ldmlKey.id === 'K_LOPT') {
+  } else if (baseKeyId === 'K_LOPT') {
     touchKey.text = '*Menu*';
     touchKey.sp = TouchLayout.TouchLayoutKeySp.special;
+  } else if (baseKeyId === 'K_CTRL') {
+    // On ctrl layer, mark as active (*Ctrl*, sp=2)
+    if (currentLayerId === 'ctrl') {
+      if (!touchKey.text) touchKey.text = '*Ctrl*';
+      touchKey.sp = TouchLayout.TouchLayoutKeySp.specialActive;
+    } else {
+      if (!touchKey.text) touchKey.text = '*Ctrl*';
+      touchKey.sp = TouchLayout.TouchLayoutKeySp.special;
+    }
+    if (ldmlKey.layerId) {
+      touchKey.nextlayer = mapLdmlLayerIdToTouch(ldmlKey.layerId);
+    }
+  } else if (baseKeyId === 'K_ALT' || baseKeyId === 'K_LALT' || baseKeyId === 'K_RALT') {
+    // On alt/leftalt/rightalt layer, mark as active
+    const altLayerNames = ['alt', 'leftalt', 'rightalt'];
+    if (altLayerNames.includes(currentLayerId)) {
+      if (!touchKey.text) touchKey.text = baseKeyId === 'K_LALT' ? '*LAlt*' : baseKeyId === 'K_RALT' ? '*RAlt*' : '*Alt*';
+      touchKey.sp = TouchLayout.TouchLayoutKeySp.specialActive;
+    } else {
+      if (!touchKey.text) touchKey.text = baseKeyId === 'K_LALT' ? '*LAlt*' : baseKeyId === 'K_RALT' ? '*RAlt*' : '*Alt*';
+      touchKey.sp = TouchLayout.TouchLayoutKeySp.special;
+    }
+    if (ldmlKey.layerId) {
+      touchKey.nextlayer = mapLdmlLayerIdToTouch(ldmlKey.layerId);
+    }
   }
 
   // Handle gap keys
@@ -671,13 +790,19 @@ function convertLdmlKeyToTouch(
     for (const skId of subkeyIds) {
       const subkey = keyMap.get(skId);
       if (subkey) {
+        // Extract base ID from GUID or use originalId
+        let baseId = subkey.originalId || skId;
+        if (!subkey.originalId && /-\d+$/.test(skId)) {
+          baseId = skId.replace(/-\d+$/, '');
+        }
+
         // Check if the key ID has a modifier suffix (e.g., K_A_shift -> K_A with layer="shift")
-        const modifierMatch = skId.match(/^(K_[A-Z0-9]+)_(shift|ctrl|alt|altR|caps)$/);
-        const baseId = modifierMatch ? modifierMatch[1] : skId;
+        const modifierMatch = baseId.match(/^(K_[A-Z0-9]+)_(shift|ctrl|alt|altR|caps)$/);
+        const finalId = modifierMatch ? modifierMatch[1] : baseId;
         const layerModifier = modifierMatch ? modifierMatch[2] : undefined;
 
         const touchSubkey: TouchLayoutSubKey = {
-          id: baseId as TouchLayout.TouchLayoutKeyId,
+          id: finalId as TouchLayout.TouchLayoutKeyId,
           text: subkey.output || ''
         };
 
