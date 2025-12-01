@@ -777,11 +777,12 @@ export class LdmlGenerator {
     xml += `${this.indent}${this.indent}<key id="K_BKSP"/>\n`;
 
     // Generate keys with variant IDs for different modifier outputs
-    for (const [keyId, key] of this.keys) {
+    // Use forEach for Map iteration (for...of on Maps compiles incorrectly to ES5)
+    this.keys.forEach((key, keyId) => {
       // Skip if it's a standard key we already added
-      if (keyId === 'K_SPACE' || keyId === 'K_BKSP') continue;
+      if (keyId === 'K_SPACE' || keyId === 'K_BKSP') return;
 
-      for (const [modifiers, output] of key.outputs) {
+      key.outputs.forEach((output, modifiers) => {
         const variantId = this.getVariantKeyId(keyId, modifiers);
 
         xml += `${this.indent}${this.indent}<key id="${variantId}"`;
@@ -791,8 +792,8 @@ export class LdmlGenerator {
         }
 
         xml += `/>\n`;
-      }
-    }
+      });
+    });
 
     xml += `${this.indent}</keys>\n`;
     return xml;
@@ -828,17 +829,19 @@ export class LdmlGenerator {
    */
   private generateHardwareLayers(): string {
     // Collect all modifier combinations used by any key
+    // Use forEach for Map iteration (for...of on Maps compiles incorrectly to ES5)
     const modifierSets = new Set<string>();
-    for (const [, key] of this.keys) {
-      for (const [modifiers] of key.outputs) {
+    this.keys.forEach((key) => {
+      key.outputs.forEach((_, modifiers) => {
         modifierSets.add(modifiers);
-      }
-    }
+      });
+    });
 
     if (modifierSets.size === 0) return '';
 
     // Sort modifiers: 'none' first, then alphabetically
-    const sortedModifiers = [...modifierSets].sort((a, b) => {
+    // Use Array.from for Set conversion (spread on Sets compiles incorrectly to ES5)
+    const sortedModifiers = Array.from(modifierSets).sort((a, b) => {
       if (a === 'none') return -1;
       if (b === 'none') return 1;
       return a.localeCompare(b);

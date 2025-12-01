@@ -1,6 +1,6 @@
 # Line-by-Line KMN Round-Trip Report
 
-Generated: 2025-12-01T14:50:14.337Z
+Generated: 2025-12-01T15:10:22.429Z
 
 ## Summary
 
@@ -8,23 +8,23 @@ Generated: 2025-12-01T14:50:14.337Z
 - **Successful Conversions**: 99
 - **Failed Conversions**: 12
 - **Total Original Lines**: 29856
-- **Total Roundtrip Lines**: 2745
-- **Identical Lines**: 3423
-- **Different Lines**: 23932
+- **Total Roundtrip Lines**: 10475
+- **Identical Lines**: 2300
+- **Different Lines**: 25055
 
 ## Difference Classifications
 
 | Classification | Count | Description |
 |---------------|-------|-------------|
 | comment_removed | 4589 | Comments not preserved |
-| store_reordered | 946 | Store order changed |
+| store_reordered | 1210 | Store order changed |
 | store_format | 5 | Store value format changed (U+ vs literal) |
-| rule_format | 37 | Rule formatting changed |
-| modifier_format | 21 | Modifier format changed |
-| group_structure | 60 | Group structure changed |
-| line_added | 302 | Line added in roundtrip |
-| line_removed | 17734 | Line removed in roundtrip |
-| unknown | 238 | Unclassified difference |
+| rule_format | 5211 | Rule formatting changed |
+| modifier_format | 41 | Modifier format changed |
+| group_structure | 158 | Group structure changed |
+| line_added | 1434 | Line added in roundtrip |
+| line_removed | 12105 | Line removed in roundtrip |
+| unknown | 302 | Unclassified difference |
 
 ## Conversion Errors
 
@@ -105,11 +105,11 @@ Cannot convert mnemonic keyboard "Yorùbá 8" to LDML. LDML uses positional key 
 ### sil_akebu
 
 - Original lines: 333
-- Roundtrip lines: 27
-- Identical: 61
-- Different: 272
+- Roundtrip lines: 200
+- Identical: 28
+- Different: 305
 
-#### store_reordered (15)
+#### store_reordered (17)
 
 Line 1:
 ```
@@ -136,9 +136,9 @@ Line 6:
 - store(&TARGETS) 'any'
 + store(&VERSION) '10.0'
 ```
-... and 10 more
+... and 12 more
 
-#### line_removed (246)
+#### line_removed (107)
 
 Line 2:
 ```
@@ -165,7 +165,7 @@ Line 26:
 - store(num) "0123456789"
 + 
 ```
-... and 241 more
+... and 102 more
 
 #### comment_removed (6)
 
@@ -177,7 +177,7 @@ Line 11:
 Line 54:
 ```
 - c ??
-+ 
++ + [K_S] > 's'
 ```
 Line 305:
 ```
@@ -196,7 +196,7 @@ Line 330:
 ```
 ... and 1 more
 
-#### line_added (3)
+#### line_added (36)
 
 Line 13:
 ```
@@ -213,6 +213,17 @@ Line 17:
 - 
 + store(num) "0123456789"
 ```
+Line 29:
+```
+- 
++ + [K_2] > 'é'
+```
+Line 33:
+```
+- 
++ + [K_6] > '-'
+```
+... and 31 more
 
 #### group_structure (2)
 
@@ -227,10 +238,39 @@ Line 16:
 + store(final) "!?."
 ```
 
+#### rule_format (137)
+
+Line 30:
+```
+- platform('touch') any(word) any(final) + [K_SPACE] > index(word,2) index(final,3) " " layer('shift')
++ + [K_3] > '"'
+```
+Line 31:
+```
+- platform('touch') any(word) U+0020 + [K_SPACE] > index(word,2) U+002E " " layer('shift')
++ + [K_4] > ''''
+```
+Line 32:
+```
+- any(composed) + [K_BKSP] > index(comp-dia,1)
++ + [K_5] > '('
+```
+Line 35:
+```
+- + [LCTRL K_SPACE] > U+00A0
++ + [K_8] > '_'
+```
+Line 36:
+```
+- + [K_SPACE] > U+0020
++ + [K_9] > 'ç'
+```
+... and 132 more
+
 ### sil_akha_act
 
 - Original lines: 48
-- Roundtrip lines: 24
+- Roundtrip lines: 30
 - Identical: 7
 - Different: 41
 
@@ -257,7 +297,7 @@ Line 47:
 + 
 ```
 
-#### store_reordered (10)
+#### store_reordered (14)
 
 Line 3:
 ```
@@ -284,9 +324,9 @@ Line 10:
 - store(&BITMAP) 'sil_akha_act.ico'
 + store(symbols) "`1234567890-=~!@#$%^&*()_+"
 ```
-... and 5 more
+... and 9 more
 
-#### line_removed (22)
+#### line_removed (16)
 
 Line 8:
 ```
@@ -308,12 +348,12 @@ Line 23:
 -                     U+003A U+0022 U+003C U+003E U+003F     
 + 
 ```
-Line 24:
+Line 30:
 ```
-- store(akhatonekeys) [K_LBRKT] [K_RBRKT] [K_BKSLASH] [SHIFT K_LBRKT] [SHIFT K_RBRKT] [SHIFT K_BKSLASH]
+- + any(akhatonekeys) > index(akhatones,1)
 + 
 ```
-... and 17 more
+... and 11 more
 
 #### line_added (3)
 
@@ -346,10 +386,23 @@ Line 16:
 + store(alphabet) 'a'
 ```
 
+#### rule_format (2)
+
+Line 28:
+```
+- + any(symbolkeys) > index(symbols,1)
++ + [SHIFT K_RBRKT] > '}'
+```
+Line 29:
+```
+- + any(othersymbolkeys) > index(othersymbols,1)
++ + [SHIFT K_BKSLASH] > '|'
+```
+
 ### sil_arabic_phonetic
 
 - Original lines: 163
-- Roundtrip lines: 27
+- Roundtrip lines: 45
 - Identical: 21
 - Different: 142
 
@@ -382,7 +435,7 @@ Line 11:
 ```
 ... and 4 more
 
-#### line_removed (115)
+#### line_removed (97)
 
 Line 2:
 ```
@@ -404,12 +457,12 @@ Line 26:
 - + '=' > '='
 + 
 ```
-Line 27:
+Line 45:
 ```
-- + [K_LBRKT]  > '['
+- + [SHIFT K_0] > ")"
 + 
 ```
-... and 110 more
+... and 92 more
 
 #### line_added (6)
 
@@ -485,20 +538,41 @@ Line 21:
 + store(digit) "٠١٢٣٤٥٦٧٨٩"
 ```
 
-#### rule_format (1)
+#### rule_format (19)
 
 Line 25:
 ```
 - + '-' > '-'
 + group(main) using keys
 ```
+Line 27:
+```
+- + [K_LBRKT]  > '['
++ + [K_LBRKT] > '['
+```
+Line 28:
+```
+- + [K_RBRKT]  > ']'
++ + [K_RBRKT] > ']'
+```
+Line 29:
+```
+- + [K_BKSLASH]  > '\'
++ + [K_BKSLASH] > '\\'
+```
+Line 30:
+```
+- + [SHIFT K_LBRKT]  > '{'
++ + [SHIFT K_BKQUOTE] > '~'
+```
+... and 14 more
 
 ### sil_areare
 
 - Original lines: 22
-- Roundtrip lines: 13
-- Identical: 4
-- Different: 18
+- Roundtrip lines: 17
+- Identical: 2
+- Different: 20
 
 #### comment_removed (3)
 
@@ -518,7 +592,7 @@ Line 9:
 + begin Unicode > use(main)
 ```
 
-#### line_removed (10)
+#### line_removed (8)
 
 Line 2:
 ```
@@ -540,12 +614,12 @@ Line 12:
 - store(&LAYOUTFILE) 'sil_areare.keyman-touch-layout'
 + 
 ```
-Line 13:
+Line 18:
 ```
-- begin Unicode > use(main)
+- + [K_G] > U+0242
 + 
 ```
-... and 5 more
+... and 3 more
 
 #### store_reordered (5)
 
@@ -575,12 +649,38 @@ Line 11:
 + group(main) using keys
 ```
 
+#### group_structure (2)
+
+Line 13:
+```
+- begin Unicode > use(main)
++ + [K_G] > 'ɂ'
+```
+Line 16:
+```
+- group(main) using keys
++ + [SHIFT CTRL RALT K_G] > 'G'
+```
+
+#### line_added (2)
+
+Line 14:
+```
+- 
++ + [CTRL RALT K_G] > 'g'
+```
+Line 15:
+```
+- 
++ + [SHIFT K_G] > 'Ɂ'
+```
+
 ### sil_bari
 
 - Original lines: 116
-- Roundtrip lines: 13
-- Identical: 8
-- Different: 108
+- Roundtrip lines: 107
+- Identical: 6
+- Different: 110
 
 #### comment_removed (4)
 
@@ -633,7 +733,7 @@ Line 11:
 + group(main) using keys
 ```
 
-#### line_removed (99)
+#### line_removed (8)
 
 Line 8:
 ```
@@ -650,22 +750,82 @@ Line 12:
 - store(&LAYOUTFILE) 'sil_bari.keyman-touch-layout'
 + 
 ```
+Line 108:
+```
+- + [K_C] > U+00F6
++ 
+```
+Line 109:
+```
+- + [K_H] > U+A78C
++ 
+```
+... and 3 more
+
+#### line_added (3)
+
+Line 13:
+```
+- 
++ + [K_BKQUOTE] > '`'
+```
+Line 15:
+```
+- 
++ + [K_2] > '2'
+```
+Line 16:
+```
+- 
++ + [K_3] > '3'
+```
+
+#### group_structure (2)
+
 Line 14:
 ```
 - begin Unicode > use(main)
-+ 
++ + [K_1] > '1'
 ```
 Line 17:
 ```
 - group(main) using keys
-+ 
++ + [K_4] > '4'
 ```
-... and 94 more
+
+#### rule_format (88)
+
+Line 18:
+```
+- + [SHIFT K_Z] > 'Z'
++ + [K_5] > '5'
+```
+Line 19:
+```
+- + [SHIFT K_H] > 'ꞌ'
++ + [K_6] > '6'
+```
+Line 20:
+```
+- + [SHIFT K_SLASH] > '?'
++ + [K_7] > '7'
+```
+Line 21:
+```
+- + [SHIFT K_PERIOD] > '>'
++ + [K_8] > '8'
+```
+Line 22:
+```
+- + [SHIFT K_COMMA] > '<'
++ + [K_9] > '9'
+```
+... and 83 more
 
 ### sil_bengali_phonetic
 
 - Original lines: 108
-- Roundtrip lines: 15
+- Roundtrip lines: 16
 - Identical: 10
 - Different: 98
 
@@ -692,7 +852,7 @@ Line 106:
 + 
 ```
 
-#### store_reordered (5)
+#### store_reordered (6)
 
 Line 3:
 ```
@@ -719,6 +879,7 @@ Line 11:
 - store(&LAYOUTFILE) 'sil_bengali_phonetic.keyman-touch-layout'
 + begin Unicode > use(main)
 ```
+... and 1 more
 
 #### line_added (1)
 
@@ -728,7 +889,7 @@ Line 6:
 + store(&VERSION) '10.0'
 ```
 
-#### line_removed (87)
+#### line_removed (86)
 
 Line 8:
 ```
@@ -738,11 +899,6 @@ Line 8:
 Line 10:
 ```
 - store(&VISUALKEYBOARD) 'sil_bengali_phonetic.kvks'
-+ 
-```
-Line 15:
-```
-- store(nul) "QHLZX"
 + 
 ```
 Line 17:
@@ -755,7 +911,12 @@ Line 18:
 - + any(nul) > nul
 + 
 ```
-... and 82 more
+Line 20:
+```
+- + '`' >  U+0981
++ 
+```
+... and 81 more
 
 #### group_structure (1)
 
@@ -768,9 +929,9 @@ Line 13:
 ### sil_bolivia
 
 - Original lines: 328
-- Roundtrip lines: 24
-- Identical: 69
-- Different: 259
+- Roundtrip lines: 210
+- Identical: 28
+- Different: 300
 
 #### unknown (3)
 
@@ -815,11 +976,11 @@ Line 6:
 Line 61:
 ```
 - c cedilla
-+ 
++ + [K_Z] > 'z'
 ```
 ... and 5 more
 
-#### line_removed (234)
+#### line_removed (90)
 
 Line 8:
 ```
@@ -841,14 +1002,14 @@ Line 23:
 - + [K_SPACE] > U+0020
 + 
 ```
-Line 25:
+Line 210:
 ```
-- + [K_0] > U+0030
+- + [SHIFT K_SLASH] > U+005f
 + 
 ```
-... and 229 more
+... and 85 more
 
-#### line_added (4)
+#### line_added (45)
 
 Line 9:
 ```
@@ -870,6 +1031,12 @@ Line 22:
 - 
 + group(main) using keys
 ```
+Line 24:
+```
+- 
++ + [K_BKQUOTE] > 'º'
+```
+... and 40 more
 
 #### store_reordered (8)
 
@@ -899,6 +1066,35 @@ Line 14:
 + store(dkt005e) U+005E U+00E2 U+00C2 U+00EA U+00CA U+00EE U+00CE U+00F4 U+00D4 U+00FB U+00DB
 ```
 ... and 3 more
+
+#### rule_format (144)
+
+Line 25:
+```
+- + [K_0] > U+0030
++ + [K_1] > '1'
+```
+Line 26:
+```
+- + [SHIFT K_0] > U+003d
++ + [K_2] > '2'
+```
+Line 28:
+```
+- + [K_1] > U+0031
++ + [K_4] > '4'
+```
+Line 29:
+```
+- + [SHIFT K_1] > U+0021
++ + [K_5] > '5'
+```
+Line 30:
+```
+- + [RALT K_1] > U+007c
++ + [K_6] > '6'
+```
+... and 139 more
 
 ### sil_boonkit
 
@@ -1004,9 +1200,9 @@ Line 25:
 ### sil_brao
 
 - Original lines: 110
-- Roundtrip lines: 13
-- Identical: 5
-- Different: 105
+- Roundtrip lines: 107
+- Identical: 4
+- Different: 106
 
 #### comment_removed (2)
 
@@ -1049,7 +1245,7 @@ Line 11:
 + group(main) using keys
 ```
 
-#### line_removed (98)
+#### line_removed (5)
 
 Line 8:
 ```
@@ -1061,29 +1257,78 @@ Line 10:
 - store(&KMW_EMBEDCSS) 'sil_brao.css'
 + 
 ```
+Line 107:
+```
+- + [K_2] > '២'
++ 
+```
+Line 108:
+```
+- + [K_1] > '១'
++ 
+```
+Line 109:
+```
+- + [K_BKQUOTE] > '«'
++ 
+```
+
+#### group_structure (2)
+
 Line 13:
 ```
 - begin Unicode > use(main)
-+ 
++ + [K_BKQUOTE] > '«'
 ```
 Line 15:
 ```
 - group(main) using keys
-+ 
++ + [K_2] > '២'
 ```
+
+#### line_added (1)
+
+Line 14:
+```
+- 
++ + [K_1] > '១'
+```
+
+#### rule_format (91)
+
 Line 16:
 ```
 - + [SHIFT K_BKSLASH] > '>'
-+ 
++ + [K_3] > '៣'
 ```
-... and 93 more
+Line 17:
+```
+- + [SHIFT K_RBRKT] > '<'
++ + [K_4] > '៤'
+```
+Line 18:
+```
+- + [K_BKSLASH] > '.'
++ + [K_5] > '៥'
+```
+Line 19:
+```
+- + [K_RBRKT] > ','
++ + [K_6] > '៦'
+```
+Line 20:
+```
+- + [SHIFT K_7] > '&'
++ + [K_7] > '៧'
+```
+... and 86 more
 
 ### sil_bru
 
 - Original lines: 334
-- Roundtrip lines: 13
-- Identical: 54
-- Different: 280
+- Roundtrip lines: 270
+- Identical: 14
+- Different: 320
 
 #### unknown (3)
 
@@ -1126,7 +1371,7 @@ Line 6:
 + store(&VERSION) '10.0'
 ```
 
-#### line_removed (271)
+#### line_removed (54)
 
 Line 8:
 ```
@@ -1143,38 +1388,122 @@ Line 12:
 - store(&Targets) "any"
 + 
 ```
-Line 13:
+Line 270:
 ```
-- store(&VISUALKEYBOARD) 'sil_bru.kvks'
+- + [SHIFT RALT K_COLON] > U+003a
 + 
 ```
-Line 14:
+Line 272:
 ```
-- store(&BITMAP) 'sil_bru.ico'
+- + [K_EQUAL] > U+20ab
 + 
 ```
-... and 266 more
+... and 49 more
 
-#### line_added (1)
+#### line_added (41)
 
 Line 9:
 ```
 - 
 + begin Unicode > use(main)
 ```
+Line 18:
+```
+- 
++ + [K_5] > '̀'
+```
+Line 20:
+```
+- 
++ + [K_7] > '̃'
+```
+Line 22:
+```
+- 
++ + [K_9] > '̣'
+```
+Line 24:
+```
+- 
++ + [K_HYPHEN] > '-'
+```
+... and 36 more
 
-#### store_reordered (1)
+#### store_reordered (6)
 
 Line 11:
 ```
 - store(&NAME) 'Bru'
 + group(main) using keys
 ```
+Line 13:
+```
+- store(&VISUALKEYBOARD) 'sil_bru.kvks'
++ + [K_BKQUOTE] > '`'
+```
+Line 14:
+```
+- store(&BITMAP) 'sil_bru.ico'
++ + [K_1] > 'ă'
+```
+Line 15:
+```
+- store(&LAYOUTFILE) 'sil_bru.keyman-touch-layout'
++ + [K_2] > 'â'
+```
+Line 16:
+```
+- store(&COPYRIGHT) '© 2013-2021 SIL International'
++ + [K_3] > 'ê'
+```
+... and 1 more
+
+#### group_structure (2)
+
+Line 19:
+```
+- begin Unicode > use(main)
++ + [K_6] > '̉'
+```
+Line 21:
+```
+- group(main) using keys
++ + [K_8] > '́'
+```
+
+#### rule_format (210)
+
+Line 23:
+```
+- + [K_SPACE] > U+0020
++ + [K_0] > 'đ'
+```
+Line 25:
+```
+- + [NCAPS K_0] > U+0111
++ + [K_EQUAL] > '₫'
+```
+Line 26:
+```
+- + [CAPS K_0] > U+0110
++ + [K_Q] > 'q'
+```
+Line 27:
+```
+- + [NCAPS SHIFT K_0] > U+0110
++ + [K_W] > 'w'
+```
+Line 28:
+```
+- + [CAPS SHIFT K_0] > U+0111
++ + [K_E] > 'e'
+```
+... and 205 more
 
 ### sil_bunong
 
 - Original lines: 197
-- Roundtrip lines: 13
+- Roundtrip lines: 100
 - Identical: 23
 - Different: 174
 
@@ -1207,7 +1536,7 @@ Line 6:
 ```
 ... and 2 more
 
-#### line_removed (149)
+#### line_removed (62)
 
 Line 2:
 ```
@@ -1224,25 +1553,59 @@ Line 10:
 - store(&KMW_EMBEDCSS) 'sil_bunong.css'
 + 
 ```
-Line 13:
+Line 100:
 ```
-- group(main) using keys
+- + [K_F] > 'ថ'
 + 
 ```
-Line 14:
+Line 101:
 ```
-- + [SHIFT K_A] > '@'
+- + [K_G] > 'ង'
 + 
 ```
-... and 144 more
+... and 57 more
 
-#### group_structure (1)
+#### group_structure (2)
 
 Line 11:
 ```
 - begin Unicode > use(main)
 + group(main) using keys
 ```
+Line 13:
+```
+- group(main) using keys
++ + [K_BKQUOTE] > '«'
+```
+
+#### rule_format (86)
+
+Line 14:
+```
+- + [SHIFT K_A] > '@'
++ + [K_1] > '១'
+```
+Line 15:
+```
+- + [SHIFT K_8] > '*'
++ + [K_2] > '២'
+```
+Line 16:
+```
+- + [SHIFT K_4] > '៛'
++ + [K_3] > '៣'
+```
+Line 17:
+```
+- + [SHIFT K_COMMA] > '<'
++ + [K_4] > '៤'
+```
+Line 18:
+```
+- + [SHIFT K_QUOTE] > '"'
++ + [K_5] > '៥'
+```
+... and 81 more
 
 #### comment_removed (17)
 
@@ -1276,9 +1639,9 @@ Line 138:
 ### sil_busa
 
 - Original lines: 70
-- Roundtrip lines: 29
-- Identical: 14
-- Different: 56
+- Roundtrip lines: 35
+- Identical: 12
+- Different: 58
 
 #### comment_removed (5)
 
@@ -1308,7 +1671,7 @@ Line 51:
 + 
 ```
 
-#### line_removed (30)
+#### line_removed (26)
 
 Line 2:
 ```
@@ -1330,14 +1693,14 @@ Line 28:
 - store(other)  'ɡɑŋ' U+0323
 + 
 ```
-Line 29:
+Line 36:
 ```
-- store(otherK) '#@^' [ALT K_2]        
+- group(main) using keys
 + 
 ```
-... and 25 more
+... and 21 more
 
-#### store_reordered (14)
+#### store_reordered (17)
 
 Line 4:
 ```
@@ -1364,9 +1727,9 @@ Line 9:
 - store(&TARGETS) 'web desktop'
 + store(highdia) U+0302 U+0300 U+0301 U+0304 U+0302 U+0300 U+0301 U+0304
 ```
-... and 9 more
+... and 12 more
 
-#### line_added (6)
+#### line_added (8)
 
 Line 10:
 ```
@@ -1393,7 +1756,7 @@ Line 21:
 - 
 + store(otherK) "#@^[ALT  K_2]"
 ```
-... and 1 more
+... and 3 more
 
 #### group_structure (1)
 
@@ -1403,10 +1766,18 @@ Line 11:
 + store(tilde) U+0303 U+0303
 ```
 
+#### modifier_format (1)
+
+Line 33:
+```
+-                   [ALT K_LBRKT] [ALT K_RBRKT] [ALT SHIFT K_LBRKT] [ALT SHIFT K_RBRKT] 
++ + [SHIFT RALT K_COLON] > '̃́'
+```
+
 ### sil_bwe_karen
 
 - Original lines: 110
-- Roundtrip lines: 13
+- Roundtrip lines: 108
 - Identical: 2
 - Different: 108
 
@@ -1439,7 +1810,7 @@ Line 6:
 ```
 ... and 2 more
 
-#### line_removed (100)
+#### line_removed (5)
 
 Line 2:
 ```
@@ -1456,17 +1827,16 @@ Line 10:
 - begin Unicode > use(main)
 + 
 ```
-Line 13:
+Line 108:
 ```
-- group(main) using keys
+- + [K_F] > '́'
 + 
 ```
-Line 14:
+Line 109:
 ```
-- + [K_SPACE] > ' '
+- + [K_Q] > '̄'
 + 
 ```
-... and 95 more
 
 #### line_added (1)
 
@@ -1476,12 +1846,49 @@ Line 11:
 + group(main) using keys
 ```
 
+#### group_structure (1)
+
+Line 13:
+```
+- group(main) using keys
++ + [K_BKQUOTE] > '`'
+```
+
+#### rule_format (94)
+
+Line 14:
+```
+- + [K_SPACE] > ' '
++ + [K_1] > '1'
+```
+Line 15:
+```
+- + [SHIFT K_SPACE] > ' '
++ + [K_2] > '2'
+```
+Line 16:
+```
+- + [SHIFT K_SLASH] > '?'
++ + [K_3] > '3'
+```
+Line 17:
+```
+- + [SHIFT K_PERIOD] > '>'
++ + [K_4] > '4'
+```
+Line 18:
+```
+- + [SHIFT K_COMMA] > '<'
++ + [K_5] > '5'
+```
+... and 89 more
+
 ### sil_cameroon_azerty
 
 - Original lines: 403
-- Roundtrip lines: 39
-- Identical: 64
-- Different: 339
+- Roundtrip lines: 262
+- Identical: 23
+- Different: 380
 
 #### store_reordered (19)
 
@@ -1512,7 +1919,7 @@ Line 6:
 ```
 ... and 14 more
 
-#### line_removed (304)
+#### line_removed (122)
 
 Line 2:
 ```
@@ -1534,12 +1941,12 @@ Line 38:
 - + [RCTRL K_SPACE] > U+00A0
 + 
 ```
-Line 40:
+Line 262:
 ```
-- + [K_0] > U+00E0
+- any(diablock) + [RALT K_PERIOD] > context
 + 
 ```
-... and 299 more
+... and 117 more
 
 #### comment_removed (4)
 
@@ -1564,7 +1971,7 @@ Line 402:
 + 
 ```
 
-#### line_added (5)
+#### line_added (46)
 
 Line 13:
 ```
@@ -1591,6 +1998,7 @@ Line 33:
 - 
 + store(dkt0021) U+0021 U+00B2 U+00B9 U+007B U+005B U+005D U+00B1 U+007C U+20D7 U+2018 U+2019 U+0023 U+0308 U+20D6 U+0323 U+00AB U+007D U+00BB U+00D7 U+0190 U+0181 U+00A9 U+018A U+018F U+00C6 U+A78B U+2C6D U+0197 U+2122 U+00A3 U+00B5 U+014A U+0186 U+00D8 U+2013 U+00AE U+201D U+0152 U+0244 U+A78B U+1E84 U+203A U+01B3 U+2020 U+025B U+0253 U+0327 U+0257 U+0259 U+00E6 U+02BC U+03B1 U+0268 U+00F9 U+014B U+0254 U+00F8 U+2014 U+25CC U+201C U+0153 U+0289 U+A78C U+1E85 U+2039 U+01B4 U+2026 U+0040 U+1DC5 U+005E U+1DC4 U+030D U+0304 U+00A4 U+002A U+00B3 U+00AB U+00BB U+0025 U+005C
 ```
+... and 41 more
 
 #### group_structure (2)
 
@@ -1605,7 +2013,7 @@ Line 16:
 + store(final) "!?."
 ```
 
-#### rule_format (5)
+#### rule_format (187)
 
 Line 30:
 ```
@@ -1632,13 +2040,14 @@ Line 37:
 - + [SHIFT K_SPACE] > U+0020
 + group(main) using keys
 ```
+... and 182 more
 
 ### sil_cameroon_qwerty
 
 - Original lines: 362
-- Roundtrip lines: 29
-- Identical: 60
-- Different: 302
+- Roundtrip lines: 224
+- Identical: 22
+- Different: 340
 
 #### store_reordered (17)
 
@@ -1669,7 +2078,7 @@ Line 6:
 ```
 ... and 12 more
 
-#### line_removed (278)
+#### line_removed (121)
 
 Line 2:
 ```
@@ -1691,14 +2100,14 @@ Line 26:
 - store(diablock) " 0123456789?!;:'-_=<©®>.,[]{}\|/@°#$%^&*()«»‹›‘“’”€¥£…†ʼꞌꞋ" U+0022
 + 
 ```
-Line 29:
+Line 224:
 ```
-- platform('touch') any(word) any(final) + [K_SPACE] > index(word,2) index(final,3) " " layer('shift')
+- + [SHIFT RALT K_Z] > U+2020
 + 
 ```
-... and 273 more
+... and 116 more
 
-#### line_added (4)
+#### line_added (42)
 
 Line 11:
 ```
@@ -1720,6 +2129,12 @@ Line 16:
 - 
 + store(final) ".!?"
 ```
+Line 32:
+```
+- 
++ + [K_3] > '3'
+```
+... and 37 more
 
 #### group_structure (2)
 
@@ -1734,6 +2149,35 @@ Line 14:
 + store(comp-dia) "aeinouwyAEINOUWYαΑacegiklmnoprsuwyzACEGIKLMNOPRSUWYZæαøÆΑØaceghijosuwyzACEGHIJOSUWYZaegiouyAEGIOUYæαÆΑaehiotuxyAEHIOUXYabdehiklmnorstuvwyzABDEHIKLMNORSTUVWYZcdeghklnrstCDEGHKLNRSTeiuEIUaeinouvyAEINOUVYçÇạẹọẠẸỌâêôÂÊÔūŪḷṛḶṚfﬀﬀffIiLLlNNnsf"
 ```
 
+#### rule_format (157)
+
+Line 29:
+```
+- platform('touch') any(word) any(final) + [K_SPACE] > index(word,2) index(final,3) " " layer('shift')
++ + [K_BKQUOTE] > '̍'
+```
+Line 30:
+```
+- platform('touch') any(word) U+0020 + [K_SPACE] > index(word,2) U+002E " " layer('shift')
++ + [K_1] > '1'
+```
+Line 31:
+```
+- any(composed) + [K_BKSP] > index(comp-dia,1)
++ + [K_2] > '2'
+```
+Line 34:
+```
+- + [K_SPACE] > U+0020
++ + [K_5] > '5'
+```
+Line 35:
+```
+- + [SHIFT K_SPACE] > U+0020
++ + [K_6] > '6'
+```
+... and 152 more
+
 #### comment_removed (1)
 
 Line 305:
@@ -1745,7 +2189,7 @@ Line 305:
 ### sil_cherokee_nation
 
 - Original lines: 109
-- Roundtrip lines: 13
+- Roundtrip lines: 106
 - Identical: 3
 - Different: 106
 
@@ -1757,7 +2201,7 @@ Line 1:
 + c Converted from LDML keyboard: und
 ```
 
-#### line_removed (99)
+#### line_removed (7)
 
 Line 2:
 ```
@@ -1779,12 +2223,12 @@ Line 12:
 - begin Unicode > use(main)
 + 
 ```
-Line 14:
+Line 106:
 ```
-- group(main) using keys  
+- + [SHIFT K_2] > 'Ꮗ'
 + 
 ```
-... and 94 more
+... and 2 more
 
 #### store_reordered (5)
 
@@ -1814,13 +2258,55 @@ Line 9:
 + begin Unicode > use(main)
 ```
 
-#### line_added (1)
+#### line_added (2)
 
 Line 11:
 ```
 - 
 + group(main) using keys
 ```
+Line 13:
+```
+- 
++ + [K_1] > 'ᏣᎳᎩ'
+```
+
+#### group_structure (1)
+
+Line 14:
+```
+- group(main) using keys  
++ + [K_2] > 'ᎣᏏᏲ'
+```
+
+#### rule_format (90)
+
+Line 15:
+```
+- + [K_BKQUOTE] > nul
++ + [K_3] > 'ᏩᏙ'
+```
+Line 16:
+```
+- + [K_SLASH] > 'Ꮒ'
++ + [K_4] > 'Ꮩ'
+```
+Line 17:
+```
+- + [K_PERIOD] > '.'
++ + [K_5] > 'Ꮶ'
+```
+Line 18:
+```
+- + [K_COMMA] > ','
++ + [K_6] > 'Ꮬ'
+```
+Line 19:
+```
+- + [K_M] > 'Ꮕ'
++ + [K_7] > 'Ꮛ'
+```
+... and 85 more
 
 ### sil_cheyenne
 
@@ -1935,9 +2421,9 @@ Line 16:
 ### sil_cipher_music
 
 - Original lines: 231
-- Roundtrip lines: 20
-- Identical: 24
-- Different: 207
+- Roundtrip lines: 127
+- Identical: 8
+- Different: 223
 
 #### comment_removed (23)
 
@@ -1964,11 +2450,11 @@ Line 17:
 Line 25:
 ```
 - c Dot above
-+ 
++ + [K_5] > '5'
 ```
 ... and 18 more
 
-#### store_reordered (6)
+#### store_reordered (9)
 
 Line 3:
 ```
@@ -1995,7 +2481,7 @@ Line 14:
 - store(backslashkey)       "."    "_"    "="    "/"    "\"    "{"     "}"     ">"    "|"     "]"     "["     "'"      "*"
 + store(digit) "0123456789"
 ```
-... and 1 more
+... and 4 more
 
 #### store_format (1)
 
@@ -2005,7 +2491,7 @@ Line 7:
 + store(&TARGETS) 'any'
 ```
 
-#### line_removed (173)
+#### line_removed (101)
 
 Line 8:
 ```
@@ -2022,19 +2508,19 @@ Line 19:
 - store(DblkeyUOver)  U+0307 U+0305 U+033F U+2197 U+1D100 U+0338
 + 
 ```
-Line 20:
+Line 128:
 ```
-- store(DblkeyUUnder) U+0323 U+0332 U+0333 U+2198 U+1D101 U+20E5
+- + [RALT K_PERIOD] > U+0323 c underdot
 + 
 ```
-Line 21:
+Line 129:
 ```
-- store(digit) "0123456789"
+- + [RALT K_COMMA]  > U+0307 c overdot
 + 
 ```
-... and 168 more
+... and 96 more
 
-#### line_added (3)
+#### line_added (19)
 
 Line 10:
 ```
@@ -2051,21 +2537,66 @@ Line 16:
 - 
 + begin Unicode > use(main)
 ```
+Line 22:
+```
+- 
++ + [K_2] > '2'
+```
+Line 24:
+```
+- 
++ + [K_4] > '4'
+```
+... and 14 more
 
-#### group_structure (1)
+#### group_structure (2)
 
 Line 11:
 ```
 - begin Unicode > use(main)
 + store(DblKey) "._=>|/"
 ```
+Line 23:
+```
+- group(main) using keys
++ + [K_3] > '3'
+```
+
+#### rule_format (68)
+
+Line 26:
+```
+- "1" + "1" > U+0031 U+0307
++ + [K_6] > '6'
+```
+Line 27:
+```
+- "2" + "2" > U+0032 U+0307
++ + [K_7] > '7'
+```
+Line 28:
+```
+- "3" + "3" > U+0033 U+0307
++ + [K_8] > '8'
+```
+Line 29:
+```
+- "4" + "4" > U+0034 U+0307
++ + [K_9] > '9'
+```
+Line 30:
+```
+- "5" + "5" > U+0035 U+0307
++ + [K_0] > '0'
+```
+... and 63 more
 
 ### sil_devanagari_phonetic
 
 - Original lines: 216
-- Roundtrip lines: 22
-- Identical: 37
-- Different: 179
+- Roundtrip lines: 45
+- Identical: 33
+- Different: 183
 
 #### comment_removed (26)
 
@@ -2096,7 +2627,7 @@ Line 12:
 ```
 ... and 21 more
 
-#### line_added (4)
+#### line_added (8)
 
 Line 4:
 ```
@@ -2118,8 +2649,14 @@ Line 20:
 - 
 + group(main) using keys
 ```
+Line 26:
+```
+- 
++ + [RALT K_0] > '॰'
+```
+... and 3 more
 
-#### store_reordered (7)
+#### store_reordered (12)
 
 Line 5:
 ```
@@ -2146,36 +2683,36 @@ Line 14:
 - store(&KEYBOARDVERSION) '1.4'
 + store(RomanCs) "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 ```
-... and 2 more
+... and 7 more
 
-#### line_removed (141)
+#### line_removed (124)
 
 Line 8:
 ```
 - store(&COPYRIGHT) '2002-2020 SIL International'
 + 
 ```
-Line 22:
+Line 45:
 ```
-- store(Digits)     "0"    "1"    "2"    "3"    "4"    "5"    "6" \
+- store(RomanCs)       "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" \
 + 
 ```
-Line 23:
+Line 46:
 ```
--                   "7"    "8"    "9"
+-                      "~`;:" c plus some punctuation used in allomorph constraints (the others come thru anyway)
 + 
 ```
-Line 24:
+Line 49:
 ```
-- store(DigitsU)    U+0966 U+0967 U+0968 U+0969 U+096A U+096B U+096C \
+- store(LowDotWallahs)    U+0915  U+0916  U+0917  U+091c  U+0921  U+0922  U+092b  U+092f  U+0933  U+0930 U+0928
 + 
 ```
-Line 25:
+Line 50:
 ```
--                   U+096D U+096E U+096F
+- store(LowDotOutputs)    U+0958  U+0959  U+095a  U+095b  U+095c  U+095d  U+095e  U+095f  U+0934  U+0931 U+0929
 + 
 ```
-... and 136 more
+... and 119 more
 
 #### group_structure (1)
 
@@ -2185,14 +2722,43 @@ Line 18:
 + begin Unicode > use(main)
 ```
 
+#### unknown (12)
+
+Line 23:
+```
+-                   "7"    "8"    "9"
++ + [RALT K_2] > 'ज्ञ'
+```
+Line 25:
+```
+-                   U+096D U+096E U+096F
++ + [RALT K_5] > 'ऑ'
+```
+Line 29:
+```
+-                      "c"    "C"    "j"    "J"    "V"    "q"     \
++ + [RALT K_J] > 'ज्ञ'
+```
+Line 30:
+```
+-                      "Q"    "z"    "Z"    "N"    "t"    "T"     "d"    "D"    "n"    \
++ + [RALT K_K] > 'ॽ'
+```
+Line 31:
+```
+-                      "p"    "P"    "b"    "B"    "m"    "y"     \
++ + [RALT K_L] > 'ृ'
+```
+... and 7 more
+
 ### sil_devanagari_romanized
 
 - Original lines: 295
-- Roundtrip lines: 24
-- Identical: 49
-- Different: 246
+- Roundtrip lines: 113
+- Identical: 37
+- Different: 258
 
-#### store_reordered (8)
+#### store_reordered (15)
 
 Line 1:
 ```
@@ -2219,9 +2785,9 @@ Line 7:
 - store(&LAYOUTFILE) 'sil_devanagari_romanized.keyman-touch-layout'
 + store(&TARGETS) 'any'
 ```
-... and 3 more
+... and 10 more
 
-#### line_removed (198)
+#### line_removed (129)
 
 Line 2:
 ```
@@ -2248,9 +2814,9 @@ Line 23:
 -                      "+"    "="
 + 
 ```
-... and 193 more
+... and 124 more
 
-#### line_added (2)
+#### line_added (14)
 
 Line 9:
 ```
@@ -2262,13 +2828,34 @@ Line 16:
 - 
 + store(RomanCs) "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 ```
+Line 24:
+```
+- 
++ + [RALT K_1] > '1'
+```
+Line 31:
+```
+- 
++ + [RALT K_8] > '8'
+```
+Line 34:
+```
+- 
++ + [RALT K_Q] > 'ॽ'
+```
+... and 9 more
 
-#### group_structure (1)
+#### group_structure (2)
 
 Line 10:
 ```
 - begin Unicode > use(main)
 + store(DigitsU) U+0966 U+0967 U+0968 U+0969 U+096A U+096B U+096C
+```
+Line 46:
+```
+- group(main) using keys
++ + [RALT K_J] > 'ॼ'
 ```
 
 #### comment_removed (33)
@@ -2286,21 +2873,21 @@ Line 17:
 Line 32:
 ```
 - c                    aakar  ikar   iikar  ukar   uukar  ekar   aikar  okar   aukar
-+ 
++ + [RALT K_9] > '9'
 ```
 Line 35:
 ```
 - c                           a   aa  e   ai  i   ii  o   au  u   uu
-+ 
++ + [RALT K_W] > 'ॅ'
 ```
 Line 37:
 ```
 - c                           candra a o e
-+ 
++ + [RALT K_R] > 'र्'
 ```
 ... and 28 more
 
-#### unknown (4)
+#### unknown (10)
 
 Line 13:
 ```
@@ -2322,15 +2909,50 @@ Line 22:
 -                      "r"    "l"    "L"    "v"     "x"    "S"    "s"    "h" \
 + group(main) using keys
 ```
+Line 26:
+```
+-                      U+091A U+091B U+091C U+091D U+091E U+091F  \
++ + [RALT K_3] > '3'
+```
+... and 5 more
+
+#### rule_format (55)
+
+Line 51:
+```
+- + "q"    > dk(1) c // followed by vowel will produce syllabic form
++ + [RALT K_Z] > 'ृ'
+```
+Line 53:
+```
+- + [RALT SHIFT K_A]  > U+0904  c // short a ऄ / used for short e in Awadhi /also used in Devanagari transliterations of some South Indian and Kashmiri languages by a publisher in Lucknow
++ + [RALT K_B] > 'ॿ'
+```
+Line 54:
+```
+- + [LCTRL LALT SHIFT K_A]  > U+0904  c // short a ऄ / used for short e in Awadhi /also used in Devanagari transliterations of some South Indian and Kashmiri languages by a publisher in Lucknow
++ + [RALT K_N] > 'ञ'
+```
+Line 55:
+```
+- + "A"     > U+0905 c // Devanagari Letter- A अ
++ + [RALT K_PERIOD] > '.'
+```
+Line 56:
+```
+- dk(1) + "a"     > U+0906 c // Devanagari Letter- Aa आ
++ + [RALT K_SLASH] > '‌'
+```
+... and 50 more
 
 ### sil_devanagari_typewriter
 
 - Original lines: 304
-- Roundtrip lines: 24
-- Identical: 41
-- Different: 263
+- Roundtrip lines: 162
+- Identical: 21
+- Different: 283
 
-#### store_reordered (7)
+#### store_reordered (14)
 
 Line 1:
 ```
@@ -2357,9 +2979,9 @@ Line 7:
 - store(&LAYOUTFILE) 'sil_devanagari_typewriter.keyman-touch-layout'
 + store(&TARGETS) 'any'
 ```
-... and 2 more
+... and 9 more
 
-#### line_removed (218)
+#### line_removed (118)
 
 Line 2:
 ```
@@ -2386,9 +3008,9 @@ Line 23:
 -                      "["    "n"    "j"     ";"    "i"    "z"    "x" \
 + 
 ```
-... and 213 more
+... and 113 more
 
-#### line_added (3)
+#### line_added (23)
 
 Line 9:
 ```
@@ -2405,13 +3027,29 @@ Line 17:
 - 
 + store(LowDotWallahs) U+0915 U+0916 U+0917 U+091C U+0921 U+0922 U+092B U+092F U+0933 U+0930 U+0928
 ```
+Line 24:
+```
+-                      
++ + [K_BKQUOTE] > 'े'
+```
+Line 25:
+```
+- 
++ + [K_HYPHEN] > '़'
+```
+... and 18 more
 
-#### group_structure (1)
+#### group_structure (2)
 
 Line 10:
 ```
 - begin Unicode > use(main)
 + store(DigitsU) U+0966 U+0967 U+0968 U+0969 U+096A U+096B U+096C
+```
+Line 47:
+```
+- group(main) using keys
++ + [RALT K_Q] > 'ॉ'
 ```
 
 #### comment_removed (30)
@@ -2429,21 +3067,21 @@ Line 18:
 Line 33:
 ```
 - c                    aakar  ikar   iikar  ukar   uukar  ekar   aikar  okar   aukar   glottal
-+ 
++ + [K_PERIOD] > '।'
 ```
 Line 36:
 ```
 - c                           a   aa  e   ai  i   ii  o   au  u   uu
-+ 
++ + [RALT K_1] > '!'
 ```
 Line 38:
 ```
 - c                           candra a o e
-+ 
++ + [RALT K_3] > 'घ्‍'
 ```
 ... and 25 more
 
-#### unknown (4)
+#### unknown (9)
 
 Line 14:
 ```
@@ -2465,15 +3103,50 @@ Line 22:
 -                      "k"    "m"    "a"    "e"    "d"    "o"     \
 + group(main) using keys
 ```
+Line 27:
+```
+-                      U+091A U+091B U+091C U+091F  \
++ + [K_LBRKT] > 'र'
+```
+... and 4 more
+
+#### rule_format (87)
+
+Line 51:
+```
+- + "c" 	        > U+0905 c // Devanagari Letter- A अ
++ + [RALT K_T] > 'क्त'
+```
+Line 52:
+```
+- + [RALT K_V]    > U+0906 c // Devanagari Letter- Aa आ
++ + [RALT K_Y] > '-'
+```
+Line 53:
+```
+- + "O"           > U+0907 c // Devanagari Letter- I इ
++ + [RALT K_U] > 'ॐ'
+```
+Line 54:
+```
+- + [RALT K_L]    > U+0908 c // Devanagari Letter- Ii II ई
++ + [RALT K_I] > '·'
+```
+Line 55:
+```
+- + "p"           > U+0909 c // Devanagari Letter- U उ 
++ + [RALT K_O] > 'य्‍'
+```
+... and 82 more
 
 ### sil_dzongkha
 
 - Original lines: 82
-- Roundtrip lines: 60
+- Roundtrip lines: 61
 - Identical: 7
 - Different: 75
 
-#### store_reordered (42)
+#### store_reordered (43)
 
 Line 1:
 ```
@@ -2500,9 +3173,9 @@ Line 10:
 - store(&TARGETS) 'web desktop'
 + store(out1) U+0F09 U+0F21 U+0F22 U+0F23 U+0F24 U+0F25 U+0F26 U+0F27 U+0F28 U+0F29 U+0F20 U+0F14 U+0F0D
 ```
-... and 37 more
+... and 38 more
 
-#### line_removed (17)
+#### line_removed (16)
 
 Line 2:
 ```
@@ -2524,12 +3197,12 @@ Line 59:
 - store(out4sa) U+0f36 U+0fbf U+0fb0 U+0fbb U+0fbc nul    U+0fb5 U+0fd9 U+0fda U+003f
 + 
 ```
-Line 60:
+Line 61:
 ```
-- store(row5sa) [SHIFT RALT K_SPACE]
+- store(out5sa) U+00a0
 + 
 ```
-... and 12 more
+... and 11 more
 
 #### comment_removed (9)
 
@@ -3186,9 +3859,9 @@ Line 19:
 ### sil_euro_latin
 
 - Original lines: 332
-- Roundtrip lines: 58
-- Identical: 47
-- Different: 285
+- Roundtrip lines: 65
+- Identical: 45
+- Different: 287
 
 #### comment_removed (61)
 
@@ -3219,7 +3892,7 @@ Line 24:
 ```
 ... and 56 more
 
-#### line_removed (183)
+#### line_removed (180)
 
 Line 2:
 ```
@@ -3241,14 +3914,14 @@ Line 57:
 - store(circumO)   'âĉêĝĥîĵôŝûŵŷẑÂĈÊĜĤÎĴÔŜÛŴŶẐ'
 + 
 ```
-Line 58:
+Line 65:
 ```
-- store(circumK)   'aceghijosuwyzACEGHIJOSUWYZ'
+- store(antibreveO) 'ȂȃȆȇȊȋȎȏȒȓȖȗ'
 + 
 ```
-... and 178 more
+... and 175 more
 
-#### line_added (14)
+#### line_added (16)
 
 Line 5:
 ```
@@ -3275,7 +3948,7 @@ Line 23:
 - 
 + store(antibreveO) "ȂȃȆȇȊȋȎȏȒȓȖȗ"
 ```
-... and 9 more
+... and 11 more
 
 #### store_format (1)
 
@@ -3285,7 +3958,7 @@ Line 6:
 + store(&VERSION) '10.0'
 ```
 
-#### store_reordered (17)
+#### store_reordered (20)
 
 Line 7:
 ```
@@ -3312,7 +3985,7 @@ Line 16:
 - store(&LAYOUTFILE) 'sil_euro_latin.keyman-touch-layout'
 + store(acuteK) "acegiklmnoprsuwyzACEGIKLMNOPRSUWYZ"
 ```
-... and 12 more
+... and 15 more
 
 #### unknown (2)
 
@@ -3374,9 +4047,9 @@ Line 38:
 ### sil_extended_urdu_np
 
 - Original lines: 176
-- Roundtrip lines: 13
-- Identical: 19
-- Different: 157
+- Roundtrip lines: 31
+- Identical: 18
+- Different: 158
 
 #### comment_removed (25)
 
@@ -3407,7 +4080,7 @@ Line 8:
 ```
 ... and 20 more
 
-#### line_added (2)
+#### line_added (3)
 
 Line 6:
 ```
@@ -3419,35 +4092,77 @@ Line 7:
 - 
 + store(&TARGETS) 'any'
 ```
+Line 15:
+```
+- 
++ + [K_SLASH] > '‍'
+```
 
-#### line_removed (130)
+#### unknown (11)
 
 Line 17:
 ```
 - c	Farsi/Urdu (06Fx) digits rather than Arabic (066x) series
-+ 
++ + [RALT K_E] > 'إ'
 ```
 Line 18:
 ```
 - c	HAMZA keys:
-+ 
++ + [RALT K_BKSLASH] > 'ٰ'
 ```
 Line 19:
 ```
 - c		[	yeh with hamza above (use for "linked hamza")
-+ 
++ + [RALT K_QUOTE] > 'ً'
 ```
 Line 20:
 ```
 - c		]	waw with hamza above
-+ 
++ + [RALT K_COMMA] > '«'
 ```
 Line 21:
 ```
 - c		\	hamza above (diacritic)
++ + [RALT K_PERIOD] > '»'
+```
+... and 6 more
+
+#### modifier_format (1)
+
+Line 30:
+```
+- c		CTRL-<			left-pointing single angle quote
++ + [SHIFT K_Z] > 'ڙ'
+```
+
+#### line_removed (118)
+
+Line 31:
+```
+- c		CTRL-< CTRL-<	open double angle quote
 + 
 ```
-... and 125 more
+Line 33:
+```
+- VERSION 10.0
++ 
+```
+Line 34:
+```
+- store(&NAME) 'Extended Urdu NP (SIL)'
++ 
+```
+Line 35:
+```
+- store(&BITMAP) 'sil_extended_urdu_np.ico'
++ 
+```
+Line 36:
+```
+- store(&MESSAGE) 'Keyboard for typing Urdu, Panjabi, and other Northern Pakistan languages'
++ 
+```
+... and 113 more
 
 ### sil_greek_polytonic
 
@@ -3612,9 +4327,9 @@ Line 247:
 ### sil_hawaiian
 
 - Original lines: 242
-- Roundtrip lines: 13
-- Identical: 53
-- Different: 189
+- Roundtrip lines: 184
+- Identical: 18
+- Different: 224
 
 #### comment_removed (5)
 
@@ -3652,15 +4367,36 @@ Line 3:
 + store(&NAME) 'Hawaiian (SIL)'
 ```
 
-#### line_added (1)
+#### line_added (36)
 
 Line 7:
 ```
 - 
 + store(&TARGETS) 'any'
 ```
+Line 15:
+```
+- 
++ + [K_2] > '2'
+```
+Line 17:
+```
+- 
++ + [K_4] > '4'
+```
+Line 20:
+```
+- 
++ + [K_7] > '7'
+```
+Line 23:
+```
+- 
++ + [K_0] > '0'
+```
+... and 31 more
 
-#### line_removed (180)
+#### line_removed (44)
 
 Line 8:
 ```
@@ -3677,19 +4413,19 @@ Line 12:
 - store(&TARGETS) 'web desktop'
 + 
 ```
-Line 13:
+Line 184:
 ```
-- store(&VISUALKEYBOARD) 'sil_hawaiian.kvks'
+- + [CAPS SHIFT K_W] > U+0077
 + 
 ```
-Line 14:
+Line 186:
 ```
-- store(&BITMAP) 'sil_hawaiian.ico'
+- + [NCAPS K_X] > U+0078
 + 
 ```
-... and 175 more
+... and 39 more
 
-#### store_reordered (2)
+#### store_reordered (4)
 
 Line 9:
 ```
@@ -3701,11 +4437,63 @@ Line 11:
 - store(&KEYBOARDVERSION) '2.1'
 + group(main) using keys
 ```
+Line 13:
+```
+- store(&VISUALKEYBOARD) 'sil_hawaiian.kvks'
++ + [K_BKQUOTE] > '`'
+```
+Line 14:
+```
+- store(&BITMAP) 'sil_hawaiian.ico'
++ + [K_1] > '1'
+```
+
+#### group_structure (2)
+
+Line 16:
+```
+- begin Unicode > use(main)
++ + [K_3] > '3'
+```
+Line 18:
+```
+- group(main) using keys
++ + [K_5] > '5'
+```
+
+#### rule_format (132)
+
+Line 19:
+```
+- + [K_SPACE] > U+0020
++ + [K_6] > '6'
+```
+Line 21:
+```
+- + [K_0] > U+0030
++ + [K_8] > '8'
+```
+Line 22:
+```
+- + [SHIFT K_0] > U+0029
++ + [K_9] > '9'
+```
+Line 24:
+```
+- + [K_1] > U+0031
++ + [K_HYPHEN] > '-'
+```
+Line 25:
+```
+- + [SHIFT K_1] > U+0021
++ + [K_EQUAL] > '='
+```
+... and 127 more
 
 ### sil_hebr_grek_trans
 
 - Original lines: 91
-- Roundtrip lines: 13
+- Roundtrip lines: 14
 - Identical: 20
 - Different: 71
 
@@ -3738,7 +4526,7 @@ Line 7:
 ```
 ... and 18 more
 
-#### unknown (2)
+#### unknown (3)
 
 Line 4:
 ```
@@ -3750,6 +4538,11 @@ Line 6:
 - c
 + store(&VERSION) '10.0'
 ```
+Line 13:
+```
+- VERSION 9.0
++ + [RALT K_A] > 'ᵃ'
+```
 
 #### line_added (1)
 
@@ -3759,13 +4552,8 @@ Line 11:
 + group(main) using keys
 ```
 
-#### line_removed (45)
+#### line_removed (44)
 
-Line 13:
-```
-- VERSION 9.0
-+ 
-```
 Line 14:
 ```
 - store(&NAME) "Hebrew and Greek Transliteration (SIL)"
@@ -3786,14 +4574,19 @@ Line 17:
 - store(&KEYBOARDVERSION) '1.1'
 + 
 ```
-... and 40 more
+Line 18:
+```
+- store(&VISUALKEYBOARD) 'sil_hebr_grek_trans.kvks'
++ 
+```
+... and 39 more
 
 ### sil_hebrew
 
 - Original lines: 365
-- Roundtrip lines: 36
-- Identical: 47
-- Different: 318
+- Roundtrip lines: 114
+- Identical: 38
+- Different: 327
 
 #### comment_removed (158)
 
@@ -3824,7 +4617,7 @@ Line 8:
 ```
 ... and 153 more
 
-#### unknown (2)
+#### unknown (7)
 
 Line 4:
 ```
@@ -3836,50 +4629,124 @@ Line 6:
 - c
 + store(&VERSION) '10.0'
 ```
+Line 37:
+```
+- c
++ + [RALT K_6] > '֭'
+```
+Line 56:
+```
+- c
++ + [RALT K_SLASH] > '׳'
+```
+Line 93:
+```
+-                U+05D9 U+05DA U+05DB U+05DC U+05DD U+05DE U+05DF U+05E0 U+05E1 \
++ + [SHIFT RALT K_SLASH] > '״'
+```
+... and 2 more
 
-#### line_added (1)
+#### line_added (10)
 
 Line 7:
 ```
 - 
 + store(&TARGETS) 'any'
 ```
+Line 63:
+```
+- 
++ + [SHIFT K_8] > '֝'
+```
+Line 79:
+```
+- 
++ + [SHIFT RALT K_E] > 'ֱ'
+```
+Line 80:
+```
+- 
++ + [SHIFT RALT K_O] > 'ֳ'
+```
+Line 83:
+```
+- 
++ + [SHIFT RALT K_RBRKT] > '֒'
+```
+... and 5 more
 
-#### line_removed (157)
+#### line_removed (133)
 
 Line 28:
 ```
 - c
 + 
 ```
-Line 37:
+Line 111:
 ```
-- c
+- store(aeoEqOut) U+05B8 U+05B5 U+05B9     c 12/06/01
 + 
 ```
-Line 56:
+Line 115:
 ```
-- c
+- store(vowrOut)	U+05B2 	U+05B1	U+05B3  c 12/06/01
 + 
 ```
+Line 118:
+```
+- store(cant)        U+0591 U+0592 U+0593 U+0594 U+0595 U+0596 U+0597 \
++ 
+```
+Line 119:
+```
+-                    U+0598 U+0599 U+059A U+059B U+059C U+059D U+059E U+059F \
++ 
+```
+... and 128 more
+
+#### store_reordered (18)
+
 Line 64:
 ```
 - store(&version) "10.0"
-+ 
++ + [SHIFT K_Q] > '֗'
 ```
 Line 65:
 ```
 - store(&NAME) 'Hebrew (SIL)'
-+ 
++ + [SHIFT K_Y] > '֟'
 ```
-... and 152 more
+Line 66:
+```
+- store(&BITMAP) 'sil_hebrew.ico'
++ + [SHIFT K_COLON] > '״'
+```
+Line 70:
+```
+- store(&COPYRIGHT) 'Copyright © SIL International'
++ + [SHIFT RALT K_4] > '֠'
+```
+Line 72:
+```
+- store(&VISUALKEYBOARD) 'sil_hebrew.kvks'
++ + [SHIFT RALT K_6] > '֟'
+```
+... and 13 more
+
+#### group_structure (1)
+
+Line 78:
+```
+- begin UNICODE > use(Main)
++ + [SHIFT RALT K_EQUAL] > '◌'
+```
 
 ### sil_hebrew_legacy
 
 - Original lines: 366
-- Roundtrip lines: 27
-- Identical: 49
-- Different: 317
+- Roundtrip lines: 105
+- Identical: 41
+- Different: 325
 
 #### comment_removed (171)
 
@@ -3910,7 +4777,7 @@ Line 8:
 ```
 ... and 166 more
 
-#### unknown (2)
+#### unknown (8)
 
 Line 4:
 ```
@@ -3922,48 +4789,122 @@ Line 6:
 - c
 + store(&VERSION) '10.0'
 ```
+Line 28:
+```
+- c
++ + [K_QUOTE] > '"'
+```
+Line 37:
+```
+- c
++ + [RALT K_8] > '֛'
+```
+Line 56:
+```
+- c
++ + [SHIFT K_2] > '֘'
+```
+... and 3 more
 
-#### line_added (1)
+#### line_added (9)
 
 Line 7:
 ```
 - 
 + store(&TARGETS) 'any'
 ```
+Line 63:
+```
+- 
++ + [SHIFT K_Y] > '֟'
+```
+Line 74:
+```
+- 
++ + [SHIFT RALT K_0] > '֯'
+```
+Line 75:
+```
+- 
++ + [SHIFT RALT K_HYPHEN] > 'ֿ'
+```
+Line 78:
+```
+- 
++ + [SHIFT RALT K_O] > 'ֳ'
+```
+... and 4 more
 
-#### line_removed (143)
+#### store_reordered (15)
 
-Line 28:
-```
-- c
-+ 
-```
-Line 37:
-```
-- c
-+ 
-```
-Line 56:
-```
-- c
-+ 
-```
 Line 64:
 ```
 - store(&version) "10.0"
-+ 
++ + [SHIFT K_COLON] > '״'
 ```
 Line 65:
 ```
 - store(&NAME) 'Hebrew Legacy (SIL)'
++ + [SHIFT RALT K_1] > '֗'
+```
+Line 66:
+```
+- store(&BITMAP) 'sil_hebrew_legacy.ico'
++ + [SHIFT RALT K_2] > '֮'
+```
+Line 67:
+```
+- store(&COPYRIGHT) 'Copyright © SIL International'
++ + [SHIFT RALT K_3] > '֙'
+```
+Line 68:
+```
+- store(&VISUALKEYBOARD) 'sil_hebrew_legacy.kvks'
++ + [SHIFT RALT K_4] > '֠'
+```
+... and 10 more
+
+#### group_structure (1)
+
+Line 73:
+```
+- begin UNICODE > use(Main)
++ + [SHIFT RALT K_9] > '֓'
+```
+
+#### line_removed (121)
+
+Line 106:
+```
+- store(aeo)	    U+05B7 U+05B6 U+05B9     c 12/18/01  05B9 'o' goes to itself now, since no kamets_o d111 > 05C7 is not recommended for texts based on Codex L
 + 
 ```
-... and 138 more
+Line 107:
+```
+- store(aeoEqOut) U+05B8 U+05B5 U+05B9     c 12/06/01
++ 
+```
+Line 111:
+```
+- store(vowrOut)	U+05B2 	U+05B1	U+05B3  c 12/06/01
++ 
+```
+Line 114:
+```
+- store(cant)        U+0591 U+0592 U+0593 U+0594 U+0595 U+0596 U+0597 \
++ 
+```
+Line 115:
+```
+-                    U+0598 U+0599 U+059A U+059B U+059C U+059D U+059E U+059F \
++ 
+```
+... and 116 more
 
 ### sil_hmd_plrd
 
 - Original lines: 89
-- Roundtrip lines: 13
+- Roundtrip lines: 18
 - Identical: 7
 - Different: 82
 
@@ -4019,41 +4960,69 @@ Line 8:
 + 
 ```
 
-#### line_removed (72)
+#### line_removed (67)
 
 Line 12:
 ```
 - store(&NAME) 'Ahmao (SIL)'
 + 
 ```
+Line 18:
+```
+- store(&VISUALKEYBOARD) 'sil_hmd_plrd.kvks'
++ 
+```
+Line 20:
+```
+- begin Unicode > use(Umain)
++ 
+```
+Line 23:
+```
+- group (Umain) using keys
++ 
+```
+Line 24:
+```
+- + [SHIFT K_R]  > dk(dead)
++ 
+```
+... and 62 more
+
+#### store_reordered (5)
+
 Line 13:
 ```
 - store(&TARGETS) 'web desktop'
-+ 
++ + [K_BKQUOTE] > '`'
 ```
 Line 14:
 ```
 - store(&ETHNOLOGUECODE) 'hmd'
-+ 
++ + [SHIFT K_R] > dk(dead)
 ```
 Line 15:
 ```
 - store(&COPYRIGHT) '(c) 2014-2020 SIL International'
-+ 
++ + [SHIFT K_A] > dk(dead)
 ```
 Line 16:
 ```
 - store(&KEYBOARDVERSION) '1.1.1'
-+ 
++ + [SHIFT K_X] > dk(dead)
 ```
-... and 67 more
+Line 17:
+```
+- store(&BITMAP) 'sil_hmd_plrd.ico'
++ + [SHIFT K_C] > dk(dead)
+```
 
 ### sil_jarai
 
 - Original lines: 162
-- Roundtrip lines: 26
-- Identical: 16
-- Different: 146
+- Roundtrip lines: 129
+- Identical: 12
+- Different: 150
 
 #### comment_removed (9)
 
@@ -4080,7 +5049,7 @@ Line 25:
 Line 27:
 ```
 - c Don't swap off the caps lock layer automatically (behave as ShiftLocked)
-+ 
++ + [K_1] > '១'
 ```
 ... and 4 more
 
@@ -4113,7 +5082,7 @@ Line 10:
 ```
 ... and 5 more
 
-#### line_removed (121)
+#### line_removed (24)
 
 Line 8:
 ```
@@ -4125,24 +5094,24 @@ Line 21:
 - store(vCombo4)  'ុះ'
 + 
 ```
-Line 28:
+Line 129:
 ```
-- if(&layer = 'caps') > context
+- + [SHIFT K_X] > 'ឃ'
 + 
 ```
-Line 31:
+Line 130:
 ```
-- if(&newLayer = "") if(&layer = 'shift') any(ShiftOutSingle) > context layer('default')
+- + [SHIFT K_K] > 'គ'
 + 
 ```
-Line 34:
+Line 131:
 ```
-- group(main) using keys
+- + [K_X] > 'ខ'
 + 
 ```
-... and 116 more
+... and 19 more
 
-#### line_added (3)
+#### line_added (7)
 
 Line 11:
 ```
@@ -4159,8 +5128,19 @@ Line 15:
 - 
 + store(nulShiftKeys) "[SHIFT  K_R]  [SHIFT  K_RBRKT]  [SHIFT  K_BKSLASH]  [SHIFT  K_PERIOD]"
 ```
+Line 26:
+```
+- 
++ + [K_BKQUOTE] > '«'
+```
+Line 29:
+```
+- 
++ + [K_3] > '៣'
+```
+... and 2 more
 
-#### group_structure (3)
+#### group_structure (4)
 
 Line 13:
 ```
@@ -4177,15 +5157,62 @@ Line 24:
 - group(PostKeystroke) readonly
 + group(main) using keys
 ```
+Line 34:
+```
+- group(main) using keys
++ + [K_8] > '៨'
+```
+
+#### modifier_format (2)
+
+Line 28:
+```
+- if(&layer = 'caps') > context
++ + [K_2] > '២'
+```
+Line 31:
+```
+- if(&newLayer = "") if(&layer = 'shift') any(ShiftOutSingle) > context layer('default')
++ + [K_5] > '៥'
+```
+
+#### rule_format (94)
+
+Line 35:
+```
+- + [SHIFT K_V] > 'េះ'
++ + [K_9] > '៩'
+```
+Line 36:
+```
+- + [SHIFT K_O] > 'ៅ'
++ + [K_0] > '០'
+```
+Line 37:
+```
+- + [SHIFT K_COMMA] > 'ុះ'
++ + [K_HYPHEN] > '-'
+```
+Line 38:
+```
+- + [SHIFT K_COLON] > 'ោះ'
++ + [K_EQUAL] > '='
+```
+Line 39:
+```
+- + [SHIFT K_A] > 'ាំ'
++ + [K_Q] > 'ឆ'
+```
+... and 89 more
 
 ### sil_kayah_kali
 
 - Original lines: 139
-- Roundtrip lines: 16
-- Identical: 20
-- Different: 119
+- Roundtrip lines: 56
+- Identical: 14
+- Different: 125
 
-#### store_reordered (2)
+#### store_reordered (8)
 
 Line 1:
 ```
@@ -4197,35 +5224,51 @@ Line 4:
 - store(&MESSAGE) ""
 + store(&KEYBOARDVERSION) '1.2.2'
 ```
+Line 16:
+```
+- store(&TARGETS) 'web desktop'
++ + [RALT K_1] > '1'
+```
+Line 17:
+```
+- store(&KEYBOARDVERSION) '1.2.2'
++ + [RALT K_2] > '2'
+```
+Line 18:
+```
+- store(&BITMAP) 'sil_kayah_kali.ico'
++ + [RALT K_3] > '3'
+```
+... and 3 more
 
-#### line_removed (104)
+#### line_removed (71)
 
 Line 2:
 ```
 - store(&NAME) 'Kayah [Kayah Li] (SIL)'
 + 
 ```
-Line 16:
+Line 56:
 ```
-- store(&TARGETS) 'web desktop'
+- + "'" > U+A90D
 + 
 ```
-Line 17:
+Line 58:
 ```
-- store(&KEYBOARDVERSION) '1.2.2'
+- + 'z' > U+A921
 + 
 ```
-Line 18:
+Line 59:
 ```
-- store(&BITMAP) 'sil_kayah_kali.ico'
+- + 'x' > U+A90C
 + 
 ```
-Line 19:
+Line 60:
 ```
-- store(&VISUALKEYBOARD) 'sil_kayah_kali.kvks'
+- + 'c' > U+A90F
 + 
 ```
-... and 99 more
+... and 66 more
 
 #### comment_removed (12)
 
@@ -4256,13 +5299,89 @@ Line 11:
 ```
 ... and 7 more
 
-#### line_added (1)
+#### line_added (7)
 
 Line 6:
 ```
 - 
 + store(&VERSION) '10.0'
 ```
+Line 20:
+```
+- 
++ + [RALT K_5] > '5'
+```
+Line 22:
+```
+- 
++ + [RALT K_7] > '7'
+```
+Line 24:
+```
+- 
++ + [RALT K_9] > '9'
+```
+Line 29:
+```
+- 
++ + [RALT K_E] > 'e'
+```
+... and 2 more
+
+#### group_structure (2)
+
+Line 21:
+```
+- begin Unicode > use(main)
++ + [RALT K_6] > '6'
+```
+Line 23:
+```
+- group(main) using keys
++ + [RALT K_8] > '8'
+```
+
+#### unknown (2)
+
+Line 26:
+```
+-                "5"    "6"    "7"    "8"    "9"
++ + [RALT K_HYPHEN] > '-'
+```
+Line 28:
+```
+-                U+A905 U+A906 U+A907 U+A908 U+A909
++ + [RALT K_W] > 'w'
+```
+
+#### rule_format (23)
+
+Line 30:
+```
+- + any(digitsK) > index(digitsU,1)
++ + [RALT K_R] > 'r'
+```
+Line 33:
+```
+- + 'q' > U+A920
++ + [RALT K_U] > 'u'
+```
+Line 34:
+```
+- + 'w' > U+A90E
++ + [RALT K_I] > 'i'
+```
+Line 35:
+```
+- + 'e' > U+A919
++ + [RALT K_O] > 'o'
+```
+Line 36:
+```
+- + 'r' > U+A91A
++ + [RALT K_P] > 'p'
+```
+... and 18 more
 
 ### sil_kayah_latn
 
@@ -4660,9 +5779,9 @@ Line 37:
 ### sil_khmer
 
 - Original lines: 290
-- Roundtrip lines: 41
-- Identical: 24
-- Different: 266
+- Roundtrip lines: 133
+- Identical: 9
+- Different: 281
 
 #### unknown (3)
 
@@ -4711,7 +5830,7 @@ Line 7:
 ```
 ... and 51 more
 
-#### line_added (5)
+#### line_added (20)
 
 Line 13:
 ```
@@ -4738,8 +5857,9 @@ Line 35:
 - 
 + store(latin) "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 ```
+... and 15 more
 
-#### store_reordered (9)
+#### store_reordered (34)
 
 Line 14:
 ```
@@ -4766,17 +5886,22 @@ Line 18:
 - store(&MESSAGE) "Created by D. Kanjahn for Unicode. Input method close to former ABC fonts."
 + store(ind1) U+17AF U+17B1 U+17AB U+17AD
 ```
-... and 4 more
+... and 29 more
 
-#### group_structure (1)
+#### group_structure (2)
 
 Line 24:
 ```
 - begin Unicode> use(main)
 + store(misc0) U+17CA U+17C9
 ```
+Line 95:
+```
+- group(main) using keys
++ + [SHIFT CTRL RALT K_9] > '᧩'
+```
 
-#### line_removed (192)
+#### line_removed (144)
 
 Line 38:
 ```
@@ -4788,39 +5913,89 @@ Line 40:
 - store (vow0) U+17B6 U+17B7 U+17B8 U+17B9 U+17BA U+17BB U+17BC U+17BD U+17BE U+17BF U+17C0 U+17C1 U+17C2 U+17C5 U+17C6 U+17C7
 + 
 ```
-Line 42:
+Line 133:
 ```
-- store(vow1) U+17B6 U+17C1 U+17C4 U+17B5 U+17B4
+- + any(miscA) > index(miscA1,1)
 + 
 ```
-Line 43:
+Line 134:
 ```
-- store(vow2) U+17C4 U+17C3 U+17B5 U+17B4 U+17B6
+- any(miscA1) + ',' > index(miscB,1)
 + 
 ```
-Line 47:
+Line 135:
 ```
-- store(num) "0123456789"
+- any(miscB) + ',' > index(miscC,1)
 + 
 ```
-... and 187 more
+... and 139 more
+
+#### rule_format (22)
+
+Line 98:
+```
+- + ';' > U+17D2
++ + [SHIFT CTRL RALT K_EQUAL] > '᧬'
+```
+Line 100:
+```
+- + [CTRL K_SPACE] > U+200C
++ + [SHIFT CTRL RALT K_W] > '᧮'
+```
+Line 102:
+```
+- + [SHIFT K_SPACE] > U+200D
++ + [SHIFT CTRL RALT K_R] > '៰'
+```
+Line 104:
+```
+- + [ALT K_SPACE] > U+200A
++ + [SHIFT CTRL RALT K_Y] > '៲'
+```
+Line 105:
+```
+- + [SHIFT CTRL K_SPACE] > U+2009
++ + [SHIFT CTRL RALT K_U] > '៳'
+```
+... and 17 more
 
 ### sil_khowar
 
 - Original lines: 159
-- Roundtrip lines: 13
-- Identical: 54
-- Different: 105
+- Roundtrip lines: 108
+- Identical: 22
+- Different: 137
 
-#### line_added (1)
+#### line_added (33)
 
 Line 1:
 ```
 - ﻿
 + c Converted from LDML keyboard: und
 ```
+Line 14:
+```
+- 
++ + [K_1] > '۱'
+```
+Line 16:
+```
+- 
++ + [K_3] > '۳'
+```
+Line 19:
+```
+- 
++ + [K_6] > '۶'
+```
+Line 22:
+```
+- 
++ + [K_9] > '۹'
+```
+... and 28 more
 
-#### line_removed (98)
+#### line_removed (35)
 
 Line 2:
 ```
@@ -4832,22 +6007,22 @@ Line 8:
 - store(&KEYBOARDVERSION) '1.0'
 + 
 ```
-Line 13:
+Line 108:
 ```
-- group(main) using keys
+- + [SHIFT K_U] > U+0626
 + 
 ```
-Line 15:
+Line 110:
 ```
-- + [K_SPACE] > U+0020
+- + [K_V] > U+0637            c req for Khowar
 + 
 ```
-Line 17:
+Line 111:
 ```
-- + [K_0] > U+06f0
+- + [SHIFT K_V] > U+0638      c req for Khowar
 + 
 ```
-... and 93 more
+... and 30 more
 
 #### store_reordered (5)
 
@@ -4877,20 +6052,54 @@ Line 9:
 + begin Unicode > use(main)
 ```
 
-#### group_structure (1)
+#### group_structure (2)
 
 Line 11:
 ```
 - begin Unicode > use(main)
 + group(main) using keys
 ```
+Line 13:
+```
+- group(main) using keys
++ + [K_BKQUOTE] > '؏'
+```
+
+#### rule_format (62)
+
+Line 15:
+```
+- + [K_SPACE] > U+0020
++ + [K_2] > '۲'
+```
+Line 17:
+```
+- + [K_0] > U+06f0
++ + [K_4] > '۴'
+```
+Line 18:
+```
+- + [SHIFT K_0] > U+0028
++ + [K_5] > '۵'
+```
+Line 20:
+```
+- + [K_1] > U+06f1
++ + [K_7] > '۷'
+```
+Line 21:
+```
+- + [SHIFT K_1] > U+0021
++ + [K_8] > '۸'
+```
+... and 57 more
 
 ### sil_kmhmu
 
 - Original lines: 100
-- Roundtrip lines: 30
-- Identical: 16
-- Different: 84
+- Roundtrip lines: 33
+- Identical: 15
+- Different: 85
 
 #### comment_removed (22)
 
@@ -4921,7 +6130,7 @@ Line 19:
 ```
 ... and 17 more
 
-#### store_reordered (12)
+#### store_reordered (14)
 
 Line 3:
 ```
@@ -4948,9 +6157,9 @@ Line 10:
 - store(&KEYBOARDVERSION) '1.8'
 + store(ConsonantKey) "d07''9l-pf84mo[xz/r2,1i];svI<OYU^"
 ```
-... and 7 more
+... and 9 more
 
-#### line_added (4)
+#### line_added (5)
 
 Line 16:
 ```
@@ -4972,6 +6181,11 @@ Line 28:
 - 
 + group(main) using keys
 ```
+Line 32:
+```
+- 
++ + [RALT K_RBRKT] > ']'
+```
 
 #### group_structure (1)
 
@@ -4981,7 +6195,7 @@ Line 17:
 + store(SignKey) "MC"
 ```
 
-#### line_removed (44)
+#### line_removed (42)
 
 Line 25:
 ```
@@ -4993,22 +6207,22 @@ Line 27:
 - store(VowelKey) "gc3w." "tPk" "=eaqyubn56"
 + 
 ```
-Line 30:
-```
-- store(Tone) U+0EC8 U+0EC9 U+0ECA U+0ECB U+0ECC
-+ 
-```
-Line 31:
-```
-- store(ToneKey) "jhHJ%"
-+ 
-```
 Line 34:
 ```
 - store(LaoCharacter) outs(Consonant) outs(Vowel) outs(Tone)
 + 
 ```
-... and 39 more
+Line 37:
+```
+- store(Sign)  "ໆຯ"
++ 
+```
+Line 38:
+```
+- store(SignKey) "MC"
++ 
+```
+... and 37 more
 
 #### unknown (1)
 
@@ -5021,9 +6235,9 @@ Line 26:
 ### sil_kvl_kayaw
 
 - Original lines: 115
-- Roundtrip lines: 13
-- Identical: 4
-- Different: 111
+- Roundtrip lines: 112
+- Identical: 3
+- Different: 112
 
 #### store_reordered (6)
 
@@ -5054,7 +6268,7 @@ Line 6:
 ```
 ... and 1 more
 
-#### line_removed (103)
+#### line_removed (6)
 
 Line 2:
 ```
@@ -5071,40 +6285,74 @@ Line 12:
 - group(main) using keys
 + 
 ```
-Line 13:
+Line 112:
 ```
-- + [K_X] > '̂̌'
+- + [T_0300_0304] > U+0300 U+0304
 + 
 ```
-Line 14:
+Line 113:
 ```
-- + [K_Z] > '̂̄'
+- + [T_0302_0304] >  U+0302 U+0304
 + 
 ```
-... and 98 more
+... and 1 more
 
-#### line_added (1)
+#### line_added (2)
 
 Line 11:
 ```
 - 
 + group(main) using keys
 ```
+Line 109:
+```
+- 
++ + [T_0300_0304] > '̀̄'
+```
+
+#### rule_format (97)
+
+Line 13:
+```
+- + [K_X] > '̂̌'
++ + [K_BKQUOTE] > '`'
+```
+Line 14:
+```
+- + [K_Z] > '̂̄'
++ + [K_1] > '1'
+```
+Line 15:
+```
+- + [K_Q] > '̀̌'
++ + [K_2] > '2'
+```
+Line 16:
+```
+- + [SHIFT K_7] > '7'
++ + [K_3] > '3'
+```
+Line 17:
+```
+- + [SHIFT K_6] > '6'
++ + [K_4] > '4'
+```
+... and 92 more
 
 #### comment_removed (1)
 
 Line 110:
 ```
 - C For Touchscreen only
-+ 
++ + [T_0302_0304] > '̂̄'
 ```
 
 ### sil_limbu_phonetic
 
 - Original lines: 176
-- Roundtrip lines: 13
-- Identical: 52
-- Different: 124
+- Roundtrip lines: 109
+- Identical: 22
+- Different: 154
 
 #### unknown (3)
 
@@ -5147,7 +6395,7 @@ Line 6:
 + store(&VERSION) '10.0'
 ```
 
-#### line_removed (115)
+#### line_removed (49)
 
 Line 8:
 ```
@@ -5164,40 +6412,123 @@ Line 12:
 - store(&Targets) "web desktop"
 + 
 ```
-Line 13:
+Line 109:
 ```
-- store(&VISUALKEYBOARD) 'sil_limbu_phonetic.kvks'
+- + [K_Q] > U+1900
 + 
 ```
-Line 14:
+Line 110:
 ```
-- store(&BITMAP) 'sil_limbu_phonetic.ico'
+- + [SHIFT K_Q] > U+1939
 + 
 ```
-... and 110 more
+... and 44 more
 
-#### line_added (1)
+#### line_added (31)
 
 Line 9:
 ```
 - 
 + begin Unicode > use(main)
 ```
+Line 17:
+```
+- 
++ + [K_4] > '᥊'
+```
+Line 19:
+```
+- 
++ + [K_6] > '᥌'
+```
+Line 21:
+```
+- 
++ + [K_8] > '᥎'
+```
+Line 23:
+```
+- 
++ + [K_0] > '᥆'
+```
+... and 26 more
 
-#### store_reordered (1)
+#### store_reordered (5)
 
 Line 11:
 ```
 - store(&NAME) 'Limbu Phonetic (SIL)'
 + group(main) using keys
 ```
+Line 13:
+```
+- store(&VISUALKEYBOARD) 'sil_limbu_phonetic.kvks'
++ + [K_BKQUOTE] > 'ᤲ'
+```
+Line 14:
+```
+- store(&BITMAP) 'sil_limbu_phonetic.ico'
++ + [K_1] > '᥇'
+```
+Line 15:
+```
+- store(&COPYRIGHT) '© SIL International'
++ + [K_2] > '᥈'
+```
+Line 16:
+```
+- store(&KEYBOARDVERSION) '1.3.1'
++ + [K_3] > '᥉'
+```
+
+#### group_structure (2)
+
+Line 18:
+```
+- begin Unicode > use(main)
++ + [K_5] > '᥋'
+```
+Line 20:
+```
+- group(main) using keys
++ + [K_7] > '᥍'
+```
+
+#### rule_format (60)
+
+Line 22:
+```
+- + [K_SPACE] > U+0020
++ + [K_9] > '᥏'
+```
+Line 24:
+```
+- + [K_0] > U+1946
++ + [K_HYPHEN] > '-'
+```
+Line 25:
+```
+- + [SHIFT K_0] > U+0029
++ + [K_EQUAL] > '='
+```
+Line 27:
+```
+- + [K_1] > U+1947
++ + [K_W] > 'ᤘ'
+```
+Line 28:
+```
+- + [SHIFT K_1] > U+1944
++ + [K_E] > 'ᤣ'
+```
+... and 55 more
 
 ### sil_limbu_typewriter
 
 - Original lines: 178
-- Roundtrip lines: 13
-- Identical: 54
-- Different: 124
+- Roundtrip lines: 115
+- Identical: 22
+- Different: 156
 
 #### unknown (3)
 
@@ -5240,7 +6571,7 @@ Line 6:
 + store(&VERSION) '10.0'
 ```
 
-#### line_removed (115)
+#### line_removed (45)
 
 Line 8:
 ```
@@ -5257,33 +6588,116 @@ Line 12:
 - store(&Targets) "web desktop"
 + 
 ```
-Line 13:
+Line 115:
 ```
-- store(&VISUALKEYBOARD) 'sil_limbu_typewriter.kvks'
+- + [K_S] > U+1901
 + 
 ```
-Line 14:
+Line 116:
 ```
-- store(&BITMAP) 'sil_limbu_typewriter.ico'
+- + [SHIFT K_S] > U+1930
 + 
 ```
-... and 110 more
+... and 40 more
 
-#### line_added (1)
+#### line_added (33)
 
 Line 9:
 ```
 - 
 + begin Unicode > use(main)
 ```
+Line 17:
+```
+- 
++ + [K_4] > '᥊'
+```
+Line 19:
+```
+- 
++ + [K_6] > '᥌'
+```
+Line 21:
+```
+- 
++ + [K_8] > '᥎'
+```
+Line 24:
+```
+- 
++ + [K_HYPHEN] > '_'
+```
+... and 28 more
 
-#### store_reordered (1)
+#### store_reordered (5)
 
 Line 11:
 ```
 - store(&NAME) 'Limbu Typewriter (SIL)'
 + group(main) using keys
 ```
+Line 13:
+```
+- store(&VISUALKEYBOARD) 'sil_limbu_typewriter.kvks'
++ + [K_BKQUOTE] > 'ᤲ'
+```
+Line 14:
+```
+- store(&BITMAP) 'sil_limbu_typewriter.ico'
++ + [K_1] > '᥇'
+```
+Line 15:
+```
+- store(&COPYRIGHT) '© SIL International'
++ + [K_2] > '᥈'
+```
+Line 16:
+```
+- store(&KEYBOARDVERSION) '1.2.1'
++ + [K_3] > '᥉'
+```
+
+#### group_structure (2)
+
+Line 18:
+```
+- begin Unicode > use(main)
++ + [K_5] > '᥋'
+```
+Line 20:
+```
+- group(main) using keys
++ + [K_7] > '᥍'
+```
+
+#### rule_format (64)
+
+Line 22:
+```
+- + [K_SPACE] > U+0020
++ + [K_9] > '᥏'
+```
+Line 23:
+```
+- + [RALT K_SPACE] > U+00a0
++ + [K_0] > '᥆'
+```
+Line 25:
+```
+- + [K_0] > U+1946
++ + [K_EQUAL] > '='
+```
+Line 26:
+```
+- + [SHIFT K_0] > U+0029
++ + [K_Q] > 'ᤪ'
+```
+Line 28:
+```
+- + [K_1] > U+1947
++ + [K_E] > 'ᤓ'
+```
+... and 59 more
 
 ### sil_lisu_basic
 
@@ -5623,9 +7037,9 @@ Line 11:
 ### sil_madi
 
 - Original lines: 183
-- Roundtrip lines: 17
-- Identical: 18
-- Different: 165
+- Roundtrip lines: 139
+- Identical: 13
+- Different: 170
 
 #### comment_removed (10)
 
@@ -5642,12 +7056,12 @@ Line 2:
 Line 112:
 ```
 - c touch longpress to reveal vowel with diacritics - small letters
-+ 
++ + [T_O_ACUTE] > 'ó'
 ```
 Line 131:
 ```
 - c touch longpress to reveal vowel with diacritics - capital letters
-+ 
++ + [T_I_CIRCUMFLEX_CAPS] > 'Î'
 ```
 Line 150:
 ```
@@ -5685,7 +7099,7 @@ Line 10:
 ```
 ... and 1 more
 
-#### line_removed (147)
+#### line_removed (32)
 
 Line 8:
 ```
@@ -5707,14 +7121,14 @@ Line 16:
 - group(main) using keys
 + 
 ```
-Line 17:
+Line 139:
 ```
-- + [SHIFT K_Q] > nul
+- + [T_e_circumflex_caps] > U+0045 U+0302
 + 
 ```
-... and 142 more
+... and 27 more
 
-#### line_added (2)
+#### line_added (7)
 
 Line 13:
 ```
@@ -5726,13 +7140,58 @@ Line 15:
 - 
 + group(main) using keys
 ```
+Line 111:
+```
+- 
++ + [T_I_ACUTE] > 'í'
+```
+Line 118:
+```
+- 
++ + [T_U_CIRCUMFLEX] > 'û'
+```
+Line 124:
+```
+- 
++ + [T_A_ACUTE_CAPS] > 'Á'
+```
+... and 2 more
+
+#### rule_format (115)
+
+Line 17:
+```
+- + [SHIFT K_Q] > nul
++ + [K_BKQUOTE] > '`'
+```
+Line 18:
+```
+- + [SHIFT K_W] > 'W'
++ + [K_1] > '1'
+```
+Line 19:
+```
+- + [SHIFT K_E] > 'E'
++ + [K_2] > '2'
+```
+Line 20:
+```
+- + [SHIFT K_R] > 'R'
++ + [K_3] > '3'
+```
+Line 21:
+```
+- + [SHIFT K_T] > 'T'
++ + [K_4] > '4'
+```
+... and 110 more
 
 ### sil_makuri
 
 - Original lines: 264
-- Roundtrip lines: 13
-- Identical: 53
-- Different: 211
+- Roundtrip lines: 197
+- Identical: 9
+- Different: 255
 
 #### comment_removed (9)
 
@@ -5781,51 +7240,143 @@ Line 9:
 + begin Unicode > use(main)
 ```
 
-#### line_added (1)
+#### line_added (45)
 
 Line 11:
 ```
 - 
 + group(main) using keys
 ```
+Line 20:
+```
+- 
++ + [K_7] > '7'
+```
+Line 22:
+```
+- 
++ + [K_9] > '9'
+```
+Line 24:
+```
+- 
++ + [K_HYPHEN] > '-'
+```
+Line 26:
+```
+- 
++ + [K_Q] > '̞'
+```
+... and 40 more
 
-#### line_removed (198)
+#### line_removed (59)
 
 Line 12:
 ```
 - store(&VERSION) '10.0'
 + 
 ```
+Line 198:
+```
+- + [K_SLASH] > U+002f
++ 
+```
+Line 199:
+```
+- + [SHIFT K_SLASH] > U+003f
++ 
+```
+Line 201:
+```
+- + [K_BKQUOTE] > U+0060
++ 
+```
+Line 202:
+```
+- + [SHIFT K_BKQUOTE] > U+007e
++ 
+```
+... and 54 more
+
+#### store_reordered (7)
+
 Line 13:
 ```
 - store(&NAME) 'Makuri (SIL)'
-+ 
++ + [K_BKQUOTE] > '`'
 ```
 Line 14:
 ```
 - store(&BITMAP) 'makuri.ico'
-+ 
++ + [K_1] > '1'
 ```
 Line 15:
 ```
 - store(&LAYOUTFILE) 'sil_makuri.keyman-touch-layout'
-+ 
++ + [K_2] > '2'
 ```
 Line 16:
 ```
 - store(&COPYRIGHT) '© 2020 SIL International'
-+ 
++ + [K_3] > '3'
 ```
-... and 193 more
+Line 17:
+```
+- store(&KEYBOARDVERSION) '1.0.1'
++ + [K_4] > '4'
+```
+... and 2 more
+
+#### group_structure (2)
+
+Line 21:
+```
+- begin Unicode > use(main)
++ + [K_8] > '8'
+```
+Line 23:
+```
+- group(main) using keys
++ + [K_0] > '0'
+```
+
+#### rule_format (130)
+
+Line 25:
+```
+- + [K_SPACE] > U+0020
++ + [K_EQUAL] > '='
+```
+Line 27:
+```
+- + [K_0] > U+0030
++ + [K_W] > 'w'
+```
+Line 28:
+```
+- + [SHIFT K_0] > U+0029
++ + [K_E] > 'e'
+```
+Line 30:
+```
+- + [K_1] > U+0031
++ + [K_T] > 't'
+```
+Line 31:
+```
+- + [SHIFT K_1] > U+0021
++ + [K_Y] > 'y'
+```
+... and 125 more
 
 ### sil_mali_azerty
 
 - Original lines: 222
-- Roundtrip lines: 53
-- Identical: 24
-- Different: 198
+- Roundtrip lines: 57
+- Identical: 23
+- Different: 199
 
-#### store_reordered (23)
+#### store_reordered (26)
 
 Line 1:
 ```
@@ -5852,9 +7403,9 @@ Line 7:
 - store(&VISUALKEYBOARD) 'sil_mali_azerty.kvks'
 + store(&TARGETS) 'any'
 ```
-... and 18 more
+... and 21 more
 
-#### line_removed (120)
+#### line_removed (117)
 
 Line 2:
 ```
@@ -5866,22 +7417,22 @@ Line 8:
 - store(&KEYBOARDVERSION) '3.3.2'
 + 
 ```
-Line 54:
+Line 57:
 ```
-- store(LatinVowel)      "AEIOUaeiou"
+- store(CompositeCirc)   "Â" "Ê" U+00CE U+00D4 U+00DB "â" U+00EA U+00EE U+00F4 U+00FB
 + 
 ```
-Line 55:
+Line 58:
 ```
-- store(CompositeAcute)  "Á" "É" U+00CD U+00D3 U+00DA "á" U+00E9 U+00ED U+00F3 U+00FA 
+- store(CompositeNasal)  "Ã" "Ẽ" U+0128 U+00D5 U+0168 "ã" U+1EBD U+0129 U+00F5 U+0169
 + 
 ```
-Line 56:
+Line 59:
 ```
-- store(CompositeGrave)  "À" "È" U+00CC U+00D2 U+00D9 "à" U+00E8 U+00EC U+00F2 U+00F9 
+- store(CompositeDrsis)  "Ä" "Ë" U+00CF U+00D6 U+00DC "ä" U+00EB U+00EF U+00F6 U+00FC 
 + 
 ```
-... and 115 more
+... and 112 more
 
 #### comment_removed (45)
 
@@ -5912,7 +7463,7 @@ Line 16:
 ```
 ... and 40 more
 
-#### line_added (8)
+#### line_added (9)
 
 Line 10:
 ```
@@ -5939,7 +7490,7 @@ Line 37:
 - 
 + store(Uspecchar1) "»ƁÇƊƐ"
 ```
-... and 3 more
+... and 4 more
 
 #### group_structure (1)
 
@@ -5960,11 +7511,11 @@ Line 31:
 ### sil_mali_qwerty
 
 - Original lines: 302
-- Roundtrip lines: 55
+- Roundtrip lines: 57
 - Identical: 26
 - Different: 276
 
-#### store_reordered (26)
+#### store_reordered (28)
 
 Line 1:
 ```
@@ -5991,9 +7542,9 @@ Line 6:
 - store(&VISUALKEYBOARD) 'sil_mali_qwerty.kvks'
 + store(&VERSION) '10.0'
 ```
-... and 21 more
+... and 23 more
 
-#### line_removed (195)
+#### line_removed (193)
 
 Line 2:
 ```
@@ -6020,7 +7571,7 @@ Line 54:
 - store(CompositeDrsis)  "Ä" "Ë" U+00CF U+00D6 U+00DC "ä" U+00EB U+00EF U+00F6 U+00FC 
 + 
 ```
-... and 190 more
+... and 188 more
 
 #### line_added (9)
 
@@ -6099,11 +7650,11 @@ Line 34:
 ### sil_mali_qwertz
 
 - Original lines: 262
-- Roundtrip lines: 53
+- Roundtrip lines: 61
 - Identical: 30
 - Different: 232
 
-#### store_reordered (20)
+#### store_reordered (28)
 
 Line 1:
 ```
@@ -6130,9 +7681,9 @@ Line 9:
 - store(&VISUALKEYBOARD) 'sil_mali_qwertz.kvks'
 + store(lessthan) "[K_oE2]  "<""
 ```
-... and 15 more
+... and 23 more
 
-#### line_removed (154)
+#### line_removed (146)
 
 Line 2:
 ```
@@ -6159,7 +7710,7 @@ Line 52:
 - store(LatinVowel)      "AEIOUaeiou"
 + 
 ```
-... and 149 more
+... and 141 more
 
 #### comment_removed (46)
 
@@ -6248,9 +7799,9 @@ Line 49:
 ### sil_moore
 
 - Original lines: 116
-- Roundtrip lines: 47
-- Identical: 19
-- Different: 97
+- Roundtrip lines: 54
+- Identical: 16
+- Different: 100
 
 #### comment_removed (11)
 
@@ -6289,7 +7840,7 @@ Line 3:
 + store(&NAME) 'Mooré - Burkina Faso'
 ```
 
-#### store_reordered (22)
+#### store_reordered (26)
 
 Line 5:
 ```
@@ -6316,9 +7867,9 @@ Line 10:
 - store(&MESSAGE) 'With thanks to Emmanuel Sawadogo for linguistic expert advice'
 + store(outs_0u) "&ẽ"''(-ɛ_çà)="
 ```
-... and 17 more
+... and 21 more
 
-#### line_removed (49)
+#### line_removed (45)
 
 Line 8:
 ```
@@ -6335,19 +7886,19 @@ Line 44:
 - store(keys_3s) [SHIFT K_oE2] 'Z' 'X'      'C'      'VBNM' [NCAPS SHIFT K_COMMA] [NCAPS SHIFT K_PERIOD] [NCAPS SHIFT K_SLASH] [CAPS K_COMMA] [CAPS K_PERIOD] [CAPS K_SLASH]
 + 
 ```
-Line 47:
+Line 54:
 ```
-- store(keys_0a) [NCAPS RALT K_2] [NCAPS RALT K_3] [NCAPS RALT K_4] [NCAPS RALT K_5] [NCAPS RALT K_6] [NCAPS RALT K_7] [NCAPS RALT K_8] [NCAPS RALT K_9] [NCAPS RALT K_0] [NCAPS RALT K_HYPHEN] [NCAPS RALT K_EQUAL]
+- + any(keys_0u) > index(outs_0u,1)
 + 
 ```
-Line 48:
+Line 55:
 ```
-- store(outs_0a) dk(tilde)  '#'        '{'        '['        '|'        dk(grave)  '\'        '^'        '@'        ']'             '}'
+- + any(keys_0s) > index(outs_0s,1)
 + 
 ```
-... and 44 more
+... and 40 more
 
-#### line_added (12)
+#### line_added (15)
 
 Line 12:
 ```
@@ -6374,7 +7925,7 @@ Line 22:
 - 
 + store(outs_3u) "<wɩʋvbn,;:!"
 ```
-... and 7 more
+... and 10 more
 
 #### group_structure (2)
 
@@ -6392,11 +7943,11 @@ Line 19:
 ### sil_myanmar_my3
 
 - Original lines: 173
-- Roundtrip lines: 58
+- Roundtrip lines: 60
 - Identical: 33
 - Different: 140
 
-#### store_reordered (15)
+#### store_reordered (17)
 
 Line 1:
 ```
@@ -6423,9 +7974,9 @@ Line 6:
 - store(&TARGETS) 'any'
 + store(&VERSION) '10.0'
 ```
-... and 10 more
+... and 12 more
 
-#### line_removed (86)
+#### line_removed (84)
 
 Line 2:
 ```
@@ -6447,12 +7998,12 @@ Line 49:
 - store (aaK)     'gm'
 + 
 ```
-Line 50:
+Line 52:
 ```
-- store (aaU)     U+102B U+102C
+- store (lDotK)   'h'
 + 
 ```
-... and 81 more
+... and 79 more
 
 #### line_added (9)
 
@@ -7356,9 +8907,9 @@ Line 67:
 ### sil_nubian
 
 - Original lines: 86
-- Roundtrip lines: 13
-- Identical: 15
-- Different: 71
+- Roundtrip lines: 66
+- Identical: 8
+- Different: 78
 
 #### comment_removed (4)
 
@@ -7383,7 +8934,7 @@ Line 10:
 + 
 ```
 
-#### store_reordered (5)
+#### store_reordered (6)
 
 Line 4:
 ```
@@ -7410,8 +8961,9 @@ Line 11:
 - store(&KEYBOARDVERSION) '1.2.5'
 + group(main) using keys
 ```
+... and 1 more
 
-#### line_removed (62)
+#### line_removed (16)
 
 Line 8:
 ```
@@ -7423,22 +8975,93 @@ Line 12:
 - store(&VISUALKEYBOARD) 'sil_nubian.kvks'
 + 
 ```
-Line 13:
+Line 66:
 ```
-- store(&LAYOUTFILE) 'sil_nubian.keyman-touch-layout'
+- + [SHIFT K_V] > U+2C91
 + 
 ```
+Line 67:
+```
+- + [SHIFT K_W] > U+2CB1 U+0304
++ 
+```
+Line 68:
+```
+- + [SHIFT K_X] > U+2CAD
++ 
+```
+... and 11 more
+
+#### line_added (7)
+
+Line 14:
+```
+- 
++ + [K_Q] > 'ⳣ'
+```
+Line 16:
+```
+- 
++ + [K_E] > 'ⲉ'
+```
+Line 17:
+```
+- 
++ + [K_R] > 'ⲣ'
+```
+Line 19:
+```
+- 
++ + [K_Y] > 'ⲓ̈'
+```
+Line 20:
+```
+- 
++ + [K_U] > 'ⲟⲩ'
+```
+... and 2 more
+
+#### group_structure (2)
+
 Line 15:
 ```
 - begin Unicode > use(main)
-+ 
++ + [K_W] > 'ⲱ'
 ```
 Line 18:
 ```
 - group(main) using keys
-+ 
++ + [K_T] > 'ⲧ'
 ```
-... and 57 more
+
+#### rule_format (43)
+
+Line 21:
+```
+- + [K_A] > U+2C81
++ + [K_I] > 'ⲓ'
+```
+Line 22:
+```
+- + [K_B] > U+2C83
++ + [K_O] > 'ⲟ'
+```
+Line 23:
+```
+- + [K_C] > U+03ED
++ + [K_P] > 'ⲡ'
+```
+Line 24:
+```
+- + [K_D] > U+2C87
++ + [K_A] > 'ⲁ'
+```
+Line 25:
+```
+- + [K_E] > U+2C89
++ + [K_S] > 'ⲥ'
+```
+... and 38 more
 
 ### sil_pan_africa_positional
 
@@ -7632,11 +9255,11 @@ Line 124:
 ### sil_senegal_bqj_azerty
 
 - Original lines: 747
-- Roundtrip lines: 17
-- Identical: 83
-- Different: 664
+- Roundtrip lines: 291
+- Identical: 43
+- Different: 704
 
-#### store_reordered (10)
+#### store_reordered (14)
 
 Line 1:
 ```
@@ -7663,9 +9286,9 @@ Line 6:
 - store(&TARGETS) 'any'
 + store(&VERSION) '10.0'
 ```
-... and 5 more
+... and 9 more
 
-#### line_removed (430)
+#### line_removed (270)
 
 Line 2:
 ```
@@ -7682,17 +9305,17 @@ Line 14:
 - store(&shiftfreescaps) "1"
 + 
 ```
-Line 17:
+Line 291:
 ```
-- begin Unicode > use(main)
+- + [ALT CTRL K_RBRKT]	>	U+00a4
 + 
 ```
-Line 18:
+Line 292:
 ```
-- begin NewContext > use(NewContext)
+- + [T_pound_sign]  >   U+00a3
 + 
 ```
-... and 425 more
+... and 265 more
 
 #### comment_removed (224)
 
@@ -7704,31 +9327,164 @@ Line 15:
 Line 21:
 ```
 - c This tells Keyman compiler which keys should have casing behavior (CAPS/NCAPS) applied. NB only applies to default layer.
-+ 
++ + [K_4] > ''''
 ```
 Line 22:
 ```
 - c With the following keys for azerty layout. Ctrl Alt keys need explicit caps/ncaps statements!
-+ 
++ + [K_5] > '('
 ```
 Line 26:
 ```
 - c We'll define some useful stores here
-+ 
++ + [K_9] > '« '
 ```
 Line 27:
 ```
 - c store(key) [K_A] .. [K_Z] [SHIFT K_A] .. [SHIFT K_Z]
-+ 
++ + [K_0] > ' »'
 ```
 ... and 219 more
+
+#### group_structure (7)
+
+Line 17:
+```
+- begin Unicode > use(main)
++ + [K_BKQUOTE] > 'Ç'
+```
+Line 18:
+```
+- begin NewContext > use(NewContext)
++ + [K_1] > '&'
+```
+Line 19:
+```
+- begin PostKeystroke > use(PostKeystroke)
++ + [K_2] > 'é'
+```
+Line 33:
+```
+- group(NewContext) readonly
++ + [K_R] > 'r'
+```
+Line 39:
+```
+- group(PostKeystroke) readonly
++ + [K_P] > 'p'
+```
+... and 2 more
+
+#### line_added (40)
+
+Line 20:
+```
+- 
++ + [K_3] > '"'
+```
+Line 24:
+```
+- 
++ + [K_7] > '—'
+```
+Line 25:
+```
+- 
++ + [K_8] > '_'
+```
+Line 29:
+```
+- 
++ + [K_EQUAL] > '='
+```
+Line 32:
+```
+- 
++ + [K_E] > 'e'
+```
+... and 35 more
+
+#### unknown (4)
+
+Line 37:
+```
+-     nomatch > use(detectStartOfSentence)
++ + [K_I] > 'i'
+```
+Line 43:
+```
+-     if(&newLayer = "") if(&layer = 'numeric') any(digit) > context
++ + [K_A] > 'q'
+```
+Line 50:
+```
+-     if(&newLayer = "") > use(detectStartOfSentence)
++ + [K_K] > 'k'
+```
+Line 72:
+```
+-     nomatch > layer('default')
++ + [CTRL RALT K_4] > '{'
+```
+
+#### modifier_format (4)
+
+Line 46:
+```
+-     if(&layer = 'caps') > context
++ + [K_F] > 'f'
+```
+Line 61:
+```
+-     nul > layer('shift')
++ + [K_COMMA] > ' ;'
+```
+Line 65:
+```
+-     any(sentencePunctuation) ' ' > layer('shift')
++ + [CAPS K_9] > '9'
+```
+Line 66:
+```
+-     any(sentencePunctuation) '  ' > layer('shift')
++ + [CTRL K_LBRKT] > ''
+```
+
+#### rule_format (141)
+
+Line 79:
+```
+- + [K_BKQUOTE] > U+0060
++ + [CTRL RALT K_HYPHEN] > ']'
+```
+Line 80:
+```
+- + [SHIFT K_BKQUOTE]   >   U+a78c
++ + [CTRL RALT K_EQUAL] > '}'
+```
+Line 81:
+```
+- + [ALT CTRL K_BKQUOTE]   >   U+a78b
++ + [CTRL RALT K_Q] > 'ä'
+```
+Line 82:
+```
+- + [ALT CTRL SHIFT K_BKQUOTE]   >   U+a78c
++ + [CTRL RALT K_W] > 'å'
+```
+Line 83:
+```
+- + [SHIFT T_saltillo] > U+a78b
++ + [CTRL RALT K_E] > '€'
+```
+... and 136 more
 
 ### sil_senegal_bsc_azerty
 
 - Original lines: 589
-- Roundtrip lines: 13
-- Identical: 65
-- Different: 524
+- Roundtrip lines: 243
+- Identical: 27
+- Different: 562
 
 #### store_reordered (7)
 
@@ -7759,7 +9515,7 @@ Line 6:
 ```
 ... and 2 more
 
-#### line_removed (378)
+#### line_removed (226)
 
 Line 2:
 ```
@@ -7776,53 +9532,124 @@ Line 10:
 - store(&kmw_helptext) '<p><a href=welcome/welcome.htm#en rel=help target=_new>in English</a>, <a href=welcome/welcome.htm#fr rel=help target=_new>en fran&#x00E7;ais</a>, <a href=welcome/welcome.htm#pt rel=help target=_new>em portugu&#x00EA;s </a></p>'
 + 
 ```
+Line 243:
+```
+- + [K_QUOTE]	>	 U+00b4
++ 
+```
+Line 244:
+```
+- + [SHIFT K_QUOTE]	>	U+0025
++ 
+```
+... and 221 more
+
+#### group_structure (2)
+
 Line 13:
 ```
 - begin Unicode > use(SGGBFR74)
-+ 
++ + [K_BKQUOTE] > 'Ç'
 ```
 Line 15:
 ```
 - group(SGGBFR74) using keys
-+ 
++ + [K_2] > 'é'
 ```
-... and 373 more
+
+#### line_added (38)
+
+Line 14:
+```
+- 
++ + [K_1] > '&'
+```
+Line 19:
+```
+- 
++ + [K_6] > '-'
+```
+Line 26:
+```
+- 
++ + [K_Q] > 'a'
+```
+Line 29:
+```
+- 
++ + [K_R] > 'r'
+```
+Line 35:
+```
+- 
++ + [K_P] > 'p'
+```
+... and 33 more
 
 #### comment_removed (139)
 
 Line 16:
 ```
 - c setup deadkeys
-+ 
++ + [K_3] > '"'
 ```
 Line 17:
 ```
 - c simple deadkeys
-+ 
++ + [K_4] > ''''
 ```
 Line 18:
 ```
 - c setup 'simple' keys
-+ 
++ + [K_5] > '('
 ```
 Line 21:
 ```
 - c + [SHIFT K_BKQUOTE]   >   U+a78c
-+ 
++ + [K_8] > '_'
 ```
 Line 22:
 ```
 - c + [ALT CTRL K_BKQUOTE]   >   U+a78b
-+ 
++ + [K_9] > '«'
 ```
 ... and 134 more
+
+#### rule_format (150)
+
+Line 20:
+```
+- + [K_BKQUOTE] > U+0060
++ + [K_7] > '—'
+```
+Line 27:
+```
+- + [K_1]	>	U+0026
++ + [K_W] > 'z'
+```
+Line 28:
+```
+- + [SHIFT K_1]	>	U+0031
++ + [K_E] > 'e'
+```
+Line 30:
+```
+- + [K_2]	>	U+00e9
++ + [K_T] > 't'
+```
+Line 31:
+```
+- + [SHIFT K_2]	>	U+0032
++ + [K_Y] > 'y'
+```
+... and 145 more
 
 ### sil_senegal_cou_azerty
 
 - Original lines: 623
-- Roundtrip lines: 13
-- Identical: 67
-- Different: 556
+- Roundtrip lines: 246
+- Identical: 32
+- Different: 591
 
 #### store_reordered (8)
 
@@ -7853,7 +9680,7 @@ Line 6:
 ```
 ... and 3 more
 
-#### line_removed (376)
+#### line_removed (222)
 
 Line 2:
 ```
@@ -7870,55 +9697,126 @@ Line 10:
 - store(&KMW_RTL) '0'
 + 
 ```
+Line 246:
+```
+- + [ALT CTRL K_K]	>	U+0153
++ 
+```
+Line 247:
+```
+- + [ALT CTRL SHIFT K_K]	>	U+0152
++ 
+```
+... and 217 more
+
+#### group_structure (2)
+
 Line 13:
 ```
 - begin Unicode > use(SGGBFR74)
-+ 
++ + [K_BKQUOTE] > '›'
 ```
 Line 15:
 ```
 - group(SGGBFR74) using keys
-+ 
++ + [K_2] > 'é'
 ```
-... and 371 more
+
+#### line_added (35)
+
+Line 14:
+```
+- 
++ + [K_1] > '&'
+```
+Line 19:
+```
+- 
++ + [K_6] > '-'
+```
+Line 26:
+```
+- 
++ + [K_Q] > 'a'
+```
+Line 33:
+```
+- 
++ + [K_I] > 'i'
+```
+Line 39:
+```
+- 
++ + [K_A] > 'q'
+```
+... and 30 more
 
 #### comment_removed (172)
 
 Line 16:
 ```
 - c setup deadkeys
-+ 
++ + [K_3] > '"'
 ```
 Line 17:
 ```
 - c simple deadkeys
-+ 
++ + [K_4] > ''''
 ```
 Line 18:
 ```
 - c setup 'simple' keys
-+ 
++ + [K_5] > '('
 ```
 Line 29:
 ```
 - c + [ALT CTRL K_1]	>	U+1d7d
-+ 
++ + [K_R] > 'r'
 ```
 Line 30:
 ```
 - c + [ALT CTRL SHIFT K_1]	>	 U+2c63
-+ 
++ + [K_T] > 't'
 ```
 ... and 167 more
+
+#### rule_format (152)
+
+Line 20:
+```
+- + [K_BKQUOTE] > U+0060
++ + [K_7] > '—'
+```
+Line 21:
+```
+- + [SHIFT K_BKQUOTE]   >   U+a78c
++ + [K_8] > '_'
+```
+Line 22:
+```
+- + [ALT CTRL K_BKQUOTE]   >   U+a78b
++ + [K_9] > '«'
+```
+Line 23:
+```
+- + [ALT CTRL SHIFT K_BKQUOTE]   >   U+a78c
++ + [K_0] > '»'
+```
+Line 24:
+```
+- + [SHIFT T_saltillo] > U+a78b
++ + [K_HYPHEN] > ')'
+```
+... and 147 more
 
 ### sil_senegal_cou_qwerty
 
 - Original lines: 770
-- Roundtrip lines: 17
-- Identical: 91
-- Different: 679
+- Roundtrip lines: 298
+- Identical: 48
+- Different: 722
 
-#### store_reordered (10)
+#### store_reordered (14)
 
 Line 1:
 ```
@@ -7945,9 +9843,9 @@ Line 6:
 - store(&KEYBOARDVERSION) '1.1.2'
 + store(&VERSION) '10.0'
 ```
-... and 5 more
+... and 9 more
 
-#### line_removed (450)
+#### line_removed (289)
 
 Line 2:
 ```
@@ -7959,22 +9857,22 @@ Line 14:
 - store(&shiftfreescaps) "1"
 + 
 ```
-Line 17:
+Line 298:
 ```
-- begin Unicode > use(main)
+- + [K_A]	>	U+0061
 + 
 ```
-Line 18:
+Line 299:
 ```
-- begin NewContext > use(NewContext)
+- + [SHIFT K_A]	>	U+0041
 + 
 ```
-Line 19:
+Line 302:
 ```
-- begin PostKeystroke > use(PostKeystroke)
+- + [ALT CTRL NCAPS K_A]    >   U+00e1
 + 
 ```
-... and 445 more
+... and 284 more
 
 #### comment_removed (219)
 
@@ -7986,31 +9884,164 @@ Line 15:
 Line 21:
 ```
 - c This tells Keyman compiler which keys should have casing behavior (CAPS/NCAPS) applied. NB only applies to default layer.
-+ 
++ + [K_4] > '4'
 ```
 Line 22:
 ```
 - c With the following keys for azerty layout. Ctrl Alt keys need explicit caps/ncaps statements!
-+ 
++ + [K_5] > '5'
 ```
 Line 26:
 ```
 - c We'll define some useful stores here
-+ 
++ + [K_9] > '9'
 ```
 Line 27:
 ```
 - c store(key) [K_A] .. [K_Z] [SHIFT K_A] .. [SHIFT K_Z]
-+ 
++ + [K_0] > '0'
 ```
 ... and 214 more
+
+#### group_structure (7)
+
+Line 17:
+```
+- begin Unicode > use(main)
++ + [K_BKQUOTE] > '‘'
+```
+Line 18:
+```
+- begin NewContext > use(NewContext)
++ + [K_1] > '1'
+```
+Line 19:
+```
+- begin PostKeystroke > use(PostKeystroke)
++ + [K_2] > '2'
+```
+Line 33:
+```
+- group(NewContext) readonly
++ + [K_R] > 'r'
+```
+Line 39:
+```
+- group(PostKeystroke) readonly
++ + [K_P] > 'p'
+```
+... and 2 more
+
+#### line_added (43)
+
+Line 20:
+```
+- 
++ + [K_3] > '3'
+```
+Line 24:
+```
+- 
++ + [K_7] > '7'
+```
+Line 25:
+```
+- 
++ + [K_8] > '8'
+```
+Line 29:
+```
+- 
++ + [K_EQUAL] > '='
+```
+Line 32:
+```
+- 
++ + [K_E] > 'e'
+```
+... and 38 more
+
+#### unknown (4)
+
+Line 37:
+```
+-     nomatch > use(detectStartOfSentence)
++ + [K_I] > 'i'
+```
+Line 43:
+```
+-     if(&newLayer = "") if(&layer = 'numeric') any(digit) > context
++ + [K_A] > 'a'
+```
+Line 50:
+```
+-     if(&newLayer = "") > use(detectStartOfSentence)
++ + [K_K] > 'k'
+```
+Line 72:
+```
+-     nomatch > layer('default')
++ + [CTRL RALT K_9] > '‘'
+```
+
+#### modifier_format (4)
+
+Line 46:
+```
+-     if(&layer = 'caps') > context
++ + [K_F] > 'f'
+```
+Line 61:
+```
+-     nul > layer('shift')
++ + [K_COMMA] > ','
+```
+Line 65:
+```
+-     any(sentencePunctuation) ' ' > layer('shift')
++ + [CTRL K_LBRKT] > ''
+```
+Line 66:
+```
+-     any(sentencePunctuation) '  ' > layer('shift')
++ + [CTRL K_RBRKT] > ''
+```
+
+#### rule_format (142)
+
+Line 81:
+```
+- + [NCAPS K_BKQUOTE] > U+0060
++ + [CTRL RALT K_Y] > 'ü'
+```
+Line 82:
+```
+- + [SHIFT NCAPS K_BKQUOTE]   >   U+007e
++ + [CTRL RALT K_U] > 'ú'
+```
+Line 83:
+```
+- + [ALT CTRL NCAPS K_BKQUOTE]   >   U+a78c
++ + [CTRL RALT K_I] > 'í'
+```
+Line 84:
+```
+- + [ALT CTRL SHIFT CAPS K_BKQUOTE]   >   U+a78c
++ + [CTRL RALT K_O] > 'ó'
+```
+Line 85:
+```
+- + [ALT CTRL CAPS K_BKQUOTE]   >   U+a78b
++ + [CTRL RALT K_P] > 'ö'
+```
+... and 137 more
 
 ### sil_senegal_dyo_azerty
 
 - Original lines: 612
-- Roundtrip lines: 13
-- Identical: 72
-- Different: 540
+- Roundtrip lines: 231
+- Identical: 40
+- Different: 572
 
 #### store_reordered (8)
 
@@ -8041,7 +10072,7 @@ Line 6:
 ```
 ... and 3 more
 
-#### line_removed (353)
+#### line_removed (210)
 
 Line 2:
 ```
@@ -8063,48 +10094,119 @@ Line 12:
 - store(&kmw_helptext) '<p><a href=welcome/welcome.htm#en rel=help target=_new>in English</a>, <a href=welcome/welcome.htm#fr rel=help target=_new>en fran&#x00E7;ais</a>, <a href=welcome/welcome.htm#pt rel=help target=_new>em portugu&#x00EA;s </a></p>'
 + 
 ```
+Line 231:
+```
+- + [K_G]	>	U+0067
++ 
+```
+... and 205 more
+
+#### line_added (32)
+
+Line 13:
+```
+- 
++ + [K_BKQUOTE] > 'Ç'
+```
+Line 15:
+```
+- 
++ + [K_2] > 'é'
+```
+Line 20:
+```
+- 
++ + [K_7] > '—'
+```
+Line 25:
+```
+- 
++ + [K_EQUAL] > '='
+```
+Line 32:
+```
+- 
++ + [K_U] > 'u'
+```
+... and 27 more
+
+#### group_structure (2)
+
 Line 14:
 ```
 - begin Unicode > use(SGGBFR74)
-+ 
++ + [K_1] > '&'
 ```
-... and 348 more
+Line 16:
+```
+- group(SGGBFR74) using keys
++ + [K_3] > '"'
+```
 
 #### comment_removed (179)
 
 Line 17:
 ```
 - c setup deadkeys
-+ 
++ + [K_4] > ''''
 ```
 Line 18:
 ```
 - c simple deadkeys
-+ 
++ + [K_5] > '('
 ```
 Line 19:
 ```
 - c setup 'simple' keys
-+ 
++ + [K_6] > '-'
 ```
 Line 28:
 ```
 - c + [ALT CTRL K_1]	>	U+1d7d
-+ 
++ + [K_E] > 'e'
 ```
 Line 29:
 ```
 - c + [ALT CTRL SHIFT K_1]	>	 U+2c63
-+ 
++ + [K_R] > 'r'
 ```
 ... and 174 more
+
+#### rule_format (141)
+
+Line 21:
+```
+- + [K_BKQUOTE] > U+0060
++ + [K_8] > '_'
+```
+Line 22:
+```
+- + [SHIFT K_BKQUOTE]   >   U+a78c
++ + [K_9] > '« '
+```
+Line 23:
+```
+- + [ALT CTRL K_BKQUOTE]   >   U+a78b
++ + [K_0] > ' »'
+```
+Line 24:
+```
+- + [ALT CTRL SHIFT K_BKQUOTE]   >   U+a78c
++ + [K_HYPHEN] > ')'
+```
+Line 26:
+```
+- + [K_1]	>	U+0026
++ + [K_Q] > 'a'
+```
+... and 136 more
 
 ### sil_senegal_gsl_azerty
 
 - Original lines: 620
-- Roundtrip lines: 13
-- Identical: 67
-- Different: 553
+- Roundtrip lines: 238
+- Identical: 33
+- Different: 587
 
 #### store_reordered (8)
 
@@ -8135,7 +10237,7 @@ Line 6:
 ```
 ... and 3 more
 
-#### line_removed (357)
+#### line_removed (212)
 
 Line 2:
 ```
@@ -8157,50 +10259,121 @@ Line 12:
 - store(&kmw_helptext) '<p><a href=welcome/welcome.htm#en rel=help target=_new>in English</a>, <a href=welcome/welcome.htm#fr rel=help target=_new>en fran&#x00E7;ais</a>, <a href=welcome/welcome.htm#pt rel=help target=_new>em portugu&#x00EA;s </a></p>'
 + 
 ```
+Line 238:
+```
+- + [SHIFT K_H]	>	U+0048
++ 
+```
+... and 207 more
+
+#### line_added (34)
+
+Line 13:
+```
+- 
++ + [K_BKQUOTE] > 'Ç'
+```
+Line 15:
+```
+- 
++ + [K_2] > 'é'
+```
+Line 20:
+```
+- 
++ + [K_7] > '—'
+```
+Line 27:
+```
+- 
++ + [K_W] > 'z'
+```
+Line 34:
+```
+- 
++ + [K_O] > 'o'
+```
+... and 29 more
+
+#### group_structure (2)
+
 Line 14:
 ```
 - begin Unicode > use(SGGBFR74)
-+ 
++ + [K_1] > '&'
 ```
-... and 352 more
+Line 16:
+```
+- group(SGGBFR74) using keys
++ + [K_3] > '"'
+```
 
 #### comment_removed (188)
 
 Line 17:
 ```
 - c setup deadkeys
-+ 
++ + [K_4] > ''''
 ```
 Line 18:
 ```
 - c simple deadkeys
-+ 
++ + [K_5] > '('
 ```
 Line 19:
 ```
 - c setup 'simple' keys
-+ 
++ + [K_6] > '-'
 ```
 Line 30:
 ```
 - c + [ALT CTRL K_1]	>	U+1d7d
-+ 
++ + [K_T] > 't'
 ```
 Line 31:
 ```
 - c + [ALT CTRL SHIFT K_1]	>	 U+2c63
-+ 
++ + [K_Y] > 'y'
 ```
 ... and 183 more
+
+#### rule_format (143)
+
+Line 21:
+```
+- + [K_BKQUOTE] > U+0060
++ + [K_8] > '_'
+```
+Line 22:
+```
+- + [SHIFT K_BKQUOTE]   >   U+a78c
++ + [K_9] > '« '
+```
+Line 23:
+```
+- + [ALT CTRL K_BKQUOTE]   >   U+a78b
++ + [K_0] > ' »'
+```
+Line 24:
+```
+- + [ALT CTRL SHIFT K_BKQUOTE]   >   U+a78c
++ + [K_HYPHEN] > ')'
+```
+Line 25:
+```
+- + [SHIFT T_saltillo] > U+a78b
++ + [K_EQUAL] > '='
+```
+... and 138 more
 
 ### sil_senegal_knf_azerty
 
 - Original lines: 737
-- Roundtrip lines: 17
-- Identical: 83
-- Different: 654
+- Roundtrip lines: 294
+- Identical: 42
+- Different: 695
 
-#### store_reordered (10)
+#### store_reordered (14)
 
 Line 1:
 ```
@@ -8227,9 +10400,9 @@ Line 6:
 - store(&TARGETS) 'any'
 + store(&VERSION) '10.0'
 ```
-... and 5 more
+... and 9 more
 
-#### line_removed (427)
+#### line_removed (263)
 
 Line 2:
 ```
@@ -8246,17 +10419,17 @@ Line 14:
 - store(&shiftfreescaps) "1"
 + 
 ```
-Line 17:
+Line 294:
 ```
-- begin Unicode > use(main)
+- + [ALT CTRL K_BKSLASH]	>	U+00a2
 + 
 ```
-Line 18:
+Line 295:
 ```
-- begin NewContext > use(NewContext)
+- + [ALT CTRL SHIFT K_BKSLASH]	>	U+00a6
 + 
 ```
-... and 422 more
+... and 258 more
 
 #### comment_removed (217)
 
@@ -8268,31 +10441,164 @@ Line 15:
 Line 21:
 ```
 - c This tells Keyman compiler which keys should have casing behavior (CAPS/NCAPS) applied. NB only applies to default layer.
-+ 
++ + [K_4] > ''''
 ```
 Line 22:
 ```
 - c With the following keys for azerty layout. Ctrl Alt keys need explicit caps/ncaps statements!
-+ 
++ + [K_5] > '('
 ```
 Line 26:
 ```
 - c We'll define some useful stores here
-+ 
++ + [K_9] > '« '
 ```
 Line 27:
 ```
 - c store(key) [K_A] .. [K_Z] [SHIFT K_A] .. [SHIFT K_Z]
-+ 
++ + [K_0] > ' »'
 ```
 ... and 212 more
+
+#### group_structure (7)
+
+Line 17:
+```
+- begin Unicode > use(main)
++ + [K_BKQUOTE] > 'Ç'
+```
+Line 18:
+```
+- begin NewContext > use(NewContext)
++ + [K_1] > '&'
+```
+Line 19:
+```
+- begin PostKeystroke > use(PostKeystroke)
++ + [K_2] > 'é'
+```
+Line 33:
+```
+- group(NewContext) readonly
++ + [K_R] > 'r'
+```
+Line 39:
+```
+- group(PostKeystroke) readonly
++ + [K_P] > 'p'
+```
+... and 2 more
+
+#### line_added (41)
+
+Line 20:
+```
+- 
++ + [K_3] > '"'
+```
+Line 24:
+```
+- 
++ + [K_7] > '—'
+```
+Line 25:
+```
+- 
++ + [K_8] > '_'
+```
+Line 29:
+```
+- 
++ + [K_EQUAL] > '='
+```
+Line 32:
+```
+- 
++ + [K_E] > 'e'
+```
+... and 36 more
+
+#### unknown (4)
+
+Line 37:
+```
+-     nomatch > use(detectStartOfSentence)
++ + [K_I] > 'i'
+```
+Line 43:
+```
+-     if(&newLayer = "") if(&layer = 'numeric') any(digit) > context
++ + [K_A] > 'q'
+```
+Line 50:
+```
+-     if(&newLayer = "") > use(detectStartOfSentence)
++ + [K_K] > 'k'
+```
+Line 72:
+```
+-     nomatch > layer('default')
++ + [CTRL RALT K_4] > '{'
+```
+
+#### modifier_format (4)
+
+Line 46:
+```
+-     if(&layer = 'caps') > context
++ + [K_F] > 'f'
+```
+Line 61:
+```
+-     nul > layer('shift')
++ + [K_COMMA] > ' ;'
+```
+Line 65:
+```
+-     any(sentencePunctuation) ' ' > layer('shift')
++ + [CAPS K_9] > '9'
+```
+Line 66:
+```
+-     any(sentencePunctuation) '  ' > layer('shift')
++ + [CTRL K_LBRKT] > ''
+```
+
+#### rule_format (145)
+
+Line 79:
+```
+- + [K_BKQUOTE] > U+0060
++ + [CTRL RALT K_HYPHEN] > ']'
+```
+Line 80:
+```
+- + [SHIFT K_BKQUOTE]   >   U+a78c
++ + [CTRL RALT K_EQUAL] > '}'
+```
+Line 81:
+```
+- + [ALT CTRL K_BKQUOTE]   >   U+a78b
++ + [CTRL RALT K_Q] > 'ä'
+```
+Line 82:
+```
+- + [ALT CTRL SHIFT K_BKQUOTE]   >   U+a78c
++ + [CTRL RALT K_W] > 'å'
+```
+Line 83:
+```
+- + [SHIFT T_saltillo] > U+a78b
++ + [CTRL RALT K_E] > '€'
+```
+... and 140 more
 
 ### sil_senegal_krx_azerty
 
 - Original lines: 599
-- Roundtrip lines: 13
-- Identical: 72
-- Different: 527
+- Roundtrip lines: 216
+- Identical: 44
+- Different: 555
 
 #### store_reordered (8)
 
@@ -8323,7 +10629,7 @@ Line 6:
 ```
 ... and 3 more
 
-#### line_removed (339)
+#### line_removed (223)
 
 Line 2:
 ```
@@ -8345,48 +10651,119 @@ Line 12:
 - store(&kmw_helptext) '<p><a href=welcome/welcome.htm#en rel=help target=_new>in English</a>, <a href=welcome/welcome.htm#fr rel=help target=_new>en fran&#x00E7;ais</a>, <a href=welcome/welcome.htm#pt rel=help target=_new>em portugu&#x00EA;s </a></p>'
 + 
 ```
+Line 216:
+```
+- + [T_cent]	>	U+00a2
++ 
+```
+... and 218 more
+
+#### line_added (28)
+
+Line 13:
+```
+- 
++ + [K_BKQUOTE] > 'Ç'
+```
+Line 15:
+```
+- 
++ + [K_2] > 'é'
+```
+Line 20:
+```
+- 
++ + [K_7] > '—'
+```
+Line 25:
+```
+- 
++ + [K_EQUAL] > '='
+```
+Line 32:
+```
+- 
++ + [K_U] > 'u'
+```
+... and 23 more
+
+#### group_structure (2)
+
 Line 14:
 ```
 - begin Unicode > use(SGGBFR74)
-+ 
++ + [K_1] > '&'
 ```
-... and 334 more
+Line 16:
+```
+- group(SGGBFR74) using keys
++ + [K_3] > '"'
+```
 
 #### comment_removed (180)
 
 Line 17:
 ```
 - c setup deadkeys
-+ 
++ + [K_4] > ''''
 ```
 Line 18:
 ```
 - c simple deadkeys
-+ 
++ + [K_5] > '('
 ```
 Line 19:
 ```
 - c setup 'simple' keys
-+ 
++ + [K_6] > '-'
 ```
 Line 22:
 ```
 - c + [SHIFT K_BKQUOTE]   >   U+a78c
-+ 
++ + [K_9] > '«'
 ```
 Line 23:
 ```
 - c + [ALT CTRL K_BKQUOTE]   >   U+a78b
-+ 
++ + [K_0] > '»'
 ```
 ... and 175 more
+
+#### rule_format (114)
+
+Line 21:
+```
+- + [K_BKQUOTE] > U+0060
++ + [K_8] > '_'
+```
+Line 26:
+```
+- + [K_1]	>	U+0026
++ + [K_Q] > 'a'
+```
+Line 27:
+```
+- + [SHIFT K_1]	>	U+0031
++ + [K_W] > 'z'
+```
+Line 33:
+```
+- + [K_2]	>	U+00e9
++ + [K_I] > 'i'
+```
+Line 34:
+```
+- + [SHIFT K_2]	>	U+0032
++ + [K_O] > 'o'
+```
+... and 109 more
 
 ### sil_senegal_krx_qwerty
 
 - Original lines: 770
-- Roundtrip lines: 17
-- Identical: 88
-- Different: 682
+- Roundtrip lines: 299
+- Identical: 45
+- Different: 725
 
 #### comment_removed (221)
 
@@ -8403,21 +10780,21 @@ Line 16:
 Line 22:
 ```
 - c This tells Keyman compiler which keys should have casing behavior (CAPS/NCAPS) applied. NB only applies to default layer.
-+ 
++ + [K_5] > '5'
 ```
 Line 23:
 ```
 - c With the following keys for azerty layout. Ctrl Alt keys need explicit caps/ncaps statements!
-+ 
++ + [K_6] > '6'
 ```
 Line 27:
 ```
 - c We'll define some useful stores here
-+ 
++ + [K_0] > '0'
 ```
 ... and 216 more
 
-#### line_removed (451)
+#### line_removed (290)
 
 Line 2:
 ```
@@ -8439,14 +10816,14 @@ Line 14:
 - store(&capsononly) "1"
 + 
 ```
-Line 18:
+Line 300:
 ```
-- begin Unicode > use(main)
+- + [ALT CTRL NCAPS K_A]    >   U+00e1
 + 
 ```
-... and 446 more
+... and 285 more
 
-#### store_reordered (8)
+#### store_reordered (12)
 
 Line 3:
 ```
@@ -8473,9 +10850,9 @@ Line 7:
 - store(&KEYBOARDVERSION) '1.1.0'
 + store(&TARGETS) 'any'
 ```
-... and 3 more
+... and 7 more
 
-#### line_added (2)
+#### line_added (45)
 
 Line 9:
 ```
@@ -8487,13 +10864,133 @@ Line 13:
 - 
 + begin Unicode > use(main)
 ```
+Line 17:
+```
+- 
++ + [K_BKQUOTE] > '‘'
+```
+Line 21:
+```
+- 
++ + [K_4] > '4'
+```
+Line 25:
+```
+- 
++ + [K_8] > '8'
+```
+... and 40 more
+
+#### group_structure (7)
+
+Line 18:
+```
+- begin Unicode > use(main)
++ + [K_1] > '1'
+```
+Line 19:
+```
+- begin NewContext > use(NewContext)
++ + [K_2] > '2'
+```
+Line 20:
+```
+- begin PostKeystroke > use(PostKeystroke)
++ + [K_3] > '3'
+```
+Line 34:
+```
+- group(NewContext) readonly
++ + [K_T] > 't'
+```
+Line 40:
+```
+- group(PostKeystroke) readonly
++ + [K_LBRKT] > 'Ŋ'
+```
+... and 2 more
+
+#### unknown (4)
+
+Line 38:
+```
+-     nomatch > use(detectStartOfSentence)
++ + [K_O] > 'o'
+```
+Line 44:
+```
+-     if(&newLayer = "") if(&layer = 'numeric') any(digit) > context
++ + [K_S] > 's'
+```
+Line 51:
+```
+-     if(&newLayer = "") > use(detectStartOfSentence)
++ + [K_L] > 'l'
+```
+Line 73:
+```
+-     nomatch > layer('default')
++ + [CTRL RALT K_0] > '’'
+```
+
+#### modifier_format (4)
+
+Line 47:
+```
+-     if(&layer = 'caps') > context
++ + [K_G] > 'g'
+```
+Line 62:
+```
+-     nul > layer('shift')
++ + [K_PERIOD] > '.'
+```
+Line 66:
+```
+-     any(sentencePunctuation) ' ' > layer('shift')
++ + [CTRL K_RBRKT] > ''
+```
+Line 67:
+```
+-     any(sentencePunctuation) '  ' > layer('shift')
++ + [CTRL K_BKSLASH] > ''
+```
+
+#### rule_format (142)
+
+Line 82:
+```
+- + [NCAPS K_BKQUOTE] > U+0060
++ + [CTRL RALT K_U] > 'ú'
+```
+Line 83:
+```
+- + [SHIFT NCAPS K_BKQUOTE]   >   U+007e
++ + [CTRL RALT K_I] > 'í'
+```
+Line 84:
+```
+- + [ALT CTRL NCAPS K_BKQUOTE]   >   U+a78c
++ + [CTRL RALT K_O] > 'ó'
+```
+Line 85:
+```
+- + [ALT CTRL SHIFT CAPS K_BKQUOTE]   >   U+a78c
++ + [CTRL RALT K_P] > 'ö'
+```
+Line 86:
+```
+- + [ALT CTRL CAPS K_BKQUOTE]   >   U+a78b
++ + [CTRL RALT K_LBRKT] > '«'
+```
+... and 137 more
 
 ### sil_senegal_ndv_azerty
 
 - Original lines: 603
-- Roundtrip lines: 13
-- Identical: 68
-- Different: 535
+- Roundtrip lines: 249
+- Identical: 30
+- Different: 573
 
 #### store_reordered (7)
 
@@ -8524,7 +11021,7 @@ Line 6:
 ```
 ... and 2 more
 
-#### line_removed (379)
+#### line_removed (224)
 
 Line 2:
 ```
@@ -8541,53 +11038,124 @@ Line 10:
 - store(&kmw_helptext) '<p><a href=welcome/welcome.htm#en rel=help target=_new>in English</a>, <a href=welcome/welcome.htm#fr rel=help target=_new>en fran&#x00E7;ais</a>, <a href=welcome/welcome.htm#pt rel=help target=_new>em portugu&#x00EA;s </a></p>'
 + 
 ```
+Line 249:
+```
+- + [K_QUOTE]	>	 U+00b4
++ 
+```
+Line 250:
+```
+- + [SHIFT K_QUOTE]	>	U+0025
++ 
+```
+... and 219 more
+
+#### group_structure (2)
+
 Line 13:
 ```
 - begin Unicode > use(SGGBFR74)
-+ 
++ + [K_BKQUOTE] > 'Ç'
 ```
 Line 15:
 ```
 - group(SGGBFR74) using keys
-+ 
++ + [K_2] > 'é'
 ```
-... and 374 more
+
+#### line_added (38)
+
+Line 14:
+```
+- 
++ + [K_1] > '&'
+```
+Line 19:
+```
+- 
++ + [K_6] > '-'
+```
+Line 26:
+```
+- 
++ + [K_Q] > 'a'
+```
+Line 31:
+```
+- 
++ + [K_Y] > 'y'
+```
+Line 37:
+```
+- 
++ + [K_RBRKT] > '$'
+```
+... and 33 more
 
 #### comment_removed (149)
 
 Line 16:
 ```
 - c setup deadkeys
-+ 
++ + [K_3] > '"'
 ```
 Line 17:
 ```
 - c simple deadkeys
-+ 
++ + [K_4] > ''''
 ```
 Line 18:
 ```
 - c setup 'simple' keys
-+ 
++ + [K_5] > '('
 ```
 Line 23:
 ```
 - c + [ALT CTRL SHIFT K_BKQUOTE]   >   beep
-+ 
++ + [K_0] > '»'
 ```
 Line 29:
 ```
 - c + [ALT CTRL K_1]	>	U+1d7d
-+ 
++ + [K_R] > 'r'
 ```
 ... and 144 more
+
+#### rule_format (153)
+
+Line 20:
+```
+- + [K_BKQUOTE] > U+0060
++ + [K_7] > '—'
+```
+Line 21:
+```
+- + [SHIFT K_BKQUOTE]   >   U+a78c
++ + [K_8] > '_'
+```
+Line 22:
+```
+- + [ALT CTRL K_BKQUOTE]   >   U+a78b
++ + [K_9] > '«'
+```
+Line 24:
+```
+- + [SHIFT T_saltillo] > U+a78b
++ + [K_HYPHEN] > ')'
+```
+Line 25:
+```
+- + [T_saltillo] > U+a78c
++ + [K_EQUAL] > '='
+```
+... and 148 more
 
 ### sil_senegal_sav_azerty
 
 - Original lines: 617
-- Roundtrip lines: 13
-- Identical: 68
-- Different: 549
+- Roundtrip lines: 248
+- Identical: 32
+- Different: 585
 
 #### store_reordered (8)
 
@@ -8618,7 +11186,7 @@ Line 6:
 ```
 ... and 3 more
 
-#### line_removed (375)
+#### line_removed (218)
 
 Line 2:
 ```
@@ -8635,53 +11203,124 @@ Line 10:
 - store(&KMW_RTL) '0'
 + 
 ```
+Line 248:
+```
+- + [ALT CTRL K_L]	>	U+00f8
++ 
+```
+Line 249:
+```
+- + [ALT CTRL SHIFT K_L]	>	U+00d8
++ 
+```
+... and 213 more
+
+#### group_structure (2)
+
 Line 13:
 ```
 - begin Unicode > use(SGGBFR74)
-+ 
++ + [K_BKQUOTE] > 'Ç'
 ```
 Line 15:
 ```
 - group(SGGBFR74) using keys
-+ 
++ + [K_2] > 'é'
 ```
-... and 370 more
+
+#### line_added (36)
+
+Line 14:
+```
+- 
++ + [K_1] > '&'
+```
+Line 19:
+```
+- 
++ + [K_6] > '-'
+```
+Line 26:
+```
+- 
++ + [K_Q] > 'a'
+```
+Line 33:
+```
+- 
++ + [K_I] > 'i'
+```
+Line 38:
+```
+- 
++ + [K_BKSLASH] > '*'
+```
+... and 31 more
 
 #### comment_removed (166)
 
 Line 16:
 ```
 - c setup deadkeys
-+ 
++ + [K_3] > '"'
 ```
 Line 17:
 ```
 - c simple deadkeys
-+ 
++ + [K_4] > ''''
 ```
 Line 18:
 ```
 - c setup 'simple' keys
-+ 
++ + [K_5] > '('
 ```
 Line 29:
 ```
 - c + [ALT CTRL K_1]	>	U+1d7d
-+ 
++ + [K_R] > 'r'
 ```
 Line 30:
 ```
 - c + [ALT CTRL SHIFT K_1]	>	 U+2c63
-+ 
++ + [K_T] > 't'
 ```
 ... and 161 more
+
+#### rule_format (155)
+
+Line 20:
+```
+- + [K_BKQUOTE] > U+0060
++ + [K_7] > '—'
+```
+Line 21:
+```
+- + [SHIFT K_BKQUOTE]   >   U+a78c
++ + [K_8] > '_'
+```
+Line 22:
+```
+- + [ALT CTRL K_BKQUOTE]   >   U+a78b
++ + [K_9] > '« '
+```
+Line 23:
+```
+- + [ALT CTRL SHIFT K_BKQUOTE]   >   U+a78c
++ + [K_0] > ' »'
+```
+Line 24:
+```
+- + [SHIFT T_saltillo] > U+a78b
++ + [K_HYPHEN] > ')'
+```
+... and 150 more
 
 ### sil_senegal_snf_azerty
 
 - Original lines: 608
-- Roundtrip lines: 13
-- Identical: 80
-- Different: 528
+- Roundtrip lines: 229
+- Identical: 46
+- Different: 562
 
 #### store_reordered (7)
 
@@ -8712,7 +11351,7 @@ Line 6:
 ```
 ... and 2 more
 
-#### line_removed (356)
+#### line_removed (214)
 
 Line 2:
 ```
@@ -8729,53 +11368,124 @@ Line 10:
 - store(&kmw_helptext) '<p><a href=welcome/welcome.htm#en rel=help target=_new>in English</a>, <a href=welcome/welcome.htm#fr rel=help target=_new>en fran&#x00E7;ais</a>, <a href=welcome/welcome.htm#pt rel=help target=_new>em portugu&#x00EA;s </a></p>'
 + 
 ```
+Line 229:
+```
+- + [SHIFT K_J]	>	U+004a
++ 
+```
+Line 231:
+```
+- + [K_K]	>	U+006b
++ 
+```
+... and 209 more
+
+#### group_structure (2)
+
 Line 13:
 ```
 - begin Unicode > use(SGGBFR74)
-+ 
++ + [K_BKQUOTE] > 'Ç'
 ```
 Line 15:
 ```
 - group(SGGBFR74) using keys
-+ 
++ + [K_2] > 'é'
 ```
-... and 351 more
+
+#### line_added (34)
+
+Line 14:
+```
+- 
++ + [K_1] > '&'
+```
+Line 19:
+```
+- 
++ + [K_6] > '-'
+```
+Line 26:
+```
+- 
++ + [K_W] > 'ë'
+```
+Line 29:
+```
+- 
++ + [K_T] > 't'
+```
+Line 35:
+```
+- 
++ + [K_LBRKT] > 'Û'
+```
+... and 29 more
 
 #### comment_removed (165)
 
 Line 16:
 ```
 - c setup deadkeys
-+ 
++ + [K_3] > '"'
 ```
 Line 17:
 ```
 - c simple deadkeys
-+ 
++ + [K_4] > ''''
 ```
 Line 18:
 ```
 - c setup 'simple' keys
-+ 
++ + [K_5] > '('
 ```
 Line 21:
 ```
 - c + [SHIFT K_BKQUOTE]   >   U+a78c
-+ 
++ + [K_8] > '_'
 ```
 Line 22:
 ```
 - c + [ALT CTRL K_BKQUOTE]   >   U+a78b
-+ 
++ + [K_9] > '«'
 ```
 ... and 160 more
+
+#### rule_format (140)
+
+Line 20:
+```
+- + [K_BKQUOTE] > U+0060
++ + [K_7] > '—'
+```
+Line 24:
+```
+- + [SHIFT T_saltillo] > U+a78b
++ + [K_EQUAL] > '='
+```
+Line 25:
+```
+- + [T_saltillo] > U+a78c
++ + [K_Q] > 'a'
+```
+Line 27:
+```
+- + [K_1]	>	U+0026
++ + [K_E] > 'e'
+```
+Line 28:
+```
+- + [SHIFT K_1]	>	U+0031
++ + [K_R] > 'r'
+```
+... and 135 more
 
 ### sil_senegal_srr_azerty
 
 - Original lines: 601
-- Roundtrip lines: 13
-- Identical: 77
-- Different: 524
+- Roundtrip lines: 233
+- Identical: 42
+- Different: 559
 
 #### store_reordered (7)
 
@@ -8806,7 +11516,7 @@ Line 6:
 ```
 ... and 2 more
 
-#### line_removed (375)
+#### line_removed (231)
 
 Line 2:
 ```
@@ -8828,48 +11538,119 @@ Line 12:
 - store(&KMW_RTL) '0'
 + 
 ```
+Line 233:
+```
+- + [K_J]	>	U+006a
++ 
+```
+... and 226 more
+
+#### line_added (35)
+
+Line 13:
+```
+- 
++ + [K_BKQUOTE] > 'Ç'
+```
+Line 15:
+```
+- 
++ + [K_2] > 'é'
+```
+Line 20:
+```
+- 
++ + [K_7] > '—'
+```
+Line 27:
+```
+- 
++ + [K_W] > 'z'
+```
+Line 34:
+```
+- 
++ + [K_O] > 'o'
+```
+... and 30 more
+
+#### group_structure (2)
+
 Line 14:
 ```
 - begin Unicode > use(SGGBFR74)
-+ 
++ + [K_1] > '&'
 ```
-... and 370 more
+Line 16:
+```
+- group(SGGBFR74) using keys
++ + [K_3] > '"'
+```
 
 #### comment_removed (142)
 
 Line 17:
 ```
 - c setup deadkeys
-+ 
++ + [K_4] > ''''
 ```
 Line 18:
 ```
 - c simple deadkeys
-+ 
++ + [K_5] > '('
 ```
 Line 19:
 ```
 - c setup 'simple' keys
-+ 
++ + [K_6] > '-'
 ```
 Line 24:
 ```
 - c + [ALT CTRL SHIFT K_BKQUOTE]   >   beep
-+ 
++ + [K_HYPHEN] > ')'
 ```
 Line 30:
 ```
 - c + [ALT CTRL K_1]	>	U+1d7d
-+ 
++ + [K_T] > 't'
+```
+... and 137 more
+
+#### rule_format (142)
+
+Line 21:
+```
+- + [K_BKQUOTE] > U+0060
++ + [K_8] > '_'
+```
+Line 22:
+```
+- + [SHIFT K_BKQUOTE]   >   U+a78c
++ + [K_9] > '«'
+```
+Line 23:
+```
+- + [ALT CTRL K_BKQUOTE]   >   U+a78b
++ + [K_0] > '»'
+```
+Line 25:
+```
+- + [SHIFT T_saltillo] > U+a78b
++ + [K_EQUAL] > '='
+```
+Line 26:
+```
+- + [T_saltillo] > U+a78c
++ + [K_Q] > 'a'
 ```
 ... and 137 more
 
 ### sil_senegal_wo_azerty
 
 - Original lines: 609
-- Roundtrip lines: 13
-- Identical: 76
-- Different: 533
+- Roundtrip lines: 245
+- Identical: 40
+- Different: 569
 
 #### store_reordered (7)
 
@@ -8900,7 +11681,7 @@ Line 6:
 ```
 ... and 2 more
 
-#### line_removed (384)
+#### line_removed (233)
 
 Line 2:
 ```
@@ -8917,53 +11698,124 @@ Line 10:
 - store(&kmw_helptext) '<p><a href=welcome/welcome.htm#en rel=help target=_new>in English</a>, <a href=welcome/welcome.htm#fr rel=help target=_new>en fran&#x00E7;ais</a>, <a href=welcome/welcome.htm#pt rel=help target=_new>em portugu&#x00EA;s </a></p>'
 + 
 ```
+Line 245:
+```
+- + [ALT CTRL SHIFT K_L]	>	U+00D8
++ 
+```
+Line 247:
+```
+- + [K_COLON]	>	U+006d
++ 
+```
+... and 228 more
+
+#### group_structure (2)
+
 Line 13:
 ```
 - begin Unicode > use(SGGBFR74)
-+ 
++ + [K_BKQUOTE] > 'Ç'
 ```
 Line 15:
 ```
 - group(SGGBFR74) using keys
-+ 
++ + [K_2] > 'é'
 ```
-... and 379 more
+
+#### line_added (36)
+
+Line 14:
+```
+- 
++ + [K_1] > '&'
+```
+Line 19:
+```
+- 
++ + [K_6] > '-'
+```
+Line 26:
+```
+- 
++ + [K_Q] > 'a'
+```
+Line 33:
+```
+- 
++ + [K_I] > 'i'
+```
+Line 39:
+```
+- 
++ + [K_A] > 'q'
+```
+... and 31 more
 
 #### comment_removed (142)
 
 Line 16:
 ```
 - c setup deadkeys
-+ 
++ + [K_3] > '"'
 ```
 Line 17:
 ```
 - c simple deadkeys
-+ 
++ + [K_4] > ''''
 ```
 Line 18:
 ```
 - c setup 'simple' keys
-+ 
++ + [K_5] > '('
 ```
 Line 21:
 ```
 - c + [SHIFT K_BKQUOTE]   >   U+a78c
-+ 
++ + [K_8] > '_'
 ```
 Line 22:
 ```
 - c + [ALT CTRL K_BKQUOTE]   >   U+a78b
-+ 
++ + [K_9] > '«'
 ```
 ... and 137 more
+
+#### rule_format (149)
+
+Line 20:
+```
+- + [K_BKQUOTE] > U+0060
++ + [K_7] > '—'
+```
+Line 27:
+```
+- + [K_1]	>	U+0026
++ + [K_W] > 'ë'
+```
+Line 28:
+```
+- + [SHIFT K_1]	>	U+0031
++ + [K_E] > 'e'
+```
+Line 34:
+```
+- + [K_2]	>	U+00e9
++ + [K_O] > 'o'
+```
+Line 35:
+```
+- + [SHIFT K_2]	>	U+0032
++ + [K_P] > 'p'
+```
+... and 144 more
 
 ### sil_sgaw_karen
 
 - Original lines: 189
-- Roundtrip lines: 16
-- Identical: 65
-- Different: 124
+- Roundtrip lines: 110
+- Identical: 33
+- Different: 156
 
 #### unknown (3)
 
@@ -9012,7 +11864,7 @@ Line 169:
 ```
 ... and 3 more
 
-#### line_removed (109)
+#### line_removed (47)
 
 Line 8:
 ```
@@ -9034,22 +11886,43 @@ Line 15:
 - store(&LAYOUTFILE) 'sil_sgaw_karen.keyman-touch-layout'
 + 
 ```
-Line 16:
+Line 110:
 ```
-- store(&COPYRIGHT) '© 2020-2022 SIL International'
+- + [SHIFT K_S] > U+1060
 + 
 ```
-... and 104 more
+... and 42 more
 
-#### line_added (1)
+#### line_added (33)
 
 Line 9:
 ```
 - 
 + store(bcons) "ကခဂဃငစဆဇဈဉညဋဌဍဎဏတထဒဓနပဖဗဘမယရလဝသဟဠ"
 ```
+Line 18:
+```
+- 
++ + [K_2] > '၂'
+```
+Line 20:
+```
+- 
++ + [K_4] > '၄'
+```
+Line 22:
+```
+- 
++ + [K_6] > '၆'
+```
+Line 24:
+```
+- 
++ + [K_8] > '၈'
+```
+... and 28 more
 
-#### store_reordered (3)
+#### store_reordered (5)
 
 Line 10:
 ```
@@ -9066,13 +11939,65 @@ Line 14:
 - store(&BITMAP) 'sil_sgaw_karen.ico'
 + group(main) using keys
 ```
+Line 16:
+```
+- store(&COPYRIGHT) '© 2020-2022 SIL International'
++ + [K_BKQUOTE] > '`'
+```
+Line 17:
+```
+- store(&KEYBOARDVERSION) '1.1'
++ + [K_1] > '၁'
+```
+
+#### group_structure (2)
+
+Line 19:
+```
+- begin Unicode > use(main)
++ + [K_3] > '၃'
+```
+Line 21:
+```
+- group(main) using keys
++ + [K_5] > '၅'
+```
+
+#### rule_format (58)
+
+Line 23:
+```
+- + [K_SPACE] > U+0020
++ + [K_7] > '၇'
+```
+Line 25:
+```
+- + [K_0] > U+1040
++ + [K_9] > '၉'
+```
+Line 26:
+```
+- + [SHIFT K_0] > U+0029
++ + [K_0] > '၀'
+```
+Line 28:
+```
+- + [K_1] > U+1041
++ + [K_EQUAL] > '='
+```
+Line 29:
+```
+- + [SHIFT K_1] > U+0020 U+0021
++ + [K_Q] > 'ဆ'
+```
+... and 53 more
 
 ### sil_shan
 
 - Original lines: 283
-- Roundtrip lines: 62
-- Identical: 13
-- Different: 270
+- Roundtrip lines: 93
+- Identical: 9
+- Different: 274
 
 #### comment_removed (7)
 
@@ -9103,7 +12028,7 @@ Line 255:
 ```
 ... and 2 more
 
-#### line_removed (212)
+#### line_removed (185)
 
 Line 2:
 ```
@@ -9125,14 +12050,14 @@ Line 50:
 - store(sdiaU)    U+1086
 + 
 ```
-Line 51:
+Line 82:
 ```
-- store(ldiaK)    'kl'
+- + [SHIFT RALT K_6] > U+1096
 + 
 ```
-... and 207 more
+... and 180 more
 
-#### line_added (6)
+#### line_added (10)
 
 Line 4:
 ```
@@ -9159,9 +12084,9 @@ Line 31:
 - 
 + store(udiaU) U+102D U+102E U+1035 U+1085
 ```
-... and 1 more
+... and 5 more
 
-#### store_reordered (38)
+#### store_reordered (42)
 
 Line 5:
 ```
@@ -9188,14 +12113,19 @@ Line 10:
 - store(&VISUALKEYBOARD) 'sil_shan.kvks'
 + store(baseU) U+1078 U+1010 U+107C U+1019 U+1022 U+1015 U+1075 U+1004
 ```
-... and 33 more
+... and 37 more
 
-#### group_structure (1)
+#### group_structure (2)
 
 Line 14:
 ```
 - begin Unicode > use(Main)
 + store(toneK) "hjL;:mM"
+```
+Line 65:
+```
+- group(Main) using keys
++ + [RALT K_H] > 'ံ'
 ```
 
 #### unknown (6)
@@ -9227,12 +12157,41 @@ Line 22:
 ```
 ... and 1 more
 
+#### rule_format (22)
+
+Line 67:
+```
+- + [RALT K_1] > U+1041
++ + [RALT K_X] > 'ꩧ'
+```
+Line 68:
+```
+- + [RALT K_2] > U+1042
++ + [SHIFT RALT K_1] > '႑'
+```
+Line 69:
+```
+- + [RALT K_3] > U+1043
++ + [SHIFT RALT K_2] > '႒'
+```
+Line 70:
+```
+- + [RALT K_4] > U+1044
++ + [SHIFT RALT K_3] > '႓'
+```
+Line 71:
+```
+- + [RALT K_5] > U+1045
++ + [SHIFT RALT K_4] > '႔'
+```
+... and 17 more
+
 ### sil_tagdal
 
 - Original lines: 44
-- Roundtrip lines: 15
-- Identical: 3
-- Different: 41
+- Roundtrip lines: 39
+- Identical: 6
+- Different: 38
 
 #### store_reordered (6)
 
@@ -9263,7 +12222,7 @@ Line 6:
 ```
 ... and 1 more
 
-#### line_removed (30)
+#### line_removed (6)
 
 Line 2:
 ```
@@ -9285,12 +12244,12 @@ Line 14:
 - group(main) using keys
 + 
 ```
-Line 15:
+Line 42:
 ```
-- + [K_P] > 'ǝ'
+- any(vowel) + "]" > context beep
 + 
 ```
-... and 25 more
+... and 1 more
 
 #### group_structure (1)
 
@@ -9316,6 +12275,35 @@ Line 13:
 + group(main) using keys
 ```
 
+#### rule_format (21)
+
+Line 18:
+```
+- + [SHIFT K_P] > 'Ǝ'
++ + [RALT K_BKQUOTE] > 'ˈ'
+```
+Line 19:
+```
+- + [SHIFT K_3] > '«'
++ + [RALT K_3] > '#'
+```
+Line 20:
+```
+- + [SHIFT K_6] > '»'
++ + [RALT K_6] > '^'
+```
+Line 21:
+```
+- + [SHIFT K_LBRKT] > 'Ŋ'
++ + [RALT K_R] > 'ɾ'
+```
+Line 22:
+```
+- + [SHIFT K_RBRKT] > '̌'
++ + [RALT K_I] > 'ɨ'
+```
+... and 16 more
+
 #### comment_removed (2)
 
 Line 40:
@@ -9332,9 +12320,9 @@ Line 41:
 ### sil_tai_dam
 
 - Original lines: 110
-- Roundtrip lines: 13
-- Identical: 7
-- Different: 103
+- Roundtrip lines: 76
+- Identical: 2
+- Different: 108
 
 #### store_reordered (5)
 
@@ -9364,7 +12352,7 @@ Line 9:
 + begin Unicode > use(main)
 ```
 
-#### line_removed (81)
+#### line_removed (32)
 
 Line 2:
 ```
@@ -9376,22 +12364,22 @@ Line 8:
 - store(&MESSAGE) 'The SIL Tai Dam keyboard is distributed under The MIT License (MIT).'
 + 
 ```
-Line 25:
+Line 76:
 ```
-- begin Unicode > use(main)
+- + [SHIFT K_Z] > U+AAAF          c o high
 + 
 ```
-Line 27:
+Line 77:
 ```
-- group(main) using keys
+- + [SHIFT K_A] > U+AAB0          c may kang (short a)
 + 
 ```
-Line 29:
+Line 78:
 ```
-- + [K_K] > U+AA80                c Ko Low
+- + [K_A] > U+AAB1                c aa
 + 
 ```
-... and 76 more
+... and 27 more
 
 #### comment_removed (16)
 
@@ -9413,12 +12401,12 @@ Line 12:
 Line 13:
 ```
 - c to the key with the nearest equivalent US English letter.
-+ 
++ + [K_BKQUOTE] > 'ꫜ'
 ```
 Line 14:
 ```
 - c It is also possible to key the Tai Don aspirated consonants using two-key sequences, but the keyboard
-+ 
++ + [K_Q] > 'ꪖ'
 ```
 ... and 11 more
 
@@ -9430,12 +12418,82 @@ Line 7:
 + store(&TARGETS) 'any'
 ```
 
+#### line_added (5)
+
+Line 16:
+```
+- 
++ + [K_E] > 'ꪵ'
+```
+Line 23:
+```
+- 
++ + [K_P] > 'ꪞ'
+```
+Line 24:
+```
+- 
++ + [K_LBRKT] > 'ꪷ'
+```
+Line 26:
+```
+- 
++ + [K_A] > 'ꪱ'
+```
+Line 28:
+```
+- 
++ + [K_D] > 'ꪒ'
+```
+
+#### group_structure (2)
+
+Line 25:
+```
+- begin Unicode > use(main)
++ + [K_RBRKT] > 'ꪽ'
+```
+Line 27:
+```
+- group(main) using keys
++ + [K_S] > 'ꪎ'
+```
+
+#### rule_format (47)
+
+Line 29:
+```
+- + [K_K] > U+AA80                c Ko Low
++ + [K_F] > 'ꪠ'
+```
+Line 30:
+```
+- + [SHIFT K_K] > U+AA81          c Ko High
++ + [K_G] > 'ꪈ'
+```
+Line 31:
+```
+- U+AA80 + [K_K] > U+AA82         c Kho Low
++ + [K_H] > 'ꪬ'
+```
+Line 32:
+```
+- U+AA81 + [SHIFT K_K] > U+AA83   c Kho High
++ + [K_J] > 'ꪤ'
+```
+Line 33:
+```
+- + [K_X] > U+AA84                c Khho Low
++ + [K_K] > 'ꪂ'
+```
+... and 42 more
+
 ### sil_tai_dam_lao
 
 - Original lines: 103
-- Roundtrip lines: 13
-- Identical: 6
-- Different: 97
+- Roundtrip lines: 82
+- Identical: 3
+- Different: 100
 
 #### comment_removed (16)
 
@@ -9466,7 +12524,7 @@ Line 6:
 ```
 ... and 11 more
 
-#### line_added (2)
+#### line_added (5)
 
 Line 3:
 ```
@@ -9478,35 +12536,121 @@ Line 11:
 - 
 + group(main) using keys
 ```
+Line 23:
+```
+- 
++ + [K_P] > 'ປ'
+```
+Line 25:
+```
+- 
++ + [K_RBRKT] > 'ໍ'
+```
+Line 38:
+```
+- 
++ + [K_V] > 'ຫວ'
+```
 
-#### line_removed (79)
+#### line_removed (16)
 
 Line 12:
 ```
 - store(&VERSION) '10.0'
 + 
 ```
+Line 82:
+```
+- + [NCAPS SHIFT K_Z] > U+0eb0  
++ 
+```
+Line 83:
+```
+- + [NCAPS K_LBRKT] > U+0ec4
++ 
+```
+Line 84:
+```
+- + [NCAPS K_RBRKT] > U+0ecd
++ 
+```
+Line 85:
+```
+- + [NCAPS K_BKQUOTE] > U+0e9c
++ 
+```
+... and 11 more
+
+#### store_reordered (7)
+
 Line 13:
 ```
 - store(&NAME) 'Tai Dam Lao (SIL)'
-+ 
++ + [K_BKQUOTE] > 'ຜ'
 ```
 Line 14:
 ```
 - store(&MESSAGE) 'Keyboard is optimized for typing the Tai Dam langugage with the Lao script and distributed under the MIT License (MIT).'
-+ 
++ + [K_Q] > 'ຖ'
 ```
 Line 15:
 ```
 - store(&COPYRIGHT) '© 2016-2022 SIL International'
-+ 
++ + [K_W] > 'ຳ'
 ```
 Line 16:
 ```
 - store(&KEYBOARDVERSION) '2.0.4'
-+ 
++ + [K_E] > 'ແ'
 ```
-... and 74 more
+Line 17:
+```
+- store(&BITMAP) 'sil_tai_dam_lao.ico'
++ + [K_R] > '່'
+```
+... and 2 more
+
+#### group_structure (2)
+
+Line 24:
+```
+- begin Unicode > use(main)
++ + [K_LBRKT] > 'ໄ'
+```
+Line 26:
+```
+- group(main) using keys
++ + [K_A] > 'າ'
+```
+
+#### rule_format (54)
+
+Line 27:
+```
+- + [NCAPS SHIFT K_C] > '໌'
++ + [K_S] > 'ສ'
+```
+Line 28:
+```
+- + [NCAPS SHIFT K_D] > '໊'
++ + [K_D] > 'ດ'
+```
+Line 29:
+```
+- + [NCAPS SHIFT K_RBRKT] > 'ຯ'
++ + [K_F] > 'ຝ'
+```
+Line 30:
+```
+- + [NCAPS SHIFT K_B] > 'ໟ'
++ + [K_G] > 'ຫງ'
+```
+Line 31:
+```
+- + [NCAPS SHIFT K_P] > 'ຼ'
++ + [K_H] > 'ຫ'
+```
+... and 49 more
 
 ### sil_tai_dam_latin
 
@@ -9607,9 +12751,9 @@ Line 19:
 ### sil_tai_dam_typewriter
 
 - Original lines: 108
-- Roundtrip lines: 13
-- Identical: 11
-- Different: 97
+- Roundtrip lines: 83
+- Identical: 5
+- Different: 103
 
 #### store_reordered (5)
 
@@ -9639,7 +12783,7 @@ Line 9:
 + begin Unicode > use(main)
 ```
 
-#### line_removed (85)
+#### line_removed (23)
 
 Line 2:
 ```
@@ -9651,22 +12795,22 @@ Line 8:
 - store(&MESSAGE) 'The SIL Tai Dam Typewriter keyboard is distributed under The MIT License (MIT).'
 + 
 ```
-Line 16:
+Line 83:
 ```
-- begin Unicode > use(main)
+- U+aa89 + [K_QUOTE] > u+aa87
 + 
 ```
-Line 18:
+Line 85:
 ```
-- group(main) using keys
+- + [SHIFT K_Z] > u+aadd
 + 
 ```
-Line 19:
+Line 86:
 ```
-- + [K_RBRKT] > U+aadc
+- + [SHIFT K_X] > u+aaaa
 + 
 ```
-... and 80 more
+... and 18 more
 
 #### comment_removed (6)
 
@@ -9688,12 +12832,12 @@ Line 12:
 Line 13:
 ```
 - c community in the U.S. in the late 1970's. It does not include the Tai Dón aspirated
-+ 
++ + [K_BKQUOTE] > ';'
 ```
 Line 14:
 ```
 - c consonants, and so is not suitable for the Tai Dón language.
-+ 
++ + [K_Q] > 'ꪶ'
 ```
 ... and 1 more
 
@@ -9705,12 +12849,83 @@ Line 7:
 + store(&TARGETS) 'any'
 ```
 
+#### line_added (6)
+
+Line 15:
+```
+- 
++ + [K_W] > 'ꪼ'
+```
+Line 17:
+```
+- 
++ + [K_R] > 'ꪟ'
+```
+Line 29:
+```
+- 
++ + [K_F] > 'ꪒ'
+```
+Line 41:
+```
+- 
++ + [K_B] > 'ꪕ'
+```
+Line 53:
+```
+- 
++ + [SHIFT K_R] > 'ꪺ'
+```
+... and 1 more
+
+#### group_structure (2)
+
+Line 16:
+```
+- begin Unicode > use(main)
++ + [K_E] > 'ꪾ'
+```
+Line 18:
+```
+- group(main) using keys
++ + [K_T] > 'ꪲ'
+```
+
+#### rule_format (60)
+
+Line 19:
+```
+- + [K_RBRKT] > U+aadc
++ + [K_Y] > 'ꪴ'
+```
+Line 20:
+```
+- + [SHIFT K_RBRKT] > ']'
++ + [K_U] > 'ꪄ'
+```
+Line 21:
+```
+- + [K_LBRKT] > U+aab0
++ + [K_I] > 'ꪩ'
+```
+Line 22:
+```
+- + [SHIFT K_LBRKT] > '['
++ + [K_O] > 'ꪙ'
+```
+Line 23:
+```
+- + [SHIFT K_7] > '"'
++ + [K_P] > 'ꪔ'
+```
+... and 55 more
+
 ### sil_tawallammat
 
 - Original lines: 155
-- Roundtrip lines: 13
-- Identical: 10
-- Different: 145
+- Roundtrip lines: 136
+- Identical: 1
+- Different: 154
 
 #### comment_removed (7)
 
@@ -9732,16 +12947,16 @@ Line 11:
 Line 16:
 ```
 - c Additional keys for experimental SIL vowels
-+ 
++ + [K_3] > '"'
 ```
 Line 32:
 ```
 - c Additional keys for new Unicode characters
-+ 
++ + [K_U] > 'ⵓ'
 ```
 ... and 2 more
 
-#### line_removed (133)
+#### line_removed (23)
 
 Line 2:
 ```
@@ -9763,12 +12978,12 @@ Line 12:
 - begin Unicode > use(main)
 + 
 ```
-Line 15:
+Line 136:
 ```
-- group(main) using keys
+- + [SHIFT K_QUOTE] > '%'
 + 
 ```
-... and 128 more
+... and 18 more
 
 #### store_reordered (5)
 
@@ -9798,12 +13013,78 @@ Line 9:
 + begin Unicode > use(main)
 ```
 
+#### line_added (9)
+
+Line 13:
+```
+- 
++ + [K_BKQUOTE] > '²'
+```
+Line 14:
+```
+- 
++ + [K_1] > '&'
+```
+Line 17:
+```
+- 
++ + [K_4] > ''''
+```
+Line 24:
+```
+- 
++ + [K_HYPHEN] > ')'
+```
+Line 31:
+```
+- 
++ + [K_Y] > 'ⵢ'
+```
+... and 4 more
+
+#### group_structure (1)
+
+Line 15:
+```
+- group(main) using keys
++ + [K_2] > 'ⵒ'
+```
+
+#### rule_format (109)
+
+Line 18:
+```
+- + [RALT K_T] > 'ⴰ̂'   	c Tifinagh SIL a
++ + [K_5] > '('
+```
+Line 19:
+```
+- + [RALT K_Y] > 'ⵢ̂'   	c Tifinagh SIL e
++ + [K_6] > '-'
+```
+Line 20:
+```
+- + [RALT K_U] > 'ⵢ̣'   	c Tifinagh SIL i
++ + [K_7] > 'ⵤ'
+```
+Line 21:
+```
+- + [RALT K_G] > 'ⵧ̂'   c Tifinagh SIL o
++ + [K_8] > '_'
+```
+Line 22:
+```
+- + [RALT K_H] > 'ⵓ̂'   	c Tifinagh SIL u
++ + [K_9] > '—'
+```
+... and 104 more
+
 ### sil_tchad
 
 - Original lines: 155
-- Roundtrip lines: 26
-- Identical: 13
-- Different: 142
+- Roundtrip lines: 54
+- Identical: 9
+- Different: 146
 
 #### comment_removed (36)
 
@@ -9830,7 +13111,7 @@ Line 5:
 Line 29:
 ```
 - c Special characters (produced with ; or & key)
-+ 
++ + [T_A_U_0327_shift] > 'A̧'
 ```
 ... and 31 more
 
@@ -9847,7 +13128,7 @@ Line 10:
 + store(aeiou-gra) "àèìòùÀÈÌÒÙ"
 ```
 
-#### line_added (3)
+#### line_added (7)
 
 Line 6:
 ```
@@ -9864,8 +13145,19 @@ Line 19:
 - 
 + store(diakey) "][=^|#~_`@%$"
 ```
+Line 28:
+```
+- 
++ + [T_A_U_0327] > 'a̧'
+```
+Line 32:
+```
+- 
++ + [T_E_U_0327] > 'ȩ'
+```
+... and 2 more
 
-#### store_reordered (11)
+#### store_reordered (17)
 
 Line 7:
 ```
@@ -9892,9 +13184,9 @@ Line 13:
 - store(&TARGETS) 'any'
 + store(aeiou-cir) "âêîôûÂÊÎÔÛ"
 ```
-... and 6 more
+... and 12 more
 
-#### line_removed (89)
+#### line_removed (75)
 
 Line 8:
 ```
@@ -9916,20 +13208,54 @@ Line 25:
 - store(aeiou-wdg) 'ǎěǐǒǔǍĚǏǑǓ'
 + 
 ```
-Line 26:
+Line 70:
 ```
-- store(aeiou-uml) 'äëïöüÄËÏÖÜ'
+- 'c' + '`' > 'ç'
 + 
 ```
-... and 84 more
+... and 70 more
 
-#### group_structure (1)
+#### group_structure (2)
 
 Line 18:
 ```
 - begin Unicode > use(Main)
 + store(spec) "æÆɓƁçÇɗƊɛƐəƏɣƎɦ" U+A7AA
 ```
+Line 37:
+```
+- group(Main) using keys
++ + [T_I_U_0327_shift] > 'I̧'
+```
+
+#### rule_format (7)
+
+Line 40:
+```
+- any(aeiou) + ']' > index(aeiou-gra,1)
++ + [T_O_U_0327] > 'o̧'
+```
+Line 41:
+```
+- any(aeiou) + '[' > index(aeiou-acu,1)
++ + [T_O_U_0327_shift] > 'O̧'
+```
+Line 42:
+```
+- any(aeiou) + '=' > index(aeiou-mcr,1)
++ + [T_U_U_0330] > 'ṵ'
+```
+Line 43:
+```
+- any(aeiou) + '^' > index(aeiou-cir,1)
++ + [T_U_U_0330_shift] > 'Ṵ'
+```
+Line 44:
+```
+- any(aeiou) + '|' > index(aeiou-wdg,1)
++ + [T_U_U_0327] > 'u̧'
+```
+... and 2 more
 
 ### sil_temiar
 
@@ -10141,7 +13467,7 @@ Line 12:
 ### sil_torwali
 
 - Original lines: 115
-- Roundtrip lines: 13
+- Roundtrip lines: 107
 - Identical: 3
 - Different: 112
 
@@ -10168,7 +13494,7 @@ Line 4:
 + store(&KEYBOARDVERSION) '1.0.2'
 ```
 
-#### store_reordered (5)
+#### store_reordered (9)
 
 Line 5:
 ```
@@ -10195,8 +13521,9 @@ Line 11:
 - store(&BITMAP) 'sil_torwali.ico'
 + group(main) using keys
 ```
+... and 4 more
 
-#### line_removed (103)
+#### line_removed (11)
 
 Line 8:
 ```
@@ -10213,22 +13540,77 @@ Line 12:
 - store(&VISUALKEYBOARD) 'sil_torwali.kvks'
 + 
 ```
-Line 13:
+Line 107:
 ```
-- store(&KEYBOARDVERSION) '1.0.2'
+- + [SHIFT K_7] > '&'
 + 
 ```
-Line 14:
+Line 108:
 ```
-- store(&TARGETS) 'any'
+- + [SHIFT K_6] > '^'
 + 
 ```
-... and 98 more
+... and 6 more
+
+#### group_structure (2)
+
+Line 17:
+```
+- begin Unicode > use(main)
++ + [K_4] > '4'
+```
+Line 20:
+```
+- group(main) using keys
++ + [K_7] > '7'
+```
+
+#### line_added (2)
+
+Line 18:
+```
+- 
++ + [K_5] > '5'
+```
+Line 19:
+```
+- 
++ + [K_6] > '6'
+```
+
+#### rule_format (84)
+
+Line 21:
+```
+- + [K_SLASH] > 'ࣿ'
++ + [K_8] > '8'
+```
+Line 22:
+```
+- + [K_PERIOD] > '۔'
++ + [K_9] > '9'
+```
+Line 23:
+```
+- + [K_COMMA] > '،'
++ + [K_0] > '0'
+```
+Line 24:
+```
+- + [K_M] > 'م'
++ + [K_HYPHEN] > '-'
+```
+Line 25:
+```
+- + [K_N] > 'ن'
++ + [K_EQUAL] > '='
+```
+... and 79 more
 
 ### sil_tunisian
 
 - Original lines: 153
-- Roundtrip lines: 13
+- Roundtrip lines: 128
 - Identical: 3
 - Different: 150
 
@@ -10279,7 +13661,7 @@ Line 9:
 ```
 ... and 1 more
 
-#### line_removed (141)
+#### line_removed (28)
 
 Line 8:
 ```
@@ -10296,24 +13678,79 @@ Line 12:
 - store(&KMW_RTL) '1'
 + 
 ```
+Line 128:
+```
+- + [K_HYPHEN] > ')'
++ 
+```
+Line 129:
+```
+- + [K_0] > 'à'
++ 
+```
+... and 23 more
+
+#### group_structure (2)
+
 Line 13:
 ```
 - begin Unicode > use(main)
-+ 
++ + [K_BKQUOTE] > '>'
 ```
 Line 16:
 ```
 - group(main) using keys
-+ 
++ + [K_3] > '"'
 ```
-... and 136 more
+
+#### line_added (2)
+
+Line 14:
+```
+- 
++ + [K_1] > '&'
+```
+Line 15:
+```
+- 
++ + [K_2] > 'é'
+```
+
+#### rule_format (109)
+
+Line 17:
+```
+- $keymanonly: + [RALT K_SLASH] > '/'
++ + [K_4] > ''''
+```
+Line 18:
+```
+- $keymanonly: + [RALT K_PERIOD] > '.'
++ + [K_5] > '('
+```
+Line 19:
+```
+- $keymanonly: + [RALT K_COMMA] > ','
++ + [K_6] > '-'
+```
+Line 20:
+```
+- $keymanonly: + [RALT K_QUOTE] > U+0027
++ + [K_7] > 'è'
+```
+Line 21:
+```
+- $keymanonly: + [RALT K_COLON] > ';'
++ + [K_8] > '_'
+```
+... and 104 more
 
 ### sil_uganda_tanzania
 
 - Original lines: 145
-- Roundtrip lines: 32
-- Identical: 32
-- Different: 113
+- Roundtrip lines: 34
+- Identical: 31
+- Different: 114
 
 #### comment_removed (27)
 
@@ -10352,7 +13789,7 @@ Line 9:
 + store(kMod) ';'
 ```
 
-#### store_reordered (11)
+#### store_reordered (12)
 
 Line 10:
 ```
@@ -10379,9 +13816,9 @@ Line 15:
 - store(&VISUALKEYBOARD) 'sil_uganda_tanzania.kvks'
 + store(cBelow) U+0331 U+0323 U+0330 U+032F U+0327
 ```
-... and 6 more
+... and 7 more
 
-#### line_added (4)
+#### line_added (5)
 
 Line 18:
 ```
@@ -10403,6 +13840,11 @@ Line 23:
 - 
 + store(kPunct) "@#"
 ```
+Line 33:
+```
+- 
++ + [T_B_U_032F_shift] > 'B̯'
+```
 
 #### group_structure (1)
 
@@ -10412,7 +13854,7 @@ Line 19:
 + store(cInvBreveBelow) '̯'
 ```
 
-#### line_removed (69)
+#### line_removed (68)
 
 Line 29:
 ```
@@ -10422,11 +13864,6 @@ Line 29:
 Line 31:
 ```
 - store(kBelow) "_.},%"   c _ underscore, . dot, } tilde, , inverted breve, % cedille
-+ 
-```
-Line 32:
-```
-- store(cBelow) U+0331 U+0323 U+0330 U+032F U+0327
 + 
 ```
 Line 36:
@@ -10439,12 +13876,17 @@ Line 37:
 - store(ModCon)  U+014B U+014A U+015D U+015C U+1E91 U+1E90 U+A78C U+02BC
 + 
 ```
-... and 64 more
+Line 39:
+```
+- store(kInvBreveBelow) "bB" c consonants that take inverted breve below
++ 
+```
+... and 63 more
 
 ### sil_wayuu
 
 - Original lines: 60
-- Roundtrip lines: 29
+- Roundtrip lines: 30
 - Identical: 9
 - Different: 51
 
@@ -10500,7 +13942,7 @@ Line 19:
 ```
 ... and 1 more
 
-#### store_reordered (12)
+#### store_reordered (13)
 
 Line 4:
 ```
@@ -10527,9 +13969,9 @@ Line 9:
 - store(&BITMAP) 'sil_wayuu.ico'
 + store(glot) ''''
 ```
-... and 7 more
+... and 8 more
 
-#### line_removed (27)
+#### line_removed (26)
 
 Line 8:
 ```
@@ -10546,17 +13988,17 @@ Line 26:
 - store(Umlaut) [RALT K_U]    [RALT SHIFT K_U]   
 + 
 ```
-Line 29:
-```
-- store(UAcute)  "u"    "U"
-+ 
-```
 Line 30:
 ```
 - store(UAcuteU) U+01D8 U+01D7
 + 
 ```
-... and 22 more
+Line 32:
+```
+- store(tilde)  "n"    "N"
++ 
+```
+... and 21 more
 
 #### group_structure (1)
 
@@ -10880,11 +14322,11 @@ Line 11:
 ### sil_yoruba_bar
 
 - Original lines: 296
-- Roundtrip lines: 33
-- Identical: 32
-- Different: 264
+- Roundtrip lines: 78
+- Identical: 24
+- Different: 272
 
-#### store_reordered (16)
+#### store_reordered (45)
 
 Line 1:
 ```
@@ -10911,9 +14353,9 @@ Line 6:
 - store(&BITMAP) 'sil_yoruba_bar.ico'
 + store(&VERSION) '10.0'
 ```
-... and 11 more
+... and 40 more
 
-#### line_removed (210)
+#### line_removed (179)
 
 Line 2:
 ```
@@ -10935,14 +14377,14 @@ Line 21:
 - store(crc)  U+00E2 U+00EA U+00EE U+00F4 U+00FB U+00C2 U+00CA U+00CE U+00D4 U+00DB 
 + 
 ```
-Line 22:
+Line 67:
 ```
-- store(crn)  U+01CE U+011B U+01D0 U+01D2 U+01D4 U+01CD U+011A U+01CF U+01D1 U+01D3 
+- store(key.crn) '}'
 + 
 ```
-... and 205 more
+... and 174 more
 
-#### line_added (3)
+#### line_added (11)
 
 Line 10:
 ```
@@ -10954,11 +14396,22 @@ Line 12:
 - 
 + store(crc) U+00E2 U+00EA U+00EE U+00F4 U+00FB U+00C2 U+00CA U+00CE U+00D4 U+00DB
 ```
+Line 24:
+```
+- 
++ + [RALT K_RBRKT] > ']'
+```
 Line 30:
 ```
 - 
-+ any(v.bar)̩any(not.ac.crc) > '̩'
++ + [SHIFT RALT K_RBRKT] > '}'
 ```
+Line 36:
+```
+- 
++ + [T_006F_0329_0301] > 'ó̩'
+```
+... and 6 more
 
 #### group_structure (2)
 
@@ -10998,18 +14451,31 @@ Line 17:
 Line 42:
 ```
 - c Accents
-+ 
++ + [T_004F_0329_0302_shift] > 'Ô̩'
 ```
 ... and 28 more
+
+#### rule_format (2)
+
+Line 76:
+```
+- + '=' > '='
++ any(v.bar)̩any(not.ac.crn) > '̩'
+```
+Line 77:
+```
+- + '-' > '-'
++ any(v.bar)̩any(not.ac.mac) > '̩'
+```
 
 ### sil_yoruba_dot
 
 - Original lines: 286
-- Roundtrip lines: 22
-- Identical: 34
-- Different: 252
+- Roundtrip lines: 67
+- Identical: 26
+- Different: 260
 
-#### store_reordered (6)
+#### store_reordered (41)
 
 Line 1:
 ```
@@ -11036,9 +14502,9 @@ Line 18:
 - store(grv)  U+00E0 U+00E8 U+00EC U+00F2 U+00F9 U+00C0 U+00C8 U+00CC U+00D2 U+00D9  
 + begin Unicode > use(main)
 ```
-... and 1 more
+... and 36 more
 
-#### line_removed (209)
+#### line_removed (174)
 
 Line 2:
 ```
@@ -11065,9 +14531,9 @@ Line 21:
 - store(crn)  U+01CE U+011B U+01D0 U+01D2 U+01D4 U+01CD U+011A U+01CF U+01D1 U+01D3 
 + 
 ```
-... and 204 more
+... and 169 more
 
-#### line_added (2)
+#### line_added (10)
 
 Line 9:
 ```
@@ -11079,6 +14545,22 @@ Line 11:
 - 
 + store(act) U+00E1 U+00E9 U+00ED U+00F3 U+00FA U+00C1 U+00C9 U+00CD U+00D3 U+00DA
 ```
+Line 23:
+```
+- 
++ + [RALT K_LBRKT] > '['
+```
+Line 29:
+```
+- 
++ + [SHIFT RALT K_LBRKT] > '{'
+```
+Line 35:
+```
+- 
++ + [T_1ECD_0300] > 'ọ̀'
+```
+... and 5 more
 
 #### group_structure (2)
 
@@ -11118,16 +14600,16 @@ Line 16:
 Line 40:
 ```
 - c Accents
-+ 
++ + [T_1ECC_0300_shift] > 'Ọ̀'
 ```
 ... and 28 more
 
 ### sil_yupik_cyrillic
 
 - Original lines: 392
-- Roundtrip lines: 13
-- Identical: 28
-- Different: 364
+- Roundtrip lines: 146
+- Identical: 22
+- Different: 370
 
 #### comment_removed (12)
 
@@ -11149,16 +14631,16 @@ Line 9:
 Line 19:
 ```
 - c Upper case characters, single keystroke
-+ 
++ + [K_R] > 'r'
 ```
 Line 53:
 ```
 - c Upper case characters using CAPS, single keystroke
-+ 
++ + [CAPS K_Y] > 'Y'
 ```
 ... and 7 more
 
-#### line_added (2)
+#### line_added (8)
 
 Line 3:
 ```
@@ -11170,8 +14652,24 @@ Line 4:
 - 
 + store(&KEYBOARDVERSION) '2.0.3'
 ```
+Line 14:
+```
+- 
++ + [K_HYPHEN] > '‹'
+```
+Line 16:
+```
+- 
++ + [K_Q] > 'q'
+```
+Line 18:
+```
+- 
++ + [K_E] > 'e'
+```
+... and 3 more
 
-#### store_reordered (4)
+#### store_reordered (5)
 
 Line 5:
 ```
@@ -11193,8 +14691,13 @@ Line 11:
 - store(&TARGETS) 'web desktop'
 + group(main) using keys
 ```
+Line 13:
+```
+- store(&VISUALKEYBOARD) 'sil_yupik_cyrillic.kvks'
++ + [K_BKQUOTE] > '`'
+```
 
-#### line_removed (346)
+#### line_removed (223)
 
 Line 8:
 ```
@@ -11211,24 +14714,66 @@ Line 12:
 - store(&MESSAGE) "SIL's Yupik Cyrillic keyboard is distributed under The MIT License (MIT)."
 + 
 ```
-Line 13:
+Line 146:
 ```
-- store(&VISUALKEYBOARD) 'sil_yupik_cyrillic.kvks'
+- + [CAPS SHIFT K_Y] > u+044b          c CYRILLIC SMALL LETTER YERU
 + 
 ```
+Line 147:
+```
+- + [CAPS SHIFT K_Z] > u+0437          c CYRILLIC SMALL LETTER ZE
++ 
+```
+... and 218 more
+
+#### group_structure (2)
+
 Line 15:
 ```
 - begin Unicode > use(main)
-+ 
++ + [K_EQUAL] > '«'
 ```
-... and 341 more
+Line 17:
+```
+- group(main) using keys
++ + [K_W] > 'w'
+```
+
+#### rule_format (120)
+
+Line 20:
+```
+- + [NCAPS SHIFT K_A] > U+0410          c CYRILLIC CAPITAL LETTER A
++ + [K_T] > 't'
+```
+Line 21:
+```
+- + [NCAPS SHIFT K_B] > U+0411          c CYRILLIC CAPITAL LETTER BE
++ + [K_Y] > 'y'
+```
+Line 22:
+```
+- + [NCAPS SHIFT K_C] > U+0426          c CYRILLIC CAPITAL LETTER TSE
++ + [K_U] > 'u'
+```
+Line 23:
+```
+- + [NCAPS SHIFT K_D] > U+0414          c CYRILLIC CAPITAL LETTER DE
++ + [K_I] > 'i'
+```
+Line 24:
+```
+- + [NCAPS SHIFT K_E] > u+0415          c CYRILLIC CAPITAL LETTER IE
++ + [K_O] > 'o'
+```
+... and 115 more
 
 ### sil_yupik_cyrillic_ru
 
 - Original lines: 350
-- Roundtrip lines: 13
-- Identical: 74
-- Different: 276
+- Roundtrip lines: 184
+- Identical: 35
+- Different: 315
 
 #### comment_removed (8)
 
@@ -11259,7 +14804,7 @@ Line 8:
 ```
 ... and 3 more
 
-#### line_removed (266)
+#### line_removed (134)
 
 Line 2:
 ```
@@ -11271,22 +14816,22 @@ Line 10:
 - c 
 + 
 ```
-Line 14:
+Line 184:
 ```
-- store(&VERSION) '10.0'
+- + [CAPS SHIFT K_Q] > U+0439
 + 
 ```
-Line 15:
+Line 186:
 ```
-- store(&TARGETS) 'any'
+- + [NCAPS K_R] > U+043a
 + 
 ```
-Line 16:
+Line 187:
 ```
-- store(&VISUALKEYBOARD) 'sil_yupik_cyrillic_ru.kvks'
+- + [CAPS K_R] > U+041a
 + 
 ```
-... and 261 more
+... and 129 more
 
 #### unknown (2)
 
@@ -11300,6 +14845,106 @@ Line 7:
 - c 
 + store(&TARGETS) 'any'
 ```
+
+#### line_added (39)
+
+Line 13:
+```
+- 
++ + [K_BKQUOTE] > 'ё'
+```
+Line 23:
+```
+- 
++ + [K_0] > '0'
+```
+Line 25:
+```
+- 
++ + [K_EQUAL] > '='
+```
+Line 27:
+```
+- 
++ + [K_W] > 'ц'
+```
+Line 29:
+```
+- 
++ + [K_R] > 'к'
+```
+... and 34 more
+
+#### store_reordered (9)
+
+Line 14:
+```
+- store(&VERSION) '10.0'
++ + [K_1] > '1'
+```
+Line 15:
+```
+- store(&TARGETS) 'any'
++ + [K_2] > '2'
+```
+Line 16:
+```
+- store(&VISUALKEYBOARD) 'sil_yupik_cyrillic_ru.kvks'
++ + [K_3] > '3'
+```
+Line 17:
+```
+- store(&BITMAP) 'sil_yupik_cyrillic_ru.ico'
++ + [K_4] > '4'
+```
+Line 18:
+```
+- store(&LAYOUTFILE) 'sil_yupik_cyrillic_ru.keyman-touch-layout'
++ + [K_5] > '5'
+```
+... and 4 more
+
+#### group_structure (2)
+
+Line 24:
+```
+- begin Unicode > use(main)
++ + [K_HYPHEN] > '-'
+```
+Line 26:
+```
+- group(main) using keys
++ + [K_Q] > 'й'
+```
+
+#### rule_format (121)
+
+Line 28:
+```
+- + [K_SPACE] > U+0020
++ + [K_E] > 'у'
+```
+Line 30:
+```
+- + [K_0] > U+0030
++ + [K_T] > 'е'
+```
+Line 31:
+```
+- + [SHIFT K_0] > U+0029
++ + [K_Y] > 'н'
+```
+Line 33:
+```
+- + [K_1] > U+0031
++ + [K_I] > 'ш'
+```
+Line 34:
+```
+- + [SHIFT K_1] > U+0021
++ + [K_O] > 'щ'
+```
+... and 116 more
 
 ### sil_ywq_plrd
 
