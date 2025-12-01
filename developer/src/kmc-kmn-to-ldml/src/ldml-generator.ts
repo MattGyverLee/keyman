@@ -639,6 +639,11 @@ export class LdmlGenerator {
       if (indexElements.length !== setMappings.length) {
         canUseSetMapping = false;
       }
+      // If no set mappings were created, can't use set mapping
+      // This fixes rules like dk(0021) dk(0021) > '!' that have no any()/index() pairs
+      if (setMappings.length === 0) {
+        canUseSetMapping = false;
+      }
     }
 
     return { rule, setMappings, canUseSetMapping };

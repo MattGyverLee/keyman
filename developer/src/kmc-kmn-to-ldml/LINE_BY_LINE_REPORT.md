@@ -1,6 +1,6 @@
 # Line-by-Line KMN Round-Trip Report
 
-Generated: 2025-12-01T15:10:22.429Z
+Generated: 2025-12-01T15:34:55.628Z
 
 ## Summary
 
@@ -8,23 +8,24 @@ Generated: 2025-12-01T15:10:22.429Z
 - **Successful Conversions**: 99
 - **Failed Conversions**: 12
 - **Total Original Lines**: 29856
-- **Total Roundtrip Lines**: 10475
-- **Identical Lines**: 2300
-- **Different Lines**: 25055
+- **Total Roundtrip Lines**: 15910
+- **Identical Lines**: 1641
+- **Different Lines**: 25715
 
 ## Difference Classifications
 
 | Classification | Count | Description |
 |---------------|-------|-------------|
 | comment_removed | 4589 | Comments not preserved |
-| store_reordered | 1210 | Store order changed |
+| store_reordered | 1465 | Store order changed |
 | store_format | 5 | Store value format changed (U+ vs literal) |
-| rule_format | 5211 | Rule formatting changed |
-| modifier_format | 41 | Modifier format changed |
-| group_structure | 158 | Group structure changed |
-| line_added | 1434 | Line added in roundtrip |
-| line_removed | 12105 | Line removed in roundtrip |
-| unknown | 302 | Unclassified difference |
+| rule_format | 8551 | Rule formatting changed |
+| key_format | 98 | Key format changed |
+| modifier_format | 44 | Modifier format changed |
+| group_structure | 173 | Group structure changed |
+| line_added | 2094 | Line added in roundtrip |
+| line_removed | 8163 | Line removed in roundtrip |
+| unknown | 533 | Unclassified difference |
 
 ## Conversion Errors
 
@@ -105,9 +106,9 @@ Cannot convert mnemonic keyboard "Yorùbá 8" to LDML. LDML uses positional key 
 ### sil_akebu
 
 - Original lines: 333
-- Roundtrip lines: 200
-- Identical: 28
-- Different: 305
+- Roundtrip lines: 219
+- Identical: 26
+- Different: 307
 
 #### store_reordered (17)
 
@@ -138,7 +139,7 @@ Line 6:
 ```
 ... and 12 more
 
-#### line_removed (107)
+#### line_removed (94)
 
 Line 2:
 ```
@@ -165,7 +166,7 @@ Line 26:
 - store(num) "0123456789"
 + 
 ```
-... and 102 more
+... and 89 more
 
 #### comment_removed (6)
 
@@ -196,7 +197,7 @@ Line 330:
 ```
 ... and 1 more
 
-#### line_added (36)
+#### line_added (38)
 
 Line 13:
 ```
@@ -223,7 +224,7 @@ Line 33:
 - 
 + + [K_6] > '-'
 ```
-... and 31 more
+... and 33 more
 
 #### group_structure (2)
 
@@ -238,7 +239,7 @@ Line 16:
 + store(final) "!?."
 ```
 
-#### rule_format (137)
+#### rule_format (150)
 
 Line 30:
 ```
@@ -265,14 +266,14 @@ Line 36:
 - + [K_SPACE] > U+0020
 + + [K_9] > 'ç'
 ```
-... and 132 more
+... and 145 more
 
 ### sil_akha_act
 
 - Original lines: 48
-- Roundtrip lines: 30
-- Identical: 7
-- Different: 41
+- Roundtrip lines: 41
+- Identical: 6
+- Different: 42
 
 #### comment_removed (4)
 
@@ -289,7 +290,7 @@ Line 2:
 Line 33:
 ```
 - c vowels with diacritics
-+ 
++ group(transforms)
 ```
 Line 47:
 ```
@@ -297,7 +298,7 @@ Line 47:
 + 
 ```
 
-#### store_reordered (14)
+#### store_reordered (15)
 
 Line 3:
 ```
@@ -324,9 +325,9 @@ Line 10:
 - store(&BITMAP) 'sil_akha_act.ico'
 + store(symbols) "`1234567890-=~!@#$%^&*()_+"
 ```
-... and 9 more
+... and 10 more
 
-#### line_removed (16)
+#### line_removed (10)
 
 Line 8:
 ```
@@ -353,9 +354,9 @@ Line 30:
 - + any(akhatonekeys) > index(akhatones,1)
 + 
 ```
-... and 11 more
+... and 5 more
 
-#### line_added (3)
+#### line_added (4)
 
 Line 13:
 ```
@@ -372,6 +373,11 @@ Line 17:
 - 
 + store(vowdiackeys) "[ALT  K_LBRKT]  [ALT  K_RBRKT]  [ALT  K_PERIOD]  [ALT  K_COLON]  [ALT  K_QUOTE]  [ALT  K_SLASH]  \\"
 ```
+Line 38:
+```
+- 
++ 'ˇ{' > '{'
+```
 
 #### group_structure (2)
 
@@ -386,7 +392,7 @@ Line 16:
 + store(alphabet) 'a'
 ```
 
-#### rule_format (2)
+#### rule_format (6)
 
 Line 28:
 ```
@@ -398,11 +404,35 @@ Line 29:
 - + any(othersymbolkeys) > index(othersymbols,1)
 + + [SHIFT K_BKSLASH] > '|'
 ```
+Line 31:
+```
+- + any(alphakeys) > index(alphabet, 1)
++ match > use(transforms)
+```
+Line 37:
+```
+- + any(vowdiackeys) > index(vowdiacs,1)
++ 'ꞈ]' > ']'
+```
+Line 39:
+```
+- U+02EC + [K_LBRKT] > "[" 
++ 'ˉ|' > '|'
+```
+... and 1 more
+
+#### modifier_format (1)
+
+Line 35:
+```
+-                    [SHIFT ALT K_LBRKT] [SHIFT ALT K_RBRKT] [SHIFT ALT K_PERIOD] [SHIFT ALT K_COLON] [SHIFT ALT K_QUOTE] [SHIFT ALT K_SLASH] 
++ 'ˬ[' > '['
+```
 
 ### sil_arabic_phonetic
 
 - Original lines: 163
-- Roundtrip lines: 45
+- Roundtrip lines: 67
 - Identical: 21
 - Different: 142
 
@@ -435,7 +465,7 @@ Line 11:
 ```
 ... and 4 more
 
-#### line_removed (97)
+#### line_removed (79)
 
 Line 2:
 ```
@@ -462,7 +492,7 @@ Line 45:
 - + [SHIFT K_0] > ")"
 + 
 ```
-... and 92 more
+... and 74 more
 
 #### line_added (6)
 
@@ -518,7 +548,7 @@ Line 18:
 Line 58:
 ```
 - c + 'X' > 'ْ'
-+ 
++ 'َا' > 'ا'
 ```
 ... and 4 more
 
@@ -538,7 +568,7 @@ Line 21:
 + store(digit) "٠١٢٣٤٥٦٧٨٩"
 ```
 
-#### rule_format (19)
+#### rule_format (37)
 
 Line 25:
 ```
@@ -565,7 +595,7 @@ Line 30:
 - + [SHIFT K_LBRKT]  > '{'
 + + [SHIFT K_BKQUOTE] > '~'
 ```
-... and 14 more
+... and 32 more
 
 ### sil_areare
 
@@ -825,9 +855,9 @@ Line 22:
 ### sil_bengali_phonetic
 
 - Original lines: 108
-- Roundtrip lines: 16
-- Identical: 10
-- Different: 98
+- Roundtrip lines: 41
+- Identical: 9
+- Different: 99
 
 #### comment_removed (4)
 
@@ -881,15 +911,20 @@ Line 11:
 ```
 ... and 1 more
 
-#### line_added (1)
+#### line_added (2)
 
 Line 6:
 ```
 - 
 + store(&VERSION) '10.0'
 ```
+Line 19:
+```
+- 
++ group(transforms)
+```
 
-#### line_removed (86)
+#### line_removed (65)
 
 Line 8:
 ```
@@ -899,11 +934,6 @@ Line 8:
 Line 10:
 ```
 - store(&VISUALKEYBOARD) 'sil_bengali_phonetic.kvks'
-+ 
-```
-Line 17:
-```
-- group(Main) using keys
 + 
 ```
 Line 18:
@@ -916,22 +946,61 @@ Line 20:
 - + '`' >  U+0981
 + 
 ```
-... and 81 more
+Line 41:
+```
+- + 'n' >  U+09A8
++ 
+```
+... and 60 more
 
-#### group_structure (1)
+#### group_structure (2)
 
 Line 13:
 ```
 - begin UNICODE > use(Main)
 + group(main) using keys
 ```
+Line 17:
+```
+- group(Main) using keys
++ match > use(transforms)
+```
+
+#### rule_format (20)
+
+Line 21:
+```
+- + '~' >  U+0982
++ dk(1)অ > 'অ'
+```
+Line 22:
+```
+- + 'k' >  U+0995
++ dk(1)আ > 'আ'
+```
+Line 23:
+```
+- + 'K' >  U+0996
++ dk(1)ই > 'ই'
+```
+Line 24:
+```
+- + 'g' >  U+0997
++ dk(1)ঈ > 'ঈ'
+```
+Line 25:
+```
+- + 'G' >  U+0998
++ dk(1)উ > 'উ'
+```
+... and 15 more
 
 ### sil_bolivia
 
 - Original lines: 328
-- Roundtrip lines: 210
-- Identical: 28
-- Different: 300
+- Roundtrip lines: 244
+- Identical: 20
+- Different: 308
 
 #### unknown (3)
 
@@ -980,7 +1049,7 @@ Line 61:
 ```
 ... and 5 more
 
-#### line_removed (90)
+#### line_removed (67)
 
 Line 8:
 ```
@@ -1007,9 +1076,9 @@ Line 210:
 - + [SHIFT K_SLASH] > U+005f
 + 
 ```
-... and 85 more
+... and 62 more
 
-#### line_added (45)
+#### line_added (53)
 
 Line 9:
 ```
@@ -1036,7 +1105,7 @@ Line 24:
 - 
 + + [K_BKQUOTE] > 'º'
 ```
-... and 40 more
+... and 48 more
 
 #### store_reordered (8)
 
@@ -1067,7 +1136,7 @@ Line 14:
 ```
 ... and 3 more
 
-#### rule_format (144)
+#### rule_format (167)
 
 Line 25:
 ```
@@ -1094,14 +1163,14 @@ Line 30:
 - + [RALT K_1] > U+007c
 + + [K_6] > '6'
 ```
-... and 139 more
+... and 162 more
 
 ### sil_boonkit
 
 - Original lines: 89
-- Roundtrip lines: 27
-- Identical: 14
-- Different: 75
+- Roundtrip lines: 39
+- Identical: 13
+- Different: 76
 
 #### comment_removed (17)
 
@@ -1132,7 +1201,7 @@ Line 6:
 ```
 ... and 12 more
 
-#### line_removed (52)
+#### line_removed (44)
 
 Line 2:
 ```
@@ -1149,27 +1218,32 @@ Line 26:
 - store(&TARGETS) 'desktop'
 + 
 ```
-Line 28:
+Line 31:
 ```
-- begin Unicode > use(Main)
+-              '234567890-=' \
 + 
 ```
-Line 30:
+Line 39:
 ```
-- store(baseK) '!@#$%^&*()_+' \
+- store(base) \
 + 
 ```
-... and 47 more
+... and 39 more
 
-#### line_added (1)
+#### line_added (2)
 
 Line 18:
 ```
 - 
 + store(hangk) "\\`"
 ```
+Line 38:
+```
+- 
++ any(sbase) > '᩠'
+```
 
-#### store_reordered (5)
+#### store_reordered (6)
 
 Line 19:
 ```
@@ -1196,6 +1270,44 @@ Line 25:
 - store(&BITMAP) 'sil_boonkit.ico'
 + group(main) using keys
 ```
+... and 1 more
+
+#### group_structure (1)
+
+Line 28:
+```
+- begin Unicode > use(Main)
++ match > use(transforms)
+```
+
+#### unknown (6)
+
+Line 32:
+```
+-              'QWERTYUIOP{' \
++ (any(hbase)) > index(hack,1)
+```
+Line 33:
+```
+-              'qrtyuiop[]' \
++ ᩠(any(dhackb)) > index(dhack,1)
+```
+Line 34:
+```
+-              'SDGJKL:'  \
++ ᩠(any(sbase)) > index(sbase,1)
+```
+Line 35:
+```
+-              "asdfhjkl;'"  \
++ 'CVBNM<' > '  \\'
+```
+Line 36:
+```
+-              'CVBNM<>?|'  \
++ any(tall)ᩤ > 'ᩤ'
+```
+... and 1 more
 
 ### sil_brao
 
@@ -1503,9 +1615,9 @@ Line 28:
 ### sil_bunong
 
 - Original lines: 197
-- Roundtrip lines: 100
-- Identical: 23
-- Different: 174
+- Roundtrip lines: 147
+- Identical: 14
+- Different: 183
 
 #### store_reordered (7)
 
@@ -1536,7 +1648,7 @@ Line 6:
 ```
 ... and 2 more
 
-#### line_removed (62)
+#### line_removed (33)
 
 Line 2:
 ```
@@ -1558,12 +1670,12 @@ Line 100:
 - + [K_F] > 'ថ'
 + 
 ```
-Line 101:
+Line 102:
 ```
-- + [K_G] > 'ង'
+- + [K_H] > 'ហ'
 + 
 ```
-... and 57 more
+... and 28 more
 
 #### group_structure (2)
 
@@ -1578,7 +1690,7 @@ Line 13:
 + + [K_BKQUOTE] > '«'
 ```
 
-#### rule_format (86)
+#### rule_format (115)
 
 Line 14:
 ```
@@ -1605,43 +1717,72 @@ Line 18:
 - + [SHIFT K_QUOTE] > '"'
 + + [K_5] > '៥'
 ```
-... and 81 more
+... and 110 more
+
+#### line_added (9)
+
+Line 109:
+```
+- 
++ '!។' > '?'
+```
+Line 112:
+```
+- 
++ '""' > ''''
+```
+Line 115:
+```
+- 
++ '‹«' > '«'
+```
+Line 123:
+```
+- 
++ '((' > '['
+```
+Line 124:
+```
+- 
++ '[(' > '{'
+```
+... and 4 more
 
 #### comment_removed (17)
 
 Line 116:
 ```
 - c subscripts for phone layout
-+ 
++ '»»' > '›'
 ```
 Line 125:
 ```
 - c Rotas
-+ 
++ '{(' > '('
 ```
 Line 127:
 ```
 - c ។ > ៕ > ! > ? > ៗ > ។
-+ 
++ '])' > '}'
 ```
 Line 134:
 ```
 - c " > ' > "
-+ 
++ 'ូុ' > 'ួ'
 ```
 Line 138:
 ```
 - c « > ‹ > «  and » > › > » -- Mondolkiri font doesn't render these two pairs proportionately (April 6, 2023).
-+ 
++ 'ៃេ' > 'េ'
 ```
 ... and 12 more
 
 ### sil_busa
 
 - Original lines: 70
-- Roundtrip lines: 35
-- Identical: 12
-- Different: 58
+- Roundtrip lines: 46
+- Identical: 11
+- Different: 59
 
 #### comment_removed (5)
 
@@ -1671,7 +1812,7 @@ Line 51:
 + 
 ```
 
-#### line_removed (26)
+#### line_removed (19)
 
 Line 2:
 ```
@@ -1693,12 +1834,12 @@ Line 28:
 - store(other)  'ɡɑŋ' U+0323
 + 
 ```
-Line 36:
+Line 48:
 ```
-- group(main) using keys
+- + any(vowelK) > index(vowel, 1)
 + 
 ```
-... and 21 more
+... and 14 more
 
 #### store_reordered (17)
 
@@ -1729,7 +1870,7 @@ Line 9:
 ```
 ... and 12 more
 
-#### line_added (8)
+#### line_added (9)
 
 Line 10:
 ```
@@ -1756,14 +1897,19 @@ Line 21:
 - 
 + store(otherK) "#@^[ALT  K_2]"
 ```
-... and 3 more
+... and 4 more
 
-#### group_structure (1)
+#### group_structure (2)
 
 Line 11:
 ```
 - begin Unicode > use(main)
 + store(tilde) U+0303 U+0303
+```
+Line 36:
+```
+- group(main) using keys
++ match > use(transforms)
 ```
 
 #### modifier_format (1)
@@ -1772,6 +1918,42 @@ Line 33:
 ```
 -                   [ALT K_LBRKT] [ALT K_RBRKT] [ALT SHIFT K_LBRKT] [ALT SHIFT K_RBRKT] 
 + + [SHIFT RALT K_COLON] > '̃́'
+```
+
+#### unknown (2)
+
+Line 38:
+```
+- c 
++ group(transforms)
+```
+Line 40:
+```
+- c 
++ any(vowel_aiu_lo)̃̄ > '̃̄'
+```
+
+#### rule_format (4)
+
+Line 42:
+```
+- any(highdia) + any(highdiaK) > context beep
++ any(vowel_aiu_lo)̃́ > '̃́'
+```
+Line 43:
+```
+- any(tilde) + any(tildeK) > context beep
++ any(vowel_aiu_lo)̃́ > '̃́'
+```
+Line 44:
+```
+- any(tilde) any(highdia) + any(tildeK) > context beep
++ any(vowel_aiu_lo)̃̀ > '̃̀'
+```
+Line 45:
+```
+- any(dia) + any(multidiaK) > context beep
++ any(vowel_aiu_lo)̃̀ > '̃̀'
 ```
 
 ### sil_bwe_karen
@@ -1886,9 +2068,9 @@ Line 18:
 ### sil_cameroon_azerty
 
 - Original lines: 403
-- Roundtrip lines: 262
-- Identical: 23
-- Different: 380
+- Roundtrip lines: 316
+- Identical: 15
+- Different: 388
 
 #### store_reordered (19)
 
@@ -1919,7 +2101,7 @@ Line 6:
 ```
 ... and 14 more
 
-#### line_removed (122)
+#### line_removed (80)
 
 Line 2:
 ```
@@ -1946,7 +2128,7 @@ Line 262:
 - any(diablock) + [RALT K_PERIOD] > context
 + 
 ```
-... and 117 more
+... and 75 more
 
 #### comment_removed (4)
 
@@ -1971,7 +2153,7 @@ Line 402:
 + 
 ```
 
-#### line_added (46)
+#### line_added (54)
 
 Line 13:
 ```
@@ -1998,7 +2180,7 @@ Line 33:
 - 
 + store(dkt0021) U+0021 U+00B2 U+00B9 U+007B U+005B U+005D U+00B1 U+007C U+20D7 U+2018 U+2019 U+0023 U+0308 U+20D6 U+0323 U+00AB U+007D U+00BB U+00D7 U+0190 U+0181 U+00A9 U+018A U+018F U+00C6 U+A78B U+2C6D U+0197 U+2122 U+00A3 U+00B5 U+014A U+0186 U+00D8 U+2013 U+00AE U+201D U+0152 U+0244 U+A78B U+1E84 U+203A U+01B3 U+2020 U+025B U+0253 U+0327 U+0257 U+0259 U+00E6 U+02BC U+03B1 U+0268 U+00F9 U+014B U+0254 U+00F8 U+2014 U+25CC U+201C U+0153 U+0289 U+A78C U+1E85 U+2039 U+01B4 U+2026 U+0040 U+1DC5 U+005E U+1DC4 U+030D U+0304 U+00A4 U+002A U+00B3 U+00AB U+00BB U+0025 U+005C
 ```
-... and 41 more
+... and 49 more
 
 #### group_structure (2)
 
@@ -2013,7 +2195,7 @@ Line 16:
 + store(final) "!?."
 ```
 
-#### rule_format (187)
+#### rule_format (221)
 
 Line 30:
 ```
@@ -2040,14 +2222,43 @@ Line 37:
 - + [SHIFT K_SPACE] > U+0020
 + group(main) using keys
 ```
-... and 182 more
+... and 216 more
+
+#### key_format (8)
+
+Line 281:
+```
+- any(diablock) + [K_LBRKT] > context
++ any(diablock) + [SHIFT T_0330] > context
+```
+Line 282:
+```
+- any(diablock) + [SHIFT K_LBRKT] > context
++ any(diablock) + [ALTR K_RBRKT] > context
+```
+Line 288:
+```
+- any(diablock) + [K_BKSLASH] > context
++ any(diablock) + [SHIFT T_030D] > context
+```
+Line 289:
+```
+- any(diablock) + [SHIFT K_BKSLASH] > context
++ any(diablock) + [K_QUOTE] > context
+```
+Line 295:
+```
+- any(diablock) + [K_RBRKT] > context
++ any(diablock) + [T_0302] > context
+```
+... and 3 more
 
 ### sil_cameroon_qwerty
 
 - Original lines: 362
-- Roundtrip lines: 224
-- Identical: 22
-- Different: 340
+- Roundtrip lines: 274
+- Identical: 14
+- Different: 348
 
 #### store_reordered (17)
 
@@ -2078,7 +2289,7 @@ Line 6:
 ```
 ... and 12 more
 
-#### line_removed (121)
+#### line_removed (83)
 
 Line 2:
 ```
@@ -2105,9 +2316,9 @@ Line 224:
 - + [SHIFT RALT K_Z] > U+2020
 + 
 ```
-... and 116 more
+... and 78 more
 
-#### line_added (42)
+#### line_added (50)
 
 Line 11:
 ```
@@ -2134,7 +2345,7 @@ Line 32:
 - 
 + + [K_3] > '3'
 ```
-... and 37 more
+... and 45 more
 
 #### group_structure (2)
 
@@ -2149,7 +2360,7 @@ Line 14:
 + store(comp-dia) "aeinouwyAEINOUWYαΑacegiklmnoprsuwyzACEGIKLMNOPRSUWYZæαøÆΑØaceghijosuwyzACEGHIJOSUWYZaegiouyAEGIOUYæαÆΑaehiotuxyAEHIOUXYabdehiklmnorstuvwyzABDEHIKLMNORSTUVWYZcdeghklnrstCDEGHKLNRSTeiuEIUaeinouvyAEINOUVYçÇạẹọẠẸỌâêôÂÊÔūŪḷṛḶṚfﬀﬀffIiLLlNNnsf"
 ```
 
-#### rule_format (157)
+#### rule_format (194)
 
 Line 29:
 ```
@@ -2176,7 +2387,15 @@ Line 35:
 - + [SHIFT K_SPACE] > U+0020
 + + [K_6] > '6'
 ```
-... and 152 more
+... and 189 more
+
+#### key_format (1)
+
+Line 245:
+```
+- any(diablock) + [RALT K_HYPHEN] > context
++ any(diablock) + [T_0304] > context
+```
 
 #### comment_removed (1)
 
@@ -2311,9 +2530,9 @@ Line 19:
 ### sil_cheyenne
 
 - Original lines: 82
-- Roundtrip lines: 18
-- Identical: 12
-- Different: 70
+- Roundtrip lines: 59
+- Identical: 7
+- Different: 75
 
 #### comment_removed (13)
 
@@ -2344,15 +2563,36 @@ Line 61:
 ```
 ... and 8 more
 
-#### line_added (1)
+#### line_added (6)
 
 Line 4:
 ```
 - 
 + store(&KEYBOARDVERSION) '1.1.1'
 ```
+Line 24:
+```
+- 
++ '^Ē' > 'Ė'
+```
+Line 29:
+```
+-  
++ '`Ā' > 'À'
+```
+Line 36:
+```
+- 
++ '`í' > 'ì'
+```
+Line 37:
+```
+- 
++ '`ō' > 'ò'
+```
+... and 1 more
 
-#### store_reordered (8)
+#### store_reordered (10)
 
 Line 5:
 ```
@@ -2379,9 +2619,9 @@ Line 10:
 - store(&COPYRIGHT) '(c) 2014-2020 SIL International'
 + store(uc_alph) "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 ```
-... and 3 more
+... and 5 more
 
-#### line_removed (47)
+#### line_removed (14)
 
 Line 8:
 ```
@@ -2398,32 +2638,66 @@ Line 18:
 - store(lc_alph) "abcdefghijklmnopqrstuvwxyz"
 + 
 ```
-Line 19:
-```
-- store(uc_alph) "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-+ 
-```
 Line 20:
 ```
 - store(digits) "01234567890"
 + 
 ```
-... and 42 more
+Line 66:
+```
+- '~' + 'A' > U+0100 c LATIN CAPITAL LETTER A WITH MACRON
++ 
+```
+... and 9 more
 
-#### group_structure (1)
+#### group_structure (2)
 
 Line 16:
 ```
 - begin UNICODE > use(Main)     
 + group(main) using keys
 ```
+Line 23:
+```
+- group(Main) using keys
++ '^Ā' > 'Ȧ'
+```
+
+#### rule_format (30)
+
+Line 25:
+```
+-  + any(lc_alph) > index(lc_alph,1)
++ '^Ō' > 'Ȯ'
+```
+Line 26:
+```
+-  + any(uc_alph) > index(uc_alph,1)
++ '^ā' > 'ȧ'
+```
+Line 27:
+```
+-  + any(digits) > index(digits,1)
++ '^ē' > 'ė'
+```
+Line 28:
+```
+-  + any(punct) > index(punct,1)
++ '^ō' > 'ȯ'
+```
+Line 30:
+```
+- '^' + 'A' > U+0226 c LATIN CAPITAL LETTER A WITH DOT ABOVE
++ '`Ē' > 'È'
+```
+... and 25 more
 
 ### sil_cipher_music
 
 - Original lines: 231
-- Roundtrip lines: 127
-- Identical: 8
-- Different: 223
+- Roundtrip lines: 189
+- Identical: 4
+- Different: 227
 
 #### comment_removed (23)
 
@@ -2491,7 +2765,7 @@ Line 7:
 + store(&TARGETS) 'any'
 ```
 
-#### line_removed (101)
+#### line_removed (46)
 
 Line 8:
 ```
@@ -2508,19 +2782,19 @@ Line 19:
 - store(DblkeyUOver)  U+0307 U+0305 U+033F U+2197 U+1D100 U+0338
 + 
 ```
-Line 128:
-```
-- + [RALT K_PERIOD] > U+0323 c underdot
-+ 
-```
 Line 129:
 ```
 - + [RALT K_COMMA]  > U+0307 c overdot
 + 
 ```
-... and 96 more
+Line 131:
+```
+- + [RALT K_2] > U+1D101
++ 
+```
+... and 41 more
 
-#### line_added (19)
+#### line_added (23)
 
 Line 10:
 ```
@@ -2547,7 +2821,7 @@ Line 24:
 - 
 + + [K_4] > '4'
 ```
-... and 14 more
+... and 18 more
 
 #### group_structure (2)
 
@@ -2562,7 +2836,7 @@ Line 23:
 + + [K_3] > '3'
 ```
 
-#### rule_format (68)
+#### rule_format (123)
 
 Line 26:
 ```
@@ -2589,14 +2863,14 @@ Line 30:
 - "5" + "5" > U+0035 U+0307
 + + [K_0] > '0'
 ```
-... and 63 more
+... and 118 more
 
 ### sil_devanagari_phonetic
 
 - Original lines: 216
-- Roundtrip lines: 45
-- Identical: 33
-- Different: 183
+- Roundtrip lines: 85
+- Identical: 30
+- Different: 186
 
 #### comment_removed (26)
 
@@ -2627,7 +2901,7 @@ Line 12:
 ```
 ... and 21 more
 
-#### line_added (8)
+#### line_added (11)
 
 Line 4:
 ```
@@ -2654,9 +2928,9 @@ Line 26:
 - 
 + + [RALT K_0] > '॰'
 ```
-... and 3 more
+... and 6 more
 
-#### store_reordered (12)
+#### store_reordered (13)
 
 Line 5:
 ```
@@ -2683,9 +2957,9 @@ Line 14:
 - store(&KEYBOARDVERSION) '1.4'
 + store(RomanCs) "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 ```
-... and 7 more
+... and 8 more
 
-#### line_removed (124)
+#### line_removed (92)
 
 Line 8:
 ```
@@ -2697,32 +2971,37 @@ Line 45:
 - store(RomanCs)       "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" \
 + 
 ```
-Line 46:
-```
--                      "~`;:" c plus some punctuation used in allomorph constraints (the others come thru anyway)
-+ 
-```
 Line 49:
 ```
 - store(LowDotWallahs)    U+0915  U+0916  U+0917  U+091c  U+0921  U+0922  U+092b  U+092f  U+0933  U+0930 U+0928
 + 
 ```
-Line 50:
+Line 85:
 ```
-- store(LowDotOutputs)    U+0958  U+0959  U+095a  U+095b  U+095c  U+095d  U+095e  U+095f  U+0934  U+0931 U+0929
+- + "O"    > U+094c c aukar
 + 
 ```
-... and 119 more
+Line 86:
+```
+- + "p"    > U+092a c pa
++ 
+```
+... and 87 more
 
-#### group_structure (1)
+#### group_structure (2)
 
 Line 18:
 ```
 - begin UNICODE > use(mainU)
 + begin Unicode > use(main)
 ```
+Line 54:
+```
+- group(mainU) using keys 	c This is where you define the basic keyboard layout
++ dk(1)आ > 'अ'
+```
 
-#### unknown (12)
+#### unknown (13)
 
 Line 23:
 ```
@@ -2749,14 +3028,43 @@ Line 31:
 -                      "p"    "P"    "b"    "B"    "m"    "y"     \
 + + [RALT K_L] > 'ृ'
 ```
-... and 7 more
+... and 8 more
+
+#### rule_format (29)
+
+Line 56:
+```
+- + "a" 	 > U+093E c aakar (matra)
++ dk(1)आ > 'आ'
+```
+Line 57:
+```
+- + "A" 	 > U+093E c aakar (matra)
++ dk(1)ए > 'ए'
+```
+Line 58:
+```
+- + "b" 	 > U+092c c ba
++ dk(1)ऐ > 'ऐ'
+```
+Line 59:
+```
+- + "B" 	 > U+092d c bHa
++ dk(1)ृ > 'इ'
+```
+Line 60:
+```
+- + "c" 	 > U+091a c ca
++ dk(1)ई > 'ई'
+```
+... and 24 more
 
 ### sil_devanagari_romanized
 
 - Original lines: 295
-- Roundtrip lines: 113
-- Identical: 37
-- Different: 258
+- Roundtrip lines: 151
+- Identical: 31
+- Different: 264
 
 #### store_reordered (15)
 
@@ -2787,7 +3095,7 @@ Line 7:
 ```
 ... and 10 more
 
-#### line_removed (129)
+#### line_removed (104)
 
 Line 2:
 ```
@@ -2814,9 +3122,9 @@ Line 23:
 -                      "+"    "="
 + 
 ```
-... and 124 more
+... and 99 more
 
-#### line_added (14)
+#### line_added (20)
 
 Line 9:
 ```
@@ -2843,7 +3151,7 @@ Line 34:
 - 
 + + [RALT K_Q] > 'ॽ'
 ```
-... and 9 more
+... and 15 more
 
 #### group_structure (2)
 
@@ -2916,7 +3224,7 @@ Line 26:
 ```
 ... and 5 more
 
-#### rule_format (55)
+#### rule_format (80)
 
 Line 51:
 ```
@@ -2943,14 +3251,14 @@ Line 56:
 - dk(1) + "a"     > U+0906 c // Devanagari Letter- Aa आ
 + + [RALT K_SLASH] > '‌'
 ```
-... and 50 more
+... and 75 more
 
 ### sil_devanagari_typewriter
 
 - Original lines: 304
-- Roundtrip lines: 162
-- Identical: 21
-- Different: 283
+- Roundtrip lines: 175
+- Identical: 19
+- Different: 285
 
 #### store_reordered (14)
 
@@ -2981,7 +3289,7 @@ Line 7:
 ```
 ... and 9 more
 
-#### line_removed (118)
+#### line_removed (111)
 
 Line 2:
 ```
@@ -3008,9 +3316,9 @@ Line 23:
 -                      "["    "n"    "j"     ";"    "i"    "z"    "x" \
 + 
 ```
-... and 113 more
+... and 106 more
 
-#### line_added (23)
+#### line_added (25)
 
 Line 9:
 ```
@@ -3037,7 +3345,7 @@ Line 25:
 - 
 + + [K_HYPHEN] > '़'
 ```
-... and 18 more
+... and 20 more
 
 #### group_structure (2)
 
@@ -3110,7 +3418,7 @@ Line 27:
 ```
 ... and 4 more
 
-#### rule_format (87)
+#### rule_format (94)
 
 Line 51:
 ```
@@ -3137,7 +3445,7 @@ Line 55:
 - + "p"           > U+0909 c // Devanagari Letter- U उ 
 + + [RALT K_O] > 'य्‍'
 ```
-... and 82 more
+... and 89 more
 
 ### sil_dzongkha
 
@@ -3277,11 +3585,11 @@ Line 16:
 ### sil_eastern_congo
 
 - Original lines: 344
-- Roundtrip lines: 49
-- Identical: 33
-- Different: 311
+- Roundtrip lines: 185
+- Identical: 18
+- Different: 326
 
-#### unknown (16)
+#### unknown (30)
 
 Line 1:
 ```
@@ -3308,7 +3616,7 @@ Line 23:
 -                         U+0061 U+0064 U+0065 U+0069 U+006D \
 + store(macron_nfc) U+0101 U+0100 U+0113 U+0112 U+012B U+012A U+014D U+014C U+016B U+016A
 ```
-... and 11 more
+... and 25 more
 
 #### comment_removed (89)
 
@@ -3335,11 +3643,11 @@ Line 27:
 Line 39:
 ```
 - c Characters made with semi-colon
-+ ':' > '̈'
++ (any(basic)) > index(diaer_nfc,1)
 ```
 ... and 84 more
 
-#### line_added (7)
+#### line_added (22)
 
 Line 4:
 ```
@@ -3366,9 +3674,9 @@ Line 26:
 - 
 + begin Unicode > use(main)
 ```
-... and 2 more
+... and 17 more
 
-#### store_reordered (12)
+#### store_reordered (15)
 
 Line 5:
 ```
@@ -3395,9 +3703,9 @@ Line 10:
 - store(&TARGETS) 'any'
 + store(all_basic_chars) "ABCDEFGHIJKL"
 ```
-... and 7 more
+... and 10 more
 
-#### line_removed (185)
+#### line_removed (104)
 
 Line 8:
 ```
@@ -3424,32 +3732,58 @@ Line 32:
 -                        "m"    "n"    "o"    "p"    "q"    "r"    "s"    "t"    "u"    "v"    "w" "x" \
 + 
 ```
-... and 180 more
+... and 99 more
 
-#### group_structure (1)
+#### group_structure (2)
 
 Line 15:
 ```
 - begin Unicode > use(main)
 + store(dia_chars_U) U+00C4 U+00C7 U+0190 U+0197
 ```
+Line 89:
+```
+- group(main) using keys
++ 'Ü' > 'Ǖ'
+```
 
-#### rule_format (1)
+#### rule_format (64)
 
 Line 35:
 ```
 -                        ")"    "_"    "+"    "{"    "}"    "|"    ":"    '"'    "<"    ">"    "?" \
-+ '^' > '̂'
++ (any(basic)) > index(grave_nfc,1)
 ```
+Line 92:
+```
+- + any(all_basic_chars) > index(all_basic_chars,1)
++ 'ū' > 'ṻ'
+```
+Line 93:
+```
+- + any(all_misc_chars)  > index(all_misc_chars,1)
++ 'Ū' > 'Ṻ'
+```
+Line 96:
+```
+- any(spc) + any(semi_chars_K)    > index(semi_chars_U,2)         c all special characters
++ 'm' > 'ḿ'
+```
+Line 99:
+```
+- "^" + any(basic_diacritics) > index(basic_diacritics,2) U+0302 use(nfc)       c circumflex
++ 'N' > 'Ń'
+```
+... and 59 more
 
 ### sil_el_ethiopian_latin
 
 - Original lines: 454
-- Roundtrip lines: 22
-- Identical: 119
-- Different: 335
+- Roundtrip lines: 286
+- Identical: 50
+- Different: 404
 
-#### store_reordered (5)
+#### store_reordered (10)
 
 Line 1:
 ```
@@ -3476,8 +3810,9 @@ Line 7:
 - store(&MESSAGE) 'The SIL EL - Ethiopian Latin keyboard enables typing in many Ethiopian Latin based languages.'
 + store(&TARGETS) 'any'
 ```
+... and 5 more
 
-#### line_removed (273)
+#### line_removed (104)
 
 Line 2:
 ```
@@ -3499,12 +3834,12 @@ Line 21:
 - store(gravevowels)       U+00E0 U+00E8 U+00EC U+00F2 U+00F9 U+00C0 U+00C8 U+00CC U+00D2 U+00D9
 + 
 ```
-Line 23:
+Line 288:
 ```
-- store(circumflexvowels)  U+00E2 U+00EA U+00EE U+00F4 U+00FB U+00C2 U+00CA U+00CE U+00D4 U+00DB
+- "n"    + "5" > U+00F1 c ñ
 + 
 ```
-... and 268 more
+... and 99 more
 
 #### comment_removed (50)
 
@@ -3531,11 +3866,11 @@ Line 16:
 Line 27:
 ```
 - c store(tildevowels)     U+00E3 U+1EBD U+0129 U+00F5 U+0169 U+00C3 U+1EBC U+0128 U+00D5 U+0168
-+ 
++ (any(plainvowels))Ʋ́ > index(acutevowels,1)
 ```
 ... and 45 more
 
-#### line_added (5)
+#### line_added (74)
 
 Line 9:
 ```
@@ -3562,6 +3897,7 @@ Line 20:
 - 
 + group(main) using keys
 ```
+... and 69 more
 
 #### group_structure (2)
 
@@ -3576,12 +3912,41 @@ Line 12:
 + store(circumflexvowels) U+00E2 U+00EA U+00EE U+00F4 U+00FB U+00C2 U+00CA U+00CE U+00D4 U+00DB
 ```
 
+#### rule_format (164)
+
+Line 38:
+```
+-        + "'"    > U+2018 c ‘
++ '”«' > '"'
+```
+Line 39:
+```
+- U+2018 + "'"    > U+2019 c ’
++ '"«' > '“'
+```
+Line 40:
+```
+- U+2019 + "'"    > U+0027 c '
++ '<ꞌ' > '‹'
+```
+Line 41:
+```
+- U+0027 + "'"    > U+2018 c ‘ (rota)
++ '<«' > '«'
+```
+Line 43:
+```
+-        + '"' > U+201C c “
++ ';ʕ' > 'ʕ'
+```
+... and 159 more
+
 ### sil_ethiopic
 
 - Original lines: 320
-- Roundtrip lines: 25
-- Identical: 51
-- Different: 269
+- Roundtrip lines: 88
+- Identical: 46
+- Different: 274
 
 #### store_reordered (5)
 
@@ -3611,7 +3976,7 @@ Line 7:
 + store(&TARGETS) 'any'
 ```
 
-#### line_removed (187)
+#### line_removed (141)
 
 Line 2:
 ```
@@ -3638,7 +4003,7 @@ Line 25:
 -                           U+12cd  U+12d5  U+12dd  U+12e5  U+12ed  U+12f5  U+12fd  \
 + 
 ```
-... and 182 more
+... and 136 more
 
 #### comment_removed (68)
 
@@ -3669,7 +4034,7 @@ Line 14:
 ```
 ... and 63 more
 
-#### line_added (3)
+#### line_added (8)
 
 Line 11:
 ```
@@ -3686,8 +4051,19 @@ Line 21:
 - 
 + begin Unicode > use(main)
 ```
+Line 28:
+```
+- 
++ group(transforms)
+```
+Line 40:
+```
+- 
++ 'ሽⷝ' > 'ⶥ'
+```
+... and 3 more
 
-#### unknown (6)
+#### unknown (52)
 
 Line 15:
 ```
@@ -3714,14 +4090,14 @@ Line 19:
 -                   "j"     "g"             "G"     "T"     "C"     "P"     "F"     \
 + store(diacU) U+030F U+0300 U+0304 U+0301 U+030B U+0302 U+030C U+0307 U+0308 U+0303 U+135F U+135D U+135E
 ```
-... and 1 more
+... and 47 more
 
 ### sil_ethiopic_power_g
 
 - Original lines: 323
-- Roundtrip lines: 25
-- Identical: 51
-- Different: 272
+- Roundtrip lines: 90
+- Identical: 45
+- Different: 278
 
 #### store_reordered (5)
 
@@ -3751,7 +4127,7 @@ Line 7:
 + store(&TARGETS) 'any'
 ```
 
-#### line_removed (189)
+#### line_removed (144)
 
 Line 2:
 ```
@@ -3778,7 +4154,7 @@ Line 25:
 -                           U+12c8  U+12d0  U+12d8  U+12e0  U+12e8  U+12f0  U+12f8  \
 + 
 ```
-... and 184 more
+... and 139 more
 
 #### comment_removed (69)
 
@@ -3809,7 +4185,7 @@ Line 14:
 ```
 ... and 64 more
 
-#### line_added (3)
+#### line_added (9)
 
 Line 11:
 ```
@@ -3826,8 +4202,19 @@ Line 21:
 - 
 + begin Unicode > use(main)
 ```
+Line 28:
+```
+- 
++ match > use(transforms)
+```
+Line 40:
+```
+- 
++ 'ተፀ' > 'ጸ'
+```
+... and 4 more
 
-#### unknown (6)
+#### unknown (51)
 
 Line 15:
 ```
@@ -3854,14 +4241,14 @@ Line 19:
 -                   "j"     "g"             "G"     "T"     "C"     "P"     "F"     \
 + store(diacU) U+030F U+0300 U+0304 U+0301 U+030B U+0302 U+030C U+0307 U+0308 U+0303 U+135F U+135D U+135E
 ```
-... and 1 more
+... and 46 more
 
 ### sil_euro_latin
 
 - Original lines: 332
-- Roundtrip lines: 65
-- Identical: 45
-- Different: 287
+- Roundtrip lines: 167
+- Identical: 28
+- Different: 304
 
 #### comment_removed (61)
 
@@ -3892,7 +4279,7 @@ Line 24:
 ```
 ... and 56 more
 
-#### line_removed (180)
+#### line_removed (111)
 
 Line 2:
 ```
@@ -3919,9 +4306,9 @@ Line 65:
 - store(antibreveO) 'ȂȃȆȇȊȋȎȏȒȓȖȗ'
 + 
 ```
-... and 175 more
+... and 106 more
 
-#### line_added (16)
+#### line_added (33)
 
 Line 5:
 ```
@@ -3948,7 +4335,7 @@ Line 23:
 - 
 + store(antibreveO) "ȂȃȆȇȊȋȎȏȒȓȖȗ"
 ```
-... and 11 more
+... and 28 more
 
 #### store_format (1)
 
@@ -3958,7 +4345,7 @@ Line 6:
 + store(&VERSION) '10.0'
 ```
 
-#### store_reordered (20)
+#### store_reordered (44)
 
 Line 7:
 ```
@@ -3985,7 +4372,7 @@ Line 16:
 - store(&LAYOUTFILE) 'sil_euro_latin.keyman-touch-layout'
 + store(acuteK) "acegiklmnoprsuwyzACEGIKLMNOPRSUWYZ"
 ```
-... and 15 more
+... and 39 more
 
 #### unknown (2)
 
@@ -4036,20 +4423,41 @@ Line 36:
 + store(ringK) "aAuUwysStT"
 ```
 
-#### rule_format (1)
+#### rule_format (46)
 
 Line 38:
 ```
 - if(&platform = 'touch') + any(controls) > use(Touch)
 + store(dottedK) "aAbBcCdDeEfFgGhHiIjlLmMnNoOpPrRsStTwWxXyYzZ"
 ```
+Line 75:
+```
+- '~' dk(1) + "g" > U+0067 U+0303    c for Guaraní
++ :dk(1)p̈ > 'p̈'
+```
+Line 76:
+```
+- '~' dk(1) + "G" > U+0047 U+0303    c for Guaraní
++ :dk(1)P̈ > 'P̈'
+```
+Line 89:
+```
+- ':' dk(1) + "n" > U+006E U+0308    c for Guinea-Bissau Creole (pov)
++ C\dk(1)þ > 'C̲h̲'
+```
+Line 90:
+```
+- ':' dk(1) + "N" > U+004E U+0308    c for Guinea-Bissau Creole (pov)
++ C\dk(1)Þ > 'C̲H̲'
+```
+... and 41 more
 
 ### sil_extended_urdu_np
 
 - Original lines: 176
-- Roundtrip lines: 31
-- Identical: 18
-- Different: 158
+- Roundtrip lines: 40
+- Identical: 17
+- Different: 159
 
 #### comment_removed (25)
 
@@ -4080,7 +4488,7 @@ Line 8:
 ```
 ... and 20 more
 
-#### line_added (3)
+#### line_added (4)
 
 Line 6:
 ```
@@ -4096,6 +4504,11 @@ Line 15:
 ```
 - 
 + + [K_SLASH] > '‍'
+```
+Line 32:
+```
+- 
++ match > use(transforms)
 ```
 
 #### unknown (11)
@@ -4135,7 +4548,7 @@ Line 30:
 + + [SHIFT K_Z] > 'ڙ'
 ```
 
-#### line_removed (118)
+#### line_removed (115)
 
 Line 31:
 ```
@@ -4147,29 +4560,47 @@ Line 33:
 - VERSION 10.0
 + 
 ```
-Line 34:
-```
-- store(&NAME) 'Extended Urdu NP (SIL)'
-+ 
-```
 Line 35:
 ```
 - store(&BITMAP) 'sil_extended_urdu_np.ico'
 + 
 ```
+Line 40:
+```
+- store(&VISUALKEYBOARD) 'sil_extended_urdu_np.kvks'
++ 
+```
+Line 41:
+```
+- store(&KEYBOARDVERSION) '6.0'
++ 
+```
+... and 110 more
+
+#### store_reordered (3)
+
+Line 34:
+```
+- store(&NAME) 'Extended Urdu NP (SIL)'
++ group(transforms)
+```
 Line 36:
 ```
 - store(&MESSAGE) 'Keyboard for typing Urdu, Panjabi, and other Northern Pakistan languages'
-+ 
++ '‘“' > '“'
 ```
-... and 113 more
+Line 37:
+```
+- store(&COPYRIGHT) "(c) 2001-2022 SIL International"
++ '’' > ' > U+201d'
+```
 
 ### sil_greek_polytonic
 
 - Original lines: 986
-- Roundtrip lines: 246
-- Identical: 107
-- Different: 879
+- Roundtrip lines: 395
+- Identical: 85
+- Different: 901
 
 #### comment_removed (143)
 
@@ -4200,7 +4631,7 @@ Line 5:
 ```
 ... and 138 more
 
-#### line_added (34)
+#### line_added (56)
 
 Line 27:
 ```
@@ -4227,9 +4658,9 @@ Line 46:
 - 
 + store(upV) U+0391 U+0395 U+0397 U+0399 U+039F U+03A5 U+03A9
 ```
-... and 29 more
+... and 51 more
 
-#### store_reordered (99)
+#### store_reordered (180)
 
 Line 28:
 ```
@@ -4256,7 +4687,7 @@ Line 33:
 - store(&message) "The Greek (polytonic precomposed) keyboard is distributed under the MIT license."
 + store(u) 'υ'
 ```
-... and 94 more
+... and 175 more
 
 #### group_structure (1)
 
@@ -4266,7 +4697,7 @@ Line 45:
 + store(K_upV) "AEJIOUW"
 ```
 
-#### unknown (27)
+#### unknown (53)
 
 Line 85:
 ```
@@ -4293,9 +4724,9 @@ Line 99:
 -                     U+03C0 U+03C1 U+03C3 U+03C4 U+03C6 U+03C7 U+03C8 U+1FE5 U+03C2
 + store(Di_Dilowiu) U+03CA U+03CB
 ```
-... and 22 more
+... and 48 more
 
-#### line_removed (575)
+#### line_removed (468)
 
 Line 241:
 ```
@@ -4317,12 +4748,12 @@ Line 246:
 - store(Di_DiCilowiu) U+1FD7 U+1FE7
 + 
 ```
-Line 247:
+Line 250:
 ```
-- store(Di_Cilowiu)   U+1FD6 U+1FE6
+- store(K_Gr)         "\`"
 + 
 ```
-... and 570 more
+... and 463 more
 
 ### sil_hawaiian
 
@@ -4493,9 +4924,9 @@ Line 25:
 ### sil_hebr_grek_trans
 
 - Original lines: 91
-- Roundtrip lines: 14
-- Identical: 20
-- Different: 71
+- Roundtrip lines: 36
+- Identical: 13
+- Different: 78
 
 #### comment_removed (23)
 
@@ -4544,24 +4975,40 @@ Line 13:
 + + [RALT K_A] > 'ᵃ'
 ```
 
-#### line_added (1)
+#### line_added (8)
 
 Line 11:
 ```
 - 
 + group(main) using keys
 ```
+Line 19:
+```
+- 
++ '.ḥ' > 'ḥ'
+```
+Line 21:
+```
+- 
++ '.ṣ' > 'ṣ'
+```
+Line 23:
+```
+- 
++ 's' > 'ś'
+```
+Line 26:
+```
+- 
++ 'oō' > 'ō'
+```
+... and 3 more
 
-#### line_removed (44)
+#### line_removed (39)
 
 Line 14:
 ```
 - store(&NAME) "Hebrew and Greek Transliteration (SIL)"
-+ 
-```
-Line 15:
-```
-- store(&BITMAP) 'sil_hebr_grek_trans.ico'
 + 
 ```
 Line 16:
@@ -4569,24 +5016,60 @@ Line 16:
 - store(&TARGETS) 'web desktop'
 + 
 ```
-Line 17:
-```
-- store(&KEYBOARDVERSION) '1.1'
-+ 
-```
 Line 18:
 ```
 - store(&VISUALKEYBOARD) 'sil_hebr_grek_trans.kvks'
 + 
 ```
-... and 39 more
+Line 36:
+```
+- + ">" > U+02BE
++ 
+```
+Line 37:
+```
+- + "<" > U+02BF
++ 
+```
+... and 34 more
+
+#### store_reordered (3)
+
+Line 15:
+```
+- store(&BITMAP) 'sil_hebr_grek_trans.ico'
++ match > use(transforms)
+```
+Line 17:
+```
+- store(&KEYBOARDVERSION) '1.1'
++ group(transforms)
+```
+Line 22:
+```
+- store( &Copyright ) "Copyright © 2003-2018 SIL International"
++ 'sệ' > 'š'
+```
+
+#### group_structure (2)
+
+Line 20:
+```
+- begin UNICODE > use(Main)  
++ '.ṭ' > 'ṭ'
+```
+Line 28:
+```
+- group(Main) using keys
++ 'eệ' > 'ê'
+```
 
 ### sil_hebrew
 
 - Original lines: 365
-- Roundtrip lines: 114
-- Identical: 38
-- Different: 327
+- Roundtrip lines: 131
+- Identical: 35
+- Different: 330
 
 #### comment_removed (158)
 
@@ -4617,7 +5100,7 @@ Line 8:
 ```
 ... and 153 more
 
-#### unknown (7)
+#### unknown (11)
 
 Line 4:
 ```
@@ -4644,9 +5127,9 @@ Line 93:
 -                U+05D9 U+05DA U+05DB U+05DC U+05DD U+05DE U+05DF U+05E0 U+05E1 \
 + + [SHIFT RALT K_SLASH] > '״'
 ```
-... and 2 more
+... and 6 more
 
-#### line_added (10)
+#### line_added (13)
 
 Line 7:
 ```
@@ -4673,9 +5156,9 @@ Line 83:
 - 
 + + [SHIFT RALT K_RBRKT] > '֒'
 ```
-... and 5 more
+... and 8 more
 
-#### line_removed (133)
+#### line_removed (125)
 
 Line 28:
 ```
@@ -4687,24 +5170,24 @@ Line 111:
 - store(aeoEqOut) U+05B8 U+05B5 U+05B9     c 12/06/01
 + 
 ```
-Line 115:
+Line 133:
 ```
-- store(vowrOut)	U+05B2 	U+05B1	U+05B3  c 12/06/01
+- store(illegalkey) "WRTUIDFGHJLZXVB" c removed­ added ª, ¿  4/7/97 jw
 + 
 ```
-Line 118:
+Line 139:
 ```
-- store(cant)        U+0591 U+0592 U+0593 U+0594 U+0595 U+0596 U+0597 \
+- group(Main) using keys
 + 
 ```
-Line 119:
+Line 143:
 ```
--                    U+0598 U+0599 U+059A U+059B U+059C U+059D U+059E U+059F \
+-  + any(illegalkey) > nul
 + 
 ```
-... and 128 more
+... and 120 more
 
-#### store_reordered (18)
+#### store_reordered (22)
 
 Line 64:
 ```
@@ -4731,7 +5214,7 @@ Line 72:
 - store(&VISUALKEYBOARD) 'sil_hebrew.kvks'
 + + [SHIFT RALT K_6] > '֟'
 ```
-... and 13 more
+... and 17 more
 
 #### group_structure (1)
 
@@ -4744,9 +5227,9 @@ Line 78:
 ### sil_hebrew_legacy
 
 - Original lines: 366
-- Roundtrip lines: 105
-- Identical: 41
-- Different: 325
+- Roundtrip lines: 117
+- Identical: 39
+- Different: 327
 
 #### comment_removed (171)
 
@@ -4777,7 +5260,7 @@ Line 8:
 ```
 ... and 166 more
 
-#### unknown (8)
+#### unknown (10)
 
 Line 4:
 ```
@@ -4804,9 +5287,9 @@ Line 56:
 - c
 + + [SHIFT K_2] > '֘'
 ```
-... and 3 more
+... and 5 more
 
-#### line_added (9)
+#### line_added (11)
 
 Line 7:
 ```
@@ -4833,9 +5316,9 @@ Line 78:
 - 
 + + [SHIFT RALT K_O] > 'ֳ'
 ```
-... and 4 more
+... and 6 more
 
-#### store_reordered (15)
+#### store_reordered (18)
 
 Line 64:
 ```
@@ -4862,7 +5345,7 @@ Line 68:
 - store(&VISUALKEYBOARD) 'sil_hebrew_legacy.kvks'
 + + [SHIFT RALT K_4] > '֠'
 ```
-... and 10 more
+... and 13 more
 
 #### group_structure (1)
 
@@ -4872,34 +5355,34 @@ Line 73:
 + + [SHIFT RALT K_9] > '֓'
 ```
 
-#### line_removed (121)
+#### line_removed (116)
 
-Line 106:
-```
-- store(aeo)	    U+05B7 U+05B6 U+05B9     c 12/18/01  05B9 'o' goes to itself now, since no kamets_o d111 > 05C7 is not recommended for texts based on Codex L
-+ 
-```
 Line 107:
 ```
 - store(aeoEqOut) U+05B8 U+05B5 U+05B9     c 12/06/01
 + 
 ```
-Line 111:
+Line 117:
 ```
-- store(vowrOut)	U+05B2 	U+05B1	U+05B3  c 12/06/01
+-                    U+05A8 U+05A9 U+05AA U+05AB U+05AC U+05AD U+05AE \
 + 
 ```
-Line 114:
+Line 118:
 ```
-- store(cant)        U+0591 U+0592 U+0593 U+0594 U+0595 U+0596 U+0597 \
+-                    U+05BD U+05C4 U+05C5
 + 
 ```
-Line 115:
+Line 125:
 ```
--                    U+0598 U+0599 U+059A U+059B U+059C U+059D U+059E U+059F \
+- store(space)   ', '
 + 
 ```
-... and 116 more
+Line 126:
+```
+- store(spaceout) U+002C U+0020
++ 
+```
+... and 111 more
 
 ### sil_hmd_plrd
 
@@ -5481,9 +5964,9 @@ Line 10:
 ### sil_kayah_mymr
 
 - Original lines: 295
-- Roundtrip lines: 66
-- Identical: 34
-- Different: 261
+- Roundtrip lines: 78
+- Identical: 31
+- Different: 264
 
 #### comment_removed (41)
 
@@ -5514,7 +5997,7 @@ Line 5:
 ```
 ... and 36 more
 
-#### line_added (8)
+#### line_added (11)
 
 Line 6:
 ```
@@ -5541,9 +6024,9 @@ Line 47:
 - 
 + store(mDia) U+103B U+103C U+103D U+103E
 ```
-... and 3 more
+... and 6 more
 
-#### store_reordered (18)
+#### store_reordered (23)
 
 Line 7:
 ```
@@ -5570,9 +6053,9 @@ Line 13:
 - store(&VISUALKEYBOARD) 'sil_kayah_mymr.kvks'
 + store(kinziK) 'F'
 ```
-... and 13 more
+... and 18 more
 
-#### line_removed (182)
+#### line_removed (174)
 
 Line 8:
 ```
@@ -5599,7 +6082,7 @@ Line 61:
 - store(lDiaK)    'kl'
 + 
 ```
-... and 177 more
+... and 169 more
 
 #### group_structure (1)
 
@@ -5609,7 +6092,7 @@ Line 16:
 + store(sDiaU) U+103B U+103C U+103E U+103D
 ```
 
-#### unknown (11)
+#### unknown (14)
 
 Line 31:
 ```
@@ -5636,14 +6119,14 @@ Line 35:
 -                 '@#^&*`'
 + store(hDiaU) 'ှ'
 ```
-... and 6 more
+... and 9 more
 
 ### sil_khamti
 
 - Original lines: 184
-- Roundtrip lines: 38
-- Identical: 13
-- Different: 171
+- Roundtrip lines: 56
+- Identical: 9
+- Different: 175
 
 #### comment_removed (16)
 
@@ -5674,7 +6157,7 @@ Line 5:
 ```
 ... and 11 more
 
-#### line_added (2)
+#### line_added (6)
 
 Line 13:
 ```
@@ -5686,8 +6169,24 @@ Line 25:
 - 
 + store(takesVSK) "uViwyr,vtczX"
 ```
+Line 44:
+```
+- 
++ any(visarga)ႆ︀ > 'ႆ︀'
+```
+Line 47:
+```
+- 
++ any(visarga)any(tone)any(redup)ႆ︀ > 'ႆ︀'
+```
+Line 50:
+```
+- 
++ any(ldia)any(tone)ႆ︀ > 'ႆ︀'
+```
+... and 1 more
 
-#### store_reordered (9)
+#### store_reordered (17)
 
 Line 14:
 ```
@@ -5714,7 +6213,7 @@ Line 21:
 - store(&KEYBOARDVERSION) '1.1'
 + store(visargaK) ';'
 ```
-... and 4 more
+... and 12 more
 
 #### group_structure (1)
 
@@ -5724,7 +6223,7 @@ Line 26:
 + store(takesVS) U+1000 U+101B U+1004 U+1010 U+1015 U+1019 U+101A U+101C U+1022 U+1075 U+1078 U+1080
 ```
 
-#### line_removed (139)
+#### line_removed (125)
 
 Line 29:
 ```
@@ -5751,9 +6250,9 @@ Line 36:
 - store(base)                                                             U+101D        U+AA6D U+AA69 U+AA6A \
 + 
 ```
-... and 134 more
+... and 120 more
 
-#### unknown (4)
+#### unknown (10)
 
 Line 30:
 ```
@@ -5773,15 +6272,21 @@ Line 35:
 Line 37:
 ```
 -                 U+107C U+107B U+201C U+201D U+AA63 U+107F U+AA71        U+1085 U+AA72 "["     "]"   U+101B \
-+ ​any(pre) > '︀'
++ any(base)(any(pre))​ > '​' index(pre,1)
 ```
+Line 38:
+```
+-                                                                                       U+1079  \
++ any(takesVS)︀(any(pre))​ > '​' index(pre,1)
+```
+... and 5 more
 
 ### sil_khmer
 
 - Original lines: 290
-- Roundtrip lines: 133
-- Identical: 9
-- Different: 281
+- Roundtrip lines: 193
+- Identical: 4
+- Different: 286
 
 #### unknown (3)
 
@@ -5830,7 +6335,7 @@ Line 7:
 ```
 ... and 51 more
 
-#### line_added (20)
+#### line_added (25)
 
 Line 13:
 ```
@@ -5857,7 +6362,7 @@ Line 35:
 - 
 + store(latin) "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 ```
-... and 15 more
+... and 20 more
 
 #### store_reordered (34)
 
@@ -5901,7 +6406,7 @@ Line 95:
 + + [SHIFT CTRL RALT K_9] > '᧩'
 ```
 
-#### line_removed (144)
+#### line_removed (97)
 
 Line 38:
 ```
@@ -5918,19 +6423,19 @@ Line 133:
 - + any(miscA) > index(miscA1,1)
 + 
 ```
-Line 134:
-```
-- any(miscA1) + ',' > index(miscB,1)
-+ 
-```
 Line 135:
 ```
 - any(miscB) + ',' > index(miscC,1)
 + 
 ```
-... and 139 more
+Line 137:
+```
+- any(miscD) + ',' > index(miscA1,1)
++ 
+```
+... and 92 more
 
-#### rule_format (22)
+#### rule_format (69)
 
 Line 98:
 ```
@@ -5957,7 +6462,7 @@ Line 105:
 - + [SHIFT CTRL K_SPACE] > U+2009
 + + [SHIFT CTRL RALT K_U] > '៳'
 ```
-... and 17 more
+... and 64 more
 
 ### sil_khowar
 
@@ -6097,9 +6602,9 @@ Line 21:
 ### sil_kmhmu
 
 - Original lines: 100
-- Roundtrip lines: 33
-- Identical: 15
-- Different: 85
+- Roundtrip lines: 41
+- Identical: 14
+- Different: 86
 
 #### comment_removed (22)
 
@@ -6130,7 +6635,7 @@ Line 19:
 ```
 ... and 17 more
 
-#### store_reordered (14)
+#### store_reordered (17)
 
 Line 3:
 ```
@@ -6157,9 +6662,9 @@ Line 10:
 - store(&KEYBOARDVERSION) '1.8'
 + store(ConsonantKey) "d07''9l-pf84mo[xz/r2,1i];svI<OYU^"
 ```
-... and 9 more
+... and 12 more
 
-#### line_added (5)
+#### line_added (6)
 
 Line 16:
 ```
@@ -6186,6 +6691,7 @@ Line 32:
 - 
 + + [RALT K_RBRKT] > ']'
 ```
+... and 1 more
 
 #### group_structure (1)
 
@@ -6195,7 +6701,7 @@ Line 17:
 + store(SignKey) "MC"
 ```
 
-#### line_removed (42)
+#### line_removed (39)
 
 Line 25:
 ```
@@ -6207,22 +6713,22 @@ Line 27:
 - store(VowelKey) "gc3w." "tPk" "=eaqyubn56"
 + 
 ```
-Line 34:
-```
-- store(LaoCharacter) outs(Consonant) outs(Vowel) outs(Tone)
-+ 
-```
 Line 37:
 ```
 - store(Sign)  "ໆຯ"
 + 
 ```
-Line 38:
+Line 41:
 ```
-- store(SignKey) "MC"
+- store(NumeralKey) "!@#$&*()_W"
 + 
 ```
-... and 37 more
+Line 42:
+```
+- store(NumberPadKey) [K_NP1] [K_NP2] [K_NP3] [K_NP4] [K_NP5] \
++ 
+```
+... and 34 more
 
 #### unknown (1)
 
@@ -6826,7 +7332,7 @@ Line 19:
 ### sil_lisu_standard
 
 - Original lines: 34
-- Roundtrip lines: 17
+- Roundtrip lines: 23
 - Identical: 4
 - Different: 30
 
@@ -6876,7 +7382,7 @@ Line 33:
 + 
 ```
 
-#### store_reordered (5)
+#### store_reordered (6)
 
 Line 4:
 ```
@@ -6903,6 +7409,7 @@ Line 11:
 - store(&BITMAP) 'sil_lisu_standard.ico'
 + store(banned) "G="
 ```
+... and 1 more
 
 #### store_format (1)
 
@@ -6912,7 +7419,7 @@ Line 7:
 + store(&TARGETS) 'any'
 ```
 
-#### line_removed (16)
+#### line_removed (13)
 
 Line 12:
 ```
@@ -6934,12 +7441,25 @@ Line 17:
 -                 "ZXCVBNM<>" "zxcvbnm,." "!@#$%^&*()" "1234567890-"
 + 
 ```
-Line 18:
+Line 19:
 ```
-- store(base)     "Q" U+25AA U+003C U+003E U+0023 U+A4FB U+2605 U+A4FE U+02D7 U+005E \
+-                 U+A4F1 U+A4EA U+A4F0 U+A4E3 U+A4D4 U+A4EC U+A4F4 U+A4F2 U+A4F3 U+A4D1 \
 + 
 ```
-... and 11 more
+... and 8 more
+
+#### unknown (2)
+
+Line 20:
+```
+-                 U+0040 U+2022 U+0028 U+0029 U+A4FF U+A4FD U+A4FC U+02CD U+A4FA \
++ group(transforms)
+```
+Line 22:
+```
+-                 U+201C U+201D U+0026 U+0025 U+0024 U+002A U+0021 U+A4F9 U+A4F8 \
++ 'ZXCVBNM<' > '   '
+```
 
 ### sil_lpo_plrd
 
@@ -7037,9 +7557,9 @@ Line 11:
 ### sil_madi
 
 - Original lines: 183
-- Roundtrip lines: 139
-- Identical: 13
-- Different: 170
+- Roundtrip lines: 160
+- Identical: 9
+- Different: 174
 
 #### comment_removed (10)
 
@@ -7066,11 +7586,11 @@ Line 131:
 Line 150:
 ```
 - c rota - press / once to get acute, twice circumflex, thrice tilde and again to go back to acute
-+ 
++ ̣(any(toneMarks)).. > index(toneMarks,1) '.'
 ```
 ... and 5 more
 
-#### store_reordered (6)
+#### store_reordered (8)
 
 Line 3:
 ```
@@ -7097,9 +7617,9 @@ Line 10:
 - store(&BITMAP) 'sil_madi.ico'
 + store(xKeys) "[K_X]  [SHIFT  K_X]"
 ```
-... and 1 more
+... and 3 more
 
-#### line_removed (32)
+#### line_removed (19)
 
 Line 8:
 ```
@@ -7126,9 +7646,9 @@ Line 139:
 - + [T_e_circumflex_caps] > U+0045 U+0302
 + 
 ```
-... and 27 more
+... and 14 more
 
-#### line_added (7)
+#### line_added (11)
 
 Line 13:
 ```
@@ -7155,9 +7675,9 @@ Line 124:
 - 
 + + [T_A_ACUTE_CAPS] > 'Á'
 ```
-... and 2 more
+... and 6 more
 
-#### rule_format (115)
+#### rule_format (126)
 
 Line 17:
 ```
@@ -7184,7 +7704,7 @@ Line 21:
 - + [SHIFT K_T] > 'T'
 + + [K_4] > '4'
 ```
-... and 110 more
+... and 121 more
 
 ### sil_makuri
 
@@ -7372,11 +7892,11 @@ Line 31:
 ### sil_mali_azerty
 
 - Original lines: 222
-- Roundtrip lines: 57
-- Identical: 23
-- Different: 199
+- Roundtrip lines: 102
+- Identical: 21
+- Different: 201
 
-#### store_reordered (26)
+#### store_reordered (35)
 
 Line 1:
 ```
@@ -7403,9 +7923,9 @@ Line 7:
 - store(&VISUALKEYBOARD) 'sil_mali_azerty.kvks'
 + store(&TARGETS) 'any'
 ```
-... and 21 more
+... and 30 more
 
-#### line_removed (117)
+#### line_removed (90)
 
 Line 2:
 ```
@@ -7422,17 +7942,17 @@ Line 57:
 - store(CompositeCirc)   "Â" "Ê" U+00CE U+00D4 U+00DB "â" U+00EA U+00EE U+00F4 U+00FB
 + 
 ```
-Line 58:
-```
-- store(CompositeNasal)  "Ã" "Ẽ" U+0128 U+00D5 U+0168 "ã" U+1EBD U+0129 U+00F5 U+0169
-+ 
-```
 Line 59:
 ```
 - store(CompositeDrsis)  "Ä" "Ë" U+00CF U+00D6 U+00DC "ä" U+00EB U+00EF U+00F6 U+00FC 
 + 
 ```
-... and 112 more
+Line 61:
+```
+- store(CompositeCaron)  "Ǎ" "Ě" "Ǐ" "Ǒ" "Ǔ" "ǎ" "ě" "ǐ" "ǒ" "ǔ" 
++ 
+```
+... and 85 more
 
 #### comment_removed (45)
 
@@ -7463,7 +7983,7 @@ Line 16:
 ```
 ... and 40 more
 
-#### line_added (9)
+#### line_added (11)
 
 Line 10:
 ```
@@ -7490,7 +8010,7 @@ Line 37:
 - 
 + store(Uspecchar1) "»ƁÇƊƐ"
 ```
-... and 4 more
+... and 6 more
 
 #### group_structure (1)
 
@@ -7500,22 +8020,43 @@ Line 11:
 + store(AcuteK) '5'
 ```
 
-#### unknown (1)
+#### unknown (19)
 
 Line 31:
 ```
 -              $MacronK $CaronK $DotUnderK
 + store(CompositeDrsis) "ÄË" U+00CF U+00D6 U+00DC
 ```
+Line 74:
+```
+-                     U+004F U+0186 U+0055 U+01B2 U+004E U+014A \
++ '«' > ' '
+```
+Line 75:
+```
+-                     U+019D U+004D U+0061 U+0065 U+01DD U+025B \
++ 'µ' > '»'
+```
+Line 76:
+```
+-                     U+0069 U+0269 U+006F U+0254 U+0075 U+028B \
++ '»' > ' '
+```
+Line 77:
+```
+-                     "n" U+014B U+0272 "m" "S" "s" "Z" "z" "W" "w" \
++ '+' > '—'
+```
+... and 14 more
 
 ### sil_mali_qwerty
 
 - Original lines: 302
-- Roundtrip lines: 57
-- Identical: 26
-- Different: 276
+- Roundtrip lines: 165
+- Identical: 12
+- Different: 290
 
-#### store_reordered (28)
+#### store_reordered (43)
 
 Line 1:
 ```
@@ -7542,9 +8083,9 @@ Line 6:
 - store(&VISUALKEYBOARD) 'sil_mali_qwerty.kvks'
 + store(&VERSION) '10.0'
 ```
-... and 23 more
+... and 38 more
 
-#### line_removed (193)
+#### line_removed (127)
 
 Line 2:
 ```
@@ -7571,9 +8112,9 @@ Line 54:
 - store(CompositeDrsis)  "Ä" "Ë" U+00CF U+00D6 U+00DC "ä" U+00EB U+00EF U+00F6 U+00FC 
 + 
 ```
-... and 188 more
+... and 122 more
 
-#### line_added (9)
+#### line_added (23)
 
 Line 9:
 ```
@@ -7600,14 +8141,19 @@ Line 32:
 - 
 + store(CompositeMacron) "ĀĒĪŌŪāēīōū"
 ```
-... and 4 more
+... and 18 more
 
-#### group_structure (1)
+#### group_structure (2)
 
 Line 10:
 ```
 - begin Unicode > use(Main)
 + store(greaterthan) "[SHIFT  K_oE2]  ">""
+```
+Line 119:
+```
+- group(Main) using keys
++ '!1⅞' > '⅛'
 ```
 
 #### comment_removed (44)
@@ -7639,22 +8185,72 @@ Line 16:
 ```
 ... and 39 more
 
-#### unknown (1)
+#### unknown (21)
 
 Line 34:
 ```
 -                 $DotUnderK $LineUnderK $VerticalLineUnderK               
 + store(CompositeDotUnder) "ẠẸỊỌỤ" U+1EA1 U+1EB9 U+1ECB U+1ECD U+1EE5
 ```
+Line 68:
+```
+-                     U+004F U+0186 U+0055 U+01B2 U+004E U+014A \
++ (any(LatinVowel)) > index(CompositeDotUnder,1)
+```
+Line 69:
+```
+-                     U+019D U+004D U+0061 U+0065 U+01DD U+025B \
++ '‹' > '«'
+```
+Line 70:
+```
+-                     U+0069 U+0269 U+006F U+0254 U+0075 U+028B \
++ '«' > ' '
+```
+Line 71:
+```
+-                     U+006E U+014B U+0272 U+006D U+0053 U+0073 \
++ '›' > '»'
+```
+... and 16 more
+
+#### rule_format (30)
+
+Line 122:
+```
+- "," + any(specchar1K) > index(Uspecchar1,2)
++ '!7⅞' > '⅞'
+```
+Line 124:
+```
+- any(Umodifiable) + any(modifierK) > context index(Umodifier,2) use(Udiacritics) use(NFC)
++ '!g͡b' > '®'
+```
+Line 127:
+```
+- any(CompositeAcute) + [K_BKSP] > index(LatinVowel,1)
++ '!±' > '±'
+```
+Line 128:
+```
+- any(CompositeGrave) + [K_BKSP] > index(LatinVowel,1)
++ '!Ø' > 'Ø'
+```
+Line 129:
+```
+- any(CompositeDrsis) + [K_BKSP] > index(LatinVowel,1)
++ '!÷' > '÷'
+```
+... and 25 more
 
 ### sil_mali_qwertz
 
 - Original lines: 262
-- Roundtrip lines: 61
-- Identical: 30
-- Different: 232
+- Roundtrip lines: 122
+- Identical: 22
+- Different: 240
 
-#### store_reordered (28)
+#### store_reordered (43)
 
 Line 1:
 ```
@@ -7681,9 +8277,9 @@ Line 9:
 - store(&VISUALKEYBOARD) 'sil_mali_qwertz.kvks'
 + store(lessthan) "[K_oE2]  "<""
 ```
-... and 23 more
+... and 38 more
 
-#### line_removed (146)
+#### line_removed (110)
 
 Line 2:
 ```
@@ -7710,7 +8306,7 @@ Line 52:
 - store(LatinVowel)      "AEIOUaeiou"
 + 
 ```
-... and 141 more
+... and 105 more
 
 #### comment_removed (46)
 
@@ -7741,7 +8337,7 @@ Line 17:
 ```
 ... and 41 more
 
-#### line_added (8)
+#### line_added (16)
 
 Line 12:
 ```
@@ -7768,17 +8364,22 @@ Line 35:
 - 
 + store(Composite) "outs(CompositeAcute)    outs(CompositeGrave)  \\"
 ```
-... and 3 more
+... and 11 more
 
-#### group_structure (1)
+#### group_structure (2)
 
 Line 13:
 ```
 - begin Unicode > use(Main)
 + store(CircK) '`'
 ```
+Line 120:
+```
+- group(Main) using keys             
++ '!5⅞' > '⅝'
+```
 
-#### unknown (3)
+#### unknown (23)
 
 Line 46:
 ```
@@ -7795,11 +8396,22 @@ Line 49:
 -                 'ü' '+' 'Ü' '*' 'ö' 'Ö' ';' ':' '-' '_' '#' 'ß' '^' \
 + begin Unicode > use(main)
 ```
+Line 79:
+```
+-                     U+004F U+0186 U+0055 U+01B2 U+004E U+014A \
++ 'qu' > 'qu’'
+```
+Line 80:
+```
+-                     U+019D U+004D U+0061 U+0065 U+0259 U+025B \
++ 'quń' > 'qu’'
+```
+... and 18 more
 
 ### sil_moore
 
 - Original lines: 116
-- Roundtrip lines: 54
+- Roundtrip lines: 61
 - Identical: 16
 - Different: 100
 
@@ -7869,7 +8481,7 @@ Line 10:
 ```
 ... and 21 more
 
-#### line_removed (45)
+#### line_removed (41)
 
 Line 8:
 ```
@@ -7891,12 +8503,12 @@ Line 54:
 - + any(keys_0u) > index(outs_0u,1)
 + 
 ```
-Line 55:
+Line 56:
 ```
-- + any(keys_0s) > index(outs_0s,1)
+- + any(keys_0a) > index(outs_0a,1)
 + 
 ```
-... and 40 more
+... and 36 more
 
 #### line_added (15)
 
@@ -7940,14 +8552,37 @@ Line 19:
 + store(keys_2s) "ASDFGHJKL[NCAPS  SHIFT  K_COLON]  [NCAPS  SHIFT  K_QUOTE]  [NCAPS  SHIFT  K_BKSLASH]  [CAPS  K_COLON]  [CAPS  K_QUOTE]  [CAPS  K_BKSLASH]"
 ```
 
+#### rule_format (4)
+
+Line 55:
+```
+- + any(keys_0s) > index(outs_0s,1)
++ match > use(transforms)
+```
+Line 57:
+```
+- + any(keys_1u) > index(outs_1u,1)
++ group(transforms)
+```
+Line 59:
+```
+- + any(keys_1a) > index(outs_1a,1)
++ dk(tilde)ñ > 'ñ'
+```
+Line 60:
+```
+- + any(keys_2u) > index(outs_2u,1)
++ dk(tilde)Ñ > 'Ñ'
+```
+
 ### sil_myanmar_my3
 
 - Original lines: 173
-- Roundtrip lines: 60
-- Identical: 33
-- Different: 140
+- Roundtrip lines: 67
+- Identical: 30
+- Different: 143
 
-#### store_reordered (17)
+#### store_reordered (21)
 
 Line 1:
 ```
@@ -7974,9 +8609,9 @@ Line 6:
 - store(&TARGETS) 'any'
 + store(&VERSION) '10.0'
 ```
-... and 12 more
+... and 16 more
 
-#### line_removed (84)
+#### line_removed (80)
 
 Line 2:
 ```
@@ -8003,9 +8638,9 @@ Line 52:
 - store (lDotK)   'h'
 + 
 ```
-... and 79 more
+... and 75 more
 
-#### line_added (9)
+#### line_added (12)
 
 Line 11:
 ```
@@ -8032,7 +8667,7 @@ Line 38:
 - 
 + store(vowelEU) 'ေ'
 ```
-... and 4 more
+... and 7 more
 
 #### group_structure (1)
 
@@ -8102,9 +8737,9 @@ Line 172:
 ### sil_myanmar_mywinext
 
 - Original lines: 320
-- Roundtrip lines: 90
-- Identical: 38
-- Different: 282
+- Roundtrip lines: 126
+- Identical: 30
+- Different: 290
 
 #### comment_removed (71)
 
@@ -8135,7 +8770,7 @@ Line 6:
 ```
 ... and 66 more
 
-#### unknown (21)
+#### unknown (25)
 
 Line 3:
 ```
@@ -8162,9 +8797,9 @@ Line 56:
 -                 'UIOP{A"' \
 + group(main) using keys
 ```
-... and 16 more
+... and 20 more
 
-#### line_added (8)
+#### line_added (16)
 
 Line 25:
 ```
@@ -8189,11 +8824,11 @@ Line 61:
 Line 71:
 ```
 -                 
-+ any(consU)ေ > 'ေ'
++ (any(numU))(any(numU))ဝါ > index(numU,1) index(numU,2) 'ါ'
 ```
-... and 3 more
+... and 11 more
 
-#### store_reordered (15)
+#### store_reordered (34)
 
 Line 27:
 ```
@@ -8220,7 +8855,7 @@ Line 32:
 - store(&VISUALKEYBOARD) 'sil_myanmar_mywinext.kvks'
 + store(yDiaU) 'ျ'
 ```
-... and 10 more
+... and 29 more
 
 #### group_structure (1)
 
@@ -8230,7 +8865,7 @@ Line 38:
 + store(m2DiaK) "sj"
 ```
 
-#### line_removed (166)
+#### line_removed (143)
 
 Line 53:
 ```
@@ -8257,14 +8892,14 @@ Line 60:
 -                 '\]}<>`~'
 + 
 ```
-... and 161 more
+... and 138 more
 
 ### sil_nigeria_dot
 
 - Original lines: 202
-- Roundtrip lines: 58
-- Identical: 25
-- Different: 177
+- Roundtrip lines: 130
+- Identical: 18
+- Different: 184
 
 #### comment_removed (28)
 
@@ -8295,7 +8930,7 @@ Line 5:
 ```
 ... and 23 more
 
-#### line_added (6)
+#### line_added (13)
 
 Line 12:
 ```
@@ -8320,9 +8955,9 @@ Line 26:
 Line 46:
 ```
 - 
-+ dk(nasalAcute) > '́'
++ (any(vowel))̃̌ > index(vDot,1) '̃̌'
 ```
-... and 1 more
+... and 8 more
 
 #### store_reordered (20)
 
@@ -8363,10 +8998,10 @@ Line 24:
 Line 45:
 ```
 - group(main) using keys      
-+ dk(dotNasal) > '̣'
++ (any(vowel))̃̂ > index(vDot,1) '̃̂'
 ```
 
-#### line_removed (113)
+#### line_removed (56)
 
 Line 27:
 ```
@@ -8393,43 +9028,43 @@ Line 34:
 - store(vCaron)	"ǎěǐǒǔǍĚǏǑǓ"   
 + 
 ```
-... and 108 more
+... and 51 more
 
-#### rule_format (8)
+#### rule_format (65)
 
 Line 50:
 ```
 - + ";"	>  deadkey(modlet)     c applies to dotted vowels and letters to be modified, applies with a second deadkey to make a combo deadkey
-+ dk(nasalCaron) > '̌'
++ 'U' > 'Ű'
 ```
 Line 51:
 ```
 - + "'"	>  deadkey(acute)
-+ dk(nasalDownstep) > '̋'
++ 'u' > 'ű'
 ```
 Line 52:
 ```
 - + "-"	>  deadkey(mid)
-+ dk(dotNasalAcute) > '̣̃́'
++ 'õ' > 'ṍ'
 ```
 Line 53:
 ```
 - + "`" 	>  deadkey(grave) 
-+ dk(dotNasalMid) > '̣̃̄'
++ 'Õ' > 'Ṍ'
 ```
 Line 54:
 ```
 - + "^"	>  deadkey(circum)
-+ dk(dotNasalGrave) > '̣̃̀'
++ 'ũ' > 'ṹ'
 ```
-... and 3 more
+... and 60 more
 
 ### sil_nigeria_odd_vowels
 
 - Original lines: 161
-- Roundtrip lines: 59
-- Identical: 14
-- Different: 147
+- Roundtrip lines: 105
+- Identical: 9
+- Different: 152
 
 #### comment_removed (23)
 
@@ -8460,7 +9095,7 @@ Line 5:
 ```
 ... and 18 more
 
-#### line_added (6)
+#### line_added (11)
 
 Line 10:
 ```
@@ -8485,9 +9120,9 @@ Line 22:
 Line 41:
 ```
 -  
-+ dk(oddMid) > '̄'
++ 'Õ' > 'Ṍ'
 ```
-... and 1 more
+... and 6 more
 
 #### store_reordered (20)
 
@@ -8528,10 +9163,10 @@ Line 23:
 Line 42:
 ```
 - group(main) using keys      
-+ dk(oddGrave) > '̀'
++ 'ũ' > 'ṹ'
 ```
 
-#### line_removed (84)
+#### line_removed (49)
 
 Line 26:
 ```
@@ -8558,43 +9193,43 @@ Line 33:
 - store(Vowel2BMod)	"eiouwEIOUW"
 + 
 ```
-... and 79 more
+... and 44 more
 
-#### rule_format (12)
+#### rule_format (47)
 
 Line 45:
 ```
 - + ";"	> deadkey(modlet)     c applies to vowels and let2bmod
-+ dk(oddDownstep) > '̋'
++ 'ʻʻ' > ''''
 ```
 Line 46:
 ```
 - + "'"	> deadkey(acute)
-+ dk(oddNasal) > '̃'
++ dk(mid)dk(oddNasalMid) > '-'
 ```
 Line 47:
 ```
 - + "-"	> deadkey(mid)
-+ dk(nasalAcute) > '́'
++ dk(grave)dk(oddNasalGrave) > '`'
 ```
 Line 48:
 ```
 - + "`"	> deadkey(grave) 
-+ dk(nasalMid) > '̄'
++ dk(circum)dk(oddNasalCircum) > '^'
 ```
 Line 49:
 ```
 - + "^"	> deadkey(circum)
-+ dk(nasalGrave) > '̀'
++ dk(caron)dk(oddNasalCaron) > '&'
 ```
-... and 7 more
+... and 42 more
 
 ### sil_nigeria_underline
 
 - Original lines: 207
-- Roundtrip lines: 58
-- Identical: 26
-- Different: 181
+- Roundtrip lines: 132
+- Identical: 18
+- Different: 189
 
 #### comment_removed (25)
 
@@ -8625,7 +9260,7 @@ Line 5:
 ```
 ... and 20 more
 
-#### line_added (8)
+#### line_added (16)
 
 Line 11:
 ```
@@ -8645,14 +9280,14 @@ Line 22:
 Line 40:
 ```
 - 
-+ dk(undlMid) > '̱'
++ 'o̱' > 'ő̱'
 ```
 Line 41:
 ```
 - 
-+ dk(undlGrave) > '̱'
++ 'U̱' > 'Ű̱'
 ```
-... and 3 more
+... and 11 more
 
 #### store_reordered (19)
 
@@ -8693,10 +9328,10 @@ Line 23:
 Line 42:
 ```
 - group(main) using keys      
-+ dk(undlCircum) > '̱'
++ 'u̱' > 'ű̱'
 ```
 
-#### line_removed (118)
+#### line_removed (58)
 
 Line 26:
 ```
@@ -8723,36 +9358,36 @@ Line 33:
 - store(vNasal)   	"ãẽĩõũÃẼĨÕŨ"                     
 + 
 ```
-... and 113 more
+... and 53 more
 
-#### rule_format (9)
+#### rule_format (69)
 
 Line 47:
 ```
 - + ";"	> deadkey(modlet)     c applies to vowels and let2bmod
-+ dk(nasalGrave) > '̀'
++ 'õ' > 'ȭ'
 ```
 Line 48:
 ```
 - + "'"   > deadkey(acute)
-+ dk(nasalCircum) > '̂'
++ 'Õ' > 'Ȭ'
 ```
 Line 49:
 ```
 - + "-"   > deadkey(mid)
-+ dk(nasalCaron) > '̌'
++ 'õ̱' > 'ṍ̱'
 ```
 Line 50:
 ```
 - + "`"   > deadkey(grave) 
-+ dk(nasalDownstep) > '̋'
++ 'Õ̱' > 'Ṍ̱'
 ```
 Line 51:
 ```
 - + "^"   > deadkey(circum)
-+ dk(undlNasal) > '̱'
++ 'ũ̱' > 'ṹ̱'
 ```
-... and 4 more
+... and 64 more
 
 ### sil_nko
 
@@ -8907,7 +9542,7 @@ Line 67:
 ### sil_nubian
 
 - Original lines: 86
-- Roundtrip lines: 66
+- Roundtrip lines: 73
 - Identical: 8
 - Different: 78
 
@@ -8963,7 +9598,7 @@ Line 11:
 ```
 ... and 1 more
 
-#### line_removed (16)
+#### line_removed (12)
 
 Line 8:
 ```
@@ -8980,17 +9615,17 @@ Line 66:
 - + [SHIFT K_V] > U+2C91
 + 
 ```
-Line 67:
-```
-- + [SHIFT K_W] > U+2CB1 U+0304
-+ 
-```
 Line 68:
 ```
 - + [SHIFT K_X] > U+2CAD
 + 
 ```
-... and 11 more
+Line 73:
+```
+- + [SHIFT K_F] > dk(none)
++ 
+```
+... and 7 more
 
 #### line_added (7)
 
@@ -9034,7 +9669,7 @@ Line 18:
 + + [K_T] > 'ⲧ'
 ```
 
-#### rule_format (43)
+#### rule_format (47)
 
 Line 21:
 ```
@@ -9061,14 +9696,14 @@ Line 25:
 - + [K_E] > U+2C89
 + + [K_S] > 'ⲥ'
 ```
-... and 38 more
+... and 42 more
 
 ### sil_pan_africa_positional
 
 - Original lines: 464
-- Roundtrip lines: 115
-- Identical: 80
-- Different: 384
+- Roundtrip lines: 175
+- Identical: 69
+- Different: 395
 
 #### comment_removed (68)
 
@@ -9099,7 +9734,7 @@ Line 5:
 ```
 ... and 63 more
 
-#### line_added (18)
+#### line_added (29)
 
 Line 10:
 ```
@@ -9126,9 +9761,9 @@ Line 26:
 - 
 + store(unused2) "abcdfghijklmnopquwxy"
 ```
-... and 13 more
+... and 24 more
 
-#### store_reordered (20)
+#### store_reordered (45)
 
 Line 11:
 ```
@@ -9155,7 +9790,7 @@ Line 15:
 - store(&TARGETS) 'web desktop'
 + store(K_lc1) "abcd"
 ```
-... and 15 more
+... and 40 more
 
 #### group_structure (1)
 
@@ -9165,7 +9800,7 @@ Line 19:
 + store(UC1) U+2C6D U+0181 U+0187 U+018A
 ```
 
-#### unknown (34)
+#### unknown (46)
 
 Line 23:
 ```
@@ -9192,9 +9827,9 @@ Line 42:
 -                    "{"               "|"                       "}" \
 + store(DUcedilla) '̧'
 ```
-... and 29 more
+... and 41 more
 
-#### modifier_format (16)
+#### modifier_format (18)
 
 Line 35:
 ```
@@ -9221,43 +9856,43 @@ Line 62:
 -                  [RALT K_E]       [RALT K_F]       [RALT K_G]       [RALT K_H] \
 + store(tildeU) U+1E1B U+1E1A U+1E2D U+1E2C U+1E75 U+1E74
 ```
-... and 11 more
+... and 13 more
 
-#### line_removed (227)
+#### line_removed (188)
 
-Line 118:
-```
-- store(KV_lc2)    [LALT K_E]       [LALT K_R]       [LALT K_S] \
-+ 
-```
 Line 119:
 ```
 -                  [LALT K_T]       [LALT K_V]       [LALT K_Z]       
 + 
 ```
-Line 121:
+Line 175:
 ```
-- store(K_lc2)     "e"              "r"              "s" \
+-                      outs(DAcircle) 
 + 
 ```
-Line 122:
+Line 181:
 ```
--                  "t"              "v"              "z"
+- store(K_diacritics2) "~"                    "_"                     "}" \
 + 
 ```
-Line 124:
+Line 182:
 ```
-- store(lc2)       U+0259           U+027D           U+0283 \
+-                      "|"                    "@"                     ","  
 + 
 ```
-... and 222 more
+Line 185:
+```
+- store(KV_dia2)       [SHIFT RALT K_BKQUOTE] [SHIFT RALT K_HYPHEN]   [RALT K_PERIOD] \
++ 
+```
+... and 183 more
 
 ### sil_senegal_bqj_azerty
 
 - Original lines: 747
-- Roundtrip lines: 291
-- Identical: 43
-- Different: 704
+- Roundtrip lines: 401
+- Identical: 27
+- Different: 720
 
 #### store_reordered (14)
 
@@ -9288,7 +9923,7 @@ Line 6:
 ```
 ... and 9 more
 
-#### line_removed (270)
+#### line_removed (197)
 
 Line 2:
 ```
@@ -9310,12 +9945,12 @@ Line 291:
 - + [ALT CTRL K_RBRKT]	>	U+00a4
 + 
 ```
-Line 292:
+Line 293:
 ```
-- + [T_pound_sign]  >   U+00a3
+- + [T_currency]	>	U+00a4
 + 
 ```
-... and 265 more
+... and 192 more
 
 #### comment_removed (224)
 
@@ -9375,7 +10010,7 @@ Line 39:
 ```
 ... and 2 more
 
-#### line_added (40)
+#### line_added (56)
 
 Line 20:
 ```
@@ -9402,7 +10037,7 @@ Line 32:
 - 
 + + [K_E] > 'e'
 ```
-... and 35 more
+... and 51 more
 
 #### unknown (4)
 
@@ -9450,7 +10085,7 @@ Line 66:
 + + [CTRL K_LBRKT] > ''
 ```
 
-#### rule_format (141)
+#### rule_format (214)
 
 Line 79:
 ```
@@ -9477,14 +10112,14 @@ Line 83:
 - + [SHIFT T_saltillo] > U+a78b
 + + [CTRL RALT K_E] > '€'
 ```
-... and 136 more
+... and 209 more
 
 ### sil_senegal_bsc_azerty
 
 - Original lines: 589
-- Roundtrip lines: 243
-- Identical: 27
-- Different: 562
+- Roundtrip lines: 363
+- Identical: 10
+- Different: 579
 
 #### store_reordered (7)
 
@@ -9515,7 +10150,7 @@ Line 6:
 ```
 ... and 2 more
 
-#### line_removed (226)
+#### line_removed (146)
 
 Line 2:
 ```
@@ -9537,12 +10172,12 @@ Line 243:
 - + [K_QUOTE]	>	 U+00b4
 + 
 ```
-Line 244:
+Line 245:
 ```
-- + [SHIFT K_QUOTE]	>	U+0025
+- + [ALT CTRL K_QUOTE]	>	U+003c
 + 
 ```
-... and 221 more
+... and 141 more
 
 #### group_structure (2)
 
@@ -9557,7 +10192,7 @@ Line 15:
 + + [K_2] > 'é'
 ```
 
-#### line_added (38)
+#### line_added (55)
 
 Line 14:
 ```
@@ -9584,7 +10219,7 @@ Line 35:
 - 
 + + [K_P] > 'p'
 ```
-... and 33 more
+... and 50 more
 
 #### comment_removed (139)
 
@@ -9615,7 +10250,7 @@ Line 22:
 ```
 ... and 134 more
 
-#### rule_format (150)
+#### rule_format (230)
 
 Line 20:
 ```
@@ -9642,14 +10277,14 @@ Line 31:
 - + [SHIFT K_2]	>	U+0032
 + + [K_Y] > 'y'
 ```
-... and 145 more
+... and 225 more
 
 ### sil_senegal_cou_azerty
 
 - Original lines: 623
-- Roundtrip lines: 246
-- Identical: 32
-- Different: 591
+- Roundtrip lines: 363
+- Identical: 14
+- Different: 609
 
 #### store_reordered (8)
 
@@ -9680,7 +10315,7 @@ Line 6:
 ```
 ... and 3 more
 
-#### line_removed (222)
+#### line_removed (146)
 
 Line 2:
 ```
@@ -9702,12 +10337,12 @@ Line 246:
 - + [ALT CTRL K_K]	>	U+0153
 + 
 ```
-Line 247:
+Line 250:
 ```
-- + [ALT CTRL SHIFT K_K]	>	U+0152
+- + [SHIFT K_L]	>	U+004c
 + 
 ```
-... and 217 more
+... and 141 more
 
 #### group_structure (2)
 
@@ -9722,7 +10357,7 @@ Line 15:
 + + [K_2] > 'é'
 ```
 
-#### line_added (35)
+#### line_added (53)
 
 Line 14:
 ```
@@ -9749,7 +10384,7 @@ Line 39:
 - 
 + + [K_A] > 'q'
 ```
-... and 30 more
+... and 48 more
 
 #### comment_removed (172)
 
@@ -9780,7 +10415,7 @@ Line 30:
 ```
 ... and 167 more
 
-#### rule_format (152)
+#### rule_format (228)
 
 Line 20:
 ```
@@ -9807,14 +10442,14 @@ Line 24:
 - + [SHIFT T_saltillo] > U+a78b
 + + [K_HYPHEN] > ')'
 ```
-... and 147 more
+... and 223 more
 
 ### sil_senegal_cou_qwerty
 
 - Original lines: 770
-- Roundtrip lines: 298
-- Identical: 48
-- Different: 722
+- Roundtrip lines: 420
+- Identical: 31
+- Different: 739
 
 #### store_reordered (14)
 
@@ -9845,7 +10480,7 @@ Line 6:
 ```
 ... and 9 more
 
-#### line_removed (289)
+#### line_removed (202)
 
 Line 2:
 ```
@@ -9862,17 +10497,17 @@ Line 298:
 - + [K_A]	>	U+0061
 + 
 ```
-Line 299:
-```
-- + [SHIFT K_A]	>	U+0041
-+ 
-```
 Line 302:
 ```
 - + [ALT CTRL NCAPS K_A]    >   U+00e1
 + 
 ```
-... and 284 more
+Line 422:
+```
+- + [ALT CTRL NCAPS K_N]	>	U+00f1
++ 
+```
+... and 197 more
 
 #### comment_removed (219)
 
@@ -9932,7 +10567,7 @@ Line 39:
 ```
 ... and 2 more
 
-#### line_added (43)
+#### line_added (60)
 
 Line 20:
 ```
@@ -9959,7 +10594,7 @@ Line 32:
 - 
 + + [K_E] > 'e'
 ```
-... and 38 more
+... and 55 more
 
 #### unknown (4)
 
@@ -10007,7 +10642,7 @@ Line 66:
 + + [CTRL K_RBRKT] > ''
 ```
 
-#### rule_format (142)
+#### rule_format (229)
 
 Line 81:
 ```
@@ -10034,14 +10669,14 @@ Line 85:
 - + [ALT CTRL CAPS K_BKQUOTE]   >   U+a78b
 + + [CTRL RALT K_P] > 'ö'
 ```
-... and 137 more
+... and 224 more
 
 ### sil_senegal_dyo_azerty
 
 - Original lines: 612
-- Roundtrip lines: 231
-- Identical: 40
-- Different: 572
+- Roundtrip lines: 336
+- Identical: 26
+- Different: 586
 
 #### store_reordered (8)
 
@@ -10072,7 +10707,7 @@ Line 6:
 ```
 ... and 3 more
 
-#### line_removed (210)
+#### line_removed (140)
 
 Line 2:
 ```
@@ -10099,9 +10734,9 @@ Line 231:
 - + [K_G]	>	U+0067
 + 
 ```
-... and 205 more
+... and 135 more
 
-#### line_added (32)
+#### line_added (46)
 
 Line 13:
 ```
@@ -10128,7 +10763,7 @@ Line 32:
 - 
 + + [K_U] > 'u'
 ```
-... and 27 more
+... and 41 more
 
 #### group_structure (2)
 
@@ -10172,7 +10807,7 @@ Line 29:
 ```
 ... and 174 more
 
-#### rule_format (141)
+#### rule_format (211)
 
 Line 21:
 ```
@@ -10199,14 +10834,14 @@ Line 26:
 - + [K_1]	>	U+0026
 + + [K_Q] > 'a'
 ```
-... and 136 more
+... and 206 more
 
 ### sil_senegal_gsl_azerty
 
 - Original lines: 620
-- Roundtrip lines: 238
-- Identical: 33
-- Different: 587
+- Roundtrip lines: 343
+- Identical: 14
+- Different: 606
 
 #### store_reordered (8)
 
@@ -10237,7 +10872,7 @@ Line 6:
 ```
 ... and 3 more
 
-#### line_removed (212)
+#### line_removed (146)
 
 Line 2:
 ```
@@ -10264,9 +10899,9 @@ Line 238:
 - + [SHIFT K_H]	>	U+0048
 + 
 ```
-... and 207 more
+... and 141 more
 
-#### line_added (34)
+#### line_added (53)
 
 Line 13:
 ```
@@ -10293,7 +10928,7 @@ Line 34:
 - 
 + + [K_O] > 'o'
 ```
-... and 29 more
+... and 48 more
 
 #### group_structure (2)
 
@@ -10337,7 +10972,7 @@ Line 31:
 ```
 ... and 183 more
 
-#### rule_format (143)
+#### rule_format (209)
 
 Line 21:
 ```
@@ -10364,14 +10999,14 @@ Line 25:
 - + [SHIFT T_saltillo] > U+a78b
 + + [K_EQUAL] > '='
 ```
-... and 138 more
+... and 204 more
 
 ### sil_senegal_knf_azerty
 
 - Original lines: 737
-- Roundtrip lines: 294
-- Identical: 42
-- Different: 695
+- Roundtrip lines: 402
+- Identical: 26
+- Different: 711
 
 #### store_reordered (14)
 
@@ -10402,7 +11037,7 @@ Line 6:
 ```
 ... and 9 more
 
-#### line_removed (263)
+#### line_removed (180)
 
 Line 2:
 ```
@@ -10424,12 +11059,12 @@ Line 294:
 - + [ALT CTRL K_BKSLASH]	>	U+00a2
 + 
 ```
-Line 295:
+Line 296:
 ```
-- + [ALT CTRL SHIFT K_BKSLASH]	>	U+00a6
+- + [T_cent]	>	U+00a2
 + 
 ```
-... and 258 more
+... and 175 more
 
 #### comment_removed (217)
 
@@ -10489,7 +11124,7 @@ Line 39:
 ```
 ... and 2 more
 
-#### line_added (41)
+#### line_added (57)
 
 Line 20:
 ```
@@ -10516,7 +11151,7 @@ Line 32:
 - 
 + + [K_E] > 'e'
 ```
-... and 36 more
+... and 52 more
 
 #### unknown (4)
 
@@ -10564,7 +11199,7 @@ Line 66:
 + + [CTRL K_LBRKT] > ''
 ```
 
-#### rule_format (145)
+#### rule_format (228)
 
 Line 79:
 ```
@@ -10591,14 +11226,14 @@ Line 83:
 - + [SHIFT T_saltillo] > U+a78b
 + + [CTRL RALT K_E] > '€'
 ```
-... and 140 more
+... and 223 more
 
 ### sil_senegal_krx_azerty
 
 - Original lines: 599
-- Roundtrip lines: 216
-- Identical: 44
-- Different: 555
+- Roundtrip lines: 321
+- Identical: 27
+- Different: 572
 
 #### store_reordered (8)
 
@@ -10629,7 +11264,7 @@ Line 6:
 ```
 ... and 3 more
 
-#### line_removed (223)
+#### line_removed (148)
 
 Line 2:
 ```
@@ -10656,9 +11291,9 @@ Line 216:
 - + [T_cent]	>	U+00a2
 + 
 ```
-... and 218 more
+... and 143 more
 
-#### line_added (28)
+#### line_added (45)
 
 Line 13:
 ```
@@ -10685,7 +11320,7 @@ Line 32:
 - 
 + + [K_U] > 'u'
 ```
-... and 23 more
+... and 40 more
 
 #### group_structure (2)
 
@@ -10729,7 +11364,7 @@ Line 23:
 ```
 ... and 175 more
 
-#### rule_format (114)
+#### rule_format (189)
 
 Line 21:
 ```
@@ -10756,14 +11391,14 @@ Line 34:
 - + [SHIFT K_2]	>	U+0032
 + + [K_O] > 'o'
 ```
-... and 109 more
+... and 184 more
 
 ### sil_senegal_krx_qwerty
 
 - Original lines: 770
-- Roundtrip lines: 299
-- Identical: 45
-- Different: 725
+- Roundtrip lines: 421
+- Identical: 28
+- Different: 742
 
 #### comment_removed (221)
 
@@ -10794,7 +11429,7 @@ Line 27:
 ```
 ... and 216 more
 
-#### line_removed (290)
+#### line_removed (204)
 
 Line 2:
 ```
@@ -10816,12 +11451,12 @@ Line 14:
 - store(&capsononly) "1"
 + 
 ```
-Line 300:
+Line 301:
 ```
-- + [ALT CTRL NCAPS K_A]    >   U+00e1
+- + [ALT CTRL SHIFT CAPS K_A]    >   U+00e1
 + 
 ```
-... and 285 more
+... and 199 more
 
 #### store_reordered (12)
 
@@ -10852,7 +11487,7 @@ Line 7:
 ```
 ... and 7 more
 
-#### line_added (45)
+#### line_added (62)
 
 Line 9:
 ```
@@ -10879,7 +11514,7 @@ Line 25:
 - 
 + + [K_8] > '8'
 ```
-... and 40 more
+... and 57 more
 
 #### group_structure (7)
 
@@ -10956,7 +11591,7 @@ Line 67:
 + + [CTRL K_BKSLASH] > ''
 ```
 
-#### rule_format (142)
+#### rule_format (228)
 
 Line 82:
 ```
@@ -10983,14 +11618,14 @@ Line 86:
 - + [ALT CTRL CAPS K_BKQUOTE]   >   U+a78b
 + + [CTRL RALT K_LBRKT] > '«'
 ```
-... and 137 more
+... and 223 more
 
 ### sil_senegal_ndv_azerty
 
 - Original lines: 603
-- Roundtrip lines: 249
-- Identical: 30
-- Different: 573
+- Roundtrip lines: 364
+- Identical: 13
+- Different: 590
 
 #### store_reordered (7)
 
@@ -11021,7 +11656,7 @@ Line 6:
 ```
 ... and 2 more
 
-#### line_removed (224)
+#### line_removed (149)
 
 Line 2:
 ```
@@ -11043,12 +11678,12 @@ Line 249:
 - + [K_QUOTE]	>	 U+00b4
 + 
 ```
-Line 250:
+Line 251:
 ```
-- + [SHIFT K_QUOTE]	>	U+0025
+- + [ALT CTRL K_QUOTE]	>	U+003c
 + 
 ```
-... and 219 more
+... and 144 more
 
 #### group_structure (2)
 
@@ -11063,7 +11698,7 @@ Line 15:
 + + [K_2] > 'é'
 ```
 
-#### line_added (38)
+#### line_added (55)
 
 Line 14:
 ```
@@ -11090,7 +11725,7 @@ Line 37:
 - 
 + + [K_RBRKT] > '$'
 ```
-... and 33 more
+... and 50 more
 
 #### comment_removed (149)
 
@@ -11121,7 +11756,7 @@ Line 29:
 ```
 ... and 144 more
 
-#### rule_format (153)
+#### rule_format (228)
 
 Line 20:
 ```
@@ -11148,14 +11783,14 @@ Line 25:
 - + [T_saltillo] > U+a78c
 + + [K_EQUAL] > '='
 ```
-... and 148 more
+... and 223 more
 
 ### sil_senegal_sav_azerty
 
 - Original lines: 617
-- Roundtrip lines: 248
-- Identical: 32
-- Different: 585
+- Roundtrip lines: 362
+- Identical: 14
+- Different: 603
 
 #### store_reordered (8)
 
@@ -11186,7 +11821,7 @@ Line 6:
 ```
 ... and 3 more
 
-#### line_removed (218)
+#### line_removed (145)
 
 Line 2:
 ```
@@ -11208,12 +11843,12 @@ Line 248:
 - + [ALT CTRL K_L]	>	U+00f8
 + 
 ```
-Line 249:
+Line 252:
 ```
-- + [ALT CTRL SHIFT K_L]	>	U+00d8
+- + [SHIFT K_COLON]	>	U+004d
 + 
 ```
-... and 213 more
+... and 140 more
 
 #### group_structure (2)
 
@@ -11228,7 +11863,7 @@ Line 15:
 + + [K_2] > 'é'
 ```
 
-#### line_added (36)
+#### line_added (54)
 
 Line 14:
 ```
@@ -11255,7 +11890,7 @@ Line 38:
 - 
 + + [K_BKSLASH] > '*'
 ```
-... and 31 more
+... and 49 more
 
 #### comment_removed (166)
 
@@ -11286,7 +11921,7 @@ Line 30:
 ```
 ... and 161 more
 
-#### rule_format (155)
+#### rule_format (228)
 
 Line 20:
 ```
@@ -11313,14 +11948,14 @@ Line 24:
 - + [SHIFT T_saltillo] > U+a78b
 + + [K_HYPHEN] > ')'
 ```
-... and 150 more
+... and 223 more
 
 ### sil_senegal_snf_azerty
 
 - Original lines: 608
-- Roundtrip lines: 229
-- Identical: 46
-- Different: 562
+- Roundtrip lines: 341
+- Identical: 23
+- Different: 585
 
 #### store_reordered (7)
 
@@ -11351,7 +11986,7 @@ Line 6:
 ```
 ... and 2 more
 
-#### line_removed (214)
+#### line_removed (146)
 
 Line 2:
 ```
@@ -11378,7 +12013,7 @@ Line 231:
 - + [K_K]	>	U+006b
 + 
 ```
-... and 209 more
+... and 141 more
 
 #### group_structure (2)
 
@@ -11393,7 +12028,7 @@ Line 15:
 + + [K_2] > 'é'
 ```
 
-#### line_added (34)
+#### line_added (57)
 
 Line 14:
 ```
@@ -11420,7 +12055,7 @@ Line 35:
 - 
 + + [K_LBRKT] > 'Û'
 ```
-... and 29 more
+... and 52 more
 
 #### comment_removed (165)
 
@@ -11451,7 +12086,7 @@ Line 22:
 ```
 ... and 160 more
 
-#### rule_format (140)
+#### rule_format (208)
 
 Line 20:
 ```
@@ -11478,14 +12113,14 @@ Line 28:
 - + [SHIFT K_1]	>	U+0031
 + + [K_R] > 'r'
 ```
-... and 135 more
+... and 203 more
 
 ### sil_senegal_srr_azerty
 
 - Original lines: 601
-- Roundtrip lines: 233
-- Identical: 42
-- Different: 559
+- Roundtrip lines: 354
+- Identical: 17
+- Different: 584
 
 #### store_reordered (7)
 
@@ -11516,7 +12151,7 @@ Line 6:
 ```
 ... and 2 more
 
-#### line_removed (231)
+#### line_removed (155)
 
 Line 2:
 ```
@@ -11543,9 +12178,9 @@ Line 233:
 - + [K_J]	>	U+006a
 + 
 ```
-... and 226 more
+... and 150 more
 
-#### line_added (35)
+#### line_added (60)
 
 Line 13:
 ```
@@ -11572,7 +12207,7 @@ Line 34:
 - 
 + + [K_O] > 'o'
 ```
-... and 30 more
+... and 55 more
 
 #### group_structure (2)
 
@@ -11616,7 +12251,7 @@ Line 30:
 ```
 ... and 137 more
 
-#### rule_format (142)
+#### rule_format (218)
 
 Line 21:
 ```
@@ -11643,14 +12278,14 @@ Line 26:
 - + [T_saltillo] > U+a78c
 + + [K_Q] > 'a'
 ```
-... and 137 more
+... and 213 more
 
 ### sil_senegal_wo_azerty
 
 - Original lines: 609
-- Roundtrip lines: 245
-- Identical: 40
-- Different: 569
+- Roundtrip lines: 369
+- Identical: 20
+- Different: 589
 
 #### store_reordered (7)
 
@@ -11681,7 +12316,7 @@ Line 6:
 ```
 ... and 2 more
 
-#### line_removed (233)
+#### line_removed (152)
 
 Line 2:
 ```
@@ -11708,7 +12343,7 @@ Line 247:
 - + [K_COLON]	>	U+006d
 + 
 ```
-... and 228 more
+... and 147 more
 
 #### group_structure (2)
 
@@ -11723,7 +12358,7 @@ Line 15:
 + + [K_2] > 'é'
 ```
 
-#### line_added (36)
+#### line_added (56)
 
 Line 14:
 ```
@@ -11750,7 +12385,7 @@ Line 39:
 - 
 + + [K_A] > 'q'
 ```
-... and 31 more
+... and 51 more
 
 #### comment_removed (142)
 
@@ -11781,7 +12416,7 @@ Line 22:
 ```
 ... and 137 more
 
-#### rule_format (149)
+#### rule_format (230)
 
 Line 20:
 ```
@@ -11808,7 +12443,7 @@ Line 35:
 - + [SHIFT K_2]	>	U+0032
 + + [K_P] > 'p'
 ```
-... and 144 more
+... and 225 more
 
 ### sil_sgaw_karen
 
@@ -11995,9 +12630,9 @@ Line 29:
 ### sil_shan
 
 - Original lines: 283
-- Roundtrip lines: 93
-- Identical: 9
-- Different: 274
+- Roundtrip lines: 108
+- Identical: 8
+- Different: 275
 
 #### comment_removed (7)
 
@@ -12028,7 +12663,7 @@ Line 255:
 ```
 ... and 2 more
 
-#### line_removed (185)
+#### line_removed (171)
 
 Line 2:
 ```
@@ -12055,9 +12690,9 @@ Line 82:
 - + [SHIFT RALT K_6] > U+1096
 + 
 ```
-... and 180 more
+... and 166 more
 
-#### line_added (10)
+#### line_added (11)
 
 Line 4:
 ```
@@ -12084,7 +12719,7 @@ Line 31:
 - 
 + store(udiaU) U+102D U+102E U+1035 U+1085
 ```
-... and 5 more
+... and 6 more
 
 #### store_reordered (42)
 
@@ -12157,7 +12792,7 @@ Line 22:
 ```
 ... and 1 more
 
-#### rule_format (22)
+#### rule_format (36)
 
 Line 67:
 ```
@@ -12184,14 +12819,14 @@ Line 71:
 - + [RALT K_5] > U+1045
 + + [SHIFT RALT K_4] > '႔'
 ```
-... and 17 more
+... and 31 more
 
 ### sil_tagdal
 
 - Original lines: 44
-- Roundtrip lines: 39
+- Roundtrip lines: 45
 - Identical: 6
-- Different: 38
+- Different: 39
 
 #### store_reordered (6)
 
@@ -12222,7 +12857,7 @@ Line 6:
 ```
 ... and 1 more
 
-#### line_removed (6)
+#### line_removed (5)
 
 Line 2:
 ```
@@ -12244,12 +12879,11 @@ Line 14:
 - group(main) using keys
 + 
 ```
-Line 42:
+Line 43:
 ```
-- any(vowel) + "]" > context beep
+- any(cons) + "]" > context U+0323
 + 
 ```
-... and 1 more
 
 #### group_structure (1)
 
@@ -12267,15 +12901,20 @@ Line 11:
 + begin Unicode > use(main)
 ```
 
-#### line_added (1)
+#### line_added (2)
 
 Line 13:
 ```
 - 
 + group(main) using keys
 ```
+Line 44:
+```
+- 
++ any(cons)̣ > '̣'
+```
 
-#### rule_format (21)
+#### rule_format (22)
 
 Line 18:
 ```
@@ -12302,14 +12941,14 @@ Line 22:
 - + [SHIFT K_RBRKT] > '̌'
 + + [RALT K_I] > 'ɨ'
 ```
-... and 16 more
+... and 17 more
 
 #### comment_removed (2)
 
 Line 40:
 ```
 - c Combining dot below
-+ 
++ match > use(transforms)
 ```
 Line 41:
 ```
@@ -12320,7 +12959,7 @@ Line 41:
 ### sil_tai_dam
 
 - Original lines: 110
-- Roundtrip lines: 76
+- Roundtrip lines: 96
 - Identical: 2
 - Different: 108
 
@@ -12352,7 +12991,7 @@ Line 9:
 + begin Unicode > use(main)
 ```
 
-#### line_removed (32)
+#### line_removed (16)
 
 Line 2:
 ```
@@ -12369,17 +13008,17 @@ Line 76:
 - + [SHIFT K_Z] > U+AAAF          c o high
 + 
 ```
-Line 77:
-```
-- + [SHIFT K_A] > U+AAB0          c may kang (short a)
-+ 
-```
 Line 78:
 ```
 - + [K_A] > U+AAB1                c aa
 + 
 ```
-... and 27 more
+Line 80:
+```
+- + [K_I] > U+AAB2                c i
++ 
+```
+... and 11 more
 
 #### comment_removed (16)
 
@@ -12459,7 +13098,7 @@ Line 27:
 + + [K_S] > 'ꪎ'
 ```
 
-#### rule_format (47)
+#### rule_format (63)
 
 Line 29:
 ```
@@ -12486,7 +13125,7 @@ Line 33:
 - + [K_X] > U+AA84                c Khho Low
 + + [K_K] > 'ꪂ'
 ```
-... and 42 more
+... and 58 more
 
 ### sil_tai_dam_lao
 
@@ -12655,9 +13294,9 @@ Line 31:
 ### sil_tai_dam_latin
 
 - Original lines: 145
-- Roundtrip lines: 17
-- Identical: 30
-- Different: 115
+- Roundtrip lines: 82
+- Identical: 18
+- Different: 127
 
 #### comment_removed (21)
 
@@ -12688,15 +13327,36 @@ Line 6:
 ```
 ... and 16 more
 
-#### line_added (1)
+#### line_added (13)
 
 Line 4:
 ```
 - 
 + store(&KEYBOARDVERSION) '1.4.1'
 ```
+Line 20:
+```
+- 
++ group(transforms)
+```
+Line 22:
+```
+- 
++ 'ăz' > 'z'
+```
+Line 26:
+```
+- 
++ 'êw' > 'w'
+```
+Line 27:
+```
+- 
++ 'ÊW' > 'W'
+```
+... and 8 more
 
-#### store_reordered (4)
+#### store_reordered (8)
 
 Line 9:
 ```
@@ -12718,8 +13378,14 @@ Line 15:
 - store(&KEYBOARDVERSION) '1.4.1'
 + group(main) using keys
 ```
+Line 18:
+```
+- store(&TARGETS) 'web desktop'
++ match > use(transforms)
+```
+... and 3 more
 
-#### line_removed (89)
+#### line_removed (49)
 
 Line 12:
 ```
@@ -12736,24 +13402,53 @@ Line 17:
 - store(&VISUALKEYBOARD) 'sil_tai_dam_latin.kvks'
 + 
 ```
-Line 18:
-```
-- store(&TARGETS) 'web desktop'
-+ 
-```
 Line 19:
 ```
 - begin Unicode > use(main)
 + 
 ```
-... and 84 more
+Line 21:
+```
+- group(main) using keys
++ 
+```
+... and 44 more
+
+#### rule_format (36)
+
+Line 29:
+```
+- + 'z'            > 'a' U+0306   c a + combining breve
++ 'Ô{' > '{'
+```
+Line 30:
+```
+- + 'Z'            > 'A' U+0306   c A + combining breve 
++ 'ơ''' > ''''
+```
+Line 31:
+```
+- 'a' U+0306 + 'z' > 'z'
++ 'Ơ"' > '"'
+```
+Line 32:
+```
+- 'A' U+0306 + 'Z' > 'Z'
++ 'ưj' > 'j'
+```
+Line 34:
+```
+- + 'x'               > U+0111  	            c d with stroke 
++ any(VowelBase)̂ > '̂'
+```
+... and 31 more
 
 ### sil_tai_dam_typewriter
 
 - Original lines: 108
-- Roundtrip lines: 83
-- Identical: 5
-- Different: 103
+- Roundtrip lines: 99
+- Identical: 3
+- Different: 105
 
 #### store_reordered (5)
 
@@ -12783,7 +13478,7 @@ Line 9:
 + begin Unicode > use(main)
 ```
 
-#### line_removed (23)
+#### line_removed (12)
 
 Line 2:
 ```
@@ -12805,12 +13500,12 @@ Line 85:
 - + [SHIFT K_Z] > u+aadd
 + 
 ```
-Line 86:
+Line 87:
 ```
-- + [SHIFT K_X] > u+aaaa
+- + [SHIFT K_C] > u+aa90
 + 
 ```
-... and 18 more
+... and 7 more
 
 #### comment_removed (6)
 
@@ -12849,7 +13544,7 @@ Line 7:
 + store(&TARGETS) 'any'
 ```
 
-#### line_added (6)
+#### line_added (8)
 
 Line 15:
 ```
@@ -12876,7 +13571,7 @@ Line 53:
 - 
 + + [SHIFT K_R] > 'ꪺ'
 ```
-... and 1 more
+... and 3 more
 
 #### group_structure (2)
 
@@ -12891,7 +13586,7 @@ Line 18:
 + + [K_T] > 'ꪲ'
 ```
 
-#### rule_format (60)
+#### rule_format (71)
 
 Line 19:
 ```
@@ -12918,7 +13613,7 @@ Line 23:
 - + [SHIFT K_7] > '"'
 + + [K_P] > 'ꪔ'
 ```
-... and 55 more
+... and 66 more
 
 ### sil_tawallammat
 
@@ -13082,9 +13777,9 @@ Line 22:
 ### sil_tchad
 
 - Original lines: 155
-- Roundtrip lines: 54
-- Identical: 9
-- Different: 146
+- Roundtrip lines: 103
+- Identical: 3
+- Different: 152
 
 #### comment_removed (36)
 
@@ -13128,7 +13823,7 @@ Line 10:
 + store(aeiou-gra) "àèìòùÀÈÌÒÙ"
 ```
 
-#### line_added (7)
+#### line_added (13)
 
 Line 6:
 ```
@@ -13155,7 +13850,7 @@ Line 32:
 - 
 + + [T_E_U_0327] > 'ȩ'
 ```
-... and 2 more
+... and 8 more
 
 #### store_reordered (17)
 
@@ -13186,7 +13881,7 @@ Line 13:
 ```
 ... and 12 more
 
-#### line_removed (75)
+#### line_removed (52)
 
 Line 8:
 ```
@@ -13208,12 +13903,12 @@ Line 25:
 - store(aeiou-wdg) 'ǎěǐǒǔǍĚǏǑǓ'
 + 
 ```
-Line 70:
+Line 103:
 ```
-- 'c' + '`' > 'ç'
+- ';' + ';' > ';' dk(1)
 + 
 ```
-... and 70 more
+... and 47 more
 
 #### group_structure (2)
 
@@ -13228,7 +13923,7 @@ Line 37:
 + + [T_I_U_0327_shift] > 'I̧'
 ```
 
-#### rule_format (7)
+#### rule_format (30)
 
 Line 40:
 ```
@@ -13255,14 +13950,14 @@ Line 44:
 - any(aeiou) + '|' > index(aeiou-wdg,1)
 + + [T_U_U_0327] > 'u̧'
 ```
-... and 2 more
+... and 25 more
 
 ### sil_temiar
 
 - Original lines: 39
-- Roundtrip lines: 13
-- Identical: 4
-- Different: 35
+- Roundtrip lines: 38
+- Identical: 2
+- Different: 37
 
 #### comment_removed (4)
 
@@ -13315,7 +14010,7 @@ Line 11:
 + group(main) using keys
 ```
 
-#### line_removed (26)
+#### line_removed (6)
 
 Line 10:
 ```
@@ -13342,16 +14037,58 @@ Line 17:
 - group(main) using keys
 + 
 ```
-... and 21 more
+... and 1 more
+
+#### line_added (2)
+
+Line 14:
+```
+- 
++ match > use(transforms)
+```
+Line 16:
+```
+- 
++ group(transforms)
+```
+
+#### rule_format (20)
+
+Line 18:
+```
+- "e" + "`" > "è"
++ 'eÒ' > 'è'
+```
+Line 19:
+```
+- "E" + "`" > "È"
++ 'EÒ' > 'È'
+```
+Line 20:
+```
+- "e" + "'" > "é"
++ 'eÉ' > 'é'
+```
+Line 21:
+```
+- "E" + "'" > "É"
++ 'EÉ' > 'É'
+```
+Line 22:
+```
+- 'e' + '=' > 'ë'
++ 'eË' > 'ë'
+```
+... and 15 more
 
 ### sil_tepehuan
 
 - Original lines: 161
-- Roundtrip lines: 27
-- Identical: 6
-- Different: 155
+- Roundtrip lines: 145
+- Identical: 4
+- Different: 157
 
-#### store_reordered (11)
+#### store_reordered (12)
 
 Line 1:
 ```
@@ -13378,9 +14115,9 @@ Line 17:
 - store(store6) "aeiouAEIOU" 
 + store(store14) "ª©°ʰº®™ʷʸ¹²³•¨"
 ```
-... and 6 more
+... and 7 more
 
-#### line_removed (132)
+#### line_removed (20)
 
 Line 2:
 ```
@@ -13407,9 +14144,9 @@ Line 27:
 - store(store16) "ɇɆ∅¢ŋ" 
 + 
 ```
-... and 127 more
+... and 15 more
 
-#### line_added (2)
+#### line_added (4)
 
 Line 7:
 ```
@@ -13420,6 +14157,16 @@ Line 13:
 ```
 - 
 + store(store10) "βðɣƚȽ"
+```
+Line 32:
+```
+- 
++ (any(store9))----- > index(store10,1) '-'
+```
+Line 34:
+```
+- 
++ (any(store10))---- > index(store9,1) '-'
 ```
 
 #### comment_removed (8)
@@ -13463,6 +14210,48 @@ Line 12:
 - c
 + store(store9) "bdglL"
 ```
+
+#### group_structure (2)
+
+Line 33:
+```
+- begin Unicode > use(group1)
++ (any(store9))---- > index(store10,1)
+```
+Line 35:
+```
+- group(group1) using keys
++ (any(store13)) > index(store14,1)
+```
+
+#### rule_format (109)
+
+Line 36:
+```
+-   "!"  + "!" > "¡"  c line(0)
++ (any(store17))^^ > index(store18,1) '^'
+```
+Line 37:
+```
+-   "%"  + "%" > "‰"  c line(0)
++ (any(store17))^ > index(store18,1)
+```
+Line 38:
+```
+-    + "'" > "Ꞌ"  c line(0)
++ (any(store18))^ > index(store17,1) '^'
+```
+Line 39:
+```
+-   any(store9) "-"  + "-" > index(store10, 1) "-"  c line(0)
++ (any(store15))|† > index(store16,1) '|'
+```
+Line 40:
+```
+-   any(store9)  + "-" > index(store10, 1)  c line(0)
++ (any(store15))† > index(store16,1)
+```
+... and 104 more
 
 ### sil_torwali
 
@@ -13748,9 +14537,9 @@ Line 21:
 ### sil_uganda_tanzania
 
 - Original lines: 145
-- Roundtrip lines: 34
-- Identical: 31
-- Different: 114
+- Roundtrip lines: 74
+- Identical: 21
+- Different: 124
 
 #### comment_removed (27)
 
@@ -13789,7 +14578,7 @@ Line 9:
 + store(kMod) ';'
 ```
 
-#### store_reordered (12)
+#### store_reordered (22)
 
 Line 10:
 ```
@@ -13816,9 +14605,9 @@ Line 15:
 - store(&VISUALKEYBOARD) 'sil_uganda_tanzania.kvks'
 + store(cBelow) U+0331 U+0323 U+0330 U+032F U+0327
 ```
-... and 7 more
+... and 17 more
 
-#### line_added (5)
+#### line_added (15)
 
 Line 18:
 ```
@@ -13845,16 +14634,22 @@ Line 33:
 - 
 + + [T_B_U_032F_shift] > 'B̯'
 ```
+... and 10 more
 
-#### group_structure (1)
+#### group_structure (2)
 
 Line 19:
 ```
 - begin UNICODE > use(main)
 + store(cInvBreveBelow) '̯'
 ```
+Line 55:
+```
+- group(main) using keys
++ 'BbB̯' > 'B̯'
+```
 
-#### line_removed (68)
+#### line_removed (50)
 
 Line 29:
 ```
@@ -13871,17 +14666,46 @@ Line 36:
 - store(Con) "nN" "sS" "zZ" "'" "`" c eng, glottal modifier apostrophe
 + 
 ```
-Line 37:
+Line 74:
 ```
-- store(ModCon)  U+014B U+014A U+015D U+015C U+1E91 U+1E90 U+A78C U+02BC
+- any(kBelow) any(kAbove) + any(Vow)  > index(Vow,3) index(cBelow,1) index(cAbove,2) c above under vowels
 + 
 ```
-Line 39:
+Line 75:
 ```
-- store(kInvBreveBelow) "bB" c consonants that take inverted breve below
+- any(kBelow) any(kAbove) any(kMod) + any(Vow)  > index(ModVow,4) index(cBelow,1) index(cAbove,2) c above under modified vowels
 + 
 ```
-... and 63 more
+... and 45 more
+
+#### rule_format (7)
+
+Line 59:
+```
+- any(kMod) + any(Vow) > index(ModVow,2)  c modified vowels
++ 'ŋŊ' > 'ɲ'
+```
+Line 62:
+```
+- any(kBelow) + any(Vow)  > index(Vow,2) index(cBelow,1) c under normal vowels
++ 'NNƝ' > 'Ŋ'
+```
+Line 63:
+```
+- any(kBelow) any(kMod) + any(Vow)  > index(ModVow,3) index(cBelow,1) c under modified vowels
++ 'ŊƝ' > 'Ɲ'
+```
+Line 66:
+```
+- any(kAbove) + any(Vow)    > index(Vow,2) index(cAbove,1) c above normal vowels
++ 'ssŜ' > 'ŝ'
+```
+Line 67:
+```
+- any(kAbove) any(kMod) + any(Vow)    > index(ModVow,3) index(cAbove,1)   c above Modified vowels
++ 'SsŜ' > 'Ŝ'
+```
+... and 2 more
 
 ### sil_wayuu
 
@@ -14114,9 +14938,9 @@ Line 16:
 ### sil_yi
 
 - Original lines: 1426
-- Roundtrip lines: 15
-- Identical: 58
-- Different: 1368
+- Roundtrip lines: 1193
+- Identical: 14
+- Different: 1412
 
 #### comment_removed (158)
 
@@ -14138,16 +14962,16 @@ Line 4:
 Line 24:
 ```
 - c RULES
-+ 
++ 'iet　' > 'ꀄ'
 ```
 Line 49:
 ```
 - c ------------------------------------
-+ 
++ 'biep　' > 'ꀝ'
 ```
 ... and 153 more
 
-#### line_removed (1204)
+#### line_removed (207)
 
 Line 2:
 ```
@@ -14174,7 +14998,7 @@ Line 14:
 - store(&KEYBOARDVERSION) '1.3.1'
 + 
 ```
-... and 1199 more
+... and 202 more
 
 #### unknown (1)
 
@@ -14184,7 +15008,7 @@ Line 5:
 + store(&COPYRIGHT) '© SIL International'
 ```
 
-#### line_added (2)
+#### line_added (46)
 
 Line 6:
 ```
@@ -14196,8 +15020,24 @@ Line 7:
 - 
 + store(&TARGETS) 'any'
 ```
+Line 21:
+```
+- 
++ 'ix　' > 'ꀁ'
+```
+Line 23:
+```
+- 
++ 'ip　' > 'ꀃ'
+```
+Line 48:
+```
+- 
++ 'bie　' > 'ꀜ'
+```
+... and 41 more
 
-#### store_reordered (3)
+#### store_reordered (5)
 
 Line 9:
 ```
@@ -14214,6 +15054,58 @@ Line 13:
 - store(&COPYRIGHT) '© SIL International'
 + group(main) using keys
 ```
+Line 16:
+```
+- store(&LAYOUTFILE) 'sil_yi.keyman-touch-layout'
++ match > use(transforms)
+```
+Line 20:
+```
+- store(nul) "ABCDEFGHIJKLMNOPQRSTUVWXYZ@$^&" '"'
++ 'it　' > 'ꀀ'
+```
+
+#### group_structure (2)
+
+Line 18:
+```
+- begin Unicode > use(Unicode Group)
++ group(transforms)
+```
+Line 22:
+```
+- group(Unicode Group) using keys
++ 'i　' > 'ꀂ'
+```
+
+#### rule_format (993)
+
+Line 25:
+```
+- + any(nul) > nul
++ 'iex　' > 'ꀅ'
+```
+Line 26:
+```
+- 'it' + ' '          > U+a000         c Yi high tone i
++ 'ie　' > 'ꀆ'
+```
+Line 27:
+```
+- 'ix' + ' '          > U+a001         c Yi mid-high tone i
++ 'iep　' > 'ꀇ'
+```
+Line 28:
+```
+- 'i' + ' '           > U+a002         c Yi mid tone i
++ 'at　' > 'ꀈ'
+```
+Line 29:
+```
+- 'ip' + ' '          > U+a003         c Yi low tone i
++ 'ax　' > 'ꀉ'
+```
+... and 988 more
 
 ### sil_yna_plrd
 
@@ -14322,9 +15214,9 @@ Line 11:
 ### sil_yoruba_bar
 
 - Original lines: 296
-- Roundtrip lines: 78
-- Identical: 24
-- Different: 272
+- Roundtrip lines: 93
+- Identical: 23
+- Different: 273
 
 #### store_reordered (45)
 
@@ -14355,7 +15247,7 @@ Line 6:
 ```
 ... and 40 more
 
-#### line_removed (179)
+#### line_removed (165)
 
 Line 2:
 ```
@@ -14382,9 +15274,9 @@ Line 67:
 - store(key.crn) '}'
 + 
 ```
-... and 174 more
+... and 160 more
 
-#### line_added (11)
+#### line_added (12)
 
 Line 10:
 ```
@@ -14411,7 +15303,7 @@ Line 36:
 - 
 + + [T_006F_0329_0301] > 'ó̩'
 ```
-... and 6 more
+... and 7 more
 
 #### group_structure (2)
 
@@ -14455,27 +15347,43 @@ Line 42:
 ```
 ... and 28 more
 
-#### rule_format (2)
+#### rule_format (16)
 
 Line 76:
 ```
 - + '=' > '='
-+ any(v.bar)̩any(not.ac.crn) > '̩'
++ dk(un)v > 'v'
 ```
 Line 77:
 ```
 - + '-' > '-'
-+ any(v.bar)̩any(not.ac.mac) > '̩'
++ dk(un)x > 'x'
 ```
+Line 78:
+```
+- + '0' > '0'
++ dk(un)z > 'z'
+```
+Line 79:
+```
+- + '9' > '9'
++ dk(un)^ > '^'
+```
+Line 80:
+```
+- + '8' > '8'
++ dk(un)| > '|'
+```
+... and 11 more
 
 ### sil_yoruba_dot
 
 - Original lines: 286
-- Roundtrip lines: 67
+- Roundtrip lines: 87
 - Identical: 26
 - Different: 260
 
-#### store_reordered (41)
+#### store_reordered (42)
 
 Line 1:
 ```
@@ -14502,9 +15410,9 @@ Line 18:
 - store(grv)  U+00E0 U+00E8 U+00EC U+00F2 U+00F9 U+00C0 U+00C8 U+00CC U+00D2 U+00D9  
 + begin Unicode > use(main)
 ```
-... and 36 more
+... and 37 more
 
-#### line_removed (174)
+#### line_removed (160)
 
 Line 2:
 ```
@@ -14531,7 +15439,7 @@ Line 21:
 - store(crn)  U+01CE U+011B U+01D0 U+01D2 U+01D4 U+01CD U+011A U+01CF U+01D1 U+01D3 
 + 
 ```
-... and 169 more
+... and 155 more
 
 #### line_added (10)
 
@@ -14604,12 +15512,41 @@ Line 40:
 ```
 ... and 28 more
 
+#### rule_format (13)
+
+Line 74:
+```
+- + '=' > '='
++ dk(un)[ > '['
+```
+Line 75:
+```
+- + '-' > '-'
++ dk(un)q > 'q'
+```
+Line 76:
+```
+- + '0' > '0'
++ dk(un)v > 'v'
+```
+Line 77:
+```
+- + '9' > '9'
++ dk(un)x > 'x'
+```
+Line 78:
+```
+- + '8' > '8'
++ dk(un)z > 'z'
+```
+... and 8 more
+
 ### sil_yupik_cyrillic
 
 - Original lines: 392
-- Roundtrip lines: 146
-- Identical: 22
-- Different: 370
+- Roundtrip lines: 363
+- Identical: 3
+- Different: 389
 
 #### comment_removed (12)
 
@@ -14640,7 +15577,7 @@ Line 53:
 ```
 ... and 7 more
 
-#### line_added (8)
+#### line_added (27)
 
 Line 3:
 ```
@@ -14667,7 +15604,7 @@ Line 18:
 - 
 + + [K_E] > 'e'
 ```
-... and 3 more
+... and 22 more
 
 #### store_reordered (5)
 
@@ -14697,7 +15634,7 @@ Line 13:
 + + [K_BKQUOTE] > '`'
 ```
 
-#### line_removed (223)
+#### line_removed (33)
 
 Line 8:
 ```
@@ -14719,12 +15656,12 @@ Line 146:
 - + [CAPS SHIFT K_Y] > u+044b          c CYRILLIC SMALL LETTER YERU
 + 
 ```
-Line 147:
+Line 148:
 ```
-- + [CAPS SHIFT K_Z] > u+0437          c CYRILLIC SMALL LETTER ZE
+- + [CAPS SHIFT K_BKQUOTE] > U+0451    c CYRILLIC SMALL LETTER IO
 + 
 ```
-... and 218 more
+... and 28 more
 
 #### group_structure (2)
 
@@ -14739,7 +15676,7 @@ Line 17:
 + + [K_W] > 'w'
 ```
 
-#### rule_format (120)
+#### rule_format (221)
 
 Line 20:
 ```
@@ -14766,14 +15703,43 @@ Line 24:
 - + [NCAPS SHIFT K_E] > u+0415          c CYRILLIC CAPITAL LETTER IE
 + + [K_O] > 'o'
 ```
-... and 115 more
+... and 216 more
+
+#### key_format (89)
+
+Line 271:
+```
+- '+' + [NCAPS SHIFT K_A] > 'A'
++ '+Y' > 'Y'
+```
+Line 272:
+```
+- '+' + [NCAPS SHIFT K_B] > 'B'
++ '+Z' > 'Z'
+```
+Line 273:
+```
+- '+' + [NCAPS SHIFT K_C] > 'C'
++ '+A' > 'A'
+```
+Line 274:
+```
+- '+' + [NCAPS SHIFT K_D] > 'D'
++ '+B' > 'B'
+```
+Line 275:
+```
+- '+' + [NCAPS SHIFT K_E] > 'E'
++ '+C' > 'C'
+```
+... and 84 more
 
 ### sil_yupik_cyrillic_ru
 
 - Original lines: 350
-- Roundtrip lines: 184
-- Identical: 35
-- Different: 315
+- Roundtrip lines: 269
+- Identical: 18
+- Different: 332
 
 #### comment_removed (8)
 
@@ -14804,7 +15770,7 @@ Line 8:
 ```
 ... and 3 more
 
-#### line_removed (134)
+#### line_removed (69)
 
 Line 2:
 ```
@@ -14826,12 +15792,12 @@ Line 186:
 - + [NCAPS K_R] > U+043a
 + 
 ```
-Line 187:
+Line 188:
 ```
-- + [CAPS K_R] > U+041a
+- + [NCAPS SHIFT K_R] > U+041a
 + 
 ```
-... and 129 more
+... and 64 more
 
 #### unknown (2)
 
@@ -14846,7 +15812,7 @@ Line 7:
 + store(&TARGETS) 'any'
 ```
 
-#### line_added (39)
+#### line_added (56)
 
 Line 13:
 ```
@@ -14873,7 +15839,7 @@ Line 29:
 - 
 + + [K_R] > 'к'
 ```
-... and 34 more
+... and 51 more
 
 #### store_reordered (9)
 
@@ -14917,7 +15883,7 @@ Line 26:
 + + [K_Q] > 'й'
 ```
 
-#### rule_format (121)
+#### rule_format (186)
 
 Line 28:
 ```
@@ -14944,7 +15910,7 @@ Line 34:
 - + [SHIFT K_1] > U+0021
 + + [K_O] > 'щ'
 ```
-... and 116 more
+... and 181 more
 
 ### sil_ywq_plrd
 
