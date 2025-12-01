@@ -383,7 +383,8 @@ export class LdmlGenerator {
    */
   private countStoreElements(value: string): number {
     // For now, simple character count (could be enhanced to handle U+XXXX sequences)
-    return [...value].length;
+    // Use Array.from to avoid TypeScript compilation issues with string spread
+    return Array.from(value).length;
   }
 
   /**
@@ -922,7 +923,8 @@ export class LdmlGenerator {
         xml += `${this.indent}${this.indent}<uset id="${store.name}" value="${this.escapeXml(value, format)}"/>\n`;
       } else if (value.length > 1) {
         // Multiple characters - format as space-separated set for LDML
-        const chars = [...value];
+        // Use Array.from instead of [...value] to avoid TypeScript compilation issues with string spread
+        const chars = Array.from(value);
         const formattedValue = chars.join(' ');
 
         // Build format array including spaces between characters
