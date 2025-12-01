@@ -13,6 +13,8 @@ import {
   KmnRuleElement,
   KmnAnyElement,
   KmnIndexElement,
+  KmnIfElement,
+  KmnLayerElement,
 } from './kmn-ast.js';
 
 import {
@@ -420,8 +422,8 @@ export class LdmlGenerator {
     // Determine modifier combination
     const modifiers = this.getModifierString(rule.key);
 
-    // Get output
-    const output = this.getOutputString(rule.output);
+    // Get output with format metadata
+    const outputWithFormat = this.getOutputWithFormat(rule.output);
 
     // Check for deadkey output
     const deadkeyOutput = rule.output.find(e => e.type === 'deadkey');
@@ -429,9 +431,9 @@ export class LdmlGenerator {
       // This creates a marker
       const markerName = deadkeyOutput.name;
       this.markers.set(markerName, markerName);
-      key.outputs.set(modifiers, `\\m{${markerName}}`);
-    } else if (output) {
-      key.outputs.set(modifiers, output);
+      key.outputs.set(modifiers, { value: `\\m{${markerName}}`, format: outputWithFormat.format });
+    } else if (outputWithFormat.value) {
+      key.outputs.set(modifiers, outputWithFormat);
     }
   }
 
@@ -468,14 +470,39 @@ export class LdmlGenerator {
    * Get output string from rule elements (without set mapping)
    */
   private getOutputString(elements: KmnRuleElement[]): string {
-    let result = '';
+    const result = this.getOutputWithFormat(elements);
+    return result.value;
+  }
+
+  /**
+   * Get output string with format metadata from rule elements
+   */
+  private getOutputWithFormat(elements: KmnRuleElement[]): {
+    value: string;
+    format: Array<{ char: string; format: 'literal' | 'uplus' }>;
+  } {
+    let value = '';
+    const format: Array<{ char: string; format: 'literal' | 'uplus' }> = [];
+
     for (const elem of elements) {
       switch (elem.type) {
         case 'char':
-          result += elem.value;
+          value += elem.value;
+          if (elem.valueFormat) {
+            format.push(...elem.valueFormat);
+          } else {
+            // Default to literal if no format specified
+            for (const char of elem.value) {
+              format.push({ char, format: 'literal' });
+            }
+          }
           break;
         case 'deadkey':
-          result += `\\m{${elem.name}}`;
+          value += `\\m{${elem.name}}`;
+          // Markers are always literal in LDML
+          for (const char of `\\m{${elem.name}}`) {
+            format.push({ char, format: 'literal' });
+          }
           break;
         case 'nul':
           // NUL output - key produces nothing
@@ -489,7 +516,7 @@ export class LdmlGenerator {
         // For other types, we may need special handling
       }
     }
-    return result;
+    return { value, format };
   }
 
   /**
@@ -510,6 +537,9 @@ export class LdmlGenerator {
       }
     }
 
+    // Check if output is just 'context' (implicit identity mapping)
+    const hasContextOutput = rule.output.length === 1 && rule.output[0].type === 'context';
+
     // Find all index() elements in output
     const indexElements: KmnIndexElement[] = [];
     for (const elem of rule.output) {
@@ -518,31 +548,44 @@ export class LdmlGenerator {
       }
     }
 
-    // Match index() references to any() elements by context position
-    for (const indexElem of indexElements) {
-      // index(store, N) refers to context position N
-      const anyMatch = anyElements.find(a => a.contextPosition === indexElem.offset);
-      if (anyMatch) {
-        const inputStore = anyMatch.elem.storeName;
-        const outputStore = indexElem.storeName;
+    if (hasContextOutput && anyElements.length > 0) {
+      // Rule has '> context' output - create identity mappings for all any() elements
+      // This means: any(store) + [KEY] > context becomes transform: ($[store])keyOutput → $[1:store]
+      for (const anyElem of anyElements) {
+        setMappings.push({
+          contextPosition: anyElem.contextPosition,
+          inputStore: anyElem.elem.storeName,
+          outputStore: anyElem.elem.storeName, // Identity mapping (same store)
+        });
+      }
+      canUseSetMapping = true;
+    } else {
+      // Match index() references to any() elements by context position
+      for (const indexElem of indexElements) {
+        // index(store, N) refers to context position N
+        const anyMatch = anyElements.find(a => a.contextPosition === indexElem.offset);
+        if (anyMatch) {
+          const inputStore = anyMatch.elem.storeName;
+          const outputStore = indexElem.storeName;
 
-        // Check if stores have same length (required for set mapping)
-        if (this.storesHaveSameLength(inputStore, outputStore)) {
-          setMappings.push({
-            contextPosition: anyMatch.contextPosition,
-            inputStore,
-            outputStore,
-          });
-        } else {
-          // Stores don't match in length - can't use set mapping for this rule
-          canUseSetMapping = false;
+          // Check if stores have same length (required for set mapping)
+          if (this.storesHaveSameLength(inputStore, outputStore)) {
+            setMappings.push({
+              contextPosition: anyMatch.contextPosition,
+              inputStore,
+              outputStore,
+            });
+          } else {
+            // Stores don't match in length - can't use set mapping for this rule
+            canUseSetMapping = false;
+          }
         }
       }
-    }
 
-    // Can only use set mapping if all index() elements have matching any() with valid stores
-    if (indexElements.length !== setMappings.length) {
-      canUseSetMapping = false;
+      // Can only use set mapping if all index() elements have matching any() with valid stores
+      if (indexElements.length !== setMappings.length) {
+        canUseSetMapping = false;
+      }
     }
 
     return { rule, setMappings, canUseSetMapping };
@@ -587,7 +630,7 @@ export class LdmlGenerator {
         const modifiers = this.getModifierString(rule.key);
         const output = key?.outputs.get(modifiers);
         if (output) {
-          pattern += output;
+          pattern += output.value;
         }
       }
     }
@@ -627,7 +670,12 @@ export class LdmlGenerator {
           }
           break;
         case 'context':
-          // Context reference - would need more complex handling
+          // Output all captured groups in order
+          // For rules like: any(store) + [KEY] > context
+          // This outputs the captured store, consuming the key output
+          for (let i = 1; i <= setMappings.length; i++) {
+            result += `$[${i}:${setMappings[i-1].inputStore}]`;
+          }
           break;
         case 'nul':
         case 'beep':
@@ -672,8 +720,8 @@ export class LdmlGenerator {
 
         xml += `${this.indent}${this.indent}<key id="${variantId}"`;
 
-        if (output) {
-          xml += ` output="${this.escapeXml(output)}"`;
+        if (output && output.value) {
+          xml += ` output="${this.escapeXml(output.value, output.format)}"`;
         }
 
         xml += `/>\n`;
@@ -801,19 +849,32 @@ export class LdmlGenerator {
     for (const store of userStores) {
       // Determine variable type based on content
       const value = store.value;
+      const format = store.valueFormat;
 
       // Check for range notation (contains ..)
       if (value.includes('..')) {
         // Range - use uset
-        xml += `${this.indent}${this.indent}<uset id="${store.name}" value="${this.escapeXml(value)}"/>\n`;
+        xml += `${this.indent}${this.indent}<uset id="${store.name}" value="${this.escapeXml(value, format)}"/>\n`;
       } else if (value.length > 1) {
         // Multiple characters - format as space-separated set for LDML
         const chars = [...value];
         const formattedValue = chars.join(' ');
-        xml += `${this.indent}${this.indent}<set id="${store.name}" value="${this.escapeXml(formattedValue)}"/>\n`;
+
+        // Build format array including spaces between characters
+        const formattedFormat: Array<{ char: string; format: 'literal' | 'uplus' }> = [];
+        for (let i = 0; i < chars.length; i++) {
+          if (i > 0) {
+            formattedFormat.push({ char: ' ', format: 'literal' }); // Space separator is always literal
+          }
+          // Use original format for this character
+          const charFormat = format && i < format.length ? format[i].format : 'literal';
+          formattedFormat.push({ char: chars[i], format: charFormat });
+        }
+
+        xml += `${this.indent}${this.indent}<set id="${store.name}" value="${this.escapeXml(formattedValue, formattedFormat)}"/>\n`;
       } else if (value.length === 1) {
         // Single value - use string
-        xml += `${this.indent}${this.indent}<string id="${store.name}" value="${this.escapeXml(value)}"/>\n`;
+        xml += `${this.indent}${this.indent}<string id="${store.name}" value="${this.escapeXml(value, format)}"/>\n`;
       }
     }
 
@@ -870,6 +931,11 @@ export class LdmlGenerator {
         const to = this.generateSetMappingOutput(analyzed.rule, analyzed.setMappings);
 
         if (from && to) {
+          // Check for platform/layer conditions in any of the grouped rules
+          const conditions = this.extractConditions(group.rules.map(r => r.rule));
+          if (conditions.length > 0) {
+            xml += `${this.indent}${this.indent}${this.indent}<!-- Original KMN conditions (not representable in LDML): ${conditions.join(', ')} -->\n`;
+          }
           xml += `${this.indent}${this.indent}${this.indent}<!-- Set mapping: ${group.rules.length} rules condensed -->\n`;
           xml += `${this.indent}${this.indent}${this.indent}<transform from="${this.escapeXml(from)}" to="${this.escapeXml(to)}"/>\n`;
         }
@@ -883,6 +949,11 @@ export class LdmlGenerator {
         const to = this.getOutputString(analyzed.rule.output);
 
         if (from && to) {
+          // Check for platform/layer conditions
+          const conditions = this.extractConditions([analyzed.rule]);
+          if (conditions.length > 0) {
+            xml += `${this.indent}${this.indent}${this.indent}<!-- Original KMN conditions (not representable in LDML): ${conditions.join(', ')} -->\n`;
+          }
           xml += `${this.indent}${this.indent}${this.indent}<transform from="${this.escapeXml(from)}" to="${this.escapeXml(to)}"/>\n`;
         }
       }
@@ -892,6 +963,38 @@ export class LdmlGenerator {
     xml += `${this.indent}</transforms>\n`;
 
     return xml;
+  }
+
+  /**
+   * Extract platform and layer conditions from rules
+   * Returns array of condition strings like "platform('touch')", "layer('shift')"
+   */
+  private extractConditions(rules: KmnRule[]): string[] {
+    const conditions = new Set<string>();
+
+    for (const rule of rules) {
+      // Check context for if() conditions
+      for (const elem of rule.context) {
+        if (elem.type === 'if') {
+          const ifElem = elem as KmnIfElement;
+          // Check for platform or layer conditions
+          if (ifElem.optionName === 'platform' || ifElem.optionName === 'layer') {
+            const op = ifElem.operator === '=' ? '' : ifElem.operator;
+            conditions.add(`${ifElem.optionName}(${op}'${ifElem.value}')`);
+          }
+        }
+      }
+
+      // Check output for layer() calls
+      for (const elem of rule.output) {
+        if (elem.type === 'layer') {
+          const layerElem = elem as KmnLayerElement;
+          conditions.add(`layer('${layerElem.layerName}')`);
+        }
+      }
+    }
+
+    return Array.from(conditions);
   }
 
   /**
@@ -923,7 +1026,21 @@ export class LdmlGenerator {
         }
       }
 
-      const fullSignature = `${contextSignature}||${signature}`;
+      // Include key output in signature to prevent merging rules with different key outputs
+      let keyOutput = '';
+      if (analyzed.rule.key) {
+        const keyId = this.getKeyId(analyzed.rule.key);
+        if (keyId) {
+          const key = this.keys.get(keyId);
+          const modifiers = this.getModifierString(analyzed.rule.key);
+          const output = key?.outputs.get(modifiers);
+          if (output) {
+            keyOutput = output.value;
+          }
+        }
+      }
+
+      const fullSignature = `${contextSignature}||${signature}||${keyOutput}`;
 
       if (!groups.has(fullSignature)) {
         groups.set(fullSignature, { canUseSetMapping: true, rules: [] });
@@ -973,15 +1090,42 @@ export class LdmlGenerator {
   }
 
   /**
-   * Escape XML special characters
+   * Escape XML special characters, preserving original KMN format (literal vs U+)
    */
-  private escapeXml(str: string): string {
-    return str
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&apos;');
+  private escapeXml(str: string, format?: Array<{ char: string; format: 'literal' | 'uplus' }>): string {
+    let result = '';
+    let charIndex = 0;
+
+    for (const char of str) {
+      const code = char.codePointAt(0)!;
+
+      // Determine if this character should use numeric reference based on original format
+      const charFormat = format && charIndex < format.length ? format[charIndex].format : null;
+      const useNumericRef = charFormat === 'uplus';
+
+      // Use numeric character references if original was U+ format
+      if (useNumericRef) {
+        result += `&#x${code.toString(16).toUpperCase().padStart(4, '0')};`;
+      }
+      // Standard XML entities (use named entities for literal format)
+      else if (char === '&') {
+        result += '&amp;';
+      } else if (char === '<') {
+        result += '&lt;';
+      } else if (char === '>') {
+        result += '&gt;';
+      } else if (char === '"') {
+        result += '&quot;';
+      } else if (char === "'") {
+        result += '&apos;';
+      } else {
+        // Use literal character
+        result += char;
+      }
+
+      charIndex++;
+    }
+    return result;
   }
 
   /**
@@ -1075,7 +1219,10 @@ export class LdmlGenerator {
  */
 interface LdmlKey {
   id: string;
-  outputs: Map<string, string>;
+  outputs: Map<string, {
+    value: string;
+    format?: Array<{ char: string; format: 'literal' | 'uplus' }>;
+  }>;
 }
 
 /**

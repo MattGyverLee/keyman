@@ -18,6 +18,14 @@ import {
 } from './kmn-ast.js';
 
 /**
+ * Helper type for tracking character format during parsing
+ */
+type ParsedValue = {
+  value: string;
+  format: Array<{ char: string; format: 'literal' | 'uplus' }>;
+};
+
+/**
  * Parser for Keyman KMN keyboard source files.
  *
  * This class parses legacy .kmn keyboard source files into an Abstract Syntax Tree (AST)
@@ -173,10 +181,13 @@ export class KmnParser {
     const name = match[2];
     const valueStr = match[3].trim();
 
+    const parsed = this.parseStoreValue(valueStr);
+
     return {
       name,
       isSystem,
-      value: this.parseStoreValue(valueStr),
+      value: parsed.value,
+      valueFormat: parsed.format,
       line: this.lineIndex + 1,
       storeType: isSystem ? KmnStoreType.Reserved : KmnStoreType.Normal,
     };
@@ -190,7 +201,7 @@ export class KmnParser {
   /**
    * Parse store value (handles strings, U+XXXX sequences, nul, ranges, etc.)
    */
-  private parseStoreValue(valueStr: string): string {
+  private parseStoreValue(valueStr: string): ParsedValue {
     // Handle quoted strings
     if (valueStr.startsWith("'") || valueStr.startsWith('"')) {
       return this.parseQuotedString(valueStr);
@@ -202,40 +213,49 @@ export class KmnParser {
       return this.parseSpaceSeparatedValues(valueStr);
     }
 
-    // Handle other value types (ranges, etc.)
-    return valueStr;
+    // Handle other value types (ranges, etc.) - treat as literals
+    const format: Array<{ char: string; format: 'literal' | 'uplus' }> = [];
+    for (const char of valueStr) {
+      format.push({ char, format: 'literal' });
+    }
+    return { value: valueStr, format };
   }
 
   /**
    * Parse space-separated U+XXXX codes and nul keywords
    */
-  private parseSpaceSeparatedValues(str: string): string {
+  private parseSpaceSeparatedValues(str: string): ParsedValue {
     let result = '';
+    const format: Array<{ char: string; format: 'literal' | 'uplus' }> = [];
     const tokens = str.split(/\s+/).filter(t => t.length > 0);
 
     for (const token of tokens) {
       if (token.match(/^U\+[0-9A-Fa-f]+$/i)) {
         // Unicode codepoint
         const codepoint = parseInt(token.substring(2), 16);
-        result += String.fromCodePoint(codepoint);
+        const char = String.fromCodePoint(codepoint);
+        result += char;
+        format.push({ char, format: 'uplus' });
       } else if (token.toLowerCase() === 'nul') {
         // nul keyword - use special marker
         result += KmnParser.NUL_MARKER;
+        format.push({ char: KmnParser.NUL_MARKER, format: 'uplus' });
       } else {
         // Unknown token - skip or could be end of values
         break;
       }
     }
 
-    return result;
+    return { value: result, format };
   }
 
   /**
    * Parse a quoted string value
    */
-  private parseQuotedString(str: string): string {
+  private parseQuotedString(str: string): ParsedValue {
     const quote = str[0];
     let result = '';
+    const format: Array<{ char: string; format: 'literal' | 'uplus' }> = [];
     let i = 1;
     while (i < str.length) {
       if (str[i] === quote) {
@@ -243,14 +263,18 @@ export class KmnParser {
         const rest = str.substring(i + 1).trim();
         if (rest.startsWith("'") || rest.startsWith('"') || rest.startsWith('U+') || rest.match(/^\[/) || rest.match(/^nul\b/i)) {
           // Continuation - parse the rest
-          result += this.parseStoreValue(rest);
+          const parsed = this.parseStoreValue(rest);
+          result += parsed.value;
+          format.push(...parsed.format);
         }
         break;
       }
-      result += str[i];
+      const char = str[i];
+      result += char;
+      format.push({ char, format: 'literal' });
       i++;
     }
-    return result;
+    return { value: result, format };
   }
 
   /**
@@ -430,14 +454,24 @@ export class KmnParser {
         let j = 1;
         while (j < remaining.length && remaining[j] !== quote) j++;
         const value = remaining.substring(1, j);
-        elements.push({ type: 'char', value });
+        // Track each character as literal format
+        const valueFormat: Array<{ char: string; format: 'literal' | 'uplus' }> = [];
+        for (const char of value) {
+          valueFormat.push({ char, format: 'literal' });
+        }
+        elements.push({ type: 'char', value, valueFormat });
         i += j + 1;
       }
       // Unicode codepoint U+XXXX
       else if (remaining.match(/^U\+[0-9A-Fa-f]+/i)) {
         const match = remaining.match(/^U\+([0-9A-Fa-f]+)/i)!;
         const codepoint = parseInt(match[1], 16);
-        elements.push({ type: 'char', value: String.fromCodePoint(codepoint) });
+        const value = String.fromCodePoint(codepoint);
+        // Track as U+ format
+        const valueFormat: Array<{ char: string; format: 'literal' | 'uplus' }> = [
+          { char: value, format: 'uplus' }
+        ];
+        elements.push({ type: 'char', value, valueFormat });
         i += match[0].length;
       }
       // Function calls

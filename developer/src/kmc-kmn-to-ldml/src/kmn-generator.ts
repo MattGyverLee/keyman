@@ -52,6 +52,7 @@ export interface LdmlKeyboardData {
 export interface LdmlKeyData {
   id: string;
   output?: string;
+  outputFormat?: Array<{ char: string; format: 'literal' | 'uplus' }>;
   longPressKeyIds?: string;
   multiTapKeyIds?: string;
   flickId?: string;
@@ -76,11 +77,14 @@ export interface LdmlVariableData {
   type: 'string' | 'set' | 'uset';
   id: string;
   value: string;
+  valueFormat?: Array<{ char: string; format: 'literal' | 'uplus' }>;
 }
 
 export interface LdmlTransformData {
   from: string;
   to: string;
+  fromFormat?: Array<{ char: string; format: 'literal' | 'uplus' }>;
+  toFormat?: Array<{ char: string; format: 'literal' | 'uplus' }>;
 }
 
 /**
@@ -144,7 +148,7 @@ export class KmnGenerator {
 
     // User stores from variables
     for (const variable of ldml.variables) {
-      const value = this.formatStoreValue(variable.value, variable.type);
+      const value = this.formatStoreValue(variable.value, variable.type, variable.valueFormat);
       lines.push(`store(${variable.id}) ${value}`);
     }
     if (ldml.variables.length > 0) {
@@ -163,22 +167,100 @@ export class KmnGenerator {
     const keyRules = this.generateKeyRules(ldml);
     lines.push(...keyRules);
 
-    // Generate transform rules if any
+    // Process transforms - some may become key rules with context output
     if (ldml.transforms.length > 0) {
-      lines.push('');
-      lines.push('match > use(transforms)');
-      lines.push('');
-      lines.push('group(transforms)');
-      lines.push('');
+      const { keyTransforms, regularTransforms } = this.classifyTransforms(ldml);
 
-      for (const transform of ldml.transforms) {
-        const from = this.formatTransformPattern(transform.from);
-        const to = this.formatTransformOutput(transform.to);
-        lines.push(`${from} > ${to}`);
+      // Add key-triggered transforms as key rules with context output
+      if (keyTransforms.length > 0) {
+        lines.push('');
+        for (const kt of keyTransforms) {
+          lines.push(`${kt.context} + ${kt.key} > context`);
+        }
+      }
+
+      // Generate transform group for remaining transforms
+      if (regularTransforms.length > 0) {
+        lines.push('');
+        lines.push('match > use(transforms)');
+        lines.push('');
+        lines.push('group(transforms)');
+        lines.push('');
+
+        for (const transform of regularTransforms) {
+          const from = this.formatTransformPattern(transform.from);
+          const to = this.formatTransformOutput(transform.to, transform.toFormat);
+          lines.push(`${from} > ${to}`);
+        }
       }
     }
 
     return lines.join('\n') + '\n';
+  }
+
+  /**
+   * Classify transforms into key-triggered and regular transforms.
+   *
+   * Detects transforms that match pattern: ($[store])keyOutput → $[1:store]
+   * These represent "context preservation" rules and convert to: any(store) + [KEY] > context
+   *
+   * @param ldml - Parsed LDML keyboard data
+   * @returns Object with keyTransforms and regularTransforms arrays
+   */
+  private classifyTransforms(ldml: LdmlKeyboardData): {
+    keyTransforms: Array<{ context: string; key: string }>;
+    regularTransforms: LdmlTransformData[];
+  } {
+    const keyTransforms: Array<{ context: string; key: string }> = [];
+    const regularTransforms: LdmlTransformData[] = [];
+
+    // Build map of key outputs to key IDs
+    const outputToKey = new Map<string, Array<{ keyId: string; modifiers: string }>>();
+    for (const key of ldml.keys) {
+      if (key.output && !key.gap) {
+        if (!outputToKey.has(key.output)) {
+          outputToKey.set(key.output, []);
+        }
+        // Extract modifiers from key ID (e.g., "K_A_shift" → "shift")
+        const parts = key.id.split('_');
+        const baseKey = parts.slice(0, 2).join('_'); // "K_A"
+        const modifierParts = parts.slice(2); // ["shift"]
+        const modifiers = modifierParts.join(' ').toUpperCase();
+        outputToKey.get(key.output)!.push({ keyId: baseKey, modifiers });
+      }
+    }
+
+    for (const transform of ldml.transforms) {
+      // Pattern: ($[store])output → $[1:store]
+      // This means: if output is typed after any(store), preserve just the store character
+      const fromMatch = transform.from.match(/^\(\$\[([^\]]+)\]\)(.+)$/);
+      const toMatch = transform.to.match(/^\$\[1:([^\]]+)\]$/);
+
+      if (fromMatch && toMatch && fromMatch[1] === toMatch[1]) {
+        const storeName = fromMatch[1];
+        const keyOutput = fromMatch[2];
+
+        // Find which key(s) produce this output
+        const keyMatches = outputToKey.get(keyOutput);
+        if (keyMatches && keyMatches.length > 0) {
+          // Generate a rule for EACH key that produces this output
+          // This handles both hardware keys (K_*) and touch keys (T_*)
+          for (const { keyId, modifiers } of keyMatches) {
+            const keySpec = modifiers ? `[${modifiers} ${keyId}]` : `[${keyId}]`;
+            keyTransforms.push({
+              context: `any(${storeName})`,
+              key: keySpec,
+            });
+          }
+          continue; // Don't add to regularTransforms
+        }
+      }
+
+      // Not a key-triggered transform
+      regularTransforms.push(transform);
+    }
+
+    return { keyTransforms, regularTransforms };
   }
 
   /**
@@ -221,8 +303,10 @@ export class KmnGenerator {
         for (const keyId of row) {
           const key = ldml.keys.find(k => k.id === keyId);
           if (key?.output && !key.gap) {
-            const vkey = this.formatVKey(keyId, modifiers);
-            const output = this.formatOutput(key.output);
+            // Extract base key ID (remove modifier suffixes like "_shift_altR")
+            const baseKeyId = this.extractBaseKeyId(keyId);
+            const vkey = this.formatVKey(baseKeyId, modifiers);
+            const output = this.formatOutput(key.output, key.outputFormat);
             rules.push(`+ ${vkey} > ${output}`);
           }
         }
@@ -233,12 +317,40 @@ export class KmnGenerator {
     for (const key of ldml.keys) {
       // Touch-only keys (T_ prefix)
       if (key.id.startsWith('T_') && key.output) {
-        const output = this.formatOutput(key.output);
+        const output = this.formatOutput(key.output, key.outputFormat);
         rules.push(`+ [${key.id}] > ${output}`);
       }
     }
 
     return rules;
+  }
+
+  /**
+   * Extract base key ID from a potentially compound key ID.
+   *
+   * LDML key IDs may include modifier suffixes like "_shift", "_altR", "_shift_altR".
+   * This function extracts the base key ID by removing these suffixes.
+   *
+   * @param keyId - Full key ID (e.g., "K_1_shift_altR", "K_A", "T_0030")
+   * @returns Base key ID (e.g., "K_1", "K_A", "T_0030")
+   *
+   * @example
+   * ```typescript
+   * extractBaseKeyId("K_1_shift_altR") → "K_1"
+   * extractBaseKeyId("K_A_shift") → "K_A"
+   * extractBaseKeyId("K_SPACE") → "K_SPACE"
+   * ```
+   */
+  private extractBaseKeyId(keyId: string): string {
+    // Remove common modifier suffixes from key IDs
+    return keyId
+      .replace(/_shift_altR$/, '')
+      .replace(/_shift_ctrl$/, '')
+      .replace(/_ctrl_altR$/, '')
+      .replace(/_shift$/, '')
+      .replace(/_altR$/, '')
+      .replace(/_ctrl$/, '')
+      .replace(/_caps$/, '');
   }
 
   /**
@@ -307,7 +419,7 @@ export class KmnGenerator {
    * formatOutput("\\m{acute}") → "dk(acute)"
    * ```
    */
-  private formatOutput(output: string): string {
+  private formatOutput(output: string, format?: Array<{ char: string; format: 'literal' | 'uplus' }>): string {
     // Check for markers
     if (output.includes('\\m{')) {
       const match = output.match(/\\m\{([^}]+)\}/);
@@ -316,27 +428,52 @@ export class KmnGenerator {
       }
     }
 
-    // Check for simple single character
-    if (output.length === 1) {
-      const code = output.codePointAt(0)!;
-      if (code < 0x80 && /[a-zA-Z0-9]/.test(output)) {
-        return `'${output}'`;
+    // Build output using format metadata to preserve original representation
+    const chars = Array.from(output);
+    const parts: string[] = [];
+    let currentGroup: string[] = [];
+    let currentFormat: 'literal' | 'uplus' | null = null;
+
+    for (let i = 0; i < chars.length; i++) {
+      const char = chars[i];
+      const charFormat = format && i < format.length ? format[i].format : 'uplus';
+
+      if (charFormat === 'literal' && currentFormat === 'literal') {
+        currentGroup.push(char);
+      } else if (charFormat === 'uplus' && currentFormat === 'uplus') {
+        const code = char.codePointAt(0)!;
+        currentGroup.push(`U+${code.toString(16).toUpperCase().padStart(4, '0')}`);
+      } else {
+        // Format changed, flush current group
+        if (currentGroup.length > 0) {
+          if (currentFormat === 'literal') {
+            parts.push(`'${this.escapeKmn(currentGroup.join(''))}'`);
+          } else {
+            parts.push(...currentGroup);
+          }
+        }
+        // Start new group
+        currentGroup = [];
+        currentFormat = charFormat;
+        if (charFormat === 'literal') {
+          currentGroup.push(char);
+        } else {
+          const code = char.codePointAt(0)!;
+          currentGroup.push(`U+${code.toString(16).toUpperCase().padStart(4, '0')}`);
+        }
       }
-      return `U+${code.toString(16).toUpperCase().padStart(4, '0')}`;
     }
 
-    // Multi-character output
-    let result = '';
-    for (const char of output) {
-      const code = char.codePointAt(0)!;
-      if (result) result += ' ';
-      if (code < 0x80 && /[a-zA-Z0-9]/.test(char)) {
-        result += `'${char}'`;
+    // Flush final group
+    if (currentGroup.length > 0) {
+      if (currentFormat === 'literal') {
+        parts.push(`'${this.escapeKmn(currentGroup.join(''))}'`);
       } else {
-        result += `U+${code.toString(16).toUpperCase().padStart(4, '0')}`;
+        parts.push(...currentGroup);
       }
     }
-    return result;
+
+    return parts.join(' ');
   }
 
   /**
@@ -351,7 +488,7 @@ export class KmnGenerator {
    * @param type - Variable type ('string', 'set', or 'uset')
    * @returns KMN-formatted store value
    */
-  private formatStoreValue(value: string, type: string): string {
+  private formatStoreValue(value: string, type: string, format?: Array<{ char: string; format: 'literal' | 'uplus' }>): string {
     if (type === 'uset') {
       // Unicode set - keep as-is or convert to range
       return `"${this.escapeKmn(value)}"`;
@@ -362,18 +499,79 @@ export class KmnGenerator {
       return `'${this.escapeKmn(value)}'`;
     }
 
-    // Multi-character - could be a character class
-    let result = '"';
-    for (const char of value) {
-      const code = char.codePointAt(0)!;
-      if (code >= 0x20 && code < 0x7F && char !== '"' && char !== '\\') {
-        result += char;
-      } else {
-        result += `" U+${code.toString(16).toUpperCase().padStart(4, '0')} "`;
+    // LDML stores set values as space-separated characters
+    // Example LDML: "  a ɛ b ɓ" means [space, space, 'a', 'ɛ', 'b', 'ɓ']
+    // Split on space, then convert empty strings back to spaces
+    const chars = value.split(' ');
+    const cleanValue = chars.map(c => c === '' ? ' ' : c).join('');
+
+    // Build a clean format array that corresponds to cleanValue (without LDML separator spaces)
+    const cleanFormat: Array<{ char: string; format: 'literal' | 'uplus' }> = [];
+    if (format) {
+      let formatIndex = 0;
+      for (let i = 0; i < chars.length; i++) {
+        const char = chars[i] === '' ? ' ' : chars[i];
+        // Find the next matching character in the format array
+        while (formatIndex < format.length && format[formatIndex].char === ' ' && char !== ' ') {
+          formatIndex++; // Skip LDML separator spaces
+        }
+        if (formatIndex < format.length) {
+          cleanFormat.push(format[formatIndex]);
+          formatIndex++;
+        }
       }
     }
-    result += '"';
-    return result.replace(/"" /g, '').replace(/ ""/g, '').replace(/^""/,'').replace(/""$/,'');
+
+    // Build output using format metadata to preserve original representation
+    const parts: string[] = [];
+    let charIndex = 0;
+
+    // Group consecutive characters by format type
+    let currentGroup: string[] = [];
+    let currentFormat: 'literal' | 'uplus' | null = null;
+
+    for (const char of cleanValue) {
+      const charFormat = cleanFormat && charIndex < cleanFormat.length ? cleanFormat[charIndex].format : 'uplus';
+
+      if (charFormat === 'literal' && currentFormat === 'literal') {
+        // Continue building literal string
+        currentGroup.push(char);
+      } else if (charFormat === 'uplus' && currentFormat === 'uplus') {
+        // Continue building U+ codes
+        const code = char.codePointAt(0)!;
+        currentGroup.push(`U+${code.toString(16).toUpperCase().padStart(4, '0')}`);
+      } else {
+        // Format changed, flush current group
+        if (currentGroup.length > 0) {
+          if (currentFormat === 'literal') {
+            parts.push(`"${this.escapeKmn(currentGroup.join(''))}"`);
+          } else {
+            parts.push(...currentGroup);
+          }
+        }
+        // Start new group
+        currentGroup = [];
+        currentFormat = charFormat;
+        if (charFormat === 'literal') {
+          currentGroup.push(char);
+        } else {
+          const code = char.codePointAt(0)!;
+          currentGroup.push(`U+${code.toString(16).toUpperCase().padStart(4, '0')}`);
+        }
+      }
+      charIndex++;
+    }
+
+    // Flush final group
+    if (currentGroup.length > 0) {
+      if (currentFormat === 'literal') {
+        parts.push(`"${this.escapeKmn(currentGroup.join(''))}"`);
+      } else {
+        parts.push(...currentGroup);
+      }
+    }
+
+    return parts.join(' ');
   }
 
   /**
@@ -403,24 +601,51 @@ export class KmnGenerator {
   }
 
   /**
-   * Format transform output
+   * Format transform output, converting LDML backreferences to KMN index() syntax.
+   *
+   * LDML uses $[n:varname] for backreferences, KMN uses index(varname,n)
    */
-  private formatTransformOutput(to: string): string {
-    return this.formatOutput(to);
+  private formatTransformOutput(to: string, format?: Array<{ char: string; format: 'literal' | 'uplus' }>): string {
+    // Convert LDML backreferences ($[n:varname]) to KMN index() syntax
+    let result = to.replace(/\$\[(\d+):([^\]]+)\]/g, (match, num, varname) => {
+      return `index(${varname},${num})`;
+    });
+
+    // After converting backreferences, handle remaining literal text
+    // Split on index() to preserve it
+    const parts = result.split(/(index\([^)]+\))/);
+    const formatted = parts.map(part => {
+      if (part.startsWith('index(')) {
+        return part; // Keep index() as-is
+      } else if (part) {
+        return this.formatOutput(part, format); // Convert using format metadata
+      }
+      return '';
+    }).filter(p => p).join(' ');
+
+    return formatted;
   }
 
   /**
    * Escape special characters for KMN string literals.
    *
    * KMN requires escaping:
-   * - Single quotes (') → doubled ('')
+   * - Single quotes (') → doubled ('') in single-quoted strings
+   * - Double quotes (") → backslash-escaped (\") in double-quoted strings
    * - Backslashes (\) → doubled (\\)
    *
    * @param str - String to escape
+   * @param quoteStyle - 'single' or 'double' quote style
    * @returns Escaped string safe for KMN
    */
-  private escapeKmn(str: string): string {
-    return str.replace(/'/g, "''").replace(/\\/g, '\\\\');
+  private escapeKmn(str: string, quoteStyle: 'single' | 'double' = 'single'): string {
+    let result = str.replace(/\\/g, '\\\\');
+    if (quoteStyle === 'single') {
+      result = result.replace(/'/g, "''");
+    } else {
+      result = result.replace(/"/g, '\\"');
+    }
+    return result;
   }
 }
 
@@ -481,7 +706,11 @@ export function parseLdmlXml(xml: string): LdmlKeyboardData {
       id: extractAttr(attrs, 'id') || '',
     };
     const output = extractAttr(attrs, 'output');
-    if (output) key.output = unescapeXml(output);
+    if (output) {
+      const parsed = unescapeXml(output);
+      key.output = parsed.value;
+      key.outputFormat = parsed.format;
+    }
     const gap = extractAttr(attrs, 'gap');
     if (gap === 'true') key.gap = true;
     const longPress = extractAttr(attrs, 'longPressKeyIds');
@@ -530,10 +759,12 @@ export function parseLdmlXml(xml: string): LdmlKeyboardData {
   const varRegex = /<(string|set|uset)\s+id="([^"]+)"\s+value="([^"]+)"/g;
   let varMatch;
   while ((varMatch = varRegex.exec(xml)) !== null) {
+    const parsed = unescapeXml(varMatch[3]);
     data.variables.push({
       type: varMatch[1] as 'string' | 'set' | 'uset',
       id: varMatch[2],
-      value: unescapeXml(varMatch[3]),
+      value: parsed.value,
+      valueFormat: parsed.format,
     });
   }
 
@@ -541,9 +772,13 @@ export function parseLdmlXml(xml: string): LdmlKeyboardData {
   const transformRegex = /<transform\s+from="([^"]+)"\s+to="([^"]+)"/g;
   let transformMatch;
   while ((transformMatch = transformRegex.exec(xml)) !== null) {
+    const fromParsed = unescapeXml(transformMatch[1]);
+    const toParsed = unescapeXml(transformMatch[2]);
     data.transforms.push({
-      from: unescapeXml(transformMatch[1]),
-      to: unescapeXml(transformMatch[2]),
+      from: fromParsed.value,
+      to: toParsed.value,
+      fromFormat: fromParsed.format,
+      toFormat: toParsed.format,
     });
   }
 
@@ -555,13 +790,78 @@ function extractAttr(attrs: string, name: string): string | undefined {
   return match ? match[1] : undefined;
 }
 
-function unescapeXml(str: string): string {
-  return str
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&apos;/g, "'");
+/**
+ * Helper type for tracking character format when parsing LDML
+ */
+type ParsedXmlValue = {
+  value: string;
+  format: Array<{ char: string; format: 'literal' | 'uplus' }>;
+};
+
+function unescapeXml(str: string): ParsedXmlValue {
+  let result = '';
+  const format: Array<{ char: string; format: 'literal' | 'uplus' }> = [];
+  let i = 0;
+
+  while (i < str.length) {
+    if (str[i] === '&') {
+      // Handle XML entities and numeric character references
+      if (str.substr(i, 5) === '&amp;') {
+        result += '&';
+        format.push({ char: '&', format: 'literal' });
+        i += 5;
+      } else if (str.substr(i, 4) === '&lt;') {
+        result += '<';
+        format.push({ char: '<', format: 'literal' });
+        i += 4;
+      } else if (str.substr(i, 4) === '&gt;') {
+        result += '>';
+        format.push({ char: '>', format: 'literal' });
+        i += 4;
+      } else if (str.substr(i, 6) === '&quot;') {
+        result += '"';
+        format.push({ char: '"', format: 'literal' });
+        i += 6;
+      } else if (str.substr(i, 6) === '&apos;') {
+        result += "'";
+        format.push({ char: "'", format: 'literal' });
+        i += 6;
+      } else if (str.substr(i, 3) === '&#x' || str.substr(i, 2) === '&#') {
+        // Numeric character reference
+        const isHex = str.substr(i, 3) === '&#x';
+        const startOffset = isHex ? 3 : 2;
+        let endIndex = i + startOffset;
+        while (endIndex < str.length && str[endIndex] !== ';') {
+          endIndex++;
+        }
+        if (endIndex < str.length && str[endIndex] === ';') {
+          const codeStr = str.substring(i + startOffset, endIndex);
+          const code = parseInt(codeStr, isHex ? 16 : 10);
+          const char = String.fromCodePoint(code);
+          result += char;
+          format.push({ char, format: 'uplus' }); // Numeric refs represent U+ codes
+          i = endIndex + 1;
+        } else {
+          // Malformed reference, treat as literal
+          result += str[i];
+          format.push({ char: str[i], format: 'literal' });
+          i++;
+        }
+      } else {
+        // Unknown entity, treat as literal
+        result += str[i];
+        format.push({ char: str[i], format: 'literal' });
+        i++;
+      }
+    } else {
+      // Regular character
+      result += str[i];
+      format.push({ char: str[i], format: 'literal' });
+      i++;
+    }
+  }
+
+  return { value: result, format };
 }
 
 /**

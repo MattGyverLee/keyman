@@ -33,6 +33,8 @@ export interface KmnStore {
   line: number;
   /** Store type flags */
   storeType?: KmnStoreType;
+  /** Original format metadata - tracks which characters were U+ codes vs literals */
+  valueFormat?: Array<{ char: string; format: 'literal' | 'uplus' }>;
 }
 
 export enum KmnStoreType {
@@ -130,6 +132,8 @@ export type KmnRuleElement =
 export interface KmnCharElement {
   type: 'char';
   value: string;
+  /** Original format metadata - tracks which characters were U+ codes vs literals */
+  valueFormat?: Array<{ char: string; format: 'literal' | 'uplus' }>;
 }
 
 /** Reference to a store: $store or store(name) */

@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e:*)",
+      "Read(//d/Github/keyboards/release-ldml/sil/sil_akebu/source/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
