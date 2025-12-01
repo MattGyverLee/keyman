@@ -53,7 +53,7 @@ export interface KmnToLdmlOptions extends LdmlGeneratorOptions {
  * const kmnSource = fs.readFileSync('my_keyboard.kmn', 'utf8');
  * const ldmlXml = convertKmnToLdml(kmnSource, {
  *   locale: 'en',
- *   hardwareForm: 'us',
+ *   hardwareForm: 'iso',  // Default: 'iso' for maximum hardware compatibility
  *   useSetMapping: true
  * });
  * fs.writeFileSync('my_keyboard.xml', ldmlXml);

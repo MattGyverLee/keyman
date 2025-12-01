@@ -31,6 +31,9 @@
  * ```
  */
 
+import { TouchLayout } from '@keymanapp/common-types';
+import { extractTouchLayoutFromLdml, LdmlTouchKey, LdmlFlick, LdmlTouchLayer } from './touch-layout-converter.js';
+
 /**
  * Simplified LDML keyboard representation for conversion.
  *
@@ -713,6 +716,8 @@ export function parseLdmlXml(xml: string): LdmlKeyboardData {
     }
     const gap = extractAttr(attrs, 'gap');
     if (gap === 'true') key.gap = true;
+    const width = extractAttr(attrs, 'width');
+    if (width) key.width = parseFloat(width);
     const longPress = extractAttr(attrs, 'longPressKeyIds');
     if (longPress) key.longPressKeyIds = longPress;
     const multiTap = extractAttr(attrs, 'multiTapKeyIds');
@@ -888,4 +893,109 @@ export function generateKmn(ldmlXml: string): string {
   const data = parseLdmlXml(ldmlXml);
   const generator = new KmnGenerator();
   return generator.generate(data);
+}
+
+/**
+ * Extract touch layout data from LDML XML and convert to .keyman-touch-layout JSON format.
+ *
+ * This enables round-trip conversion: KMN + touch-layout → LDML → KMN + touch-layout
+ *
+ * @param ldmlXml - LDML keyboard XML string
+ * @returns TouchLayoutFile object that can be serialized to .keyman-touch-layout JSON,
+ *          or null if no touch layout data is present in the LDML
+ *
+ * @example
+ * ```typescript
+ * import { extractTouchLayout } from '@keymanapp/kmc-kmn-to-ldml';
+ * import * as fs from 'fs';
+ *
+ * const ldmlXml = fs.readFileSync('my-keyboard.xml', 'utf-8');
+ * const touchLayout = extractTouchLayout(ldmlXml);
+ * if (touchLayout) {
+ *   fs.writeFileSync('my-keyboard.keyman-touch-layout', JSON.stringify(touchLayout, null, 2), 'utf-8');
+ * }
+ * ```
+ */
+export function extractTouchLayout(ldmlXml: string): TouchLayout.TouchLayoutFile | null {
+  const data = parseLdmlXml(ldmlXml);
+
+  // Filter touch layers and keys
+  const touchLayers = data.layers.filter(l => l.formId === 'touch');
+
+  if (touchLayers.length === 0) {
+    return null;
+  }
+
+  // Build set of key IDs actually used in touch layers
+  const touchKeyIds = new Set<string>();
+  for (const layer of touchLayers) {
+    for (const row of layer.rows) {
+      for (const keyId of row) {
+        touchKeyIds.add(keyId);
+      }
+    }
+  }
+
+  // Build a map of keys, only including keys used in touch layers
+  // Also collect keys referenced by longPress/multiTap
+  const keyMap = new Map<string, LdmlTouchKey>();
+  const keysToInclude = new Set<string>(touchKeyIds);
+
+  // Find all keys that are referenced by longPress or multiTap from touch keys
+  for (const k of data.keys) {
+    if (touchKeyIds.has(k.id)) {
+      if (k.longPressKeyIds) {
+        k.longPressKeyIds.split(/\s+/).forEach(id => keysToInclude.add(id));
+      }
+      if (k.multiTapKeyIds) {
+        k.multiTapKeyIds.split(/\s+/).forEach(id => keysToInclude.add(id));
+      }
+    }
+  }
+
+  // Now build the key map with only the keys we need
+  for (const k of data.keys) {
+    if (!keysToInclude.has(k.id)) {
+      continue; // Skip keys not used in touch layers
+    }
+
+    const existing = keyMap.get(k.id);
+    const current: LdmlTouchKey = {
+      id: k.id,
+      output: k.output,
+      gap: k.gap,
+      width: k.width,
+      layerId: k.layerId,
+      longPressKeyIds: k.longPressKeyIds,
+      multiTapKeyIds: k.multiTapKeyIds,
+      flickId: k.flickId
+    };
+
+    // Prefer keys with touch-specific attributes (width, longPress, multiTap, flick, gap, layerId)
+    // Also prefer keys with different/longer output (touch keys often have display variations)
+    const hasTouchAttributes = current.width || current.longPressKeyIds || current.multiTapKeyIds ||
+                                current.flickId || current.gap || current.layerId;
+    const hasDifferentOutput = existing && current.output && existing.output !== current.output;
+    const hasLongerOutput = existing && current.output &&
+                           (current.output.length > (existing.output?.length || 0));
+
+    if (!existing || hasTouchAttributes || hasDifferentOutput || hasLongerOutput) {
+      keyMap.set(k.id, current);
+    }
+  }
+
+  const ldmlKeys: LdmlTouchKey[] = Array.from(keyMap.values());
+
+  const ldmlFlicks: LdmlFlick[] = data.flicks.map(f => ({
+    id: f.id,
+    segments: f.segments
+  }));
+
+  const ldmlTouchLayers: LdmlTouchLayer[] = touchLayers.map(l => ({
+    id: l.id,
+    modifiers: l.modifiers,
+    rows: l.rows
+  }));
+
+  return extractTouchLayoutFromLdml(ldmlKeys, ldmlFlicks, ldmlTouchLayers);
 }

@@ -14,8 +14,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import { generateLdml } from './build/src/ldml-generator.js';
-import { generateKmn } from './build/src/kmn-generator.js';
+import { generateKmn, extractTouchLayout } from './build/src/kmn-generator.js';
 import { KmnParser } from './build/src/kmn-parser.js';
+import { convertKmnToLdml } from './build/src/main.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -34,6 +35,8 @@ const stats = {
   ldmlToKmnSuccess: 0,
   ldmlToKmnErrors: 0,
   roundTripSuccess: 0,
+  touchLayoutsIntegrated: 0,
+  touchLayoutsExtracted: 0,
   filesCopied: 0,
   kmpJsonUpdated: 0,
   errors: []
@@ -242,14 +245,26 @@ function convertProjectToLdml(project) {
     try {
       // Read and parse KMN
       const kmnSource = fs.readFileSync(kmnPath, 'utf-8');
-      const parser = new KmnParser();
-      const ast = parser.parse(kmnSource, kmnPath);
 
-      // Generate LDML
-      const ldmlXml = generateLdml(ast, {
+      // Check for touch layout file
+      const touchLayoutPath = path.join(project.sourceDir, keyboardId + '.keyman-touch-layout');
+      let touchLayout = null;
+      if (fs.existsSync(touchLayoutPath)) {
+        try {
+          const touchLayoutJson = fs.readFileSync(touchLayoutPath, 'utf-8');
+          touchLayout = JSON.parse(touchLayoutJson);
+          stats.touchLayoutsIntegrated++;
+        } catch (e) {
+          // Touch layout parse failed, continue without it
+        }
+      }
+
+      // Generate LDML with touch layout integration
+      const ldmlXml = convertKmnToLdml(kmnSource, {
         keyboardId: keyboardId,
         locale: 'und',
-        conformsTo: '45'
+        conformsTo: '45',
+        touchLayout: touchLayout
       });
 
       // Write LDML file (replacing .kmn with .xml)
@@ -317,6 +332,14 @@ function convertProjectToKmn(project, ldmlConversions) {
       const rtKmnPath = path.join(rtProjectPath, 'source', conversion.keyboardId + '.kmn');
       fs.writeFileSync(rtKmnPath, kmnSource, 'utf-8');
 
+      // Extract touch layout from LDML
+      const touchLayout = extractTouchLayout(conversion.ldmlXml);
+      if (touchLayout) {
+        const touchLayoutPath = path.join(rtProjectPath, 'source', conversion.keyboardId + '.keyman-touch-layout');
+        fs.writeFileSync(touchLayoutPath, JSON.stringify(touchLayout, null, 2), 'utf-8');
+        stats.touchLayoutsExtracted++;
+      }
+
       stats.ldmlToKmnSuccess++;
       stats.roundTripSuccess++;
 
@@ -369,6 +392,8 @@ function generateReport(projects) {
   report.push(`| **Total Keyboards** | ${stats.totalKeyboards} | 100% |`);
   report.push(`| Files Copied | ${stats.filesCopied} | - |`);
   report.push(`| kmp.json Updated | ${stats.kmpJsonUpdated} | - |`);
+  report.push(`| Touch Layouts Integrated | ${stats.touchLayoutsIntegrated} | ${stats.totalKeyboards > 0 ? ((stats.touchLayoutsIntegrated/stats.totalKeyboards)*100).toFixed(1) : '0.0'}% |`);
+  report.push(`| Touch Layouts Extracted | ${stats.touchLayoutsExtracted} | ${stats.totalKeyboards > 0 ? ((stats.touchLayoutsExtracted/stats.totalKeyboards)*100).toFixed(1) : '0.0'}% |`);
   report.push(`| KMN → LDML Success | ${stats.kmnToLdmlSuccess} | ${((stats.kmnToLdmlSuccess/stats.totalKeyboards)*100).toFixed(1)}% |`);
   report.push(`| KMN → LDML Errors | ${stats.kmnToLdmlErrors} | ${((stats.kmnToLdmlErrors/stats.totalKeyboards)*100).toFixed(1)}% |`);
   report.push(`| LDML → KMN Success | ${stats.ldmlToKmnSuccess} | ${((stats.ldmlToKmnSuccess/stats.totalKeyboards)*100).toFixed(1)}% |`);

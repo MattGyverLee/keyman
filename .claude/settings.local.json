@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(node -e:*)",
-      "Read(//d/Github/keyboards/release-ldml/sil/sil_akebu/source/**)"
+      "Read(//d/Github/keyboards/release-ldml/sil/sil_akebu/source/**)",
+      "Bash(npx tsc:*)",
+      "Bash(node test-roundtrip-sil-akebu.js:*)",
+      "Read(//d/Github/keyboards/release-rt/sil/sil_akebu/source/**)",
+      "Bash(node:*)"
     ],
     "deny": [],
     "ask": []

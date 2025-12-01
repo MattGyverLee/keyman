@@ -214,7 +214,7 @@ export class LdmlGenerator {
       includeHardware: true,
       includeTouch: true,
       useSetMapping: true, // Enable set mapping by default
-      hardwareForm: 'us',
+      hardwareForm: 'iso', // Use ISO for maximum hardware compatibility
       ...options,
     };
   }
@@ -778,7 +778,7 @@ export class LdmlGenerator {
       return a.localeCompare(b);
     });
 
-    let xml = `${this.indent}<layers formId="us">\n`;
+    let xml = `${this.indent}<layers formId="${this.options.hardwareForm}">\n`;
 
     for (const modifiers of sortedModifiers) {
       xml += `${this.indent}${this.indent}<layer`;
