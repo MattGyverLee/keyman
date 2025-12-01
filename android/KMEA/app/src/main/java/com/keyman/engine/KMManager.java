@@ -2598,14 +2598,35 @@ public final class KMManager {
    * @see #getKeyboardHeightMax(Context, int)
    * @see #applyKeyboardHeight(Context, int, int)
    */
-  public static int getKeyboardHeightMin(Context context, int orientation) {
-    if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-      return (int) KMManager.KeyboardHeight_Context_Landscape_Default / 2;
-    } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-      return (int) KMManager.KeyboardHeight_Context_Portrait_Default / 2;
-    } else {
-      return KMManager.KeyboardHeight_Reset;
+  
+  // Preference keys for custom keyboard height
+  public static final String PREF_KEYBOARD_HEIGHT_PORTRAIT = "keyboard_height_portrait";
+  public static final String PREF_KEYBOARD_HEIGHT_LANDSCAPE = "keyboard_height_landscape";
+
+  public static int getKeyboardHeight(Context context) {
+    // Check for custom keyboard height in preferences
+    SharedPreferences prefs = context.getSharedPreferences(
+        context.getString(R.string.kma_prefs_name), Context.MODE_PRIVATE);
+
+    String key = isPortrait(context) ? PREF_KEYBOARD_HEIGHT_PORTRAIT : PREF_KEYBOARD_HEIGHT_LANDSCAPE;
+    int customHeight = prefs.getInt(key, -1);
+
+    if (customHeight > 0) {
+      return customHeight;
     }
+
+    // Fall back to default dimension
+    return (int) context.getResources().getDimension(R.dimen.keyboard_height);
+  }
+
+   /**
+   * Check if the device is in portrait orientation.
+   * @param context The context
+   * @return true if portrait, false if landscape
+   */
+  private static boolean isPortrait(Context context) {
+    Configuration config = context.getResources().getConfiguration();
+    return config.orientation == Configuration.ORIENTATION_PORTRAIT;
   }
 
   /**
