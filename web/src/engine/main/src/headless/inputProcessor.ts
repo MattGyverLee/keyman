@@ -417,8 +417,9 @@ export class InputProcessor {
       return null;
     }
 
-    // Sync context from the output target to the Core processor
-    const contextText = outputTarget.getText();
+    // Sync context from the output target to the Core processor.
+    // Core expects text before the caret, not the full document.
+    const contextText = outputTarget.getTextBeforeCaret();
     this._coreProcessor.setContext(contextText);
 
     // Process the keystroke through Core (web engine always processes key-down events)
