@@ -15,3 +15,4 @@ export {
   type CoreWasmModule,
   type WasmCoreKeyboardState
 } from './coreTypes.js';
+export { coreActionsToResult, type CoreActionResult } from './coreActionsToBehavior.js';

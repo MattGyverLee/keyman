@@ -37,6 +37,11 @@
       "types": "./build/engine/js-processor/obj/index.d.ts",
       "import": "./build/engine/js-processor/obj/index.js"
     },
+    "./engine/core-processor": {
+      "es6-bundling": "./src/engine/core-processor/src/index.ts",
+      "types": "./build/engine/core-processor/obj/index.d.ts",
+      "import": "./build/engine/core-processor/obj/index.js"
+    },
     "./engine/keyboard": {
       "es6-bundling": "./src/engine/keyboard/src/index.ts",
       "types": "./build/engine/keyboard/obj/index.d.ts",

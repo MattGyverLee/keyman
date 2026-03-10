@@ -22,6 +22,10 @@ import { TranscriptionCache } from "./transcriptionCache.js";
 import { LexicalModelTypes } from '@keymanapp/common-types';
 import { WorkerFactory } from "@keymanapp/lexical-model-layer";
 
+// Core WASM processor integration (for LDML and future Core-based keyboards)
+import type { CoreProcessor, CoreActions } from 'keyman/engine/core-processor';
+import { coreActionsToResult } from 'keyman/engine/core-processor';
+
 export class InputProcessor {
   public static readonly DEFAULT_OPTIONS: ProcessorInitOptions = {
     baseLayout: 'us'
@@ -35,6 +39,12 @@ export class InputProcessor {
   private contextDevice: DeviceSpec;
   private kbdProcessor: KeyboardProcessor;
   private lngProcessor: LanguageProcessor;
+
+  /**
+   * Optional Core WASM processor for LDML keyboards. When set, LDML keyboards
+   * will be processed through Keyman Core instead of the JS processor.
+   */
+  private _coreProcessor: CoreProcessor | null = null;
 
   private readonly contextCache = new TranscriptionCache();
 
@@ -74,6 +84,19 @@ export class InputProcessor {
     // All old deadkeys and keyboard-specific cache should immediately be invalidated
     // on a keyboard change.
     this.resetContext();
+  }
+
+  /**
+   * Sets the Core WASM processor for handling LDML keyboards.
+   * When set, keyboards that support Core processing will be routed through
+   * the WASM module instead of the JavaScript processor.
+   */
+  public set coreProcessor(processor: CoreProcessor | null) {
+    this._coreProcessor = processor;
+  }
+
+  public get coreProcessor(): CoreProcessor | null {
+    return this._coreProcessor;
   }
 
   public get activeModel(): ModelSpec {
@@ -380,10 +403,76 @@ export class InputProcessor {
     return alternates;
   }
 
+  /**
+   * Processes a keystroke through the Core WASM processor and converts
+   * the resulting actions into a RuleBehavior for the web engine pipeline.
+   *
+   * @param keyEvent      The key event to process.
+   * @param outputTarget  The output target to apply changes to.
+   * @returns             A RuleBehavior representing the Core's output, or null
+   *                      if the Core processor is not ready or returns no actions.
+   */
+  private processKeystrokeViaCore(keyEvent: KeyEvent, outputTarget: OutputTarget): RuleBehavior | null {
+    if(!this._coreProcessor || !this._coreProcessor.isReady) {
+      return null;
+    }
+
+    // Sync context from the output target to the Core processor
+    const contextText = outputTarget.getText();
+    this._coreProcessor.setContext(contextText);
+
+    // Process the keystroke through Core (web engine always processes key-down events)
+    const actions = this._coreProcessor.processEvent(
+      keyEvent.Lcode,
+      keyEvent.Lmodifiers,
+      true  // isKeyDown: web engine always handles key-down events
+    );
+
+    if(!actions || actions.error !== undefined) {
+      return null;
+    }
+
+    const result = coreActionsToResult(actions);
+
+    // If the keystroke should be passed through to the application
+    if(result.emitKeystroke) {
+      return null;
+    }
+
+    // Create a mock of the pre-input state
+    const preInputMock = Mock.from(outputTarget, true);
+
+    // Apply the Core's actions to the output target:
+    // 1. Delete codepoints
+    if(result.codePointsToDelete > 0) {
+      outputTarget.deleteCharsBeforeCaret(result.codePointsToDelete);
+    }
+
+    // 2. Insert output text
+    if(result.outputText.length > 0) {
+      outputTarget.insertTextBeforeCaret(result.outputText);
+    }
+
+    // Build a RuleBehavior from the result
+    const ruleBehavior = new RuleBehavior();
+    ruleBehavior.transcription = outputTarget.buildTranscriptionFrom(preInputMock, null, false);
+
+    if(result.beep) {
+      ruleBehavior.beep = true;
+    }
+
+    return ruleBehavior;
+  }
+
   public resetContext(outputTarget?: OutputTarget) {
     // Also handles new-context events, which may modify the layer
     this.keyboardProcessor.resetContext(outputTarget);
     // With the layer now set, we trigger new predictions.
     this.languageProcessor.invalidateContext(outputTarget, this.keyboardProcessor.layerId);
+
+    // Also clear Core processor context if active
+    if(this._coreProcessor) {
+      this._coreProcessor.clearContext();
+    }
   }
 }
