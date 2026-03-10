@@ -137,11 +137,20 @@ mock_files = files(
   'mock/mock_processor.cpp',
 )
 
+# Embind bindings for WASM consumers (web engine integration)
+wasm_binding_files = []
+if cpp_compiler.get_id() == 'emscripten'
+  wasm_binding_files = files(
+    'wasm/core_wasm_bindings.cpp',
+  )
+endif
+
 lib = library('keymancore',
   api_files,
   core_files,
   kmx_files,
   mock_files,
+  wasm_binding_files,
   version_res,
   generated_headers,
   cpp_args: defns + warns + flags,
