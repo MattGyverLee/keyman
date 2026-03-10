@@ -32,11 +32,11 @@ export enum CapsLockState {
  * Mirrors `km_core_context_status` from keyman_core_api.h.
  */
 export enum CoreContextStatus {
-  Updated = 0,
-  Unchanged = 1,
-  Error = 2,
-  InvalidArgument = 3,
-  ClearedByEmptyContext = 4,
+  Unchanged = 0,
+  Updated = 1,
+  Cleared = 2,
+  Error = 3,
+  InvalidArgument = 4,
 }
 
 /**

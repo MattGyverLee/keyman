@@ -1,5 +1,5 @@
 /*
-  Copyright:    © 2024 SIL International.
+  Copyright:    © 2026 SIL International.
   Description:  Emscripten embind bindings exposing Keyman Core C API to JavaScript.
                 Provides a thin marshaling layer for WASM consumers (e.g. the web engine).
   Create Date:  10 Mar 2026

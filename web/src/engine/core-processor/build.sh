@@ -17,8 +17,7 @@ SUBPROJECT_NAME=engine/core-processor
 builder_describe "Builds the Keyman Core WASM wrapper for the web engine." \
   "clean" \
   "configure" \
-  "build" \
-  "test"
+  "build"
 
 builder_describe_outputs \
   configure    "/node_modules" \

@@ -23,7 +23,7 @@ import { LexicalModelTypes } from '@keymanapp/common-types';
 import { WorkerFactory } from "@keymanapp/lexical-model-layer";
 
 // Core WASM processor integration (for LDML and future Core-based keyboards)
-import type { CoreProcessor, CoreActions } from 'keyman/engine/core-processor';
+import type { CoreProcessor } from 'keyman/engine/core-processor';
 import { coreActionsToResult } from 'keyman/engine/core-processor';
 
 export class InputProcessor {
