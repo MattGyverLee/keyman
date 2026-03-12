@@ -77,7 +77,7 @@ export class CoreProcessor {
   loadKeyboard(blob: Uint8Array): CoreStatus {
     this.disposeState();
     this.state = new this.wasmModule.CoreKeyboardState();
-    const status = this.state.loadKeyboard(blob);
+    const status = this.state.loadKeyboard(blob) as CoreStatus;
     if (status !== CoreStatus.OK) {
       this.disposeState();
     }
@@ -109,7 +109,7 @@ export class CoreProcessor {
     if (!this.state) {
       return CoreStatus.InvalidArgument;
     }
-    return this.state.activateKeyboard();
+    return this.state.activateKeyboard() as CoreStatus;
   }
 
   /**
@@ -123,7 +123,7 @@ export class CoreProcessor {
     if (!this.state) {
       return CoreContextStatus.InvalidArgument;
     }
-    return this.state.setContext(context);
+    return this.state.setContext(context) as CoreContextStatus;
   }
 
   /**
