@@ -19,25 +19,14 @@ import {
  * Converts an array of UTF-32 codepoints to a JavaScript string.
  */
 function codepointsToString(codepoints: readonly number[]): string {
-  let result = '';
-  for (const cp of codepoints) {
-    result += String.fromCodePoint(cp);
-  }
-  return result;
+  return String.fromCodePoint(...codepoints);
 }
 
 /**
  * Converts a JavaScript string to an array of UTF-32 codepoints.
  */
 function stringToCodepoints(str: string): number[] {
-  const result: number[] = [];
-  for (const ch of str) {
-    const cp = ch.codePointAt(0);
-    if (cp !== undefined) {
-      result.push(cp);
-    }
-  }
-  return result;
+  return [...str].map(ch => ch.codePointAt(0)!);
 }
 
 /**
@@ -173,7 +162,7 @@ export class CoreProcessor {
 
   private disposeState(): void {
     if (this.state) {
-      this.state.dispose();
+      // delete() invokes the C++ destructor which calls dispose() internally
       this.state.delete();
       this.state = null;
     }

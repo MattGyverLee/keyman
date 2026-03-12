@@ -8,9 +8,7 @@
 
 #include <emscripten/bind.h>
 #include <emscripten/val.h>
-#include <cstring>
 #include <string>
-#include <vector>
 
 #include "keyman_core.h"
 
@@ -19,6 +17,22 @@ using namespace emscripten;
 // ---------------------------------------------------------------------------
 // Helper: convert a km_core_actions struct to a JS-friendly object
 // ---------------------------------------------------------------------------
+
+/**
+ * Marshals a null-terminated km_core_usv (UTF-32) string into a JS array
+ * of codepoint numbers for lossless transfer across the WASM boundary.
+ */
+static val usv_to_js_array(km_core_usv const *usv) {
+  if (!usv) {
+    return val::array();
+  }
+  std::u32string u32str(reinterpret_cast<const char32_t *>(usv));
+  val arr = val::array();
+  for (size_t i = 0; i < u32str.size(); i++) {
+    arr.call<void>("push", static_cast<uint32_t>(u32str[i]));
+  }
+  return arr;
+}
 
 static val actions_to_js(km_core_actions const *actions) {
   if (!actions) {
@@ -31,30 +45,8 @@ static val actions_to_js(km_core_actions const *actions) {
   result.set("emit_keystroke", static_cast<bool>(actions->emit_keystroke));
   result.set("new_caps_lock_state", static_cast<int>(actions->new_caps_lock_state));
 
-  // Marshal output string (UTF-32 → JS string via UTF-16)
-  if (actions->output) {
-    std::u32string u32out(reinterpret_cast<const char32_t *>(actions->output));
-    // Convert UTF-32 to a JS array of codepoints for lossless transfer
-    val output_arr = val::array();
-    for (size_t i = 0; i < u32out.size(); i++) {
-      output_arr.call<void>("push", static_cast<uint32_t>(u32out[i]));
-    }
-    result.set("output", output_arr);
-  } else {
-    result.set("output", val::array());
-  }
-
-  // Marshal deleted_context similarly
-  if (actions->deleted_context) {
-    std::u32string u32del(reinterpret_cast<const char32_t *>(actions->deleted_context));
-    val del_arr = val::array();
-    for (size_t i = 0; i < u32del.size(); i++) {
-      del_arr.call<void>("push", static_cast<uint32_t>(u32del[i]));
-    }
-    result.set("deleted_context", del_arr);
-  } else {
-    result.set("deleted_context", val::array());
-  }
+  result.set("output", usv_to_js_array(actions->output));
+  result.set("deleted_context", usv_to_js_array(actions->deleted_context));
 
   // Marshal persist_options
   if (actions->persist_options) {
@@ -99,29 +91,23 @@ public:
       state_ = nullptr;
     }
 
-    // Copy Uint8Array data into a C++ vector
+    // Copy Uint8Array data from JS into WASM heap
     unsigned int length = blob_val["length"].as<unsigned int>();
-    std::vector<uint8_t> buf(length);
-    val memory = val::module_property("HEAPU8")["buffer"];
-    val memoryView = val::global("Uint8Array").new_(memory);
-
-    // Use a temporary heap allocation to copy JS typed array data
     uint8_t *heap_ptr = reinterpret_cast<uint8_t *>(malloc(length));
     if (!heap_ptr) {
       return KM_CORE_STATUS_NO_MEM;
     }
 
-    // Copy from JS
+    val memory = val::module_property("HEAPU8")["buffer"];
     val heap_view = val::global("Uint8Array").new_(
       memory, reinterpret_cast<uintptr_t>(heap_ptr), length
     );
     heap_view.call<void>("set", blob_val);
-    memcpy(buf.data(), heap_ptr, length);
-    free(heap_ptr);
 
     km_core_status status = km_core_keyboard_load_from_blob(
-      "", buf.data(), buf.size(), &keyboard_
+      "", heap_ptr, length, &keyboard_
     );
+    free(heap_ptr);
 
     if (status != KM_CORE_STATUS_OK) {
       return static_cast<int>(status);
