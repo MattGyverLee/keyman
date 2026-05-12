@@ -34,6 +34,38 @@ export default abstract class OutputTarget<EventMap extends EventEmitter.ValidEv
   }
 
   /**
+   * Resolves a caret at an element node to the last text node before that position.
+   * Firefox may report `anchorNode` as a parent element ("after the N-th child") rather than
+   * as a text node.  Returns null if no text content exists before the given position.
+   */
+  protected resolveCaretToTextNode(node: Node, offset: number): {node: Text, offset: number} | null {
+    if(node.nodeType === 3) {
+      return {node: node as Text, offset};
+    }
+    for(let i = offset - 1; i >= 0; i--) {
+      const result = this.lastTextNodeInSubtree(node.childNodes[i]);
+      if(result) {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  private lastTextNodeInSubtree(node: Node): {node: Text, offset: number} | null {
+    if(node.nodeType === 3) {
+      const t = node as Text;
+      return t.length > 0 ? {node: t, offset: t.length} : null;
+    }
+    for(let i = node.childNodes.length - 1; i >= 0; i--) {
+      const result = this.lastTextNodeInSubtree(node.childNodes[i]);
+      if(result) {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  /**
    * A helper method for doInputEvent; creates a simple common event and default dispatching.
    * @param elem
    */

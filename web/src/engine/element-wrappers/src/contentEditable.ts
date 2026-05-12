@@ -115,13 +115,8 @@ export default class ContentEditable extends OutputTarget<{}> {
     const caret = this.getCarets().start;
 
     if(caret.node.nodeType != 3) {
-      // Firefox may report caret positions at element nodes rather than text nodes.
-      // Resolve to the last text node before the caret position.
       const resolved = this.resolveCaretToTextNode(caret.node, caret.offset);
-      if(!resolved) {
-        return '';
-      }
-      return resolved.node.textContent.substr(0, resolved.offset);
+      return resolved ? resolved.node.textContent.substr(0, resolved.offset) : '';
     }
 
     return caret.node.textContent.substr(0, caret.offset);
@@ -158,25 +153,12 @@ export default class ContentEditable extends OutputTarget<{}> {
 
     const start = this.getCarets().start;
 
-    let textNode: Node;
-    let textOffset: number;
-    let resolvedFromElement = false;
-
-    if(start.node.nodeType != 3) {
-      // Firefox may report caret positions at element nodes rather than text nodes.
-      // Resolve to the last text node before the caret position.
-      const resolved = this.resolveCaretToTextNode(start.node, start.offset);
-      if(!resolved) {
-        console.warn("Deletion of characters requested without available context!");
-        return;
-      }
-      textNode = resolved.node;
-      textOffset = resolved.offset;
-      resolvedFromElement = true;
-    } else {
-      textNode = start.node;
-      textOffset = start.offset;
+    const resolved = this.resolveCaretToTextNode(start.node, start.offset);
+    if(!resolved) {
+      console.warn("Deletion of characters requested without available context!");
+      return;
     }
+    const { node: textNode, offset: textOffset } = resolved;
 
     // Bounds-check on the number of chars to delete.
     if(dn > textOffset) {
@@ -196,18 +178,11 @@ export default class ContentEditable extends OutputTarget<{}> {
     this.adjustDeadkeys(-dn);
     range.deleteContents();
 
-    if(resolvedFromElement) {
-      // When we resolved from an element-node caret, the browser won't auto-move the selection
-      // (it was pointing at a different node than the one we deleted from).  Reposition it explicitly.
-      const sel = this.root.ownerDocument.getSelection();
-      const caretRange = this.root.ownerDocument.createRange();
-      caretRange.setStart(textNode, dnOffset);
-      caretRange.collapse(true);
-      sel.removeAllRanges();
-      sel.addRange(caretRange);
+    if(start.node.nodeType != 3) {
+      // Caret was at an element node; the browser won't auto-adjust the selection since we
+      // deleted from a different (resolved) node.  Reposition explicitly.
+      this.root.ownerDocument.getSelection().collapse(textNode, dnOffset);
     }
-    // Otherwise: no need to reposition - the DOM will auto-move the selection since the
-    // selection was already within the text node we deleted from.
   }
 
   insertTextBeforeCaret(s: string) {
@@ -301,38 +276,6 @@ export default class ContentEditable extends OutputTarget<{}> {
       range.collapse(true);
       range.insertNode(n);
     }
-  }
-
-  /**
-   * Resolves a caret position at an element node to the last text node before that position.
-   * Firefox may report `anchorNode` as a parent element (e.g. "after the N-th child") rather
-   * than as the text node itself.  Returns null if no text content exists before the position.
-   */
-  private resolveCaretToTextNode(node: Node, offset: number): {node: Text, offset: number} | null {
-    if(node.nodeType === 3) {
-      return {node: node as Text, offset};
-    }
-    for(let i = offset - 1; i >= 0; i--) {
-      const result = this.lastTextNodeInSubtree(node.childNodes[i]);
-      if(result) {
-        return result;
-      }
-    }
-    return null;
-  }
-
-  private lastTextNodeInSubtree(node: Node): {node: Text, offset: number} | null {
-    if(node.nodeType === 3) {
-      const t = node as Text;
-      return t.length > 0 ? {node: t, offset: t.length} : null;
-    }
-    for(let i = node.childNodes.length - 1; i >= 0; i--) {
-      const result = this.lastTextNodeInSubtree(node.childNodes[i]);
-      if(result) {
-        return result;
-      }
-    }
-    return null;
   }
 
   doInputEvent() {

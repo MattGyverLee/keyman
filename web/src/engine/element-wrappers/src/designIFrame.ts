@@ -137,12 +137,8 @@ export default class DesignIFrame extends OutputTarget<{}> {
     const caret = this.getCarets().start;
 
     if(caret.node.nodeType != 3) {
-      // Firefox may report caret positions at element nodes rather than text nodes.
       const resolved = this.resolveCaretToTextNode(caret.node, caret.offset);
-      if(!resolved) {
-        return '';
-      }
-      return resolved.node.textContent.substr(0, resolved.offset);
+      return resolved ? resolved.node.textContent.substr(0, resolved.offset) : '';
     }
 
     return caret.node.textContent.substr(0, caret.offset);
@@ -179,24 +175,12 @@ export default class DesignIFrame extends OutputTarget<{}> {
 
     const start = this.getCarets().start;
 
-    let textNode: Node;
-    let textOffset: number;
-    let resolvedFromElement = false;
-
-    if(start.node.nodeType != 3) {
-      // Firefox may report caret positions at element nodes rather than text nodes.
-      const resolved = this.resolveCaretToTextNode(start.node, start.offset);
-      if(!resolved) {
-        console.warn("Deletion of characters requested without available context!");
-        return;
-      }
-      textNode = resolved.node;
-      textOffset = resolved.offset;
-      resolvedFromElement = true;
-    } else {
-      textNode = start.node;
-      textOffset = start.offset;
+    const resolved = this.resolveCaretToTextNode(start.node, start.offset);
+    if(!resolved) {
+      console.warn("Deletion of characters requested without available context!");
+      return;
     }
+    const { node: textNode, offset: textOffset } = resolved;
 
     // Bounds-check on the number of chars to delete.
     if(dn > textOffset) {
@@ -216,13 +200,8 @@ export default class DesignIFrame extends OutputTarget<{}> {
     this.adjustDeadkeys(-dn);
     range.deleteContents();
 
-    if(resolvedFromElement) {
-      const sel = this.doc.getSelection();
-      const caretRange = this.doc.createRange();
-      caretRange.setStart(textNode, dnOffset);
-      caretRange.collapse(true);
-      sel.removeAllRanges();
-      sel.addRange(caretRange);
+    if(start.node.nodeType != 3) {
+      this.doc.getSelection().collapse(textNode, dnOffset);
     }
   }
 
@@ -379,33 +358,6 @@ export default class DesignIFrame extends OutputTarget<{}> {
         this.doc.execCommand(cmd.cmd, false, null);
       }
     }
-  }
-
-  private resolveCaretToTextNode(node: Node, offset: number): {node: Text, offset: number} | null {
-    if(node.nodeType === 3) {
-      return {node: node as Text, offset};
-    }
-    for(let i = offset - 1; i >= 0; i--) {
-      const result = this.lastTextNodeInSubtree(node.childNodes[i]);
-      if(result) {
-        return result;
-      }
-    }
-    return null;
-  }
-
-  private lastTextNodeInSubtree(node: Node): {node: Text, offset: number} | null {
-    if(node.nodeType === 3) {
-      const t = node as Text;
-      return t.length > 0 ? {node: t, offset: t.length} : null;
-    }
-    for(let i = node.childNodes.length - 1; i >= 0; i--) {
-      const result = this.lastTextNodeInSubtree(node.childNodes[i]);
-      if(result) {
-        return result;
-      }
-    }
-    return null;
   }
 
   doInputEvent() {
