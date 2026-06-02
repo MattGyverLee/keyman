@@ -19,6 +19,7 @@
 /windows/src/**/*.identcache
 /windows/src/**/*.vcxproj.user
 /windows/src/**/version.res
+/windows/src/**/version*.res
 /windows/src/**/*.pch
 /windows/src/**/*.wixobj
 /windows/src/**/*.sbr
@@ -190,3 +191,6 @@ lcov.info
 # see common/tools/api-extractor/README.md
 tsdoc.json
 api-extractor.json
+
+# Meson wrap dependency lock files
+**/subprojects/.wraplock
