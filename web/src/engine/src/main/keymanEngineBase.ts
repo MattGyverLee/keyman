@@ -1,9 +1,12 @@
+/*
+ * Keyman is copyright (C) SIL Global. MIT License.
+ */
 import { type KeyEvent, JSKeyboard, Keyboard, KeyboardProperties, KeyboardKeymanGlobal, ProcessorAction } from "keyman/engine/keyboard";
 import { ProcessorInitOptions } from 'keyman/engine/js-processor';
 import { DOMKeyboardLoader } from "keyman/engine/keyboard";
 import { WorkerFactory } from "@keymanapp/lexical-model-layer/web"
 import { InputProcessor } from './headless/inputProcessor.js';
-import { OSKView, KeyboardData } from "keyman/engine/osk";
+import { OSKView } from "keyman/engine/osk";
 import { KeyboardRequisitioner, ModelCache, toUnprefixedKeyboardId, DOMCloudRequester } from "keyman/engine/keyboard-storage";
 import { ModelSpec, PredictionContext } from "keyman/engine/interfaces";
 
@@ -55,6 +58,7 @@ export class KeymanEngineBase<
 
   private keyEventListener: KeyEventFullHandler = (event, callback) => {
     const textStore = this.contextManager.activeTextStore;
+    const predictionContext = this.contextManager.predictionContext;
 
     if (!this.contextManager.activeKeyboard || !textStore) {
       if(callback) {
@@ -88,7 +92,7 @@ export class KeymanEngineBase<
         this.core.keyboardProcessor.layerId = oskLayer;
       }
     }
-    const result = this.core.processKeyEvent(event, textStore);
+    const result = this.core.processKeyEvent(event, textStore, predictionContext);
 
     if(result && result.transcription?.transform) {
       this.config.onRuleFinalization(result, this.contextManager.activeTextStore);
@@ -249,6 +253,7 @@ export class KeymanEngineBase<
 
     const keyboardProcessor = this.core.keyboardProcessor;
     const predictionContext = new PredictionContext(this.core.languageProcessor, () => keyboardProcessor.layerId);
+    // Set the prediction context within languageProcessor (or InputProcessor / this.core)
     this.contextManager.configure({
       resetContext: (textStore) => {
         // Could reset the textStore's deadkeys here, but it's really more of a 'core' task.
@@ -330,10 +335,6 @@ export class KeymanEngineBase<
         this.config.deferForInitialization.then(eventRaiser);
       }
     });
-
-    this.keyboardRequisitioner.cache.on('keyboardadded', (keyboard) => {
-      this.legacyAPIEvents.callEvent('keyboardloaded', { keyboardName: keyboard.id });
-    });
     //
     // #endregion
 
@@ -342,6 +343,8 @@ export class KeymanEngineBase<
 
   /**
    * Public API:  Denotes the 'patch' component of the version of the current engine.
+   *
+   * 19.0: deprecated
    *
    * https://help.keyman.com/developer/engine/web/current-version/reference/core/build
    */
@@ -352,10 +355,39 @@ export class KeymanEngineBase<
   /**
    * Public API:  Denotes the major & minor components of the version of the current engine.
    *
+   * 19.0: deprecated
+   *
    * https://help.keyman.com/developer/engine/web/current-version/reference/core/version
    */
   public get version(): string {
     return KEYMAN_VERSION.VERSION_RELEASE;
+  }
+
+  /**
+   * Public API:  Returns version information for the current engine
+   *
+   * 19.0: introduced, replacing build and version properties
+   *
+   * https://help.keyman.com/developer/engine/web/current-version/reference/core/versionInfo
+   */
+  public get versionInfo(): {
+    full: string;
+    major: number;
+    minor: number;
+    patch: number;
+    version: string;
+    tier: string;
+    environment: string;
+  } {
+    return {
+      full:        KEYMAN_VERSION.VERSION_WITH_TAG,
+      major:       parseInt(KEYMAN_VERSION.VERSION_MAJOR, 10),
+      minor:       parseInt(KEYMAN_VERSION.VERSION_MINOR, 10),
+      patch:       parseInt(KEYMAN_VERSION.VERSION_PATCH, 10),
+      version:     KEYMAN_VERSION.VERSION,
+      tier:        KEYMAN_VERSION.TIER,
+      environment: KEYMAN_VERSION.VERSION_ENVIRONMENT,
+    }
   }
 
   public get hardKeyboard(): HardKeyboardT {
@@ -386,9 +418,11 @@ export class KeymanEngineBase<
     this.core.keyboardProcessor.contextDevice = value?.targetDevice ?? this.config.softDevice;
     if(value) {
       // Don't build an OSK if no keyboard is available yet; avoid the extra flash.
-      if (this.contextManager.activeKeyboard && this.contextManager.activeKeyboard instanceof KeyboardData) { // TODO-embed-osk-in-kmx: add support for OSK for KMX keyboards
+      if (this.contextManager.activeKeyboard) {
         value.activeKeyboard = this.contextManager.activeKeyboard;
       }
+      value.bannerController.selectBanner(this.core.languageProcessor.state);
+      value.refreshLayout();
       value.on('keyevent', this.keyEventListener);
       this.core.keyboardProcessor.layerStore.handler = value.layerChangeHandler;
     }

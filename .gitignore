@@ -200,3 +200,7 @@ lcov.info
 
 # Meson wrap dependency lock files
 **/subprojects/.wraplock
+
+# see common/tools/api-extractor/README.md
+tsdoc.json
+api-extractor.json

@@ -48,8 +48,8 @@ export class KeymanEngine extends KeymanEngineBase<BrowserConfiguration, Context
   public getOskWidth?: () => number = null;
 
   /**
-   * Provides a quick link to the base help page for Keyman keyboards.
-   *
+   * Public API: Provides a quick link to the base help page for Keyman keyboards. (deprecated)
+   * @deprecated
    * See https://help.keyman.com/developer/engine/web/current-version/reference/core/helpURL
    */
   public readonly helpURL = 'https://help.keyman.com/go';
@@ -131,12 +131,14 @@ export class KeymanEngine extends KeymanEngineBase<BrowserConfiguration, Context
 
   public set ui(module: UIModule) {
     if(this._ui) {
+      this.legacyAPIEvents.callEvent('unloaduserinterface', {});
       this._ui.shutdown();
     }
 
     this._ui = module;
-    if(this.config.deferForInitialization.isFulfilled) {
+    if(module && this.config.deferForInitialization.isFulfilled) {
       module.initialize();
+      this.legacyAPIEvents.callEvent('loaduserinterface', {});
     }
   }
 
@@ -257,7 +259,7 @@ export class KeymanEngine extends KeymanEngineBase<BrowserConfiguration, Context
    *                activationPending (bool):   KMW being activated
    *                activated         (bool):   KMW active
    *
-   * See https://help.keyman.com/developer/engine/web/16.0/reference/core/getUIState
+   * See https://help.keyman.com/developer/engine/web/current-version/reference/core/getUIState
    */
   public getUIState(): FocusStateAPIObject {
     return this.contextManager.focusAssistant.getUIState();
@@ -266,7 +268,7 @@ export class KeymanEngine extends KeymanEngineBase<BrowserConfiguration, Context
   /**
    * Set or clear the IsActivatingKeymanWebUI flag (exposed function)
    *
-   * See https://help.keyman.com/developer/engine/web/16.0/reference/core/activatingUI
+   * See https://help.keyman.com/developer/engine/web/current-version/reference/core/activatingUI
    *
    * @param       {(boolean|number)}  state  Activate (true,false)
    */
@@ -275,35 +277,41 @@ export class KeymanEngine extends KeymanEngineBase<BrowserConfiguration, Context
   }
 
   /**
-   * Function     setKeyboardForControl
-   * Scope        Public
-   * @param       {Element}    Pelem    Control element
-   * @param       {string|null=}    Pkbd     JSKeyboard (Clears the set keyboard if set to null.)
-   * @param       {string|null=}     Plc      Language Code
-   * Description  Set default keyboard for the control
+   * Associate control with independent keyboard settings initialized to a specific keyboard.
+   * The pair of `keyboard` and `languageCode` (if not `null`) must refer to a
+   * registered keyboard stub.
    *
    * See https://help.keyman.com/developer/engine/web/current-version/reference/core/setKeyboardForControl
+   *
+   * @param       {Element}       elem          The control element to be managed manually
+   * @param       {string|null=}  keyboard      The id of a keyboard, consisting of the word
+   *                                            `Keyboard_` followed by the internal keyboard
+   *                                            name. For a keyboard with the internal name
+   *                                            `laokeys` this would be `Keyboard_laokeys`.
+   *                                            If `null` clears the set keyboard.
+   * @param       {string|null=}  languageCode  A BCP47 language code which was used when
+   *                                            registering the keyboard stub.
    */
-  public setKeyboardForControl(Pelem: HTMLElement, Pkbd?: string, Plc?: string): void {
-    if(Pelem instanceof Pelem.ownerDocument.defaultView.HTMLIFrameElement) {
+  public setKeyboardForControl(elem: HTMLElement, keyboard?: string, languageCode?: string): void {
+    if(elem instanceof elem.ownerDocument.defaultView.HTMLIFrameElement) {
       console.warn("'keymanweb.setKeyboardForControl' cannot set keyboard on iframes.");
       return;
     }
 
-    if(!this.isAttached(Pelem)) {
-      console.error("KeymanWeb is not attached to element " + Pelem);
+    if(!this.isAttached(elem)) {
+      console.error("KeymanWeb is not attached to element " + elem);
       return;
     }
 
     let stub = null;
-    if(Pkbd) {
-      stub = this.keyboardRequisitioner.cache.getStub(Pkbd, Plc);
+    if(keyboard) {
+      stub = this.keyboardRequisitioner.cache.getStub(keyboard, languageCode);
       if(!stub) {
-        throw new Error(`No keyboard has been registered with id ${Pkbd} and language code ${Plc}.`);
+        throw new Error(`No keyboard has been registered with id ${keyboard} and language code ${languageCode}.`);
       }
     }
 
-    this.contextManager.setKeyboardForTextStore(Pelem._kmwAttachment.textStore, Pkbd, Plc);
+    this.contextManager.setKeyboardForTextStore(elem._kmwAttachment.textStore, keyboard, languageCode);
   }
 
   /**
@@ -400,7 +408,7 @@ export class KeymanEngine extends KeymanEngineBase<BrowserConfiguration, Context
    */
   // TODO-web-core: check each property of Lstub for KMXKeyboard availability
   private _GetKeyboardDetail(Lstub: KeyboardStub, Lkbd: Keyboard): KeyboardDetails { // I2078 - Full keyboard detail
-   return {
+   return Lstub && {
       Name: Lstub.KN,
       InternalName: Lstub.KI,
       LanguageName: Lstub.KL,  // I1300 - Add support for language names
@@ -461,12 +469,7 @@ export class KeymanEngine extends KeymanEngineBase<BrowserConfiguration, Context
     const stub = this.keyboardRequisitioner.cache.getStub(id, langCode);
     const keyboard = this.keyboardRequisitioner.cache.getKeyboardForStub(stub);
 
-    if (keyboard instanceof JSKeyboard) {
-      return stub && this._GetKeyboardDetail(stub, keyboard);
-    } else {
-      // TODO-web-core: do this work in _GetKeyboardDetail (implement for KMX keyboards)
-      return null;
-    }
+    return this._GetKeyboardDetail(stub, keyboard);
   }
 
   /**
@@ -483,11 +486,9 @@ export class KeymanEngine extends KeymanEngineBase<BrowserConfiguration, Context
     const keyboardStubs = cache.getStubList()
     for (const stub of keyboardStubs) {
       const keyboard = cache.getKeyboardForStub(stub);
-      if (keyboard instanceof JSKeyboard) {
-        const keyboardDetails = this._GetKeyboardDetail(stub, keyboard);
+      const keyboardDetails = this._GetKeyboardDetail(stub, keyboard);
+      if (keyboardDetails) {
         detailsForAllKeyboards.push(keyboardDetails);
-      } else {
-        // TODO-web-core:  do this work in _GetKeyboardDetail (implement for KMX keyboards if needed)
       }
     }
     return detailsForAllKeyboards;
@@ -544,7 +545,7 @@ export class KeymanEngine extends KeymanEngineBase<BrowserConfiguration, Context
    * See https://help.keyman.com/developer/engine/web/current-version/reference/core/getLastActiveElement
    */
   public getLastActiveElement(): HTMLElement | null {
-    return this.contextManager.lastActiveTextStore?.getElement();
+    return this.contextManager.lastActiveTextStore?.getElement() ?? null;
   }
 
   /**
@@ -717,8 +718,6 @@ export class KeymanEngine extends KeymanEngineBase<BrowserConfiguration, Context
     this.core.languageProcessor.shutdown();
     this.hardKeyboard.shutdown();
     this.util.shutdown(); // For tracked dom events, stylesheets.
-
-    this.legacyAPIEvents.callEvent('unloaduserinterface', {});
-    this.ui?.shutdown();
+    this.ui = undefined; // will shutdown and call event listeners
   }
 }
