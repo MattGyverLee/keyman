@@ -350,10 +350,20 @@ begin
 end;
 
 procedure TfrmOSKOnScreenKeyboard.ResetShiftStates;
+var
+  FRemaining: TExtShiftState;
 begin
   KL.Log('ResetShiftStates: FShiftState=%s Cache=%s kbd.ShiftState=%s', [ExtShiftStateToString(FShiftState), ExtShiftStateToString(FCachedShiftState), ExtShiftStateToString(kbd.ShiftState)]);
 
-  ShiftStateChange(FShiftState - FCachedShiftState, kbd.ShiftState);   // I1144 // I2177 (FShiftState - FCachedShiftState instead of []).  This does only clicked shift keys
+  // #8064: release only, never press. PrepState presses when a modifier is in its first set and
+  // not its second, so passing FShiftState - FCachedShiftState could press one after a
+  // modifier-off click. A subset of kbd.ShiftState cannot, and still releases the clicked set,
+  // preserving I2177's intent.
+  FRemaining := kbd.ShiftState - FCachedShiftState;
+  ShiftStateChange(FRemaining, kbd.ShiftState);   // I1144 // I2177
+
+  // Makes a second call a no-op.
+  kbd.ShiftState    := FRemaining;
   FCachedShiftState := [];
 end;
 
