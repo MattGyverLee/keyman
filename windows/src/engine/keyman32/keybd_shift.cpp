@@ -241,6 +241,30 @@ BOOL ReconcileModifierCache(LPBYTE const kbd, PGETASYNCKEYSTATE pfnGetAsyncKeySt
 }
 
 /**
+  ComputeModifierReleaseState fills releaseStateOut with the union of the modifiers the cache holds
+  and the modifiers the OS holds.
+
+  Parameters: kbd                  the modifier cache (256 bytes). Read, never written
+              releaseStateOut      256 bytes, the release set. Must not alias kbd
+              pfnGetAsyncKeyState  live modifier state reader; production passes GetAsyncKeyState
+
+  The mirror of #8064: a modifier the OS holds that the cache never saw would otherwise let the
+  batch inject its output keys with that modifier live. The union is explicit so that removing the
+  reconcile cannot quietly make this a cache-only read.
+*/
+void ComputeModifierReleaseState(LPBYTE const kbd, LPBYTE releaseStateOut, PGETASYNCKEYSTATE pfnGetAsyncKeyState) {
+  // Zeroed in full: no caller stack residue reaches keybd_shift_release.
+  memset(releaseStateOut, 0, 256);
+
+  for (int i = 0; i < _countof(KeymanModifierVks); i++) {
+    const BYTE vk = KeymanModifierVks[i];
+    if ((kbd[vk] & 0x80) || pfnGetAsyncKeyState(vk) < 0) {
+      releaseStateOut[vk] = 0x80;
+    }
+  }
+}
+
+/**
   PrepareInjectedInputBatch assembles one injected batch into pInputs and returns the event count:
   release half, output keys, restore half.
 
@@ -265,7 +289,11 @@ int PrepareInjectedInputBatch(
   // below presses it for real. See #8064.
   ReconcileModifierCache(kbd, pfnGetAsyncKeyState);
 
-  keybd_shift(pInputs, &n, FALSE, kbd);
+  // A local, never member state: a second long-lived cache is a second thing to keep in sync.
+  BYTE releaseState[256];
+  ComputeModifierReleaseState(kbd, releaseState, pfnGetAsyncKeyState);
+
+  keybd_shift(pInputs, &n, FALSE, releaseState);
 
   for (DWORD i = 0; i < nInputs && n < MAX_KEYEVENT_INPUTS - MAX_KEYEVENT_INPUTS_MODIFIERS; i++, n++) {
     pInputs[n].type           = INPUT_KEYBOARD;
@@ -276,6 +304,9 @@ int PrepareInjectedInputBatch(
     pInputs[n].ki.dwExtraInfo = (ULONG_PTR)pSharedData->inputs[i].extraInfo;
   }
 
+  // Not reconciled here: mid-batch the OS state is Keyman's own doing, not ground truth. And kbd,
+  // never releaseState -- re-pressing on the OS's word is unsafe, since the user may let go before
+  // SendInput runs. That unmatched KEYDOWN is #8064.
   keybd_shift(pInputs, &n, TRUE, kbd);
 
   return n;
