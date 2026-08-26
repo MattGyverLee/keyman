@@ -238,6 +238,8 @@ extern const BYTE KeymanModifierVks[KEYMAN_MODIFIER_VK_COUNT];
 
 BOOL ReconcileModifierCache(LPBYTE const kbd, PGETASYNCKEYSTATE pfnGetAsyncKeyState);
 
+void ComputeModifierReleaseState(LPBYTE const kbd, LPBYTE releaseStateOut, PGETASYNCKEYSTATE pfnGetAsyncKeyState);
+
 //#define KEYEVENT_EXTRAINFO_KEYMAN 0xF00F0000   // I4370
 
 #ifndef _WIN64   // I4326

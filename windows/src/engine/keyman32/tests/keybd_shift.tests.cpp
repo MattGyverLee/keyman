@@ -495,6 +495,216 @@ TEST_F(PREPARE_INJECTED_INPUT_BATCH, NeverWritesPastTheBufferWhenTheSharedBuffer
   EXPECT_EQ(n, MAX_KEYEVENT_INPUTS) << "worst case should fill the buffer exactly, 256 of 256";
 }
 
+/*
+  The mirror of #8064: the cache byte clear while the OS reports the modifier held. The release half
+  reads only the cache and the reconcile only ever clears, so nothing emitted a KEYUP and the output
+  keys went out with the modifier live.
+*/
+TEST_F(PREPARE_INJECTED_INPUT_BATCH, OsHeldModifierIsReleasedBeforeTheOutputKeys) {
+  kbd[VK_LSHIFT]              = 0;    // cache: clear -- Keyman never saw the KEYDOWN
+  g_stubAsyncState[VK_LSHIFT] = 0x80; // OS: genuinely held right now
+  AddOutputKey('A');
+
+  RunBatch();
+
+  const int release = IndexOf(VK_SHIFT, true);
+  const int output  = IndexOf('A', false);
+
+  ASSERT_NE(release, -1) << "no KEYUP was emitted for a modifier the OS reports held: the output "
+                         << "keys are injected while Shift is physically down";
+  ASSERT_NE(output, -1);
+  EXPECT_LT(release, output) << "the release must precede the output keys to have any effect";
+}
+
+/*
+  The restore half must read the cache alone. Re-pressing on the OS's word is unsafe: the user may
+  let go before SendInput runs, which is #8064 inverted. Passes before the fix as well as after.
+*/
+TEST_F(PREPARE_INJECTED_INPUT_BATCH, OsHeldModifierIsNotRestoredAfterTheOutputKeys) {
+  kbd[VK_LSHIFT]              = 0;    // cache: clear
+  g_stubAsyncState[VK_LSHIFT] = 0x80; // OS: held
+  AddOutputKey('A');
+
+  RunBatch();
+
+  EXPECT_EQ(Count(VK_SHIFT, false), 0)
+      << "the restore half pressed a modifier the cache never held. The user may release it "
+      << "before SendInput runs, and that unmatched KEYDOWN is #8064 from the other direction";
+  EXPECT_EQ(kbd[VK_LSHIFT], (BYTE)0) << "the batch must not write the OS's view into the cache";
+}
+
+/*
+  Where cache and OS agree, behaviour is exactly as it was.
+*/
+TEST_F(PREPARE_INJECTED_INPUT_BATCH, AgreementCasesAreUnchanged) {
+  // Both held: released before the output keys, restored after, exactly as today.
+  kbd[VK_LSHIFT]              = 0x80;
+  g_stubAsyncState[VK_LSHIFT] = 0x80;
+  AddOutputKey('A');
+
+  RunBatch();
+
+  EXPECT_EQ(Count(VK_SHIFT, true), 1) << "a genuinely held modifier is released once";
+  EXPECT_EQ(Count(VK_SHIFT, false), 1) << "and restored once";
+  EXPECT_LT(IndexOf(VK_SHIFT, true), IndexOf(VK_SHIFT, false));
+
+  // Both up: no modifier events at all, and no prefix keystroke either.
+  Rewind();
+  memset(&sharedData, 0, sizeof(sharedData));
+  memset(g_stubAsyncState, 0, sizeof(g_stubAsyncState));
+  AddOutputKey('A');
+
+  RunBatch();
+
+  EXPECT_EQ(Count(VK_SHIFT, true), 0);
+  EXPECT_EQ(Count(VK_SHIFT, false), 0);
+  EXPECT_EQ(Count(PREFIX_VK, false), 0) << "nothing to release, so not even a prefix keystroke";
+  EXPECT_EQ(n, 1) << "the output key and nothing else";
+}
+
+/*
+  ComputeModifierReleaseState at the function level rather than through the batch.
+*/
+class COMPUTE_MODIFIER_RELEASE_STATE : public RECONCILE_MODIFIER_CACHE {
+protected:
+  BYTE releaseState[256];
+
+  void
+  Fill(BYTE value) {
+    memset(releaseState, value, sizeof(releaseState));
+  }
+};
+
+/*
+  Pre-fill with 0xFF and confirm every byte the function does not set comes back zero.
+*/
+TEST_F(COMPUTE_MODIFIER_RELEASE_STATE, ZeroesTheWholeArrayFirst) {
+  Fill(0xFF);
+
+  ComputeModifierReleaseState(kbd, releaseState, StubGetAsyncKeyState);
+
+  for (int vk = 0; vk < 256; vk++) {
+    EXPECT_EQ(releaseState[vk], (BYTE)0) << "byte " << vk << " kept caller stack residue";
+  }
+}
+
+/*
+  The union, over each of the four cache/OS combinations.
+*/
+TEST_F(COMPUTE_MODIFIER_RELEASE_STATE, IsTheUnionOfCacheAndLiveState) {
+  // cache only
+  Fill(0xFF);
+  kbd[VK_LSHIFT] = 0x80;
+  ComputeModifierReleaseState(kbd, releaseState, StubGetAsyncKeyState);
+  EXPECT_EQ(releaseState[VK_LSHIFT], (BYTE)0x80) << "cache-held must be released, as today";
+
+  // OS only -- the mirror direction
+  Fill(0xFF);
+  memset(kbd, 0, sizeof(kbd));
+  g_stubAsyncState[VK_LCONTROL] = 0x80;
+  ComputeModifierReleaseState(kbd, releaseState, StubGetAsyncKeyState);
+  EXPECT_EQ(releaseState[VK_LCONTROL], (BYTE)0x80) << "OS-held must be released: this is G1";
+
+  // both
+  Fill(0xFF);
+  kbd[VK_RMENU]              = 0x80;
+  g_stubAsyncState[VK_RMENU] = 0x80;
+  ComputeModifierReleaseState(kbd, releaseState, StubGetAsyncKeyState);
+  EXPECT_EQ(releaseState[VK_RMENU], (BYTE)0x80);
+
+  // neither
+  Fill(0xFF);
+  memset(kbd, 0, sizeof(kbd));
+  memset(g_stubAsyncState, 0, sizeof(g_stubAsyncState));
+  ComputeModifierReleaseState(kbd, releaseState, StubGetAsyncKeyState);
+  for (int i = 0; i < (int)_countof(KeymanModifierVks); i++) {
+    EXPECT_EQ(releaseState[KeymanModifierVks[i]], (BYTE)0) << "nothing held, nothing released";
+  }
+}
+
+/*
+  Nothing outside the managed set is set, whatever the OS reports. A stuck letter or toggle key is a
+  different defect.
+*/
+TEST_F(COMPUTE_MODIFIER_RELEASE_STATE, SetsNoByteOutsideTheManagedSet) {
+  Fill(0xFF);
+  memset(g_stubAsyncState, 0x80, sizeof(g_stubAsyncState)); // OS: every key held
+  memset(kbd, 0x80, sizeof(kbd));                          // cache: every key held
+
+  ComputeModifierReleaseState(kbd, releaseState, StubGetAsyncKeyState);
+
+  for (int vk = 0; vk < 256; vk++) {
+    bool managed = false;
+    for (int i = 0; i < (int)_countof(KeymanModifierVks); i++) {
+      if (KeymanModifierVks[i] == vk) {
+        managed = true;
+      }
+    }
+    if (managed) {
+      EXPECT_EQ(releaseState[vk], (BYTE)0x80) << "managed slot " << vk << " should be set";
+    } else {
+      EXPECT_EQ(releaseState[vk], (BYTE)0) << "byte " << vk << " is outside the managed set";
+    }
+  }
+}
+
+/*
+  A reader of the cache, never a writer: writing the OS's view into kbd is what the restore half
+  would then press.
+*/
+TEST_F(COMPUTE_MODIFIER_RELEASE_STATE, NeverModifiesTheCache) {
+  BYTE before[256];
+  for (int vk = 0; vk < 256; vk++) {
+    kbd[vk] = (BYTE)(vk & 0xFF);
+  }
+  memcpy(before, kbd, sizeof(before));
+  memset(g_stubAsyncState, 0x80, sizeof(g_stubAsyncState)); // OS: everything held
+
+  ComputeModifierReleaseState(kbd, releaseState, StubGetAsyncKeyState);
+
+  EXPECT_EQ(memcmp(kbd, before, sizeof(before)), 0) << "the cache was modified";
+}
+
+/*
+  The release set is a superset of the cache, so the release half never emits fewer releases than it
+  does today.
+*/
+TEST_F(COMPUTE_MODIFIER_RELEASE_STATE, IsASupersetOfTheCache) {
+  for (int i = 0; i < (int)_countof(KeymanModifierVks); i++) {
+    kbd[KeymanModifierVks[i]] = 0x80; // cache: all six held
+  }
+  memset(g_stubAsyncState, 0, sizeof(g_stubAsyncState)); // OS: none held
+
+  ComputeModifierReleaseState(kbd, releaseState, StubGetAsyncKeyState);
+
+  for (int i = 0; i < (int)_countof(KeymanModifierVks); i++) {
+    const BYTE vk = KeymanModifierVks[i];
+    EXPECT_TRUE((kbd[vk] & 0x80) == 0 || (releaseState[vk] & 0x80) != 0)
+        << "slot " << (int)vk << " is held in the cache but not in the release set";
+  }
+}
+
+/*
+  The reserve must hold for the union too. An all-zero cache with the OS reporting every modifier
+  held is the widest the release half gets.
+*/
+TEST_F(COMPUTE_MODIFIER_RELEASE_STATE, ModifierEventCountNeverExceedsReserveForTheUnion) {
+  for (int i = 0; i < (int)_countof(KeymanModifierVks); i++) {
+    g_stubAsyncState[KeymanModifierVks[i]] = 0x80; // OS: all six held
+  }
+  // kbd stays all zero: the cache holds nothing at all. This is the union's widest divergence.
+
+  ComputeModifierReleaseState(kbd, releaseState, StubGetAsyncKeyState);
+
+  keybd_shift(inputs, &n, FALSE, releaseState);
+  EXPECT_EQ(n, 8) << "prefix down + prefix up + 6 modifier keyups, from the OS side alone";
+  EXPECT_LE(n, MAX_KEYEVENT_INPUTS_MODIFIERS);
+
+  n = 0;
+  keybd_shift(inputs, &n, TRUE, kbd);
+  EXPECT_EQ(n, 0) << "the restore half must not press what the cache never held";
+}
+
 namespace {
 struct SeedProbeResult {
   BOOL getKeyboardStateOk;
