@@ -248,6 +248,9 @@ private:
   BOOL InitThread() {
     m_pInputs = new INPUT[MAX_KEYEVENT_INPUTS];
 
+    // This thread has no input queue yet, so GetKeyboardState looks like it should return nothing;
+    // it returns live state. See DISABLED_FreshThreadKeyboardStateReflectsLiveModifiers. A modifier
+    // held at launch is captured here and goes stale if released before the hook feed starts.
     GetKeyboardState(m_ModifierKeyboardState);
 
     WNDCLASS wndClass = { 0 };
