@@ -209,3 +209,38 @@ void keybd_shift(LPINPUT pInputs, int *n, BOOL isReset, LPBYTE const kbd) {
   }
 }
 
+
+/**
+  PrepareInjectedInputBatch assembles one injected batch into pInputs and returns the event count:
+  release half, output keys, restore half.
+
+  Parameters: pInputs              at least MAX_KEYEVENT_INPUTS INPUT structures
+              kbd                  the modifier cache (256 bytes)
+              pSharedData          the output keys to wrap; nInputs is clamped here
+
+  A free function so the gtest project can reach it; serialkeyeventserver.cpp is #ifndef _WIN64.
+  The output-key copy stops MAX_KEYEVENT_INPUTS_MODIFIERS short of the end so the restore half
+  fits: the worst case fills the buffer exactly, so an off-by-one is a heap overrun. See #8064.
+*/
+int PrepareInjectedInputBatch(
+  LPINPUT pInputs,
+  LPBYTE const kbd,
+  const SerialKeyEventSharedData *pSharedData) {
+  DWORD nInputs = min(pSharedData->nInputs, MAX_KEYEVENT_INPUTS);
+  int n         = 0;
+
+  keybd_shift(pInputs, &n, FALSE, kbd);
+
+  for (DWORD i = 0; i < nInputs && n < MAX_KEYEVENT_INPUTS - MAX_KEYEVENT_INPUTS_MODIFIERS; i++, n++) {
+    pInputs[n].type           = INPUT_KEYBOARD;
+    pInputs[n].ki.wVk         = pSharedData->inputs[i].wVk;
+    pInputs[n].ki.wScan       = pSharedData->inputs[i].wScan;
+    pInputs[n].ki.dwFlags     = pSharedData->inputs[i].dwFlags;
+    pInputs[n].ki.time        = pSharedData->inputs[i].time;
+    pInputs[n].ki.dwExtraInfo = (ULONG_PTR)pSharedData->inputs[i].extraInfo;
+  }
+
+  keybd_shift(pInputs, &n, TRUE, kbd);
+
+  return n;
+}
