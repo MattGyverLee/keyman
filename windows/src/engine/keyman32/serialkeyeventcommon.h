@@ -5,10 +5,13 @@
 // Keyman rule, less a bit of space for modifier shenanigans
 #define MAX_KEYEVENT_INPUTS 256
 
-// We need to reserve space for up to 6 modifier key events + 2 prefix key events
-// at the end of the buffer in order to make sure that we can reset the modifier
-// state at the end of the output. This value depends on keybd_shift behaviour
-#define MAX_KEYEVENT_INPUTS_MODIFIERS 8 
+// Length of the KeymanModifierVks table (keymanengine.h).
+#define KEYMAN_MODIFIER_VK_COUNT 6
+
+// We need to reserve space for up to KEYMAN_MODIFIER_VK_COUNT modifier key events + 2 prefix
+// key events at the end of the buffer in order to make sure that we can reset the modifier
+// state at the end of the output. This value depends on keybd_shift behaviour.
+#define MAX_KEYEVENT_INPUTS_MODIFIERS (KEYMAN_MODIFIER_VK_COUNT + 2)
 
 #define KEYEVENT_WINDOW_CLASS "Keyman_KeyEventConsumerWnd"
 
