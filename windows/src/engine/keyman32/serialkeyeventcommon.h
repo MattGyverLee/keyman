@@ -1,5 +1,7 @@
 #pragma once
 
+#include <windows.h>
+
 // We permit up to 256 input events in a single transaction
 // This allows roughly 120 characters to be output from a single
 // Keyman rule, less a bit of space for modifier shenanigans
@@ -43,5 +45,12 @@ struct SerialKeyEventSharedData {
   DWORD nInputs;
   CSDINPUT inputs[MAX_KEYEVENT_INPUTS];
 };
+
+// Defined in keybd_shift.cpp. Outside any _WIN64 guard on purpose, so both architectures and the
+// gtest project can reach it.
+int PrepareInjectedInputBatch(
+  LPINPUT pInputs,
+  LPBYTE const kbd,
+  const SerialKeyEventSharedData *pSharedData);
 
 
