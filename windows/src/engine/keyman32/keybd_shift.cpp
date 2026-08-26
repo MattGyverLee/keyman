@@ -23,6 +23,17 @@
 #include "kbd.h"
 
 /**
+  The modifier virtual keys Keyman manages. Every modifier loop iterates this table, and
+  KEYMAN_MODIFIER_VK_COUNT derives MAX_KEYEVENT_INPUTS_MODIFIERS, so adding one is a single edit.
+
+  Not the low level hook's accepted-VK set: that is nine VKs (isModifierKey, guarded by
+  IsModifierKeyAcceptsExactlyNineVks) which collapse into these six. Do not unify them.
+*/
+const BYTE KeymanModifierVks[KEYMAN_MODIFIER_VK_COUNT] = {
+  VK_LMENU, VK_RMENU, VK_LCONTROL, VK_RCONTROL, VK_LSHIFT, VK_RSHIFT
+};
+
+/**
   do_keybd_event adds a keyboard event into the keyboard event queue.
 
   Parameters: pInputs  array of INPUT structures which we will fill with our key events.
@@ -130,18 +141,17 @@ void keybd_sendprefix(LPINPUT pInputs, int *n)
                        the initial modifier state for later restoration by keybd_shift_reset
 */
 void keybd_shift_release(LPINPUT pInputs, int *n, LPBYTE const kbd) {
-  const BYTE modifiers[6] = { VK_LMENU, VK_RMENU, VK_LCONTROL, VK_RCONTROL, VK_LSHIFT, VK_RSHIFT };
   BOOL hasSentPrefix = FALSE;
 
   SendDebugEntry();
-  for (int i = 0; i < _countof(modifiers); i++) {
-    if (kbd[modifiers[i]] & 0x80) {
+  for (int i = 0; i < _countof(KeymanModifierVks); i++) {
+    if (kbd[KeymanModifierVks[i]] & 0x80) {
       if (!hasSentPrefix) {
         keybd_sendprefix(pInputs, n);
         hasSentPrefix = TRUE;
       }
-      SendDebugMessageFormat("sending keyup vkey=%s", Debug_VirtualKey(modifiers[i]));
-      do_keybd_event(pInputs, n, modifiers[i], SCAN_FLAG_KEYMAN_KEY_EVENT, KEYEVENTF_KEYUP, 0);
+      SendDebugMessageFormat("sending keyup vkey=%s", Debug_VirtualKey(KeymanModifierVks[i]));
+      do_keybd_event(pInputs, n, KeymanModifierVks[i], SCAN_FLAG_KEYMAN_KEY_EVENT, KEYEVENTF_KEYUP, 0);
     }
   }
   SendDebugExit();
@@ -159,14 +169,13 @@ void keybd_shift_release(LPINPUT pInputs, int *n, LPBYTE const kbd) {
                        keybd_shift_release
 */
 void keybd_shift_reset(LPINPUT pInputs, int *n, LPBYTE const kbd) {
-  const BYTE modifiers[6] = { VK_LMENU, VK_RMENU, VK_LCONTROL, VK_RCONTROL, VK_LSHIFT, VK_RSHIFT };
   BOOL needsPrefix = FALSE;
 
   SendDebugEntry();
-  for (int i = 0; i < _countof(modifiers); i++) {
-    if (kbd[modifiers[i]] & 0x80) {
-      SendDebugMessageFormat("sending keydown vkey=%s", Debug_VirtualKey(modifiers[i]));
-      do_keybd_event(pInputs, n, modifiers[i], SCAN_FLAG_KEYMAN_KEY_EVENT, 0, 0);
+  for (int i = 0; i < _countof(KeymanModifierVks); i++) {
+    if (kbd[KeymanModifierVks[i]] & 0x80) {
+      SendDebugMessageFormat("sending keydown vkey=%s", Debug_VirtualKey(KeymanModifierVks[i]));
+      do_keybd_event(pInputs, n, KeymanModifierVks[i], SCAN_FLAG_KEYMAN_KEY_EVENT, 0, 0);
       needsPrefix = TRUE;
     }
   }
