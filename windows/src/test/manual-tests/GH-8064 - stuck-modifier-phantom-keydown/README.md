@@ -101,6 +101,22 @@ and it is the step no ordinary test performs.
 - Notepad open. Nothing more elaborate is needed, and nothing that holds real
   data should be used. See Hazards.
 
+## Result
+
+Reproduced and fixed, measured on the same machine with one variable changed:
+
+| engine | freeze active | rules firing | modifier wedged |
+|---|---|---|---|
+| shipped build, `keyman32.dll` 1,232,504 bytes | 5/5 | 5/5 | **5/5 FAIL** |
+| fixed build, `keyman32.dll` 4,197,376 bytes | 5/5 | 5/5 | **0/5 PASS** |
+
+`host32.exe --probe 1x2x3x --wait-for-rule 120 --iterations 5`, Left Shift held and
+released 1500 ms into the stall, Windows 11 Pro 26200. Full reports in `evidence/`.
+
+The wedged modifier was reported as `SHIFT, LSHIFT` -- both the side-agnostic and
+the chiral VK. Reading only the six cache slots would have scored the wedged
+machine clean, which is why the oracle reads all nine.
+
 ## Automated harness
 
 `run-8064-test.ps1` performs steps 3 to 7 below: it holds the modifier, posts the
