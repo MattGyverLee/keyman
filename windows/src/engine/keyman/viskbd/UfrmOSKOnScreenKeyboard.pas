@@ -220,7 +220,7 @@ end;
 
 procedure TfrmOSKOnScreenKeyboard.kbdShiftChange(Sender: TObject);
 var
-  ass, fkcss: TExtShiftState;
+  ass, fkcss, FMask: TExtShiftState;
 begin
   fkcss := kbd.ShiftState;
   ass := GetAsyncShiftState;
@@ -244,9 +244,34 @@ begin
   // physically-held one is excluded. Accumulate rather than assign, because by the time a second
   // modifier is clicked the first has genuinely been injected and now reads as down -- a plain
   // subtraction would drop it. Masking with kbd.ShiftState then drops anything clicked back off.
-  FCachedShiftState := (FCachedShiftState + (fkcss - ass)) * fkcss;
-
+  // #8064: ShiftStateChange runs BEFORE the cache is updated, and that ordering is load-bearing.
+  // Its release branch reads FCachedShiftState to find the chiral identity actually injected, and
+  // the mask below would otherwise have already destroyed it: after a SetLRShift collapse a
+  // click-off leaves fkcss carrying nothing from that family -- essRCtrl was collapsed to essCtrl,
+  // then toggled off -- so `* fkcss` strips essRCtrl one line before the release needs it.
+  // Measured 2026-08-27: with the update first, the click-off fell back to unextended VK_CONTROL
+  // and left extended VK_RCONTROL held, which is the very defect the release branch exists to fix.
+  // ShiftStateChange also removes from the cache whatever it released, so running it first keeps
+  // that removal and the accumulate below from fighting over the same field.
   ShiftStateChange(fkcss, ass);
+
+  // Widen across the Ctrl/Alt families before masking. FCachedShiftState may name a modifier in a
+  // representation SetLRShift has since collapsed or expanded, and a bare `* fkcss` would drop a
+  // still-held chiral entry merely because some unrelated modifier was clicked under the new
+  // regime -- click R Ctrl, switch keyboard, click Shift, and essRCtrl would vanish from the cache
+  // with the key still down. Widen only when fkcss still carries something from that family: when
+  // it carries nothing the family really is off, and the entry should go.
+  //
+  // Widening is safe against I2177 because it only ever *retains* entries, never adds: the
+  // additive term is `fkcss - ass`, which already excludes anything physically held, so every
+  // member the mask can preserve was vetted when it went in.
+  FMask := fkcss;
+  if fkcss * [essCtrl, essLCtrl, essRCtrl] <> [] then
+    FMask := FMask + [essCtrl, essLCtrl, essRCtrl];
+  if fkcss * [essAlt, essLAlt, essRAlt] <> [] then
+    FMask := FMask + [essAlt, essLAlt, essRAlt];
+
+  FCachedShiftState := (FCachedShiftState + (fkcss - ass)) * FMask;
 end;
 
 (**
