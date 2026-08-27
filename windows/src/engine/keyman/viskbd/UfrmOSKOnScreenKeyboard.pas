@@ -124,6 +124,16 @@ procedure TfrmOSKOnScreenKeyboard.kbdKeyPressed(Sender: TOnScreenKeyboard; Key: 
 var
   vk, scan: Integer;
   fkcss, ass: TExtShiftState;
+  // #8064: sampled once alongside fkcss/ass below, and used for both the PrepState and FinalState
+  // branch selection that follow. kbd.LRShift is re-readable at any time (a keyboard switch can
+  // flip it), but fkcss/ass are frozen snapshots taken under whatever regime was current at entry;
+  // if kbd.LRShift were re-read separately for FinalState (after the character keydown/keyup and
+  // the koReleaseShiftKeysAfterKeyPress COM property get -- either of which could in principle pump
+  // messages and let a keyboard switch land), FinalState could select essCtrl/essAlt while fkcss/ass
+  // still encode essLCtrl/essRCtrl/essLAlt/essRAlt (or vice versa), so the "shift in fkcss" checks
+  // would never match and a PrepState suppression would go unrestored. Freezing the regime here
+  // keeps PrepState and FinalState reading fkcss/ass under the same encoding they were captured in.
+  LLRShift: Boolean;
 
 
   procedure PrepState(fkcss, ass: TExtShiftState; shift: TExtShiftStateValue; vk: Integer);
@@ -141,7 +151,19 @@ var
   begin
     if vk in [VK_RCONTROL, VK_RMENU] then FExtended := KEYEVENTF_EXTENDEDKEY else FExtended := 0;
     if (shift in fkcss) and not (shift in ass) then do_keybd_event(vk, 0, FExtended or KEYEVENTF_KEYUP, 0)
-    else if not (shift in fkcss) and (shift in ass) then do_keybd_event(vk, 0, FExtended, 0);
+    else if not (shift in fkcss) and (shift in ass) then
+    begin
+      // #8064: `ass` was sampled once, before the character keydown/keyup and the
+      // koReleaseShiftKeysAfterKeyPress COM property check that follows it, to know what
+      // PrepState temporarily released and needs restoring here. If the user has physically
+      // released this modifier in that window, restoring it from the stale sample would be an
+      // injected KEYDOWN with nothing left to match it with a KEYUP. Re-check live state
+      // immediately before restoring; PrepState's own press (undone by the branch above, from the
+      // same stale sample) needs no such check, since undoing our own temporary press is safe
+      // regardless of what happens physically in between.
+      if (GetAsyncKeyState(vk) and $8000) = $8000 then
+        do_keybd_event(vk, 0, FExtended, 0);
+    end;
   end;
 begin
   KL.Log('kbdKeyPressed - Value: %s Key: %s USVKey=%x VKey=%x FPositional:%s', [Key.KeyValue, Key.ActiveKeyCap, Key.USVKey, Key.VKey, BoolToStr(FPositional, True)]);
@@ -154,9 +176,10 @@ begin
 
   fkcss := kbd.ShiftState;
   ass := GetAsyncShiftState;
+  LLRShift := kbd.LRShift;
 
   PrepState(fkcss, ass, essShift, VK_SHIFT);
-  if kbd.LRShift then
+  if LLRShift then
   begin
     PrepState(fkcss, ass, essLCtrl, VK_LCONTROL);
     PrepState(fkcss, ass, essLAlt, VK_LMENU);
@@ -180,7 +203,7 @@ begin
   else
   begin
     FinalState(fkcss, ass, essShift, VK_SHIFT);
-    if kbd.LRShift then
+    if LLRShift then
     begin
       FinalState(fkcss, ass, essLCtrl, VK_LCONTROL);
       FinalState(fkcss, ass, essLAlt, VK_LMENU);
@@ -196,26 +219,15 @@ begin
 end;
 
 procedure TfrmOSKOnScreenKeyboard.kbdShiftChange(Sender: TObject);
-  procedure PrepState(fkcss, ass: TExtShiftState; shift: TExtShiftStateValue; vk: Integer);
-  var
-    FExtended: Dword;
-  begin
-    if vk in [VK_RCONTROL, VK_RMENU] then FExtended := KEYEVENTF_EXTENDEDKEY else FExtended := 0;
-    if (shift in fkcss) and not (shift in ass) then do_keybd_event(vk, 0, FExtended, 0)
-    else if not (shift in fkcss) and (shift in ass) then do_keybd_event(vk, 0, FExtended or KEYEVENTF_KEYUP, 0);
-  end;
-
-  procedure FinalState(fkcss, ass: TExtShiftState; shift: TExtShiftStateValue; vk: Integer);
-  var
-    FExtended: Dword;
-  begin
-    if vk in [VK_RCONTROL, VK_RMENU] then FExtended := KEYEVENTF_EXTENDEDKEY else FExtended := 0;
-    if (shift in fkcss) and not (shift in ass) then do_keybd_event(vk, 0, FExtended or KEYEVENTF_KEYUP, 0)
-    else if not (shift in fkcss) and (shift in ass) then do_keybd_event(vk, 0, FExtended, 0);
-  end;
 var
   ass, fkcss: TExtShiftState;
 begin
+  // #8064: FCachedShiftState records what the OSK itself has clicked outstanding, and is what
+  // ResetShiftStates releases from -- by exact chiral identity, so that a later SetLRShift collapse
+  // cannot mislabel it. It is snapshotted here, from a click and only from a click: ShiftStateChange
+  // is also reached from UpdateShiftStates' 50 ms resync, whose press branch fires for modifiers the
+  // user is physically holding, and recording those would let teardown release a key the user still
+  // has down -- the I2177 regression this must not reintroduce.
   FCachedShiftState := kbd.ShiftState;
 
   fkcss := kbd.ShiftState;
@@ -291,6 +303,15 @@ begin
 end;
 
 procedure TfrmOSKOnScreenKeyboard.ShiftStateChange(kbdShift, asyncShift: TExtShiftState);
+  // #8064: this path still selects the release VK from the CURRENT kbd.LRShift, so after a
+  // SetLRShift collapse (OnScreenKeyboard.pas:885-937) an explicit click-off releases the generic
+  // VK_CONTROL/VK_MENU -- Left -- even when the key actually held is the extended right-hand one.
+  // Teardown no longer has that flaw (ResetShiftStates releases by recorded chiral identity), but
+  // the live click-off does. Fixing it here means making FCachedShiftState an injection-accurate
+  // record maintained by this procedure, which cannot be done safely without also distinguishing
+  // clicks from UpdateShiftStates' 50 ms resync -- whose press branch fires for physically-held
+  // modifiers, and recording those would let teardown release a key the user still has down.
+  // Left as-is deliberately, and tracked as its own issue; see MODIFIER-PRODUCERS.md.
   procedure PrepState(fkcss, ass: TExtShiftState; shift: TExtShiftStateValue; vk: Integer);
   var
     FExtended: Dword;
@@ -298,15 +319,6 @@ procedure TfrmOSKOnScreenKeyboard.ShiftStateChange(kbdShift, asyncShift: TExtShi
     if vk in [VK_RCONTROL, VK_RMENU] then FExtended := KEYEVENTF_EXTENDEDKEY else FExtended := 0;
     if (shift in fkcss) and not (shift in ass) then do_keybd_event(vk, 0, FExtended, 0)
     else if not (shift in fkcss) and (shift in ass) then do_keybd_event(vk, 0, FExtended or KEYEVENTF_KEYUP, 0);
-  end;
-
-  procedure FinalState(fkcss, ass: TExtShiftState; shift: TExtShiftStateValue; vk: Integer);
-  var
-    FExtended: Dword;
-  begin
-    if vk in [VK_RCONTROL, VK_RMENU] then FExtended := KEYEVENTF_EXTENDEDKEY else FExtended := 0;
-    if (shift in fkcss) and not (shift in ass) then do_keybd_event(vk, 0, FExtended or KEYEVENTF_KEYUP, 0)
-    else if not (shift in fkcss) and (shift in ass) then do_keybd_event(vk, 0, FExtended, 0);
   end;
 begin
   KL.Log('ShiftStateChange: kbdShift=%s asyncShift=%s ', [ExtShiftStateToString(kbdShift), ExtShiftStateToString(asyncShift)]);
@@ -351,20 +363,56 @@ end;
 
 procedure TfrmOSKOnScreenKeyboard.ResetShiftStates;
 var
-  FRemaining: TExtShiftState;
+  FRemaining, FExpandedCache: TExtShiftState;
+
+  // #8064: kbd.LRShift may have changed since a chiral modifier was clicked -- e.g. the user
+  // switches keyboards while the OSK stays open, and SetLRShift (OnScreenKeyboard.pas:885-937)
+  // collapses essLCtrl/essRCtrl or essLAlt/essRAlt in kbd.ShiftState down to the generic
+  // essCtrl/essAlt. After that, kbd.ShiftState can no longer say which chiral VK is actually
+  // down, and kbd.LRShift can no longer say which VK a release should target -- going via
+  // ShiftStateChange, which branches on the CURRENT kbd.LRShift, releases VK_CONTROL/VK_MENU
+  // (Left) even when the modifier that is actually stuck is VK_RCONTROL/VK_RMENU, which no
+  // keystroke can clear on hardware without that physical key.
+  //
+  // FCachedShiftState is written only from a live click (kbdShiftChange) and is never touched by
+  // that collapse, so it still names the exact VK that was actually injected. Release
+  // that VK directly -- bypassing kbd.ShiftState/kbd.LRShift's current representation entirely --
+  // and only if the OS still reports it down, which is what keeps this from releasing a modifier
+  // the user is genuinely, physically holding (I2177) and what makes a second call a no-op. This
+  // can only ever emit a KEYUP, so it can never press a modifier the user is not holding.
+  procedure ReleaseCached(shift: TExtShiftStateValue; vk: Integer; extended: DWord);
+  begin
+    if (shift in FCachedShiftState) and ((GetAsyncKeyState(vk) and $8000) = $8000) then
+      do_keybd_event(vk, 0, extended or KEYEVENTF_KEYUP, 0);
+  end;
+
 begin
   KL.Log('ResetShiftStates: FShiftState=%s Cache=%s kbd.ShiftState=%s', [ExtShiftStateToString(FShiftState), ExtShiftStateToString(FCachedShiftState), ExtShiftStateToString(kbd.ShiftState)]);
 
-  // #8064: release only, never press. PrepState presses when a modifier is in its first set and
-  // not its second, so passing FShiftState - FCachedShiftState could press one after a
-  // modifier-off click. A subset of kbd.ShiftState cannot, and still releases the clicked set,
-  // preserving I2177's intent.
-  FRemaining := kbd.ShiftState - FCachedShiftState;
-  ShiftStateChange(FRemaining, kbd.ShiftState);   // I1144 // I2177
+  ReleaseCached(essShift, VK_SHIFT,    0);
+  ReleaseCached(essCtrl,  VK_CONTROL,  0);
+  ReleaseCached(essLCtrl, VK_LCONTROL, 0);
+  ReleaseCached(essRCtrl, VK_RCONTROL, KEYEVENTF_EXTENDEDKEY);
+  ReleaseCached(essAlt,   VK_MENU,     0);
+  ReleaseCached(essLAlt,  VK_LMENU,    0);
+  ReleaseCached(essRAlt,  VK_RMENU,    KEYEVENTF_EXTENDEDKEY);
 
-  // Makes a second call a no-op.
+  // Makes a second call a no-op, and stops kbd.ShiftState claiming (for rendering) a modifier OSK
+  // itself is no longer holding sticky. FCachedShiftState may name a modifier in a representation
+  // SetLRShift has since collapsed or expanded in kbd.ShiftState (e.g. essRCtrl clicked, then
+  // collapsed to essCtrl by a keyboard switch), so widen to the whole Ctrl/Alt family before
+  // subtracting, to clear kbd.ShiftState whichever form it is currently carrying it in.
+  FExpandedCache := FCachedShiftState;
+  if FCachedShiftState * [essCtrl, essLCtrl, essRCtrl] <> [] then
+    FExpandedCache := FExpandedCache + [essCtrl, essLCtrl, essRCtrl];
+  if FCachedShiftState * [essAlt, essLAlt, essRAlt] <> [] then
+    FExpandedCache := FExpandedCache + [essAlt, essLAlt, essRAlt];
+
+  FRemaining := kbd.ShiftState - FExpandedCache;
   kbd.ShiftState    := FRemaining;
   FCachedShiftState := [];
+
+  UpdateKeyboard(False);   // I1144 // I2177
 end;
 
 procedure TfrmOSKOnScreenKeyboard.tmrCheckTimer(Sender: TObject);
