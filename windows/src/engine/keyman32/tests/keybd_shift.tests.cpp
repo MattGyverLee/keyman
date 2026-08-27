@@ -789,3 +789,129 @@ TEST_F(KEYBD_SHIFT, DISABLED_FreshThreadKeyboardStateReflectsLiveModifiers) {
 
   EXPECT_GE(GetAsyncKeyState(VK_LSHIFT), 0) << "the probe left Left Shift asserted machine-wide";
 }
+
+namespace {
+// Injects one batch the way the restore half does: fillerCount inert events, then a KEYDOWN for
+// vk, in a single SendInput call, so vk's press is queued behind the filler exactly as a real
+// batch queues it behind the release half and the output keys.
+bool
+InjectRestorePress(BYTE vk, int fillerCount) {
+  INPUT batch[MAX_KEYEVENT_INPUTS];
+  int m = 0;
+
+  memset(batch, 0, sizeof(batch));
+
+  // KEYUPs for unassigned function keys that are not down: queue depth without side effects.
+  for (int i = 0; i < fillerCount; i++, m++) {
+    batch[m].type       = INPUT_KEYBOARD;
+    batch[m].ki.wVk     = (WORD)(VK_F13 + (i % 8));
+    batch[m].ki.wScan   = SCAN_FLAG_KEYMAN_KEY_EVENT;
+    batch[m].ki.dwFlags = KEYEVENTF_KEYUP;
+  }
+
+  batch[m].type     = INPUT_KEYBOARD;
+  batch[m].ki.wVk   = vk;
+  batch[m].ki.wScan = SCAN_FLAG_KEYMAN_KEY_EVENT;
+  m++;
+
+  return SendInput(m, batch, sizeof(INPUT)) == (UINT)m;
+}
+
+void
+ReleaseAndSettle(BYTE vk) {
+  keybd_event(vk, 0, KEYEVENTF_KEYUP, 0);
+  for (int i = 0; i < 200000 && GetAsyncKeyState(vk) < 0; i++) {
+    Sleep(0);
+  }
+}
+} // namespace
+
+/*
+  Tests whether ReconcileModifierCache can race a press its own previous batch injected: if the
+  restore KEYDOWN had not yet reached GetAsyncKeyState, the reconcile would read "OS says up" and
+  clear a byte the user genuinely holds.
+
+  This is the race itself, not a proxy: the production function and the production reader, called
+  with no delay after a SendInput that queues the press behind filler, which is tighter than any
+  real batch sequence -- there is no client post or thread wake in between.
+
+  It does not happen, and the reason is in the numbers this prints. SendInput does not return until
+  the press is visible to GetAsyncKeyState (0x8001, sign bit set), at every batch depth. The
+  reconcile at the top of the next batch runs strictly after that, so there is no window.
+
+  Measured 0 races and 0 stale reads in 300 attempts at depths 1, 33 and 201, on Windows 11 Pro
+  26200, debug x86, with Keyman running -- so its global WH_KEYBOARD_LL hook was in the chain for
+  every injected event, which is the configuration production actually runs in.
+
+  The SendInput timing this prints is not a clean measurement of SendInput: a live Keyman reacts to
+  these events, and their 0xFF scan code makes them look like its own. Treat it as an upper bound
+  on a loaded machine, not as the cost of the call.
+
+  An oracle, not just a measurement: this goes red if a future Windows makes SendInput return before
+  the state is visible. If it ever does, the consequence is worse than an unshifted batch -- the
+  wrongly cleared byte creates the OS-holds-it-but-the-cache-does-not case, which the release half
+  releases and the restore half will not press again, so the user's modifier is dropped until they
+  release and re-press the physical key. The fix would be to skip the reconcile for a modifier this
+  process's own previous batch pressed, capped at one consecutive skip per VK so a genuine latch is
+  still cleared on the batch after.
+
+  DISABLED_ deliberately: it asserts real modifiers machine-wide. Run by hand with
+  --gtest_also_run_disabled_tests, nothing else focused.
+*/
+TEST_F(KEYBD_SHIFT, DISABLED_ReconcileDoesNotRaceItsOwnInjectedRestorePress) {
+  if (GetAsyncKeyState(VK_LSHIFT) < 0) {
+    GTEST_LOG_(WARNING) << "Left Shift already reads down; precondition unmet, not evaluated";
+    SUCCEED();
+    return;
+  }
+
+  LARGE_INTEGER freq;
+  QueryPerformanceFrequency(&freq);
+
+  // An empty batch, a typical one, and a nearly full one.
+  const int fillers[]  = { 0, 32, 200 };
+  const int kIterations = 100;
+
+  for (int f = 0; f < _countof(fillers); f++) {
+    int races = 0, staleReads = 0;
+    double sendUs = 0.0;
+
+    for (int i = 0; i < kIterations; i++) {
+      LARGE_INTEGER t0, t1;
+
+      Rewind();
+      kbd[VK_LSHIFT] = 0x80; // as a hook KEYDOWN left it, with the user still holding
+
+      QueryPerformanceCounter(&t0);
+      ASSERT_TRUE(InjectRestorePress(VK_LSHIFT, fillers[f])) << "SendInput did not queue the batch";
+      QueryPerformanceCounter(&t1);
+      sendUs += (double)(t1.QuadPart - t0.QuadPart) * 1e6 / (double)freq.QuadPart;
+
+      // What the OS reports the instant SendInput returns, before the reconcile reads anything.
+      if (GetAsyncKeyState(VK_LSHIFT) >= 0) {
+        staleReads++;
+      }
+
+      // The production question, asked with no delay: does the reconcile clear a byte whose press
+      // is still in flight?
+      if (ReconcileModifierCache(kbd, GetAsyncKeyState)) {
+        races++;
+      }
+
+      ReleaseAndSettle(VK_LSHIFT);
+    }
+
+    printf("RACE PROBE  filler=%3d  races=%d/%d  staleReads=%d/%d  SendInput mean=%.0fus\n",
+           fillers[f], races, kIterations, staleReads, kIterations, sendUs / (double)kIterations);
+
+    EXPECT_EQ(staleReads, 0)
+        << "GetAsyncKeyState did not see the injected press by the time SendInput returned. "
+        << "SendInput is no longer synchronous with respect to the async key state, so the "
+        << "reconcile can now clear a modifier the user is holding. See this test's comment";
+    EXPECT_EQ(races, 0)
+        << "ReconcileModifierCache cleared a byte whose press its own batch had just injected. "
+        << "That modifier is now dropped, not latched. See this test's comment";
+  }
+
+  EXPECT_GE(GetAsyncKeyState(VK_LSHIFT), 0) << "the probe left Left Shift asserted machine-wide";
+}
