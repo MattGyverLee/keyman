@@ -4,15 +4,12 @@
   keyman32.dll for the branch build (or restores it).
 
 .DESCRIPTION
-  Both operations need administrator rights, which is why they are not part of host32.exe:
-
-  - Installing a Keyman keyboard requires admin.
-  - keyman32.dll lives under Program Files (x86) and is loaded into every hooked 32-bit process, so
-    Keyman has to be stopped before it can be replaced.
+  Both operations need administrator rights, so neither is part of host32.exe: installing a Keyman
+  keyboard requires admin, and keyman32.dll lives under Program Files (x86) and is loaded into every
+  hooked 32-bit process, so Keyman must be stopped before it can be replaced.
 
   The DLL swap always writes a timestamped backup first, and -Restore puts the most recent one back.
-  Nothing here touches the user's own keyboards; the test keyboard can be removed afterwards from
-  Keyman Configuration.
+  Nothing here touches the user's own keyboards.
 
   Intended order for the experiment:
 
@@ -22,8 +19,8 @@
     4. run host32 again                      (not elevated)  -- a PASS closes the issue
     5. -Restore                              (elevated)      -- put the shipped engine back
 
-  Step 2 matters as much as step 4: without it a PASS in step 4 cannot be distinguished from a
-  defect that never reproduced on this machine in the first place.
+  Step 2 matters as much as step 4: without it a PASS cannot be told from a defect that never
+  reproduced on this machine.
 
 .PARAMETER InstallKeyboard
   Installs common/test/keyboards/baseline/k_0301___multiple_deadkeys.kmx. Chosen because it is
@@ -138,11 +135,9 @@ if ($DeployBranchBuild) {
 
   Stop-Keyman
   try {
-    # keyman32.dll is injected into every hooked 32-bit process on the desktop, not just Keyman's
-    # own, so stopping Keyman does not release it and a straight overwrite fails with a sharing
-    # violation. Renaming does work: open handles reference the file object, not the path. Processes
-    # already holding the old DLL keep it until they exit, which is fine here -- the engine under
-    # test is loaded fresh by a newly launched host32, and by the restarted Keyman.
+    # keyman32.dll is injected into every hooked 32-bit process, so stopping Keyman does not release
+    # it and an overwrite fails with a sharing violation. Renaming works -- open handles reference
+    # the file object, not the path -- and host32 and the restarted Keyman load the new DLL fresh.
     $aside = "$installed.inuse-$stamp"
     Move-Item $installed $aside -Force
     Write-Host "[OK]   moved the in-use engine aside: $(Split-Path -Leaf $aside)"

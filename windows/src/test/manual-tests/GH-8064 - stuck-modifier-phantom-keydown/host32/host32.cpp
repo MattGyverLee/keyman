@@ -1,39 +1,11 @@
 /*
  * Keyman is copyright (C) SIL Global. MIT License.
  *
- * Self-driving 32-bit host for the GH-8064 reproduction. See ../README.md.
- *
- * WHY THIS IS A 32-BIT GUI APPLICATION AND NOT A SCRIPT
- *
- * Two constraints force this shape.
- *
- * It must be 32-bit, because serialkeyeventserver.cpp is #ifndef _WIN64: the modifier cache the
- * defect lives in exists only in the 32-bit engine. Windows 11 ships no stock 32-bit editor --
- * notepad.exe and SysWOW64\notepad.exe both resolve to the 64-bit packaged Notepad.
- *
- * It must drive itself, because a background process cannot reliably give another process's window
- * keyboard focus. Driving this host from PowerShell failed exactly there: SetForegroundWindow
- * succeeded and GetForegroundWindow confirmed the host was foreground, yet GetFocus in the host's
- * thread stayed 0 and SendInput keystrokes went nowhere, while a WM_CHAR posted straight to the
- * Edit arrived fine. SetFocus needs the calling thread to own the active window. A person pressing
- * keys has focus by construction, which is why this procedure used to be manual; a program that
- * owns the window has it by construction too.
- *
- * WHAT IT DOES
- *
- * Per iteration: hold a modifier, run fakefreeze so Windows silently uninstalls Keyman's low level
- * keyboard hook, release the modifier while the hook is gone -- the step that drops the KEYUP and
- * leaves the cache believing the key is still held -- then type a probe string so a rule fires and
- * an injected batch is assembled, and read the oracle.
- *
- * The oracle is modifier state, not the text. A stuck Ctrl or Alt swallows keys and produces no
- * visible change, so a text-only check scores a wedged machine as clean. All nine modifier VKs are
- * read, not the six cache slots, because do_keybd_event maps every modifier to the side-agnostic VK
- * before injecting: a phantom press is never an 0xA0..0xA5 event.
- *
- * The probe text is checked too, but only to decide whether the run means anything: if Keyman never
- * transformed it, no rule fired, no batch was assembled, and an absent stuck modifier proves
- * nothing. That reports INCONCLUSIVE, never PASS.
+ * Self-driving 32-bit host for the GH-8064 reproduction. 32-bit because the modifier cache lives in
+ * serialkeyeventserver.cpp, which is #ifndef _WIN64; self-driving because a background process
+ * cannot give another process's window keyboard focus (SetFocus needs the calling thread to own the
+ * active window). ../README.md has both, the sequence run per iteration, and why the oracle reads
+ * all nine modifier VKs rather than the probe text.
  *
  * Build (32-bit, with the Keyman build environment sourced):
  *   cl /nologo /W4 /EHsc /MT /DUNICODE /D_UNICODE host32.cpp \
@@ -190,17 +162,10 @@ HeldModifiers(wchar_t *buf, int cch) {
 }
 
 /*
-  Whether the Keyman engine has attached to THIS process.
-
-  The decisive precondition, and the one that is easy to mistake for a pass. Keyman injects
-  keyman32.dll into a process only once one of its keyboards is actually active there; with a plain
-  layout selected the engine never attaches, no rule fires, no batch is assembled, and the restore
-  half never runs. A run in that state cannot reproduce the defect no matter how the freeze is
-  timed, and reports every modifier clear -- which reads exactly like a pass.
-
-  Checked from inside the process because that is where the answer is: an outside observer sees only
-  that the text came back unchanged, which is also what a legitimately pass-through keyboard looks
-  like.
+  Whether the Keyman engine has attached to THIS process -- the decisive precondition, and the one
+  easy to mistake for a pass. keyman32.dll is injected only once a Keyman keyboard is active here;
+  without it no batch is assembled, and every modifier reads clear. Checked from inside, because
+  from outside this is indistinguishable from a legitimately pass-through keyboard.
 */
 static BOOL
 KeymanEngineAttached(void) {
@@ -239,12 +204,9 @@ GetEditText(wchar_t *buf, int cch) {
 }
 
 /*
-  Taps the legacy Alt+Shift input-language hotkey and reports the layout after each tap.
-
-  A Keyman keyboard installs as a TSF profile, and TSF profiles cannot be selected with
-  WM_INPUTLANGCHANGEREQUEST -- posting every loaded HKL to the window changes nothing. The hotkey is
-  the one route a program can drive, because it is just keystrokes, and this process owns the
-  foreground window so they land here.
+  Taps the legacy Alt+Shift input-language hotkey and reports the layout after each tap. Keyman
+  keyboards are TSF profiles, which WM_INPUTLANGCHANGEREQUEST cannot select; the hotkey is the one
+  route a program can drive, being just keystrokes into its own foreground window.
 */
 static void
 CycleLayouts(int taps) {
@@ -291,16 +253,10 @@ ProbeFiresARule(void) {
 }
 
 /*
-  Waits for a Keyman keyboard whose rules actually fire to be selected in this window.
-
-  Selecting one cannot be automated: Keyman keyboards are TSF profiles, so
-  WM_INPUTLANGCHANGEREQUEST is ignored, the legacy Alt+Shift hotkey does nothing on a default
-  Windows 11 (Win+Space is the switcher), and kmshell.exe -i opens a dialog. So the test waits for a
-  person to switch instead of asking them to sequence steps around it.
-
-  The test is empirical rather than a check on the HKL: what matters is not which layout is
-  selected but whether typing produces different characters, since a keyboard can be active and
-  still pass the probe through unchanged.
+  Waits for a Keyman keyboard whose rules actually fire to be selected in this window. Selecting one
+  cannot be automated -- TSF profile, so no WM_INPUTLANGCHANGEREQUEST; Alt+Shift is not the Windows
+  11 switcher; kmshell.exe -i opens a dialog -- so wait for a person instead. Empirical rather than
+  an HKL check: a keyboard can be active and still pass the probe through unchanged.
 */
 static BOOL
 WaitForRuleCapableKeyboard(int seconds) {

@@ -124,15 +124,9 @@ procedure TfrmOSKOnScreenKeyboard.kbdKeyPressed(Sender: TOnScreenKeyboard; Key: 
 var
   vk, scan: Integer;
   fkcss, ass: TExtShiftState;
-  // #8064: sampled once alongside fkcss/ass below, and used for both the PrepState and FinalState
-  // branch selection that follow. kbd.LRShift is re-readable at any time (a keyboard switch can
-  // flip it), but fkcss/ass are frozen snapshots taken under whatever regime was current at entry;
-  // if kbd.LRShift were re-read separately for FinalState (after the character keydown/keyup and
-  // the koReleaseShiftKeysAfterKeyPress COM property get -- either of which could in principle pump
-  // messages and let a keyboard switch land), FinalState could select essCtrl/essAlt while fkcss/ass
-  // still encode essLCtrl/essRCtrl/essLAlt/essRAlt (or vice versa), so the "shift in fkcss" checks
-  // would never match and a PrepState suppression would go unrestored. Freezing the regime here
-  // keeps PrepState and FinalState reading fkcss/ass under the same encoding they were captured in.
+  // #8064: frozen with fkcss/ass below. Re-reading kbd.LRShift for FinalState risks a keyboard
+  // switch landing in between, selecting essCtrl/essAlt against snapshots that encode the chiral
+  // values -- no branch then matches, and a PrepState suppression goes unrestored.
   LLRShift: Boolean;
 
 
@@ -153,14 +147,9 @@ var
     if (shift in fkcss) and not (shift in ass) then do_keybd_event(vk, 0, FExtended or KEYEVENTF_KEYUP, 0)
     else if not (shift in fkcss) and (shift in ass) then
     begin
-      // #8064: `ass` was sampled once, before the character keydown/keyup and the
-      // koReleaseShiftKeysAfterKeyPress COM property check that follows it, to know what
-      // PrepState temporarily released and needs restoring here. If the user has physically
-      // released this modifier in that window, restoring it from the stale sample would be an
-      // injected KEYDOWN with nothing left to match it with a KEYUP. Re-check live state
-      // immediately before restoring; PrepState's own press (undone by the branch above, from the
-      // same stale sample) needs no such check, since undoing our own temporary press is safe
-      // regardless of what happens physically in between.
+      // #8064: `ass` is stale by now -- the character keys and the COM property get intervene --
+      // so restoring blind can inject a KEYDOWN the user has already released. Undoing PrepState's
+      // own press (the branch above) needs no such check.
       if (GetAsyncKeyState(vk) and $8000) = $8000 then
         do_keybd_event(vk, 0, FExtended, 0);
     end;
@@ -225,46 +214,20 @@ begin
   fkcss := kbd.ShiftState;
   ass := GetAsyncShiftState;
 
-  // #8064: FCachedShiftState records what the OSK itself has clicked outstanding, and is what
-  // ResetShiftStates releases from -- by exact chiral identity, so that a later SetLRShift collapse
-  // cannot mislabel it.
+  // #8064: FCachedShiftState records only what the OSK has clicked outstanding, by exact chiral
+  // identity, and is what ResetShiftStates releases from. It must never come to name what the user
+  // is physically holding, or teardown releases the user's own key (I2177): `- ass` excludes that,
+  // and accumulating covers earlier clicks that by now read as down. See MODIFIER-PRODUCERS.md.
   //
-  // It must record only what a click is holding, never what the user is physically holding, or
-  // teardown releases a key the user still has down -- the I2177 regression. Assigning
-  // kbd.ShiftState wholesale did exactly that, and measuring it is what caught it: UpdateShiftStates'
-  // 50 ms resync ends with `kbd.ShiftState := GetAsyncShiftState`, so kbd.ShiftState continuously
-  // carries physically-held modifiers, and a click made while the user holds Shift cached essShift
-  // alongside the key actually clicked. ReleaseCached's GetAsyncKeyState gate cannot catch that --
-  // a physically-held key IS down, so the gate passes and the release goes through. Note the hazard
-  // is in the value, not the call path: the resync never has to reach this handler to poison it.
-  //
-  // Subtracting the live async state leaves only what the OSK shows and the OS does not yet have
-  // down, which is the clicked set. This snapshot runs before ShiftStateChange injects anything, so
-  // the just-clicked modifier is not physically down yet and survives the subtraction, while a
-  // physically-held one is excluded. Accumulate rather than assign, because by the time a second
-  // modifier is clicked the first has genuinely been injected and now reads as down -- a plain
-  // subtraction would drop it. Masking with kbd.ShiftState then drops anything clicked back off.
-  // #8064: ShiftStateChange runs BEFORE the cache is updated, and that ordering is load-bearing.
-  // Its release branch reads FCachedShiftState to find the chiral identity actually injected, and
-  // the mask below would otherwise have already destroyed it: after a SetLRShift collapse a
-  // click-off leaves fkcss carrying nothing from that family -- essRCtrl was collapsed to essCtrl,
-  // then toggled off -- so `* fkcss` strips essRCtrl one line before the release needs it.
-  // Measured 2026-08-27: with the update first, the click-off fell back to unextended VK_CONTROL
-  // and left extended VK_RCONTROL held, which is the very defect the release branch exists to fix.
-  // ShiftStateChange also removes from the cache whatever it released, so running it first keeps
-  // that removal and the accumulate below from fighting over the same field.
+  // ShiftStateChange first, deliberately: its release branch reads the pre-mask cache for the
+  // chiral identity to release, and after a SetLRShift collapse the mask below would already have
+  // stripped it (measured: the click-off released VK_CONTROL and left VK_RCONTROL held).
   ShiftStateChange(fkcss, ass);
 
-  // Widen across the Ctrl/Alt families before masking. FCachedShiftState may name a modifier in a
-  // representation SetLRShift has since collapsed or expanded, and a bare `* fkcss` would drop a
-  // still-held chiral entry merely because some unrelated modifier was clicked under the new
-  // regime -- click R Ctrl, switch keyboard, click Shift, and essRCtrl would vanish from the cache
-  // with the key still down. Widen only when fkcss still carries something from that family: when
-  // it carries nothing the family really is off, and the entry should go.
-  //
-  // Widening is safe against I2177 because it only ever *retains* entries, never adds: the
-  // additive term is `fkcss - ass`, which already excludes anything physically held, so every
-  // member the mask can preserve was vetted when it went in.
+  // Widen across the family before masking: the cache may name a modifier in a representation
+  // SetLRShift has since collapsed, and a bare `* fkcss` would drop a still-held essRCtrl merely
+  // because an unrelated modifier was clicked. Retains only, never adds, so I2177 stays fixed --
+  // the additive term already excludes anything physically held.
   FMask := fkcss;
   if fkcss * [essCtrl, essLCtrl, essRCtrl] <> [] then
     FMask := FMask + [essCtrl, essLCtrl, essRCtrl];
@@ -341,25 +304,14 @@ begin
 end;
 
 procedure TfrmOSKOnScreenKeyboard.ShiftStateChange(kbdShift, asyncShift: TExtShiftState);
-  // #8064: the release branch below used to select its VK from the CURRENT kbd.LRShift, so after a
-  // SetLRShift collapse (OnScreenKeyboard.pas:885-937) an explicit click-off released the generic
-  // VK_CONTROL/VK_MENU -- Left -- even when the key actually held was the extended right-hand one,
-  // which no keystroke can then clear on hardware without that physical key. Teardown stopped doing
-  // that when ResetShiftStates began releasing by recorded chiral identity; this path now does the
-  // same, from the same record.
+  // #8064: the release branch below used to pick its VK from the CURRENT kbd.LRShift, so after a
+  // SetLRShift collapse a click-off released generic VK_CONTROL/VK_MENU (Left) while the extended
+  // right-hand key stayed held -- unclearable on hardware without that physical key. It now takes
+  // the chiral identity from FCachedShiftState, as ResetShiftStates does.
   //
-  // Why this is safe where the previously-reverted attempt was not. That attempt made
-  // ShiftStateChange *write* FCachedShiftState on every call -- including calls from
-  // UpdateShiftStates' 50 ms resync, whose press branch fires for modifiers the user is physically
-  // holding -- so the cache came to name physically-held keys and the next teardown released them:
-  // the I2177 regression, produced by composition rather than by either change alone. See
-  // MODIFIER-PRODUCERS.md, "Composition hazard, caught before commit".
-  //
-  // Picking the right VK needs no such write. It only needs to READ a record that already names
-  // what was injected, and kbdShiftChange's `(FCachedShiftState + (fkcss - ass)) * fkcss` already
-  // guarantees that record excludes anything physically held. The only write here is a REMOVAL of
-  // what was just released, which is the safe direction: it can only make a later teardown release
-  // less, never more. Additive writes are the hazard; reads and removals are not.
+  // Reads and removals only. The reverted attempt *wrote* the cache here, including from
+  // UpdateShiftStates' 50 ms resync, whose press branch fires for physically-held modifiers, so
+  // teardown released the user's own keys (I2177). See MODIFIER-PRODUCERS.md, "Composition hazard".
   procedure PrepState(fkcss, ass: TExtShiftState; shift: TExtShiftStateValue; vk: Integer);
   var
     FExtended, FReleaseExtended: Dword;
@@ -463,21 +415,10 @@ procedure TfrmOSKOnScreenKeyboard.ResetShiftStates;
 var
   FRemaining, FExpandedCache: TExtShiftState;
 
-  // #8064: kbd.LRShift may have changed since a chiral modifier was clicked -- e.g. the user
-  // switches keyboards while the OSK stays open, and SetLRShift (OnScreenKeyboard.pas:885-937)
-  // collapses essLCtrl/essRCtrl or essLAlt/essRAlt in kbd.ShiftState down to the generic
-  // essCtrl/essAlt. After that, kbd.ShiftState can no longer say which chiral VK is actually
-  // down, and kbd.LRShift can no longer say which VK a release should target -- going via
-  // ShiftStateChange, which branches on the CURRENT kbd.LRShift, releases VK_CONTROL/VK_MENU
-  // (Left) even when the modifier that is actually stuck is VK_RCONTROL/VK_RMENU, which no
-  // keystroke can clear on hardware without that physical key.
-  //
-  // FCachedShiftState is written only from a live click (kbdShiftChange) and is never touched by
-  // that collapse, so it still names the exact VK that was actually injected. Release
-  // that VK directly -- bypassing kbd.ShiftState/kbd.LRShift's current representation entirely --
-  // and only if the OS still reports it down, which is what keeps this from releasing a modifier
-  // the user is genuinely, physically holding (I2177) and what makes a second call a no-op. This
-  // can only ever emit a KEYUP, so it can never press a modifier the user is not holding.
+  // #8064: a keyboard switch runs SetLRShift, which collapses the chiral Ctrl/Alt entries in
+  // kbd.ShiftState to generic ones, so neither it nor kbd.LRShift can still name the VK that is
+  // down. FCachedShiftState survives the collapse, so release from it directly -- gated on live
+  // state, so a key the user physically holds is left alone (I2177) and a second call is a no-op.
   procedure ReleaseCached(shift: TExtShiftStateValue; vk: Integer; extended: DWord);
   begin
     if (shift in FCachedShiftState) and ((GetAsyncKeyState(vk) and $8000) = $8000) then
@@ -495,11 +436,9 @@ begin
   ReleaseCached(essLAlt,  VK_LMENU,    0);
   ReleaseCached(essRAlt,  VK_RMENU,    KEYEVENTF_EXTENDEDKEY);
 
-  // Makes a second call a no-op, and stops kbd.ShiftState claiming (for rendering) a modifier OSK
-  // itself is no longer holding sticky. FCachedShiftState may name a modifier in a representation
-  // SetLRShift has since collapsed or expanded in kbd.ShiftState (e.g. essRCtrl clicked, then
-  // collapsed to essCtrl by a keyboard switch), so widen to the whole Ctrl/Alt family before
-  // subtracting, to clear kbd.ShiftState whichever form it is currently carrying it in.
+  // Makes a second call a no-op, and stops kbd.ShiftState claiming, for rendering, a modifier the
+  // OSK is no longer holding. Widen to the family first: the cache may name essRCtrl where a
+  // collapse has left kbd.ShiftState carrying essCtrl.
   FExpandedCache := FCachedShiftState;
   if FCachedShiftState * [essCtrl, essLCtrl, essRCtrl] <> [] then
     FExpandedCache := FExpandedCache + [essCtrl, essLCtrl, essRCtrl];

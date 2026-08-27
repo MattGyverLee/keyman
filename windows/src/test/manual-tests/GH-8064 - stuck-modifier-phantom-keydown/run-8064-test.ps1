@@ -5,34 +5,23 @@
   make Keyman produce output so an injected batch is assembled.
 
 .DESCRIPTION
-  Replaces steps 3 to 7 of README.md's manual procedure. The step that matters, and the one no
-  ordinary test performs, is releasing the modifier DURING the stall: that is when the KEYUP is
-  dropped and the modifier cache is left believing the key is still held.
+  Replaces steps 3 to 7 of README.md's manual procedure. The step that matters is releasing the
+  modifier DURING the stall: that is when the KEYUP is dropped.
 
-  The oracle is modifier state, not the text produced. A stuck Ctrl or Alt swallows keys and
-  produces no visible change at all, so a text-only check scores a wedged machine as clean. All nine
-  modifier virtual keys are read, not the six cache slots, because do_keybd_event maps every
-  modifier to the side-agnostic VK before injecting: a phantom press is never an 0xA0..0xA5 event.
+  The oracle is modifier state, not the text -- a stuck Ctrl or Alt swallows keys silently -- and it
+  reads all nine modifier VKs, since do_keybd_event injects the side-agnostic VK.
 
-  READ THIS BEFORE TRUSTING A PASS. An absent stuck modifier only means something if a batch was
-  actually assembled. That needs a 32-bit host application with a Keyman keyboard SELECTED, and a
-  keystroke that a rule actually transforms. This script verifies all three and reports
-  INCONCLUSIVE, not PASS, when any of them is unmet -- an earlier version of it checked only that a
-  host executable existed on disk and reported PASS on runs where the keystrokes went to whatever
-  window happened to have focus. Preconditions that are merely plausible produce false PASSes, and
-  a false PASS on this defect is worse than no test.
+  READ THIS BEFORE TRUSTING A PASS. An absent stuck modifier means nothing unless a batch was
+  actually assembled, which needs a 32-bit host with a Keyman keyboard SELECTED and a keystroke a
+  rule transforms. All three are verified here, and an unmet one reports INCONCLUSIVE, not PASS.
 
-  This harness simulates the user with SendInput, using real scan codes and dwExtraInfo 0, so the
-  engine sees hardware-shaped input. That works because the fix identifies Keyman's own events by
-  scan code and dwExtraInfo. Had it filtered on LLKHF_INJECTED instead, this harness could not
-  simulate a user at all, since every injected event carries that flag.
+  Simulates the user with SendInput, real scan codes and dwExtraInfo 0. That works only because the
+  fix identifies Keyman's own events by scan code and dwExtraInfo, not by LLKHF_INJECTED.
 
 .PARAMETER HostApp
-  Path to a 32-bit application with a text input field, which will be launched and typed into.
-  REQUIRED, and verified to be a WOW64 process with a real window. There is no safe default: on
-  Windows 11 both notepad.exe and SysWOW64\notepad.exe resolve to the 64-bit packaged Notepad, whose
-  engine is keymanx64.dll, where serialkeyeventserver.cpp is compiled out and the cache under test
-  does not exist.
+  Path to a 32-bit application with a text input field. REQUIRED, and verified to be a WOW64 process
+  with a real window: on Windows 11 both notepad.exe and SysWOW64\notepad.exe resolve to the 64-bit
+  Notepad, whose engine compiles serialkeyeventserver.cpp out entirely.
 
 .PARAMETER Iterations
   How many times to run the sequence. The defect depends on message ordering, so a single clean run

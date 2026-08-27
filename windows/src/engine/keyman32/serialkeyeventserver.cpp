@@ -249,7 +249,7 @@ private:
     m_pInputs = new INPUT[MAX_KEYEVENT_INPUTS];
 
     // This thread has no input queue yet, so GetKeyboardState looks like it should return nothing;
-    // it returns live state. See DISABLED_FreshThreadKeyboardStateReflectsLiveModifiers. A modifier
+    // it returns live state. See FreshThreadKeyboardStateReflectsLiveModifiers. A modifier
     // held at launch is captured here and goes stale if released before the hook feed starts.
     GetKeyboardState(m_ModifierKeyboardState);
 
@@ -379,16 +379,9 @@ private:
     }
     m_nInputs = 0;
 
-    // #8064 residual gaps, Task 1: schedule the post-batch verification pass -- see
-    // WM_KEYMAN_VERIFY_MODIFIER_EVENT (serialkeyeventcommon.h) for why this has to be a self-post
-    // rather than a check made right here. Only when the restore half actually pressed something:
-    // an empty mask has nothing to verify.
-    //
-    // #8064 residual gaps, Task 2: also only when the cache is actually being fed. With
-    // flag_ShouldSerializeInput off, m_ModifierKeyboardState is stale by construction (see
-    // PrepareInjectedInputBatch's cacheIsFed parameter, just below), so "the cache now says up"
-    // would be comparing the verification against a value that was never being kept current in the
-    // first place -- not a meaningful signal, and not this task's problem to solve.
+    // #8064 Schedule the post-batch verification pass; WM_KEYMAN_VERIFY_MODIFIER_EVENT says why it
+    // must be a self-post. Skipped with the feed off, where m_ModifierKeyboardState is stale by
+    // construction and "the cache says up" means nothing.
     if (flag_ShouldSerializeInput && restorePressedMask != 0) {
       PostMessage(m_hwnd, WM_KEYMAN_VERIFY_MODIFIER_EVENT, (WPARAM)restorePressedMask, 0);
     }
@@ -400,7 +393,7 @@ private:
     Add modifier state adjustment events and then copy the new input events from the shared
     buffer. Returns the bitmask of managed modifiers this batch's restore half pressed (see
     PrepareInjectedInputBatch's pRestorePressedMask), so the caller can decide whether the
-    post-batch verification pass (#8064 residual gaps, Task 1) is needed.
+    post-batch verification pass (#8064) is needed.
   */
   DWORD PrepareInjectedInput() {
     // In keybd_shift.cpp so the gtest project can reach it; this file is #ifndef _WIN64 and this is
@@ -412,10 +405,9 @@ private:
   }
 
   /**
-    #8064 residual gaps, Task 1. Handles WM_KEYMAN_VERIFY_MODIFIER_EVENT: re-checks the VKs the
-    batch just sent restored, against the cache and live OS state as they stand now (see the
-    message's own comment for why "now" is safe to rely on), and injects a corrective release for
-    any the OS is still holding that nobody -- per the cache -- holds any more.
+    #8064 Handles WM_KEYMAN_VERIFY_MODIFIER_EVENT: rechecks the VKs the batch restored against the
+    cache and live state as they stand now, and releases any the OS still holds that the cache says
+    nobody holds.
   */
   void ProcessModifierVerification(DWORD restorePressedMask) {
     INPUT correction[MAX_KEYEVENT_INPUTS_MODIFIERS];
@@ -448,9 +440,8 @@ private:
       ProcessQueuedKeyEvents();
     }
 
-    // #8064 residual gaps, Task 1. Handled here, not inline in ProcessQueuedKeyEvents: the whole
-    // point of posting is to land behind every WM_KEYMAN_MODIFIER_EVENT already queued when the
-    // batch's SendInput returned. See the message's own comment in serialkeyeventcommon.h.
+    // #8064 Not inline in ProcessQueuedKeyEvents: the point of posting is to land behind every
+    // WM_KEYMAN_MODIFIER_EVENT already queued when the batch's SendInput returned.
     if (msg == WM_KEYMAN_VERIFY_MODIFIER_EVENT) {
       ProcessModifierVerification((DWORD)wParam);
     }
