@@ -112,8 +112,38 @@ verifies that rather than assuming it. There is no default, because on Windows 1
 both `notepad.exe` and `SysWOW64\notepad.exe` report `IsWow64Process` false: they
 resolve to the 64-bit packaged Notepad, whose engine is `keymanx64.dll`, where
 `serialkeyeventserver.cpp` is compiled out and the cache under test does not
-exist. Sourcing a 32-bit host on a current Windows install is the one step still
-to solve before this runs end to end.
+exist.
+
+`host32/` supplies one. It is a minimal 32-bit window with a single Edit control,
+a fixed class and title, and it publishes its active keyboard layout in that title
+because `GetKeyboardLayout(idThread)` returns 0 for a thread in another process and
+the harness cannot otherwise tell which layout is selected. Build it with the
+Keyman build environment sourced:
+
+```
+cl /nologo /W4 /EHsc /MT /DUNICODE /D_UNICODE host32.cpp \
+   /link /SUBSYSTEM:WINDOWS user32.lib gdi32.lib /OUT:host32.exe
+```
+
+### Known blocker: synthetic input needs real keyboard focus
+
+Driving the host from the harness does not yet work, and the reason is a Windows
+constraint rather than a bug in either. A background process cannot reliably grant
+another process's window keyboard focus: `SetForegroundWindow` succeeds and
+`GetForegroundWindow` confirms the host is foreground, yet `GetFocus` in the host's
+thread stays 0 and `SendInput` keystrokes go nowhere. `WM_CHAR` posted directly to
+the Edit does arrive, which is how we know the control and the read-back are fine.
+Claiming focus from `WM_ACTIVATE` inside the host does not help either, because
+`SetFocus` needs the calling thread to own the active window.
+
+This is why the procedure was manual: a person pressing keys has focus by
+construction.
+
+The fix is to move the sequence **into** `host32` and let it drive itself. It owns
+its own window, so it can focus its Edit, hold a modifier with `SendInput`, spawn
+`fakefreeze`, release inside the stall, type the probe, and read `GetAsyncKeyState`
+without any cross-process focus handover. That is the next step and it removes the
+blocker entirely rather than working around it.
 
 The harness reports **INCONCLUSIVE** rather than PASS unless it confirms all four
 of: the freeze took effect, the host is a verified 32-bit process it actually
