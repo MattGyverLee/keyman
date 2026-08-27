@@ -244,6 +244,8 @@ void ComputeModifierReleaseState(LPBYTE const kbd, LPBYTE releaseStateOut, LPBYT
 
 void UpdateModifierCacheFromKeyEvent(LPBYTE kbd, BYTE bVk, BOOL fIsExtendedKey, BYTE bScan, BOOL fIsUp);
 
+BOOL IsKeymanInjectedKeyEvent(DWORD scanCode, ULONG_PTR extraInfo);
+
 //#define KEYEVENT_EXTRAINFO_KEYMAN 0xF00F0000   // I4370
 
 #ifndef _WIN64   // I4326
