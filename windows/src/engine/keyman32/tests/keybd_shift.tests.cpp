@@ -253,25 +253,106 @@ TEST(K32LowLevelKeyboardHook, IsModifierKeyAcceptsExactlyNineVks) {
 #endif // !_WIN64
 
 namespace {
-// Stub live-modifier-state reader. A file-local array rather than a mock, because gmock is not
-// linked into keyman32.tests.vcxproj -- which is why ReconcileModifierCache takes its reader.
-BYTE g_stubAsyncState[256];
+// The simulated live modifier state. Functions that take a snapshot are handed this array directly;
+// PrepareInjectedInputBatch takes a reader, so StubGetAsyncKeyState reads the same array. A file
+// local rather than a mock, because gmock is not linked into keyman32.tests.vcxproj.
+BYTE g_liveModifierState[256];
+
+// Counts reader calls, so a batch's total can be pinned.
+int g_readerCalls = 0;
 
 SHORT WINAPI
 StubGetAsyncKeyState(int vKey) {
+  g_readerCalls++;
   // 0x8000 is negative as a SHORT, which is what the "< 0 means down" convention tests.
-  return (vKey >= 0 && vKey < 256 && g_stubAsyncState[vKey]) ? (SHORT)0x8000 : (SHORT)0;
+  return (vKey >= 0 && vKey < 256 && g_liveModifierState[vKey]) ? (SHORT)0x8000 : (SHORT)0;
 }
 } // namespace
 
-class RECONCILE_MODIFIER_CACHE : public KEYBD_SHIFT {
+// Every case below reads or writes the simulated live state, so reset it and the reader counter.
+class LIVE_MODIFIER_STATE : public KEYBD_SHIFT {
 public:
   void
   SetUp() {
     KEYBD_SHIFT::SetUp();
-    memset(g_stubAsyncState, 0, sizeof(g_stubAsyncState));
+    memset(g_liveModifierState, 0, sizeof(g_liveModifierState));
+    g_readerCalls = 0;
   }
 };
+
+class CAPTURE_LIVE_MODIFIER_STATE : public LIVE_MODIFIER_STATE {
+protected:
+  BYTE live[256];
+
+  // True if vk is one of the modifiers Keyman manages.
+  static bool
+  IsManaged(int vk) {
+    for (int i = 0; i < KEYMAN_MODIFIER_VK_COUNT; i++) {
+      if (KeymanModifierVks[i] == vk) {
+        return true;
+      }
+    }
+    return false;
+  }
+};
+
+/*
+  The snapshot reports what the reader reported, for the managed set and nothing else.
+*/
+TEST_F(CAPTURE_LIVE_MODIFIER_STATE, SetsAByteForEachModifierTheOsHolds) {
+  g_liveModifierState[VK_LSHIFT]   = 0x80;
+  g_liveModifierState[VK_RCONTROL] = 0x80;
+
+  CaptureLiveModifierState(live, StubGetAsyncKeyState);
+
+  EXPECT_EQ(live[VK_LSHIFT], (BYTE)0x80);
+  EXPECT_EQ(live[VK_RCONTROL], (BYTE)0x80);
+  EXPECT_EQ(live[VK_RSHIFT], (BYTE)0) << "a modifier the OS does not hold must read clear";
+}
+
+/*
+  Pre-fill with 0xFF: no caller stack residue may survive as a held modifier.
+*/
+TEST_F(CAPTURE_LIVE_MODIFIER_STATE, ZeroesTheWholeArrayFirst) {
+  memset(live, 0xFF, sizeof(live));
+
+  CaptureLiveModifierState(live, StubGetAsyncKeyState);
+
+  for (int i = 0; i < 256; i++) {
+    ASSERT_EQ(live[i], (BYTE)0) << "caller residue survived at vk " << i;
+  }
+}
+
+/*
+  Even with every key reading down, only the managed slots are written.
+*/
+TEST_F(CAPTURE_LIVE_MODIFIER_STATE, SetsNoByteOutsideTheManagedSet) {
+  memset(g_liveModifierState, 0x80, sizeof(g_liveModifierState));
+
+  CaptureLiveModifierState(live, StubGetAsyncKeyState);
+
+  for (int i = 0; i < 256; i++) {
+    if (!IsManaged(i)) {
+      ASSERT_EQ(live[i], (BYTE)0) << "wrote outside the managed set at vk " << i;
+    }
+  }
+}
+
+/*
+  One reading per managed modifier, not one per consumer. This is the property that makes the
+  snapshot coherent: two readings of the same modifier could disagree if the user pressed or
+  released between them.
+*/
+TEST_F(CAPTURE_LIVE_MODIFIER_STATE, TakesExactlyOneReadingPerManagedModifier) {
+  memset(g_liveModifierState, 0x80, sizeof(g_liveModifierState));
+  g_readerCalls = 0;
+
+  CaptureLiveModifierState(live, StubGetAsyncKeyState);
+
+  EXPECT_EQ(g_readerCalls, KEYMAN_MODIFIER_VK_COUNT);
+}
+
+class RECONCILE_MODIFIER_CACHE : public LIVE_MODIFIER_STATE {};
 
 /*
   Once the stale byte is cleared, reset emits nothing at all: no modifier KEYDOWN and, because
@@ -279,9 +360,9 @@ public:
 */
 TEST_F(RECONCILE_MODIFIER_CACHE, ClearsCachedModifierTheOsReportsUp) {
   kbd[VK_LSHIFT]              = 0x80; // cache: held
-  g_stubAsyncState[VK_LSHIFT] = 0;    // OS: up
+  g_liveModifierState[VK_LSHIFT] = 0;    // OS: up
 
-  EXPECT_TRUE(ReconcileModifierCache(kbd, StubGetAsyncKeyState));
+  EXPECT_TRUE(ReconcileModifierCache(kbd, g_liveModifierState));
   EXPECT_EQ(kbd[VK_LSHIFT], (BYTE)0);
 
   keybd_shift(inputs, &n, TRUE, kbd);
@@ -293,9 +374,9 @@ TEST_F(RECONCILE_MODIFIER_CACHE, ClearsCachedModifierTheOsReportsUp) {
 */
 TEST_F(RECONCILE_MODIFIER_CACHE, KeepsCachedModifierTheOsReportsDown) {
   kbd[VK_LSHIFT]              = 0x80; // cache: held
-  g_stubAsyncState[VK_LSHIFT] = 0x80; // OS: agrees
+  g_liveModifierState[VK_LSHIFT] = 0x80; // OS: agrees
 
-  EXPECT_FALSE(ReconcileModifierCache(kbd, StubGetAsyncKeyState));
+  EXPECT_FALSE(ReconcileModifierCache(kbd, g_liveModifierState));
   EXPECT_EQ(kbd[VK_LSHIFT], (BYTE)0x80);
 
   keybd_shift(inputs, &n, TRUE, kbd);
@@ -308,9 +389,9 @@ TEST_F(RECONCILE_MODIFIER_CACHE, KeepsCachedModifierTheOsReportsDown) {
 */
 TEST_F(RECONCILE_MODIFIER_CACHE, NeverSetsAModifierTheCacheDoesNotHold) {
   kbd[VK_RCONTROL]              = 0;    // cache: up
-  g_stubAsyncState[VK_RCONTROL] = 0x80; // OS: down
+  g_liveModifierState[VK_RCONTROL] = 0x80; // OS: down
 
-  EXPECT_FALSE(ReconcileModifierCache(kbd, StubGetAsyncKeyState));
+  EXPECT_FALSE(ReconcileModifierCache(kbd, g_liveModifierState));
   EXPECT_EQ(kbd[VK_RCONTROL], (BYTE)0);
 
   keybd_shift(inputs, &n, TRUE, kbd);
@@ -323,7 +404,7 @@ TEST_F(RECONCILE_MODIFIER_CACHE, ClearsAllSixSlots) {
     kbd[allSix[i]] = 0x80;
   }
 
-  EXPECT_TRUE(ReconcileModifierCache(kbd, StubGetAsyncKeyState));
+  EXPECT_TRUE(ReconcileModifierCache(kbd, g_liveModifierState));
 
   for (int i = 0; i < (int)_countof(allSix); i++) {
     EXPECT_EQ(kbd[allSix[i]], (BYTE)0) << "slot for vkCode " << (int)allSix[i] << " was not cleared";
@@ -343,7 +424,7 @@ TEST_F(RECONCILE_MODIFIER_CACHE, LeavesNonModifierBytesAlone) {
   kbd[VK_NUMLOCK]  = 0x01;
   kbd[VK_INSERT]   = 0x80;
 
-  EXPECT_FALSE(ReconcileModifierCache(kbd, StubGetAsyncKeyState));
+  EXPECT_FALSE(ReconcileModifierCache(kbd, g_liveModifierState));
 
   EXPECT_EQ(kbd['A'], (BYTE)0x80);
   EXPECT_EQ(kbd[VK_CAPITAL], (BYTE)0x01);
@@ -357,7 +438,7 @@ TEST_F(RECONCILE_MODIFIER_CACHE, LeavesNonModifierBytesAlone) {
 TEST_F(RECONCILE_MODIFIER_CACHE, ReconcileThenResetPressesNothing) {
   kbd[VK_LSHIFT] = 0x80;
 
-  ReconcileModifierCache(kbd, StubGetAsyncKeyState);
+  ReconcileModifierCache(kbd, g_liveModifierState);
   keybd_shift(inputs, &n, TRUE, kbd);
 
   EXPECT_EQ(Count(VK_SHIFT, false), 0);
@@ -402,7 +483,7 @@ protected:
 */
 TEST_F(PREPARE_INJECTED_INPUT_BATCH, StaleCachedModifierYieldsNoKeydownInTheBatch) {
   kbd[VK_LSHIFT]              = 0x80; // cache: held, the dropped-KEYUP residue
-  g_stubAsyncState[VK_LSHIFT] = 0;    // OS: up
+  g_liveModifierState[VK_LSHIFT] = 0;    // OS: up
   AddOutputKey('A');
 
   RunBatch();
@@ -418,7 +499,7 @@ TEST_F(PREPARE_INJECTED_INPUT_BATCH, StaleCachedModifierYieldsNoKeydownInTheBatc
 */
 TEST_F(PREPARE_INJECTED_INPUT_BATCH, StaleRightControlYieldsNoExtendedKeydownInTheBatch) {
   kbd[VK_RCONTROL]              = 0x80;
-  g_stubAsyncState[VK_RCONTROL] = 0;
+  g_liveModifierState[VK_RCONTROL] = 0;
   AddOutputKey('A');
 
   RunBatch();
@@ -437,10 +518,10 @@ TEST_F(PREPARE_INJECTED_INPUT_BATCH, NoStaleSlotProducesAKeydownInTheBatch) {
   for (int i = 0; i < (int)_countof(expected); i++) {
     Rewind();
     memset(&sharedData, 0, sizeof(sharedData));
-    memset(g_stubAsyncState, 0, sizeof(g_stubAsyncState));
+    memset(g_liveModifierState, 0, sizeof(g_liveModifierState));
 
     kbd[expected[i]] = 0x80; // cache: held
-    AddOutputKey('A');       // OS: up, g_stubAsyncState is clear
+    AddOutputKey('A');       // OS: up, g_liveModifierState is clear
 
     RunBatch();
 
@@ -456,7 +537,7 @@ TEST_F(PREPARE_INJECTED_INPUT_BATCH, NoStaleSlotProducesAKeydownInTheBatch) {
 */
 TEST_F(PREPARE_INJECTED_INPUT_BATCH, EventOrderIsReleaseThenOutputThenRestore) {
   kbd[VK_LSHIFT]              = 0x80; // cache: held
-  g_stubAsyncState[VK_LSHIFT] = 0x80; // OS: agrees, so both halves act
+  g_liveModifierState[VK_LSHIFT] = 0x80; // OS: agrees, so both halves act
   AddOutputKey('A');
 
   RunBatch();
@@ -480,7 +561,7 @@ TEST_F(PREPARE_INJECTED_INPUT_BATCH, EventOrderIsReleaseThenOutputThenRestore) {
 TEST_F(PREPARE_INJECTED_INPUT_BATCH, NeverWritesPastTheBufferWhenTheSharedBufferOverflows) {
   for (int i = 0; i < (int)_countof(KeymanModifierVks); i++) {
     kbd[KeymanModifierVks[i]]              = 0x80;
-    g_stubAsyncState[KeymanModifierVks[i]] = 0x80; // all six genuinely held: both halves emit
+    g_liveModifierState[KeymanModifierVks[i]] = 0x80; // all six genuinely held: both halves emit
   }
 
   // Deliberately larger than the buffer. Clamping is the callee's job, not the caller's.
@@ -502,7 +583,7 @@ TEST_F(PREPARE_INJECTED_INPUT_BATCH, NeverWritesPastTheBufferWhenTheSharedBuffer
 */
 TEST_F(PREPARE_INJECTED_INPUT_BATCH, OsHeldModifierIsReleasedBeforeTheOutputKeys) {
   kbd[VK_LSHIFT]              = 0;    // cache: clear -- Keyman never saw the KEYDOWN
-  g_stubAsyncState[VK_LSHIFT] = 0x80; // OS: genuinely held right now
+  g_liveModifierState[VK_LSHIFT] = 0x80; // OS: genuinely held right now
   AddOutputKey('A');
 
   RunBatch();
@@ -522,7 +603,7 @@ TEST_F(PREPARE_INJECTED_INPUT_BATCH, OsHeldModifierIsReleasedBeforeTheOutputKeys
 */
 TEST_F(PREPARE_INJECTED_INPUT_BATCH, OsHeldModifierIsNotRestoredAfterTheOutputKeys) {
   kbd[VK_LSHIFT]              = 0;    // cache: clear
-  g_stubAsyncState[VK_LSHIFT] = 0x80; // OS: held
+  g_liveModifierState[VK_LSHIFT] = 0x80; // OS: held
   AddOutputKey('A');
 
   RunBatch();
@@ -539,7 +620,7 @@ TEST_F(PREPARE_INJECTED_INPUT_BATCH, OsHeldModifierIsNotRestoredAfterTheOutputKe
 TEST_F(PREPARE_INJECTED_INPUT_BATCH, AgreementCasesAreUnchanged) {
   // Both held: released before the output keys, restored after, exactly as today.
   kbd[VK_LSHIFT]              = 0x80;
-  g_stubAsyncState[VK_LSHIFT] = 0x80;
+  g_liveModifierState[VK_LSHIFT] = 0x80;
   AddOutputKey('A');
 
   RunBatch();
@@ -551,7 +632,7 @@ TEST_F(PREPARE_INJECTED_INPUT_BATCH, AgreementCasesAreUnchanged) {
   // Both up: no modifier events at all, and no prefix keystroke either.
   Rewind();
   memset(&sharedData, 0, sizeof(sharedData));
-  memset(g_stubAsyncState, 0, sizeof(g_stubAsyncState));
+  memset(g_liveModifierState, 0, sizeof(g_liveModifierState));
   AddOutputKey('A');
 
   RunBatch();
@@ -560,6 +641,44 @@ TEST_F(PREPARE_INJECTED_INPUT_BATCH, AgreementCasesAreUnchanged) {
   EXPECT_EQ(Count(VK_SHIFT, false), 0);
   EXPECT_EQ(Count(PREFIX_VK, false), 0) << "nothing to release, so not even a prefix keystroke";
   EXPECT_EQ(n, 1) << "the output key and nothing else";
+}
+
+/*
+  The whole batch takes KEYMAN_MODIFIER_VK_COUNT readings and no more, whatever the cache holds.
+  Before the snapshot was hoisted the reconcile and the release set each read for themselves, so a
+  batch took between six and twelve readings depending on state, and two readings of the same
+  modifier could disagree.
+*/
+TEST_F(PREPARE_INJECTED_INPUT_BATCH, BatchTakesOneLiveReadingPerManagedModifier) {
+  // Cache empty, which is normal typing.
+  AddOutputKey('A');
+  g_readerCalls = 0;
+  RunBatch();
+  EXPECT_EQ(g_readerCalls, KEYMAN_MODIFIER_VK_COUNT) << "empty cache";
+
+  // Cache holds all six and the OS agrees.
+  Rewind();
+  memset(&sharedData, 0, sizeof(sharedData));
+  for (int i = 0; i < KEYMAN_MODIFIER_VK_COUNT; i++) {
+    kbd[KeymanModifierVks[i]]                 = 0x80;
+    g_liveModifierState[KeymanModifierVks[i]] = 0x80;
+  }
+  AddOutputKey('A');
+  g_readerCalls = 0;
+  RunBatch();
+  EXPECT_EQ(g_readerCalls, KEYMAN_MODIFIER_VK_COUNT) << "cache and OS agree, all six held";
+
+  // Cache holds all six and the OS holds none: twelve readings before the hoist.
+  Rewind();
+  memset(&sharedData, 0, sizeof(sharedData));
+  memset(g_liveModifierState, 0, sizeof(g_liveModifierState));
+  for (int i = 0; i < KEYMAN_MODIFIER_VK_COUNT; i++) {
+    kbd[KeymanModifierVks[i]] = 0x80;
+  }
+  AddOutputKey('A');
+  g_readerCalls = 0;
+  RunBatch();
+  EXPECT_EQ(g_readerCalls, KEYMAN_MODIFIER_VK_COUNT) << "all six stale, the pre-hoist worst case";
 }
 
 /*
@@ -581,7 +700,7 @@ protected:
 TEST_F(COMPUTE_MODIFIER_RELEASE_STATE, ZeroesTheWholeArrayFirst) {
   Fill(0xFF);
 
-  ComputeModifierReleaseState(kbd, releaseState, StubGetAsyncKeyState);
+  ComputeModifierReleaseState(kbd, releaseState, g_liveModifierState);
 
   for (int vk = 0; vk < 256; vk++) {
     EXPECT_EQ(releaseState[vk], (BYTE)0) << "byte " << vk << " kept caller stack residue";
@@ -595,28 +714,28 @@ TEST_F(COMPUTE_MODIFIER_RELEASE_STATE, IsTheUnionOfCacheAndLiveState) {
   // cache only
   Fill(0xFF);
   kbd[VK_LSHIFT] = 0x80;
-  ComputeModifierReleaseState(kbd, releaseState, StubGetAsyncKeyState);
+  ComputeModifierReleaseState(kbd, releaseState, g_liveModifierState);
   EXPECT_EQ(releaseState[VK_LSHIFT], (BYTE)0x80) << "cache-held must be released, as today";
 
   // OS only -- the mirror direction
   Fill(0xFF);
   memset(kbd, 0, sizeof(kbd));
-  g_stubAsyncState[VK_LCONTROL] = 0x80;
-  ComputeModifierReleaseState(kbd, releaseState, StubGetAsyncKeyState);
+  g_liveModifierState[VK_LCONTROL] = 0x80;
+  ComputeModifierReleaseState(kbd, releaseState, g_liveModifierState);
   EXPECT_EQ(releaseState[VK_LCONTROL], (BYTE)0x80) << "OS-held must be released: this is G1";
 
   // both
   Fill(0xFF);
   kbd[VK_RMENU]              = 0x80;
-  g_stubAsyncState[VK_RMENU] = 0x80;
-  ComputeModifierReleaseState(kbd, releaseState, StubGetAsyncKeyState);
+  g_liveModifierState[VK_RMENU] = 0x80;
+  ComputeModifierReleaseState(kbd, releaseState, g_liveModifierState);
   EXPECT_EQ(releaseState[VK_RMENU], (BYTE)0x80);
 
   // neither
   Fill(0xFF);
   memset(kbd, 0, sizeof(kbd));
-  memset(g_stubAsyncState, 0, sizeof(g_stubAsyncState));
-  ComputeModifierReleaseState(kbd, releaseState, StubGetAsyncKeyState);
+  memset(g_liveModifierState, 0, sizeof(g_liveModifierState));
+  ComputeModifierReleaseState(kbd, releaseState, g_liveModifierState);
   for (int i = 0; i < (int)_countof(KeymanModifierVks); i++) {
     EXPECT_EQ(releaseState[KeymanModifierVks[i]], (BYTE)0) << "nothing held, nothing released";
   }
@@ -628,10 +747,10 @@ TEST_F(COMPUTE_MODIFIER_RELEASE_STATE, IsTheUnionOfCacheAndLiveState) {
 */
 TEST_F(COMPUTE_MODIFIER_RELEASE_STATE, SetsNoByteOutsideTheManagedSet) {
   Fill(0xFF);
-  memset(g_stubAsyncState, 0x80, sizeof(g_stubAsyncState)); // OS: every key held
+  memset(g_liveModifierState, 0x80, sizeof(g_liveModifierState)); // OS: every key held
   memset(kbd, 0x80, sizeof(kbd));                          // cache: every key held
 
-  ComputeModifierReleaseState(kbd, releaseState, StubGetAsyncKeyState);
+  ComputeModifierReleaseState(kbd, releaseState, g_liveModifierState);
 
   for (int vk = 0; vk < 256; vk++) {
     bool managed = false;
@@ -658,9 +777,9 @@ TEST_F(COMPUTE_MODIFIER_RELEASE_STATE, NeverModifiesTheCache) {
     kbd[vk] = (BYTE)(vk & 0xFF);
   }
   memcpy(before, kbd, sizeof(before));
-  memset(g_stubAsyncState, 0x80, sizeof(g_stubAsyncState)); // OS: everything held
+  memset(g_liveModifierState, 0x80, sizeof(g_liveModifierState)); // OS: everything held
 
-  ComputeModifierReleaseState(kbd, releaseState, StubGetAsyncKeyState);
+  ComputeModifierReleaseState(kbd, releaseState, g_liveModifierState);
 
   EXPECT_EQ(memcmp(kbd, before, sizeof(before)), 0) << "the cache was modified";
 }
@@ -673,9 +792,9 @@ TEST_F(COMPUTE_MODIFIER_RELEASE_STATE, IsASupersetOfTheCache) {
   for (int i = 0; i < (int)_countof(KeymanModifierVks); i++) {
     kbd[KeymanModifierVks[i]] = 0x80; // cache: all six held
   }
-  memset(g_stubAsyncState, 0, sizeof(g_stubAsyncState)); // OS: none held
+  memset(g_liveModifierState, 0, sizeof(g_liveModifierState)); // OS: none held
 
-  ComputeModifierReleaseState(kbd, releaseState, StubGetAsyncKeyState);
+  ComputeModifierReleaseState(kbd, releaseState, g_liveModifierState);
 
   for (int i = 0; i < (int)_countof(KeymanModifierVks); i++) {
     const BYTE vk = KeymanModifierVks[i];
@@ -690,11 +809,11 @@ TEST_F(COMPUTE_MODIFIER_RELEASE_STATE, IsASupersetOfTheCache) {
 */
 TEST_F(COMPUTE_MODIFIER_RELEASE_STATE, ModifierEventCountNeverExceedsReserveForTheUnion) {
   for (int i = 0; i < (int)_countof(KeymanModifierVks); i++) {
-    g_stubAsyncState[KeymanModifierVks[i]] = 0x80; // OS: all six held
+    g_liveModifierState[KeymanModifierVks[i]] = 0x80; // OS: all six held
   }
   // kbd stays all zero: the cache holds nothing at all. This is the union's widest divergence.
 
-  ComputeModifierReleaseState(kbd, releaseState, StubGetAsyncKeyState);
+  ComputeModifierReleaseState(kbd, releaseState, g_liveModifierState);
 
   keybd_shift(inputs, &n, FALSE, releaseState);
   EXPECT_EQ(n, 8) << "prefix down + prefix up + 6 modifier keyups, from the OS side alone";
@@ -894,7 +1013,9 @@ TEST_F(KEYBD_SHIFT, DISABLED_ReconcileDoesNotRaceItsOwnInjectedRestorePress) {
 
       // The production question, asked with no delay: does the reconcile clear a byte whose press
       // is still in flight?
-      if (ReconcileModifierCache(kbd, GetAsyncKeyState)) {
+      BYTE live[256];
+      CaptureLiveModifierState(live, GetAsyncKeyState);
+      if (ReconcileModifierCache(kbd, live)) {
         races++;
       }
 
