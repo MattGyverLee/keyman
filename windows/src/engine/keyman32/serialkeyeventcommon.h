@@ -27,6 +27,28 @@ between low level keyboard hook and serial key event server
 */
 #define WM_KEYMAN_KEY_EVENT (WM_USER + 1)
 #define WM_KEYMAN_MODIFIER_EVENT (WM_USER + 2)
+
+/**
+  #8064 residual gaps, Task 1. Posted by the serial key event server to itself, after a batch's
+  SendInput returns, when that batch's restore half pressed at least one modifier. wParam is the
+  bitmask PrepareInjectedInputBatch wrote to its pRestorePressedMask out-param: bit i set iff
+  KeymanModifierVks[i] was pressed.
+
+  This MUST be a posted message, not an inline check made right after SendInput returns. Posted
+  messages are FIFO. By the time this message is dispatched, every modifier event the low level
+  hook posted *before* this one was posted -- including a user's real release that raced the batch
+  -- has already worked its way through WM_KEYMAN_MODIFIER_EVENT's handler and been applied to the
+  cache. An inline check does not get that guarantee: at the moment SendInput returns, those
+  WM_KEYMAN_MODIFIER_EVENT messages can already be sitting undispatched in this thread's own queue,
+  because we are still inside DispatchMessage for the WM_USER that triggered the batch in the first
+  place -- nothing pumps the queue again until that call returns. Reading the cache at that point
+  would race the very events this pass exists to wait for.
+
+  See PrepareModifierVerificationCorrection (keybd_shift.cpp) for what the handler does with the
+  mask, and SerialKeyEventServer::WndProc for the handler itself.
+*/
+#define WM_KEYMAN_VERIFY_MODIFIER_EVENT (WM_USER + 3)
+
 /**
   The INPUT structure and the KEYBDINPUT structure both vary in size between x86 and x64
   because of the presence of the ULONG_PTR member dwExtraInfo. Thus we need to maintain an
@@ -52,10 +74,24 @@ typedef SHORT (WINAPI *PGETASYNCKEYSTATE)(int vKey);
 
 // Defined in keybd_shift.cpp. Outside any _WIN64 guard on purpose, so both architectures and the
 // gtest project can reach it.
+//
+// cacheIsFed and pRestorePressedMask are #8064 residual-gaps additions (Tasks 1 and 2). Both
+// default so every existing call site -- production and the whole existing test suite -- is
+// unaffected. See the function's own doc comment in keybd_shift.cpp for what each does.
 int PrepareInjectedInputBatch(
   LPINPUT pInputs,
   LPBYTE const kbd,
   const SerialKeyEventSharedData *pSharedData,
+  PGETASYNCKEYSTATE pfnGetAsyncKeyState,
+  BOOL cacheIsFed = TRUE,
+  DWORD *pRestorePressedMask = NULL);
+
+// #8064 residual gaps, Task 1. Defined in keybd_shift.cpp; see its doc comment there and
+// WM_KEYMAN_VERIFY_MODIFIER_EVENT above for the full mechanism.
+int PrepareModifierVerificationCorrection(
+  LPINPUT pInputs,
+  LPBYTE const kbd,
+  DWORD restorePressedMask,
   PGETASYNCKEYSTATE pfnGetAsyncKeyState);
 
 

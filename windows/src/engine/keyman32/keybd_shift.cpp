@@ -228,6 +228,26 @@ void keybd_shift(LPINPUT pInputs, int *n, BOOL isReset, LPBYTE const kbd) {
   Not a gap, measured: SendInput does not return until the injected press is visible to
   GetAsyncKeyState, so a previous batch's re-press cannot still be in flight here. Pinned by
   DISABLED_ReconcileDoesNotRaceItsOwnInjectedRestorePress, which also records what would break.
+
+  Residual gaps Task 3 -- considered and deliberately not widened to the three generic VKs
+  (VK_SHIFT, VK_CONTROL, VK_MENU) that isModifierKey also accepts. UpdateModifierCacheFromKeyEvent
+  has to handle them because that is a hook feed, and a third party can inject anything; this
+  function does not, because GetAsyncKeyState(VK_LSHIFT)/(VK_RSHIFT) etc. is expected to already
+  reflect a generic injection. DISABLED_DwExtraInfoSurvivesSendInputWhereTheScanCodeDoesNot measured
+  that do_keybd_event's own generic-to-chiral collapse (VK_LSHIFT -> VK_SHIFT + a scan code) arrives
+  back at the hook re-chiralised (vkCode 0xA0/0xA1, not 0x10) before the hook ever sees it, which
+  means Windows resolves chirality from the scan code on the way in, not on the way out through
+  GetAsyncKeyState. A generic-VK-press-then-reconcile path is characterised without any code change
+  by MODIFIER_CACHE_EVENT_ORDER.GenericVkEventReconcilesAgainstTheChiralLiveReading, and
+  DISABLED_GenericShiftSendInputReflectsInBothAsyncKeyStates is the live measurement of the specific
+  claim this rests on -- a third party's own SendInput with a generic wVk and scan 0. If that probe
+  ever shows GetAsyncKeyState(VK_LSHIFT) and (VK_RSHIFT) both false while GetAsyncKeyState(VK_SHIFT)
+  is true, this function needs a fallback: OR the generic reading into both chiral halves when
+  neither already reports held. That direction is safe to add later without redesign -- over-
+  reporting live state can only add an extra release or an extra reconcile-clear, never an unmatched
+  KEYDOWN -- but it was not added speculatively here, because it would cost three more reader calls
+  every batch (breaking the "exactly six" invariant above) against a claim the existing measurement
+  already argues does not hold in practice.
 */
 void CaptureLiveModifierState(LPBYTE liveOut, PGETASYNCKEYSTATE pfnGetAsyncKeyState) {
   // Zeroed in full: no caller stack residue is mistaken for a held modifier.
@@ -299,16 +319,41 @@ void ComputeModifierReleaseState(LPBYTE const kbd, LPBYTE releaseStateOut, LPBYT
               kbd                  the modifier cache (256 bytes), reconciled in place
               pSharedData          the output keys to wrap; nInputs is clamped here
               pfnGetAsyncKeyState  live modifier state reader; production passes GetAsyncKeyState
+              cacheIsFed           see "residual gaps Task 2" below. Default TRUE so existing
+                                   callers (and every pre-existing test) are unaffected
+              pRestorePressedMask  see "residual gaps Task 1" below. Optional, default NULL
 
   A free function so the gtest project can reach it; serialkeyeventserver.cpp is #ifndef _WIN64.
   The output-key copy stops MAX_KEYEVENT_INPUTS_MODIFIERS short of the end so the restore half
   fits: the worst case fills the buffer exactly, so an off-by-one is a heap overrun. See #8064.
+
+  Residual gaps Task 2 -- cacheIsFed. ComputeModifierReleaseState's union is only sound when the
+  cache is actually being fed by the low level hook's WM_KEYMAN_MODIFIER_EVENT post, which is
+  itself gated on flag_ShouldSerializeInput (k32_lowlevelkeyboardhook.cpp). With that flag off, the
+  cache never learns anything after its one-time launch seed, so a live-driven release the union
+  adds can never be balanced by a later batch's restore -- the restore half reads kbd, and kbd stays
+  exactly as stale as it started. That is a genuinely new lost-modifier regression the union
+  introduces: before it existed, release and restore both read the same (stale) kbd and so stayed
+  symmetric, which is why "an unfed cache meant no wrap at all" pre-#8064. cacheIsFed makes that
+  precondition explicit: FALSE degrades the release set back to a plain copy of kbd, restoring that
+  symmetry and the pre-union behaviour (including its own, separate #8064 exposure, which is the
+  flag's pre-existing, documented trade-off and not something this task introduces or fixes).
+
+  Residual gaps Task 1 -- pRestorePressedMask. If non-NULL, receives a bitmask over
+  KeymanModifierVks (bit i set iff KeymanModifierVks[i] was pressed by this call's restore half).
+  keybd_shift_reset only ever reads kbd, never writes it, so this is exactly kbd's post-reconcile
+  state restricted to the managed set -- read after the restore call purely so the intent at the
+  read site is unambiguous, not because the restore could have changed it. The caller uses this to
+  scope a post-batch verification pass to only the VKs this batch actually touched. See
+  PrepareModifierVerificationCorrection.
 */
 int PrepareInjectedInputBatch(
   LPINPUT pInputs,
   LPBYTE const kbd,
   const SerialKeyEventSharedData *pSharedData,
-  PGETASYNCKEYSTATE pfnGetAsyncKeyState) {
+  PGETASYNCKEYSTATE pfnGetAsyncKeyState,
+  BOOL cacheIsFed,
+  DWORD *pRestorePressedMask) {
   DWORD nInputs = min(pSharedData->nInputs, MAX_KEYEVENT_INPUTS);
   int n         = 0;
 
@@ -318,12 +363,20 @@ int PrepareInjectedInputBatch(
   CaptureLiveModifierState(live, pfnGetAsyncKeyState);
 
   // Clear any modifier the cache thinks is held but the OS does not, before keybd_shift_reset
-  // below presses it for real. See #8064.
+  // below presses it for real. See #8064. Safe regardless of cacheIsFed: this only ever clears a
+  // byte, which can only turn into a skipped restore or an extra release, never a press.
   ReconcileModifierCache(kbd, live);
 
   // Locals, never member state: a second long-lived cache is a second thing to keep in sync.
   BYTE releaseState[256];
-  ComputeModifierReleaseState(kbd, releaseState, live);
+  if (cacheIsFed) {
+    ComputeModifierReleaseState(kbd, releaseState, live);
+  } else {
+    // Task 2: the union is unsound here -- see the function comment above. Falling back to a bare
+    // copy of kbd keeps the release half reading exactly what the restore half reads, so the two
+    // stay symmetric even though the cache itself may be stale.
+    memcpy(releaseState, kbd, 256);
+  }
 
   keybd_shift(pInputs, &n, FALSE, releaseState);
 
@@ -340,6 +393,94 @@ int PrepareInjectedInputBatch(
   // never releaseState -- re-pressing on the OS's word is unsafe, since the user may let go before
   // SendInput runs. That unmatched KEYDOWN is #8064.
   keybd_shift(pInputs, &n, TRUE, kbd);
+
+  if (pRestorePressedMask != NULL) {
+    DWORD mask = 0;
+    for (int i = 0; i < _countof(KeymanModifierVks); i++) {
+      if (kbd[KeymanModifierVks[i]] & 0x80) {
+        mask |= (1u << i);
+      }
+    }
+    *pRestorePressedMask = mask;
+  }
+
+  return n;
+}
+
+/**
+  PrepareModifierVerificationCorrection builds the post-batch verification pass for the residual
+  gaps left by the batch-level reconcile: a pass-through race (mstsc/RDP, the touch panel, console
+  focus, or GetGUIThreadInfo failure all route the user's real modifier events around the "eat and
+  re-inject" path at the hook, so their ordering relative to a batch's own SendInput is not under
+  Keyman's control) and the accepted C-9/G1 window (the user physically releases while a batch is in
+  flight). Both leave the same residue: the batch's own restore press outlives a user release that
+  raced it, the cache correctly learns the release (because it is the user's own event, not
+  Keyman's), but the OS is left holding the modifier -- cache says up, OS says held. Nothing in the
+  current batch can detect that; ReconcileModifierCache is defined to fix exactly this disagreement,
+  but only on the *next* batch, and only if one arrives. If the chord that produced this batch was
+  the end of a typing burst, or the user switches app or keyboard, no next batch ever comes and the
+  OS holds the modifier indefinitely. This function is what closes that window without waiting for
+  one.
+
+  Parameters: pInputs              at least MAX_KEYEVENT_INPUTS_MODIFIERS INPUT structures
+              kbd                  the modifier cache (256 bytes), read only -- the CURRENT cache,
+                                   not a snapshot from when the batch was built. By the time this
+                                   runs (see the caller, and the comment on
+                                   WM_KEYMAN_VERIFY_MODIFIER_EVENT in serialkeyeventcommon.h, for why
+                                   it is safe to rely on "current"), every modifier event the hook
+                                   posted before this verification was itself posted has already
+                                   been applied here
+              restorePressedMask   bit i set iff KeymanModifierVks[i] was pressed by the batch this
+                                   verification follows -- PrepareInjectedInputBatch's out-param,
+                                   carried through the verify message's wParam. Restricts the check
+                                   to the VKs that batch actually touched; a VK outside this mask is
+                                   left alone even if it happens to disagree, because that
+                                   disagreement, if any, belongs to some other batch
+              pfnGetAsyncKeyState  live modifier state reader; production passes GetAsyncKeyState
+
+  For each VK in restorePressedMask: if the cache now says up but the OS reports it held, the OS is
+  holding a modifier nobody holds, and the correction is a KEYUP. Built via keybd_shift_release
+  rather than emitted directly, so it gets the same prefix protection (an isolated Alt release opens
+  the window menu) and the same EXTRAINFO_FLAG_KEYMAN_MODIFIER_WRAP / SCAN_FLAG_KEYMAN_KEY_EVENT
+  tagging that keeps the correction itself out of the cache.
+
+  Known residual, and it is the reason this is a correction pass rather than a certainty: if
+  the user presses that same modifier again in the handful of milliseconds after the verify message
+  is posted, their fresh KEYDOWN is queued in this thread's message queue behind the verify message
+  (FIFO), so it has not yet reached the cache when this runs. This function then sees cache-up /
+  OS-held and "corrects" a hold that has, by the time the correction lands, become genuine again --
+  releasing the user's real press. That is the cheaper error: an unmatched KEYUP is recoverable by
+  re-pressing, where an unmatched KEYDOWN may not be (an extended Right Ctrl on hardware with no
+  physical Right Ctrl key cannot be cleared by any keystroke the user can produce). Widening this to
+  also *set* cache bytes to avoid the false positive would reintroduce exactly that unmatched-KEYDOWN
+  risk from a third direction; see ReconcileModifierCache's own "clears but never sets" rule, which
+  this deliberately mirrors.
+*/
+int PrepareModifierVerificationCorrection(
+  LPINPUT pInputs,
+  LPBYTE const kbd,
+  DWORD restorePressedMask,
+  PGETASYNCKEYSTATE pfnGetAsyncKeyState) {
+  int n = 0;
+
+  BYTE live[256];
+  CaptureLiveModifierState(live, pfnGetAsyncKeyState);
+
+  BYTE correction[256];
+  memset(correction, 0, 256);
+
+  for (int i = 0; i < _countof(KeymanModifierVks); i++) {
+    if (!(restorePressedMask & (1u << i))) {
+      continue; // outside the set this batch touched -- not this verification's problem
+    }
+    const BYTE vk = KeymanModifierVks[i];
+    if (!(kbd[vk] & 0x80) && (live[vk] & 0x80)) {
+      SendDebugMessageFormat("verification: OS holds vkey=%s that the cache says nobody holds, correcting", Debug_VirtualKey(vk));
+      correction[vk] = 0x80;
+    }
+  }
+
+  keybd_shift_release(pInputs, &n, correction);
 
   return n;
 }
