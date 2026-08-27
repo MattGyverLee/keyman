@@ -101,6 +101,40 @@ and it is the step no ordinary test performs.
 - Notepad open. Nothing more elaborate is needed, and nothing that holds real
   data should be used. See Hazards.
 
+## Automated harness
+
+`run-8064-test.ps1` performs steps 3 to 7 below: it holds the modifier, posts the
+freeze, releases inside the stall, types a probe string, reads the oracle, and
+clears any modifier it left asserted.
+
+It requires `-HostApp`, a path to a **32-bit** application with a text field, and
+verifies that rather than assuming it. There is no default, because on Windows 11
+both `notepad.exe` and `SysWOW64\notepad.exe` report `IsWow64Process` false: they
+resolve to the 64-bit packaged Notepad, whose engine is `keymanx64.dll`, where
+`serialkeyeventserver.cpp` is compiled out and the cache under test does not
+exist. Sourcing a 32-bit host on a current Windows install is the one step still
+to solve before this runs end to end.
+
+The harness reports **INCONCLUSIVE** rather than PASS unless it confirms all four
+of: the freeze took effect, the host is a verified 32-bit process it actually
+brought to the foreground, a Keyman TIP is selected in that host, and Keyman
+transformed the probe text. Each check exists because the first version lacked it
+and produced a false PASS -- it checked only that a host executable existed on
+disk, `MainWindowHandle` stayed 0 so `SetForegroundWindow` did nothing, and the
+keystrokes went to whatever window had focus while three iterations reported PASS
+with the freeze confirmed active. A false PASS on this defect is worse than no
+test.
+
+```
+./run-8064-test.ps1 -HostApp <32-bit editor> -Control    # harness sanity check
+./run-8064-test.ps1 -HostApp <32-bit editor>
+./run-8064-test.ps1 -HostApp <32-bit editor> -Modifier RSHIFT
+```
+
+`-Modifier RSHIFT` is the interesting case: Right Shift is the one modifier whose
+`SCAN_FLAG_KEYMAN_KEY_EVENT` is overwritten with `SCANCODE_RSHIFT`, so only the
+`dwExtraInfo` arm of the provenance gate covers it.
+
 ## Procedure
 
 1. Start `keyboard_ll_identifier`. Press and release Left Shift once and confirm
