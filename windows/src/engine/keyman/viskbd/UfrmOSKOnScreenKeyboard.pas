@@ -222,16 +222,29 @@ procedure TfrmOSKOnScreenKeyboard.kbdShiftChange(Sender: TObject);
 var
   ass, fkcss: TExtShiftState;
 begin
-  // #8064: FCachedShiftState records what the OSK itself has clicked outstanding, and is what
-  // ResetShiftStates releases from -- by exact chiral identity, so that a later SetLRShift collapse
-  // cannot mislabel it. It is snapshotted here, from a click and only from a click: ShiftStateChange
-  // is also reached from UpdateShiftStates' 50 ms resync, whose press branch fires for modifiers the
-  // user is physically holding, and recording those would let teardown release a key the user still
-  // has down -- the I2177 regression this must not reintroduce.
-  FCachedShiftState := kbd.ShiftState;
-
   fkcss := kbd.ShiftState;
   ass := GetAsyncShiftState;
+
+  // #8064: FCachedShiftState records what the OSK itself has clicked outstanding, and is what
+  // ResetShiftStates releases from -- by exact chiral identity, so that a later SetLRShift collapse
+  // cannot mislabel it.
+  //
+  // It must record only what a click is holding, never what the user is physically holding, or
+  // teardown releases a key the user still has down -- the I2177 regression. Assigning
+  // kbd.ShiftState wholesale did exactly that, and measuring it is what caught it: UpdateShiftStates'
+  // 50 ms resync ends with `kbd.ShiftState := GetAsyncShiftState`, so kbd.ShiftState continuously
+  // carries physically-held modifiers, and a click made while the user holds Shift cached essShift
+  // alongside the key actually clicked. ReleaseCached's GetAsyncKeyState gate cannot catch that --
+  // a physically-held key IS down, so the gate passes and the release goes through. Note the hazard
+  // is in the value, not the call path: the resync never has to reach this handler to poison it.
+  //
+  // Subtracting the live async state leaves only what the OSK shows and the OS does not yet have
+  // down, which is the clicked set. This snapshot runs before ShiftStateChange injects anything, so
+  // the just-clicked modifier is not physically down yet and survives the subtraction, while a
+  // physically-held one is excluded. Accumulate rather than assign, because by the time a second
+  // modifier is clicked the first has genuinely been injected and now reads as down -- a plain
+  // subtraction would drop it. Masking with kbd.ShiftState then drops anything clicked back off.
+  FCachedShiftState := (FCachedShiftState + (fkcss - ass)) * fkcss;
 
   ShiftStateChange(fkcss, ass);
 end;
