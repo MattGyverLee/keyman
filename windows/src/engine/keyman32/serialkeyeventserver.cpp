@@ -353,7 +353,7 @@ private:
     //
     // Copy the shared data from the buffer
     //
-    PrepareInjectedInput();
+    DWORD restorePressedMask = PrepareInjectedInput();
 
     //
     // Reset the shared buffer and ensure the data is written out of cache for
@@ -379,17 +379,53 @@ private:
     }
     m_nInputs = 0;
 
+    // #8064 residual gaps, Task 1: schedule the post-batch verification pass -- see
+    // WM_KEYMAN_VERIFY_MODIFIER_EVENT (serialkeyeventcommon.h) for why this has to be a self-post
+    // rather than a check made right here. Only when the restore half actually pressed something:
+    // an empty mask has nothing to verify.
+    //
+    // #8064 residual gaps, Task 2: also only when the cache is actually being fed. With
+    // flag_ShouldSerializeInput off, m_ModifierKeyboardState is stale by construction (see
+    // PrepareInjectedInputBatch's cacheIsFed parameter, just below), so "the cache now says up"
+    // would be comparing the verification against a value that was never being kept current in the
+    // first place -- not a meaningful signal, and not this task's problem to solve.
+    if (flag_ShouldSerializeInput && restorePressedMask != 0) {
+      PostMessage(m_hwnd, WM_KEYMAN_VERIFY_MODIFIER_EVENT, (WPARAM)restorePressedMask, 0);
+    }
+
     return TRUE;
   }
 
   /**
-    Add modifier state adjustment events and then copy the new input
-    events from the shared buffer
+    Add modifier state adjustment events and then copy the new input events from the shared
+    buffer. Returns the bitmask of managed modifiers this batch's restore half pressed (see
+    PrepareInjectedInputBatch's pRestorePressedMask), so the caller can decide whether the
+    post-batch verification pass (#8064 residual gaps, Task 1) is needed.
   */
-  void PrepareInjectedInput() {
+  DWORD PrepareInjectedInput() {
     // In keybd_shift.cpp so the gtest project can reach it; this file is #ifndef _WIN64 and this is
     // a private member, so nothing here is testable. See #8064.
-    m_nInputs = PrepareInjectedInputBatch(m_pInputs, m_ModifierKeyboardState, m_pSharedData, GetAsyncKeyState);
+    DWORD restorePressedMask = 0;
+    m_nInputs = PrepareInjectedInputBatch(
+      m_pInputs, m_ModifierKeyboardState, m_pSharedData, GetAsyncKeyState, flag_ShouldSerializeInput, &restorePressedMask);
+    return restorePressedMask;
+  }
+
+  /**
+    #8064 residual gaps, Task 1. Handles WM_KEYMAN_VERIFY_MODIFIER_EVENT: re-checks the VKs the
+    batch just sent restored, against the cache and live OS state as they stand now (see the
+    message's own comment for why "now" is safe to rely on), and injects a corrective release for
+    any the OS is still holding that nobody -- per the cache -- holds any more.
+  */
+  void ProcessModifierVerification(DWORD restorePressedMask) {
+    INPUT correction[MAX_KEYEVENT_INPUTS_MODIFIERS];
+    // In keybd_shift.cpp so the gtest project can reach it, same reasoning as PrepareInjectedInput.
+    int n = PrepareModifierVerificationCorrection(correction, m_ModifierKeyboardState, restorePressedMask, GetAsyncKeyState);
+    if (n > 0) {
+      if (!SendInput(n, correction, sizeof(INPUT))) {
+        DebugLastError("SendInput");
+      }
+    }
   }
 
   /**
@@ -410,6 +446,13 @@ private:
   LRESULT WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     if (msg == WM_USER) {
       ProcessQueuedKeyEvents();
+    }
+
+    // #8064 residual gaps, Task 1. Handled here, not inline in ProcessQueuedKeyEvents: the whole
+    // point of posting is to land behind every WM_KEYMAN_MODIFIER_EVENT already queued when the
+    // batch's SendInput returned. See the message's own comment in serialkeyeventcommon.h.
+    if (msg == WM_KEYMAN_VERIFY_MODIFIER_EVENT) {
+      ProcessModifierVerification((DWORD)wParam);
     }
 
     /*

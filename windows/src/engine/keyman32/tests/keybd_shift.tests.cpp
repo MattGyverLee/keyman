@@ -471,9 +471,14 @@ protected:
     sharedData.nInputs++;
   }
 
+  // #8064 residual gaps Tasks 1/2: cacheIsFed and restorePressedMask both default so the many
+  // existing call sites above stay exactly as they are.
+  DWORD restorePressedMask;
+
   void
-  RunBatch() {
-    n = PrepareInjectedInputBatch(inputs, kbd, &sharedData, StubGetAsyncKeyState);
+  RunBatch(BOOL cacheIsFed = TRUE) {
+    restorePressedMask = 0;
+    n                  = PrepareInjectedInputBatch(inputs, kbd, &sharedData, StubGetAsyncKeyState, cacheIsFed, &restorePressedMask);
   }
 };
 
@@ -711,6 +716,125 @@ TEST_F(PREPARE_INJECTED_INPUT_BATCH, EveryWrapEventIsIdentifiableAsKeymanInjecte
 }
 
 /*
+  #8064 residual gaps, Task 1. restorePressedMask is what the post-batch verification pass scopes
+  itself to, so it has to name exactly the VKs the restore half pressed -- no more, no less.
+  keybd_shift_reset reads kbd only and never writes it, so the mask is really just kbd's
+  post-reconcile state re-expressed as a bitmask; these pin that translation.
+*/
+TEST_F(PREPARE_INJECTED_INPUT_BATCH, RestorePressedMaskIsZeroWhenNothingIsRestored) {
+  AddOutputKey('A'); // cache empty, OS empty: nothing released, nothing restored
+
+  RunBatch();
+
+  EXPECT_EQ(restorePressedMask, (DWORD)0);
+}
+
+TEST_F(PREPARE_INJECTED_INPUT_BATCH, RestorePressedMaskNamesExactlyTheVkTheRestoreHalfPressed) {
+  kbd[VK_LSHIFT]                 = 0x80;
+  g_liveModifierState[VK_LSHIFT] = 0x80; // agree, so the restore half actually presses it
+  AddOutputKey('A');
+
+  RunBatch();
+
+  int index = -1;
+  for (int i = 0; i < (int)_countof(KeymanModifierVks); i++) {
+    if (KeymanModifierVks[i] == VK_LSHIFT) {
+      index = i;
+    }
+  }
+  ASSERT_NE(index, -1);
+
+  EXPECT_EQ(restorePressedMask, (DWORD)(1u << index));
+}
+
+TEST_F(PREPARE_INJECTED_INPUT_BATCH, RestorePressedMaskCoversAllSixWhenAllAreRestored) {
+  for (int i = 0; i < (int)_countof(KeymanModifierVks); i++) {
+    kbd[KeymanModifierVks[i]]                 = 0x80;
+    g_liveModifierState[KeymanModifierVks[i]] = 0x80;
+  }
+  AddOutputKey('A');
+
+  RunBatch();
+
+  const DWORD allSix = (1u << KEYMAN_MODIFIER_VK_COUNT) - 1;
+  EXPECT_EQ(restorePressedMask, allSix);
+}
+
+TEST_F(PREPARE_INJECTED_INPUT_BATCH, RestorePressedMaskExcludesAModifierTheReconcileCleared) {
+  kbd[VK_LSHIFT]                 = 0x80; // cache: held, the dropped-KEYUP residue
+  g_liveModifierState[VK_LSHIFT] = 0;    // OS: up -- reconcile clears it before the restore half runs
+  AddOutputKey('A');
+
+  RunBatch();
+
+  EXPECT_EQ(restorePressedMask, (DWORD)0) << "a reconciled-away modifier must not appear in the mask, "
+                                          << "or the verification pass would check a VK the restore half never touched";
+}
+
+TEST_F(PREPARE_INJECTED_INPUT_BATCH, RestorePressedMaskExcludesAModifierReleasedOnlyOnTheOssWord) {
+  kbd[VK_LSHIFT]                 = 0;    // cache: clear -- Keyman never saw the KEYDOWN
+  g_liveModifierState[VK_LSHIFT] = 0x80; // OS: held, so the release half releases it (G1)
+  AddOutputKey('A');
+
+  RunBatch();
+
+  EXPECT_EQ(restorePressedMask, (DWORD)0) << "the restore half must not press this, so it must not "
+                                          << "be in the mask either -- invariant I-6 restated";
+}
+
+/*
+  #8064 residual gaps, Task 2. flag_ShouldSerializeInput off means the low level hook never posts
+  WM_KEYMAN_MODIFIER_EVENT, so nothing ever updates kbd after its one-time launch seed.
+  ComputeModifierReleaseState's union would then release a live-held modifier that no later batch
+  could ever restore, because the cache that governs restoration never learns anything either --
+  a permanent lost-modifier regression the union introduces that pre-#8064 code could not produce
+  (release and restore both read the same stale kbd there, so stayed symmetric). cacheIsFed=FALSE
+  must fall back to a cache-only release set to preserve that symmetry.
+
+  To see this test demonstrate the regression, revert only the
+  `if (cacheIsFed) { ComputeModifierReleaseState(...); } else { memcpy(releaseState, kbd, 256); }`
+  block in PrepareInjectedInputBatch back to an unconditional `ComputeModifierReleaseState(kbd,
+  releaseState, live);` call (leaving the cacheIsFed parameter itself in place so this file still
+  compiles). Expected failure: `Count(VK_SHIFT, true)` is 1, not the asserted 0.
+*/
+TEST_F(PREPARE_INJECTED_INPUT_BATCH, CacheNotFedLeavesALiveHeldModifierUntouched) {
+  kbd[VK_LSHIFT]                 = 0;    // cache: never learned it, because the feed is off
+  g_liveModifierState[VK_LSHIFT] = 0x80; // OS: genuinely held
+  AddOutputKey('A');
+
+  RunBatch(FALSE);
+
+  EXPECT_EQ(Count(VK_SHIFT, true), 0)
+      << "the cache is not fed, so releasing this modifier can never be undone by a later batch: "
+      << "that is a new, permanent lost-modifier regression the union must not introduce here";
+  EXPECT_EQ(Count(VK_SHIFT, false), 0);
+  EXPECT_EQ(restorePressedMask, (DWORD)0);
+}
+
+TEST_F(PREPARE_INJECTED_INPUT_BATCH, CacheNotFedStillReleasesAndRestoresWhatTheCacheAloneHolds) {
+  kbd[VK_LSHIFT]                 = 0x80; // cache: held (from the launch-time seed, say)
+  g_liveModifierState[VK_LSHIFT] = 0x80; // OS agrees
+  AddOutputKey('A');
+
+  RunBatch(FALSE);
+
+  EXPECT_EQ(Count(VK_SHIFT, true), 1) << "cache-held modifiers are still released, exactly as before G1";
+  EXPECT_EQ(Count(VK_SHIFT, false), 1) << "and still restored, because release and restore agree again";
+}
+
+TEST_F(PREPARE_INJECTED_INPUT_BATCH, CacheNotFedStillReconciles) {
+  kbd[VK_LSHIFT]                 = 0x80; // cache: stale-held
+  g_liveModifierState[VK_LSHIFT] = 0;    // OS: up
+  AddOutputKey('A');
+
+  RunBatch(FALSE);
+
+  EXPECT_EQ(kbd[VK_LSHIFT], (BYTE)0) << "the reconcile runs regardless of cacheIsFed -- it only ever "
+                                     << "clears, which is safe whether or not the cache is kept current";
+  EXPECT_EQ(Count(VK_SHIFT, false), 0);
+}
+
+/*
   ComputeModifierReleaseState at the function level rather than through the batch.
 */
 class COMPUTE_MODIFIER_RELEASE_STATE : public RECONCILE_MODIFIER_CACHE {
@@ -854,13 +978,159 @@ TEST_F(COMPUTE_MODIFIER_RELEASE_STATE, ModifierEventCountNeverExceedsReserveForT
 }
 
 /*
+  #8064 residual gaps, Task 1: PrepareModifierVerificationCorrection, the post-batch verification
+  pass. No SCOPED_TRACE below, for the same gtest 1.8.1 leak-detector reason as elsewhere in this
+  file.
+*/
+class PREPARE_MODIFIER_VERIFICATION_CORRECTION : public LIVE_MODIFIER_STATE {
+protected:
+  // Bit for KeymanModifierVks[index]-shaped calls, matching PrepareInjectedInputBatch's mask.
+  static DWORD
+  MaskBit(BYTE vk) {
+    for (int i = 0; i < (int)_countof(KeymanModifierVks); i++) {
+      if (KeymanModifierVks[i] == vk) {
+        return 1u << i;
+      }
+    }
+    return 0;
+  }
+
+  void
+  RunCorrection(DWORD restorePressedMask) {
+    n = PrepareModifierVerificationCorrection(inputs, kbd, restorePressedMask, StubGetAsyncKeyState);
+  }
+};
+
+/*
+  The scenario this whole task exists for: a batch's own restore press outlived a user release that
+  raced it (the pass-through race, or the accepted C-9/G1 window). Cache correctly says up -- the
+  user's release was the user's own event, and reached the cache -- but the OS still reports it
+  held, because Keyman's own restore press is what is latching it.
+*/
+TEST_F(PREPARE_MODIFIER_VERIFICATION_CORRECTION, CorrectsAModifierTheOsHoldsThatTheCacheSaysNobodyHolds) {
+  kbd[VK_LSHIFT]                 = 0;    // cache: up -- the user's race-winning release reached it
+  g_liveModifierState[VK_LSHIFT] = 0x80; // OS: still held -- this batch's own restore press
+
+  RunCorrection(MaskBit(VK_LSHIFT));
+
+  EXPECT_EQ(Count(VK_SHIFT, true), 1) << "the OS is holding a modifier nobody holds; this must correct it";
+  EXPECT_EQ(Count(VK_SHIFT, false), 0) << "a correction is a release only, never a press";
+}
+
+/*
+  Restrict the check to the VKs this batch pressed. A VK outside restorePressedMask is a different
+  batch's problem, even if it happens to disagree right now.
+*/
+TEST_F(PREPARE_MODIFIER_VERIFICATION_CORRECTION, DoesNotTouchAVkOutsideTheRestorePressedMask) {
+  kbd[VK_LSHIFT]                 = 0;    // would trigger a correction on its own merits
+  g_liveModifierState[VK_LSHIFT] = 0x80;
+
+  RunCorrection(0); // this batch's restore half pressed nothing
+
+  EXPECT_EQ(n, 0) << "VK_LSHIFT was not in the mask, so it must not be corrected";
+}
+
+/*
+  Agreement -- cache still says held -- means nothing latched on Keyman's own doing; leave it alone.
+*/
+TEST_F(PREPARE_MODIFIER_VERIFICATION_CORRECTION, DoesNotCorrectWhenTheCacheStillReportsItHeld) {
+  kbd[VK_LSHIFT]                 = 0x80; // cache: still held, e.g. the user is genuinely holding it
+  g_liveModifierState[VK_LSHIFT] = 0x80;
+
+  RunCorrection(MaskBit(VK_LSHIFT));
+
+  EXPECT_EQ(n, 0) << "cache and OS agree, so there is nothing to correct";
+}
+
+/*
+  Cache up and OS also up: the restore press was never latched, or already resolved. Nothing to do.
+*/
+TEST_F(PREPARE_MODIFIER_VERIFICATION_CORRECTION, DoesNotCorrectWhenTheOsAlsoReportsItUp) {
+  kbd[VK_LSHIFT]                 = 0;
+  g_liveModifierState[VK_LSHIFT] = 0; // OS: also up
+
+  RunCorrection(MaskBit(VK_LSHIFT));
+
+  EXPECT_EQ(n, 0);
+}
+
+/*
+  Right Ctrl is the field case that matters: emitted as VK_CONTROL | KEYEVENTF_EXTENDEDKEY, so on
+  hardware without that key nothing the user can produce clears it if this pass gets it wrong.
+*/
+TEST_F(PREPARE_MODIFIER_VERIFICATION_CORRECTION, CorrectsRightControlAsExtendedControl) {
+  kbd[VK_RCONTROL]                 = 0;
+  g_liveModifierState[VK_RCONTROL] = 0x80;
+
+  RunCorrection(MaskBit(VK_RCONTROL));
+
+  int i = IndexOf(VK_CONTROL, true);
+  ASSERT_NE(i, -1);
+  EXPECT_EQ(inputs[i].ki.dwFlags & KEYEVENTF_EXTENDEDKEY, (DWORD)KEYEVENTF_EXTENDEDKEY);
+  EXPECT_EQ(Count(VK_RCONTROL, true), 0) << "VK_RCONTROL must never reach SendInput";
+}
+
+/*
+  An isolated Alt release opens the window menu, exactly as it would from keybd_shift_release
+  directly -- this pass must get the same prefix protection, not a bespoke bare KEYUP.
+*/
+TEST_F(PREPARE_MODIFIER_VERIFICATION_CORRECTION, UsesThePrefixProtectionForAnIsolatedAltCorrection) {
+  kbd[VK_LMENU]                 = 0;
+  g_liveModifierState[VK_LMENU] = 0x80;
+
+  RunCorrection(MaskBit(VK_LMENU));
+
+  ASSERT_EQ(n, 3) << "prefix down + prefix up + the one correction keyup";
+  EXPECT_EQ(inputs[0].ki.dwFlags & KEYEVENTF_KEYUP, (DWORD)0);
+  EXPECT_EQ(inputs[1].ki.dwFlags & KEYEVENTF_KEYUP, (DWORD)KEYEVENTF_KEYUP);
+  EXPECT_EQ(inputs[2].ki.wVk, (WORD)VK_MENU);
+  EXPECT_EQ(inputs[2].ki.dwFlags & KEYEVENTF_KEYUP, (DWORD)KEYEVENTF_KEYUP);
+}
+
+/*
+  The correction must be tagged the same way keybd_shift_release always tags a wrap event, or it
+  would feed straight back into the cache and the gate at the hook could not tell it apart from a
+  physical keystroke.
+*/
+TEST_F(PREPARE_MODIFIER_VERIFICATION_CORRECTION, TheCorrectionIsIdentifiableAsKeymanInjected) {
+  kbd[VK_LSHIFT]                 = 0;
+  g_liveModifierState[VK_LSHIFT] = 0x80;
+
+  RunCorrection(MaskBit(VK_LSHIFT));
+
+  int i = IndexOf(VK_SHIFT, true);
+  ASSERT_NE(i, -1);
+  EXPECT_TRUE(IsKeymanInjectedKeyEvent(inputs[i].ki.wScan, inputs[i].ki.dwExtraInfo))
+      << "an untagged correction would re-enter the cache through the hook's WM_KEYMAN_MODIFIER_EVENT post";
+}
+
+/*
+  Every managed VK, one at a time, so a check that covers only some of restorePressedMask's bits
+  fails here rather than in the field.
+*/
+TEST_F(PREPARE_MODIFIER_VERIFICATION_CORRECTION, CorrectsEveryManagedVkInTurn) {
+  for (int i = 0; i < (int)_countof(KeymanModifierVks); i++) {
+    memset(kbd, 0, sizeof(kbd));
+    memset(g_liveModifierState, 0, sizeof(g_liveModifierState));
+
+    const BYTE vk                 = KeymanModifierVks[i];
+    kbd[vk]                       = 0;
+    g_liveModifierState[vk]       = 0x80;
+
+    RunCorrection(MaskBit(vk));
+
+    EXPECT_GT(n, 0) << "vkCode " << (int)vk << " was not corrected";
+  }
+}
+
+/*
   The cache is fed by every modifier event the hook posts, Keyman's own injected ones included,
   because the WM_KEYMAN_MODIFIER_EVENT post at k32_lowlevelkeyboardhook.cpp:196 runs before the
   "generated by Keyman" pass-through at :224. These cases pin what that costs when a real user
   event interleaves with a batch's own release and restore.
 
   do_keybd_event collapses the chiral VK to VK_SHIFT before injecting, but the hook does not see it
-  that way: DISABLED_DwExtraInfoSurvivesSendInputWhereTheScanCodeDoesNot measured vkCode 0xA0 and
+  that way: DwExtraInfoSurvivesSendInputWhereTheScanCodeDoesNot measured vkCode 0xA0 and
   0xA1, so Windows re-chiralises from the scan code before the hook is called. These cases feed the
   collapsed VK_SHIFT form anyway, because UpdateModifierCacheFromKeyEvent resolves it by scan code
   to the same kbd[VK_LSHIFT] byte either way, and that keeps the VK_SHIFT branch covered. Do not
@@ -1020,6 +1290,45 @@ TEST_F(MODIFIER_CACHE_EVENT_ORDER, TheStaleByteSurvivesTheReconcileBecauseTheOsA
 }
 
 /*
+  #8064 residual gaps, Task 3. isModifierKey accepts nine VKs -- the six chiral ones plus generic
+  VK_SHIFT/VK_CONTROL/VK_MENU, "because perhaps some app will send them through SendInput"
+  (UpdateModifierCacheFromKeyEvent's own comment). CaptureLiveModifierState only ever reads the six
+  chiral VKs. The audited concern: a third party's SendInput(wVk=VK_SHIFT, wScan=0) files into
+  kbd[VK_LSHIFT] via the hook feed, and if Windows only asserted the generic async state (and not
+  the chiral one) for such an injection, ReconcileModifierCache would then see "cache says held, OS
+  (checked at VK_LSHIFT only) says up" and erase the very byte that generic event just set correctly
+  -- the next batch would inject output with Shift physically down but Keyman believing it up.
+
+  This characterises the reconcile side of that scenario with the tools already in this file: feed
+  the cache exactly as the hook's gated post would (a generic VK_SHIFT event, collapsed by
+  UpdateModifierCacheFromKeyEvent's own VK_SHIFT case to kbd[VK_LSHIFT], scan 0 so it is not
+  SCANCODE_RSHIFT), then reconcile against a live reading that reports the *chiral* VK held --
+  which is what GenericShiftSendInputReflectsInBothAsyncKeyStates exists to confirm Windows
+  actually does. It is a real, buildable, CI-safe test: it proves the reconcile is correct **given**
+  that assumption, not that the assumption holds -- that half is the probe below, which asserts for
+  real wherever its own capability check passes and skips cleanly where it does not.
+*/
+TEST_F(MODIFIER_CACHE_EVENT_ORDER, GenericVkEventReconcilesAgainstTheChiralLiveReading) {
+  BYTE live[256];
+
+  // The hook feed, as it would look for a third party's generic SendInput(VK_SHIFT, scan=0):
+  // UpdateModifierCacheFromKeyEvent's VK_SHIFT case collapses it to VK_LSHIFT, because scan 0 is
+  // not SCANCODE_RSHIFT.
+  UpdateModifierCacheFromKeyEvent(kbd, VK_SHIFT, FALSE, 0, FALSE);
+  ASSERT_EQ(kbd[VK_LSHIFT], (BYTE)0x80) << "the generic event did not reach the chiral slot it should";
+
+  // The live reading, if Windows re-chiralises the async state the way
+  // GenericShiftSendInputReflectsInBothAsyncKeyStates measures.
+  memset(live, 0, sizeof(live));
+  live[VK_LSHIFT] = 0x80;
+
+  EXPECT_FALSE(ReconcileModifierCache(kbd, live))
+      << "the chiral live reading agrees with the cache, so the generic-VK press must survive "
+      << "reconciliation intact";
+  EXPECT_EQ(kbd[VK_LSHIFT], (BYTE)0x80);
+}
+
+/*
   IsKeymanInjectedKeyEvent decides which events may feed the modifier cache. The mstsc and OSK rows
   are regression guards: filtering on LLKHF_INJECTED, or on dwExtraInfo != 0, would classify those
   as Keyman's and strip a modifier the user or the OSK genuinely holds.
@@ -1092,21 +1401,66 @@ SeedProbeThread(LPVOID param) {
     this thread : GetKeyboardState ok=1 byte=0x00, GetAsyncKeyState=0x8001
     fresh thread: GetKeyboardState ok=1 byte=0x81, GetAsyncKeyState=0x8000
 
-  DISABLED_ deliberately: it asserts a real modifier machine-wide briefly, so it is a demonstration
-  artifact, not a CI gate. Run by hand with --gtest_also_run_disabled_tests, nothing else focused.
+  Asserts a real modifier machine-wide briefly, so it needs the capability to inject and observe
+  real keyboard state -- present on an interactive desktop, absent on a Session-0 CI service
+  account with no input desktop. Left DISABLED_ forever, this assumption would rot unchecked even
+  on the machines that COULD check it -- dev boxes, interactive CI runners. Instead this test
+  detects that capability itself, at runtime, and skips cleanly when it is absent, so it asserts for
+  real everywhere it can.
+
+  #8064 residual gaps, Task 4. gtest 1.8.1 has no GTEST_SKIP() (grepped the vendored headers under
+  tests/packages/ to confirm -- it was added in googletest 1.10). SUCCEED() plus a WARNING log is
+  this codebase's established substitute; DISABLED_ResetDoesNotPressAKeyThatIsNotHeld and the
+  "already held" precondition check just below already use the same shape. It shows as PASSED with
+  an explanatory log line rather than a distinct SKIPPED status, but nothing that would have been
+  asserted is asserted, so it is not a false pass.
+
+  The capability check below reuses the test's own real injection as the probe, rather than a
+  static check like OpenInputDesktop or GetProcessWindowStation: a desktop object existing does not
+  prove keybd_event's output actually reaches GetAsyncKeyState from this process, which is exactly
+  what this test depends on and the only thing worth checking. GetAsyncKeyState is desktop-global,
+  not per-thread (unlike GetKeyboardState/GetKeyState, which read the calling thread's processed
+  queue), so seeing the injected press on the calling thread is sufficient evidence the fresh thread
+  spawned below would see it too.
+
+  What breaks silently if this assumption rots and nothing notices, on the machines where it DOES
+  run: if a future Windows update stops seeding a freshly created thread's GetKeyboardState from live
+  state (i.e. the fresh-thread reading in the "this thread"/"fresh thread" comparison above goes
+  back to reading as empty), InitThread's seed becomes a no-op again, and a modifier held while
+  Keyman starts is invisible to the cache until the user's next press or release of it -- exactly
+  the launch-time hole R-3 in research.md describes as already closed by ReconcileModifierCache. It
+  would not reopen #8064 itself, because ReconcileModifierCache only ever clears, but it would mean
+  the cache's launch-time state is wrong until the first real event.
 */
-TEST_F(KEYBD_SHIFT, DISABLED_FreshThreadKeyboardStateReflectsLiveModifiers) {
+TEST_F(KEYBD_SHIFT, FreshThreadKeyboardStateReflectsLiveModifiers) {
   if (GetAsyncKeyState(VK_LSHIFT) < 0) {
     GTEST_LOG_(WARNING) << "Left Shift already reads down; precondition unmet, not evaluated";
     SUCCEED();
     return;
   }
 
-  // Assert Left Shift for real, so there is something for the seed to find.
+  // Assert Left Shift for real, so there is something for the seed to find. This doubles as the
+  // capability probe below: if it is not observable here, nothing downstream can be measured.
   keybd_event(VK_LSHIFT, 0, 0, 0);
   Sleep(150);
 
   const SHORT callerAsync = GetAsyncKeyState(VK_LSHIFT);
+
+  if (callerAsync >= 0) {
+    // The environment cannot do what this test needs -- most likely no interactive input desktop
+    // (a Session-0 CI service account), possibly something else entirely. Either way, continuing
+    // would fail EXPECT_LT(r.asyncState, 0) below for a reason that has nothing to do with whether
+    // GetKeyboardState's seed behaviour has regressed, which is a false failure and worse than no
+    // coverage. Release defensively (harmless whether or not anything actually landed) and skip.
+    keybd_event(VK_LSHIFT, 0, KEYEVENTF_KEYUP, 0);
+    GTEST_LOG_(WARNING) << "SKIPPED: keybd_event's injected press was not observable via "
+                        << "GetAsyncKeyState in this process. This test needs an interactive input "
+                        << "desktop to inject and observe real keyboard state; see the test's own "
+                        << "comment for why a static desktop check is not used instead.";
+    SUCCEED();
+    return;
+  }
+
   BYTE callerState[256];
   memset(callerState, 0xCC, sizeof(callerState));
   const BOOL callerOk = GetKeyboardState(callerState);
@@ -1211,14 +1565,60 @@ ReleaseAndSettle(BYTE vk) {
   process's own previous batch pressed, capped at one consecutive skip per VK so a genuine latch is
   still cleared on the batch after.
 
-  DISABLED_ deliberately: it asserts real modifiers machine-wide. Run by hand with
-  --gtest_also_run_disabled_tests, nothing else focused.
+  Asserts real modifiers machine-wide and needs the same interactive-input-desktop capability as
+  FreshThreadKeyboardStateReflectsLiveModifiers (see its comment for why that capability is checked
+  at runtime rather than assumed absent forever via DISABLED_, and why gtest 1.8.1's lack of
+  GTEST_SKIP() makes SUCCEED()-plus-a-warning this codebase's substitute).
+
+  #8064 residual gaps, Task 4. The capability probe below is one extra trial injection ahead of the
+  300 the measurement itself performs, checked the exact same way: this is not a lighter-weight
+  proxy, it is one instance of the real mechanism, run once before committing to the rest. On an
+  environment without an interactive input desktop it would otherwise be ASSERT_TRUE(
+  InjectRestorePress(...)) inside the loop that fails first, or EXPECT_EQ(staleReads, 0) failing at
+  the maximum count -- an environmental false failure indistinguishable, from the CI log alone, from
+  a real regression, for a test whose entire point is to be a tight oracle on SendInput/
+  GetAsyncKeyState ordering. That is exactly the false-failure/no-coverage tradeoff the "do not
+  weaken an assertion just to make it pass" instruction is about: the fix is to gate on capability,
+  not to soften the ordering assertions themselves, which stay exactly as strict as before wherever
+  this does run.
+
+  Also worth naming since it does not apply to its sibling probes: this one runs 300 iterations
+  across three filler depths with a release-and-settle poll after each, which is a multi-second,
+  timing-sensitive test in a way none of this file's other tests are. That is a property of what it
+  measures (a timing race), not a reason to keep it disabled -- an interactive dev machine or CI
+  runner can afford a few seconds for the one test in this file that actually needs real timing.
+
+  What breaks silently if this assumption rots and nothing notices, on the machines where it DOES
+  run: if a future Windows makes SendInput return before the injected press is visible to
+  GetAsyncKeyState, CaptureLiveModifierState (keybd_shift.cpp) can then race a previous batch's own
+  restore press. The consequence is not a repeat of #8064 -- it drops a modifier the user is still
+  genuinely holding, one batch, self-correcting on their next physical press or release of it -- but
+  it is a real, silent regression in typing feel that no other test in this file would catch,
+  because every other test drives CaptureLiveModifierState and ReconcileModifierCache through the
+  stub reader, which cannot express a timing race at all.
 */
-TEST_F(KEYBD_SHIFT, DISABLED_ReconcileDoesNotRaceItsOwnInjectedRestorePress) {
+TEST_F(KEYBD_SHIFT, ReconcileDoesNotRaceItsOwnInjectedRestorePress) {
   if (GetAsyncKeyState(VK_LSHIFT) < 0) {
     GTEST_LOG_(WARNING) << "Left Shift already reads down; precondition unmet, not evaluated";
     SUCCEED();
     return;
+  }
+
+  // Capability probe: one trial of the exact mechanism the 300-iteration measurement below depends
+  // on, checked immediately, before committing to the rest. Not a static desktop check -- the same
+  // reasoning as FreshThreadKeyboardStateReflectsLiveModifiers's probe applies here too.
+  {
+    const bool injected = InjectRestorePress(VK_LSHIFT, 0);
+    const bool landed   = injected && GetAsyncKeyState(VK_LSHIFT) < 0;
+    ReleaseAndSettle(VK_LSHIFT); // harmless whether or not anything actually landed
+
+    if (!landed) {
+      GTEST_LOG_(WARNING) << "SKIPPED: SendInput's injected press was not observable via "
+                          << "GetAsyncKeyState in this process. This test needs an interactive "
+                          << "input desktop to inject and observe real keyboard state.";
+      SUCCEED();
+      return;
+    }
   }
 
   LARGE_INTEGER freq;
@@ -1366,10 +1766,35 @@ FindObservation(DWORD vkCode, bool isUp) {
   SCANCODE_RSHIFT for it, so the scan code cannot identify an injected Right Shift. dwExtraInfo is
   passed straight through to input.ki.dwExtraInfo and is untouched by that collapse.
 
-  DISABLED_ deliberately: it installs a global hook and asserts real modifiers machine-wide. Run by
-  hand with --gtest_also_run_disabled_tests, nothing else focused.
+  Installs a global hook and asserts real modifiers machine-wide, so it needs both an interactive
+  input desktop AND that desktop actually routing keyboard messages to a pumped message queue --
+  see the capability probe below for why that is checked with the hook itself rather than a lighter
+  proxy.
+
+  #8064 residual gaps, Task 4. Of the environmentally-sensitive probes in this file, this one's
+  capability requirement is the strictest: SetWindowsHookEx(WH_KEYBOARD_LL, ...) delivers callbacks
+  by posting to the installing thread's message queue during that thread's own keyboard input
+  processing, so passing the SendInput/GetAsyncKeyState-only capability check its siblings use would
+  not be sufficient here -- a desktop that can inject and read state might still never route a
+  keyboard message to a hook (a Session-0 service account, most likely, but the check does not need
+  to name the cause to be correct). That is exactly why the capability probe below IS the real
+  measurement's own first check (g_observedCount after the real injection and PumpFor), not a
+  cheaper stand-in for it: "does the hook see this" has no lighter-weight proxy that avoids
+  installing a hook, so GenericShiftSendInputReflectsInBothAsyncKeyStates below (Task 3)
+  reuses this test's plumbing rather than inventing one.
+
+  What breaks silently if this assumption rots and nothing notices, on the machines where it DOES
+  run: dwExtraInfo is the entire provenance signal IsKeymanInjectedKeyEvent uses for Right Shift,
+  because SCAN_FLAG_KEYMAN_KEY_EVENT is overwritten with SCANCODE_RSHIFT before injection and cannot
+  serve there. If a future Windows ever stopped carrying dwExtraInfo through SendInput to the low
+  level hook, the dwExtraInfo arm of IsKeymanInjectedKeyEvent would always read 0,
+  TheGateCoversRightShiftThroughDwExtraInfo would still pass (it calls IsKeymanInjectedKeyEvent
+  directly, not through a real SendInput round trip), and Keyman's own Right Shift release/restore
+  wrap events would start feeding the modifier cache again -- reopening exactly the
+  KeymanOwnRestorePressOutlivesTheUsersRealRelease defect, for Right Shift only, with nothing in CI
+  able to notice because the one test that exercises the real OS round trip is this one.
 */
-TEST_F(KEYBD_SHIFT, DISABLED_DwExtraInfoSurvivesSendInputWhereTheScanCodeDoesNot) {
+TEST_F(KEYBD_SHIFT, DwExtraInfoSurvivesSendInputWhereTheScanCodeDoesNot) {
   if (GetAsyncKeyState(VK_LSHIFT) < 0 || GetAsyncKeyState(VK_RSHIFT) < 0) {
     GTEST_LOG_(WARNING) << "a Shift key already reads down; precondition unmet, not evaluated";
     SUCCEED();
@@ -1400,8 +1825,19 @@ TEST_F(KEYBD_SHIFT, DISABLED_DwExtraInfoSurvivesSendInputWhereTheScanCodeDoesNot
            (g_observed[i].flags & LLKHF_UP) ? 1 : 0);
   }
 
-  ASSERT_GT(g_observedCount, 0) << "the probe hook saw nothing; the injection did not land and "
-                                << "nothing was measured";
+  if (g_observedCount == 0) {
+    // The capability check: not "the injection did not land" alone (SendInput may well have
+    // succeeded), but that this desktop is not routing keyboard messages to a hooked, pumped
+    // message queue -- the actual round-trip this test depends on. Left Shift and Right Shift were
+    // still sent both down and up above regardless of whether the hook observed them, so nothing
+    // is left asserted machine-wide; there is nothing further to release.
+    GTEST_LOG_(WARNING) << "SKIPPED: the probe hook observed nothing. This test needs an "
+                        << "interactive input desktop that routes keyboard messages to a pumped, "
+                        << "hooked message queue; see the test's own comment for why this is "
+                        << "checked with the hook itself rather than a lighter proxy.";
+    SUCCEED();
+    return;
+  }
 
   // Every observed event must carry the tag. This is the property the gate would rely on.
   for (int i = 0; i < g_observedCount; i++) {
@@ -1430,6 +1866,102 @@ TEST_F(KEYBD_SHIFT, DISABLED_DwExtraInfoSurvivesSendInputWhereTheScanCodeDoesNot
   }
   EXPECT_TRUE(sawRightShiftScanCode)
       << "no event carried SCANCODE_RSHIFT, so the Right Shift leg was not measured";
+
+  EXPECT_GE(GetAsyncKeyState(VK_LSHIFT), 0) << "the probe left Left Shift asserted machine-wide";
+  EXPECT_GE(GetAsyncKeyState(VK_RSHIFT), 0) << "the probe left Right Shift asserted machine-wide";
+}
+
+/*
+  #8064 residual gaps, Task 3. Live measurement: does GetAsyncKeyState(VK_LSHIFT) actually reflect a
+  third party's SendInput(wVk=VK_SHIFT, wScan=0), the way
+  MODIFIER_CACHE_EVENT_ORDER.GenericVkEventReconcilesAgainstTheChiralLiveReading assumes? Placed
+  after DwExtraInfoSurvivesSendInputWhereTheScanCodeDoesNot, and modelled on it, so it can
+  reuse the same probe-hook plumbing: install a hook so the observed vkCode is on record too, since
+  "Windows re-chiralises before the hook" and "GetAsyncKeyState reflects the chiral VK" are two
+  different claims that happen to be argued from the same mechanism (MapVirtualKey resolving scan 0
+  against the VK_SHIFT/layout pair).
+
+  Needs the same hook-round-trip capability as its sibling above, checked the same way (a
+  post-injection g_observedCount of zero means skip, not fail) -- see that test's comment for why
+  this is checked with the hook itself rather than a lighter proxy, and
+  FreshThreadKeyboardStateReflectsLiveModifiers's comment for the general reasoning (runtime
+  capability detection instead of DISABLED_ forever) and why gtest 1.8.1's lack of GTEST_SKIP()
+  makes SUCCEED()-plus-a-warning this codebase's substitute.
+
+  What a pass proves, and what it does not. It confirms the specific mechanism the comment on
+  CaptureLiveModifierState gives for not widening it to the generic VKs, on the machine it was run
+  on. It does not prove no future Windows or no other injector can ever violate the assumption.
+*/
+TEST_F(KEYBD_SHIFT, GenericShiftSendInputReflectsInBothAsyncKeyStates) {
+  if (GetAsyncKeyState(VK_LSHIFT) < 0 || GetAsyncKeyState(VK_SHIFT) < 0) {
+    GTEST_LOG_(WARNING) << "Shift already reads down; precondition unmet, not evaluated";
+    SUCCEED();
+    return;
+  }
+
+  g_observedCount = 0;
+  g_probeHook     = SetWindowsHookEx(WH_KEYBOARD_LL, ProvenanceProbeHook, GetModuleHandle(NULL), 0);
+  ASSERT_NE(g_probeHook, (HHOOK)NULL) << "could not install the probe hook";
+
+  // The audited scenario itself: a generic VK, scan 0, exactly as a third party might inject it --
+  // not through do_keybd_event, which never emits a generic VK_SHIFT with scan 0 in the first place.
+  INPUT input;
+  memset(&input, 0, sizeof(input));
+  input.type     = INPUT_KEYBOARD;
+  input.ki.wVk   = VK_SHIFT;
+  input.ki.wScan = 0;
+  SendInput(1, &input, sizeof(INPUT));
+
+  PumpFor(400);
+
+  UnhookWindowsHookEx(g_probeHook);
+  g_probeHook = NULL;
+
+  const SHORT genericAsync = GetAsyncKeyState(VK_SHIFT);
+  const SHORT leftAsync    = GetAsyncKeyState(VK_LSHIFT);
+  const SHORT rightAsync   = GetAsyncKeyState(VK_RSHIFT);
+
+  printf("GENERIC VK PROBE  GetAsyncKeyState VK_SHIFT=0x%04X VK_LSHIFT=0x%04X VK_RSHIFT=0x%04X\n",
+         (unsigned short)genericAsync, (unsigned short)leftAsync, (unsigned short)rightAsync);
+
+  for (int i = 0; i < g_observedCount; i++) {
+    printf("GENERIC VK PROBE  hook saw vk=0x%02X scan=0x%02X extra=0x%08X flags=0x%02X\n",
+           (unsigned)g_observed[i].vkCode, (unsigned)g_observed[i].scanCode,
+           (unsigned)g_observed[i].dwExtraInfo, (unsigned)g_observed[i].flags);
+  }
+
+  // Release for real before asserting anything, so a failed assertion below does not leave the key
+  // asserted machine-wide.
+  keybd_event(VK_LSHIFT, 0, KEYEVENTF_KEYUP, 0);
+  Sleep(150);
+
+  if (g_observedCount == 0) {
+    // The capability check, same reasoning as DwExtraInfoSurvivesSendInputWhereTheScanCodeDoesNot's:
+    // this desktop is not routing keyboard messages to a hooked, pumped message queue. Already
+    // released above, so nothing is left asserted machine-wide.
+    GTEST_LOG_(WARNING) << "SKIPPED: the probe hook observed nothing. This test needs an "
+                        << "interactive input desktop that routes keyboard messages to a pumped, "
+                        << "hooked message queue.";
+    SUCCEED();
+    return;
+  }
+
+  // The claim CaptureLiveModifierState's comment rests on: the hook sees a chiral vkCode, not the
+  // generic 0x10, because Windows resolved chirality from MapVirtualKey(scan 0) before delivery.
+  EXPECT_NE(g_observed[0].vkCode, (DWORD)VK_SHIFT)
+      << "the hook saw the generic VK_SHIFT undivided; Windows did not re-chiralise it, which is "
+      << "the premise CaptureLiveModifierState's comment rests on";
+
+  // The claim this test exists to add: that GetAsyncKeyState for the chiral VK the hook observed
+  // agrees with the generic reading, so a live-state reader that only checks the six chiral VKs is
+  // not blind to this injection.
+  EXPECT_LT(genericAsync, (SHORT)0) << "GetAsyncKeyState(VK_SHIFT) did not see the injection at all; "
+                                    << "nothing here was measured";
+  EXPECT_TRUE(leftAsync < 0 || rightAsync < 0)
+      << "GetAsyncKeyState(VK_SHIFT) reports the key held, but neither chiral VK does -- "
+      << "CaptureLiveModifierState would miss this, and ReconcileModifierCache could erase a "
+      << "correctly-set cache byte for it. See the hardening sketched in CaptureLiveModifierState's "
+      << "comment if this ever fires";
 
   EXPECT_GE(GetAsyncKeyState(VK_LSHIFT), 0) << "the probe left Left Shift asserted machine-wide";
   EXPECT_GE(GetAsyncKeyState(VK_RSHIFT), 0) << "the probe left Right Shift asserted machine-wide";
