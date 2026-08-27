@@ -137,10 +137,24 @@ if ($DeployBranchBuild) {
   Write-Host "[OK]   backed up to $backup"
 
   Stop-Keyman
-  Copy-Item $branchDll $installed -Force
-  Write-Host ('[OK]   deployed branch build ({0:N0} bytes, was {1:N0})' -f `
-    (Get-Item $installed).Length, (Get-Item $backup).Length)
-  Start-Keyman
+  try {
+    # keyman32.dll is injected into every hooked 32-bit process on the desktop, not just Keyman's
+    # own, so stopping Keyman does not release it and a straight overwrite fails with a sharing
+    # violation. Renaming does work: open handles reference the file object, not the path. Processes
+    # already holding the old DLL keep it until they exit, which is fine here -- the engine under
+    # test is loaded fresh by a newly launched host32, and by the restarted Keyman.
+    $aside = "$installed.inuse-$stamp"
+    Move-Item $installed $aside -Force
+    Write-Host "[OK]   moved the in-use engine aside: $(Split-Path -Leaf $aside)"
+    Copy-Item $branchDll $installed -Force
+    Write-Host ('[OK]   deployed branch build ({0:N0} bytes, was {1:N0})' -f `
+      (Get-Item $installed).Length, (Get-Item $backup).Length)
+  }
+  finally {
+    # Always bring Keyman back, even if the swap failed. Leaving it stopped takes the user's
+    # keyboarding down, which is a worse outcome than a failed deploy.
+    Start-Keyman
+  }
 
   Write-Host ''
   Write-Host 'Next: run host32 again. A PASS now, against a FAIL before, is the evidence.'
@@ -154,7 +168,16 @@ if ($Restore) {
   if (-not $backup) { Write-Host '[FAIL] no backup found' -ForegroundColor Red; exit 3 }
 
   Stop-Keyman
-  Copy-Item $backup.FullName $installed -Force
-  Write-Host ('[OK]   restored {0} ({1:N0} bytes)' -f $backup.Name, (Get-Item $installed).Length)
-  Start-Keyman
+  try {
+    if (Test-Path $installed) {
+      Move-Item $installed "$installed.replaced-$(Get-Date -Format 'yyyyMMdd-HHmmss')" -Force
+    }
+    Copy-Item $backup.FullName $installed -Force
+    Write-Host ('[OK]   restored {0} ({1:N0} bytes)' -f $backup.Name, (Get-Item $installed).Length)
+  }
+  finally {
+    Start-Keyman
+  }
+  Write-Host '       stale .inuse-* / .replaced-* copies in the engine directory can be deleted once'
+  Write-Host '       every process that had the old DLL loaded has exited (a reboot clears them).'
 }
