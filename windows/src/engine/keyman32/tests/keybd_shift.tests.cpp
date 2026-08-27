@@ -1154,3 +1154,164 @@ TEST_F(KEYBD_SHIFT, DISABLED_ReconcileDoesNotRaceItsOwnInjectedRestorePress) {
 
   EXPECT_GE(GetAsyncKeyState(VK_LSHIFT), 0) << "the probe left Left Shift asserted machine-wide";
 }
+
+namespace {
+struct HookObservation {
+  DWORD vkCode;
+  DWORD scanCode;
+  ULONG_PTR dwExtraInfo;
+  DWORD flags;
+};
+
+HookObservation g_observed[64];
+int g_observedCount = 0;
+HHOOK g_probeHook = NULL;
+
+LRESULT CALLBACK
+ProvenanceProbeHook(int nCode, WPARAM wParam, LPARAM lParam) {
+  if (nCode == HC_ACTION && g_observedCount < _countof(g_observed)) {
+    const KBDLLHOOKSTRUCT *hs = (const KBDLLHOOKSTRUCT *)lParam;
+    g_observed[g_observedCount].vkCode      = hs->vkCode;
+    g_observed[g_observedCount].scanCode    = hs->scanCode;
+    g_observed[g_observedCount].dwExtraInfo = hs->dwExtraInfo;
+    g_observed[g_observedCount].flags       = hs->flags;
+    g_observedCount++;
+  }
+  return CallNextHookEx(g_probeHook, nCode, wParam, lParam);
+}
+
+// Injects one modifier event the way do_keybd_event does, with an explicit dwExtraInfo.
+void
+InjectTaggedModifier(BYTE vk, BYTE scan, DWORD flags, ULONG_PTR extraInfo) {
+  INPUT input;
+
+  memset(&input, 0, sizeof(input));
+  input.type = INPUT_KEYBOARD;
+
+  // The same collapse do_keybd_event performs, including the Right Shift scan code rewrite.
+  switch (vk) {
+  case VK_RSHIFT:
+    scan = SCANCODE_RSHIFT;
+    /*fallthrough*/
+  case VK_LSHIFT:
+    input.ki.wVk = VK_SHIFT;
+    break;
+  default:
+    input.ki.wVk = vk;
+    break;
+  }
+
+  input.ki.wScan       = scan;
+  input.ki.dwFlags     = flags;
+  input.ki.dwExtraInfo = extraInfo;
+
+  SendInput(1, &input, sizeof(INPUT));
+}
+
+// WH_KEYBOARD_LL delivers through the installing thread's message queue.
+void
+PumpFor(DWORD ms) {
+  const DWORD until = GetTickCount() + ms;
+  MSG msg;
+  while (GetTickCount() < until) {
+    while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+      TranslateMessage(&msg);
+      DispatchMessage(&msg);
+    }
+    Sleep(1);
+  }
+}
+
+// The first observation for vkCode with the given up/down direction, or NULL.
+const HookObservation *
+FindObservation(DWORD vkCode, bool isUp) {
+  for (int i = 0; i < g_observedCount; i++) {
+    if (g_observed[i].vkCode == vkCode && (((g_observed[i].flags & LLKHF_UP) != 0) == isUp)) {
+      return &g_observed[i];
+    }
+  }
+  return NULL;
+}
+} // namespace
+
+/*
+  Measures whether dwExtraInfo survives SendInput and is visible to a low level keyboard hook, and
+  compares it against the scan code as a provenance signal.
+
+  This decides whether the modifier post at k32_lowlevelkeyboardhook.cpp:196 can be gated on
+  provenance. keyman64.h:131 already carries the TODO -- "Deprecate overloading of scancodes and use
+  dwExtraInfo instead" -- and EXTRAINFO_FLAG_SERIALIZED_USER_KEY_EVENT is already used on the
+  serializer path, so the question is whether the channel is trustworthy for the modifier path too.
+
+  Right Shift is the case that matters. do_keybd_event overwrites SCAN_FLAG_KEYMAN_KEY_EVENT with
+  SCANCODE_RSHIFT for it, so the scan code cannot identify an injected Right Shift. dwExtraInfo is
+  passed straight through to input.ki.dwExtraInfo and is untouched by that collapse.
+
+  DISABLED_ deliberately: it installs a global hook and asserts real modifiers machine-wide. Run by
+  hand with --gtest_also_run_disabled_tests, nothing else focused.
+*/
+TEST_F(KEYBD_SHIFT, DISABLED_DwExtraInfoSurvivesSendInputWhereTheScanCodeDoesNot) {
+  if (GetAsyncKeyState(VK_LSHIFT) < 0 || GetAsyncKeyState(VK_RSHIFT) < 0) {
+    GTEST_LOG_(WARNING) << "a Shift key already reads down; precondition unmet, not evaluated";
+    SUCCEED();
+    return;
+  }
+
+  g_observedCount = 0;
+  g_probeHook     = SetWindowsHookEx(WH_KEYBOARD_LL, ProvenanceProbeHook, GetModuleHandle(NULL), 0);
+  ASSERT_NE(g_probeHook, (HHOOK)NULL) << "could not install the probe hook";
+
+  // Left Shift and Right Shift, down then up, all tagged as Keyman's own.
+  InjectTaggedModifier(VK_LSHIFT, SCAN_FLAG_KEYMAN_KEY_EVENT, 0, EXTRAINFO_FLAG_SERIALIZED_USER_KEY_EVENT);
+  InjectTaggedModifier(VK_LSHIFT, SCAN_FLAG_KEYMAN_KEY_EVENT, KEYEVENTF_KEYUP, EXTRAINFO_FLAG_SERIALIZED_USER_KEY_EVENT);
+  InjectTaggedModifier(VK_RSHIFT, SCAN_FLAG_KEYMAN_KEY_EVENT, 0, EXTRAINFO_FLAG_SERIALIZED_USER_KEY_EVENT);
+  InjectTaggedModifier(VK_RSHIFT, SCAN_FLAG_KEYMAN_KEY_EVENT, KEYEVENTF_KEYUP, EXTRAINFO_FLAG_SERIALIZED_USER_KEY_EVENT);
+
+  PumpFor(400);
+
+  UnhookWindowsHookEx(g_probeHook);
+  g_probeHook = NULL;
+
+  for (int i = 0; i < g_observedCount; i++) {
+    printf("PROVENANCE  vk=0x%02X scan=0x%02X extra=0x%08X flags=0x%02X (injected=%d extended=%d up=%d)\n",
+           (unsigned)g_observed[i].vkCode, (unsigned)g_observed[i].scanCode,
+           (unsigned)g_observed[i].dwExtraInfo, (unsigned)g_observed[i].flags,
+           (g_observed[i].flags & LLKHF_INJECTED) ? 1 : 0,
+           (g_observed[i].flags & LLKHF_EXTENDED) ? 1 : 0,
+           (g_observed[i].flags & LLKHF_UP) ? 1 : 0);
+  }
+
+  ASSERT_GT(g_observedCount, 0) << "the probe hook saw nothing; the injection did not land and "
+                                << "nothing was measured";
+
+  // Every observed event must carry the tag. This is the property the gate would rely on.
+  for (int i = 0; i < g_observedCount; i++) {
+    EXPECT_EQ(g_observed[i].dwExtraInfo, (ULONG_PTR)EXTRAINFO_FLAG_SERIALIZED_USER_KEY_EVENT)
+        << "dwExtraInfo did not survive SendInput for vk "
+        << Debug_VirtualKey((WORD)g_observed[i].vkCode)
+        << ", so it cannot be used as a provenance signal";
+  }
+
+  // And the scan code must NOT identify the injected Right Shift, which is the hole being closed.
+  // Both Shifts arrive as VK_SHIFT collapsed by do_keybd_event's mapping.
+  const HookObservation *shiftDown = FindObservation(VK_SHIFT, false);
+  if (shiftDown == NULL) {
+    shiftDown = FindObservation(VK_LSHIFT, false);
+  }
+  ASSERT_NE(shiftDown, (const HookObservation *)NULL) << "no Shift KEYDOWN was observed";
+
+  bool sawRightShiftScanCode = false;
+  for (int i = 0; i < g_observedCount; i++) {
+    if (g_observed[i].scanCode == SCANCODE_RSHIFT) {
+      sawRightShiftScanCode = true;
+      EXPECT_NE(g_observed[i].scanCode, (DWORD)SCAN_FLAG_KEYMAN_KEY_EVENT)
+          << "an injected Right Shift carried the Keyman scan flag after all, which would mean "
+          << "do_keybd_event no longer rewrites it";
+    }
+  }
+  EXPECT_TRUE(sawRightShiftScanCode)
+      << "no event carried SCANCODE_RSHIFT, so the Right Shift leg was not measured";
+
+  EXPECT_GE(GetAsyncKeyState(VK_LSHIFT), 0) << "the probe left Left Shift asserted machine-wide";
+  EXPECT_GE(GetAsyncKeyState(VK_RSHIFT), 0) << "the probe left Right Shift asserted machine-wide";
+}
