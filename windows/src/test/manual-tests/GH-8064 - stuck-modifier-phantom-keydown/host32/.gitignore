@@ -1,0 +1,4 @@
+host32.exe
+*.obj
+*.pdb
+*.ilk
