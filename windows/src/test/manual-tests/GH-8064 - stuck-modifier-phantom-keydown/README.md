@@ -13,11 +13,34 @@ tree, and the pass/fail oracle is two PowerShell snippets given below.
 | [MODIFIER-PRODUCERS.md](./MODIFIER-PRODUCERS.md) | every production path that can emit a modifier KEYDOWN, with a verdict on each. Read this before concluding that a stuck modifier came from the serializer |
 | [TRIAGE.md](./TRIAGE.md) | how to tell the serializer path from the on-screen keyboard path when a stuck modifier is reported in the field |
 
-**The enumeration found paths the fix does not cover.** The on-screen keyboard can
-strand a modifier machine-wide, including an unclearable Right Control, and its
-cleanup does not run on the common ways of dismissing it. See
-MODIFIER-PRODUCERS.md Finding 1. A stuck modifier reported after this fix ships is
-therefore triaged, not assumed to be a regression.
+## Status
+
+**Before this branch.** Two independent producers could strand a modifier
+machine-wide. The serializer's modifier cache was never re-derived, so one
+dropped KEYUP left a byte stale for the life of the process and
+`keybd_shift_reset` pressed that modifier for real ahead of every injected
+batch. Separately, the on-screen keyboard held a sticky modifier with a real
+chiral KEYDOWN, ran its cleanup on only two of its dismissal paths, and released
+by the *current* `kbd.LRShift` regime rather than the identity it had injected —
+so a keyboard switch could strand an extended `VK_RCONTROL` that no keystroke
+clears on hardware without that physical key.
+
+**On this branch.** Both are closed and measured. The serializer reconciles the
+cache against live state before each batch, releases the union of cache-held and
+OS-held modifiers, and runs a post-batch verification pass for a release that
+raced a batch in flight; the low level hook no longer eats a key event before
+confirming the handoff succeeded, and no longer feeds the cache from Keyman's own
+injected events. Every OSK dismissal path now reaches cleanup, and both the
+teardown and a live click-off release the exact chiral identity that was
+injected.
+
+**What is left.** Two producers remain `UNMITIGATED` —
+`keyman.exe` killed or crashed while an OSK sticky modifier is held, and
+`PostKeys` pair-splitting under queue truncation — plus four issues to file and
+one unattributed observation. See
+[MODIFIER-PRODUCERS.md](./MODIFIER-PRODUCERS.md#what-is-left). Because those hold
+on every released build, a stuck modifier reported after this fix ships is
+triaged through [TRIAGE.md](./TRIAGE.md), not assumed to be a regression.
 
 ## What is being tested
 
@@ -34,7 +57,7 @@ otherwise. `InitThread` calls `GetKeyboardState`, which reports the *calling
 thread's* processed input queue rather than the live hardware state — so the
 natural reading is that a worker thread which has never pumped input gets
 nothing useful. Measured, it gets the opposite.
-`KEYBD_SHIFT.DISABLED_FreshThreadKeyboardStateReflectsLiveModifiers` in
+`KEYBD_SHIFT.FreshThreadKeyboardStateReflectsLiveModifiers` in
 `windows/src/engine/keyman32/tests/keybd_shift.tests.cpp` holds Left Shift down
 and reads both threads:
 
@@ -60,10 +83,9 @@ The result is not a Keyman typing glitch. It is a modifier stuck down
 exact matching KEYUP arrives.
 
 The automated counterpart is `KEYBD_SHIFT.*` and `RECONCILE_MODIFIER_CACHE.*` in
-`windows/src/engine/keyman32/tests/keybd_shift.tests.cpp`. Those construct the
-stale byte directly. This test is the only one that exercises the real path: a
-genuinely stalled hook, a genuinely dropped event, and `SendInput` reaching the
-whole machine.
+the same test file. Those construct the stale byte directly. This test is the
+only one that exercises the real path: a genuinely stalled hook, a genuinely
+dropped event, and `SendInput` reaching the whole machine.
 
 ## Why a smoke test never finds it
 
@@ -87,6 +109,18 @@ and it is the step no ordinary test performs.
 > `keyboard_ll_identifier` installs a **global** low level hook and logs every
 > modifier keystroke on the machine while it runs. It does not log character
 > keys, but close it before typing anything sensitive.
+
+**The engine's own log lines are off in every shipped build, and that is a build
+switch rather than a missing feature.** `common/windows/delphi/general/klog.pas:26`
+reads `{DEFINE KLOGGING}` -- a comment, because the `$` is missing -- so `KL.Log`
+compiles away and `keyman.exe` emits nothing to `OutputDebugString`. The `KL.Log`
+calls themselves are already upstream; this branch adds none. Restore the `$` and
+rebuild to get them, which is how
+[`evidence/run-osk-clickoff-2026-08-27.txt`](evidence/run-osk-clickoff-2026-08-27.txt)
+was captured (via the DBWIN protocol). Note the blind spot that build still has:
+`keyman32.dll` runs inside every hooked process and logs through the C++
+`SendDebugMessage`/ETW path, which an `OutputDebugString` capture of `keyman.exe`
+does not see.
 
 ## Preconditions
 
@@ -117,6 +151,12 @@ The wedged modifier was reported as `SHIFT, LSHIFT` -- both the side-agnostic an
 the chiral VK. Reading only the six cache slots would have scored the wedged
 machine clean, which is why the oracle reads all nine.
 
+Those runs were taken **without** the engine log on. The pass/fail table is read
+from `GetAsyncKeyState`, not from a log, so it does not depend on that — but the
+serializer-path signals [TRIAGE.md](./TRIAGE.md) tells a responder to read are
+still what the source predicts rather than what was observed. Only the OSK runs
+carry a `KLOGGING` trace.
+
 ## Automated harness
 
 `run-8064-test.ps1` performs steps 3 to 7 below: it holds the modifier, posts the
@@ -141,35 +181,20 @@ cl /nologo /W4 /EHsc /MT /DUNICODE /D_UNICODE host32.cpp \
    /link /SUBSYSTEM:WINDOWS user32.lib gdi32.lib /OUT:host32.exe
 ```
 
-### Known blocker: synthetic input needs real keyboard focus
-
-Driving the host from the harness does not yet work, and the reason is a Windows
-constraint rather than a bug in either. A background process cannot reliably grant
-another process's window keyboard focus: `SetForegroundWindow` succeeds and
-`GetForegroundWindow` confirms the host is foreground, yet `GetFocus` in the host's
-thread stays 0 and `SendInput` keystrokes go nowhere. `WM_CHAR` posted directly to
-the Edit does arrive, which is how we know the control and the read-back are fine.
-Claiming focus from `WM_ACTIVATE` inside the host does not help either, because
-`SetFocus` needs the calling thread to own the active window.
-
-This is why the procedure was manual: a person pressing keys has focus by
-construction.
-
-The fix is to move the sequence **into** `host32` and let it drive itself. It owns
-its own window, so it can focus its Edit, hold a modifier with `SendInput`, spawn
-`fakefreeze`, release inside the stall, type the probe, and read `GetAsyncKeyState`
-without any cross-process focus handover. That is the next step and it removes the
-blocker entirely rather than working around it.
+`host32` drives the whole sequence itself rather than being driven from the
+harness, and that is a Windows constraint rather than a preference. A background
+process cannot reliably grant another process's window keyboard focus:
+`SetForegroundWindow` succeeds and `GetForegroundWindow` confirms the host is
+foreground, yet `GetFocus` in the host's thread stays 0 and `SendInput`
+keystrokes go nowhere, because `SetFocus` needs the calling thread to own the
+active window. A process that owns its own window has focus by construction, the
+same way a person pressing keys does.
 
 The harness reports **INCONCLUSIVE** rather than PASS unless it confirms all four
 of: the freeze took effect, the host is a verified 32-bit process it actually
 brought to the foreground, a Keyman TIP is selected in that host, and Keyman
-transformed the probe text. Each check exists because the first version lacked it
-and produced a false PASS -- it checked only that a host executable existed on
-disk, `MainWindowHandle` stayed 0 so `SetForegroundWindow` did nothing, and the
-keystrokes went to whatever window had focus while three iterations reported PASS
-with the freeze confirmed active. A false PASS on this defect is worse than no
-test.
+transformed the probe text. A precondition that is merely plausible produces a
+false PASS, and a false PASS on this defect is worse than no test.
 
 ```
 ./run-8064-test.ps1 -HostApp <32-bit editor> -Control    # harness sanity check
