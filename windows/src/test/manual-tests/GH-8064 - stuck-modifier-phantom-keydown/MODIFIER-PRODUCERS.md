@@ -31,33 +31,33 @@ however sound the source-level reasoning looks.
 The rule earned its keep in the process: the run found that the teardown fix had
 reintroduced I2177, which every prior source read had missed.
 
-`2a` and `2b` nonetheless remain `UNMITIGATED`, now for substantive reasons
-rather than for want of a compiler — see their rows, and note that `2a`'s live
-click-off half is not merely unfixed but **confirmed broken at runtime**.
+`2a` and `2b` are **promoted to `mitigated`** on the strength of that run and a
+second one on 2026-08-27 covering the live click-off
+([`evidence/run-osk-clickoff-2026-08-27.txt`](evidence/run-osk-clickoff-2026-08-27.txt)),
+which was taken with `KLOGGING` enabled so that each verdict rests on the
+injected `keybd_event` itself rather than on inference from modifier polling.
+Both still carry an issue to file: they were `UNMITIGATED` in a released build,
+and the record should say so.
 
-**FR-011 is not yet satisfied.** Four rows are `UNMITIGATED`: `2a`, `2b`, `2c`
-and `8`. A fifth open item — the live click-off chirality gap described under
-[Finding 4](#finding-4) — has no row of its own because it is not itself a new
-*producer* (its parent row is `2a`), but it needs its own issue and is listed
-below. **What is still required before this work can honestly be described as
-completing prevention:**
+**FR-011 is not yet satisfied**, though it is closer than it was. Two rows
+remain `UNMITIGATED`: `2c` and `8`. `2a` and `2b` were promoted on 2026-08-27,
+and the live click-off gap under [Finding 4](#finding-4) — which had no row of
+its own, its parent being `2a` — is fixed and measured. **What is still required
+before this work can honestly be described as completing prevention:**
 
 1. ~~A machine with Delphi to compile `UfrmOSKOnScreenKeyboard.pas`, and an
    execution of every scenario in the *Manual test sequence*.~~ **Done
-   2026-08-27** — compiled under Delphi 12.0 CE, all nine steps executed, one
-   defect found and fixed (`4ca0945a12`), results in
-   [`evidence/run-osk-teardown-2026-08-27.txt`](evidence/run-osk-teardown-2026-08-27.txt).
-   Whether that is sufficient to move `2a` and `2b` off `UNMITIGATED` is a
-   verdict decision still to be taken; the compile-and-run precondition no
-   longer blocks it.
-2. A decision and, if accepted, an implementation for the live click-off
-   chirality gap ([Finding 4](#finding-4)) — distinguishing a click-originated
-   `ShiftStateChange` call from `UpdateShiftStates`' 50 ms resync call is a
-   real design task, not a one-line fix, and it was deliberately not attempted
-   under this pass's time and tooling constraints. **Now the highest-priority
-   of the five**: it is confirmed broken at runtime, and on hardware without a
-   physical Right Ctrl it leaves no in-session recovery at all — see
-   [Issue 1](#issues-to-file).
+   2026-08-27** — compiled under Delphi 12.0 CE, every step executed across two
+   runs, two defects found and fixed (`4ca0945a12`, `ea530407c2`), results in
+   [`run-osk-teardown-2026-08-27.txt`](evidence/run-osk-teardown-2026-08-27.txt)
+   and [`run-osk-clickoff-2026-08-27.txt`](evidence/run-osk-clickoff-2026-08-27.txt).
+   `2a` and `2b` are promoted on that basis.
+2. ~~An implementation for the live click-off chirality gap.~~ **Done
+   2026-08-27** (`791c5f181a`, `ea530407c2`). The click-vs-resync distinction
+   this item called a "real design task" turned out not to be the requirement:
+   it was an artifact of assuming the release path had to *write*
+   `FCachedShiftState`. Reading it suffices, and reads cannot reintroduce
+   I2177. See [Finding 4b](#finding-4).
 3. A decision on `2c` (process termination while an OSK sticky modifier is
    held): either an accepted persisted-state-and-reconcile-at-startup design,
    a supervising watchdog, or an explicit acceptance that no in-process
@@ -76,8 +76,8 @@ prevention.
 |---|---|---|---|---|---|
 | 1 | serializer batch restore — `keybd_shift_reset` (`keyman32/keybd_shift.cpp:171-187`), called from `PrepareInjectedInputBatch` (`:395`), emitted by `SendInput` (`serialkeyeventserver.cpp:377`) | modifier KEYDOWNs from the cache, no queued KEYUP (`keybd_shift.cpp:178`) | `ReconcileModifierCache` (`:275`) called at `:368`; `ComputeModifierReleaseState` (`:302`) called at `:373`; **new this pass:** `PrepareModifierVerificationCorrection` (`:459`), scheduled via the self-posted `WM_KEYMAN_VERIFY_MODIFIER_EVENT` (`serialkeyeventcommon.h`, handled in `SerialKeyEventServer::WndProc`) | **mitigated, measured for the original gap; the newly-closed residual is source-reasoned, not yet independently re-run against the live harness** | The reconcile runs before the restore loop, so a cache byte that was already stale when the batch began is cleared, and the restore half is handed `kbd`, never `releaseState`. Pinned by `PREPARE_INJECTED_INPUT_BATCH.*` in `keyman32/tests/keybd_shift.tests.cpp`. **Verified end to end on a live engine** for the original gap: `host32.exe --probe 1x2x3x --iterations 5` wedged Shift on 5 of 5 iterations against the shipped build and 0 of 5 against the fixed build. Reports in `evidence/`. **What was not mitigated as of that measurement**, and is addressed this pass: a byte the *same batch* makes stale. The `WM_KEYMAN_MODIFIER_EVENT` post at `k32_lowlevelkeyboardhook.cpp:202` feeds the cache from the user's own release before the pass-through check at `:257`, so if the user releases while a batch is in flight, the restore press can outlive that release — cache says up, OS says held, and `ReconcileModifierCache` cannot see it because cache and OS now *agree*. `PrepareModifierVerificationCorrection`, scheduled to run **behind** every already-queued `WM_KEYMAN_MODIFIER_EVENT` (posted-message FIFO ordering — see the comment on `WM_KEYMAN_VERIFY_MODIFIER_EVENT`), re-checks exactly the VKs the batch's restore half touched and injects a corrective KEYUP for any the OS still holds that the cache no longer claims. Pinned by `PREPARE_MODIFIER_VERIFICATION_CORRECTION.*`. Its own known residual is documented in its doc comment: a user re-press landing in the few milliseconds between the verify post and its dispatch is itself released — an unmatched KEYUP, which is the safe-direction error, not a repeat of #8064 |
 | 1b | **the pass-through race** — mstsc/RDP (`hs->dwExtraInfo != 0`), the touch panel, console focus (`IsConsoleWindow`), or a `GetGUIThreadInfo` failure all route the user's own modifier event through `CallNextHookEx` (`k32_lowlevelkeyboardhook.cpp:257-306`) instead of Keyman's eat-and-reinject path, **while the earlier, unconditional `if (isModifierKey(hs->vkCode))` block at `:202` still feeds the cache** | the modifier is released natively, outside Keyman's control, while a batch's own restore press (possibly for the same VK, from an unrelated in-flight batch) can still land afterward | same `PrepareModifierVerificationCorrection` pass as row 1 — it does not care which mechanism produced the disagreement, only that cache says up and OS says held for a VK this batch's restore touched | **mitigated, same caveat as row 1: source-reasoned closure of a previously-open residual, not yet independently re-run** | This path was previously folded into row 1's evidence without being named; naming it separately because it is a distinct mechanism (native pass-through, not a race inside Keyman's own eat/reinject cycle) that happens to close under the same fix. Mechanism: `k32_lowlevelkeyboardhook.cpp:257` (`dwExtraInfo`/`SCAN_FLAG_KEYMAN_KEY_EVENT`/`VK_PROCESSKEY`/`VK_PACKET`/`!isKeymanKeyboardActive`), `:270` (touch panel), `:277-306` (`GetGUIThreadInfo` + `IsConsoleWindow`) |
-| 2a | **OSK sticky modifier click** — `kbdShiftChange` (`viskbd/UfrmOSKOnScreenKeyboard.pas:221`) then `ShiftStateChange` (`:305`) then `PrepState` (`:320` block) then `do_keybd_event` (`OnScreenKeyboard.pas:117-121`) | a real chiral modifier KEYDOWN with **no KEYUP anywhere in the call** — `ShiftStateChange` invokes only `PrepState`, never `FinalState`. Deliberate: a sticky OSK modifier is *meant* to be real machine-wide | `TfrmVisualKeyboard.FormDestroy` → `ResetShiftStates` (committed, `cd2bd44dd0` — covers every dismissal path, not only `FormClose`); **fix this pass, now compiled and measured**: `ResetShiftStates` (`UfrmOSKOnScreenKeyboard.pas:364`) now releases by exact chiral identity from `FCachedShiftState`, gated on live `GetAsyncKeyState`, instead of routing through `ShiftStateChange`'s current-`kbd.LRShift` VK selection — see [Finding 1](#finding-1) and *Fix for Findings 1 and 4a* below | **UNMITIGATED** — issue drafted, pending filing (`#____`). Both fixes are now **compiled and measured** (2026-08-27) and both pass: the teardown-dismissal case (this row, [Finding 1](#finding-1)) and the stale-async restore race ([Finding 4a](#finding-4)) — the run also caught and fixed an I2177 regression in the former (`4ca0945a12`). The row stays open for the third gap in the same family, the **live click-off** case, which is deliberately unfixed and now **confirmed broken at runtime** (step 8) — see [Finding 4b](#finding-4) | `cd2bd44dd0` makes every dismissal path (tray menu, tray double-click, `KMC_ONSCREENKEYBOARD`, Keyman shutdown, the OSK's own X button) reach `ResetShiftStates`, closing the *reachability* gap this row's evidence used to describe. What remains open is *correctness at the point ResetShiftStates runs* (chirality) and a case `ResetShiftStates` never runs for at all (a live click-off) — see Findings below |
-| 2b | **OSK `ResetShiftStates` itself** — `UfrmOSKOnScreenKeyboard.pas:364` | previously: a bare modifier KEYDOWN on the cleanup path, from a stale `FShiftState`/`kbd.ShiftState` mismatch inside the 50 ms window. **The rewritten `ResetShiftStates` has no press branch left at all** — `ReleaseCached` only ever calls `do_keybd_event` with `KEYEVENTF_KEYUP` baked into its flags, so this specific failure mode is structurally impossible in the new source, not merely timing-avoided | the rewrite itself | **UNMITIGATED, pending a verdict decision** — issue drafted, pending filing (`#____`). The compile-and-run precondition is met as of 2026-08-27, and steps 3 and 5 of that run exercise this path and pass, so the reason for keeping it open is no longer evidential. Promoting it is a decision still to be taken | Compare the current source (`ReleaseCached`, `UfrmOSKOnScreenKeyboard.pas:389-431`) against the *Fix for Findings 1 and 4a* section below for what changed and why the earlier (already-committed, `cd2bd44dd0`) provisional text describing a `kbd.ShiftState - FCachedShiftState` subtraction is now superseded and should not be relied on as the current implementation |
+| 2a | **OSK sticky modifier click** — `kbdShiftChange` (`viskbd/UfrmOSKOnScreenKeyboard.pas:221`) then `ShiftStateChange` (`:305`) then `PrepState` (`:320` block) then `do_keybd_event` (`OnScreenKeyboard.pas:117-121`) | a real chiral modifier KEYDOWN with **no KEYUP anywhere in the call** — `ShiftStateChange` invokes only `PrepState`, never `FinalState`. Deliberate: a sticky OSK modifier is *meant* to be real machine-wide | `TfrmVisualKeyboard.FormDestroy` → `ResetShiftStates` (committed, `cd2bd44dd0` — covers every dismissal path, not only `FormClose`); **fix this pass, now compiled and measured**: `ResetShiftStates` (`UfrmOSKOnScreenKeyboard.pas:364`) now releases by exact chiral identity from `FCachedShiftState`, gated on live `GetAsyncKeyState`, instead of routing through `ShiftStateChange`'s current-`kbd.LRShift` VK selection — see [Finding 1](#finding-1) and *Fix for Findings 1 and 4a* below | **mitigated, measured 2026-08-27** — issue still to be filed for the record (`#____`), since this row was `UNMITIGATED` in a released build. All three gaps in this family are now fixed and each was confirmed by an executed reproduction, not by source reading: the teardown-dismissal case (this row, [Finding 1](#finding-1)), the stale-async restore race ([Finding 4a](#finding-4)), and the **live click-off** ([Finding 4b](#finding-4), `791c5f181a` + `ea530407c2`). Both release paths now release by recorded chiral identity, verified through a `SetLRShift` collapse in **both** directions — True→False via the click-off, False→True via teardown. The run also caught an I2177 regression the teardown fix had introduced (`4ca0945a12`), which is the strongest argument for the verdict-discipline rule above | `cd2bd44dd0` makes every dismissal path (tray menu, tray double-click, `KMC_ONSCREENKEYBOARD`, Keyman shutdown, the OSK's own X button) reach `ResetShiftStates`, closing the *reachability* gap this row's evidence used to describe. What remains open is *correctness at the point ResetShiftStates runs* (chirality) and a case `ResetShiftStates` never runs for at all (a live click-off) — see Findings below |
+| 2b | **OSK `ResetShiftStates` itself** — `UfrmOSKOnScreenKeyboard.pas:364` | previously: a bare modifier KEYDOWN on the cleanup path, from a stale `FShiftState`/`kbd.ShiftState` mismatch inside the 50 ms window. **The rewritten `ResetShiftStates` has no press branch left at all** — `ReleaseCached` only ever calls `do_keybd_event` with `KEYEVENTF_KEYUP` baked into its flags, so this specific failure mode is structurally impossible in the new source, not merely timing-avoided | the rewrite itself | **mitigated, measured 2026-08-27** — issue still to be filed for the record (`#____`). The rewritten `ResetShiftStates` has no press branch at all, so this row's defect is structurally impossible rather than timing-avoided, and steps 3 and 5 exercise the path and pass. `KLOGGING` traces show the teardown emitting only `KEYUP` (`flags=2`/`flags=3`), never a press, in every recorded run | Compare the current source (`ReleaseCached`, `UfrmOSKOnScreenKeyboard.pas:389-431`) against the *Fix for Findings 1 and 4a* section below for what changed and why the earlier (already-committed, `cd2bd44dd0`) provisional text describing a `kbd.ShiftState - FCachedShiftState` subtraction is now superseded and should not be relied on as the current implementation |
 | 2c | **process termination while an OSK sticky modifier is held** — `TerminateProcess`/Task Manager "End task", or the Sentry crash handler (`sceaTerminate`), skip Delphi destructors entirely | whatever chiral modifier KEYDOWN was last injected by an OSK sticky click, with the matching KEYUP now unreachable in-process | none in-process; user-level only — same physical key press/release, or reopening the OSK and clicking the same modifier off. **The chirality fix in row `2a` does not extend this recovery as far as it might look like it should** — see the caveat below | **UNMITIGATED** — issue drafted, pending filing (`#____`). No fix attempted; explicitly out of scope for this pass ([Finding 5](#finding-5)) | `sceaTerminate` skips `FormDestroy`/`ResetShiftStates`; no persisted record of an outstanding sticky modifier survives process death; no startup reconciliation exists. **Caveat on the recovery column, stated plainly because getting this wrong matters**: reopening the OSK and clicking the stranded modifier off recovers it only via a *dismissal* of the fresh OSK instance (which now correctly reaches the chirality-exact `ResetShiftStates`), not via directly clicking the generic "Ctrl"/"Alt" key to toggle it off — that click goes through the **still-unfixed** live click-off path ([Finding 4](#finding-4)), which can release the wrong chiral VK. So the reliable recovery sequence is: reopen OSK, then dismiss it (X button, tab switch, tray menu — any path, now that `2a`'s teardown fix covers all of them) **without** first trying to click the stuck modifier off by hand. On hardware with no physical Right Ctrl/Right Alt key, that is still the only in-process recovery; a reboot is the fallback if the OSK cannot be reopened |
 | 3 | language-switch shift release — `keyman32/kmhook_keyboard.cpp:147` | `keybd_event(VK_SHIFT, 0xFF, KEYEVENTF_KEYUP, 0)` | none needed | **cannot latch** | `KEYEVENTF_KEYUP` is a literal in the only call in the file. An unmatched KEYUP asserts nothing |
 | 4 | Caps Lock sync — `keyman32/kmprocessactions.cpp:101-102` | `VK_CAPITAL` down then up | adjacency | **cannot latch** | Both statements unconditional and adjacent inside one `if` (`:99`); no return or call between them, and `keybd_event` is `void WINAPI` so cannot throw. Also outside the managed six |
@@ -196,7 +196,7 @@ address, not for want of evidence on this half.
 
 <a name="finding-4"></a>
 
-### Finding 4 — two more OSK gaps, one fixed and measured, one deliberately left open
+### Finding 4 — two more OSK gaps, both now fixed and measured
 
 **4a — `kbdKeyPressed`'s stale-async restore race. Fixed this pass; compiled and measured 2026-08-27.**
 `FinalState` (nested in `kbdKeyPressed`, `UfrmOSKOnScreenKeyboard.pas:123`)
@@ -222,8 +222,10 @@ vice versa), and a `PrepState` suppression could go unrestored under a
 membership test that would never match. Neither of these two fixes is
 compiled or run; same caveat as Finding 1.
 
-**4b — the live click-off chirality gap. Deliberately left open, not fixed
-this pass.** `kbdShiftChange` (`:221`) → `ShiftStateChange` (`:305`) is
+**4b — the live click-off chirality gap. FIXED and measured 2026-08-27
+(`791c5f181a`, `ea530407c2`); the account below of why it was left open is
+retained because the reasoning that made it look hard is what the fix had to
+get past.** `kbdShiftChange` (`:221`) → `ShiftStateChange` (`:305`) is
 reached both from an explicit OSK click **and** from `UpdateShiftStates`'
 50 ms resync (`:452`, calling `ShiftStateChange` at `:473`). `ShiftStateChange`
 still selects the release VK from the *current* `kbd.LRShift` — the same flaw
@@ -252,21 +254,47 @@ stays held. Two independently-drafted fixes for this were considered and
   audit of `ResetShiftStates`: it can release a modifier the user is
   genuinely, physically holding on the *other* side at that instant.
 
-The comment now in `ShiftStateChange`'s source (`UfrmOSKOnScreenKeyboard.pas:305-314`)
-records the decision to leave it open and points here. It needs its own issue
-— see [Issues to file](#issues-to-file) — because a correct fix requires
-distinguishing a click-originated `ShiftStateChange` call from a
-resync-originated one, which is a larger, riskier change than either OSK fix
-landed this pass, and was out of scope for a pass working without a Delphi
-compiler.
+**How it was actually fixed.** Both rejected options assumed the release path
+had to *maintain* `FCachedShiftState`, and that is what forced the
+click-vs-resync distinction and produced the I2177 regression. Picking the
+right VK needs no write at all — only a **read** of a record that already names
+what was injected, which `kbdShiftChange`'s
+`(FCachedShiftState + (fkcss - ass)) * FMask` already guarantees excludes
+anything physically held. `ShiftStateChange`'s release branch now consults that
+record and falls back to the regime-derived `vk` when the cache names nothing in
+the family, so the OSK-did-not-press-it case is unchanged. The one write it does
+is a **removal** of what it released, which can only make a later teardown
+release less, never more.
 
-**Minimal reproduction to confirm both, once compiled:** for 4a, hold a
-physical modifier, click a character key on the OSK with
-`koReleaseShiftKeysAfterKeyPress` off, and release the physical modifier as
-fast as possible right after the click (narrow timing window, best effort).
-For 4b, click **R Ctrl** on an AltGr OSK, switch to a non-AltGr keyboard, then
-click the now-generic **Ctrl** key on the OSK to try to toggle it off —
-confirm `GetAsyncKeyState(0xA3)` (`VK_RCONTROL`) stays asserted.
+Stated as a rule for the next person here: **additive writes to
+`FCachedShiftState` are the hazard; reads and removals are not.** The
+click-vs-resync distinction was never the requirement — it was an artifact of
+assuming a write.
+
+One further defect had to be fixed before that could work. `4ca0945a12`'s mask
+ran *before* `ShiftStateChange`, and after a collapse a click-off leaves `fkcss`
+carrying nothing from that family, so `* fkcss` stripped `essRCtrl` from the
+cache one line before the release read it — the fix was correct and unreachable,
+and step 8 failed identically until `ea530407c2` reordered the two and widened
+the mask across the Ctrl/Alt families.
+
+**Both confirmed at runtime, 2026-08-27.** 4b reproduced exactly as reasoned
+against the unfixed build -- `RCTRL` survived the click-off and, on a keyboard
+with no physical Right Ctrl, could not be cleared by any means available to the
+user -- and then inverted against the fixed one. The decisive evidence is the
+injected event itself, with `KLOGGING` on:
+
+```
+[15:20:17.381] keybd_event vk=A3 scan=0 flags=1              press, under an AltGr keyboard
+[15:20:31.256] UpdateKeyboard: VKI<>nil ... [akan]           switch: LRShift True->False
+[15:20:40.911] ShiftStateChange: kbdShift= asyncShift=essCtrl
+[15:20:40.915] keybd_event vk=A3 scan=0 flags=3              release, STILL EXTENDED
+```
+
+The engine's view had collapsed to the generic `essCtrl` and the release still
+went out as `A3` with the extended bit. See
+[`evidence/run-osk-clickoff-2026-08-27.txt`](evidence/run-osk-clickoff-2026-08-27.txt)
+for all five cases, including the False->True mirror through `ResetShiftStates`.
 
 <a name="finding-3"></a>
 
@@ -561,11 +589,13 @@ Two release paths read that representation:
    Step 4 of that run is this exact scenario and passes.
 2. **A live click-off** — the user clicks the now-generic "Ctrl"/"Alt" key on
    the OSK itself, before dismissing it, to try to toggle the sticky modifier
-   off directly. This path (`kbdShiftChange` → `ShiftStateChange`) is **not**
-   fixed. It still selects the release VK from the current `kbd.LRShift`, so
-   it releases the wrong (Left) chiral VK while the actually-stuck extended
-   Right Ctrl/Alt stays held. **Confirmed at runtime**, step 8 of the same run:
-   `RCTRL` survived the click-off, chirality and all.
+   off directly. This path (`kbdShiftChange` → `ShiftStateChange`) **is now
+   fixed** (`791c5f181a`, `ea530407c2`): its release branch reads the injected
+   identity from `FCachedShiftState` instead of deriving the VK from the current
+   `kbd.LRShift`. It was **confirmed broken at runtime first** — `RCTRL`
+   survived the click-off, chirality and all — and then confirmed fixed, with
+   the release going out as `vk=A3 flags=3` while the engine's own view read
+   `essCtrl`.
 
 **User impact — measured, and worse than "a modifier is stranded".** On
 hardware without a physical Right Ctrl or Right Alt key there is **no
@@ -604,21 +634,20 @@ for the detail. A correct fix needs to distinguish a click-originated
 `ShiftStateChange` call from a resync-originated one before it touches
 `FCachedShiftState`.
 
-**Scope for a fix:** (a) is **done** — the teardown fix is compiled, run and
-recorded. What remains is (b): design and implement a click-vs-resync
-distinction for the live click-off path, reviewed against I2177 rather than in
-isolation.
+**Scope for a fix: both halves are done and measured.** (a) the teardown fix,
+and (b) the live click-off — the latter without the click-vs-resync distinction
+this issue assumed it would need.
 
-Note that (a) landing changes what (b) must contend with. The teardown fix
-initially reintroduced I2177 by exactly the route this section warns about, and
-the correction — `FCachedShiftState := (FCachedShiftState + (fkcss - ass)) *
-fkcss` in `kbdShiftChange` — is a *value-level* filter: it subtracts the live
-async state so a physically-held modifier is never recorded, regardless of which
-call path did the recording. That is a weaker requirement than distinguishing
-click from resync by provenance, and it is already in the tree and measured
-(step 6). Whether (b) can be built on the same subtraction rather than needing
-true provenance tracking is the first thing to establish, and it would be
-cheaper if so.
+That assumption is worth recording, because it is what made the problem look
+larger than it was. Both previously-rejected designs had the release path
+*maintain* `FCachedShiftState`, and a write from the 50 ms resync is what
+produced the I2177 regression. But picking the right VK needs only a **read** of
+a record that `kbdShiftChange` already guarantees is free of physically-held
+modifiers, via the `- ass` subtraction. Reads and removals cannot reintroduce
+I2177; only additive writes can. The distinction was never the requirement.
+
+What this issue should still be filed for: it was `UNMITIGATED` in a released
+build, and the user-impact section above stands as the reason it mattered.
 
 ### Issue 2 — OSK `ResetShiftStates` cleanup path itself (row `2b`)
 
