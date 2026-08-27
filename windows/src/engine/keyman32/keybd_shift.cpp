@@ -151,7 +151,7 @@ void keybd_shift_release(LPINPUT pInputs, int *n, LPBYTE const kbd) {
         hasSentPrefix = TRUE;
       }
       SendDebugMessageFormat("sending keyup vkey=%s", Debug_VirtualKey(KeymanModifierVks[i]));
-      do_keybd_event(pInputs, n, KeymanModifierVks[i], SCAN_FLAG_KEYMAN_KEY_EVENT, KEYEVENTF_KEYUP, 0);
+      do_keybd_event(pInputs, n, KeymanModifierVks[i], SCAN_FLAG_KEYMAN_KEY_EVENT, KEYEVENTF_KEYUP, EXTRAINFO_FLAG_KEYMAN_MODIFIER_WRAP);
     }
   }
   SendDebugExit();
@@ -175,7 +175,7 @@ void keybd_shift_reset(LPINPUT pInputs, int *n, LPBYTE const kbd) {
   for (int i = 0; i < _countof(KeymanModifierVks); i++) {
     if (kbd[KeymanModifierVks[i]] & 0x80) {
       SendDebugMessageFormat("sending keydown vkey=%s", Debug_VirtualKey(KeymanModifierVks[i]));
-      do_keybd_event(pInputs, n, KeymanModifierVks[i], SCAN_FLAG_KEYMAN_KEY_EVENT, 0, 0);
+      do_keybd_event(pInputs, n, KeymanModifierVks[i], SCAN_FLAG_KEYMAN_KEY_EVENT, 0, EXTRAINFO_FLAG_KEYMAN_MODIFIER_WRAP);
       needsPrefix = TRUE;
     }
   }
@@ -389,4 +389,38 @@ void UpdateModifierCacheFromKeyEvent(LPBYTE kbd, BYTE bVk, BOOL fIsExtendedKey, 
   }
 
   kbd[bVk] = fIsUp ? 0 : 0x80;
+}
+
+/**
+  IsKeymanInjectedKeyEvent reports whether a key event the low level hook received was injected by
+  Keyman itself rather than produced by the user's keyboard.
+
+  Parameters: scanCode   the event's scan code as the hook reported it
+              extraInfo  the event's dwExtraInfo as the hook reported it
+
+  Two arms, because neither covers the managed set alone:
+
+  - scanCode == SCAN_FLAG_KEYMAN_KEY_EVENT catches every event Keyman injects with the 0xFF scan
+    overload, including the keybd_event callers that cannot set dwExtraInfo at all
+    (kmhook_keyboard.cpp:147). This arm is not legacy: keybd_event has no extraInfo parameter, so
+    it cannot be deprecated away while those callers exist.
+  - extraInfo == EXTRAINFO_FLAG_KEYMAN_MODIFIER_WRAP catches Right Shift, whose 0xFF scan is
+    overwritten with SCANCODE_RSHIFT by do_keybd_event because 0x36 is how the receiving app knows
+    which Shift it was. Measured to survive SendInput to the hook by
+    DISABLED_DwExtraInfoSurvivesSendInputWhereTheScanCodeDoesNot.
+
+  Equality on the tag, never extraInfo != 0. mstsc stamps 0x4321DCBA on genuine remote user input
+  and other injectors stamp their own values; treating any non-zero value as Keyman's would blind
+  the modifier cache to a remote user's real modifiers, and the next batch would strip them.
+
+  Deliberately does not match EXTRAINFO_FLAG_SERIALIZED_USER_KEY_EVENT. Those are user keystrokes
+  Keyman re-injected, not Keyman's own synthetic modifiers, and the server already applies them to
+  the cache directly, so the echo is an idempotent duplicate rather than a corruption.
+
+  Says nothing about LLKHF_INJECTED. That flag is set by every injector, the On-Screen Keyboard
+  included, and an OSK sticky modifier is meant to be real machine-wide. Filtering on it would
+  strip it. See #8064.
+*/
+BOOL IsKeymanInjectedKeyEvent(DWORD scanCode, ULONG_PTR extraInfo) {
+  return scanCode == SCAN_FLAG_KEYMAN_KEY_EVENT || extraInfo == EXTRAINFO_FLAG_KEYMAN_MODIFIER_WRAP;
 }

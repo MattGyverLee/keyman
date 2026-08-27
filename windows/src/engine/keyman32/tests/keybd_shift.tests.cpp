@@ -682,6 +682,35 @@ TEST_F(PREPARE_INJECTED_INPUT_BATCH, BatchTakesOneLiveReadingPerManagedModifier)
 }
 
 /*
+  Every modifier event the batch wraps its output in must be identifiable as Keyman's own, or the
+  gate at the hook cannot filter it and the cache is polluted again. Right Shift is the reason this
+  checks dwExtraInfo and not just the scan code.
+*/
+TEST_F(PREPARE_INJECTED_INPUT_BATCH, EveryWrapEventIsIdentifiableAsKeymanInjected) {
+  for (int i = 0; i < KEYMAN_MODIFIER_VK_COUNT; i++) {
+    kbd[KeymanModifierVks[i]]                 = 0x80;
+    g_liveModifierState[KeymanModifierVks[i]] = 0x80;
+  }
+  AddOutputKey('A');
+
+  RunBatch();
+
+  int wrapEvents = 0;
+  for (int i = 0; i < n; i++) {
+    // The output key is the one event that is not a wrap event.
+    if (inputs[i].ki.wVk == 'A') {
+      continue;
+    }
+    wrapEvents++;
+    EXPECT_TRUE(IsKeymanInjectedKeyEvent(inputs[i].ki.wScan, inputs[i].ki.dwExtraInfo))
+        << "wrap event " << i << " (vk 0x" << (int)inputs[i].ki.wVk << ", scan 0x"
+        << (int)inputs[i].ki.wScan << ") is indistinguishable from a physical keystroke at the hook";
+  }
+
+  EXPECT_GT(wrapEvents, 0) << "no wrap events were emitted, so nothing was checked";
+}
+
+/*
   ComputeModifierReleaseState at the function level rather than through the batch.
 */
 class COMPUTE_MODIFIER_RELEASE_STATE : public RECONCILE_MODIFIER_CACHE {
@@ -856,6 +885,36 @@ protected:
   KeymanRestoresLeftShift() {
     UpdateModifierCacheFromKeyEvent(kbd, VK_SHIFT, FALSE, SCAN_FLAG_KEYMAN_KEY_EVENT, FALSE);
   }
+
+  // What the hook now does: apply the event only if it is not Keyman's own. Mirrors the condition
+  // at k32_lowlevelkeyboardhook.cpp's WM_KEYMAN_MODIFIER_EVENT post.
+  void
+  ApplyThroughTheGate(BYTE bVk, BYTE bScan, ULONG_PTR extraInfo, BOOL fIsUp) {
+    if (!IsKeymanInjectedKeyEvent(bScan, extraInfo)) {
+      UpdateModifierCacheFromKeyEvent(kbd, bVk, FALSE, bScan, fIsUp);
+    }
+  }
+
+  void
+  GatedUserReleasesLeftShift() {
+    ApplyThroughTheGate(VK_LSHIFT, 0x2A, 0, TRUE);
+  }
+
+  void
+  GatedKeymanReleasesLeftShift() {
+    ApplyThroughTheGate(VK_SHIFT, SCAN_FLAG_KEYMAN_KEY_EVENT, EXTRAINFO_FLAG_KEYMAN_MODIFIER_WRAP, TRUE);
+  }
+
+  void
+  GatedKeymanRestoresLeftShift() {
+    ApplyThroughTheGate(VK_SHIFT, SCAN_FLAG_KEYMAN_KEY_EVENT, EXTRAINFO_FLAG_KEYMAN_MODIFIER_WRAP, FALSE);
+  }
+
+  // Right Shift is the case the scan arm cannot carry: do_keybd_event rewrites 0xFF to 0x36.
+  void
+  GatedKeymanRestoresRightShift() {
+    ApplyThroughTheGate(VK_SHIFT, SCANCODE_RSHIFT, EXTRAINFO_FLAG_KEYMAN_MODIFIER_WRAP, FALSE);
+  }
 };
 
 /*
@@ -904,18 +963,34 @@ TEST_F(MODIFIER_CACHE_EVENT_ORDER, ABalancedBatchLeavesTheCacheUnchanged) {
 }
 
 /*
-  What gating the post on provenance would buy. Same ordering as the failing case, with Keyman's
-  own two events not applied -- which is what skipping the post for tagged events amounts to -- and
-  the cache follows the user alone.
+  The same ordering through the gate production now uses. Keyman's own two events are filtered, so
+  the cache follows the user and the stale byte is never created. This is the fix for #8064.
 */
-TEST_F(MODIFIER_CACHE_EVENT_ORDER, GatingKeymanOwnEventsWouldLeaveTheCacheFollowingTheUser) {
+TEST_F(MODIFIER_CACHE_EVENT_ORDER, TheGateLeavesTheCacheFollowingTheUserAlone) {
   kbd[VK_LSHIFT] = 0x80;
 
-  UserReleasesLeftShift();
-  // KeymanReleasesLeftShift() and KeymanRestoresLeftShift() gated out here.
+  GatedUserReleasesLeftShift();
+  GatedKeymanReleasesLeftShift();
+  GatedKeymanRestoresLeftShift();
 
   EXPECT_EQ(kbd[VK_LSHIFT], (BYTE)0)
-      << "with Keyman's own modifiers filtered, the cache is a record of what the user holds";
+      << "the user released it and Keyman's own echo must not put it back";
+}
+
+/*
+  The same, for Right Shift. Its wrap events reach the hook with SCANCODE_RSHIFT rather than the
+  0xFF flag, so the scan arm of the gate cannot see them and the dwExtraInfo arm has to. If the tag
+  is ever dropped from do_keybd_event's callers, this is the case that goes red.
+*/
+TEST_F(MODIFIER_CACHE_EVENT_ORDER, TheGateCoversRightShiftThroughDwExtraInfo) {
+  kbd[VK_RSHIFT] = 0x80;
+
+  ApplyThroughTheGate(VK_RSHIFT, SCANCODE_RSHIFT, 0, TRUE); // the user's physical release
+  GatedKeymanRestoresRightShift();
+
+  EXPECT_EQ(kbd[VK_RSHIFT], (BYTE)0)
+      << "an injected Right Shift restore was applied to the cache; the scan code cannot identify "
+      << "it, so dwExtraInfo must";
 }
 
 /*
@@ -942,6 +1017,48 @@ TEST_F(MODIFIER_CACHE_EVENT_ORDER, TheStaleByteSurvivesTheReconcileBecauseTheOsA
 
   EXPECT_EQ(Count(VK_SHIFT, false), 1)
       << "the restore half presses it again, so the next batch latches it again";
+}
+
+/*
+  IsKeymanInjectedKeyEvent decides which events may feed the modifier cache. The mstsc and OSK rows
+  are regression guards: filtering on LLKHF_INJECTED, or on dwExtraInfo != 0, would classify those
+  as Keyman's and strip a modifier the user or the OSK genuinely holds.
+*/
+class IS_KEYMAN_INJECTED_KEY_EVENT : public ::testing::Test {};
+
+TEST_F(IS_KEYMAN_INJECTED_KEY_EVENT, TheScanFlagAloneIsEnough) {
+  EXPECT_TRUE(IsKeymanInjectedKeyEvent(SCAN_FLAG_KEYMAN_KEY_EVENT, 0))
+      << "keybd_event callers cannot set dwExtraInfo, so the scan arm has to stand alone";
+}
+
+TEST_F(IS_KEYMAN_INJECTED_KEY_EVENT, TheWrapTagAloneIsEnough) {
+  // This row is Right Shift: a real scan code, identified only by the tag.
+  EXPECT_TRUE(IsKeymanInjectedKeyEvent(SCANCODE_RSHIFT, EXTRAINFO_FLAG_KEYMAN_MODIFIER_WRAP));
+}
+
+TEST_F(IS_KEYMAN_INJECTED_KEY_EVENT, PhysicalKeystrokesAreNotKeymans) {
+  EXPECT_FALSE(IsKeymanInjectedKeyEvent(0x2A, 0)) << "physical Left Shift";
+  EXPECT_FALSE(IsKeymanInjectedKeyEvent(SCANCODE_RSHIFT, 0)) << "physical Right Shift";
+  EXPECT_FALSE(IsKeymanInjectedKeyEvent(0x1D, 0)) << "physical Left Ctrl";
+}
+
+TEST_F(IS_KEYMAN_INJECTED_KEY_EVENT, RemoteDesktopInputIsNotKeymans) {
+  // mstsc stamps this on genuine remote user input. Equality on the tag, never extraInfo != 0.
+  EXPECT_FALSE(IsKeymanInjectedKeyEvent(0x2A, 0x4321DCBA))
+      << "an RDP user's real modifier would be stripped by the next batch";
+}
+
+TEST_F(IS_KEYMAN_INJECTED_KEY_EVENT, TheOnScreenKeyboardIsNotKeymans) {
+  // The OSK injects via keybd_event with scan 0 and no extraInfo. Its sticky modifiers are meant
+  // to be real machine-wide, so the cache must keep learning them.
+  EXPECT_FALSE(IsKeymanInjectedKeyEvent(0, 0))
+      << "an OSK sticky modifier would be stripped by the next batch";
+}
+
+TEST_F(IS_KEYMAN_INJECTED_KEY_EVENT, ReInjectedUserKeystrokesAreNotKeymans) {
+  // The serializer re-injects the user's own keystrokes with its own tag. Those represent user
+  // input, and the server applies them to the cache directly, so the echo is a harmless duplicate.
+  EXPECT_FALSE(IsKeymanInjectedKeyEvent(0x2A, EXTRAINFO_FLAG_SERIALIZED_USER_KEY_EVENT));
 }
 
 namespace {
