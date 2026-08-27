@@ -223,8 +223,9 @@ void keybd_shift(LPINPUT pInputs, int *n, BOOL isReset, LPBYTE const kbd) {
   GetAsyncKeyState, not GetKeyState or GetKeyboardState: those read the calling thread's processed
   queue, the stale source. Clears but never sets, since the user may release before SendInput runs.
 
-  Known gap: a previous batch's re-press may not have reached GetAsyncKeyState, so a genuinely held
-  modifier is cleared and one batch goes out unshifted.
+  Not a gap, measured: SendInput does not return until the injected press is visible to
+  GetAsyncKeyState, so a previous batch's re-press cannot still be in flight here. Pinned by
+  DISABLED_ReconcileDoesNotRaceItsOwnInjectedRestorePress, which also records what would break.
 */
 BOOL ReconcileModifierCache(LPBYTE const kbd, PGETASYNCKEYSTATE pfnGetAsyncKeyState) {
   BOOL disagreed = FALSE;
