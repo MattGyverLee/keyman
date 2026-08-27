@@ -94,6 +94,8 @@ static int   g_iterations   = 5;
 static int   g_releaseDelay = 1500;
 static BOOL  g_control      = FALSE;
 static BOOL  g_allowNoXform = FALSE;
+static int   g_cycleLayouts = 0;
+static int   g_waitForRule  = 0;
 static const ModifierDef *g_mod = &MODIFIERS[0];
 static wchar_t g_fakefreeze[MAX_PATH] = L"";
 static wchar_t g_outPath[MAX_PATH]    = L"";
@@ -187,6 +189,24 @@ HeldModifiers(wchar_t *buf, int cch) {
   return count;
 }
 
+/*
+  Whether the Keyman engine has attached to THIS process.
+
+  The decisive precondition, and the one that is easy to mistake for a pass. Keyman injects
+  keyman32.dll into a process only once one of its keyboards is actually active there; with a plain
+  layout selected the engine never attaches, no rule fires, no batch is assembled, and the restore
+  half never runs. A run in that state cannot reproduce the defect no matter how the freeze is
+  timed, and reports every modifier clear -- which reads exactly like a pass.
+
+  Checked from inside the process because that is where the answer is: an outside observer sees only
+  that the text came back unchanged, which is also what a legitimately pass-through keyboard looks
+  like.
+*/
+static BOOL
+KeymanEngineAttached(void) {
+  return GetModuleHandle(L"keyman32.dll") != NULL;
+}
+
 static BOOL
 KeymanResponsive(void) {
   HWND km = FindWindow(L"TfrmKeyman7Main", NULL);
@@ -216,6 +236,91 @@ static void
 GetEditText(wchar_t *buf, int cch) {
   buf[0] = 0;
   SendMessage(g_edit, WM_GETTEXT, (WPARAM)cch, (LPARAM)buf);
+}
+
+/*
+  Taps the legacy Alt+Shift input-language hotkey and reports the layout after each tap.
+
+  A Keyman keyboard installs as a TSF profile, and TSF profiles cannot be selected with
+  WM_INPUTLANGCHANGEREQUEST -- posting every loaded HKL to the window changes nothing. The hotkey is
+  the one route a program can drive, because it is just keystrokes, and this process owns the
+  foreground window so they land here.
+*/
+static void
+CycleLayouts(int taps) {
+  int i;
+  wchar_t title[128];
+
+  for (i = 0; i < taps; i++) {
+    SendOne(VK_MENU, 0x38, 0);
+    SendOne(VK_LSHIFT, 0x2A, 0);
+    Sleep(40);
+    SendOne(VK_LSHIFT, 0x2A, KEYEVENTF_KEYUP);
+    SendOne(VK_MENU, 0x38, KEYEVENTF_KEYUP);
+    Sleep(900);
+
+    SendMessage(g_main, WM_APP_FOCUS_EDIT, 0, 0);
+    GetWindowText(g_main, title, _countof(title));
+    Report(L"    layout after tap %d: %s   engine attached: %s",
+           i + 1, title, KeymanEngineAttached() ? L"yes" : L"no");
+  }
+  ClearAllModifiers();
+}
+
+// Types the probe into the edit and reports whether the active keyboard transformed it.
+static BOOL
+ProbeFiresARule(void) {
+  const wchar_t *p;
+  wchar_t got[1024];
+
+  SendMessage(g_main, WM_APP_FOCUS_EDIT, 0, 0);
+  SetWindowText(g_edit, L"");
+  Sleep(150);
+
+  for (p = g_probe; *p; p++) {
+    SHORT vks = VkKeyScan(*p);
+    if (vks != -1) {
+      TapKey((BYTE)(vks & 0xFF));
+    }
+  }
+  Sleep(500);
+  GetEditText(got, _countof(got));
+  SetWindowText(g_edit, L"");
+
+  return (lstrlen(got) > 0) && (lstrcmp(got, g_probe) != 0);
+}
+
+/*
+  Waits for a Keyman keyboard whose rules actually fire to be selected in this window.
+
+  Selecting one cannot be automated: Keyman keyboards are TSF profiles, so
+  WM_INPUTLANGCHANGEREQUEST is ignored, the legacy Alt+Shift hotkey does nothing on a default
+  Windows 11 (Win+Space is the switcher), and kmshell.exe -i opens a dialog. So the test waits for a
+  person to switch instead of asking them to sequence steps around it.
+
+  The test is empirical rather than a check on the HKL: what matters is not which layout is
+  selected but whether typing produces different characters, since a keyboard can be active and
+  still pass the probe through unchanged.
+*/
+static BOOL
+WaitForRuleCapableKeyboard(int seconds) {
+  int waited = 0;
+
+  Report(L"Waiting up to %d s for a Keyman keyboard whose rules fire on \"%s\".", seconds, g_probe);
+  Report(L"  Switch the keyboard for THIS window now (Win+Space, or the taskbar language button).");
+  Report(L"  Probing every 2 s; the test starts by itself as soon as the probe transforms.");
+
+  while (waited < seconds) {
+    if (ProbeFiresARule()) {
+      wchar_t title[128];
+      GetWindowText(g_main, title, _countof(title));
+      Report(L"[OK] rules are firing. %s", title);
+      return TRUE;
+    }
+    Sleep(2000);
+    waited += 2;
+  }
+  return FALSE;
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -251,6 +356,37 @@ TestThread(LPVOID param) {
     }
   }
   Report(L"[OK] baseline clean");
+
+  if (g_cycleLayouts > 0) {
+    Report(L"cycling input layouts with Alt+Shift, %d tap(s):", g_cycleLayouts);
+    CycleLayouts(g_cycleLayouts);
+  }
+
+  if (g_waitForRule > 0 && !WaitForRuleCapableKeyboard(g_waitForRule)) {
+    Report(L"[FAIL] no rule fired within %d s.", g_waitForRule);
+    Report(L"       Install a keyboard with unshifted rules and select it. This repo ships one:");
+    Report(L"       common/test/keyboards/baseline/k_0301___multiple_deadkeys.kmx, where typing");
+    Report(L"       1x gives \"1=OK \" and no Shift is involved -- which matters, because Shift is");
+    Report(L"       the modifier under test. Then re-run with --probe 1x2x3x.");
+    ClearAllModifiers();
+    Report(L"RESULT: INCONCLUSIVE - no batch could be assembled, so nothing was measured.");
+    PostMessage(g_main, WM_CLOSE, 0, 0);
+    return 2;
+  }
+
+  if (!KeymanEngineAttached()) {
+    Report(L"[FAIL] keyman32.dll is not loaded in this process: the Keyman engine has not attached.");
+    Report(L"       No rule can fire and no batch can be assembled, so the restore half never runs");
+    Report(L"       and the defect cannot reproduce however the freeze is timed.");
+    Report(L"       Select a Keyman keyboard in this window, then re-run. The title shows the");
+    Report(L"       active layout; a Keyman keyboard installs as a TSF profile, which is why it");
+    Report(L"       cannot be selected programmatically.");
+    ClearAllModifiers();
+    Report(L"RESULT: INCONCLUSIVE - the engine was never in the process under test.");
+    PostMessage(g_main, WM_CLOSE, 0, 0);
+    return 2;
+  }
+  Report(L"[OK] keyman32.dll is loaded: the engine has attached to this process");
 
   for (iter = 1; iter <= g_iterations; iter++) {
     PROCESS_INFORMATION pi;
@@ -459,6 +595,10 @@ ParseArgs(void) {
       }
     } else if (lstrcmpi(argv[i], L"--fakefreeze") == 0 && i + 1 < argc) {
       lstrcpyn(g_fakefreeze, argv[++i], MAX_PATH);
+    } else if (lstrcmpi(argv[i], L"--wait-for-rule") == 0 && i + 1 < argc) {
+      g_waitForRule = _wtoi(argv[++i]);
+    } else if (lstrcmpi(argv[i], L"--cycle-layouts") == 0 && i + 1 < argc) {
+      g_cycleLayouts = _wtoi(argv[++i]);
     } else if (lstrcmpi(argv[i], L"--probe") == 0 && i + 1 < argc) {
       lstrcpyn(g_probe, argv[++i], _countof(g_probe));
     } else if (lstrcmpi(argv[i], L"--out") == 0 && i + 1 < argc) {
