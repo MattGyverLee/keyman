@@ -316,22 +316,82 @@ begin
 end;
 
 procedure TfrmOSKOnScreenKeyboard.ShiftStateChange(kbdShift, asyncShift: TExtShiftState);
-  // #8064: this path still selects the release VK from the CURRENT kbd.LRShift, so after a
-  // SetLRShift collapse (OnScreenKeyboard.pas:885-937) an explicit click-off releases the generic
-  // VK_CONTROL/VK_MENU -- Left -- even when the key actually held is the extended right-hand one.
-  // Teardown no longer has that flaw (ResetShiftStates releases by recorded chiral identity), but
-  // the live click-off does. Fixing it here means making FCachedShiftState an injection-accurate
-  // record maintained by this procedure, which cannot be done safely without also distinguishing
-  // clicks from UpdateShiftStates' 50 ms resync -- whose press branch fires for physically-held
-  // modifiers, and recording those would let teardown release a key the user still has down.
-  // Left as-is deliberately, and tracked as its own issue; see MODIFIER-PRODUCERS.md.
+  // #8064: the release branch below used to select its VK from the CURRENT kbd.LRShift, so after a
+  // SetLRShift collapse (OnScreenKeyboard.pas:885-937) an explicit click-off released the generic
+  // VK_CONTROL/VK_MENU -- Left -- even when the key actually held was the extended right-hand one,
+  // which no keystroke can then clear on hardware without that physical key. Teardown stopped doing
+  // that when ResetShiftStates began releasing by recorded chiral identity; this path now does the
+  // same, from the same record.
+  //
+  // Why this is safe where the previously-reverted attempt was not. That attempt made
+  // ShiftStateChange *write* FCachedShiftState on every call -- including calls from
+  // UpdateShiftStates' 50 ms resync, whose press branch fires for modifiers the user is physically
+  // holding -- so the cache came to name physically-held keys and the next teardown released them:
+  // the I2177 regression, produced by composition rather than by either change alone. See
+  // MODIFIER-PRODUCERS.md, "Composition hazard, caught before commit".
+  //
+  // Picking the right VK needs no such write. It only needs to READ a record that already names
+  // what was injected, and kbdShiftChange's `(FCachedShiftState + (fkcss - ass)) * fkcss` already
+  // guarantees that record excludes anything physically held. The only write here is a REMOVAL of
+  // what was just released, which is the safe direction: it can only make a later teardown release
+  // less, never more. Additive writes are the hazard; reads and removals are not.
   procedure PrepState(fkcss, ass: TExtShiftState; shift: TExtShiftStateValue; vk: Integer);
   var
-    FExtended: Dword;
+    FExtended, FReleaseExtended: Dword;
+    FReleaseVk: Integer;
   begin
     if vk in [VK_RCONTROL, VK_RMENU] then FExtended := KEYEVENTF_EXTENDEDKEY else FExtended := 0;
     if (shift in fkcss) and not (shift in ass) then do_keybd_event(vk, 0, FExtended, 0)
-    else if not (shift in fkcss) and (shift in ass) then do_keybd_event(vk, 0, FExtended or KEYEVENTF_KEYUP, 0);
+    else if not (shift in fkcss) and (shift in ass) then
+    begin
+      // Prefer the identity actually injected over the one the current regime implies. Falls back
+      // to `vk` when the cache names nothing in this family -- i.e. when the OSK did not put the
+      // key down, in which case the pre-existing behaviour is retained unchanged.
+      FReleaseVk := vk;
+      FReleaseExtended := FExtended;
+
+      if shift in [essCtrl, essLCtrl, essRCtrl] then
+      begin
+        if essRCtrl in FCachedShiftState then
+        begin
+          FReleaseVk := VK_RCONTROL; FReleaseExtended := KEYEVENTF_EXTENDEDKEY;
+        end
+        else if essLCtrl in FCachedShiftState then
+        begin
+          FReleaseVk := VK_LCONTROL; FReleaseExtended := 0;
+        end
+        else if essCtrl in FCachedShiftState then
+        begin
+          FReleaseVk := VK_CONTROL; FReleaseExtended := 0;
+        end;
+      end
+      else if shift in [essAlt, essLAlt, essRAlt] then
+      begin
+        if essRAlt in FCachedShiftState then
+        begin
+          FReleaseVk := VK_RMENU; FReleaseExtended := KEYEVENTF_EXTENDEDKEY;
+        end
+        else if essLAlt in FCachedShiftState then
+        begin
+          FReleaseVk := VK_LMENU; FReleaseExtended := 0;
+        end
+        else if essAlt in FCachedShiftState then
+        begin
+          FReleaseVk := VK_MENU; FReleaseExtended := 0;
+        end;
+      end;
+
+      do_keybd_event(FReleaseVk, 0, FReleaseExtended or KEYEVENTF_KEYUP, 0);
+
+      // Removal only. Drop the whole family, because the collapse this fix exists for means the
+      // cache may name the released key in a different representation than `shift` arrived in.
+      if shift in [essCtrl, essLCtrl, essRCtrl] then
+        FCachedShiftState := FCachedShiftState - [essCtrl, essLCtrl, essRCtrl]
+      else if shift in [essAlt, essLAlt, essRAlt] then
+        FCachedShiftState := FCachedShiftState - [essAlt, essLAlt, essRAlt]
+      else
+        FCachedShiftState := FCachedShiftState - [shift];
+    end;
   end;
 begin
   KL.Log('ShiftStateChange: kbdShift=%s asyncShift=%s ', [ExtShiftStateToString(kbdShift), ExtShiftStateToString(asyncShift)]);
