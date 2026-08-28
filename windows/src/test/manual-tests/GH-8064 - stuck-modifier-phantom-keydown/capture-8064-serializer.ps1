@@ -45,7 +45,11 @@ param(
   [string]$Phase = 'menu',
   [int]$Iterations = 5,
   [string]$Probe = '1x2x3x',
-  [int]$WaitForRule = 120
+  [int]$WaitForRule = 120,
+  # Skip the "press Enter" pause, for driving from a non-interactive shell. The
+  # keyboard still has to be selected -- host32's --wait-for-rule window is what
+  # gives you time to do it after its window appears.
+  [switch]$NoPrompt
 )
 
 $ErrorActionPreference = 'Stop'
@@ -54,17 +58,34 @@ $root        = $PSScriptRoot
 $evidence    = Join-Path $root 'evidence'
 $host32      = Join-Path $root 'host32\host32.exe'
 $deploy      = Join-Path $root 'deploy-8064.ps1'
+$kmshell     = 'C:\Program Files (x86)\Keyman\Keyman Desktop\kmshell.exe'
+# four levels up from this directory is windows/, matching deploy-8064.ps1
+$winRoot     = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $root)))
+$fakefreeze  = Join-Path $winRoot 'src\support\fakefreeze\bin\Win32\Debug\fakefreeze.exe'
 $stateFile   = Join-Path $evidence '.t067-state.json'
 $regKey      = 'HKCU:\Software\Keyman\Keyman Engine'
 $engineDll   = 'C:\Program Files (x86)\Common Files\Keyman\Keyman Engine\keyman32.dll'
 $SHIPPED_LEN = 1232504
 $BRANCH_LEN  = 4197376
 
+# BranchOnly: the code emitting it does not exist on origin/master, so 0 on the shipped
+# build is the CORRECT reading, not a miss. The scan-code signal is pre-existing and
+# should fire on both -- scoring it "expected 0 on shipped" was wrong.
 $SIGNALS = @(
-  @{ Key = 'reconcile'; Pattern = 'cache says held but OS says up'; Row = 'keybd_shift reconcile clear';         Rare = $false },
-  @{ Key = 'feed';      Pattern = 'Modifier cache feed';            Row = 'hook modifier cache feed';            Rare = $false },
-  @{ Key = 'verify';    Pattern = 'verification: OS holds vkey';    Row = 'post-batch verification correction';  Rare = $true  },
-  @{ Key = 'scan';      Pattern = 'scan=0x[Ff][Ff]|scan=[Ff][Ff]';  Row = 'injected scan code at the hook';      Rare = $false }
+  @{ Key = 'reconcile'; Pattern = 'cache says held but OS says up'; Row = 'keybd_shift reconcile clear';         Rare = $false; BranchOnly = $true  },
+  @{ Key = 'feed';      Pattern = 'Modifier cache feed';            Row = 'hook modifier cache feed';            Rare = $false; BranchOnly = $true  },
+  @{ Key = 'verify';    Pattern = 'verification: OS holds vkey';    Row = 'post-batch verification correction';  Rare = $true;  BranchOnly = $true  },
+  # 'scan:' with a COLON is the low level hook's own view of an event. 'scan=' with an
+  # equals is the OSK's Pascal do_keybd_event, logged through Keyman_WriteDebugEvent2W
+  # -- a different producer entirely. Matching 'scan=' scored 6 OSK hits on the shipped
+  # run and 0 on the branch run, and read as "the pre-existing signal vanished".
+  @{ Key = 'scan';      Pattern = 'scan:[Ff][Ff]';                  Row = 'injected scan code at the hook';      Rare = $false; BranchOnly = $false },
+  # Path 6 emits NOTHING. UpdateLocalModifierState (serialkeyeventserver.cpp:581) is a
+  # thin wrapper straight into UpdateModifierCacheFromKeyEvent with no SendDebugMessage
+  # of its own, so no amount of running will make it appear in a log. FR-010a wants
+  # every 'cannot latch' verdict runtime-confirmed; this one cannot be, as the code
+  # stands. That is a decision to record, not a result to keep re-measuring.
+  @{ Key = 'path6';     Pattern = 'UpdateLocalModifierState';       Row = 'path 6 user-event re-injection';      Rare = $false; BranchOnly = $false; Unloggable = $true }
 )
 
 function Test-Elevated {
@@ -94,6 +115,62 @@ function Set-State([string]$name, $value) {
   $s.$name = $value
   if (-not (Test-Path $evidence)) { New-Item -ItemType Directory $evidence | Out-Null }
   $s | ConvertTo-Json | Out-File -FilePath $stateFile -Encoding utf8
+}
+
+# Globals::LoadDebugSettings() runs from Keyman_Initialise (keyman32.cpp:347) -- once,
+# when the engine initialises. Arming the registry under a Keyman that is already
+# running leaves it with debug=FALSE in memory, so the engine logs nothing and the
+# absence looks exactly like "the signal did not fire". Restart it.
+function Restart-Keyman {
+
+  # Identity, not existence. The first version of this asked "is a keyman.exe running
+  # afterwards?" -- which is true when the kill silently failed and the ORIGINAL process
+  # is still there. It reported [OK] over a restart that never happened, and the whole
+  # capture then read as "the signal did not fire" instead of "the log was never on".
+  $before = @(Get-Process keyman -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Id)
+  Write-Host ("  restarting Keyman so it reloads the debug flags (was pid {0}) ..." -f ($before -join ','))
+
+  # Ask politely first: force-killing keyman.exe while a modifier is held is
+  # MODIFIER-PRODUCERS.md row 2c, the very defect this harness measures.
+  foreach ($n in @('keyman', 'keymanx64')) {
+    Get-Process $n -ErrorAction SilentlyContinue | ForEach-Object {
+      try { $_.CloseMainWindow() | Out-Null } catch { }
+    }
+  }
+  Start-Sleep -Seconds 3
+  foreach ($n in @('keyman', 'keymanx64')) {
+    foreach ($p in @(Get-Process $n -ErrorAction SilentlyContinue)) {
+      try { Stop-Process -Id $p.Id -Force -ErrorAction Stop }
+      catch { Write-Host ("  [WARN] cannot stop {0} (pid {1}): {2}" -f $n, $p.Id, $_.Exception.Message) -ForegroundColor Yellow }
+    }
+  }
+  Start-Sleep -Seconds 2
+
+  $survivors = @(Get-Process keyman -ErrorAction SilentlyContinue | Where-Object { $before -contains $_.Id })
+  if ($survivors.Count -gt 0) {
+    Write-Host ''
+    Write-Host ("  [FAIL] Keyman pid {0} is still running -- the restart did NOT happen." -f ($survivors.Id -join ',')) -ForegroundColor Red
+    Write-Host '         Globals::LoadDebugSettings() runs once at Keyman_Initialise, so the'
+    Write-Host '         engine still holds debug=FALSE and will log nothing.'
+    Write-Host '         Exit Keyman from its tray icon menu, relaunch it, then re-run this phase.' -ForegroundColor Yellow
+    return $false
+  }
+
+  # Start through kmshell, not keyman.exe. Launching keyman.exe directly returns a
+  # success from Start-Process and then exits immediately without ever appearing in
+  # the process list -- kmshell is the supported entry point, and is what the Start
+  # menu shortcut uses.
+  if (-not (Test-Path $kmshell)) { Write-Host "  [WARN] kmshell.exe not found at $kmshell" -ForegroundColor Yellow; return $false }
+  Start-Process -FilePath $kmshell -ArgumentList '-s' | Out-Null
+  Start-Sleep -Seconds 8
+  $after = @(Get-Process keyman -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Id)
+  $fresh = @($after | Where-Object { $before -notcontains $_ })
+  if ($fresh.Count -gt 0) {
+    Write-Host ("  [OK] Keyman restarted (now pid {0})" -f ($fresh -join ',')) -ForegroundColor Green
+    return $true
+  }
+  Write-Host '  [WARN] Keyman did not come back; start it from the Start menu' -ForegroundColor Yellow
+  return $false
 }
 
 function Get-InstalledDllLength {
@@ -206,20 +283,36 @@ function Stop-Capture($cap) {
 
 function Invoke-Host32([string]$label, [string]$reportPath, [string]$logPath) {
   if (-not (Test-Path $host32)) { throw "host32.exe not found at $host32" }
+  # Checked before the capture starts, so a missing tool does not waste a run.
+  if (-not (Test-Path $fakefreeze)) {
+    throw "fakefreeze.exe not found at $fakefreeze`nBuild it: ./windows/src/support/fakefreeze/build.sh --debug build:x86"
+  }
 
   Write-Host ''
   Write-Host '  Select the GH-8064 test keyboard in Keyman before continuing.' -ForegroundColor Yellow
   Write-Host '  host32 opens its own window and drives the sequence itself -- do not type into it,' -ForegroundColor Yellow
   Write-Host '  and do not touch the keyboard while it runs.' -ForegroundColor Yellow
-  Read-Host '  Press Enter when the keyboard is selected'
+  if ($NoPrompt) {
+    Write-Host '  -NoPrompt: starting immediately. Select the keyboard once host32 appears --' -ForegroundColor Yellow
+    Write-Host "  it waits up to $WaitForRule s for a rule to fire." -ForegroundColor Yellow
+  } else {
+    Read-Host '  Press Enter when the keyboard is selected'
+  }
 
   $cap = Start-Capture $logPath
   try {
     Write-Host "  running host32 ($label), $Iterations iterations ..." -ForegroundColor White
-    # host32 is /SUBSYSTEM:WINDOWS, so '&' would return immediately and the capture
-    # would stop before the run finished. Start-Process -Wait is required.
-    $args = @('--probe', $Probe, '--wait-for-rule', $WaitForRule, '--iterations', $Iterations, '--out', $reportPath)
-    $p = Start-Process -FilePath $host32 -ArgumentList $args -Wait -PassThru
+    # Two things this line has to get right, both of which bit once:
+    #  - host32 is /SUBSYSTEM:WINDOWS, so '&' returns immediately and the capture would
+    #    stop before the run finished. Start-Process -Wait is required.
+    #  - -ArgumentList with an ARRAY joins the elements unquoted, so a path containing
+    #    spaces (this directory has two) splits into several tokens. host32's ParseArgs
+    #    sets ok=FALSE on any token it does not recognise and prints usage, which reads
+    #    like a wrong flag rather than a quoting fault. Build one quoted string instead.
+    $argString = '--fakefreeze "{0}" --probe {1} --wait-for-rule {2} --iterations {3} --out "{4}"' -f `
+      $fakefreeze, $Probe, $WaitForRule, $Iterations, $reportPath
+    Write-Host "  args: $argString" -ForegroundColor DarkGray
+    $p = Start-Process -FilePath $host32 -ArgumentList $argString -Wait -PassThru
     Write-Host "  host32 exit code: $($p.ExitCode)"
   } finally {
     Start-Sleep -Seconds 1
@@ -233,6 +326,19 @@ function Invoke-Host32([string]$label, [string]$reportPath, [string]$logPath) {
   } else {
     Write-Host '  [WARN] host32 wrote no report file' -ForegroundColor Yellow
   }
+
+  # A phase must not record itself done when the run did not happen. host32 exiting 3
+  # on a usage error once left runA marked complete with no report and an empty log --
+  # a false green of exactly the kind this spec exists to prevent.
+  # host32 exit codes: 0 PASS, 1 FAIL (reproduced), 2 INCONCLUSIVE, 3 usage error.
+  # Only 0 and 1 are runs that happened. 2 means no rule fired, so no batch was ever
+  # assembled and a clean modifier state proves nothing -- recording that as done was
+  # the same false green as before, one exit code further along.
+  $ok = ($p.ExitCode -eq 0 -or $p.ExitCode -eq 1) -and (Test-Path $reportPath)
+  if (-not $ok) {
+    Write-Host '  [NOT RECORDED] the run did not produce a report; phase left incomplete' -ForegroundColor Red
+  }
+  return $ok
 }
 
 function Invoke-Analyze {
@@ -250,28 +356,47 @@ function Invoke-Analyze {
     if (Test-Path $logA) { $a = @(Select-String -Path $logA -Pattern $s.Pattern).Count }
     if (Test-Path $logB) { $b = @(Select-String -Path $logB -Pattern $s.Pattern).Count }
 
-    if ($b -gt 0) {
+    if ($s.Unloggable) {
+      $verdict = 'NOT LOGGABLE -- the code emits no log line; needs instrumentation or a recorded decision'
+    } elseif ($b -gt 0) {
       $verdict = '[measured] discriminating'
+      if ($s.BranchOnly -and $a -gt 0) { $verdict = '[measured] but ALSO on shipped -- not branch-only after all' }
     } elseif ($s.Rare) {
       $verdict = '[source-derived, rare by design] -- satisfies FR-012b'
+    } elseif (-not (Test-Path $logB)) {
+      $verdict = 'pending -- branch run not done yet'
     } else {
       $verdict = 'NOT OBSERVED -- investigate before recording'
     }
+    $scope = 'both builds'
+    if ($s.BranchOnly) { $scope = 'branch only' }
     Write-Host ('{0,-38} {1,-9} {2,-8} {3}' -f $s.Row, $a, $b, $verdict)
+    Write-Host ('{0,-38} {1}' -f '', "   exists on: $scope") -ForegroundColor DarkGray
   }
 
   Write-Host ''
-  Write-Host 'Expected shape: 0 on shipped (the code does not exist there), >0 on branch.' -ForegroundColor DarkGray
+  Write-Host 'Branch-only signals: 0 on shipped is CORRECT, not a miss. The scan-code signal' -ForegroundColor DarkGray
+  Write-Host 'is pre-existing and should fire on both builds.' -ForegroundColor DarkGray
   Write-Host 'A non-rare signal at 0 on BOTH usually means the capture missed it rather than' -ForegroundColor DarkGray
   Write-Host 'that it did not fire. Check the Keyman-ish counts below before recording a verdict.' -ForegroundColor DarkGray
   Write-Host ''
+  # Count ENGINE lines specifically. Two looser attempts both scored an empty engine
+  # log as healthy: matching /keyman/ caught host32's own status text, and matching
+  # /\.cpp:\d+/ caught an unrelated process on this machine that logs file:line the
+  # same way. DebugEventTrace writes DEBUG_PLATFORM_STRINGW then TAB as the first
+  # field of every engine line, so anchor on that after the listener's [pid] prefix.
   foreach ($p in @($logA, $logB)) {
-    if (Test-Path $p) {
-      $tot = (Get-Content $p | Measure-Object -Line).Lines
-      $km = @(Select-String -Path $p -Pattern 'keyman|keybd_shift|serialkeyevent').Count
-      Write-Host ('  {0}: {1} lines, {2} Keyman-ish' -f (Split-Path $p -Leaf), $tot, $km)
-    } else {
+    if (-not (Test-Path $p)) {
       Write-Host ('  {0}: MISSING' -f (Split-Path $p -Leaf)) -ForegroundColor Yellow
+      continue
+    }
+    $tot = (Get-Content $p | Measure-Object -Line).Lines
+    $eng = @(Select-String -Path $p -Pattern '^\[\d+\] (x86|x64|arm64)\t').Count
+    Write-Host ('  {0}: {1} lines, {2} engine lines' -f (Split-Path $p -Leaf), $tot, $eng)
+    if ($eng -eq 0) {
+      Write-Host '    [WARN] no engine log lines at all. Every verdict above is uninformative:' -ForegroundColor Yellow
+      Write-Host '           the flags are read once at Keyman_Initialise, so run -Phase arm' -ForegroundColor Yellow
+      Write-Host '           (which restarts Keyman) and repeat this run.' -ForegroundColor Yellow
     }
   }
   Write-Host ''
@@ -312,8 +437,14 @@ switch ($Phase) {
     Set-ItemProperty -Path $regKey -Name 'debug'            -Value 1 -Type DWord
     Set-ItemProperty -Path $regKey -Name 'debug to console' -Value 1 -Type DWord
     Write-Host '[OK] debug + debug to console = 1 (HKCU)' -ForegroundColor Green
-    Write-Host '     host32 reads these when it starts, so arm before running it.'
-    Set-State 'armed' $true
+    $restarted = Restart-Keyman
+    Write-Host '     The flags are read once, at Keyman_Initialise. Without the restart the'
+    Write-Host '     engine keeps debug=FALSE and logs nothing, and that silence is'
+    Write-Host '     indistinguishable from a signal that did not fire.'
+    # Only record armed when the engine actually reloaded. Setting the registry is not
+    # the same as the engine having read it.
+    if ($restarted) { Set-State 'armed' $true }
+    else { Write-Host '[NOT RECORDED] arm incomplete: the engine did not reload the flags' -ForegroundColor Red }
   }
 
   'keyboard' {
@@ -330,12 +461,12 @@ switch ($Phase) {
       Write-Host '       Run A is the contrast run and must use the shipped engine.' -ForegroundColor Yellow
       if ((Read-Host '       Continue anyway? (y/N)') -ne 'y') { return }
     }
-    Invoke-Host32 'shipped' (Join-Path $evidence "run-serializer-shipped-$stamp.txt") `
-                            (Join-Path $evidence "dbgview-shipped-$stamp.log")
+    $ok = Invoke-Host32 'shipped' (Join-Path $evidence "run-serializer-shipped-$stamp.txt") `
+                                  (Join-Path $evidence "dbgview-shipped-$stamp.log")
     Write-Host ''
     Write-Host '[expect] 5/5 FAIL (wedge reproduces) and NO serializer signals.' -ForegroundColor Yellow
     Write-Host '         This run re-establishes rows 1/1b as "mitigated, measured".'
-    Set-State 'runA' $true
+    if ($ok) { Set-State 'runA' $true }
   }
 
   'deploy' {
@@ -353,11 +484,11 @@ switch ($Phase) {
       Write-Host '       Run B is the authoritative capture and must use the branch engine.' -ForegroundColor Yellow
       if ((Read-Host '       Continue anyway? (y/N)') -ne 'y') { return }
     }
-    Invoke-Host32 'branch' (Join-Path $evidence "run-serializer-branch-$stamp.txt") `
-                           (Join-Path $evidence "dbgview-branch-$stamp.log")
+    $ok = Invoke-Host32 'branch' (Join-Path $evidence "run-serializer-branch-$stamp.txt") `
+                                 (Join-Path $evidence "dbgview-branch-$stamp.log")
     Write-Host ''
     Write-Host '[expect] 0/5 PASS, and the serializer signals present.' -ForegroundColor Yellow
-    Set-State 'runB' $true
+    if ($ok) { Set-State 'runB' $true }
     Invoke-Analyze
   }
 
@@ -365,9 +496,21 @@ switch ($Phase) {
     Assert-Elevation $true 'restore'
     & $deploy -Restore
     Show-InstalledBuild
-    Write-Host '[NOTE] Do not skip this. The branch DLL is a Debug build and is loaded into' -ForegroundColor Yellow
-    Write-Host '       every hooked 32-bit process on the machine.' -ForegroundColor Yellow
-    Set-State 'restored' $true
+    # Verify by size, do not take the script's word for it. A poisoned backup chain
+    # once made -Restore reinstate the BRANCH build while printing [OK] restored, and
+    # this phase recorded itself done over the top of that.
+    $len = Get-InstalledDllLength
+    if ($len -eq $SHIPPED_LEN) {
+      Write-Host '[OK] shipped engine is back' -ForegroundColor Green
+      Set-State 'restored' $true
+    } else {
+      Write-Host ''
+      Write-Host ("[FAIL] installed DLL is {0}, expected the shipped {1}." -f $len, $SHIPPED_LEN) -ForegroundColor Red
+      Write-Host '       The restore did NOT happen. Check gh8064-backup for a backup whose size' -ForegroundColor Red
+      Write-Host '       is the shipped one; a backup taken while the branch build was already' -ForegroundColor Red
+      Write-Host '       installed will restore the branch build.' -ForegroundColor Red
+      Write-Host '[NOT RECORDED] restore incomplete' -ForegroundColor Red
+    }
   }
 
   'disarm' {
