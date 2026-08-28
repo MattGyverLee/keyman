@@ -1,0 +1,145 @@
+[windows/src/engine/keyman32] build.sh parameters: <--debug build:x86>
+[windows/src/engine/keyman32] ## build:x86 starting...
+[common/include] dependency build, started by windows/src/engine/keyman32
+[common/include] build.sh parameters: <configure build --debug --deps --builder-dep-parent windows/src/engine/keyman32>
+[common/include] skipping configure, up-to-date
+[common/include] skipping build, up-to-date
+[core] dependency build, started by windows/src/engine/keyman32
+[core] build.sh parameters: <configure:win build:win --debug --deps --builder-dep-parent windows/src/engine/keyman32>
+[core] skipping configure:win, up-to-date
+[core] skipping build:win, up-to-date
+[windows/src/engine/keyman32] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/keyman32] ### visual_studio: msbuild.exe keyman32.vcxproj //t:Build //p:Platform=Win32 //p:Configuration=Debug
+MSBuild version 17.14.51+25f168cee for .NET Framework
+Build started 8/28/2026 10:46:46 AM.
+
+Project "D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\keyman32.vcxproj" on node 1 (Build target(s)).
+PrepareForBuild:
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+InitializeBuildStatus:
+  Creating "D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\keyman32.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\keyman32.tlog\unsuccessfulbuild".
+CustomBuild:
+  All outputs are up-to-date.
+ClCompile:
+  D:\Large Program Files\VS 2022\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I.\ /I..\..\global\inc /I. /ZI /nologo /W4 /WX /diagnostics:column /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _WINDLL /Gm- /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yc"pch.h" /Fp"D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\keyman32.pch" /FAcs /Fa"D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\\" /Fo"D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\\" /Fd"D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\vc143.pdb" /FR"D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\\" /external:W4 /Gd /TP /analyze- /FC /errorReport:queue pch.cpp
+  pch.cpp
+  D:\Large Program Files\VS 2022\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I.\ /I..\..\global\inc /I. /ZI /nologo /W4 /WX /diagnostics:column /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _WINDLL /Gm- /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"pch.h" /Fp"D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\keyman32.pch" /FAcs /Fa"D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\\" /Fo"D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\\" /Fd"D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\vc143.pdb" /FR"D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\\" /external:W4 /Gd /TP /analyze- /FC /errorReport:queue ..\..\global\cpp\kmtip_guids.cpp CoreEnvironment.cpp D:/Github/_Projects/_KM/keyman\common\windows\cpp\src\keynames.cpp D:/Github/_Projects/_KM/keyman\common\windows\cpp\src\registry.cpp D:/Github/_Projects/_KM/keyman\common\windows\cpp\src\unicode.cpp D:/Github/_Projects/_KM/keyman\common\windows\cpp\src\xstring.cpp DebugEventTrace.cpp K32_DBG.CPP K32_load.cpp LowLevelHookWatchDog.cpp RightAltEmulationCheck.cpp SharedBuffers.cpp VKScanCodes.cpp appcontext.cpp appint\aiTIP.cpp appint\aiWin2000Unicode.cpp appint\appint.cpp calldll.cpp capsstate.cpp glossary.cpp hookutils.cpp hotkeys.cpp k32_globals.cpp k32_lowlevelkeyboardhook.cpp k32_tsf.cpp k32_visualkeyboardinterface.cpp keybd_shift.cpp keyboardoptions.cpp keyman32.cpp keystate.cpp kmhook_callwndproc.cpp kmhook_getmessage.cpp kmhook_keyboard.cpp kmprocess.cpp kmprocessactions.cpp preservedkeymap.cpp security.cpp selectkeyboard.cpp serialkeyeventclient.cpp serialkeyeventserver.cpp syskbd.cpp versioninfo.cpp
+  kmtip_guids.cpp
+  CoreEnvironment.cpp
+  keynames.cpp
+  registry.cpp
+  unicode.cpp
+  xstring.cpp
+  DebugEventTrace.cpp
+  K32_DBG.CPP
+  K32_load.cpp
+  LowLevelHookWatchDog.cpp
+  RightAltEmulationCheck.cpp
+  SharedBuffers.cpp
+  VKScanCodes.cpp
+  appcontext.cpp
+  aiTIP.cpp
+  aiWin2000Unicode.cpp
+  appint.cpp
+  calldll.cpp
+  capsstate.cpp
+  glossary.cpp
+  Generating Code...
+  Compiling...
+  hookutils.cpp
+  hotkeys.cpp
+  k32_globals.cpp
+  k32_lowlevelkeyboardhook.cpp
+  k32_tsf.cpp
+  k32_visualkeyboardinterface.cpp
+  keybd_shift.cpp
+  keyboardoptions.cpp
+  keyman32.cpp
+  keystate.cpp
+  kmhook_callwndproc.cpp
+  kmhook_getmessage.cpp
+  kmhook_keyboard.cpp
+  kmprocess.cpp
+  kmprocessactions.cpp
+  preservedkeymap.cpp
+  security.cpp
+  selectkeyboard.cpp
+  serialkeyeventclient.cpp
+  serialkeyeventserver.cpp
+  Generating Code...
+  Compiling...
+  syskbd.cpp
+  versioninfo.cpp
+  Generating Code...
+ResourceCompile:
+  All outputs are up-to-date.
+  All outputs are up-to-date.
+Link:
+  D:\Large Program Files\VS 2022\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\bin\Win32\Debug\keyman32.dll" /INCREMENTAL /ILK:"D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\keyman32.ilk" /NOLOGO libicuuc.a libicuin.a libkeymancore.a psapi.lib rpcrt4.lib version.lib setupapi.lib iphlpapi.lib imm32.lib crypt32.lib wintrust.lib imagehlp.lib ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:"keyman32.def" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='true'" /manifest:embed /DEBUG /PDB:"D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\bin\Win32\Debug\keyman32.pdb" /MAP /SUBSYSTEM:WINDOWS /TLBID:1 /BASE:"0x1C100000" /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\..\..\lib\keyman32.lib" /MACHINE:X86 /SAFESEH /verbose:lib /section:.SHARDATA,rws /DLL "D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\keyman-debug-etw.res"
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\KEYMAN32.res
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\kmtip_guids.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\xstring.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\appcontext.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\aiTIP.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\aiWin2000Unicode.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\appint.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\calldll.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\capsstate.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\CoreEnvironment.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\DebugEventTrace.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\glossary.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\hookutils.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\hotkeys.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\K32_DBG.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\k32_globals.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\K32_load.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\k32_lowlevelkeyboardhook.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\k32_tsf.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\k32_visualkeyboardinterface.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\keybd_shift.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\keyboardoptions.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\keyman32.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\keynames.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\keystate.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\kmhook_callwndproc.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\kmhook_getmessage.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\kmhook_keyboard.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\kmprocess.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\registry.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\kmprocessactions.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\LowLevelHookWatchDog.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\pch.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\preservedkeymap.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\RightAltEmulationCheck.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\security.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\selectkeyboard.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\serialkeyeventclient.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\serialkeyeventserver.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\SharedBuffers.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\syskbd.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\unicode.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\versioninfo.obj
+  D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\VKScanCodes.obj
+  
+  Searching libraries
+      Searching D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\..\..\..\..\core\build\x86\Debug\subprojects\icu\source\common\libicuuc.a:
+  
+  Finished searching libraries
+  keyman32.vcxproj -> D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\bin\Win32\Debug\keyman32.dll
+BscMake:
+  D:\Large Program Files\VS 2022\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\bscmake.exe /nologo /o"./Keyman32.bsc" D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\kmtip_guids.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\xstring.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\appcontext.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\aiTIP.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\aiWin2000Unicode.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\appint.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\calldll.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\capsstate.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\CoreEnvironment.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\DebugEventTrace.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\glossary.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\hookutils.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\hotkeys.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\K32_DBG.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\k32_globals.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\K32_load.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\k32_lowlevelkeyboardhook.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\k32_tsf.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\k32_visualkeyboardinterface.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\keybd_shift.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\keyboardoptions.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\keyman32.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\keynames.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\keystate.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\kmhook_callwndproc.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\kmhook_getmessage.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\kmhook_keyboard.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\kmprocess.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\registry.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\kmprocessactions.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\LowLevelHookWatchDog.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\pch.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\preservedkeymap.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\RightAltEmulationCheck.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\security.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\selectkeyboard.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\serialkeyeventclient.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\serialkeyeventserver.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\SharedBuffers.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\syskbd.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\unicode.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\versioninfo.sbr D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\VKScanCodes.sbr
+FinalizeBuildStatus:
+  Deleting file "D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\keyman32.tlog\unsuccessfulbuild".
+  Touching "D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\obj\Win32\Debug\keyman32.tlog\keyman32.lastbuildstate".
+Done Building Project "D:\Github\_Projects\_KM\keyman\windows\src\engine\keyman32\keyman32.vcxproj" (Build target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:05.60
+[windows/src/engine/keyman32] ## build:x86 completed successfully
