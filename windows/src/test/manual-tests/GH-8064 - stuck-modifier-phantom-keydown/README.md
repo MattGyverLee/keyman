@@ -160,11 +160,23 @@ The wedged modifier was reported as `SHIFT, LSHIFT` -- both the side-agnostic an
 the chiral VK. Reading only the six cache slots would have scored the wedged
 machine clean, which is why the oracle reads all nine.
 
-Those runs were taken **without** the engine log on. The pass/fail table is read
-from `GetAsyncKeyState`, not from a log, so it does not depend on that — but the
-serializer-path signals [TRIAGE.md](./TRIAGE.md) tells a responder to read are
-still what the source predicts rather than what was observed. Only the OSK runs
-carry a `KLOGGING` trace.
+Those runs were taken **without** the engine log on, and that has to stay that
+way. The pass/fail table is read from `GetAsyncKeyState`, not from a log — which is
+what makes it usable, because **enabling the engine log closes the race window**:
+the same shipped build wedged 5/5 unlogged and 0/5 logged. Fix evidence is
+therefore the unlogged pair above and nothing else.
+
+The signals themselves were captured separately, on 2026-08-28, in a **logged** run
+whose PASS says nothing about the fix:
+
+| document | what it establishes |
+|---|---|
+| [`evidence/serializer-signals-2026-08-28.md`](evidence/serializer-signals-2026-08-28.md) | the serializer-side signals [TRIAGE.md](./TRIAGE.md) tells a responder to read, measured on a live engine; and Finding 1, that the log suppresses the defect |
+| [`evidence/path6-cannot-latch-2026-08-28.md`](evidence/path6-cannot-latch-2026-08-28.md) | path 6 runtime-confirmed, the FR-010a `cannot latch` audit row by row, and a correction to the first document's Finding 2 |
+| [`evidence/dbgview-excerpt-2026-08-28.txt`](evidence/dbgview-excerpt-2026-08-28.txt) | the cited lines from both captures, verbatim. The raw `.log` files are outside the repository — root `.gitignore:28` ignores `/windows/src/**/*.log` |
+
+So the serializer column of [TRIAGE.md](./TRIAGE.md) is now measured rather than
+source-derived. The OSK runs carry a `KLOGGING` trace of their own.
 
 ## Automated harness
 
