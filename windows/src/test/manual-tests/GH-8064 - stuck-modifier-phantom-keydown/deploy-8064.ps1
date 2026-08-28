@@ -109,7 +109,10 @@ if ($InstallKeyboard) {
 
   $kbds = (Get-ChildItem 'HKCU:\Software\Keyman\Keyman Engine\Active Keyboards' -ErrorAction SilentlyContinue).PSChildName
   Write-Host ('[OK]   active keyboards now: {0}' -f ($kbds -join ', '))
-  if ($kbds -notmatch '0301') {
+  # -notmatch on an ARRAY is a filter, not a boolean: it returns the non-matching
+  # elements, which are truthy whenever any other keyboard is installed. That made
+  # this warn on a successful install. Test for presence explicitly instead.
+  if (-not ($kbds | Where-Object { $_ -match '0301' })) {
     Write-Host '[WARN] the test keyboard does not appear in the list. Install it by hand from' -ForegroundColor Yellow
     Write-Host '       Keyman Configuration -> Keyboards -> Install, then continue.' -ForegroundColor Yellow
   }
