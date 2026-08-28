@@ -15,15 +15,20 @@ Harness: `capture-8064-serializer.ps1`. Engine log captured by an embedded
 | `"Modifier cache feed posted/failed/skipped"` | 0 | **17** | **`[measured]`** discriminating |
 | `"verification: OS holds vkey=… correcting"` | 0 | 0 | `[source-derived, rare by design]` (FR-012b) |
 | injected scan code at the hook (`scan:ff`) | **37** | **24** | **`[measured]`** discriminating |
-| path 6 — user-event re-injection | 0 | 0 | **not loggable** — see below |
+| path 6 — user-event re-injection | **92** | **59** | **`[measured]`** — see the Finding 2 correction |
 
-Engine lines captured: **7362** shipped, **6115** branch.
+Engine lines captured: **7362** shipped, **6115** branch. The raw `.log` captures
+are outside the repository — root `.gitignore:28` ignores `/windows/src/**/*.log` —
+so every line cited here is extracted verbatim into
+[`dbgview-excerpt-2026-08-28.txt`](./dbgview-excerpt-2026-08-28.txt).
 
 The fourth row is the control. It is a *pre-existing* signal, present on both
 builds, and it fires on both. That is what makes the zeros above it meaningful:
 the log was demonstrably live on the shipped run, and the three branch-only
 signals were absent because the code that emits them does not exist on
-`origin/master`, not because nobody was listening.
+`origin/master`, not because nobody was listening. The fifth row turns out to be a
+second control of the same kind, and was misread as a zero on the first pass — see
+the Finding 2 correction.
 
 Sample of the decisive branch line:
 
@@ -65,7 +70,22 @@ neither can do the other's:
 
 Anyone citing Run B's PASS as fix evidence is reading it wrong.
 
-## Finding 2 — path 6 cannot be observed through the log
+## Finding 2 — path 6 cannot be observed through the log — **WRONG, corrected same day**
+
+> **This finding is wrong and is left in place rather than deleted.** Path 6 *is*
+> observable, on every build including released ones, and these very captures
+> already contained the signal — 92 passes in the shipped log, 59 in the branch
+> log. See [`path6-cannot-latch-2026-08-28.md`](./path6-cannot-latch-2026-08-28.md)
+> Finding A, which supersedes everything below, and Finding B, which closes row 6
+> as `cannot latch [measured]` on a 17-of-17 direction match with zero mismatches.
+>
+> The error was one of frame, not of fact. Everything below about
+> `UpdateLocalModifierState` is true; it is simply the wrong function to look in.
+> The pass through path 6 is logged 112 lines earlier, at the top of the same
+> `WndProc` (`serialkeyeventserver.cpp:469`), which prints the exact flags word
+> that becomes `input.ki.dwFlags`. Looking for a signal in the callee and stopping
+> there is how a present signal gets recorded as absent — the precise failure
+> FR-010a exists to catch, committed here in the act of satisfying it.
 
 `UpdateLocalModifierState` (`serialkeyeventserver.cpp:581`) is a three-line
 wrapper straight into `UpdateModifierCacheFromKeyEvent`, with no
@@ -77,7 +97,8 @@ source-read, on the grounds that `cannot latch` is the only verdict leaving
 nothing behind if it is wrong. Path 6 **cannot** meet that bar as the code stands.
 It needs either one added log line, or a recorded decision to accept
 `cannot latch [source-derived, not loggable]` with the reason it cannot be
-forced — the same carve-out the rare-by-design signal gets. **Outstanding.**
+forced — the same carve-out the rare-by-design signal gets. ~~**Outstanding.**~~
+**Closed 2026-08-28 by observation; no log line was needed.**
 
 ## Finding 3 — "contrived" does not mean "rarely executed"
 
@@ -135,6 +156,8 @@ genuine shipped backup. Anyone re-reading this should confirm
 ## What this run does NOT establish
 
 - **Nothing about the fix.** See Finding 1. The fix evidence is the unlogged pair.
-- **Nothing about path 6.** See Finding 2.
+- ~~**Nothing about path 6.**~~ **Corrected:** it establishes path 6 outright.
+  See the Finding 2 correction and
+  [`path6-cannot-latch-2026-08-28.md`](./path6-cannot-latch-2026-08-28.md).
 - **Nothing about ARM64**, still unverified per `IN-TREE.md` §6.
 - **Nothing about the OSK rows.** Those were measured 2026-08-27 and are unchanged.

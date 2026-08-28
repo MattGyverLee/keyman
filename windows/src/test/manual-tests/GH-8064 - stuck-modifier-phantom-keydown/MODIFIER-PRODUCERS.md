@@ -26,6 +26,21 @@ run, however sound the source-level reasoning looks. That rule earned its keep:
 the OSK run below found that the teardown fix had reintroduced I2177, which every
 prior source read had missed.
 
+**The bar for `cannot latch`** (FR-010a). It is the only verdict that leaves
+nothing behind if it is wrong — `mitigated` is evidenced by its fix and
+`UNMITIGATED` by its issue — so each one has to say what it rests on. Two things
+qualify, and the distinction is recorded per row rather than assumed:
+
+- a **structural literal** — a `KEYEVENTF_KEYUP` written into the only call in the
+  file, or an unconditional adjacent down/up pair. A compiler already guarantees
+  it; a runtime observation would add nothing.
+- a **runtime observation**, required wherever the verdict rests on an *inference
+  chain* instead. One row did: row `6`, now measured.
+
+Audited row by row on 2026-08-28 in
+`evidence/path6-cannot-latch-2026-08-28.md` *Finding C*. No row was found resting
+on a hopeful reading.
+
 ## Status
 
 ### Before this branch
@@ -68,6 +83,16 @@ prior source read had missed.
    them are for rows now `mitigated`: `2a` and `2b` were `UNMITIGATED` in a
    released build, users are running that build today, and the record should say
    so. Replace each `#____` in the table below with the real number once filed.
+   **This is the only item left, and it is a PR-submission step rather than a
+   finding.**
+
+**Closed 2026-08-28, and previously listed here.** The serializer-side signals
+this document's triage procedure depends on were captured on a live engine, so
+[TRIAGE.md](./TRIAGE.md)'s serializer column is measured rather than
+source-derived; and the `cannot latch` audit FR-010a asks for was run row by row.
+Row `6` was the only one resting on an inference chain, and it is now measured.
+`evidence/serializer-signals-2026-08-28.md`,
+`evidence/path6-cannot-latch-2026-08-28.md`.
 4. **The serializer harness has not been re-run** since the residual-gap commits
    landed. Row `1`'s original defect was measured end to end (5 of 5 wedged on
    the shipped build, 0 of 5 on the fixed one); `1`'s residual, `1b` and `9` are
@@ -83,7 +108,12 @@ prior source read had missed.
    clear-and-reassert transients during three OSK cases that the engine log does
    not account for. See [Evidence](#evidence).
 
-Until 1–3 are done, this work must not be described as completing prevention.
+Items 1 and 2 are **accepted, not fixed**, under FR-011b, each carrying a complete
+draft below. Item 3 is the filing itself. Prevention is complete in the sense this
+document set out to establish — every path enumerated, every verdict evidenced by a
+fix, an issue, or an observation — and the two accepted rows are named, not
+absorbed. That is the claim to make, and no more: see
+[A recurrence is triaged, not assumed to be a regression](#a-recurrence-is-triaged-not-assumed-to-be-a-regression).
 
 ## The producers
 
@@ -97,7 +127,7 @@ Until 1–3 are done, this work must not be described as completing prevention.
 | 3 | language-switch shift release — `keyman32/kmhook_keyboard.cpp:147` | `keybd_event(VK_SHIFT, 0xFF, KEYEVENTF_KEYUP, 0)` | none needed | **cannot latch** | `KEYEVENTF_KEYUP` is a literal in the only call in the file. An unmatched KEYUP asserts nothing |
 | 4 | Caps Lock sync — `keyman32/kmprocessactions.cpp:101-102` | `VK_CAPITAL` down then up | adjacency | **cannot latch** | Both statements unconditional and adjacent inside one `if`; no return or call between them, and `keybd_event` is `void WINAPI` so cannot throw. Also outside the managed six |
 | 5 | `PostDummyKeyEvent` — `keyman32/keyman32.cpp:923-926` | prefix VK down then up | adjacency | **cannot latch** | Same structure. `Globals::get_vk_prefix()` is registry-overridable and could in principle be a modifier VK, but the pair stays balanced either way |
-| 6 | user-event re-injection — `serialkeyeventserver.cpp`, `UpdateLocalModifierState` | mirrors the user's own event | the mirror itself | **cannot latch** | `dwFlags = lParam & 0xFFFF`, and `lParam` comes from `LLKHFFlagstoWMKeymanKeyEventFlags`, which sets `KEYEVENTF_KEYUP` iff `LLKHF_UP`. Direction is the user's direction, structurally |
+| 6 | user-event re-injection — `serialkeyeventserver.cpp`, `UpdateLocalModifierState` | mirrors the user's own event | the mirror itself | **cannot latch**, measured | **Runtime-confirmed 2026-08-28**, the one `cannot latch` row that rested on inference rather than on a literal. Two instruments straddle the `PostMessage` handoff: `"Modifier cache feed posted [vkCode:%x isUp:%d]"` at the hook (`k32_lowlevelkeyboardhook.cpp:215`) for the source direction, and `SerialKeyEventServer::WndProc`'s `wParam`/`lParam` (`serialkeyeventserver.cpp:469`) for the mirrored one. **17 feed posts, 17 serializer passes, matched in order, 0 mismatches**; across both captures 65 modifier-VK passes carried a low word of only `0x0000`, `0x0002` or `0x0003` and never anything else. The source reading it replaces: `dwFlags = lParam & 0xFFFF`, `lParam` from `LLKHFFlagstoWMKeymanKeyEventFlags`, which sets `KEYEVENTF_KEYUP` iff `LLKHF_UP`. Two statements between the observed frame and the callee remain read rather than observed — as close as the code allows without adding a log line (`evidence/path6-cannot-latch-2026-08-28.md` Findings A and B) |
 | 7 | AltGr Left Ctrl simulation — `serialkeyeventserver.cpp`, the same batch path as row 1 | two **releases** | none needed | **cannot latch** | `KEYEVENTF_KEYUP` literal in the branch that requires it in `lParam`. Both events are releases by construction |
 | 8 | `AIWin2000Unicode::PostKeys` — `keyman32/appint/aiWin2000Unicode.cpp:138-153` | `QIT_VKEYDOWN` writes a KEYDOWN whose KEYUP exists only if a separate `QIT_VKEYUP` follows; VK is `Queue[n].dwData & 0xFF` | the sole producer queues a balanced pair (`kmprocess.cpp:181-182`) | **UNMITIGATED** (contrived) — issue drafted, pending filing (`#____`). No fix attempted. [Finding 3](#finding-3) | Three unguarded truncation points can split the pair: `QueueAction` returns FALSE at `MAXACTIONQUEUE` and the result is ignored (`appint.cpp:51-57`); `SignalServer` silently clamps to 256 (`serialkeyeventclient.cpp:87-90`); the output-key copy stops at `MAX_KEYEVENT_INPUTS - MAX_KEYEVENT_INPUTS_MODIFIERS` with nothing preventing a pair straddling the bound |
 | 9 | **eaten-event pipeline loss** — the hook ate every serialized key event once it decided to hand it to the serializer, before confirming the handoff succeeded | if the `PostMessage(hwndServer, WM_KEYMAN_KEY_EVENT, ...)` handoff failed — `hwndServer == NULL` during server startup/shutdown, a full posted-message queue, or a client wedged holding `KeymanEngine_KeyMutex` while `ProcessQueuedKeyEvents` waits `INFINITE` on it — the real key event was destroyed outright. For a modifier KEYUP that meant the OS kept an earlier re-injected KEYDOWN latched, the cache still said down, cache and OS agreed, and the clear-only reconcile could never see it again | the hook now eats the event only once `PostMessage` to a **non-NULL** server window has succeeded; otherwise it falls through to `CallNextHookEx`, so the keystroke reaches the app unserialized rather than being lost. The same NULL-window guard covers the modifier cache-feed post | **mitigated**, source-reasoned and covered by a clean warnings-as-errors build, not by a test that forces the handoff to fail | This closes the *loss* half — the event is no longer silently destroyed — but not *why* a handoff can fail. `ProcessQueuedKeyEvents` waiting `INFINITE` on `KeymanEngine_KeyMutex`, and `MessageLoop` returning on the exit event with events still pending, remain the underlying reasons a handoff degrades. They are what the hook now degrades safely into, not reasons that have been removed |
@@ -113,6 +143,12 @@ the six chiral VKs. If a third party's `SendInput(wVk=VK_SHIFT, wScan=0)` set th
 generic async key state without Windows also asserting the chiral one,
 `ReconcileModifierCache` could erase a cache byte a generic injection had just
 set correctly.
+
+**Not exercised, and now that is a count rather than an expectation.** Neither
+2026-08-28 capture contains a single serializer pass for generic `0x10`, `0x11` or
+`0x12` — 151 passes, every one chiral or non-modifier
+(`evidence/path6-cannot-latch-2026-08-28.md` Finding E). The gap stays
+theoretical.
 
 This is **not a new producer** — it would be a false-clear in the reconcile,
 which can only ever turn into a skipped restore or an extra release, never an
@@ -286,12 +322,21 @@ Shift — releasable on every keyboard, and therefore not the unproducible-KEYUP
 shape. It is recorded as `UNMITIGATED` rather than `cannot latch` because the
 pair-splitting is genuinely unguarded, not because a latch has been observed.
 
+**"Contrived" is about the split, not about reaching the code.** `PostKeys`
+logged **245 times** in a single five-iteration probe run
+(`evidence/path6-cannot-latch-2026-08-28.md` Finding F) — it is on the hot path
+constantly. What is contrived is *splitting the KEYDOWN/KEYUP pair* under queue
+truncation. Anyone reading `UNMITIGATED (contrived)` as "hardly ever runs" has
+misread the row, and the issue draft says so too.
+
 **Source alone cannot settle** whether the required conditions are co-reachable:
 a legacy/ANSI target, `use(final)`, 248 or more output events, and `VK_SHIFT`.
 The runtime observation that would settle it: with `debug=1`, drive such a
 target with a keyboard whose Shift rule outputs 250 or more characters and look
 for `"Too many INPUT events for queue"` (`serialkeyeventclient.cpp:88-90`)
-immediately followed by a `VK_SHIFT` down with no matching up.
+immediately followed by a `VK_SHIFT` down with no matching up. The 2026-08-28 run
+did **not** meet those conditions — no truncation line appears in either
+capture — so the split itself is still unobserved.
 
 <a name="finding-5"></a>
 
@@ -384,8 +429,17 @@ and released 1500 ms into the stall, Windows 11 Pro 26200. Full reports in
 | shipped build | **5/5 FAIL** |
 | branch build | **0/5 PASS** |
 
-Taken without the engine log on. The verdict is read from `GetAsyncKeyState`, so
-it does not depend on the log — but see *What is left*, items 4 and 5.
+Taken **without** the engine log on, and that is load-bearing rather than
+incidental. The verdict is read from `GetAsyncKeyState`, so it does not depend on
+the log — and it must not, because enabling the log closes the race window: the
+same shipped build wedged 5/5 unlogged and 0/5 logged
+(`evidence/serializer-signals-2026-08-28.md` Finding 1). The two runs have strictly
+separate jobs. **Fix evidence is the unlogged pair above.** **Signal evidence is
+the logged run**, 2026-08-28, recorded in
+`evidence/serializer-signals-2026-08-28.md` and
+`evidence/path6-cannot-latch-2026-08-28.md`, with its cited lines in
+`evidence/dbgview-excerpt-2026-08-28.txt`. Citing the logged run's PASS as fix
+evidence is a misreading — logging alone produces a PASS on the *unfixed* build.
 
 ### OSK path
 
@@ -664,9 +718,13 @@ without either queuing the pair atomically or reporting the drop:
   nothing preventing a `QIT_VKEYDOWN`/`QIT_VKEYUP` pair from straddling that
   boundary.
 
-**Reachability is narrow but not zero.** `aiTIP.cpp:186-202` returns early for
-`VK_MENU` and `VK_CONTROL` before the VK is assigned, but **`VK_SHIFT` falls
-through** — so in practice this can only emit `VK_SHIFT`, which maps to Left
+**`PostKeys` itself is on the hot path — 245 calls in a single five-iteration
+probe run.** What is narrow is the *split*, not reaching the function. Please do
+not read "contrived" below as "hardly ever runs".
+
+**The split's reachability is narrow but not zero.** `aiTIP.cpp:186-202` returns
+early for `VK_MENU` and `VK_CONTROL` before the VK is assigned, but **`VK_SHIFT`
+falls through** — so in practice this can only emit `VK_SHIFT`, which maps to Left
 Shift and is releasable on every keyboard by a physical keypress, unlike the
 chiral Right-side cases elsewhere in this document. That is why this row is
 `UNMITIGATED (contrived)` rather than a top field-severity concern, and why no
