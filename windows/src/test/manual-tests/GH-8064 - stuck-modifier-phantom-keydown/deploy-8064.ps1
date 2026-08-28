@@ -130,6 +130,15 @@ if ($DeployBranchBuild) {
   }
   if (-not (Test-Path $installed)) { Write-Host "[FAIL] installed engine not found: $installed" -ForegroundColor Red; exit 3 }
 
+  # Never back up a DLL that is already the branch build. Doing so poisons the backup
+  # chain: -Restore takes the newest by name, and a second deploy makes that the branch
+  # build, so restoring silently reinstates it. Deploying twice is a no-op, not an error.
+  if ((Get-Item $installed).Length -eq (Get-Item $branchDll).Length) {
+    Write-Host '[SKIP] the branch build is already installed; not backing it up over itself.' -ForegroundColor Yellow
+    Write-Host '       Run -Restore first if you meant to redeploy a rebuilt DLL.'
+    exit 0
+  }
+
   if (-not (Test-Path $backupDir)) { New-Item -ItemType Directory -Path $backupDir | Out-Null }
   $stamp  = Get-Date -Format 'yyyyMMdd-HHmmss'
   $backup = Join-Path $backupDir "keyman32.dll.$stamp"
@@ -162,8 +171,24 @@ if ($DeployBranchBuild) {
 if ($Restore) {
   Write-Host '=== restoring the shipped engine ===' -ForegroundColor Cyan
   if (-not (Test-Path $backupDir)) { Write-Host '[FAIL] no backup directory; nothing to restore' -ForegroundColor Red; exit 3 }
-  $backup = Get-ChildItem $backupDir -Filter 'keyman32.dll.*' | Sort-Object Name -Descending | Select-Object -First 1
-  if (-not $backup) { Write-Host '[FAIL] no backup found' -ForegroundColor Red; exit 3 }
+  # Take the newest backup that is NOT a branch build. Running -DeployBranchBuild twice
+  # backs the branch DLL up over itself, and "newest by name" then restores the very
+  # thing we are trying to undo -- while printing [OK] restored. Observed 2026-08-28:
+  # backups ...120633 (1,232,504 shipped) and ...120642 (4,197,376 branch), nine
+  # seconds apart, and -Restore chose the branch one.
+  $branchLen = 0
+  if (Test-Path $branchDll) { $branchLen = (Get-Item $branchDll).Length }
+  $all = @(Get-ChildItem $backupDir -Filter 'keyman32.dll.*' | Sort-Object Name -Descending)
+  $backup = $all | Where-Object { $branchLen -eq 0 -or $_.Length -ne $branchLen } | Select-Object -First 1
+  if (-not $backup) {
+    Write-Host '[FAIL] no backup found that differs from the branch build.' -ForegroundColor Red
+    Write-Host '       Every backup looks like the branch DLL, so there is nothing safe to' -ForegroundColor Red
+    Write-Host '       restore. Reinstall Keyman, or copy a shipped keyman32.dll in by hand.' -ForegroundColor Red
+    exit 3
+  }
+  if ($all.Count -gt 0 -and $backup.Name -ne $all[0].Name) {
+    Write-Host ('[NOTE] skipping newer backup {0} -- it is a branch build, not a shipped one' -f $all[0].Name) -ForegroundColor Yellow
+  }
 
   Stop-Keyman
   try {
