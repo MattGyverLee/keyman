@@ -79,12 +79,13 @@ on a hopeful reading.
 2. **Row `8`** — `PostKeys` pair-splitting under queue truncation. Needs a
    decision: guard the three unguarded truncation points, or accept the
    contrived-but-real risk. [Finding 3](#finding-3).
-3. **Four issues to file**, drafted in [Issues to file](#issues-to-file). Two of
+3. **Four issues to file**, drafted in full under [`issues/`](./issues/). Two of
    them are for rows now `mitigated`: `2a` and `2b` were `UNMITIGATED` in a
    released build, users are running that build today, and the record should say
    so. Replace each `#____` in the table below with the real number once filed.
-   **This is the only item left, and it is a PR-submission step rather than a
-   finding.**
+   **Not a gate on this work.** FR-011a asks an accepted row to carry a complete
+   draft, and each does; the filing itself happens on the day the #8064 PR is
+   submitted, so numbers and PR reference each other in one pass.
 
 **Closed 2026-08-28, and previously listed here.** The serializer-side signals
 this document's triage procedure depends on were captured on a live engine, so
@@ -109,7 +110,7 @@ Row `6` was the only one resting on an inference chain, and it is now measured.
    not account for. See [Evidence](#evidence).
 
 Items 1 and 2 are **accepted, not fixed**, under FR-011b, each carrying a complete
-draft below. Item 3 is the filing itself. Prevention is complete in the sense this
+draft in [`issues/`](./issues/). Item 3 is the filing itself. Prevention is complete in the sense this
 document set out to establish — every path enumerated, every verdict evidenced by a
 fix, an issue, or an observation — and the two accepted rows are named, not
 absorbed. That is the claim to make, and no more: see
@@ -563,179 +564,23 @@ So a stuck modifier reported after this fix ships must be triaged through
 
 ## Issues to file
 
-Four. Issues 1 and 2 are for rows now marked `mitigated`, and are still required:
-`2a` and `2b` were `UNMITIGATED` in a released build, users are running that
-build today, and the record should say so. Issues 3 and 4 are the rows still open
-here, `2c` and `8`. These are ready to paste; replace each `#____` in the
-producer table with the real number once filed.
+Four, drafted in full as paste-ready files under [`issues/`](./issues/) —
+one per file, title and body, nothing left to write. **Filing them is a
+PR-submission step, not a gate on this work**: they are created the day the
+#8064 PR is submitted, and until then the drafts are the deliverable. See
+[`issues/README.md`](./issues/README.md).
 
-### Issue 1 — OSK sticky modifier can be released with the wrong chirality (row `2a`, includes Finding 4b)
+Issues 1 and 2 are for rows now marked `mitigated`, and are still required: `2a`
+and `2b` were `UNMITIGATED` in a released build, users are running that build
+today, and the record should say so. Issues 3 and 4 are the rows accepted rather
+than fixed here, `2c` and `8`.
 
-**Title:** OSK sticky modifier can be released with the wrong chirality after a keyboard switch, stranding Right Ctrl/Right Alt
+| # | row | draft | subject |
+|---|---|---|---|
+| 1 | `2a` | [`issues/issue-1-osk-release-chirality.md`](./issues/issue-1-osk-release-chirality.md) | OSK sticky modifier can be released with the wrong chirality after a keyboard switch, stranding Right Ctrl/Right Alt |
+| 2 | `2b` | [`issues/issue-2-osk-resetshiftstates-press.md`](./issues/issue-2-osk-resetshiftstates-press.md) | OSK `ResetShiftStates` could press a modifier during its own cleanup (fixed on the #8064 branch; filed for the record) |
+| 3 | `2c` | [`issues/issue-3-osk-sticky-stranded-by-kill.md`](./issues/issue-3-osk-sticky-stranded-by-kill.md) | OSK sticky modifier can be stranded machine-wide by a keyman.exe crash or kill, with no watchdog or restore-on-start |
+| 4 | `8` | [`issues/issue-4-postkeys-pair-split.md`](./issues/issue-4-postkeys-pair-split.md) | `PostKeys`'s modifier KEYDOWN/KEYUP pair can be split by three unguarded truncation points |
 
-**Body:**
-
-A modifier "clicked sticky" on the on-screen keyboard is held via a real,
-chiral `keybd_event` KEYDOWN with no matching KEYUP queued anywhere — release
-depends entirely on Keyman correctly identifying *which side* to release.
-
-`SetLRShift` (`common/windows/delphi/components/OnScreenKeyboard.pas:885-937`)
-collapses `kbd.ShiftState`'s chiral representation (`essLCtrl`/`essRCtrl` →
-`essCtrl`, and the Alt equivalent) whenever the active keyboard's AltGr-ness
-changes — e.g. the user switches keyboards while the OSK stays open. After that
-collapse, `kbd.ShiftState` can no longer say which chiral VK is actually down.
-
-Two release paths read that representation, and both were affected:
-
-1. **OSK teardown** (`ResetShiftStates`, on dismissal).
-2. **A live click-off** — the user clicks the now-generic "Ctrl"/"Alt" key on the
-   OSK itself, before dismissing it, to toggle the sticky modifier off directly
-   (`kbdShiftChange` → `ShiftStateChange`).
-
-**User impact — measured, and worse than "a modifier is stranded".** On hardware
-without a physical Right Ctrl or Right Alt key there is **no in-session recovery
-at all**. This was hit for real during the 2026-08-27 run, on a keyboard with no
-right Ctrl:
-
-- The OSK cannot clear it. The OSK's own click-off is the very path that carries
-  this defect, so the obvious remedy is the one that does not work.
-- The physical key cannot clear it. It does not exist.
-- Every keystroke is meanwhile swallowed as a Ctrl chord, so the machine cannot
-  be driven by keyboard to fix itself — including to run any recovery script the
-  user might otherwise type.
-
-Recovery required an external tool injecting the matching event shape
-(`keybd_event(VK_CONTROL, 0x1D, KEYUP | EXTENDEDKEY)` — side-agnostic VK with the
-extended bit, mirroring what `do_keybd_event` sent going down). An unextended
-`VK_CONTROL` keyup does not match and leaves it held. Absent such a tool the
-realistic user remedy is a reboot.
-
-Compact and 60% layouts commonly ship without a right Ctrl, so this is not a rare
-hardware configuration.
-
-**Status.** Both halves are fixed and measured on
-`fix/windows/8064-reconcile-modifier-cache`: the teardown by `3d64aad790` +
-`4ca0945a12`, the click-off by `791c5f181a` + `ea530407c2`. Both now release the
-identity that was injected, read from `FCachedShiftState`, rather than deriving
-the VK from the current `kbd.LRShift`. Evidence:
-`evidence/run-osk-teardown-2026-08-27.txt` and
-`evidence/run-osk-clickoff-2026-08-27.txt`.
-
-**Constraint for any future change here**, because it is what makes this area
-hazardous: a release path may read `FCachedShiftState` and remove from it, but
-must not write into it. `ShiftStateChange` is called from `UpdateShiftStates`'
-50 ms resync as well as from a click, and that path's press branch fires for
-modifiers the user is **physically** holding — so a write from there causes a
-later teardown to release a key the user is genuinely holding, which is I2177.
-See *The `FCachedShiftState` invariant* in `MODIFIER-PRODUCERS.md`.
-
-**Why file it at all, given it is fixed:** the defect is present in released
-builds and users are running those today.
-
-### Issue 2 — OSK `ResetShiftStates` cleanup path itself (row `2b`)
-
-**Title:** OSK `ResetShiftStates` could press a modifier during its own cleanup (fixed on the #8064 branch; filed for the record)
-
-**Body:**
-
-`ResetShiftStates`'s cleanup routed the release through `ShiftStateChange`'s
-`PrepState`, which emits a KEYDOWN when a modifier is in one shift-state set and
-not another. A modifier-off click could mutate `kbd.ShiftState` without touching
-`FShiftState`, and until the next 50 ms resync tick equalised them,
-`ResetShiftStates` could press a modifier the user was no longer holding —
-chiral, so potentially Right Control.
-
-**Status.** Fixed on `fix/windows/8064-reconcile-modifier-cache`. The rewrite
-removes the press branch from this function's code path entirely: the
-`ReleaseCached` helper only ever calls `do_keybd_event` with `KEYEVENTF_KEYUP`,
-so the failure mode is structurally impossible rather than timing-avoided. Steps
-2, 3 and 5 of the manual sequence exercise the path and pass, and the `KLOGGING`
-traces show the teardown emitting only `KEYUP` (`flags=2`/`flags=3`), never a
-press, in every recorded run.
-
-**Why file it at all, given it is fixed:** the defect is present in released
-builds and users are running those today. This is a report-and-close, not a
-request for work.
-
-**Ask:** confirm the fix is acceptable as landed, and note for anyone reproducing
-it that `keyman.exe` must be built with `{$DEFINE KLOGGING}`
-(`common/windows/delphi/general/klog.pas:26`) for the traces above to appear at
-all.
-
-### Issue 3 — OSK sticky modifier stranded machine-wide by a keyman.exe crash or kill (row `2c`)
-
-**Title:** OSK sticky modifier can be stranded machine-wide by a keyman.exe crash or kill, with no watchdog or restore-on-start
-
-**Body:**
-
-A modifier "clicked sticky" on the on-screen keyboard is deliberately held via a
-real, chiral `keybd_event` KEYDOWN with no matching KEYUP queued anywhere —
-release only happens when Keyman itself runs `ResetShiftStates` (OSK dismissal,
-tab switch, or normal process shutdown).
-
-If keyman.exe is terminated abnormally — Task Manager "End task",
-`TerminateProcess`, or the Sentry crash handler, which sets `sceaTerminate`
-specifically so destructors don't run — that release never happens. There is no
-persisted record of the outstanding modifier across the process boundary, and no
-watchdog checks or reconciles global modifier state on the next launch.
-
-**User impact:** a modifier (potentially Right Ctrl/Alt, unclearable on hardware
-without that physical key) stays asserted machine-wide until the user presses the
-same physical key themselves, successfully reopens the OSK and dismisses it, or
-reboots. Note that reopening the OSK does not by itself repopulate
-`FCachedShiftState` for a modifier stranded by a previous process, so that route
-only works if the user re-clicks the same modifier first.
-
-**Explicitly rejected mitigation:** releasing all managed modifiers
-unconditionally at Keyman startup, since that would release a modifier the user
-is genuinely, physically holding down at the moment Keyman launches — a new bug
-in the same family.
-
-**Scope for a fix:** either (a) a small persisted "outstanding sticky modifier"
-record written when injected and cleared when released, checked once at startup
-and reconciled only against live `GetAsyncKeyState` (never blindly), or (b) a
-supervising watchdog process. Out of scope for the #8064 fix.
-
-### Issue 4 — `AIWin2000Unicode::PostKeys` can split a KEYDOWN/KEYUP pair under queue truncation (row `8`)
-
-**Title:** `PostKeys`'s modifier KEYDOWN/KEYUP pair can be split by three unguarded truncation points
-
-**Body:**
-
-`QIT_VKEYDOWN` (`windows/src/engine/keyman32/appint/aiWin2000Unicode.cpp:138-153`)
-writes a synthesized KEYDOWN for a VK carried in `Queue[n].dwData & 0xFF`. Its
-matching release only exists if a separate `QIT_VKEYUP` action follows in the
-same queue. The one production producer of this pair (`kmprocess.cpp:181-182`)
-queues both together, but three separate points can silently drop the second half
-without either queuing the pair atomically or reporting the drop:
-
-- `QueueAction` returns `FALSE` at `MAXACTIONQUEUE` and the caller ignores the
-  result.
-- `SignalServer` silently clamps the outgoing count to 256
-  (`serialkeyeventclient.cpp:87-90`).
-- The output-key copy in `PrepareInjectedInputBatch` stops short of
-  `MAX_KEYEVENT_INPUTS` to reserve room for the modifier restore half, with
-  nothing preventing a `QIT_VKEYDOWN`/`QIT_VKEYUP` pair from straddling that
-  boundary.
-
-**`PostKeys` itself is on the hot path — 245 calls in a single five-iteration
-probe run.** What is narrow is the *split*, not reaching the function. Please do
-not read "contrived" below as "hardly ever runs".
-
-**The split's reachability is narrow but not zero.** `aiTIP.cpp:186-202` returns
-early for `VK_MENU` and `VK_CONTROL` before the VK is assigned, but **`VK_SHIFT`
-falls through** — so in practice this can only emit `VK_SHIFT`, which maps to Left
-Shift and is releasable on every keyboard by a physical keypress, unlike the
-chiral Right-side cases elsewhere in this document. That is why this row is
-`UNMITIGATED (contrived)` rather than a top field-severity concern, and why no
-runtime observation has confirmed it: it requires a legacy/ANSI target,
-`use(final)`, 248 or more output events in one batch, and a rule that emits
-`VK_SHIFT` specifically — source alone cannot establish these are co-reachable.
-
-**Ask:** either guard the three truncation points so a split pair cannot happen
-(e.g. reject or flush atomically rather than silently clamping), or run the
-runtime observation described in `MODIFIER-PRODUCERS.md` Finding 3 (`debug=1`, a
-keyboard whose Shift rule outputs 250+ characters, watch for
-`"Too many INPUT events for queue"` immediately followed by an unmatched
-`VK_SHIFT` KEYDOWN) to establish real-world reachability before prioritising a
-fix.
+Replace each `#____` in [the producer table](#the-producers) with the real number
+once filed.

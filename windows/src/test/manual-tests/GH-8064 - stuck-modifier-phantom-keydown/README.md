@@ -12,6 +12,7 @@ tree, and the pass/fail oracle is two PowerShell snippets given below.
 |---|---|
 | [MODIFIER-PRODUCERS.md](./MODIFIER-PRODUCERS.md) | every production path that can emit a modifier KEYDOWN, with a verdict on each. Read this before concluding that a stuck modifier came from the serializer |
 | [TRIAGE.md](./TRIAGE.md) | how to tell the serializer path from the on-screen keyboard path when a stuck modifier is reported in the field |
+| [issues/](./issues/) | four paste-ready issue drafts for the producer rows this branch does not fix, plus the two it fixes that are live in released builds. Filed the day the PR is submitted, not a gate on the work |
 | [TIMELINE.md](./TIMELINE.md) | the #8064 lineage with release versions: #7337, #7716, #8064, the 2025 watchdog, and what each fix did and did not close |
 | [JUSTIFICATION.md](./JUSTIFICATION.md) | the review case: why the contrived reproduction is the field mechanism, why the vectors are distinct, and what the changes do and do not claim |
 
