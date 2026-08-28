@@ -216,8 +216,16 @@ void keybd_shift(LPINPUT pInputs, int *n, BOOL isReset, LPBYTE const kbd) {
   processed queue, the stale source.
 
   Not widened to the generic VK_SHIFT/CONTROL/MENU isModifierKey also accepts -- GetAsyncKeyState
-  reports the chiral halves even for a generic injection; see
-  GenericShiftSendInputReflectsInBothAsyncKeyStates.
+  reports the chiral halves even for a generic injection. Measured rather than assumed:
+  GenericShiftSendInputReflectsInBothAsyncKeyStates injects a generic wVk with scan 0 and reads back
+  the chiral half, and the recorded run is in the GH-8064 manual test's evidence directory.
+
+  That test is also the trip-wire, so this is what trips it: if it ever reports VK_LSHIFT and
+  VK_RSHIFT both up while VK_SHIFT reads down, widen this to OR the generic reading into both chiral
+  halves when neither already reports held. Safe in that direction -- over-reporting live state can
+  only add a release or a reconcile-clear, never the unmatched KEYDOWN of #8064 -- but deliberately
+  not added ahead of the need: it costs three more reader calls every batch and breaks the
+  one-reading-per-managed-modifier invariant BatchTakesOneLiveReadingPerManagedModifier pins.
 */
 void CaptureLiveModifierState(LPBYTE liveOut, PGETASYNCKEYSTATE pfnGetAsyncKeyState) {
   // Zeroed in full: no caller stack residue is mistaken for a held modifier.
@@ -266,6 +274,9 @@ BOOL ReconcileModifierCache(LPBYTE const kbd, LPBYTE const live) {
 
   The mirror of #8064: a modifier the OS holds but the cache never saw would let the batch inject
   its output keys with that modifier live.
+
+  The union is explicit, and must stay that way: simplified to a copy of kbd, this quietly becomes a
+  cache-only read again, which is the defect above.
 */
 void ComputeModifierReleaseState(LPBYTE const kbd, LPBYTE releaseStateOut, LPBYTE const live) {
   // Zeroed in full: no caller stack residue reaches keybd_shift_release.
@@ -373,6 +384,10 @@ int PrepareInjectedInputBatch(
   Known false positive: a fresh user KEYDOWN posted after the verify message is still queued behind
   it, so this can release a hold that has become genuine again. Accepted -- an unmatched KEYUP is
   re-pressable, an unmatched KEYDOWN on hardware with no physical Right Ctrl is not.
+
+  Rejected: widening this to also *set* cache bytes so that false positive cannot arise. That
+  reintroduces the unmatched KEYDOWN from a third direction, and it breaks ReconcileModifierCache's
+  clears-but-never-sets rule, which this deliberately mirrors.
 */
 int PrepareModifierVerificationCorrection(
   LPINPUT pInputs,

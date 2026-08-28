@@ -217,17 +217,24 @@ begin
   // #8064: FCachedShiftState records only what the OSK has clicked outstanding, by exact chiral
   // identity, and is what ResetShiftStates releases from. It must never come to name what the user
   // is physically holding, or teardown releases the user's own key (I2177): `- ass` excludes that,
-  // and accumulating covers earlier clicks that by now read as down. See MODIFIER-PRODUCERS.md.
+  // and accumulating covers earlier clicks that by now read as down. The snapshot above is taken
+  // before ShiftStateChange injects anything, so the modifier just clicked is not physically down
+  // yet and survives the subtraction. See MODIFIER-PRODUCERS.md.
   //
-  // ShiftStateChange first, deliberately: its release branch reads the pre-mask cache for the
-  // chiral identity to release, and after a SetLRShift collapse the mask below would already have
-  // stripped it (measured: the click-off released VK_CONTROL and left VK_RCONTROL held).
+  // ShiftStateChange first, deliberately, for two reasons: its release branch reads the pre-mask
+  // cache for the chiral identity to release, and after a SetLRShift collapse the mask below would
+  // already have stripped it (measured: the click-off released VK_CONTROL and left VK_RCONTROL
+  // held); and it removes from the cache whatever it released, so running it first keeps that
+  // removal and the accumulate below from fighting over the same field.
   ShiftStateChange(fkcss, ass);
 
   // Widen across the family before masking: the cache may name a modifier in a representation
   // SetLRShift has since collapsed, and a bare `* fkcss` would drop a still-held essRCtrl merely
   // because an unrelated modifier was clicked. Retains only, never adds, so I2177 stays fixed --
   // the additive term already excludes anything physically held.
+  //
+  // Conditional, and the guard is load-bearing: when fkcss carries nothing from that family the
+  // family really is off, and the cache entry should go rather than be retained.
   FMask := fkcss;
   if fkcss * [essCtrl, essLCtrl, essRCtrl] <> [] then
     FMask := FMask + [essCtrl, essLCtrl, essRCtrl];
@@ -311,7 +318,8 @@ procedure TfrmOSKOnScreenKeyboard.ShiftStateChange(kbdShift, asyncShift: TExtShi
   //
   // Reads and removals only. The reverted attempt *wrote* the cache here, including from
   // UpdateShiftStates' 50 ms resync, whose press branch fires for physically-held modifiers, so
-  // teardown released the user's own keys (I2177). See MODIFIER-PRODUCERS.md, "Composition hazard".
+  // teardown released the user's own keys (I2177). See MODIFIER-PRODUCERS.md, "The FCachedShiftState
+  // invariant".
   procedure PrepState(fkcss, ass: TExtShiftState; shift: TExtShiftStateValue; vk: Integer);
   var
     FExtended, FReleaseExtended: Dword;

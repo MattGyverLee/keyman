@@ -1374,6 +1374,21 @@ SeedProbeThread(LPVOID param) {
   each probes for the capability with its own real mechanism -- no static OpenInputDesktop-style
   proxy proves the round trip actually works from this process -- and skips when it is absent.
   gtest 1.8.1 has no GTEST_SKIP(), so a skip is SUCCEED() plus a WARNING log, as elsewhere here.
+
+  One is not quite its own mechanism: FreshThreadKeyboardStateReflectsLiveModifiers probes on the
+  calling thread and asserts on a spawned one. That holds because GetAsyncKeyState is desktop-global,
+  unlike GetKeyboardState/GetKeyState which read the calling thread's processed queue -- so seeing
+  the injected press here is sufficient evidence the fresh thread would see it too.
+
+  The cost of this design, which every reader of a CI log needs: a skip reports as PASSED with a log
+  line, not as a distinct SKIPPED status. Nothing that would have been asserted is asserted, so it is
+  not a false pass -- but the tally alone cannot tell the two apart.
+
+  The probe covers an ABSENT capability, not an intermittently disturbed one. Observed on 2026-08-27:
+  these tests went red together on one x64 run, passed in isolation immediately after, and the whole
+  suite passed on the next run -- another process disturbing the input queue or the hook round trip
+  is enough. From a CI log alone that is indistinguishable from a real regression, so triage a red
+  here by re-running the failures in isolation before believing them.
 */
 
 /*
@@ -1386,7 +1401,8 @@ SeedProbeThread(LPVOID param) {
 
   See PROBE CAPABILITY. If a future Windows stops seeding a fresh thread from live state,
   InitThread's seed is a no-op again and a modifier held at launch is invisible to the cache until
-  the user's next press -- the launch-time hole ReconcileModifierCache already covers.
+  the user's next press or release of it. That does not reopen #8064 -- ReconcileModifierCache only
+  ever clears -- but the cache's launch-time state is wrong until the first real event.
 */
 TEST_F(KEYBD_SHIFT, FreshThreadKeyboardStateReflectsLiveModifiers) {
   if (GetAsyncKeyState(VK_LSHIFT) < 0) {
@@ -1508,7 +1524,9 @@ ReleaseAndSettle(BYTE vk) {
   the user's next physical press; the fix would be to skip the reconcile for a modifier this
   process's own previous batch pressed, capped at one consecutive skip per VK.
 
-  Multi-second and timing-sensitive, unlike anything else in this file. See PROBE CAPABILITY.
+  Multi-second and timing-sensitive, unlike anything else in this file, and it covers something no
+  other test here can: every other test drives CaptureLiveModifierState and ReconcileModifierCache
+  through the stub reader, which cannot express a timing race at all. See PROBE CAPABILITY.
 */
 TEST_F(KEYBD_SHIFT, ReconcileDoesNotRaceItsOwnInjectedRestorePress) {
   if (GetAsyncKeyState(VK_LSHIFT) < 0) {
