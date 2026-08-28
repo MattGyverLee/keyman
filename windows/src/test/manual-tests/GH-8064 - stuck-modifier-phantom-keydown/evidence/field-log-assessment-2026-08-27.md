@@ -114,15 +114,47 @@ returns to all-zero repeatedly, and `RS:80` never appears in two consecutive
 was almost certainly reading `test3_others.xlsx`, whose numbering differs. The
 observation may well hold there; it is unverified, not refuted.
 
-## What to ask for
+## What to do next, and it is mostly not "get the raw logs"
 
-1. **The raw, unfiltered log files** rather than Excel extracts — or the original
-   `.log` / ETW capture. Pairing questions cannot be settled on a filtered
-   subset.
-2. **Which file and line** his `489171` / `489194` / `489214` references point
-   into, so the specific moment of the stick can be read.
-3. Whether any capture exists on **18.0.245 or later**, since everything supplied
-   predates the watchdog.
+Reordered after asking what these files could still settle that the harness in
+this directory cannot. The answer is narrow.
+
+**The harness beats these captures on every axis except one.** It is contiguous
+and unfiltered, on a current build, with a known modifier and known timing, and
+it can be run twice — shipped and fixed — with identical instrumentation. With
+`debug` = 1 it yields the `I4843` columns, the `m_ModifierKeyboardState` server
+lines and the low level hook events in one timeline.
+
+**The exception, and it is the one that matters:** the harness *manufactures* the
+stall, so it can show that route exists and that the fix closes it. It cannot show
+which route real users hit. That is exactly the open question, and it is the
+substance of the review objection that the field logs show the hook alive.
+
+So, cheapest first:
+
+1. **Capture our own.** Set `debug` = 1 and `debug to console` = 1 and leave a
+   capture running through ordinary work on a machine that has produced the
+   symptom. That yields an unfiltered, complete, current-build, in-the-wild
+   capture with both `I4843` columns — strictly better than anything in these
+   zips, and it needs nobody else.
+2. **Ask the route question rather than re-deriving it.** "In your captures, did
+   the divergence arrive as an unmatched Keyman-tagged modifier press, or as the
+   user's own KEYUP going missing?" The people who captured those logs have read
+   them and are better placed to answer than a fresh reader of the extracts.
+3. **Run the `debug` = 1 harness wedge**, which puts the watchdog reinstall line
+   and the wedge in one timeline.
+4. **Only then, the raw unfiltered logs** — or the original `.log` / ETW capture.
+   They are the only way to settle pairing counts, but they are from a
+   pre-watchdog build and are unlikely to be decisive on their own. Worth having,
+   not worth blocking on. If asking anyway, also ask **which file and line** the
+   `489171` / `489194` / `489214` references point into, and whether any capture
+   exists on **18.0.245 or later**.
+
+**The risk in skipping step 4 entirely**, stated so it is a decision and not an
+oversight: if the route users hit is outside the five in
+[MODIFIER-PRODUCERS.md](../MODIFIER-PRODUCERS.md), this work claims coverage it
+does not have. Steps 1 and 2 address that more directly and more cheaply than
+step 4 would.
 
 ## Working copies
 
