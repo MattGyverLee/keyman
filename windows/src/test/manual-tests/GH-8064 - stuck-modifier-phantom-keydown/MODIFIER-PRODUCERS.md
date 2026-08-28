@@ -1,6 +1,7 @@
 # Every production path that can emit a modifier KEYDOWN
 
-Companion to [README.md](./README.md) and [TRIAGE.md](./TRIAGE.md), for
+Companion to [README.md](./README.md), [TRIAGE.md](./TRIAGE.md),
+[JUSTIFICATION.md](./JUSTIFICATION.md) and [TIMELINE.md](./TIMELINE.md), for
 [#8064](https://github.com/keymanapp/keyman/issues/8064).
 
 The #8064 fix stops *one* path from emitting a modifier KEYDOWN with no matching
@@ -31,7 +32,7 @@ prior source read had missed.
 
 | path | behaviour |
 |---|---|
-| serializer batch restore | the modifier cache was never re-derived. One dropped KEYUP left a byte stale for the life of the process, and `keybd_shift_reset` pressed that modifier for real ahead of every injected batch, with no queued release |
+| serializer batch restore | the modifier cache was not re-derived — a per-batch `GetKeyboardState` in `keybd_shift_release` was removed on 2018-10-10 (`738e1946a6`) and nothing replaced it; see [TIMELINE.md](./TIMELINE.md). One dropped KEYUP left a byte stale for the life of the process, and `keybd_shift_reset` pressed that modifier for real ahead of every injected batch, with no queued release |
 | low level hook | ate every serialized key event once it decided to hand it to the serializer, *before* confirming `PostMessage` succeeded. A failed handoff destroyed the user's real key event outright |
 | OSK cleanup reachability | `ResetShiftStates` ran only from `TfrmVisualKeyboard.FormClose`. The tray menu, tray double-click, `KMC_ONSCREENKEYBOARD` and Keyman shutdown all bypassed cleanup |
 | OSK release chirality | both the teardown and a live click-off derived the release VK from the *current* `kbd.LRShift`. After a `SetLRShift` collapse they released unextended `VK_CONTROL` while the key actually held was extended `VK_RCONTROL` |
@@ -124,6 +125,14 @@ assumption itself holds. The second is in the suite, not `DISABLED_`, gated on a
 runtime hook-round-trip capability check that logs a WARNING and `SUCCEED()`s
 where the capability is absent — so it runs, but whether it *evaluated* on a
 given run is visible only in that run's log, not in the pass count.
+
+**It evaluated on 2026-08-27, and the assumption holds.** A generic
+`SendInput(wVk=VK_SHIFT, wScan=0)` read back as `VK_LSHIFT=0x8001` with the hook
+observing `vk=0xA0` — Windows resolves the side on the way in. Recorded, with
+the other two capability-gated probes, in
+[`evidence/run-capability-probes-2026-08-27.txt`](evidence/run-capability-probes-2026-08-27.txt).
+So this gap is measured shut on this machine, not merely argued shut; the probe
+remains the guard against a future Windows changing it.
 
 If that probe ever shows the assumption false, the fix is sketched in the same
 comment: OR the generic reading into both chiral halves when neither already

@@ -12,11 +12,15 @@ tree, and the pass/fail oracle is two PowerShell snippets given below.
 |---|---|
 | [MODIFIER-PRODUCERS.md](./MODIFIER-PRODUCERS.md) | every production path that can emit a modifier KEYDOWN, with a verdict on each. Read this before concluding that a stuck modifier came from the serializer |
 | [TRIAGE.md](./TRIAGE.md) | how to tell the serializer path from the on-screen keyboard path when a stuck modifier is reported in the field |
+| [TIMELINE.md](./TIMELINE.md) | the #8064 lineage with release versions: #7337, #7716, #8064, the 2025 watchdog, and what each fix did and did not close |
+| [JUSTIFICATION.md](./JUSTIFICATION.md) | the review case: why the contrived reproduction is the field mechanism, why the vectors are distinct, and what the changes do and do not claim |
 
 ## Status
 
 **Before this branch.** Two independent producers could strand a modifier
-machine-wide. The serializer's modifier cache was never re-derived, so one
+machine-wide. The serializer's modifier cache has not been re-derived since
+2018-10-10, when `738e1946a6` deleted the per-batch `GetKeyboardState` from
+`keybd_shift_release` (see [TIMELINE.md](./TIMELINE.md)), so one
 dropped KEYUP left a byte stale for the life of the process and
 `keybd_shift_reset` pressed that modifier for real ahead of every injected
 batch. Separately, the on-screen keyboard held a sticky modifier with a real
@@ -25,7 +29,12 @@ by the *current* `kbd.LRShift` regime rather than the identity it had injected â
 so a keyboard switch could strand an extended `VK_RCONTROL` that no keystroke
 clears on hardware without that physical key.
 
-**On this branch.** Both are closed and measured. The serializer reconciles the
+**On this branch.** Both are closed. The OSK path is measured on a live engine;
+the serializer path is measured for the original gap (5 of 5 wedged shipped, 0 of
+5 fixed) and **source-reasoned for the residual** added afterwards â€” rows `1`
+residual, `1b` and `9`, covered by unit tests and a clean build but not re-run
+end to end. [MODIFIER-PRODUCERS.md](./MODIFIER-PRODUCERS.md#what-is-left) tracks
+that gap. The serializer reconciles the
 cache against live state before each batch, releases the union of cache-held and
 OS-held modifiers, and runs a post-batch verification pass for a release that
 raced a batch in flight; the low level hook no longer eats a key event before
@@ -48,7 +57,7 @@ triaged through [TRIAGE.md](./TRIAGE.md), not assumed to be a regression.
 `m_ModifierKeyboardState`. It is seeded from the OS once, in `InitThread`, and
 thereafter fed only by messages posted from the low level keyboard hook. Windows
 bypasses a low level hook that does not return within `LowLevelHooksTimeout`, so
-a modifier KEYUP can be lost, and nothing ever re-derives the cache, so that one
+a modifier KEYUP can be lost, and nothing re-derives the cache, so that one
 stale byte survives for the life of the process. `keybd_shift_reset` then presses
 that modifier for real, with no matching KEYUP, ahead of every injected batch.
 

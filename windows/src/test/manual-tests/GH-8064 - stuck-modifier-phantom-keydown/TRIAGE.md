@@ -1,7 +1,8 @@
 # Triage: which path stuck this modifier?
 
 For [#8064](https://github.com/keymanapp/keyman/issues/8064). Companion to
-[README.md](./README.md) and [MODIFIER-PRODUCERS.md](./MODIFIER-PRODUCERS.md).
+[README.md](./README.md), [MODIFIER-PRODUCERS.md](./MODIFIER-PRODUCERS.md),
+[JUSTIFICATION.md](./JUSTIFICATION.md) and [TIMELINE.md](./TIMELINE.md).
 
 A user reports a modifier stuck down machine-wide. **Do not assume it is a
 regression of the #8064 fix.** #8064's own repro was contrived, and the on-screen
