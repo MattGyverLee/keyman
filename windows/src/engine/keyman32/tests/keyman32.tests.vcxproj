@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|ARM64">
@@ -228,6 +228,13 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <!--
+      #8064 FR-023 / SC-005: keybd_shift.interactive.tests.cpp is deliberately NOT listed here, and
+      must not be added. It injects real keyboard input, which a Session-0 CI service account cannot
+      observe, so on this target its tests could only report PASSED without asserting anything. It is
+      built by keyman32.interactive.tests.vcxproj and run by `build.sh test-interactive:x86` /
+      `test-interactive:x64` instead, an action that is deliberately not part of `test`.
+    -->
     <ClCompile Include="gtest_main.cpp" />
     <ClCompile Include="appint.tests.cpp" />
     <ClCompile Include="keyboardoptions.tests.cpp" />
