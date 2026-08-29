@@ -720,11 +720,77 @@ private:
   }
 
   /**
+    #8064 FR-103a. Applies every raw keyboard event already sitting in this thread's queue to the
+    user-held signal, and returns only when there is nothing left to apply.
+
+    THIS IS NOT AN OPTIMISATION AND IT IS NOT DEFENSIVE PADDING. Without it, the signal that
+    ProcessModifierVerification reads has NOT yet seen observations the OS made BEFORE the verify
+    message was even posted -- and a signal reporting a hold the user has already let go of is
+    precisely the input that makes the correction decline. It is the stale shadow
+    CheckRawInputRegistrationStillOurs was written to prevent, arriving by a second route.
+
+    The reason is message RETRIEVAL ORDER, which is by class and not by arrival time. GetMessage and
+    PeekMessage return sent messages, then POSTED messages, then INPUT (hardware) messages, then
+    WM_PAINT, then WM_TIMER. WM_INPUT is signalled by QS_RAWINPUT, QS_RAWINPUT is part of QS_INPUT,
+    so WM_INPUT is retrieved in the input class -- BEHIND every posted message, however much earlier
+    it arrived. WM_KEYMAN_VERIFY_MODIFIER_EVENT is posted. So a user's modifier KEYUP the OS observed
+    before the batch's SendInput even returned is still undispatched when the verify runs, and
+    m_userHeld still reports that key held.
+
+    The self-post's OTHER ordering guarantee is untouched by this, and deliberately: the drain
+    filters on WM_INPUT alone, so it removes nothing from the posted queue. Every
+    WM_KEYMAN_MODIFIER_EVENT posted before the verify was already dispatched before it by
+    posted-message FIFO -- that claim is between two posted messages and it was always sound. This
+    repairs only the half of the ordering that spans two different message classes.
+
+    Dispatched rather than handled inline, so ProcessRawInput reads each HRAWINPUT inside its own
+    WM_INPUT dispatch and WndProc still falls through to DefWindowProc for the system's cleanup. A
+    raw input handle is valid only for the delivery of the message that carries it; nothing is
+    stashed and nothing is read after its message is done.
+
+    Pulling forward a raw event that arrived AFTER the verify post is possible and harmless. A KEYUP
+    pulled forward makes the correction fire, which is the outcome wanted. A KEYDOWN pulled forward
+    makes it decline, which is the safe-direction error PrepareModifierVerificationCorrection's own
+    doc comment already accepts -- an unmatched KEYUP is re-pressable, an unmatched KEYDOWN on
+    hardware with no physical Right Ctrl is not.
+  */
+  void DrainPendingRawInput() {
+    if (m_hwnd == NULL) {
+      return;
+    }
+
+    // A bound, because typematic repeat refills the queue while we empty it and this runs on the
+    // input path. Two orders of magnitude above a realistic repeat rate for the microseconds this
+    // takes, so reaching it means something pathological -- and it is reported rather than passed
+    // over, because a silent cap here reads as "the signal is current" when it is not.
+    const int kMaxDrain = 256;
+    int drained = 0;
+
+    MSG msg;
+    while (drained < kMaxDrain && PeekMessage(&msg, m_hwnd, WM_INPUT, WM_INPUT, PM_REMOVE)) {
+      DispatchMessage(&msg);
+      drained++;
+    }
+
+    if (drained >= kMaxDrain) {
+      SendDebugMessageFormat(
+        "#8064 verification: stopped draining raw input at %d events with more still queued; the "
+        "user-held signal is more current than it was but is not guaranteed current",
+        kMaxDrain);
+    }
+  }
+
+  /**
     #8064 Handles WM_KEYMAN_VERIFY_MODIFIER_EVENT: rechecks the VKs the batch restored against the
     cache and live state as they stand now, and releases any the OS still holds that the cache says
     nobody holds.
   */
   void ProcessModifierVerification(DWORD restorePressedMask) {
+    // #8064 FR-103a. BEFORE the signal is read, never after: posted messages are retrieved ahead of
+    // input messages, so raw observations older than this verify message are still queued behind it.
+    // See DrainPendingRawInput.
+    DrainPendingRawInput();
+
     INPUT correction[MAX_KEYEVENT_INPUTS_MODIFIERS];
     // In keybd_shift.cpp so the gtest project can reach it, same reasoning as PrepareInjectedInput.
     // #8064 FR-103a: the same signal the restore half consulted, or the pass would release what the
@@ -768,10 +834,18 @@ private:
     //
     // NO LOOP CHANGE IS NEEDED, and that is worth stating because the obvious instinct is to add a
     // wait: MsgWaitForMultipleObjectsEx already waits on QS_ALLINPUT, and QS_ALLINPUT includes
-    // QS_INPUT which includes QS_RAWINPUT. And FIFO dispatch is what preserves the ordering
-    // discipline WM_KEYMAN_VERIFY_MODIFIER_EVENT depends on -- a raw event that arrives before the
-    // verify message is applied before it, which is exactly the ordering FR-103a needs to be able
-    // to trust the signal at correction time.
+    // QS_INPUT which includes QS_RAWINPUT. The loop already wakes for raw input.
+    //
+    // WHAT THE LOOP DOES NOT GIVE IS ORDER. An earlier draft of this comment claimed FIFO dispatch
+    // put a raw event that arrived before WM_KEYMAN_VERIFY_MODIFIER_EVENT ahead of it. That is
+    // wrong, and it was the load-bearing assumption under FR-103a. Retrieval is ordered by message
+    // CLASS -- sent, then posted, then input, then WM_PAINT, then WM_TIMER -- so a posted message is
+    // returned ahead of a WM_INPUT that has been queued since long before it. The posted-FIFO claim
+    // holds only between two posted messages, which is the WM_KEYMAN_MODIFIER_EVENT case, and is
+    // stated that way in JUSTIFICATION.md.
+    //
+    // So the verify pass drains this queue itself before reading the signal: see
+    // DrainPendingRawInput. Ordinary arrivals are still applied here, in dispatch order.
     if (msg == WM_INPUT) {
       ProcessRawInput((HRAWINPUT)lParam);
     }
