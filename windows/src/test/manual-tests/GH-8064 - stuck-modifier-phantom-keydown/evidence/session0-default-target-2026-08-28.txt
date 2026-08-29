@@ -1,0 +1,103 @@
+# T047 / SC-005 -- the default test target, run without the four injecting probes
+
+Recorded 2026-08-28. Machine: mleeloq, Windows 11 Pro 10.0.26200. Build: debug, Win32 (x86),
+`keyman32.tests.exe` from `windows/src/engine/keyman32/tests/bin/Win32/Debug/`.
+
+SC-005 asks for two things about the default target, and this file reports on both. One is
+established outright; the other could not be run on this machine and says so rather than being
+claimed.
+
+
+## What SC-005 asks, and the verdict on each clause
+
+### 1. "No test reports passed without running." ESTABLISHED, and structurally, not just observed.
+
+The default target now contains **no enabled test that can report PASSED without asserting
+anything**. This is checkable by inspection rather than inferred from one run, which is stronger,
+because a run only shows what happened on the machine it ran on.
+
+`SUCCEED()` sites remaining across every source file in `tests/keyman32.tests.vcxproj`
+(`appint.tests.cpp`, `keyboardoptions.tests.cpp`, `kmprocessactions.tests.cpp`,
+`keybd_shift.tests.cpp`), excluding prose in comments:
+
+    keybd_shift.tests.cpp:259   inside TEST_F(KEYBD_SHIFT, DISABLED_ResetDoesNotPressAKeyThatIsNotHeld)
+
+That is the only one, and it is inside a `DISABLED_` test, so gtest never runs it and it can never
+report a pass of any kind. Every other capability-skip site in this file -- eight of them, across
+the four injecting probes -- left with those probes when FR-023 moved them to
+`tests/keybd_shift.interactive.tests.cpp`, where the same conditions are now `FAIL()`.
+
+The tally of the run below is therefore honest by construction: 71 PASSED means 71 tests asserted
+something.
+
+### 2. "The wall clock excludes the four probes." ESTABLISHED.
+
+    Phase 1 baseline, x86 (/tmp/base-x86.txt):  71 tests from 12 test cases,  2326 ms
+      -- taken under GTEST_FILTER=-KEYBD_SHIFT.ReconcileDoesNotRaceItsOwnInjectedRestorePress,
+         because that test could not be allowed to run: it did not terminate. The other THREE
+         injecting probes did run and are inside that 2326 ms.
+
+    After the move, x86:                        71 tests from 13 test cases,    13 ms
+    After the move, x86 (scheduled-task run):   71 tests from 13 test cases,    10 ms
+
+2326 ms -> 10-13 ms. The injection cost is gone from the default target, and so is the need for a
+GTEST_FILTER: nothing in the default target can hang any more. For the scale of what was removed,
+see `interactive-target-2026-08-28.txt`: on this machine one injected key event costs about 110ms
+through the low level hook chain, and the fourth probe -- the one the baseline had to filter out --
+needs 700 of them.
+
+### 3. "On a Session-0 account." NOT RUN. Reported as not run.
+
+A genuine Session-0 execution could not be produced on this machine, and this file will not claim
+one. Three routes were attempted:
+
+  a. A one-time scheduled task, no stored credentials, default (non-interactive) flags:
+     created and ran successfully, but landed in **Session 1** with a live input desktop. Without a
+     stored password the task ran as the interactively logged-on user, which is not the condition
+     SC-005 names. Its own report, verbatim:
+
+         mleeloq\thoua
+         ---
+         THIS TASK SESSION ID = 1
+         OpenInputDesktop handle = 2560
+         ---
+         Running main() from gtest_main.cpp with memory leak detection
+
+     ...and its result:
+
+         [==========] Running 71 tests from 13 test cases.
+         [==========] 71 tests from 13 test cases ran. (10 ms total)
+         [  PASSED  ] 71 tests.
+           YOU HAVE 1 DISABLED TEST
+         EXITCODE=0
+
+     `OpenInputDesktop` returning a non-NULL handle (2560) is the proof this was not Session 0.
+
+  b. A scheduled task running as SYSTEM, which does execute in Session 0: **requires
+     administrator**, and this account is not one
+     (`WindowsPrincipal.IsInRole(Administrator)` -> False, user `mleeloq\thoua`). Not available.
+
+  c. WinRM loopback (`New-PSSession -ComputerName localhost`), whose remote runspace is a
+     non-interactive Session 0 logon: **the WinRM service is not running** on this machine
+     ("The client cannot connect to the destination specified in the request"). Not available.
+
+So the Session-0 clause is carried forward as **unverified, with the reason** -- the same treatment
+FR-033 gives the ARM64 leg in `IN-TREE.md`, and for the same reason: silently dropping it is what
+this spec exists to stop.
+
+What is worth saying about how much that costs: the Session-0 condition mattered because it was the
+condition under which a capability-absent test would `SUCCEED()`. Clause 1 above removes that
+possibility for **every** account, by inspection, not by measurement. A Session-0 run would confirm
+it on one more account; it would not be capable of establishing anything clause 1 does not already
+establish. The residual risk it would have covered is narrow: a test that fails on Session 0 for
+some reason unrelated to input capability. None of the 71 remaining tests touches the input desktop
+-- every live-state read in them goes through the `PGETASYNCKEYSTATE` stub seam -- which is why
+71/71 passed identically in both runs above.
+
+Settling clause 3 needs one command on an elevated shell:
+
+    schtasks /create /tn KM8064S0 /tr "<path to a .cmd that runs keyman32.tests.exe>" /sc ONCE /st 23:59 /ru SYSTEM /f
+    schtasks /run /tn KM8064S0
+
+and then reading the redirected output. See also `research.md` R-7 on the related question of which
+session the project's own CI agent runs in.

@@ -1,8 +1,9 @@
 # Issue 4 — `AIWin2000Unicode::PostKeys` can split a KEYDOWN/KEYUP pair under queue truncation (row `8`)
 
 Draft, not filed. Producer row `8` in
-[`../MODIFIER-PRODUCERS.md`](../MODIFIER-PRODUCERS.md). Filed on the day the
-#8064 PR is submitted; see [README.md](./README.md).
+[`../MODIFIER-PRODUCERS.md`](../MODIFIER-PRODUCERS.md). Filing is an OPTIONAL
+step a maintainer may take; no PR is opened by the change that wrote this draft, so nothing here is
+waiting on one. See [README.md](./README.md).
 
 ---
 
@@ -30,7 +31,7 @@ without either queuing the pair atomically or reporting the drop:
 probe run.** What is narrow is the *split*, not reaching the function. Please do
 not read "contrived" below as "hardly ever runs".
 
-**The split's reachability is narrow but not zero.** `aiTIP.cpp:186-202` returns
+**The split's reachability is narrow but not zero.** `aiTIP.cpp:189-206` returns
 early for `VK_MENU` and `VK_CONTROL` before the VK is assigned, but **`VK_SHIFT`
 falls through** — so in practice this can only emit `VK_SHIFT`, which maps to Left
 Shift and is releasable on every keyboard by a physical keypress, unlike the

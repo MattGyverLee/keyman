@@ -1,8 +1,9 @@
 # Issue 2 — OSK `ResetShiftStates` cleanup path itself (row `2b`)
 
 Draft, not filed. Producer row `2b` in
-[`../MODIFIER-PRODUCERS.md`](../MODIFIER-PRODUCERS.md). Filed on the day the
-#8064 PR is submitted; see [README.md](./README.md).
+[`../MODIFIER-PRODUCERS.md`](../MODIFIER-PRODUCERS.md). Filing is an OPTIONAL
+step a maintainer may take; no PR is opened by the change that wrote this draft, so nothing here is
+waiting on one. See [README.md](./README.md).
 
 ---
 
