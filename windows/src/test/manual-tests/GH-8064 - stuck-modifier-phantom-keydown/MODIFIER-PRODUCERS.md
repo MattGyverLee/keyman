@@ -295,9 +295,35 @@ a collapse it released the wrong side.
 longer routes through `ShiftStateChange` at all: it releases each of the seven
 cached identities directly via a nested `ReleaseCached(shift, vk, extended)`,
 gated on `shift in FCachedShiftState` — only true for something the OSK itself
-clicked, which preserves the I2177 guarantee that a physically-held modifier is
-never touched — **and** on a live `GetAsyncKeyState(vk)` check, which is what
-makes a second call a no-op. `FCachedShiftState` is written only by a live click
+clicked — **and** on a live `GetAsyncKeyState(vk)` check, which is what makes a
+second call a no-op.
+
+**Those two gates were once described here as preserving the I2177 guarantee
+that a physically-held modifier is never touched. They do not, and the claim is
+withdrawn.** Cache membership proves the OSK *pressed* the key; it does not prove
+the OSK is the only thing *holding* it, because Windows keeps one down state per
+key and not one per holder. If the user physically presses the same modifier
+after the sticky click, the live read is down for two reasons at once and the
+teardown `KEYUP` cancels the user's hold along with the OSK's press — the
+modifier goes dead in the user's hand until they release and press it again.
+Neither gate can see the difference: membership was decided before the user's
+press, and the live read cannot count holders.
+
+What carries the guarantee now is `FUserHeldShiftState`, fed from the
+`WM_KEYMAN_OSK_MODIFIER_EVENT` hook feed in `UpdateUserHeldModifiers` — the only
+place the overlap is observable at all, since polling sees a key that is already
+down. The OSK's own events are excluded by an explicit injection ledger
+(`FOskPendingEcho`) rather than by scan code, because this document's own
+measurement is that `scan == 0` identifies a `bScan = 0` injector but the
+converse does not hold, so a scan test would let the OSK's echo mark its own key
+user-held and strand it. `ResetShiftStates` declines the `KEYUP` on an overlap
+and emits it otherwise. The asymmetry that makes declining correct: the user's
+own physical release clears the single shared down state and takes the OSK's
+press with it, so a decline costs nothing, while a release is unrecoverable
+without user action. The suppression is matched to the key the `KEYUP` actually
+lands on, never to the family — a family test would let a Left Ctrl hold suppress
+a Right Ctrl release, which is the one identity a user without that physical key
+cannot clear. `FCachedShiftState` is written only by a live click
 and is never touched by `SetLRShift`'s collapse, so it still names the exact
 chiral VK that was injected regardless of what `kbd.ShiftState`/`kbd.LRShift` say
 by the time teardown runs. The function can only emit a `KEYUP` — there is no
