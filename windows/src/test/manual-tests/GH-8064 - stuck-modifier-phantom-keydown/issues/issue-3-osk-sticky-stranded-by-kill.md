@@ -1,8 +1,9 @@
 # Issue 3 — OSK sticky modifier stranded machine-wide by a keyman.exe crash or kill (row `2c`)
 
 Draft, not filed. Producer row `2c` in
-[`../MODIFIER-PRODUCERS.md`](../MODIFIER-PRODUCERS.md). Filed on the day the
-#8064 PR is submitted; see [README.md](./README.md).
+[`../MODIFIER-PRODUCERS.md`](../MODIFIER-PRODUCERS.md). Filing is an OPTIONAL
+step a maintainer may take; no PR is opened by the change that wrote this draft, so nothing here is
+waiting on one. See [README.md](./README.md).
 
 ---
 

@@ -12,7 +12,7 @@ tree, and the pass/fail oracle is two PowerShell snippets given below.
 |---|---|
 | [MODIFIER-PRODUCERS.md](./MODIFIER-PRODUCERS.md) | every production path that can emit a modifier KEYDOWN, with a verdict on each. Read this before concluding that a stuck modifier came from the serializer |
 | [TRIAGE.md](./TRIAGE.md) | how to tell the serializer path from the on-screen keyboard path when a stuck modifier is reported in the field |
-| [issues/](./issues/) | four paste-ready issue drafts for the producer rows this branch does not fix, plus the two it fixes that are live in released builds. Filed the day the PR is submitted, not a gate on the work |
+| [issues/](./issues/) | five paste-ready issue drafts: **four producer drafts** — the two rows this branch does not fix (`2c`, `8`) and the two it does fix that are still live in released builds (`2a`, `2b`) — plus [issue 5](./issues/issue-5-inithooks-return-value-discarded.md), which is deliberately **not** a producer (`InitHooks()`'s discarded return value, a hole behind the serializer's cache feed rather than a path that emits anything). Filed the day the PR is submitted, not a gate on the work |
 | [TIMELINE.md](./TIMELINE.md) | the #8064 lineage with release versions: #7337, #7716, #8064, the 2025 watchdog, and what each fix did and did not close |
 | [JUSTIFICATION.md](./JUSTIFICATION.md) | the review case: why the contrived reproduction is the field mechanism, why the vectors are distinct, and what the changes do and do not claim |
 
@@ -30,24 +30,33 @@ by the *current* `kbd.LRShift` regime rather than the identity it had injected �
 so a keyboard switch could strand an extended `VK_RCONTROL` that no keystroke
 clears on hardware without that physical key.
 
-**On this branch.** Both are closed. The OSK path is measured on a live engine;
-the serializer path is measured for the original gap (5 of 5 wedged shipped, 0 of
-5 fixed) and **source-reasoned for the residual** added afterwards — rows `1`
-residual, `1b` and `9`, covered by unit tests and a clean build but not re-run
-end to end. [MODIFIER-PRODUCERS.md](./MODIFIER-PRODUCERS.md#what-is-left) tracks
-that gap. The serializer reconciles the
-cache against live state before each batch, releases the union of cache-held and
-OS-held modifiers, and runs a post-batch verification pass for a release that
-raced a batch in flight; the low level hook no longer eats a key event before
-confirming the handoff succeeded, and no longer feeds the cache from Keyman's own
-injected events. Every OSK dismissal path now reaches cleanup, and both the
-teardown and a live click-off release the exact chiral identity that was
-injected.
+**On this branch.** Both are fixed, and the outcome for #8064 as a whole is
+**mitigated, with 4 producers drafted** — not closed. "Closed" would be honest
+only with no producer left drafted, and four are: `2a`, `2b`, `2c` and `8`,
+each carrying a paste-ready draft in [`issues/`](./issues/). The OSK path is
+measured on a live engine; the serializer path is measured for the original gap
+(5 of 5 wedged shipped, 0 of 5 fixed) and **source-reasoned for the residual**
+added afterwards — rows `1` residual, `1b` and `9`, covered by unit tests and a
+clean build but not re-run end to end.
+[MODIFIER-PRODUCERS.md](./MODIFIER-PRODUCERS.md#what-is-left) tracks that gap.
+The serializer reconciles the cache against live state before each batch,
+releases the union of cache-held and OS-held modifiers, and runs a post-batch
+verification pass for a release that raced a batch in flight; the low level
+hook no longer eats a key event before confirming the handoff succeeded, and no
+longer feeds the cache from Keyman's own injected events. Every OSK dismissal
+path now reaches cleanup, and both the teardown and a live click-off release
+the exact chiral identity that was injected.
 
-**What is left.** Two producers remain `UNMITIGATED` —
-`keyman.exe` killed or crashed while an OSK sticky modifier is held, and
-`PostKeys` pair-splitting under queue truncation — plus four issues to file and
-one unattributed observation. See
+**What is left, and it is why the claim is "mitigated, with 4 producers drafted"
+rather than "closed".** Two producers remain `UNMITIGATED` on every build —
+`keyman.exe` killed or crashed while an OSK sticky modifier is held (`2c`), and
+`PostKeys` pair-splitting under queue truncation (`8`) — and two more (`2a`, `2b`)
+are fixed here but unmitigated in every *released* build. That is the 4. `2c` in
+particular is in scope to draft and out of scope to fix: nothing in-process can
+run after `TerminateProcess`, and a persisted outstanding-latch record with
+startup reconciliation is a design change, not a bug fix. Add five issues to file
+(the four producer drafts plus the non-producer `InitHooks()` draft) and one
+unattributed observation. See
 [MODIFIER-PRODUCERS.md](./MODIFIER-PRODUCERS.md#what-is-left). Because those hold
 on every released build, a stuck modifier reported after this fix ships is
 triaged through [TRIAGE.md](./TRIAGE.md), not assumed to be a regression.
@@ -68,8 +77,10 @@ thread's* processed input queue rather than the live hardware state — so the
 natural reading is that a worker thread which has never pumped input gets
 nothing useful. Measured, it gets the opposite.
 `KEYBD_SHIFT.FreshThreadKeyboardStateReflectsLiveModifiers` in
-`windows/src/engine/keyman32/tests/keybd_shift.tests.cpp` holds Left Shift down
-and reads both threads:
+`windows/src/engine/keyman32/tests/keybd_shift.interactive.tests.cpp` -- on the
+opt-in target, not on CI, see
+[Release step](#release-step-run-the-opt-in-interactive-tests) -- holds Left
+Shift down and reads both threads:
 
 ```
 this thread : GetKeyboardState ok=1 byte=0x00, GetAsyncKeyState=0x8001
@@ -93,9 +104,13 @@ The result is not a Keyman typing glitch. It is a modifier stuck down
 exact matching KEYUP arrives.
 
 The automated counterpart is `KEYBD_SHIFT.*` and `RECONCILE_MODIFIER_CACHE.*` in
-the same test file. Those construct the stale byte directly. This test is the
-only one that exercises the real path: a genuinely stalled hook, a genuinely
-dropped event, and `SendInput` reaching the whole machine.
+`tests/keybd_shift.tests.cpp`, on the default CI target. Those construct the
+stale byte directly. Four keyboard-injecting probes, including the one quoted
+above, live instead in `tests/keybd_shift.interactive.tests.cpp` on the opt-in
+target, which CI never runs -- see
+[Release step](#release-step-run-the-opt-in-interactive-tests). This manual test
+is the only one that exercises the real path: a genuinely stalled hook, a
+genuinely dropped event, and `SendInput` reaching the whole machine.
 
 ## Why a smoke test never finds it
 
@@ -344,3 +359,88 @@ Each of these has already produced a false result.
   and the KEYUP never coincided, and the test simply did not run. Repeat until
   `keyboard_ll_identifier` shows the Shift KEYUP genuinely missing from the log
   during the freeze window.
+
+## Release step: run the opt-in interactive tests
+
+A **named step of the release manual-test pass for Windows**, run alongside the
+procedure above. It has to be run by a person, signed in at a real interactive
+desktop. It is deliberately not part of the `test` action and is never run by
+CI: a Session-0 CI service account has no input desktop, so the only thing CI
+could report for these four tests is a skip dressed up as a pass.
+
+```
+./windows/src/engine/keyman32/build.sh --debug test-interactive:x86
+./windows/src/engine/keyman32/build.sh --debug test-interactive:x64
+```
+
+Run both architectures. Expected result is four tests PASSED on each.
+
+### Preconditions for the run
+
+- An **interactive logon session** -- your own desktop. Not Session 0, not a
+  service account, not a headless build agent, not an RDP session that has been
+  disconnected.
+- **No modifier key physically held** when the run starts, and no sticky or
+  latched modifier left over from earlier work. A modifier that already reads
+  down makes these tests **FAIL by design**, and the failure message says to let
+  go and re-run. That is the intended behaviour, not a defect: a run that starts
+  with Shift down cannot tell an injected press from the one already there, so
+  passing would have told you nothing.
+
+> [WARN] These tests inject real keystrokes into the desktop you are sitting at,
+> for the duration of the run. Do not type and do not click into another window
+> until they finish. Keystrokes you contribute land in the same input queue the
+> tests are measuring.
+
+### What each test measures
+
+Each one measures a property of Windows that a comment or a test elsewhere in
+the engine rests on. A red is a statement about what Windows now does, not
+merely that something broke.
+
+| `KEYBD_SHIFT.<name>` | what it measures |
+|---|---|
+| `FreshThreadKeyboardStateReflectsLiveModifiers` | what `InitThread`'s `GetKeyboardState` seed leaves in the modifier cache on a thread that has never pumped input |
+| `ReconcileDoesNotRaceItsOwnInjectedRestorePress` | whether `SendInput` returns before the injected press is visible to `GetAsyncKeyState` -- i.e. whether the reconcile can clear a byte whose press is still in flight |
+| `DwExtraInfoSurvivesSendInputWhereTheScanCodeDoesNot` | whether `dwExtraInfo` survives `SendInput` to a low level keyboard hook, and that the scan code cannot identify an injected Right Shift, because `do_keybd_event` rewrites it to `SCANCODE_RSHIFT` |
+| `GenericShiftSendInputReflectsInBothAsyncKeyStates` | whether Windows re-chiralises a generic `SendInput(wVk=VK_SHIFT, wScan=0)` before the hook sees it, and whether `GetAsyncKeyState` agrees for the chiral VK |
+
+### How to triage a red
+
+**Re-run the failing test in isolation first, before reading anything else into
+it.** `build.sh` does not forward gtest arguments, so run the built executable
+directly. `Win32` for the x86 build, `x64` for the x64 build; `Debug` matches
+`--debug`, `Release` without it:
+
+```
+./windows/src/engine/keyman32/tests/bin/Win32/Debug/keyman32.interactive.tests.exe --gtest_filter=KEYBD_SHIFT.<name>
+./windows/src/engine/keyman32/tests/bin/x64/Debug/keyman32.interactive.tests.exe --gtest_filter=KEYBD_SHIFT.<name>
+```
+
+All four have been observed going **red together on one run and passing in
+isolation immediately afterwards** (2026-08-27). Another process disturbing the
+input queue or the hook round trip is enough to do that, and from a log alone it
+is indistinguishable from a real regression. So:
+
+1. Re-run the failure in isolation. Passes in isolation, and the whole target
+   passes on a re-run: it was interference. Note it and move on.
+2. Still red in isolation, repeatably: treat it as a real finding. Read that
+   test's own comment for what has changed, and what in the engine was resting
+   on it.
+3. Red on the precondition check -- a modifier already down -- is not either of
+   those. Let go of the keys and re-run.
+
+### Why this target exists at all
+
+These four used to sit on the default target in `tests/keybd_shift.tests.cpp`.
+gtest 1.8.1 has no `GTEST_SKIP()`, so an absent capability could only be
+`SUCCEED()` plus a warning log, and the four therefore reported **PASSED on
+every CI run without asserting anything** -- which FR-022 and SC-005 forbid.
+Moving them to their own target is what allows an absent capability to be
+`FAIL()` instead, honest only because the target is invoked where the capability
+is supposed to exist.
+
+[NOTE] Adding these tests back to `keyman32.tests.vcxproj`, or wiring
+`test-interactive` into the `test` action, would undo exactly that and put the
+silent-pass back. If CI coverage of these properties is ever wanted, it needs an
+interactive test runner, not a target change.

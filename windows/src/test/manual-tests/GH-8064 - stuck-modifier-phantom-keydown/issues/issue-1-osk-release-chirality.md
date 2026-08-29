@@ -1,8 +1,9 @@
 # Issue 1 — OSK sticky modifier can be released with the wrong chirality (row `2a`, includes Finding 4b)
 
 Draft, not filed. Producer row `2a` in
-[`../MODIFIER-PRODUCERS.md`](../MODIFIER-PRODUCERS.md). Filed on the day the
-#8064 PR is submitted; see [README.md](./README.md).
+[`../MODIFIER-PRODUCERS.md`](../MODIFIER-PRODUCERS.md). Filing is an OPTIONAL
+step a maintainer may take; no PR is opened by the change that wrote this draft, so nothing here is
+waiting on one. See [README.md](./README.md).
 
 ---
 
@@ -14,7 +15,7 @@ A modifier "clicked sticky" on the on-screen keyboard is held via a real,
 chiral `keybd_event` KEYDOWN with no matching KEYUP queued anywhere — release
 depends entirely on Keyman correctly identifying *which side* to release.
 
-`SetLRShift` (`common/windows/delphi/components/OnScreenKeyboard.pas:885-937`)
+`SetLRShift` (`common/windows/delphi/components/OnScreenKeyboard.pas:885-938`)
 collapses `kbd.ShiftState`'s chiral representation (`essLCtrl`/`essRCtrl` →
 `essCtrl`, and the Alt equivalent) whenever the active keyboard's AltGr-ness
 changes — e.g. the user switches keyboards while the OSK stays open. After that

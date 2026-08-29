@@ -1025,7 +1025,7 @@ There are two further reasons not to delete the cache in this change:
   Keyman is mid-manipulation. Reading live state naively would capture Keyman's
   own in-flight events as user intent.
 - with `flag_ShouldSerializeInput` off, the cache is the only record there is,
-  which is why the batch path carries `cacheIsFed` rather than assuming a feed.
+  which is why the batch path carries `feedIsConfigured` rather than assuming a feed.
 
 Deleting it is a redesign of the serialized-stream semantics, with a blast radius
 that includes the AltGr Left Control simulation and the `0x21D` handling from

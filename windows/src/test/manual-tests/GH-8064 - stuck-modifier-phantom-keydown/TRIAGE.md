@@ -8,6 +8,9 @@ A user reports a modifier stuck down machine-wide. **Do not assume it is a
 regression of the #8064 fix.** #8064's own repro was contrived, and the on-screen
 keyboard can produce the identical symptom, including the unclearable Right
 Control case that is the worst field report. This file tells the two apart.
+**And before either: check that the modifier is stuck at all.** A modifier that
+went *dead* while the user was holding it is the opposite failure and draws the
+same sentence out of a user; see *Two opposite failures* below first.
 
 **Triage against the build the user has, not against this tree.** The OSK
 behaves differently on a released build than on this branch, and several rows
@@ -43,6 +46,129 @@ serializer-side row; four of them are now measured and the remainder say why not
 carries both, and they cost a day between them: enabling the log can **stop the
 defect reproducing**, and a signal looked for in the wrong function reads exactly
 like a signal that is not there.
+
+## Two opposite failures: stuck down, or dead while held
+
+**Everything else in this file is about a modifier stuck *down*.** There is a
+second failure with the opposite mechanism and the *same* user sentence — "my
+Ctrl key is broken" — and if you do not sort them first, every report of one gets
+triaged as the other. Sort before you run the oracle: the oracle answers the
+stuck question and is silent on the other.
+
+- **STUCK** — a phantom KEYDOWN. A modifier the user is **not** holding behaves
+  as though held, so every keystroke becomes a chord. This is #8064.
+- **DEAD WHILE HELD** — a dropped hold. A modifier the user **is** holding stops
+  taking effect part way through, because the batch released it and did not press
+  it back.
+
+| | **STUCK** — phantom KEYDOWN | **DEAD WHILE HELD** — dropped hold |
+|---|---|---|
+| what the user says | "my keyboard types nothing", "everything is a shortcut" | "my Ctrl stopped working", "shift stopped capitalising" |
+| what the user was doing at the moment it failed | **not touching** the modifier | **holding** the modifier, and typing through it |
+| mechanism | the cache retained a byte for a modifier whose KEYUP was dropped, and the restore half pressed it for real via `SendInput` — latched machine-wide | the release half reads **live** state (`keybd_shift.cpp:422`), the restore half reads the **cache** (`keybd_shift.cpp:438`). A modifier the OS reports held that the cache does not claim is released and never pressed back |
+| does releasing and re-pressing the key fix it? | yes | yes, immediately and permanently — the next real event re-feeds the cache |
+| with **no** further input at all | persists; it stays asserted machine-wide until something releases it | nothing more happens. It takes a batch to drop a hold, so no output means no failure |
+| does it recur? | only if the wedge happens again | not within the same physical press — see *once per press* below. A fresh press in the same window is dropped again |
+| worst case | on hardware with no physical Right Ctrl the user may be unable to clear it at all, and a restart is the only route | none. The key works on the very next press |
+| log line | **none.** Nothing is emitted when the cache retains a byte | `#8064 dropped hold:`, naming the VK |
+| full scoring | row `1` of [MODIFIER-PRODUCERS.md](./MODIFIER-PRODUCERS.md) | the release-half half of that same row `1`, and `1b` for the pass-through variant |
+
+**Recovery is not on its own a discriminator.** Press-and-release clears *both*,
+so "I pressed Ctrl again and it came good" tells you nothing about which one you
+have. Use it only alongside rows 2 and 3 above.
+
+**Once per press, and this is the useful behavioural discriminator.** The release
+half's own KEYUP goes out through `SendInput`, so the live state then reads *up*
+even while the user's finger is still down. The condition at
+`keybd_shift.cpp:411` — live held, cache not claiming — therefore cannot fire a
+second time for the same physical press, and the modifier stays dead until the
+user lets go and presses again. A stuck modifier, by contrast, needs no input at
+all to keep being wrong.
+
+### The log lines, which are the only unambiguous discriminator
+
+New on this branch, and the reason this section can be more than a guess. Two
+codes, `ModifierDiagnosticCode` (`serialkeyeventcommon.h:132-163`), rendered by
+`ReportModifierDiagnostic` (`serialkeyeventserver.cpp:53-75`), bound to the batch
+at `serialkeyeventserver.cpp:466-469`. Both reach a debug/ETW trace through
+`SendDebugMessageFormat` (`keymanengine.h:180`), so *Turning the engine log on*
+below applies in full, warning box included.
+
+**Grep for `#8064 `** — one string catches both, and the fallback line for an
+unknown code. The two literals, exactly as they stand in the source:
+
+- `#8064 dropped hold: released vkey=%s that the OS reports held and the cache does not claim, so the restore half will not press it back. Expect the user to report this modifier dead until they press it again`
+  (`serialkeyeventserver.cpp:58-62`, code `ReleasedWithoutCacheClaim`).
+  **This line means dead-while-held, and it names the key.** Emitted once per
+  such VK from `keybd_shift.cpp:409-415`, and only when the feed is configured —
+  with the feed off both halves read the same `kbd` and the condition cannot
+  arise.
+- `#8064 possible desktop switch: every managed modifier reads up live while the cache claimed two or more held. The reconcile is clearing them and the restore half will press nothing, so those holds are lost. The 'clearing vkey=' lines that follow name them`
+  (`serialkeyeventserver.cpp:65-69`, code `PossibleDesktopSwitch`). Emitted once
+  per cache-claimed VK when all six managed modifiers read up live and the cache
+  claims **two or more** (`keybd_shift.cpp:364-384`, threshold at `:374`). Two or
+  more, never one: exactly one modifier held at launch and released before the
+  feed was live is the ordinary launch-seed case, and firing there would cry wolf
+  on every session. It is not itself either signature. It says the cache went
+  stale in the shape a secure desktop or a console leaves, which is the
+  precondition for dead-while-held — and which on a released build is where the
+  restore half would instead have pressed those modifiers for real.
+
+`%s` is `Debug_VirtualKey` (`k32_dbg.cpp:256-263`), so each line names the VK in
+the same `['<name>' 0x<vk>]` form as every other line in the log.
+
+**Read the asymmetry exactly.** Presence of `#8064 dropped hold:` rules
+dead-while-held **in**. Absence rules **nothing** out in either direction: the
+stuck signature emits no line at all — nothing is logged when the cache merely
+retains a byte — and on a released build neither code exists in the binary.
+Everything in *An absent log line is not proof of an absent event* below applies
+here too.
+
+The behaviour is pinned by the `MODIFIER_DIAGNOSTIC` fixture in
+`windows/src/engine/keyman32/tests/keybd_shift.tests.cpp:1916-2056`, including
+the feed-off case and the one-modifier launch-seed case that must **not** report.
+
+### Where a dead-while-held window exists
+
+It needs a KEYDOWN the cache feed never saw. The feed post
+(`k32_lowlevelkeyboardhook.cpp:199-222`) sits **ahead** of the pass-through check
+(`:253-260`), the touch-panel check (`:263-266`) and the console check (`:278`),
+deliberately, so modifiers stay tracked with no Keyman keyboard active (comment
+at `:195-198`). So focus alone — a console, mstsc, no active keyboard — does
+*not* by itself blind the feed. What does:
+
+- **The hook was not running.** The secure desktop, UAC, the lock screen. The
+  hook's own `#5190` note at `:153-154` says modifier change events are sometimes
+  not received there. Nothing in-process can see a KEYDOWN it was never given.
+- **The feed was configured but dead.** `flag_ShouldSerializeInput` reads TRUE in
+  at least three same-process ways while nothing arrives: `InitHooks()`'s return
+  value discarded (`keyman32.cpp:279`, `:401`), `FSingleApp=TRUE` making the
+  global-only install structurally fail (`keyman32.cpp:367`), and Windows' silent
+  hook removal at 200 ms, unnoticed until a later keystroke sees a >= 1000 ms gap
+  (`LowLevelHookWatchDog.cpp`). Enumerated at `serialkeyeventcommon.h:165-172`.
+- **The post did not land.** Both failures are logged, so both are greppable:
+  `Modifier cache feed skipped, no serializer window` and
+  `Modifier cache feed failed` (`k32_lowlevelkeyboardhook.cpp:213`, `:215`).
+- **The launch seed.** A modifier already held when the feed came up was never
+  fed a KEYDOWN for it.
+
+### Do not escalate dead-while-held as a regression
+
+It is a deliberate accepted cost, not a defect to file. Both alternatives are
+worse, and both are refuted in the spec:
+
+- Release on the **cache** alone, and a modifier the OS holds that the cache does
+  not know about survives the batch — reopening silent text destruction, of which
+  Ctrl+Backspace eating a word is the cheap example.
+- Restore from **live** state, and a modifier the user let go of mid-batch is
+  pressed back with no queued release — which is #8064's unmatched KEYDOWN, from
+  a third direction.
+
+Losing a hold is the accepted direction; manufacturing a press is never one
+(`keybd_shift.cpp:391-398`, `:401-406`). What FR-002 and FR-006 change is only
+that the drop stops being silent. The full scoring is in row `1` of
+[MODIFIER-PRODUCERS.md](./MODIFIER-PRODUCERS.md); read it there rather than
+re-deriving it here.
 
 ## First, before anything else
 
