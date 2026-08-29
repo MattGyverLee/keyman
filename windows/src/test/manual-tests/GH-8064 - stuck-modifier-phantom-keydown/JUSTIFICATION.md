@@ -786,6 +786,24 @@ so it lands behind the already-queued modifier events, because posted-message
 FIFO ordering is what places it behind the modifier events already queued. Two vectors
 needing two fixes of opposite polarity is the evidence that they are two vectors.
 
+That FIFO claim is between two **posted** messages, `WM_KEYMAN_MODIFIER_EVENT` and
+`WM_KEYMAN_VERIFY_MODIFIER_EVENT`, and only there is it sound. It does **not**
+extend to `WM_INPUT`, and `serialkeyeventserver.cpp` briefly asserted that it did.
+Message retrieval is ordered by *class* -- sent, then posted, then input, then
+`WM_PAINT`, then `WM_TIMER` -- and `WM_INPUT` is signalled by `QS_RAWINPUT`, which
+is part of `QS_INPUT`. A posted message is therefore returned **ahead of** a
+`WM_INPUT` that has been queued since long before it. So a user modifier KEYUP the
+OS observed before the batch's `SendInput` returned could still be undispatched when
+the verify ran, leaving `m_userHeld` reporting the key held, and the FR-103a
+"declining to correct" branch would then skip the corrective KEYUP and leave the
+restore press latched -- the very latch this pass exists to clear.
+`ProcessModifierVerification` now calls `DrainPendingRawInput` first, which peeks
+`WM_INPUT` alone with `PM_REMOVE` and dispatches each, so every earlier raw
+observation is in the signal before it is read. Filtering on `WM_INPUT` alone is
+what keeps the posted queue, and therefore the ordering above, untouched; and
+dispatching rather than handling inline is what keeps each `HRAWINPUT` read inside
+the delivery of its own message, where it is valid.
+
 ### Vector C — the OSK
 
 Conceded as a different cause. Note that the OSK's unmatched KEYDOWN is not
