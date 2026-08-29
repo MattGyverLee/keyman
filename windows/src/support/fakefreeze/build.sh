@@ -6,7 +6,7 @@ THIS_SCRIPT="$(readlink -f "${BASH_SOURCE[0]}")"
 ## END STANDARD BUILD SCRIPT INCLUDE
 
 builder_describe "Tell keyman.exe to pause, so Windows silently uninstalls the low level keyboard hook" \
-  clean configure build \
+  clean configure build test \
   :x86 :x64
 
 builder_parse "$@"
@@ -41,3 +41,5 @@ builder_run_action clean:x64      do_clean x64
 builder_run_action configure      configure_windows_build_environment
 builder_run_action build:x86      do_build Win32
 builder_run_action build:x64      do_build x64
+# builder_run_action test:x86      do_test Win32
+# builder_run_action test:x64      do_test x64
