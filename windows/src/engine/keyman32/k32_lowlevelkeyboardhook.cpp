@@ -184,7 +184,16 @@ LRESULT _kmnLowLevelKeyboardProc(
   }
 
   if(isModifierKey(hs->vkCode)) {
-    PostVisualKeyboardModifierEvent(hs->vkCode, LLKHFFlagstoWMKeymanKeyEventFlags(hs));
+    // #8064. Provenance travels with the event, because the receiver cannot recover it. The visual
+    // keyboard uses this to tell a modifier the USER is holding from one Keyman injected, and the
+    // scan code alone cannot answer that for Right Shift -- see
+    // KEYMAN_OSK_MODIFIER_FLAG_KEYMAN_INJECTED. Same decision function as the cache feed below, so
+    // the two cannot drift apart.
+    DWORD oskFlags = (DWORD)LLKHFFlagstoWMKeymanKeyEventFlags(hs);
+    if (IsKeymanInjectedKeyEvent(hs->scanCode, hs->dwExtraInfo)) {
+      oskFlags |= KEYMAN_OSK_MODIFIER_FLAG_KEYMAN_INJECTED;
+    }
+    PostVisualKeyboardModifierEvent(hs->vkCode, oskFlags);
   }
 
   // #7337 Post the modifier state ensuring the serialized queue is in sync
