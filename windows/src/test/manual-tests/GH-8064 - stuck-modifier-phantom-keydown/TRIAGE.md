@@ -44,8 +44,9 @@ on a live engine. `[source-derived]` verdicts are what the source predicts, with
 nothing yet checked against a real occurrence.
 
 **Read the two warnings before you run anything.** *Turning the engine log on*
-below carries both: enabling the log can stop the defect reproducing, and a signal
-looked for in the wrong function reads much like a signal that is not there.
+below carries both: enabling the log may change the timing enough to affect
+whether the defect reproduces, and a signal looked for in the wrong function reads
+much like a signal that is not there.
 
 ## First, before anything else
 
@@ -147,25 +148,31 @@ after arming them.** Arming them under a running Keyman leaves `debug=FALSE` in
 `.SHARDATA` and the engine logs nothing — a silence indistinguishable from a
 signal that did not fire.
 
-> ### The log can stop the defect reproducing `[measured]`
+> ### Enabling the log may change whether the defect reproduces
 >
-> Same shipped build, same machine, same harness, one variable — the log:
+> One observation, on the same shipped build, machine and harness, varying only
+> the log:
 >
 > | run | engine log | wedged |
 > |---|---|---|
-> | A1 | off | **5/5** |
-> | A2 | off | **5/5** |
-> | A3 | **on** | **0/5** |
+> | A1 | off | 5/5 |
+> | A2 | off | 5/5 |
+> | A3 | on | 0/5 |
 >
-> Turning the log on closes the race window.
+> **This did not hold up as a predictable effect.** Later runs did not reproduce
+> the pattern, so the table above is one result rather than a rule: enabling the
+> log adds work on the path the defect races against, which could plausibly move
+> the window either way, and we have not established that it does so reliably.
+> Recorded because it is worth knowing about, not as something to count on.
+>
 > Two consequences for a responder:
 >
-> - **A wedge that stops reproducing once you enable the log has not been
->   diagnosed.** It is the most likely outcome for a serializer-path wedge, and it
->   is not evidence about the fix in either direction.
-> - If you need to establish *whether* it wedges, run **unlogged** and read
->   `GetAsyncKeyState`. The log is for finding out *which path*, on a wedge you can
->   already produce.
+> - A wedge that stops reproducing once you enable the log has not been
+>   diagnosed, and the disappearance is not evidence about the fix in either
+>   direction.
+> - If you need to establish *whether* it wedges, the safer order is to run
+>   **unlogged** first and read `GetAsyncKeyState`. The log is best used for
+>   finding out *which path*, on a wedge you can already produce.
 
 **An absent log line is not proof of an absent event.** Four ways it can
 mislead:
@@ -196,8 +203,9 @@ mislead:
 4. If the OSK is open: switch it to the Character Map tab, or dismiss it any other
    way. If the modifier clears, it was the OSK. If it does not clear, do not
    conclude "not the OSK" without also checking step 3.
-5. Otherwise enable the engine log — **reading the warning box in *Turning the
-   engine log on* first; the log can stop the wedge reproducing** — reproduce, and
+5. Otherwise enable the engine log — reading the warning box in *Turning the
+   engine log on* first, since enabling it may affect whether the wedge
+   reproduces — reproduce, and
    read the scan code of the phantom KEYDOWN: `0xFF` means the serializer, `0`
    means the OSK, and `scan != 0` on its own rules nothing out. If you can
    rebuild, a `keyman.exe` compiled with `{$DEFINE KLOGGING}` is the better
