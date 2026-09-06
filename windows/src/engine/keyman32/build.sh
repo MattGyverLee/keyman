@@ -135,14 +135,14 @@ function do_test() {
 }
 
 # #8064 FR-023: the opt-in interactive tests. Same build shape as do_test, a different project and
-# a different executable, and deliberately NOT reachable from the `test` action -- these four tests
+# a different executable, and deliberately not reachable from the `test` action -- these four tests
 # inject real keyboard input and read it back, which a Session-0 CI service account cannot do. On the
 # default target they could only report PASSED without asserting anything (FR-022, SC-005); in
-# keybd_shift.interactive.tests.cpp an absent capability is FAIL() instead, which is only honest
-# because this action is invoked by a person on a desktop where the capability should exist.
+# keybd_shift.interactive.tests.cpp an absent capability is FAIL() instead, which works because this
+# action is invoked by a person on a desktop where the capability should exist.
 #
 # The action is spelled `test-interactive` and not `test:interactive` because builder.inc.sh splits a
-# command-line parameter on its FIRST colon into action and target, so `test:interactive:x86` would
+# command-line parameter on its first colon into action and target, so `test:interactive:x86` would
 # parse as action `test` with target `:interactive:x86`; declaring that as a target would make the
 # bare `test` action sweep it in, which is exactly what FR-023 forbids.
 #

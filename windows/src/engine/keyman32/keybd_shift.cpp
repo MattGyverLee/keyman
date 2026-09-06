@@ -23,7 +23,7 @@
 #include "kbd.h"
 
 // The modifier VKs Keyman manages. Not the hook's accepted-VK set: isModifierKey takes nine VKs,
-// which collapse onto these six. Do not unify them.
+// which collapse onto these six, so the two sets are kept separate.
 const BYTE KeymanModifierVks[KEYMAN_MODIFIER_VK_COUNT] = {
   VK_LMENU, VK_RMENU, VK_LCONTROL, VK_RCONTROL, VK_LSHIFT, VK_RSHIFT
 };
@@ -135,9 +135,9 @@ void keybd_sendprefix(LPINPUT pInputs, int *n)
               kbd      pointer to keyboard state (256 byte array), in which we will store
                        the initial modifier state for later restoration by keybd_shift_reset
               sendPrefix  FALSE suppresses the dummy prefix keystroke. #8064 FR-014: the prefix
-                       exists for ONE reason -- an isolated Alt release opens the window menu -- and
+                       exists for one reason -- an isolated Alt release opens the window menu -- and
                        inside a batch it costs nothing, because it lands between the keyboard's own
-                       output keys. A STANDALONE correction is different: it is a separate SendInput
+                       output keys. A standalone correction is different: it is a separate SendInput
                        fired from a posted message, so its prefix lands in whatever has focus by
                        then, and the prefix VK is registry-overridable (REGSZ_ZapVirtualKeyCode,
                        k32_globals.cpp:378) so it cannot be assumed unassigned. Defaulted TRUE so
@@ -174,7 +174,7 @@ void keybd_shift_release(LPINPUT pInputs, int *n, LPBYTE const kbd, BOOL sendPre
               pPressIndex  optional out; KEYMAN_MODIFIER_VK_COUNT ints, one per slot of
                        KeymanModifierVks, set to the pInputs index of that modifier's KEYDOWN, or
                        left at -1 where none was emitted. #8064 FR-015b: the caller needs to know
-                       WHERE each restore press went, so that a short SendInput can be reconciled
+                       where each restore press went, so that a short SendInput can be reconciled
                        exactly. Recorded here, at the point of emission, rather than reconstructed
                        by the caller -- a caller that recomputed the layout would be duplicating
                        this loop's ordering and would drift from it silently
@@ -226,7 +226,7 @@ void keybd_shift(LPINPUT pInputs, int *n, BOOL isReset, LPBYTE const kbd, int *p
     keybd_shift_reset(pInputs, n, kbd, pPressIndex);
   } else {
     // Nothing to report for the release direction: the release half emits KEYUPs, and it is the
-    // restore PRESSES that a short send drops.
+    // restore presses that a short send drops.
     keybd_shift_release(pInputs, n, kbd);
   }
 }
@@ -346,14 +346,10 @@ int PrepareInjectedInputBatch(
   DWORD nInputs = min(pSharedData->nInputs, MAX_KEYEVENT_INPUTS);
   int n         = 0;
 
-  // TRANSIENT, and it will be gone in the next commit: the seam exists and nothing emits through it
-  // yet, which is what makes the FR-002 and FR-006 cases in keybd_shift.tests.cpp genuinely red.
-  // keyman32.vcxproj builds with warnings as errors (C2220), so an unreferenced parameter cannot be
-  // left to sit even for one commit.
   BYTE live[256];
   CaptureLiveModifierState(live, pfnGetAsyncKeyState);
 
-  // #8064 FR-006 / FR-007. BEFORE the reconcile, because the reconcile is about to clear the very
+  // #8064 FR-006 / FR-007. Before the reconcile, because the reconcile is about to clear the very
   // bytes this reads. Every managed modifier reading up live while the cache claims two or more
   // held is the shape a desktop switch leaves: the user held two modifiers, released them somewhere
   // the feed could not see -- the secure desktop, a console window -- and came back. The reconcile
@@ -362,10 +358,9 @@ int PrepareInjectedInputBatch(
   // to that forever: it tests for cache-up-and-live-down, and this state IS cache-up-and-live-down.
   // It is doing its job. The only thing that can be added is that somebody is told.
   //
-  // TWO OR MORE, not one, and the threshold is the load-bearing half of the requirement. Exactly
-  // one modifier held at launch and released before the feed was live is the ordinary launch-seed
-  // case 002's reconcile exists to clear; firing there would put a warning in the log on a normal
-  // session, and a diagnostic that cries wolf is one nobody reads when it matters.
+  // Two or more, not one: exactly one modifier held at launch and released before the feed was
+  // live is the ordinary launch-seed case 002's reconcile exists to clear, so a threshold of one
+  // would warn on an ordinary session.
   if (pfnDiagnostic != NULL) {
     int liveHeld = 0, cacheClaimed = 0;
     for (int i = 0; i < _countof(KeymanModifierVks); i++) {
@@ -387,17 +382,17 @@ int PrepareInjectedInputBatch(
   // Clear before keybd_shift below presses it for real (#8064). Only ever clears, so this stays
   // safe when !feedIsConfigured.
   //
-  // #8064 FR-007a, A STANDING INVARIANT AND NOT A COMMENT ABOUT TODAY'S CODE: any mechanism that
-  // suppresses this reconcile MUST also suppress this batch's restore half. The restore half reads
-  // the very bytes the reconcile would have cleared, so leaving the reconcile out while leaving the
-  // restore in presses a modifier nobody is holding. An earlier draft did exactly that -- skip the
-  // reconcile when the state looks like a desktop switch -- and it reintroduced #8064 with cache
-  // and OS AGREEING, which is the one state ReconcileModifierCache can never detect, because the
-  // verification pass tests for cache-up-and-live-down and this is its opposite.
+  // #8064 FR-007a, a standing invariant rather than a note about today's code: any mechanism that
+  // suppresses this reconcile also needs to suppress this batch's restore half. The restore half
+  // reads the bytes the reconcile would have cleared, so leaving the reconcile out while leaving
+  // the restore in presses a modifier nobody is holding. An earlier draft of this branch skipped
+  // the reconcile when the state looked like a desktop switch, and that reintroduced #8064 with
+  // cache and OS agreeing -- the one state ReconcileModifierCache cannot detect, since it tests for
+  // cache-up-and-live-down and this is its opposite.
   //
-  // The guard above is therefore a REPORT and never a suppression: it emits and returns, and causes
-  // no press that would not otherwise be emitted. Losing a hold is the accepted direction here
-  // (FR-001, FR-004); manufacturing a press is never one.
+  // The guard above is therefore a report rather than a suppression: it emits and returns, and
+  // causes no press that would not otherwise be emitted. Losing a hold is the accepted direction
+  // here (FR-001, FR-004); manufacturing a press is not.
   ReconcileModifierCache(kbd, live);
 
   // #8064 FR-002. The release set is live, the restore set is kbd, so a modifier the OS holds that
@@ -407,7 +402,7 @@ int PrepareInjectedInputBatch(
   // user reporting "my Ctrl went dead" has something in the log to match.
   //
   // Guarded on feedIsConfigured because with the feed off both halves read the same kbd, so the
-  // condition cannot arise and reporting it would be a lie about every degraded batch.
+  // condition cannot arise and reporting it would misdescribe every degraded batch.
   if (pfnDiagnostic != NULL && feedIsConfigured) {
     for (int i = 0; i < _countof(KeymanModifierVks); i++) {
       const BYTE vk = KeymanModifierVks[i];
@@ -417,9 +412,9 @@ int PrepareInjectedInputBatch(
     }
   }
 
-  // Post-reconcile kbd is a subset of live, so their union IS live -- both sets confined to the same
-  // managed six, so there is no index at which they can differ. Pinned by
-  // ReconcileLeavesTheCacheASubsetOfLiveState -- delete that test and this line is a guess again.
+  // Post-reconcile kbd is a subset of live, so their union is live -- both sets are confined to the
+  // same managed six, so there is no index at which they can differ. Pinned by
+  // ReconcileLeavesTheCacheASubsetOfLiveState, which is what keeps this line checked.
   // The !feedIsConfigured arm passes kbd instead; see feedIsConfigured above.
   keybd_shift(pInputs, &n, FALSE, feedIsConfigured ? live : kbd);
 
@@ -434,13 +429,13 @@ int PrepareInjectedInputBatch(
 
   // #8064 FR-101. The restore set is `kbd OR (pUserHeld->held & ~pUserHeld->unknown)`.
   //
-  // NOT live, and that exclusion is the requirement, not an implementation detail: live OS state
-  // reports the same value for "the user is holding it" and "we pressed it ourselves one message
-  // ago", so restoring from it manufactures unmatched presses -- #8064 from a new direction, and on
-  // hardware with no physical Right Ctrl the user cannot clear it at all. FR-102.
+  // Not live, and the exclusion is part of the requirement rather than an implementation detail:
+  // live OS state reports the same value for "the user is holding it" and "we pressed it ourselves
+  // one message ago", so restoring from it manufactures unmatched presses -- #8064 from a new
+  // direction, and on hardware with no physical Right Ctrl the user cannot clear it at all. FR-102.
   //
-  // The signal is admissible where live state is not, because it reports what a NON-KEYMAN source
-  // observed, and reports *unknown* rather than stale when it cannot observe. It only ever WIDENS
+  // The signal is admissible where live state is not, because it reports what a non-Keyman source
+  // observed, and reports *unknown* rather than stale when it cannot observe. It only ever widens
   // what the cache already justifies; it can add a press the cache missed, never veto one the cache
   // asserts. NULL means no signal and the cache alone -- FR-104's fallback, and the shape if US0 is
   // struck.
@@ -453,8 +448,8 @@ int PrepareInjectedInputBatch(
   if (pUserHeld != NULL) {
     for (int i = 0; i < _countof(KeymanModifierVks); i++) {
       const BYTE vk = KeymanModifierVks[i];
-      // held & ~unknown, the effective read, everywhere. Reading held alone is the bug this whole
-      // structure exists to make impossible to write by accident.
+      // held & ~unknown, the effective read, everywhere -- reading held alone is the mistake this
+      // shape is meant to make hard to write by accident.
       if ((pUserHeld->held[vk] & 0x80) && !(pUserHeld->unknown[vk] & 0x80)) {
         restoreSet[vk] = 0x80;
       }
@@ -547,14 +542,13 @@ int PrepareModifierVerificationCorrection(
     }
     const BYTE vk = KeymanModifierVks[i];
 
-    // #8064 FR-103a. THE PAIRING THAT IS THE WHOLE DIFFERENCE BETWEEN US0 DELIVERING AND US0
-    // DELIVERING NOTHING. This pass corrects on cache-up-and-live-down, and that is EXACTLY the
-    // state every FR-101 restore creates whenever the cache is blind -- which, inside the A0
-    // window, is always. Widening the mask (FR-103) without this check would release the modifier
-    // one message after the restore pressed it, reproducing the very no-op the signal was
+    // #8064 FR-103a. This check and the FR-103 mask widening go together. The pass corrects on
+    // cache-up-and-live-down, which is the state every FR-101 restore creates whenever the cache is
+    // blind -- inside the A0 window, always. Widening the mask without this check would release the
+    // modifier one message after the restore pressed it, back to the no-op the signal was
     // introduced to escape, at a cost of two injected events per batch.
     //
-    // So: never correct a VK the signal reports the user still holds. Same effective read as the
+    // So a VK the signal reports the user still holds is left alone. Same effective read as the
     // restore half, held & ~unknown, or the two halves would disagree about the same key.
     if (pUserHeld != NULL && (pUserHeld->held[vk] & 0x80) && !(pUserHeld->unknown[vk] & 0x80)) {
       SendDebugMessageFormat(
@@ -570,7 +564,7 @@ int PrepareModifierVerificationCorrection(
     }
   }
 
-  // FR-014: ANY Alt in the set, not just the first VK in it -- Shift sorts before Alt in
+  // FR-014: any Alt in the set, not just the first VK in it -- Shift sorts before Alt in
   // KeymanModifierVks, so a first-VK check would suppress the prefix on a Shift+Alt correction,
   // which is exactly the case that needs it.
   const BOOL hasAlt = (correction[VK_LMENU] & 0x80) || (correction[VK_RMENU] & 0x80);
@@ -634,18 +628,18 @@ void UpdateModifierCacheFromKeyEvent(LPBYTE kbd, BYTE bVk, BOOL fIsExtendedKey, 
               rawFlags         RAWKEYBOARD::Flags: RI_KEY_BREAK, RI_KEY_E0, RI_KEY_E1
               extraInformation RAWKEYBOARD::ExtraInformation
 
-  THE DISCRIMINATOR IS "NOT KEYMAN'S OWN", AND "NOT INJECTED" IS A REFUTED ONE (I-U1). This applies
-  the event unless IsKeymanInjectedKeyEvent says it is ours -- the same policy, byte for byte, as
-  the hook's own cache-feed gate. It is NOT a test for injection, and the difference is the entire
-  reason this signal is worth having:
+  The discriminator is "not Keyman's own", not "not injected" (I-U1). This applies the event unless
+  IsKeymanInjectedKeyEvent says it is ours -- the same policy, byte for byte, as the hook's own
+  cache-feed gate. It is not a test for injection, and that difference is what makes the signal
+  useful:
 
     - Remote Desktop delivers genuine user keystrokes as OS-injected events (extraInfo 0x4321DCBA).
     - The Keyman OSK delivers genuine user clicks as OS-injected events.
 
-  Both are the user, and both must reach the signal, or a hold made over RDP is one the restore half
-  will drop. IsKeymanInjectedKeyEventTests carries regression guards for both populations. The
-  function deliberately does NOT take hDevice, so the refuted device-identity policy is not even
-  expressible here -- and the W0 probe recorded that hDevice is unusable for this anyway.
+  Both are the user, and both need to reach the signal, or a hold made over RDP is one the restore
+  half drops. IsKeymanInjectedKeyEventTests carries regression guards for both populations. The
+  function does not take hDevice, so the refuted device-identity policy is not expressible here --
+  and the W0 probe recorded hDevice as unusable for this in any case.
 
   Chirality is derived exactly as UpdateModifierCacheFromKeyEvent derives it, because both write a
   256-byte array keyed by the chiral VK and a disagreement between them would be silent: RI_KEY_E0
@@ -699,7 +693,7 @@ void UpdateUserHeldFromRawKeyboard(
 /**
   #8064 W5 / FR-104, FR-104a. Marks the named keys as ones the signal cannot currently speak for.
 
-  PER KEY, AND CLEARED ONLY BY A FRESH OBSERVATION OF THAT KEY -- never on a timer (I-U3). A timer
+  Per key, and cleared only by a fresh observation of that key -- never on a timer (I-U3). A timer
   would decide a key is knowable again because time passed, which is precisely the reasoning that
   makes a stale shadow dangerous: the UAC case is a user who held Ctrl, released it on the secure
   desktop where nothing could see it, and came back. No amount of elapsed time makes the last
@@ -722,8 +716,7 @@ void PoisonUserHeldKeys(UserHeldModifierSignal *pSignal, LPBYTE const vks, int c
 
   The whole-signal case: the feed is not established yet, the active desktop is not the user's, the
   session changed, or the raw-input registration was displaced. In each of those the signal has no
-  standing to speak about ANY key, so saying so about all six is the honest answer rather than an
-  abundance of caution.
+  standing to speak about any key, so it says so about all six.
 */
 void PoisonAllUserHeldKeys(UserHeldModifierSignal *pSignal) {
   if (pSignal == NULL) {
@@ -776,10 +769,10 @@ BOOL IsKeymanInjectedKeyEvent(DWORD scanCode, ULONG_PTR extraInfo) {
   the decision. That is what makes it reachable from keyman32.tests.vcxproj, which cannot link
   k32_lowlevelkeyboardhook.cpp at all: it is entirely inside #ifndef _WIN64.
 
-  This function exists because the suite used to mirror it. Deleting the !IsKeymanInjectedKeyEvent
-  term from the hook left all 68 tests green, because the two cases billed "this is the fix for
-  #8064" ran against keybd_shift.tests.cpp's own ApplyThroughTheGate helper and never reached
-  production code. Do not reintroduce a mirror; call this.
+  This function exists because the suite used to mirror the decision instead of calling it: with the
+  mirror in place, removing the !IsKeymanInjectedKeyEvent term from the hook left all 68 tests green,
+  since the two cases covering it ran against keybd_shift.tests.cpp's own ApplyThroughTheGate helper
+  rather than production code. The suite now calls this function directly.
 */
 BOOL ShouldFeedModifierCache(BOOL serializeInput, DWORD scanCode, ULONG_PTR extraInfo) {
   return serializeInput && !IsKeymanInjectedKeyEvent(scanCode, extraInfo);
@@ -795,10 +788,10 @@ BOOL ShouldFeedModifierCache(BOOL serializeInput, DWORD scanCode, ULONG_PTR extr
                           with LLKHFFlagstoWMKeymanKeyEventFlags
               pfnPost     the post seam; production passes PostMessage, the suite a stub
 
-  Returns TRUE only when the handoff actually succeeded, which is the whole point. Eating on trust
-  destroys the user's key event whenever PostMessage fails, and for a modifier KEYUP that is how
-  #8064 re-asserts: the OS stays latched, the cache still says down, and the clear-only reconcile can
-  never see it. Unserialized beats destroyed.
+  Returns TRUE only when the handoff actually succeeded. Eating on trust destroys the user's key
+  event whenever PostMessage fails, and for a modifier KEYUP that is how #8064 re-asserts: the OS
+  stays latched, the cache still says down, and the clear-only reconcile cannot see it. Passing the
+  event through unserialized is the better of the two failures.
 
   A NULL hwndServer is a real route, not defensive padding: PostMessage to a NULL hwnd does not
   fail, it misroutes to the calling thread's own queue, so the handoff is silently destroyed while
