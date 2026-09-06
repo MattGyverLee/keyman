@@ -152,7 +152,7 @@
   as 'abc', which is the only thing the cross-arm oracle needs. A reviewer will
   have one already. What IS rejected is a substituted layout (Dvorak,
   US-International): those report a 0xF0xx high word and do not type 'abc' as
-  'abc', so the Ascii oracle would silently lie. See Resolve-Arm.
+  'abc', so the Ascii oracle would report the wrong thing. See Resolve-Arm.
 
   WHY MSKLC IS OPTIONAL. The load-bearing contrast is KEYMAN vs MICROSOFT, not
   Cameroon vs Cameroon - and the English arm already supplies a Microsoft
@@ -653,7 +653,7 @@ function Resolve-Arm([int64]$lang, [int64]$high) {
   # the alternates: US-Dvorak (preload d0010409 -> substitute 00010409) comes
   # back as high word 0xF002, NOT the 0x0001 the layout id would suggest.
   # Observed 2026-08-23. 'abc' is not 'abc' on Dvorak, so the Ascii oracle would
-  # silently lie; such a layout is REJECTED rather than measured. A plain layout
+  # report the wrong thing; such a layout is rejected rather than measured. A plain layout
   # reports its own language in the high word (US 0x04090409, UK 0x08090809).
   $langPrimary = $lang -band 0x03FF
   $highPrimary = $high -band 0x03FF
