@@ -11,7 +11,7 @@
   The oracle is modifier state, not the text -- a stuck Ctrl or Alt swallows keys silently -- and it
   reads all nine modifier VKs, since do_keybd_event injects the side-agnostic VK.
 
-  READ THIS BEFORE TRUSTING A PASS. An absent stuck modifier means nothing unless a batch was
+  What a PASS depends on. An absent stuck modifier means nothing unless a batch was
   actually assembled, which needs a host with a Keyman keyboard SELECTED and a keystroke a rule
   transforms. Both are verified here, and an unmet one reports INCONCLUSIVE, not PASS.
 

@@ -26,10 +26,10 @@
  *
  * The consumer is the OSK half, PR #16527 (issue #16462), which redeclares this value as a
  * literal in UfrmOSKOnScreenKeyboard.pas and reads it in UpdateUserHeldModifiers. It is not in
- * this tree: that PR is gated on this one landing first, and until it does, this flag is set
- * and nothing reads it. That is the intended order -- the Delphi side compiles standalone, so
- * merging it first would build clean while nothing ever set the bit, and every injected
- * modifier would be attributed to the user.
+ * this tree: that PR is sequenced after this one, so until it lands this flag is set and nothing
+ * reads it. That ordering is deliberate -- the Delphi side compiles standalone, so landing it
+ * first would build cleanly while nothing set the bit, and every injected modifier would be
+ * attributed to the user.
  */
 #define KEYMAN_OSK_MODIFIER_FLAG_KEYMAN_INJECTED 0x00000010
 

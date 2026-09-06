@@ -16,8 +16,8 @@ See [README.md](../README.md).
 writes a synthesized KEYDOWN for a VK carried in `Queue[n].dwData & 0xFF`. Its
 matching release only exists if a separate `QIT_VKEYUP` action follows in the
 same queue. The one production producer of this pair (`kmprocess.cpp:181-182`)
-queues both together, but three separate points can silently drop the second half
-without either queuing the pair atomically or reporting the drop:
+queues both together, but as far as we can tell three separate points can drop the
+second half without queuing the pair atomically or reporting the drop:
 
 - `QueueAction` returns `FALSE` at `MAXACTIONQUEUE` and the caller ignores the
   result.
@@ -28,9 +28,9 @@ without either queuing the pair atomically or reporting the drop:
   nothing preventing a `QIT_VKEYDOWN`/`QIT_VKEYUP` pair from straddling that
   boundary.
 
-**`PostKeys` itself is on the hot path — 245 calls in a single five-iteration
-probe run.** What is narrow is the *split*, not reaching the function. Please do
-not read "contrived" below as "hardly ever runs".
+`PostKeys` itself is on the hot path — 245 calls in a single five-iteration probe
+run. The narrow part is the *split*, not reaching the function; "contrived" below
+refers to the split alone.
 
 **The split's reachability is narrow but not zero.** `aiTIP.cpp:189-206` returns
 early for `VK_MENU` and `VK_CONTROL` before the VK is assigned, but **`VK_SHIFT`

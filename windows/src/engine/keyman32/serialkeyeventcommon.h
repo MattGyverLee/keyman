@@ -29,13 +29,12 @@
 // all six managed modifiers held it emits 8 events and only 240 output keys fit. Output keys that
 // do not fit are dropped TAIL-FIRST -- the loop walks the shared buffer from index 0 and stops the
 // moment the total reaches 248, so what is sent is always a prefix of what the keyboard asked for:
-// never a hole in the middle, never a reordering. Tail-first is the deliberate choice, not an
-// accident of the loop shape. A short output is recoverable; a short wrap is the bug. Dropping the
-// tail leaves the release and restore halves paired, which is the whole invariant of #8064, while
-// dropping or shortening part 3 to make room would strand a modifier down -- exactly the stuck
-// modifier this work exists to remove.
+// never a hole in the middle, never a reordering. Tail-first is deliberate rather than an accident
+// of the loop shape: dropping the tail leaves the release and restore halves paired, which is the
+// invariant #8064 turns on, while dropping or shortening part 3 to make room would leave a modifier
+// down -- the stuck modifier this work is about.
 //
-// So the reserve is never encroached, and the worst case fills the buffer EXACTLY: 248 + 8 = 256.
+// So the reserve is never encroached, and the worst case fills the buffer exactly: 248 + 8 = 256.
 // That exactness means an off-by-one in the loop bound is a heap overrun rather than a failing
 // test, so it is pinned twice in keybd_shift.tests.cpp:
 //
@@ -43,7 +42,7 @@
 //     n == MAX_KEYEVENT_INPUTS.
 //   WorstCaseBatchFillsTheBufferToItsLastSlotAndNotOneFurther -- asserts the same total against
 //     literals (8 + 240 + 8), so it does not move when the constants do, and writes into a
-//     guarded over-allocation so that a too-small reserve is RECORDED rather than committed.
+//     guarded over-allocation so that a too-small reserve is recorded rather than committed.
 //     The older test writes into an exactly-256 array, so under that mutation it would itself
 //     overrun before it could report -- which is why the boundary is pinned from both sides.
 //
@@ -117,17 +116,15 @@ typedef BOOL (WINAPI *PPOSTMESSAGEFN)(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM
   are refuted in the spec. What FR-002 and FR-006 add is that a dropped hold stops being SILENT:
   the batch names it, so a field report has something to match against instead of a user sentence.
 
-  A CODE, NOT A FORMAT STRING, and that is the whole point of the type. The suite asserts on a
-  value, so the wording of the message can be rewritten by anyone at any time without silently
-  turning the assertion into a tautology. A test that greps prose is a test that a later edit
-  disarms without anyone noticing.
+  A code rather than a format string: the suite asserts on a value, so the wording of the message
+  can be rewritten at any time without turning the assertion into a tautology.
 
   A plain function pointer, same shape and same reason as PGETASYNCKEYSTATE and PPOSTMESSAGEFN
   above: gmock is not linked into keyman32.tests.vcxproj. Production binds a thunk over
   SendDebugMessageFormat (serialkeyeventserver.cpp); the suite binds a recorder, because
   SendDebugMessageFormat resolves to ETW (K32_DBG.CPP:189) and the suite has no way to read that
-  back. So FR-002 and FR-006 are both assertable with NO machine, no desktop and no timing -- which
-  is the reason the seam exists rather than a debug string being good enough.
+  back. So FR-002 and FR-006 are both assertable with no machine, no desktop and no timing, which is
+  why the seam exists rather than a debug string.
 */
 enum ModifierDiagnosticCode {
   /**
@@ -146,18 +143,16 @@ enum ModifierDiagnosticCode {
     held. The reconcile is about to clear every one of them and the restore half will press nothing,
     so every one of those holds is dropped at once. Two or more, not one, is deliberate: exactly one
     modifier held at launch and released before the feed was live is the normal launch-seed case
-    002 exists to clear, and firing there would cry wolf on every session.
+    002 exists to clear, and firing there would warn on an ordinary session.
 
-    Emitted ONCE PER BATCH, with vk = 0. Not once per lost key, and the reason is worth stating
-    because the per-key form looks more useful and is not: ReconcileModifierCache already logs
-    "cache says held but OS says up, clearing vkey=..." for each byte it clears, and in this state it
-    clears exactly the claimed set. So the per-key detail is in the log either way, immediately
-    after this line, and emitting it twice would only make the batch-level condition harder to find.
-    This code says "the batch as a whole looks like a desktop switch"; the lines under it say which
-    keys.
+    Emitted once per batch, with vk = 0, rather than once per lost key. ReconcileModifierCache
+    already logs "cache says held but OS says up, clearing vkey=..." for each byte it clears, and in
+    this state it clears exactly the claimed set, so the per-key detail is in the log immediately
+    below either way. This code says "the batch as a whole looks like a desktop switch"; the lines
+    under it say which keys.
 
-    THE RECONCILE STILL RUNS -- see FR-007a at the reconcile call in keybd_shift.cpp. This is a
-    report, never a suppression.
+    The reconcile still runs -- see FR-007a at the reconcile call in keybd_shift.cpp. This is a
+    report rather than a suppression.
   */
   PossibleDesktopSwitch = 2,
 };
@@ -168,61 +163,60 @@ typedef void (*PMODIFIERDIAGNOSTIC)(ModifierDiagnosticCode code, BYTE vk);
   #8064 W5 / FR-100a, FR-101, FR-104. What a source that is NOT KEYMAN'S OWN last said about each
   managed modifier.
 
-  A SECOND SHADOW, NOT A SECOND CACHE, and the distinction is the whole design. The modifier cache
-  (kbd) records what Keyman's own hook feed saw. This records what a raw-input feed saw. Neither is
-  the OS's live state, and that exclusion is deliberate: live state cannot tell "the user is holding
-  it" from "we pressed it ourselves", which is why restoring from it reopens #8064 from a new
-  direction (FR-102).
+  A second shadow rather than a second cache. The modifier cache (kbd) records what Keyman's own
+  hook feed saw; this records what a raw-input feed saw. Neither is the OS's live state, and that
+  exclusion is deliberate: live state cannot tell "the user is holding it" from "we pressed it
+  ourselves", which is why restoring from it reopens #8064 from a new direction (FR-102).
 
-  Three properties, and every one of them is load-bearing:
+  Four properties, each load-bearing:
 
-  1. IT REPORTS UNKNOWN RATHER THAN STALE. `unknown[vk]` is set wherever the signal cannot currently
+  1. It reports unknown rather than stale. `unknown[vk]` is set wherever the signal cannot currently
      speak for that key -- the feed is not established yet, the active desktop is not the user's, the
-     session changed, or the registration was displaced. A stale "held" is the sharpest risk in this
-     whole design: it manufactures an unmatched press, which is #8064 arriving from the one direction
-     ReconcileModifierCache is structurally blind to, because cache and OS then AGREE.
+     session changed, or the registration was displaced. A stale "held" is the sharpest risk here: it
+     manufactures an unmatched press, which is #8064 arriving from the one direction
+     ReconcileModifierCache is structurally blind to, because cache and OS then agree.
 
-  2. THE EFFECTIVE READ IS ALWAYS `held & ~unknown`. No consumer may read `held` alone. There is no
-     accessor enforcing that -- it is a discipline, and it is stated here because breaking it is
-     silent.
+  2. The effective read is always `held & ~unknown`; no consumer reads `held` alone. There is no
+     accessor enforcing that -- it is a convention, noted here because breaking it is silent.
 
-  3. IT IS NEVER AUTHORITATIVE ALONE. The restore set is `cache OR (held & ~unknown)`; the signal
-     only ever WIDENS what the cache already justifies. It can add a press the cache missed. It can
-     never veto one the cache asserts.
+  3. It is not authoritative alone. The restore set is `cache OR (held & ~unknown)`; the signal only
+     ever widens what the cache already justifies. It can add a press the cache missed; it cannot
+     veto one the cache asserts.
 
-  4. ITS CURRENCY IS THE READER'S RESPONSIBILITY, NOT THE STRUCTURE'S (FR-103a, FR-103b). The feed
-     is WM_INPUT, an input-class message, and input-class messages are retrieved BEHIND every posted
-     message however much earlier they arrived. Both of this struct's consumers are reached through
-     a posted message, so both must drain pending raw input before reading it or they read a signal
-     that predates their own trigger. See SerialKeyEventServer::DrainPendingRawInput. Nothing in
-     these two arrays can reveal that they are behind -- which is exactly why it is written down
-     here, next to the discipline in property 2.
+  4. Its currency is the reader's responsibility rather than the structure's (FR-103a, FR-103b). The
+     feed is WM_INPUT, an input-class message, and input-class messages are retrieved behind every
+     posted message however much earlier they arrived. Both of this struct's consumers are reached
+     through a posted message, so both drain pending raw input before reading it, or they read a
+     signal that predates their own trigger. See SerialKeyEventServer::DrainPendingRawInput. Nothing
+     in these two arrays can reveal that they are behind, which is why it is written down here
+     alongside property 2.
 
-  Poison is PER KEY and clears ONLY on a fresh observation of that key -- never on a timer. A timer
-  would decide that a key is knowable again because time passed, which is exactly the reasoning that
-  makes a stale shadow dangerous. See PoisonUserHeldKeys.
+  Poison is per key and clears only on a fresh observation of that key, never on a timer. A timer
+  would decide that a key is knowable again because time passed, which is the reasoning that makes a
+  stale shadow risky in the first place. See PoisonUserHeldKeys.
 
   256 bytes each rather than KEYMAN_MODIFIER_VK_COUNT, so a VK indexes directly and no consumer has
   to map through KeymanModifierVks to read it -- the same shape, and the same reason, as kbd.
 */
 struct UserHeldModifierSignal {
   BYTE held[256];    // 0x80 where the signal last observed this key DOWN
-  BYTE unknown[256]; // 0x80 where the signal CANNOT currently report on this key
+  BYTE unknown[256]; // 0x80 where the signal cannot currently report on this key
 };
 
 // Defined in keybd_shift.cpp, outside any _WIN64 guard so both architectures and the gtest project
 // can reach it. #8064 added feedIsConfigured and pRestorePressedMask, both defaulted so existing
 // call sites are unaffected; see the doc comment there.
 //
-// feedIsConfigured means "the hook's cache feed is configured on". It does NOT mean "the feed is
+// feedIsConfigured means "the hook's cache feed is configured on". It does not mean "the feed is
 // working", and nothing here can tell the caller that it is. Production passes
-// flag_ShouldSerializeInput, which reads TRUE while the feed is dead in at least three same-process
-// ways: InitHooks()'s return value is discarded (keyman32.cpp:401), FSingleApp=TRUE makes the
-// global-only LL install structurally fail (keyman32.cpp:367,279), and Windows' silent hook removal
-// at 200 ms is not detected until a later keystroke sees a >=1000 ms gap (LowLevelHookWatchDog.cpp).
-// So TRUE is a claim about configuration only; read as "the cache is current" it will justify
-// trusting a cache that has not been updated since its launch seed. FALSE is the safe degradation,
-// not a diagnosis: it makes the release and restore halves read the same kbd, stale or not.
+// flag_ShouldSerializeInput, which as far as we can tell reads TRUE in at least three same-process
+// situations where the feed may not be running: InitHooks()'s return value is not read at
+// keyman32.cpp:401, FSingleApp=TRUE appears to make the global-only LL install fail by construction
+// (keyman32.cpp:367,279), and Windows' silent hook removal at 200 ms is not noticed until a later
+// keystroke sees a >=1000 ms gap (LowLevelHookWatchDog.cpp). So TRUE is a statement about
+// configuration; read as "the cache is current" it would justify trusting a cache that has not been
+// updated since its launch seed. FALSE is the safe degradation rather than a diagnosis: it makes
+// the release and restore halves read the same kbd, stale or not.
 int PrepareInjectedInputBatch(
   LPINPUT pInputs,
   LPBYTE const kbd,

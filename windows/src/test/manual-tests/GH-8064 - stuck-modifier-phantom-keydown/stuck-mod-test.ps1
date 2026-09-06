@@ -94,17 +94,17 @@
   focus during a run corrupts the trial, and the injected keystrokes will land in
   whatever you focused.
 
-  NEVER USE Write-Host IN THIS SCRIPT
-  -----------------------------------
+  WRITE-HOST IS NOT USED IN THIS SCRIPT
+  -------------------------------------
   Measured on a congested console host (the full note sits by the Say function
   below): Write-Host cost 4301 ms per line, against 0.4 ms for
   [Console]::Out.WriteLine and 1.8 ms for Add-Content. Say is called between a
   candidate's trigger action and the probe that reads the result, so seconds of
   dead time there let the 5s freeze expire before the probe runs and silently
-  turn trials into no-freeze controls. That is a CORRECTNESS problem for a timing
-  experiment, not a speed problem. All output goes through Say or SayAlways,
-  which use [Console]::Out.WriteLine plus Add-Content. Do not add Write-Host, and
-  do not add Write-Output in a hot path.
+  turn trials into no-freeze controls. For a timing experiment that is a
+  correctness problem rather than a speed one. All output goes through Say or
+  SayAlways, which use [Console]::Out.WriteLine plus Add-Content; Write-Host and
+  Write-Output are best kept out of the hot path.
 
   -Quiet exists for anyone still worried about console cost. It silences Say's
   console echo entirely - the log file still receives every line - and prints
@@ -130,7 +130,7 @@
   bug is Keyman's. A single-arm result is consistent with at least four other
   explanations:
 
-    (a) the Cameroon LAYOUT is at fault, whoever implements it
+    (a) the Cameroon LAYOUT is at fault, in any implementation
     (b) WINDOWS drops the modifier KEYUP and every IME would suffer
     (c) this HARNESS manufactures the phantom Shift with its own SendInput
     (d) something else on this machine is eating keystrokes
@@ -164,8 +164,8 @@
 
   The freeze stimulus (WM_KEYMAN_CONTROL cmd 20 -> keyman.exe) is posted on
   EVERY arm, including the Microsoft ones. keyman.exe is running throughout.
-  That is deliberate and it is the whole point: the stall, the key sequence, the
-  timings and the target window are identical in every arm. The only variable is
+  That is deliberate: the stall, the key sequence, the timings and the target
+  window are identical in every arm. The only variable is
   which keyboard owns the keystrokes. So:
 
     Keyman wedges + English does not  =>  kills (c) and (d): the harness's own
@@ -411,7 +411,7 @@ $log     = Join-Path $LogDir "stuck-mod-test-$stamp.txt"
 $csvPath = Join-Path $LogDir "stuck-mod-test-$stamp.csv"
 $jsonPath= Join-Path $LogDir "stuck-mod-test-$stamp.json"
 
-# DO NOT use Write-Host here. Measured on this machine 2026-08-23, with 15
+# Write-Host is avoided here. Measured on this machine 2026-08-23, with 15
 # conhost processes alive after a few background runs:
 #
 #     Write-Host              4301 ms per line
@@ -444,7 +444,7 @@ function Say([string]$t) {
 }
 
 # The final gate block must reach the console even under -Quiet. Same two
-# primitives as Say. NEVER Write-Host, for the reason measured above.
+# primitives as Say. Not Write-Host, for the reason measured above.
 function SayAlways([string]$t) {
   $l = '{0} {1}' -f (Get-Date -Format 'HH:mm:ss.fff'), $t
   [Console]::Out.WriteLine($l)

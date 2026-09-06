@@ -249,8 +249,8 @@ TEST_F(KEYBD_SHIFT, ModifierEventCountNeverExceedsReserve) {
   keybd_shift is for, and from inside it a stale byte and a real one are indistinguishable.
   RECONCILE_MODIFIER_CACHE.ReconcileThenResetPressesNothing is this test with the fix applied.
 
-  #8064 FR-018: on the ledger at the top of this file, under DISABLED BY DESIGN. It is not an
-  unpaired negative that nobody got round to enabling.
+  #8064 FR-018: on the ledger at the top of this file, under DISABLED BY DESIGN, so it is not an
+  unpaired negative left waiting to be enabled.
 */
 TEST_F(KEYBD_SHIFT, DISABLED_ResetDoesNotPressAKeyThatIsNotHeld) {
   // gtest 1.8.1 has no GTEST_SKIP(); bail out visibly rather than pass for the wrong reason.
@@ -1410,9 +1410,9 @@ protected:
 /*
   #8064 FR-018 / SC-008 -- the one designated structural place. Every case on this fixture
   characterises the defect: each asserts what the *unfixed* path does, so each stays green when the
-  fix is reverted. That is deliberate and it is the whole point of them. The fixture name is where
-  that intent lives, so a reader who greps for what the suite actually guarantees can subtract these
-  four without reading a comment and inferring it.
+  fix is reverted. That is deliberate. The fixture name is where the intent lives, so a reader who
+  greps for what the suite guarantees can subtract these four without having to infer it from a
+  comment.
 
   Nothing here may be read as a pin on production behaviour. The pins for the same code paths are on
   MODIFIER_CACHE_EVENT_ORDER above, which drives ShouldFeedModifierCache itself and goes red when
@@ -2041,10 +2041,9 @@ TEST_F(MODIFIER_DIAGNOSTIC, TwoHoldsLostAtOnceLookLikeADesktopSwitchAndAreReport
 }
 
 /*
-  FR-006's threshold, and it is the load-bearing half of the requirement. EXACTLY ONE modifier held
-  at launch and released before the feed was live is the NORMAL launch-seed case 002's reconcile
-  exists to clear. Firing here would put a line in the log on an ordinary session, and a diagnostic
-  that cries wolf is one nobody reads when it matters.
+  FR-006's threshold, which is the load-bearing half of the requirement. Exactly one modifier held
+  at launch and released before the feed was live is the ordinary launch-seed case 002's reconcile
+  exists to clear, so firing here would put a line in the log on an ordinary session.
 */
 TEST_F(MODIFIER_DIAGNOSTIC, OneLostHoldIsTheLaunchSeedCaseAndIsNotReportedAsADesktopSwitch) {
   kbd[VK_LSHIFT] = 0x80; // the launch seed caught it; the user let go before the feed was live
@@ -2055,24 +2054,25 @@ TEST_F(MODIFIER_DIAGNOSTIC, OneLostHoldIsTheLaunchSeedCaseAndIsNotReportedAsADes
   ASSERT_EQ(kbd[VK_LSHIFT], (BYTE)0) << "the reconcile still clears it -- that is 002's whole route";
   EXPECT_EQ(CountDiagnostics(PossibleDesktopSwitch), 0)
       << "one cleared modifier is the launch-seed case, not a desktop switch. Two or more is the "
-      << "threshold precisely so this session does not get a warning it cannot act on";
+      << "threshold so that this session does not get a warning it cannot act on";
 }
 
 /*
   #8064 FR-015b / A9. What the caller has to know when SendInput sends fewer events than it was
   given.
 
-  serialkeyeventserver.cpp checks `SendInput(...) == 0`, and its own comment concedes that
-  `!= m_nInputs` is the honest check. The excuse it gives -- "not a latch source, so left alone: the
-  restore KEYDOWNs are last, so truncation drops presses, never releases" -- is true about latching
-  and FALSE about the mask. The restore presses being last is precisely why a short send drops THEM,
-  and the mask handed to the verification pass then names presses that never reached the OS. That
-  pass corrects on cache-up-and-live-down; for a press that was never sent, live IS down, so it
-  releases a modifier on the strength of an event that does not exist.
+  serialkeyeventserver.cpp used to check `SendInput(...) == 0`, and its own comment noted that
+  `!= m_nInputs` was the stricter check. The reasoning given -- "not a latch source, so left alone:
+  the restore KEYDOWNs are last, so truncation drops presses, never releases" -- holds for latching
+  but not for the mask. The restore presses being last is why a short send drops them, and the mask
+  handed to the verification pass then names presses that never reached the OS. That pass corrects
+  on cache-up-and-live-down; for a press that was never sent, live is down, so it releases a
+  modifier on the strength of an event that does not exist.
 
-  The remedy has to be EXACT, not conservative. Clearing the whole mask on any short send would
-  suppress the correction for the presses that did land -- a second dropped hold traded for the
-  first. So the batch reports, per mask bit, the buffer index of the press that bit stands for, and
+  The remedy has to be exact rather than conservative. Clearing the whole mask on any short send
+  would suppress the correction for the presses that did land -- a second dropped hold traded for
+  the first. So the batch reports, per mask bit, the buffer index of the press that bit stands for,
+  and
   the caller clears exactly the bits at or past the send boundary.
 */
 TEST_F(PREPARE_INJECTED_INPUT_BATCH, EachRestorePressIsLocatableInTheBufferSoAShortSendIsExact) {
@@ -2169,7 +2169,7 @@ TEST_F(PREPARE_MODIFIER_VERIFICATION_CORRECTION, AShiftOnlyCorrectionSendsNoPref
   EXPECT_EQ(Count(PREFIX_VK, false), 0)
       << "a standalone correction that releases only Shift sent a prefix KEYDOWN into whatever has "
       << "focus now. The prefix exists to stop an isolated ALT release opening the window menu; "
-      << "there is no Alt here, so this keystroke has no job and a destination nobody chose";
+      << "there is no Alt here, so this keystroke has no job and no chosen destination";
   EXPECT_EQ(Count(PREFIX_VK, true), 0) << "and its KEYUP likewise";
   EXPECT_EQ(n, 1) << "one KEYUP is the whole correction; anything more is stray input";
 }
@@ -2215,7 +2215,7 @@ TEST_F(PREPARE_MODIFIER_VERIFICATION_CORRECTION, ACorrectionContainingAnyAltSend
 }
 
 /*
-  FR-014's boundary in the other direction, and the one that keeps the batch path honest. Inside
+  FR-014's boundary in the other direction, and the one that keeps the batch path unchanged. Inside
   PrepareInjectedInputBatch the release half's prefix is UNCHANGED: it is not stray input there, it
   is bracketed by the batch's own output keys, and removing it would reopen the window-menu problem
   for every Alt+key rule. The parameter defaults to TRUE precisely so this path is untouched.
@@ -2236,24 +2236,24 @@ TEST_F(PREPARE_INJECTED_INPUT_BATCH, TheBatchReleaseHalfStillSendsItsPrefixForAS
 /*
   #8064 W5 / FR-101 ... FR-105 -- the user-held signal.
 
-  THE PROBLEM IT EXISTS FOR (A0). The modifier cache is fed only by Keyman's low level keyboard hook.
+  The problem it exists for (A0). The modifier cache is fed only by Keyman's low level keyboard hook.
   Wherever that hook does not see a KEYDOWN -- a console window, the secure desktop, the pass-through
   paths -- the cache never learns that the user is holding a modifier. The batch's release half reads
   live OS state and releases it; the restore half reads the cache and does not press it back. The
   hold is dropped, and no amount of reconciling can recover it, because there is nothing in the cache
   to reconcile.
 
-  THE SHAPE OF THE FIX, and why it is not "just read the OS". Live OS state cannot distinguish "the
+  The shape of the fix, and why it is not "just read the OS". Live OS state cannot distinguish "the
   user is holding it" from "we pressed it ourselves one message ago", so restoring from it
   manufactures unmatched presses -- #8064 from a new direction (FR-102, and both live-state-only
   alternatives are refuted in the spec). The signal is a THIRD input: what a source that is not
   Keyman's own last said. It is fed from raw keyboard input, and it reports UNKNOWN rather than
   stale.
 
-  THE RESTORE SET BECOMES `cache OR (held & ~unknown)`. Widened by a user-held observation only. The
+  The restore set becomes `cache OR (held & ~unknown)`, widened by a user-held observation only. The
   release half is untouched and still reads live.
 
-  THE SHARPEST RISK IN THE WHOLE SPEC LIVES HERE: a stale shadow manufactures a press that nothing
+  The sharpest risk in the design is here: a stale shadow manufactures a press that nothing
   can detect, because cache and OS then AGREE and ReconcileModifierCache tests for disagreement. That
   is why FR-104a's per-key poisoning, FR-104b's displacement detection and FR-103a's signal-aware
   verification pass are all three required, and why every case below asserts the *unknown* half as
@@ -2556,12 +2556,12 @@ const USHORT kRiKeyE0    = 0x0002; // RI_KEY_E0
 
   The two things this function has to get right, and both of them are the kind that fail silently:
 
-  1. THE DISCRIMINATOR IS "NOT KEYMAN'S OWN", NEVER "NOT INJECTED". Genuine user input arrives
+  1. The discriminator is "not Keyman's own", not "not injected". Genuine user input arrives
      OS-injected from Remote Desktop and from the Keyman OSK. A filter on injection -- or on
      hDevice -- drops those, so a hold made over RDP is one the restore half silently drops. The
      function does not even take hDevice, so the refuted policy is not expressible.
 
-  2. POISON CLEARS ONLY ON A FRESH OBSERVATION OF THAT KEY, AND NEVER ON A TIMER. This is the UAC
+  2. Poison clears only on a fresh observation of that key, and never on a timer. This is the UAC
      case: hold Ctrl, walk onto the secure desktop, release it there where nothing can see it, come
      back. Both FR-104 triggers have fired, so without per-key poisoning the signal reports a stale
      "held", FR-101 restores it, and FR-103a agrees not to correct it -- an unmatched press that
@@ -2653,7 +2653,7 @@ TEST_F(USER_HELD_FROM_RAW, KeymansOwnEventsAreIgnoredButRdpAndOskInputIsNot) {
 }
 
 /*
-  FR-104a, THE UAC CASE, EXPLICITLY. The whole point is what does NOT happen: no elapsed time, no
+  FR-104a, the UAC case, explicitly. What matters is what does not happen: no elapsed time, no
   number of unrelated events, and no observation of a DIFFERENT key clears this key's poison. Only
   an event for this key does.
 */
