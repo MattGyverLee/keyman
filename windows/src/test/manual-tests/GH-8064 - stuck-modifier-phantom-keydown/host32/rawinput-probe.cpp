@@ -23,7 +23,7 @@
  * FR-100a -- context for the hDevice column this program prints
  * -------------------------------------------------------------------------------------------
  *
- *   RAWINPUTHEADER.hDevice is recorded FOR COMPLETENESS ONLY.
+ *   RAWINPUTHEADER.hDevice is recorded for completeness only.
  *
  *   Keying the signal on it is REFUTED -- not discouraged, refuted -- because genuine USER input
  *   from Remote Desktop and from the Keyman On Screen Keyboard is OS-injected. Both are
@@ -96,7 +96,7 @@ struct RawRecord {
   USHORT    flags;             // RI_KEY_MAKE / RI_KEY_BREAK / RI_KEY_E0 / RI_KEY_E1
   UINT      message;           // WM_KEYDOWN / WM_KEYUP / WM_SYSKEYDOWN / WM_SYSKEYUP
   ULONG_PTR extraInformation;  // RAWKEYBOARD.ExtraInformation -- a ULONG, see the note in step 3
-  HANDLE    hDevice;           // FR-100a: FOR COMPLETENESS ONLY. Not a discriminator.
+  HANDLE    hDevice;           // FR-100a: for completeness only. Not a discriminator.
   DWORD     tick;
 };
 
@@ -488,7 +488,7 @@ CaptureThreeShapes(const wchar_t *context, const wchar_t *physicalPrompt) {
   PrintCaptureRow(L"(b) injected, tag + scan 0xFF", &injectedFF, gotFF);
   PrintCaptureRow(L"(c) injected, tag + SCANCODE_RSHIFT", &injectedRShift, gotRShift);
   Report(L"");
-  Report(L"FR-100a: the hDevice column above is recorded FOR COMPLETENESS ONLY. Keying the signal");
+  Report(L"FR-100a: the hDevice column above is recorded for completeness only. Keying the signal");
   Report(L"on it is refuted -- genuine user input from RDP and from the Keyman OSK is OS-injected.");
   Report(L"The admissible policy is tag equality, identical to IsKeymanInjectedKeyEvent.");
   Report(L"");
@@ -877,7 +877,7 @@ Usage(void) {
   Report(L"  --fakefreeze PATH  Step 2 only: also run fakefreeze, which stalls keyman.exe.");
   Report(L"  --out PATH         Also write every line to PATH, for evidence/.");
   Report(L"");
-  Report(L"FR-100a: hDevice is recorded FOR COMPLETENESS ONLY. Keying the signal on it is refuted,");
+  Report(L"FR-100a: hDevice is recorded for completeness only. Keying the signal on it is refuted,");
   Report(L"because genuine user input from RDP and from the OSK is OS-injected. The admissible");
   Report(L"policy is tag equality, identical to IsKeymanInjectedKeyEvent(MakeCode, ExtraInformation).");
 }
