@@ -34,17 +34,17 @@
       instead of kbd turns it red, and so does letting the reconcile set as well as clear. Paired
       by CacheNotFedLeavesALiveHeldModifierUntouched, which the same two mutations also turn red.
 
-  DEFECT CHARACTERISATION -- green with the fix reverted, deliberately. Labelled structurally, on
+  Defect characterisation -- green with the fix reverted, deliberately. Labelled structurally, on
   the fixture name, not in a comment a later reader has to interpret:
 
     DEFECT_CHARACTERISATION_MODIFIER_CACHE_EVENT_ORDER, all four cases. See that fixture.
 
-  DISABLED BY DESIGN:
+  Disabled by design:
 
     KEYBD_SHIFT.DISABLED_ResetDoesNotPressAKeyThatIsNotHeld -- see its own comment. Its
     with-the-fix positive is RECONCILE_MODIFIER_CACHE.ReconcileThenResetPressesNothing.
 
-  MOVED, AND WHERE TO -- the four interactive probes. They inject real input and need an interactive
+  Moved, and where to -- the four interactive probes. They inject real input and need an interactive
   input desktop, so on this target they could only SUCCEED() without asserting anything, which is
   what FR-022 and SC-005 forbid. FR-023 moved them, unchanged except that an absent capability is now
   FAIL() instead of SUCCEED(), to keybd_shift.interactive.tests.cpp -- built by
@@ -249,7 +249,7 @@ TEST_F(KEYBD_SHIFT, ModifierEventCountNeverExceedsReserve) {
   keybd_shift is for, and from inside it a stale byte and a real one are indistinguishable.
   RECONCILE_MODIFIER_CACHE.ReconcileThenResetPressesNothing is this test with the fix applied.
 
-  #8064 FR-018: on the ledger at the top of this file, under DISABLED BY DESIGN, so it is not an
+  #8064 FR-018: on the ledger at the top of this file, under "disabled by design", so it is not an
   unpaired negative left waiting to be enabled.
 */
 TEST_F(KEYBD_SHIFT, DISABLED_ResetDoesNotPressAKeyThatIsNotHeld) {
@@ -547,7 +547,7 @@ TEST_F(RECONCILE_MODIFIER_CACHE, ReconcileThenResetPressesNothing) {
   the release half. The reconcile clears every byte the cache holds while the OS reports it up, so
   afterwards kbd is a subset of live over the managed six -- which is exactly what makes
   kbd union live == live, and the union the batch used to compute redundant rather than merely
-  unnecessary. Delete this and the comment at that keybd_shift call is a guess again.
+  unnecessary. This test is what keeps the comment at that keybd_shift call checked.
 
   All four cache/OS combinations are present in the one array, so none can pass by never being
   exercised.
@@ -1856,7 +1856,7 @@ namespace {
   SendDebugMessageFormat resolves to ETW (K32_DBG.CPP:189) and nothing in this process can read it
   back, so a test that wanted to assert "the batch reported this" had no way to. Binding
   PMODIFIERDIAGNOSTIC to this recorder is what makes FR-002 and FR-006 assertable with NO machine:
-  no interactive desktop, no injection, no timing, no desktop switch. That is the whole point of
+  no interactive desktop, no injection, no timing, no desktop switch. That is the value of
   the seam, and it is why these live on the default target rather than in
   keybd_shift.interactive.tests.cpp.
 
@@ -2283,7 +2283,7 @@ protected:
 };
 
 /*
-  FR-101, the whole point. The A0 window exactly: the OS reports Left Control held, the CACHE does
+  FR-101, the case it exists for. The A0 window exactly: the OS reports Left Control held, the cache does
   not claim it -- the hook never saw the KEYDOWN, because it happened in a console window -- and the
   SIGNAL does, because raw input is not routed through that hook.
 

@@ -153,8 +153,8 @@ TEST_F(KEYBD_SHIFT, FreshThreadKeyboardStateReflectsLiveModifiers) {
     // The environment cannot do what this test needs -- most likely no interactive input desktop
     // (a Session-0 CI service account), possibly something else entirely. Either way, continuing
     // would fail EXPECT_LT(r.asyncState, 0) below for a reason that has nothing to do with whether
-    // GetKeyboardState's seed behaviour has regressed, which is a false failure and worse than no
-    // coverage. Release defensively (harmless whether or not anything actually landed) and skip.
+    // GetKeyboardState's seed behaviour has regressed, so the result would be a false failure
+    // rather than coverage. Release defensively (harmless either way) and stop here.
     keybd_event(VK_LSHIFT, 0, KEYEVENTF_KEYUP, 0);
     FAIL() << "keybd_event's injected press was not observable via GetAsyncKeyState in this "
            << "process, so nothing below could be measured. On the default target this was a skip; "
