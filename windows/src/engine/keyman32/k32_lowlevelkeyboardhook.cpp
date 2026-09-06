@@ -139,21 +139,20 @@ BOOL IsTouchPanelVisible() {
   feeding is the #8064 class of bug, and a silent log cannot tell a healthy feed from one that never
   ran.
 
-  So what is traced is the DECISION, and a decision the log already implies is dropped. Two rules,
-  and between them they keep the property that matters: for any modifier event in the "wparam:"
-  trace above, the log still says what the feed did with it.
+  So what is traced is the decision, and a decision the log already implies is dropped. Two rules,
+  which between them keep the property that matters: for any modifier event in the "wparam:" trace
+  above, the log still says what the feed did with it.
 
     - Keyman's own modifiers are announced once and then not again. They interleave with the user's
       on every capital letter, so tracing each one would trace the alternation rather than the
       decision -- and this is the one outcome the log can already answer unaided, since
       IsKeymanInjectedKeyEvent reads nothing but the scan code and dwExtraInfo that the "wparam:"
       line prints for every event.
-    - Every other decision is traced when it CHANGES. Its inputs are a process-wide flag read once
+    - Every other decision is traced when it changes. Its inputs are a process-wide flag read once
       at startup and whether the serializer window is there, so it is near-constant while a user
       types: the first user modifier event of the session names it, and a Shift held across twenty
       keystrokes adds nothing. Each line therefore speaks for every user modifier event after it
-      until the next one, and says so, because a responder who reads one "posted" line as one post
-      has been misled by the compression.
+      until the next one, and says so, so that one "posted" line is not read as one post.
 
   The two anomaly decisions are exempt and trace every time: a feed that fails two hundred times is
   a different fault from one that fails once, and neither is ordinary typing. Each also re-arms the
@@ -297,8 +296,8 @@ LRESULT _kmnLowLevelKeyboardProc(
     if (!ShouldFeedModifierCache(flag_ShouldSerializeInput, hs->scanCode, hs->dwExtraInfo)) {
       // Which of the two terms refused it, without asking IsKeymanInjectedKeyEvent a second time:
       // the predicate is serializeInput && !injected, so with serialization on, "Keyman's own" is
-      // the only way to arrive here. Worth naming apart, because a physical modifier misread as
-      // injected would silently stop being tracked, and that is #8064 in miniature.
+      // the only way to arrive here. Named apart because a physical modifier misread as injected
+      // would silently stop being tracked, which is the same shape as #8064.
       TraceModifierCacheFeedDecision(
         flag_ShouldSerializeInput ? FeedSkippedKeymanInjected : FeedSkippedSerializationOff,
         hs->vkCode, isUp, 0);

@@ -251,8 +251,8 @@ BOOL IsKeymanInjectedKeyEvent(DWORD scanCode, ULONG_PTR extraInfo);
   #8064 The gate the low level keyboard hook applies before it posts WM_KEYMAN_MODIFIER_EVENT to the
   serializer. Declared here, unguarded, and defined in keybd_shift.cpp, so x86, x64 and the gtest
   project all see it: k32_lowlevelkeyboardhook.cpp is entirely inside #ifndef _WIN64 and the suite
-  cannot link it. Production code, not a mirror -- keybd_shift.tests.cpp's ApplyThroughTheGate was
-  the mirror, and deleting the production gate left the whole suite green.
+  cannot link it. The suite calls this rather than mirroring it; see the note in keybd_shift.cpp for
+  what the earlier mirror missed.
 */
 BOOL ShouldFeedModifierCache(BOOL serializeInput, DWORD scanCode, ULONG_PTR extraInfo);
 

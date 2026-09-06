@@ -1,4 +1,4 @@
-# `InitHooks()`'s return value is discarded at startup (the feed-integrity gap already flagged in `serialkeyeventcommon.h:209-217`)
+# `InitHooks()`'s return value is not checked at startup (the feed-integrity gap noted in `serialkeyeventcommon.h:209-217`)
 
 Deliberately unfiled. Not one of the producers named in [`../TRIAGE.md`](../TRIAGE.md)
 — this path emits nothing itself. It is the first of the three ways
@@ -11,20 +11,21 @@ on that. See [README.md](../README.md).
 
 ---
 
-**Title:** `Keyman_Initialise` discards `InitHooks()`'s return value and reports success, so a failed hook installation is silent and the serializer's modifier cache can run with no feed
+**Title:** `Keyman_Initialise` does not check `InitHooks()`'s return value and reports success, so a failed hook installation is silent and the serializer's modifier cache can run with no feed
 
 **Body:**
 
 `Keyman_Initialise` installs Keyman's hooks by calling `InitHooks()` at
-`windows/src/engine/keyman32/keyman32.cpp:401` and ignores what it returns.
-`InitHooks` (`keyman32.cpp:293-310`) is written to be checked: it installs
-`WH_GETMESSAGE` (`:297`), `WH_CALLWNDPROC` (`:298`) and, on x86, the
+`windows/src/engine/keyman32/keyman32.cpp:401`. `InitHooks`
+(`keyman32.cpp:293-310`) returns a value that looks intended to be checked: it
+installs `WH_GETMESSAGE` (`:297`), `WH_CALLWNDPROC` (`:298`) and, on x86, the
 `WH_KEYBOARD_LL` hook via `InitLowLevelHook` (`:300`, defined at `:276-281`), and
-returns TRUE only when all three handles are non-NULL (`:303-309`). Nobody reads
-that value. `Keyman_Initialise` continues to `*Globals::Keyman_Initialised() = TRUE`
-(`:414`) and returns TRUE (`:419`) whether three hooks installed, one, or none.
+returns TRUE only when all three handles are non-NULL (`:303-309`). We could not
+find a caller that reads it. `Keyman_Initialise` continues to
+`*Globals::Keyman_Initialised() = TRUE` (`:414`) and returns TRUE (`:419`) whether
+three hooks installed, one, or none.
 
-The same discard occurs a second time in `Keyman_RestartEngine`
+The same pattern appears a second time in `Keyman_RestartEngine`
 (`keyman32.cpp:474-475`), which calls `UninitHooks()` then `InitHooks()` and
 returns TRUE unconditionally at `:479`.
 
@@ -54,16 +55,16 @@ low level keyboard hook procedure: `WM_KEYMAN_MODIFIER_EVENT` at
 (`windows/src/engine/keyman32/keybd_shift.cpp:522`), called at
 `k32_lowlevelkeyboardhook.cpp:288`. No other production code posts either message.
 
-So if `InitLowLevelHook` fails and nobody notices, the cache keeps its launch seed
+So if `InitLowLevelHook` fails unnoticed, the cache keeps its launch seed
 and is never fed again — while `flag_ShouldSerializeInput` still reads TRUE
 (default TRUE at `keyman32.cpp:231`, initialiser at
 `windows/src/engine/keyman32/k32_globals.cpp:90-91`), and that flag is what
 `PrepareInjectedInput` hands `PrepareInjectedInputBatch` as `feedIsConfigured`
-(`serialkeyeventserver.cpp:403`). The parameter's purpose is to say whether the
-cache feed is on, and it is being told "yes" when the feed does not exist. Its own
-declaration comment already records this: `serialkeyeventcommon.h:209-217` names
-`keyman32.cpp:401` as one of three same-process ways the feed can be dead with the
-flag still TRUE.
+(`serialkeyeventserver.cpp:403`). That parameter is meant to say whether the cache
+feed is on, so in this state it would be told "yes" while the feed is not running.
+Its own declaration comment records the same thing:
+`serialkeyeventcommon.h:209-217` names `keyman32.cpp:401` as one of three
+same-process ways the feed may be dead with the flag still TRUE.
 
 **The concrete failure shape.** With `feedIsConfigured` TRUE,
 `PrepareInjectedInputBatch` builds the release half of every injected batch from
@@ -82,14 +83,14 @@ is signalled from the app-side output path,
 run in this state.
 
 **Established from source, and no more than that.** What the code establishes is
-the mechanism above: the discarded return value, the single feed, the seed-only
+the mechanism above: the unchecked return value, the single feed, the seed-only
 cache, and the `feedIsConfigured = TRUE` inconsistency that follows. What it does
 not establish is a frequency or a field report. No recorded run caught `InitHooks`
 returning FALSE, and no test forces it, so how often a hook install actually fails
 in the field is not known here. Read this as a missing failure signal with a
 demonstrable consequence, not as a measured user-facing defect.
 
-**A partial recovery already exists, and its limits are the point.**
+**A partial recovery already exists, and these are its limits.**
 `LowLevelHookWatchDog` (`windows/src/engine/keyman32/LowLevelHookWatchDog.cpp`)
 covers the never-installed case as well as the silent-removal case it was written
 for: `LastLowLevelEventTick` starts at 0 (`:50`), so the first `WM_KEYDOWN` seen by
@@ -113,7 +114,7 @@ the `WH_GETMESSAGE` hook (`windows/src/engine/keyman32/kmhook_getmessage.cpp:155
   what this issue is about. The watchdog can turn a permanent breakage into an
   intermittent one; it reports nothing at startup.
 
-**Scope for a fix.** Smallest honest version: check `InitHooks()`'s return value at
+**Scope for a fix.** The smallest version: check `InitHooks()`'s return value at
 `keyman32.cpp:401` and make the failure visible — `SetLastError` plus a master
 controller notification in the shape `RestartLowLevelHook` already uses for
 `WHR_INIT_FAILURE` (`keyman32.cpp:498`), so the existing reporting path is reused

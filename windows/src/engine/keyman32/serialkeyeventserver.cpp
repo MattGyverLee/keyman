@@ -406,9 +406,9 @@ private:
     rid.hwndTarget  = m_hwnd;
 
     if (!RegisterRawInputDevices(&rid, 1, sizeof(rid))) {
-      // Not fatal, and deliberately so: the serializer's job does not depend on the signal. Every
-      // key stays poisoned, so the restore half falls back to the cache alone and behaves exactly
-      // as it did before US0. Degrading is the safe direction; failing to start is not.
+      // Not fatal, deliberately: the serializer's job does not depend on the signal. Every
+      // key stays poisoned, so the restore half falls back to the cache alone and behaves as it did
+      // before US0. Degrading is the safer direction here than failing to start.
       DebugLastError("RegisterRawInputDevices");
       SendDebugMessageFormat(
         "#8064 raw keyboard registration failed; the user-held signal stays unavailable and the "
@@ -421,7 +421,7 @@ private:
     // and unlock. On any of them the signal has no standing to speak about any key until it observes
     // one again.
     if (!BindSessionNotificationApi() || !g_pWtsRegisterSession(m_hwnd, KM_NOTIFY_FOR_THIS_SESSION)) {
-      // Also not fatal. Without it a session change goes unnoticed, so say so rather than pretend.
+      // Also not fatal. Without it a session change goes unnoticed, which is worth logging.
       DebugLastError("WTSRegisterSessionNotification");
       SendDebugMessageFormat(
         "#8064 session notifications unavailable; a session change will not poison the user-held "
@@ -445,19 +445,14 @@ private:
     m_hwnd = NULL;
     MemoryBarrier();
 
-    // #8064 FR-104. BEFORE DestroyWindow, and on the SAVED handle.
-    //
-    // Both of those are corrections, not preferences. This ran after DestroyWindow and tested
-    // `m_hwnd != NULL`, three lines below the assignment that had just made m_hwnd NULL for the
-    // rest of the function -- so the guard could never pass, the unregister never happened, and had
-    // the guard somehow passed it would have handed the API the NULL rather than the window that
-    // was actually registered. A registration keyed on a destroyed window is not something the
-    // caller can clean up later: the handle is the only key there is.
+    // #8064 FR-104. Before DestroyWindow, and on the saved handle. Both matter: an earlier form of
+    // this ran after DestroyWindow and tested `m_hwnd != NULL` below the assignment that had just
+    // cleared it, so the unregister never ran, and a registration keyed on a destroyed window has no
+    // other handle to clean it up by.
     //
     // Ordered before DestroyWindow because WTSUnRegisterSessionNotification is documented to be
-    // called while the window still exists. The raw input registration needs no such treatment and
-    // is deliberately not here -- it is torn down with the window, which is why only this one was
-    // ever explicit.
+    // called while the window still exists. The raw input registration needs no equivalent -- it is
+    // torn down with the window, which is why only this one is explicit.
     if (m_sessionNotificationRegistered && g_pWtsUnregisterSession != NULL) {
       if (!g_pWtsUnregisterSession(hwnd)) {
         DebugLastError("WTSUnRegisterSessionNotification");
@@ -580,7 +575,7 @@ private:
 
     UINT count = 0;
     if (GetRegisteredRawInputDevices(NULL, &count, sizeof(RAWINPUTDEVICE)) == (UINT)-1 && count == 0) {
-      // Cannot tell. Unknown is the honest answer, and unknown is what the signal is for.
+      // Cannot tell, so the signal reports unknown, which is what it is for.
       PoisonAllUserHeldKeys(&m_userHeld);
       return;
     }
@@ -699,12 +694,12 @@ private:
     //
     // Send the input to the system input queue
     //
-    // #8064 FR-015b. `!= m_nInputs`, not `== 0`. The old check's own excuse -- "not a latch source:
-    // the restore KEYDOWNs are last, so truncation drops presses, never releases" -- is true about
-    // latching and false about the mask. The restore presses being last is exactly why a short send
-    // drops THEM, and restorePressedMask would then name presses the OS never received. The
-    // verification pass corrects on cache-up-and-live-down; for a press that was never sent, live IS
-    // down, so it would release a modifier on the strength of an event that does not exist.
+    // #8064 FR-015b. `!= m_nInputs`, not `== 0`. The earlier check's reasoning -- "not a latch
+    // source: the restore KEYDOWNs are last, so truncation drops presses, never releases" -- holds
+    // for latching but not for the mask. The restore presses being last is why a short send drops
+    // them, and restorePressedMask would then name presses the OS never received. The verification
+    // pass corrects on cache-up-and-live-down; for a press that was never sent, live is down, so it
+    // would release a modifier on the strength of an event that does not exist.
     //
     // Reported with the counts, because "SendInput failed" and "SendInput sent 251 of 256" need
     // different responses and GetLastError does not distinguish them.
@@ -713,10 +708,10 @@ private:
       DebugLastError("SendInput");
       SendDebugMessageFormat("#8064 short send: SendInput accepted %u of %d events", sent, m_nInputs);
 
-      // EXACTLY the bits whose press did not go out, and not one more. Clearing the whole mask on
-      // any short send would suppress the correction for the presses that DID land -- trading a
-      // second dropped hold for the first, which is not a fix. m_restoreEventIndex says where each
-      // press was, so the boundary is decidable rather than guessed.
+      // Exactly the bits whose press did not go out, and no more. Clearing the whole mask on any
+      // short send would suppress the correction for the presses that did land, trading a second
+      // dropped hold for the first. m_restoreEventIndex says where each press was, so the boundary
+      // is decidable rather than guessed.
       for (int i = 0; i < KEYMAN_MODIFIER_VK_COUNT; i++) {
         if ((restorePressedMask & (1u << i)) && m_restoreEventIndex[i] >= (int)sent) {
           SendDebugMessageFormat(
@@ -766,46 +761,44 @@ private:
     #8064 FR-103a / FR-103b. Applies every raw keyboard event already sitting in this thread's queue
     to the user-held signal, and returns only when there is nothing left to apply.
 
-    TWO CALL SITES, for one hazard: ProcessQueuedKeyEvents before it builds a batch (FR-103b), and
+    Two call sites, for one hazard: ProcessQueuedKeyEvents before it builds a batch (FR-103b), and
     ProcessModifierVerification before it corrects one (FR-103a). Both read m_userHeld, both are
-    reached through a POSTED message, and neither can trust the signal until this has run.
+    reached through a posted message, and neither can trust the signal until this has run.
 
-    THIS IS NOT AN OPTIMISATION AND IT IS NOT DEFENSIVE PADDING. Without it the signal has NOT yet
-    seen observations the OS made BEFORE the message that woke this code was even posted. In the
-    verify pass that means a signal reporting a hold the user has already let go of, which is
-    precisely the input that makes the correction decline -- the stale shadow
-    CheckRawInputRegistrationStillOurs was written to prevent, arriving by a second route. In the
-    prepare path it means the mirror image: a modifier the user has just pressed is already down to
+    Without it the signal has not yet seen observations the OS made before the message that woke
+    this code was posted. In the verify pass that means a signal reporting a hold the user has
+    already let go of, which is the input that makes the correction decline -- the stale shadow
+    CheckRawInputRegistrationStillOurs guards against, arriving by a second route. In the prepare
+    path it is the mirror image: a modifier the user has just pressed is already down to
     GetAsyncKeyState, so the release half releases it, while the signal has not yet observed it and
-    so the restore half presses nothing back. FR-101's whole purpose is to keep that hold, and the
-    ordering was quietly denying it the observation it needed.
+    the restore half presses nothing back. FR-101 exists to keep that hold, and the ordering was
+    denying it the observation it needed.
 
-    The reason is message RETRIEVAL ORDER, which is by class and not by arrival time. GetMessage and
-    PeekMessage return sent messages, then POSTED messages, then INPUT (hardware) messages, then
+    The reason is message retrieval order, which is by class rather than by arrival time. GetMessage
+    and PeekMessage return sent messages, then posted messages, then input (hardware) messages, then
     WM_PAINT, then WM_TIMER. WM_INPUT is signalled by QS_RAWINPUT, QS_RAWINPUT is part of QS_INPUT,
-    so WM_INPUT is retrieved in the input class -- BEHIND every posted message, however much earlier
-    it arrived. WM_KEYMAN_VERIFY_MODIFIER_EVENT is posted, and so is the WM_USER that MessageLoop
-    posts on m_hKeyEvent. So a user's modifier transition the OS observed before the batch was even
-    requested is still undispatched when both of them run, and m_userHeld still reports the key's
-    previous state.
+    so WM_INPUT is retrieved in the input class, behind every posted message however much earlier it
+    arrived. WM_KEYMAN_VERIFY_MODIFIER_EVENT is posted, and so is the WM_USER that MessageLoop posts
+    on m_hKeyEvent. So a user's modifier transition the OS observed before the batch was requested
+    is still undispatched when both of them run, and m_userHeld still reports the key's previous
+    state.
 
-    The posted queue's OWN ordering guarantee is untouched by this, and deliberately: the drain
-    filters on WM_INPUT alone, so it removes nothing from the posted queue. Every
-    WM_KEYMAN_MODIFIER_EVENT posted before the verify, or before the WM_USER, was already dispatched
-    before it by posted-message FIFO -- that claim is between two posted messages and it was always
-    sound, and it is what keeps m_ModifierKeyboardState consistent with the batch that reads it. This
-    repairs only the half of the ordering that spans two different message classes. m_userHeld and
-    m_ModifierKeyboardState have disjoint feeds -- WM_INPUT and WM_KEYMAN_MODIFIER_EVENT
-    respectively -- so advancing one here cannot perturb the other.
+    The posted queue's own ordering is untouched, deliberately: the drain filters on WM_INPUT alone,
+    so it removes nothing from the posted queue. Every WM_KEYMAN_MODIFIER_EVENT posted before the
+    verify, or before the WM_USER, was already dispatched before it by posted-message FIFO -- a
+    claim between two posted messages, and it is what keeps m_ModifierKeyboardState consistent with
+    the batch that reads it. This addresses only the half of the ordering that spans two message
+    classes. m_userHeld and m_ModifierKeyboardState have disjoint feeds -- WM_INPUT and
+    WM_KEYMAN_MODIFIER_EVENT respectively -- so advancing one here cannot perturb the other.
 
     Dispatched rather than handled inline, so ProcessRawInput reads each HRAWINPUT inside its own
     WM_INPUT dispatch and WndProc still falls through to DefWindowProc for the system's cleanup. A
     raw input handle is valid only for the delivery of the message that carries it; nothing is
     stashed and nothing is read after its message is done.
 
-    Pulling forward a raw event that arrived AFTER the waking message was posted is possible and
-    harmless at both sites, but THE ARITHMETIC FLIPS BETWEEN THEM and each has to be checked on its
-    own -- the verify pass's argument cannot simply be pointed at the prepare path.
+    Pulling forward a raw event that arrived after the waking message was posted is possible and
+    harmless at both sites, but the two directions swap between them, so each is worked through on
+    its own below rather than by pointing the verify pass's argument at the prepare path.
 
     In the verify pass: a KEYUP pulled forward makes the correction fire, which is the outcome
     wanted. A KEYDOWN pulled forward makes it decline, which is the safe-direction error
@@ -816,14 +809,13 @@ private:
     restore set, so the batch presses a modifier the user has genuinely just pressed -- and the
     user's own eventual KEYUP balances that press, so it cannot latch. A KEYUP pulled forward
     narrows it, so the hold is dropped for this batch, which is the accepted direction (FR-001,
-    FR-002, FR-004: losing a hold is the accepted direction; manufacturing a press is never one).
+    FR-002, FR-004: losing a hold is accepted; manufacturing a press is not).
 
-    WHAT THIS DOES NOT DO IS CLOSE THE WINDOW, and saying so is not hedging. A modifier transition
-    can arrive after the drain returns and before SendInput has finished, and nothing here
-    synchronises m_userHeld against the injection -- there is no such primitive to reach for. So the
-    drain NARROWS the interval in which FR-101 is blind; it does not eliminate it. Stated plainly
-    for the same reason FR-104 makes the signal say *unknown* rather than guess: a mechanism that
-    reports itself more capable than it is, is the failure mode this whole design is built against.
+    This does not close the window. A modifier transition can arrive after the drain returns and
+    before SendInput has finished, and nothing here synchronises m_userHeld against the injection --
+    we did not find a primitive that would. So the drain narrows the interval in which FR-101 is
+    blind rather than eliminating it, recorded here for the same reason FR-104 makes the signal say
+    *unknown* rather than guess.
   */
   void DrainPendingRawInput() {
     if (m_hwnd == NULL) {
@@ -833,7 +825,7 @@ private:
     // A bound, because typematic repeat refills the queue while we empty it and this runs on the
     // input path. Two orders of magnitude above a realistic repeat rate for the microseconds this
     // takes, so reaching it means something pathological -- and it is reported rather than passed
-    // over, because a silent cap here reads as "the signal is current" when it is not.
+    // over, since a silent cap here would read as "the signal is current" when it is not.
     const int kMaxDrain = 256;
     int drained = 0;
 
@@ -903,17 +895,16 @@ private:
 
     // #8064 W5 / FR-100a. The user-held signal's feed.
     //
-    // NO LOOP CHANGE IS NEEDED, and that is worth stating because the obvious instinct is to add a
-    // wait: MsgWaitForMultipleObjectsEx already waits on QS_ALLINPUT, and QS_ALLINPUT includes
-    // QS_INPUT which includes QS_RAWINPUT. The loop already wakes for raw input.
+    // No loop change is needed: MsgWaitForMultipleObjectsEx already waits on QS_ALLINPUT, and
+    // QS_ALLINPUT includes QS_INPUT which includes QS_RAWINPUT, so the loop already wakes for raw
+    // input.
     //
-    // WHAT THE LOOP DOES NOT GIVE IS ORDER. An earlier draft of this comment claimed FIFO dispatch
-    // put a raw event that arrived before WM_KEYMAN_VERIFY_MODIFIER_EVENT ahead of it. That is
-    // wrong, and it was the load-bearing assumption under FR-103a. Retrieval is ordered by message
-    // CLASS -- sent, then posted, then input, then WM_PAINT, then WM_TIMER -- so a posted message is
-    // returned ahead of a WM_INPUT that has been queued since long before it. The posted-FIFO claim
-    // holds only between two posted messages, which is the WM_KEYMAN_MODIFIER_EVENT case, and is
-    // stated that way in JUSTIFICATION.md.
+    // What the loop does not give is order. An earlier draft of this comment took FIFO dispatch to
+    // put a raw event that arrived before WM_KEYMAN_VERIFY_MODIFIER_EVENT ahead of it, and FR-103a
+    // rested on that. Retrieval is ordered by message class instead -- sent, then posted, then
+    // input, then WM_PAINT, then WM_TIMER -- so a posted message is returned ahead of a WM_INPUT
+    // queued long before it. The posted-FIFO guarantee holds between two posted messages, which is
+    // the WM_KEYMAN_MODIFIER_EVENT case.
     //
     // So both readers of the signal drain this queue themselves before reading it -- the batch in
     // ProcessQueuedKeyEvents (FR-103b) and the verify pass in ProcessModifierVerification

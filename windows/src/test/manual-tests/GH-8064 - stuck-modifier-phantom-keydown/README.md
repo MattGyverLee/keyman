@@ -179,8 +179,8 @@ does.
 The harness reports **INCONCLUSIVE** rather than PASS unless it confirms all three
 of: the freeze took effect, a Keyman TIP is selected in a host it actually brought
 to the foreground, and Keyman transformed the probe text. Host bitness is reported
-on the result line but is not one of them. A precondition that is merely plausible produces a
-false PASS, and a false PASS on this defect is worse than no test.
+on the result line but is not one of them. A precondition that is only plausible
+would produce a false PASS, which on this defect is hard to tell from a real one.
 
 ```
 # An ordinary app with a text field -- NOT host32.exe, see below.
@@ -203,8 +203,8 @@ API blocks it: `keybd_event`'s fourth parameter *is* `dwExtraInfo`, and all five
 direct callers already pass it, as `0` -- `keyman32.cpp:924-925`,
 `kmhook_keyboard.cpp:147`, `kmprocessactions.cpp:101-102`. Retiring the scan arm is
 therefore a matter of tagging those five call sites, not of opening a new channel.
-*Those line numbers are a snapshot, checked at `d2a57b42f1` on 2026-09-03, and are
-not maintained.*
+*Those line numbers are a snapshot, checked on 2026-09-03, and are not
+maintained.*
 
 This branch does not do it -- a bugfix is the wrong change to carry a deprecation --
 so the gate keeps both arms: the scan arm, which is the only cover those five
@@ -348,7 +348,7 @@ A **named step of the release manual-test pass for Windows**, run alongside the
 procedure above. It has to be run by a person, signed in at a real interactive
 desktop. It is deliberately not part of the `test` action and is never run by CI:
 a Session-0 CI service account has no input desktop, so the only thing CI could
-report for these tests is a skip dressed up as a pass.
+report for these tests is a skip reported as a pass.
 
 ```
 ./windows/src/engine/keyman32/build.sh --debug test-interactive:x86
@@ -377,8 +377,8 @@ Run both architectures. Expected result is four tests PASSED on each.
 ### What each test measures
 
 Each one measures a property of Windows that a comment or a test elsewhere in the
-engine rests on. A red is a statement about what Windows now does, not merely that
-something broke.
+engine rests on, so a red is usually a statement about what Windows now does rather
+than about something breaking.
 
 | `KEYBD_SHIFT.<name>` | what it measures |
 |---|---|
@@ -414,12 +414,12 @@ indistinguishable from a real regression. So:
 
 These four used to sit on the default target in `tests/keybd_shift.tests.cpp`.
 gtest 1.8.1 has no `GTEST_SKIP()`, so an absent capability could only be
-`SUCCEED()` plus a warning log, and the four therefore reported **PASSED on every
-CI run without asserting anything**. Moving them to their own target is what allows
-an absent capability to be `FAIL()` instead, honest only because the target is
-invoked where the capability is supposed to exist.
+`SUCCEED()` plus a warning log, and the four therefore reported PASSED on every CI
+run without asserting anything. Moving them to their own target is what allows an
+absent capability to be `FAIL()` instead, which is reasonable because the target is
+invoked where the capability is expected to exist.
 
 [NOTE] Adding these tests back to `keyman32.tests.vcxproj`, or wiring
-`test-interactive` into the `test` action, would undo exactly that and put the
-silent pass back. If CI coverage of these properties is ever wanted, it needs an
-interactive test runner, not a target change.
+`test-interactive` into the `test` action, would return them to passing without
+asserting. CI coverage of these properties would need an interactive test runner
+rather than a target change.

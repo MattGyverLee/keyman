@@ -20,7 +20,7 @@
  * case.
  *
  * -------------------------------------------------------------------------------------------
- * FR-100a -- READ THIS BEFORE READING ANY hDevice COLUMN THIS PROGRAM PRINTS
+ * FR-100a -- context for the hDevice column this program prints
  * -------------------------------------------------------------------------------------------
  *
  *   RAWINPUTHEADER.hDevice is recorded FOR COMPLETENESS ONLY.
@@ -32,7 +32,7 @@
  *   injected-versus-physical filter, however it is spelled -- hDevice, LLKHF_INJECTED, a device
  *   handle allowlist -- blinds Keyman for both of them.
  *
- *   THE ADMISSIBLE POLICY IS TAG EQUALITY, identical to
+ *   The admissible policy is tag equality, identical to
  *   IsKeymanInjectedKeyEvent(MakeCode, ExtraInformation), that is:
  *
  *     MakeCode == SCAN_FLAG_KEYMAN_KEY_EVENT || ExtraInformation == EXTRAINFO_FLAG_KEYMAN_MODIFIER_WRAP
@@ -511,7 +511,7 @@ CaptureThreeShapes(const wchar_t *context, const wchar_t *physicalPrompt) {
     Report(L"%s (c) the tag %s for the Right Shift shape (got 0x%08X, wanted 0x%08X). This is the",
            OkFail(survived), survived ? L"SURVIVED" : L"did NOT survive",
            (unsigned)injectedRShift.extraInformation, (unsigned)EXTRAINFO_FLAG_KEYMAN_MODIFIER_WRAP);
-    Report(L"     shape the scan arm cannot carry, so the tag arm is the ONLY cover for it.");
+    Report(L"     shape the scan arm cannot carry, so the tag arm is the only cover for it.");
     Report(L"[INFO] (c) MakeCode arrived as 0x%04X; SCANCODE_RSHIFT is 0x%04X.",
            (unsigned)injectedRShift.makeCode, (unsigned)SCANCODE_RSHIFT);
   } else {
@@ -710,7 +710,7 @@ Step2Delivery(void) {
 
 static int
 Step3Tags(void) {
-  Report(L"## Step 3 -- THE DECISIVE CAPTURE (W0 step 3)");
+  Report(L"## Step 3 -- the decisive capture (W0 step 3)");
   Report(L"");
   Report(L"dwExtraInfo has survived SendInput -> the low level hook since 2018");
   Report(L"(the wrap-tag provenance note in keyman64.h). The raw input leg has never been");
@@ -795,7 +795,7 @@ Step4RdpOsk(void) {
   if (gotOsk) {
     BOOL claimed = IsKeymanInjectedKeyEvent(osk.makeCode, osk.extraInformation);
     PrintCaptureDetail(L"(d) Keyman OSK click", &osk, TRUE);
-    Report(L"%s the OSK click is %s by tag equality. It MUST NOT be claimed: the OSK's latch is",
+    Report(L"%s the OSK click is %s by tag equality. It is not claimed here: the OSK's latch is",
            OkFail(!claimed), claimed ? L"CLAIMED as Keyman's" : L"not claimed as Keyman's");
     Report(L"     the user's own intent, and TheOnScreenKeyboardIsNotKeymans pins that.");
   } else {
@@ -823,7 +823,7 @@ Step4RdpOsk(void) {
   Report(L"");
   Report(L"### Case -- the secure desktop");
   Report(L"[INFO] Nothing is expected here, and that expectation is the point. FR-104's shadow");
-  Report(L"       MUST report *unknown* for keys whose transitions it may have missed, never a");
+  Report(L"       reports *unknown* for keys whose transitions it may have missed, never a");
   Report(L"       stale 'held'. A user who holds Ctrl into a UAC prompt, releases it there and");
   Report(L"       returns is exactly the case FR-104a's per-key poisoning exists for.");
   ResetCapture();
@@ -862,7 +862,7 @@ Usage(void) {
   Report(L"                     while its MAIN thread is deliberately stalled. --self-stall is the");
   Report(L"                     probe's own staller; --fakefreeze additionally stalls keyman.exe's");
   Report(L"                     main thread. One verdict line per case.");
-  Report(L"  --step3-tags       THE DECISIVE STEP. SendInput three shapes and record");
+  Report(L"  --step3-tags       the decisive step. SendInput three shapes and record");
   Report(L"                     RAWKEYBOARD.ExtraInformation, RAWKEYBOARD.MakeCode and");
   Report(L"                     RAWINPUTHEADER.hDevice for each: (a) a physical keystroke;");
   Report(L"                     (b) injected with EXTRAINFO_FLAG_KEYMAN_MODIFIER_WRAP and scan");

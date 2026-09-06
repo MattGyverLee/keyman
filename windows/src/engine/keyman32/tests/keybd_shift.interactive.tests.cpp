@@ -3,7 +3,7 @@
 #include "serialkeyeventcommon.h" // MAX_KEYEVENT_INPUTS
 
 /*
-  #8064 FR-023 -- THE OPT-IN INTERACTIVE TARGET. The four probes in this file inject real keyboard
+  #8064 FR-023 -- the opt-in interactive target. The four probes in this file inject real keyboard
   input and read it back. They need an interactive input desktop, and two of them additionally need
   that desktop to route keyboard messages to a pumped, hooked message queue. A Session-0 service
   account -- which is what CI runs as -- has none of that.
@@ -14,15 +14,15 @@
   tally could not tell a real pass from a skip. FR-022 and SC-005 forbid exactly that.
 
   So this file is a separate binary (keyman32.interactive.tests.vcxproj) built and run only by
-  `build.sh test-interactive:x86` / `test-interactive:x64`, which is deliberately NOT part of the
+  `build.sh test-interactive:x86` / `test-interactive:x64`, which is deliberately not part of the
   `test` action. See the README of
   windows/src/test/manual-tests/GH-8064 - stuck-modifier-phantom-keydown/ for the release step that
   names it.
 
-  THE RULE THAT MAKES THIS FILE WORTH SEPARATING -- an absent capability here is FAIL(), not
-  SUCCEED(). That inversion is only correct because of where this target is invoked: a person runs
-  it on a desktop where the capability is supposed to exist, so "the capability was not there" is a
-  real result about this machine and not an environment the test has to tolerate. The same rule
+  The rule that makes this file worth separating: an absent capability here is FAIL(), not
+  SUCCEED(). That inversion works because of where this target is invoked -- a person runs it on a
+  desktop where the capability is expected to exist, so "the capability was not there" is a real
+  result about this machine rather than an environment the test has to tolerate. The same rule
   covers an unmet precondition (a modifier already reading down, i.e. the operator is holding a
   key): failing tells them to let go and re-run, where a pass would have told them nothing.
 
@@ -257,19 +257,18 @@ ReleaseAndSettle(BYTE vk) {
   26200, debug x86 and x64, with Keyman running so its WH_KEYBOARD_LL hook was in the chain
   throughout.
 
-  HOW MANY TRIALS IS NOT FIXED, AND THE PRINTED N IS THE REAL ANSWER. An earlier form of this test
+  The trial count is not fixed, and the printed N is the real answer. An earlier form of this test
   asked for a flat 100 trials at each of three depths and, on the machine above, never finished: it
   ran past 26 minutes without printing one line. That was not a wedge. SendInput through a loaded
-  low level hook chain costs roughly 110ms PER EVENT IN THE BATCH on that machine -- 121ms measured
+  low level hook chain costs roughly 110ms per event in the batch on that machine -- 121ms measured
   at depth 1, 3.57s at depth 33 -- so 100 trials at depth 201 is about six hours of wall clock, and
   the flat count was never achievable there. The cost is a property of the hook chain, not of
   SendInput: it is the same round trip the engine pays for every injected batch.
 
-  So each depth now gets a wall-clock BUDGET and runs as many trials as fit, reporting the count it
-  achieved. A budget-bound N is an honest statistical statement; a hang is not a statement at all,
-  and a fixed N nobody can reach is a test that never runs. The test fails if a depth cannot manage
-  kMinTrials, because that means nothing was measured there -- and it says so in those words rather
-  than blaming the platform.
+  So each depth now gets a wall-clock budget and runs as many trials as fit, reporting the count it
+  achieved. A budget-bound N still supports a statistical statement, where a run that never finishes
+  supports none. The test fails if a depth cannot manage kMinTrials, because that means nothing was
+  measured there, and says so in those words.
 
   An oracle, not just a measurement: it goes red if a future Windows returns from SendInput before
   the state is visible. The consequence then is a modifier dropped for one batch, self-correcting on
