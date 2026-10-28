@@ -371,6 +371,22 @@ ALERT_jedi_inc_incompatible
       {$ENDIF MSWINDOWS}
     {$ENDIF BDS19}
     {----------------------------}
+    // Keyman patch (see developer/src/ext/PATCHES.md): this vendored JCL predates 10.3.
+    // The old vendored jedi.inc mapped every newer compiler to BDS19 and so used the
+    // jcld25 configuration; the upstream jedi.inc defines BDS20..BDS23, so keep that
+    // same 10.2 configuration for 10.3 and later.
+    {$IFDEF BDS20_UP}
+      {$IFDEF MSWINDOWS}
+      {$IFDEF CPUX86}
+      {$I jcld25win32.inc}
+      {$ENDIF CPUX86}
+      {$IFDEF CPUX64}
+      {$I jcld25win64.inc}
+      {$ENDIF CPUX64}
+      {$DEFINE JCL_CONFIGURED}
+      {$ENDIF MSWINDOWS}
+    {$ENDIF BDS20_UP}
+    {----------------------------}
     {$IFDEF FPC}
       // This file should be located in directory jcl/source/include
       // It is automatically created by the JCL installer
