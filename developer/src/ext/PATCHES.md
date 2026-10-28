@@ -76,12 +76,9 @@ list and is removed, not kept "just in case".
   enlarge this PR without a Delphi build in this VM to
   check them against. Sync only jedi.inc, which is the
   file the guard depends on.
-- Verification still owed: a TIKE build on Delphi 12 CE
-  with this tip (guard inactive, no E2003) — that is the
-  test that proves the sync, not a removal test of a
-  patch that no longer exists as a Keyman patch. Record
-  it here when run; until then this entry is SYNCED, not
-  VERIFIED on Delphi 12 CE.
+- Verified 2026-10-28 on Delphi 12 Athens CE: TIKE builds (IDE Build, Success,
+  no E2003 at `JvComponent.pas`) with this jedi.inc, **together with entry 4**.
+  The synced jedi.inc on its own broke TIKE on 10.3 as well as 12: see entry 4.
 
 ## 3. mbcolor — `mbcolor/mxs.inc`
 
@@ -94,6 +91,34 @@ list and is removed, not kept "just in case".
   existing VER330 block.
 - Removal test: PENDING — same procedure as entry 1, record
   here. Do not mark "verified" until that run is recorded.
+
+## 4. JCL + JVCL configuration for Delphi 10.3 and later — needed by entry 2's jedi.inc
+
+- Trigger: TIKE on Delphi 12 CE, after the entry 2 sync. The vendored JCL/JVCL
+  predate Delphi 10.3 and only know up to 10.2. The old vendored jedi.inc hid that:
+  its `UNKNOWN_COMPILER_VERSION` fallback defined `DELPHI25`/`BDS19` (10.2) for
+  **every** newer compiler, 10.3 included. The upstream jedi.inc correctly defines
+  `DELPHI26`/`BDS20` (10.3) … `DELPHI29`/`BDS23` (12), so the build stopped at, in order:
+  - `jvcl.inc(335): F1054 Your Delphi/BCB version is not supported by this JVCL version!`
+  - `JvConsts.pas(115): F1054 Declaration for SDelphiKey is missing`
+  - `jcl.inc(387): F1054 Your Delphi/BCB version is not supported by this JCL version!`
+  These hit 10.3 too (it gets `DELPHI26`/`BDS20` now), so without this entry the
+  sync breaks the 10.3 build chain.
+- Change:
+  - `jedi/jvcl/jvcl/common/jvcl.inc`: `{$IFDEF DELPHI26_UP}` uses `jvcld25.inc` /
+    `jvcld25_x64.inc` and defines `JVCL_CONFIGURED`.
+  - `jedi/jcl/jcl/source/include/jcl.inc`: `{$IFDEF BDS20_UP}` uses
+    `jcld25win32.inc` / `jcld25win64.inc` and defines `JCL_CONFIGURED`.
+  - `jedi/jvcl/jvcl/run/JvConsts.pas`: `SDelphiKey` for `DELPHI26`..`DELPHI29`
+    (`BDS.0`..`BDS.0`, the real registry keys; the old fallback gave
+    `BDS9.0` to every newer compiler). Delphi 13+ still hits the FATAL.
+  The two config patches give 10.3 and later exactly the JCL/JVCL configuration they
+  had before the sync (the 10.2 one). The only behavioural change is the SDelphiKey
+  value, now correct.
+- Removal test: each patch was added because the TIKE build failed at its line,
+  in the order above, on Delphi 12 CE. The 10.3 compile is UNVERIFIED (no 10.3 here).
+- On refresh: an upstream JCL/JVCL refresh that knows 10.3+ makes this entry
+  unnecessary. Remove it then, not before.
 
 ## What is NOT patched
 

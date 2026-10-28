@@ -194,6 +194,20 @@ ALERT_jedi_inc_incompatible
  {$DEFINE JVCL_CONFIGURED}
 {$ENDIF DELPHI25}
 {-----------------------------------------------------------------------------}
+{ Keyman patch (see developer/src/ext/PATCHES.md): this vendored JVCL predates }
+{ Delphi 10.3. The old vendored jedi.inc mapped every newer compiler to DELPHI25 }
+{ and so used jvcld25.inc; the upstream jedi.inc defines DELPHI26..DELPHI29, so }
+{ keep that same 10.2 configuration for 10.3 and later.                        }
+{$IFDEF DELPHI26_UP}
+ {$IFDEF CPUX86}
+ {$I jvcld25.inc}
+ {$ENDIF CPUX86}
+ {$IFDEF CPUX64}
+ {$I jvcld25_x64.inc}
+ {$ENDIF CPUX64}
+ {$DEFINE JVCL_CONFIGURED}
+{$ENDIF DELPHI26_UP}
+{-----------------------------------------------------------------------------}
 { C++Builder                                                                  }
 {-----------------------------------------------------------------------------}
 {$IFDEF BCB6}
