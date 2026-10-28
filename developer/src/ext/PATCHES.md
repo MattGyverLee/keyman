@@ -36,13 +36,20 @@ list and is removed, not kept "just in case".
 - Change: in `TJclMutex.Create`, route via the RTL
   (`Winapi.Windows.CreateMutex`, with `BOOL(InitialOwner)`),
   like `OpenMutex` below it, instead of `JclWin32.CreateMutex`.
-- Removal test, 2026-10-28, ltu-legion, Delphi 12 Athens CE, IDE Build of TIKE in the
-  restack integration tree (synced jedi.inc + entry 4 in place): **the build does NOT
-  break without this patch.** `JclSynch.dcu` was recompiled from the pre-patch source
-  (`JclWin32.CreateMutex(SecAttr, InitialOwner, ...)`) and TIKE built "Success". So on
-  Delphi 12 CE with the synced jedi.inc this entry is speculative by the rule at the
-  top of this file. Not tested: a standalone `Jcl.dproj` package build. **Keep or
-  remove is Matthew's ruling (B.7). Until he rules, the patch stays.**
+- Removal test, 2026-10-28, ltu-legion, Delphi 12 Athens CE: **needed.** A standalone TIKE
+  IDE Build (fresh IDE session, TIKE's obj emptied) with the unpatched call fails exactly as
+  in July: `JclSynch.pas(1078): E2010 Incompatible types: 'Cardinal' and 'Boolean'`, then
+  `JclSysUtils.pas(3124): F2063`. (An earlier run that day reported "not needed": that
+  test had built the patched file by mistake, so disregard it.)
+- Why it depends on what you build: there are two `JclWin32.pas`. `Jcl.dpk` names
+  `jcl/source/windows/JclWin32.pas` (`bInitialOwner: BOOL`), so the JCL package builds
+  without this patch. TIKE finds `JclWin32` through the library search path, where
+  `jcl/source/prototypes` comes before `jcl/source/windows`, so it gets
+  `prototypes/JclWin32.pas`, whose `win32api/WinBase.int` declares `bInitialOwner: DWORD`
+  (the old WinNT4 LongInt workaround) and so rejects the Boolean. A build that compiles the
+  JCL package first in the same IDE session may reuse the package's `JclWin32` and not
+  hit it (not verified). Routing through the RTL makes JclSynch independent of which
+  `JclWin32` is found.
 
 ## 2. JVCL + jedi.inc — SYNCED FROM UPSTREAM, NOT A KEYMAN PATCH
 
