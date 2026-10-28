@@ -5,6 +5,26 @@ The CE workflow **is** meant to be driven as `KEYMAN_DELPHI_CE=1 ./build.sh buil
 Worktree A = `C:\Github\keyman-test-delphi` @ 331b0b3015 (B.4 full clear rebuild incl. TIKE).
 Worktree B = `C:\Github\keyman-test-16462` @ 2d5bdf43bd (+ local uiAccess edit; keyman.exe only).
 
+## REVISION 2026-10-28 (later): read this first. The sections below predate the fixes
+
+The build tree is now **`C:\Github\keyman-test-merge2`** (`test2/16462-on-delphi-stack` c79a12e1d5 =
+fix2/16191 65a6384342 + c923e1e89d). Where the text below says keyman-test-delphi or keyman-test-16462,
+read merge2. These lines override the older text:
+
+- **Library paths (§0.2):** currently registered at `C:\Github\keyman-test-delphi`. Re-point with
+  `tools/set-delphi-dev-paths.ps1 -Root C:\Github\keyman-test-merge2` before opening the IDE, then
+  verify that no entry points at another tree.
+- **Auto-skip message is now** `Delphi CE: <proj> (<plat>) — output was built earlier in this run, skipping prompt.`
+  It only fires for output written **during the same top-level build.sh run**. Output from before the run
+  never skips, so A1-verify means: Build All at the first prompt, then the sibling prompts skip.
+- **After Enter, success = output at the real path written after the prompt appeared.** Otherwise the
+  build dies with `was not built in the IDE -- no Debug output was written after the prompt (checked: <paths>)`.
+- **X1 (A2–A4, A8): packages are now expected to PASS**, with the `.bpl` checked at its DCC_BplOutput path
+  (common/windows/lib, windows/lib, developer/lib). A die here is now a FAIL of the fix, not the X1 confirmation.
+- **A5:** insthelper **is** in engine.groupproj now (the #16044 groupproj fix), so Build All covers it.
+- **B.8:** expect `{$MESSAGE WARN}` (not ERROR) from FixedTrackbar.pas and Keyman.System.HttpServer.Base.pas
+  on Delphi 12. Record the warning text from the IDE Messages pane.
+
 ## 0. Before opening Delphi
 
 ### 0.1 Shell setup (every Git Bash used for builds)

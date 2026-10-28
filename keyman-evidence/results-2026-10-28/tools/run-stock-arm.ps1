@@ -11,7 +11,7 @@ Start-Transcript -Path "$Out\transcript.txt" -Force | Out-Null
 
 Start-Sleep -Seconds $DelaySeconds
 "keyman32.dll: $((Get-Item "$eng\keyman32.dll").VersionInfo.FileVersion) sig=$((Get-AuthenticodeSignature "$eng\keyman32.dll").Status)"
-if (-not (Get-Process keyman -ErrorAction SilentlyContinue)) { Start-Process "$eng\keyman.exe"; Start-Sleep 6 }
+if (-not (Get-Process keyman -ErrorAction SilentlyContinue)) { Start-Process "$eng\keyman.exe" -ArgumentList '-kmc','start'; Start-Sleep 6 }
 "keyman running: $([bool](Get-Process keyman -ErrorAction SilentlyContinue))"
 Get-Process notepad -ErrorAction SilentlyContinue | Out-Null
 Start-Process notepad; Start-Sleep 3
@@ -23,7 +23,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\stuck-mod-test.ps1 -Gate -
 
 # Restart Keyman to clear any wedge before the repro
 Get-Process keyman,keymanx64 -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep 2
-Start-Process "$eng\keyman.exe"; Start-Sleep 6
+Start-Process "$eng\keyman.exe" -ArgumentList '-kmc','start'; Start-Sleep 6
 
 "=== REPRO run-8064-test (stock) $(Get-Date -Format o)"
 powershell -NoProfile -ExecutionPolicy Bypass -File .\run-8064-test.ps1 -HostApp C:\Windows\SysWOW64\charmap.exe
