@@ -1,0 +1,45 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261028131356
+Username: LTU-LEGION\thoua
+RunAs User: LTU-LEGION\thoua
+Configuration Name: 
+Machine: LTU-LEGION (Microsoft Windows NT 10.0.26200.0)
+Host Application: powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\Github\keyman-test-evidence\keyman-evidence\results-2026-10-28\tools\run-stock-arm.ps1
+Process ID: 17856
+PSVersion: 5.1.26100.9444
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9444
+BuildVersion: 10.0.26100.9444
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+keyman32.dll: 20.0.8.0 sig=Valid
+keyman running: False
+=== GATE (stock) 2026-10-28T13:15:06.4294520-05:00
+13:15:08.532 [SETUP ERROR] keyman.exe TApplication window not found. The freeze stimulus cannot be posted,
+13:15:08.541               so no trial would be valid. Start Keyman and run this again.
+GATE EXIT: 3
+=== REPRO run-8064-test (stock) 2026-10-28T13:15:16.7643871-05:00
+=== GH-8064 automated reproduction ===
+[OK]   fakefreeze: C:\Github\keyman-test-8064\windows\src\support\fakefreeze\bin\Win32\Debug\fakefreeze.exe
+[OK]   Keyman keyboards installed: akan, k_0301___multiple_deadkeys, sil_bafut, sil_cameroon_qwerty
+[OK]   baseline clean
+[OK]   32-bit host: C:\Windows\SysWOW64\charmap.exe (pid 19924, hwnd 0xE06FA)
+[OK]   text field: 0x11087A
+       host thread 31388 (pid 19924), HKL 0x04090409, langid 0x0409
+
+[FAIL] Keyman master controller window (TfrmKeyman7Main) not found; is Keyman running?
+[FAIL] No Keyman keyboard is the active input profile: TSF reports the Keyman Engine Text Service inactive (hr 0x0000000
+1). No rule will fire, no batch will be assembled, and a clean modifier state would prove nothing. Select a Keyman keybo
+ard -- Win+Space, or the language button in the taskbar -- and re-run.
+
+RESULT: INCONCLUSIVE - preconditions not met, nothing was measured.
+REPRO EXIT: 2
+=== DONE 2026-10-28T13:15:19.6636531-05:00
+**********************
+Windows PowerShell transcript end
+End time: 20261028131519
+**********************

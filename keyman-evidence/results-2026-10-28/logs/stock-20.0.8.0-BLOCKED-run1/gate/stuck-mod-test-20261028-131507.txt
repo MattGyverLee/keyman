@@ -1,0 +1,2 @@
+﻿13:15:08.532 [SETUP ERROR] keyman.exe TApplication window not found. The freeze stimulus cannot be posted,
+13:15:08.541               so no trial would be valid. Start Keyman and run this again.
