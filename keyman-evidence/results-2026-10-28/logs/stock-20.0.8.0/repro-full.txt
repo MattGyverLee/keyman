@@ -1,0 +1,60 @@
+﻿=== GH-8064 automated reproduction ===
+[OK]   Keyman master controller: 0x1006E6
+[OK]   fakefreeze: C:\Github\keyman-test-8064\windows\src\support\fakefreeze\bin\Win32\Debug\fakefreeze.exe
+[OK]   Keyman keyboards installed: akan, k_0301___multiple_deadkeys, sil_bafut, sil_cameroon_qwerty
+[OK]   baseline clean
+[OK]   32-bit host: C:\Windows\SysWOW64\charmap.exe (pid 6156, hwnd 0x409F4)
+[OK]   text field: 0x10098A
+       host thread 12596 (pid 6156), HKL 0x04092C00, langid 0x2C00
+[OK]   Keyman TIP active: Cameroon QWERTY (profile {06C0659C-0786-4F56-8DE5-FF3FB42A9389}, langid 0x2C00)
+
+Holding LSHIFT (vk 0xA0, scan 0x2A), freeze, 5 iteration(s), release at 1500 ms
+
+--- iteration 1 of 5 ---
+    freeze active: yes
+    modifier released (inside the stall)
+    typed "aeiouknsd" -> got ""  transformed: False
+    [ok] no modifier held
+
+--- iteration 2 of 5 ---
+    freeze active: yes
+    modifier released (inside the stall)
+    typed "aeiouknsd" -> got ""  transformed: False
+    [ok] no modifier held
+
+--- iteration 3 of 5 ---
+    freeze active: yes
+    modifier released (inside the stall)
+    typed "aeiouknsd" -> got ""  transformed: False
+    [ok] no modifier held
+
+--- iteration 4 of 5 ---
+    freeze active: yes
+    modifier released (inside the stall)
+    typed "aeiouknsd" -> got ""  transformed: False
+    [ok] no modifier held
+
+--- iteration 5 of 5 ---
+    freeze active: yes
+    modifier released (inside the stall)
+    typed "aeiouknsd" -> got ""  transformed: False
+    [ok] no modifier held
+
+=== summary ===
+
+Iteration Froze Output Transformed Stuck
+--------- ----- ------ ----------- -----
+        1  True              False      
+        2  True              False      
+        3  True              False      
+        4  True              False      
+        5  True              False      
+
+
+iterations 5   freeze confirmed 5   text transformed 0   stuck 0
+host 32-bit   C:\Windows\SysWOW64\charmap.exe
+
+RESULT: INCONCLUSIVE - Keyman never transformed the typed text, so there is no
+        evidence a rule fired or a batch was assembled. A clean modifier state here
+        says nothing about the restore half. Use a keyboard that remaps the probe
+        characters ('aeiouknsd'), or pass -AllowNoTransform if you are certain.

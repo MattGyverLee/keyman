@@ -24,7 +24,21 @@ Caveats, all recorded by the gate itself:
    PRECONDITIONS — each of these on its own forbids a PASS". They forbid a PASS, not this FAIL.
 3. Two arms only, so engine versus layout data is not separated (needs MSKLC Cameroon).
 
-## Repro (run-8064-test, charmap): **UNVERIFIED — void, exit 2.** It needs a rerun.
-The script's restart before the repro hit the same Access Denied, so the repro started against the
-still-wedged instance and stopped at its preconditions. Keyman was then restarted from the elevated
-orchestrator, and started non-elevated through a limited task (13:27:49).
+## Repro: **FAIL 5/5 — as expected for stock** (host32, 13:38)
+
+`tools/run-host32.ps1 -Label stock`: Keyman restarted cleanly (pid 33212, non-elevated); `host32.exe
+--fakefreeze <fakefreeze> --probe 1x2x3x --iterations 5 --wait-for-rule 60`, non-elevated and in the
+foreground. Two Win+Space presses selected k_0301 (the edit showed `1=OK `), and the driver stopped
+switching before the first trial. Result: **freeze confirmed 5/5, text transformed 5/5, stuck 5/5
+(SHIFT, LSHIFT)**, `RESULT: FAIL - the defect reproduced`, exit 1. This matches the README's recorded
+shipped-build row (5/5 FAIL). Files: `host32.txt` (host32's own --out) and `host32-driver.txt`.
+Afterwards Shift was cleared (key-up) and Keyman restarted; no modifier held.
+
+Superseded or void attempts, kept for the record:
+- `run-8064-test.ps1 -HostApp charmap` (two runs): **INCONCLUSIVE, exit 2**. All preconditions passed
+  (Cameroon TIP active in charmap), but every iteration read back "". The script brings charmap to
+  the foreground but cannot give its Edit keyboard focus (SetFocus needs the caller to own the active
+  window). The README documents this limit and recommends host32. Output: `repro-full.txt`.
+- First host32 attempt: **VOID**, not counted. Task-launched host32 could not take the foreground (the
+  driver refused to inject). The second attempt's driver could not read host32's locked --out file,
+  so it kept pressing Win+Space during the trials (it read 1/5 stuck). Files `*-VOID*`.
