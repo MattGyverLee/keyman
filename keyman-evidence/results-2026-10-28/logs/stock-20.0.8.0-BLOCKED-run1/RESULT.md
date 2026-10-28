@@ -9,3 +9,4 @@
   session only ever ran it with Keyman already up from login, so the bug went unseen. After a silent
   MSI install nothing had started Keyman.
 - Fixed: both launches in the script now pass `-kmc start`. Rerun needed.
+- Also: in 20.0 the x64 host is `keymanhp.x64` (was `keymanx64`); the restart step now kills it too. `deploy-8064.ps1` (PR test tool) still names only `keymanx64`: noted, not changed.
