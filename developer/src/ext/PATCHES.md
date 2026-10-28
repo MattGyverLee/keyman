@@ -36,10 +36,13 @@ list and is removed, not kept "just in case".
 - Change: in `TJclMutex.Create`, route via the RTL
   (`Winapi.Windows.CreateMutex`, with `BOOL(InitialOwner)`),
   like `OpenMutex` below it, instead of `JclWin32.CreateMutex`.
-- Removal test: PENDING — run test-list item 8 on the #16043
-  tip (clear Delphi 12 CE rebuild with this patch removed)
-  and record the result here (date, machine, error seen).
-  Do not mark this entry "verified" until that run is recorded.
+- Removal test, 2026-10-28, ltu-legion, Delphi 12 Athens CE, IDE Build of TIKE in the
+  restack integration tree (synced jedi.inc + entry 4 in place): **the build does NOT
+  break without this patch.** `JclSynch.dcu` was recompiled from the pre-patch source
+  (`JclWin32.CreateMutex(SecAttr, InitialOwner, ...)`) and TIKE built "Success". So on
+  Delphi 12 CE with the synced jedi.inc this entry is speculative by the rule at the
+  top of this file. Not tested: a standalone `Jcl.dproj` package build. **Keep or
+  remove is Matthew's ruling (B.7). Until he rules, the patch stays.**
 
 ## 2. JVCL + jedi.inc — SYNCED FROM UPSTREAM, NOT A KEYMAN PATCH
 
@@ -89,8 +92,9 @@ list and is removed, not kept "just in case".
 - Change: define `DELPHI_5_UP` through `DELPHI_10_UP` under
   `{$ifdef VER350}` and under `{$ifdef VER360}`, matching the
   existing VER330 block.
-- Removal test: PENDING — same procedure as entry 1, record
-  here. Do not mark "verified" until that run is recorded.
+- Removal test, 2026-10-28, ltu-legion, Delphi 12 Athens CE, IDE Build of TIKE without
+  this patch: **breaks as described**, `HTMLColors.pas(290): E2003 Undeclared identifier:
+  'null'`, then `mbColorPalette.pas(111): F2063`. **VERIFIED: needed.**
 
 ## 4. JCL + JVCL configuration for Delphi 10.3 and later — needed by entry 2's jedi.inc
 
