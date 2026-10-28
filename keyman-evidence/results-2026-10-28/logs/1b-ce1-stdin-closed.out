@@ -1,0 +1,121 @@
+# cwd=/c/Github/keyman-test-delphi/windows/src/engine/tsysinfox64 date=2026-10-28T10:29:19-05:00 host=ltu-legion HEAD=331b0b3015
+# KEYMAN_DELPHI_CE='1' KEYMAN_DELPHI_VERSION='23.0' NoDefaultCurrentDirectoryInExePath='<unset>' stdin=null
+# cmd: ./build.sh build
+[windows/src/engine/tsysinfox64] Local build environment detected:  setting --debug
+[windows/src/engine/tsysinfox64] build.sh parameters: <build --debug>
+[windows/src/engine/tsysinfox64] ## build:project starting...
+[common/include] dependency build, started by windows/src/engine/tsysinfox64
+[common/include] build.sh parameters: <configure build --debug --deps --builder-dep-parent windows/src/engine/tsysinfox64>
+[common/include] ## configure starting...
+[common/include] ## configure completed successfully
+[common/include] ## build starting...
+[common/include] ## build completed successfully
+[common/windows/delphi] dependency build, started by windows/src/engine/tsysinfox64
+[common/windows/delphi] build.sh parameters: <configure build --debug --deps --builder-dep-parent windows/src/engine/tsysinfox64>
+[common/windows/delphi] ## child configure:tools starting...
+[common/windows/delphi/tools] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/tools] dependency build, started by windows/src/engine/tsysinfox64
+[common/windows/delphi/tools] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/tools] ## child configure:build_standards_data starting...
+[common/windows/delphi/tools/build_standards_data] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/tools/build_standards_data] dependency build, started by windows/src/engine/tsysinfox64
+[common/windows/delphi/tools/build_standards_data] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/tools/build_standards_data] skipping configure:project, up-to-date
+[common/windows/delphi/tools] ## child configure:build_standards_data completed successfully
+[common/windows/delphi/tools] ## child configure:buildunidata starting...
+[common/windows/delphi/tools/buildunidata] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/tools/buildunidata] dependency build, started by windows/src/engine/tsysinfox64
+[common/windows/delphi/tools/buildunidata] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/tools/buildunidata] skipping configure:project, up-to-date
+[common/windows/delphi/tools] ## child configure:buildunidata completed successfully
+[common/windows/delphi/tools] ## child configure:devtools starting...
+[common/windows/delphi/tools/devtools] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/tools/devtools] dependency build, started by windows/src/engine/tsysinfox64
+[common/windows/delphi/tools/devtools] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/tools/devtools] skipping configure:project, up-to-date
+[common/windows/delphi/tools] ## child configure:devtools completed successfully
+[common/windows/delphi/tools] ## child configure:sentrytool starting...
+[common/windows/delphi/tools/sentrytool] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/tools/sentrytool] dependency build, started by windows/src/engine/tsysinfox64
+[common/windows/delphi/tools/sentrytool] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/tools/sentrytool] skipping configure:project, up-to-date
+[common/windows/delphi/tools] ## child configure:sentrytool completed successfully
+[common/windows/delphi/tools] ## child configure:test-klog starting...
+[common/windows/delphi/tools/test-klog] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/tools/test-klog] dependency build, started by windows/src/engine/tsysinfox64
+[common/windows/delphi/tools/test-klog] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/tools/test-klog] skipping configure:project, up-to-date
+[common/windows/delphi/tools] ## child configure:test-klog completed successfully
+[common/windows/delphi/tools] ## child configure:verify_signatures starting...
+[common/windows/delphi/tools/verify_signatures] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/tools/verify_signatures] dependency build, started by windows/src/engine/tsysinfox64
+[common/windows/delphi/tools/verify_signatures] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/tools/verify_signatures] skipping configure:project, up-to-date
+[common/windows/delphi/tools] ## child configure:verify_signatures completed successfully
+[common/windows/delphi] ## child configure:tools completed successfully
+[common/windows/delphi] ## child configure:components starting...
+[common/windows/delphi/components] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/components] dependency build, started by windows/src/engine/tsysinfox64
+[common/windows/delphi/components] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/components] skipping configure:project, up-to-date
+[common/windows/delphi] ## child configure:components completed successfully
+[common/windows/delphi] ## child configure:ext starting...
+[common/windows/delphi/ext] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/ext] dependency build, started by windows/src/engine/tsysinfox64
+[common/windows/delphi/ext] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/ext] ## child configure:cef4delphi starting...
+[common/windows/delphi/ext/cef4delphi] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/ext/cef4delphi] dependency build, started by windows/src/engine/tsysinfox64
+[common/windows/delphi/ext/cef4delphi] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/ext/cef4delphi] skipping configure:project, up-to-date
+[common/windows/delphi/ext] ## child configure:cef4delphi completed successfully
+[common/windows/delphi/ext] ## child configure:dcpcrypt starting...
+[common/windows/delphi/ext/dcpcrypt] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/ext/dcpcrypt] dependency build, started by windows/src/engine/tsysinfox64
+[common/windows/delphi/ext/dcpcrypt] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/ext/dcpcrypt] skipping configure:project, up-to-date
+[common/windows/delphi/ext] ## child configure:dcpcrypt completed successfully
+[common/windows/delphi/ext] ## child configure:jwa starting...
+[common/windows/delphi/ext/jwa] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/ext/jwa] dependency build, started by windows/src/engine/tsysinfox64
+[common/windows/delphi/ext/jwa] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/ext/jwa] skipping configure:project, up-to-date
+[common/windows/delphi/ext] ## child configure:jwa completed successfully
+[common/windows/delphi/ext] ## child configure:sentry starting...
+[common/windows/delphi/ext/sentry] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/ext/sentry] dependency build, started by windows/src/engine/tsysinfox64
+[common/windows/delphi/ext/sentry] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/ext/sentry] skipping configure:project, up-to-date
+[common/windows/delphi/ext] ## child configure:sentry completed successfully
+[common/windows/delphi/ext] ## child configure:tds2dbg starting...
+[common/windows/delphi/ext/tds2dbg] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/ext/tds2dbg] dependency build, started by windows/src/engine/tsysinfox64
+[common/windows/delphi/ext/tds2dbg] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 configure --debug>
+[common/windows/delphi/ext/tds2dbg] skipping configure:project, up-to-date
+[common/windows/delphi/ext] ## child configure:tds2dbg completed successfully
+[common/windows/delphi] ## child configure:ext completed successfully
+[common/windows/delphi] ## build:keymanversion starting...
+[common/windows/delphi] ## build:keymanversion completed successfully
+[common/windows/delphi] ## child build:tools starting...
+[common/windows/delphi/tools] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 build --debug>
+[common/windows/delphi/tools] dependency build, started by windows/src/engine/tsysinfox64
+[common/windows/delphi/tools] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 build --debug>
+[common/windows/delphi/tools] ## child build:build_standards_data starting...
+[common/windows/delphi/tools/build_standards_data] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 build --debug>
+[common/windows/delphi/tools/build_standards_data] dependency build, started by windows/src/engine/tsysinfox64
+[common/windows/delphi/tools/build_standards_data] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 build --debug>
+[common/windows/delphi/tools/build_standards_data] ## build:project starting...
+[common/windows/delphi/tools/build_standards_data] Delphi CE: CLI compilation is not available.
+[common/windows/delphi/tools/build_standards_data] Please build build_standards_data.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[common/windows/delphi/tools/build_standards_data] Tip: opening the parent .groupproj and running Build All pre-builds all sibling projects at once; subsequent CE prompts in this script will auto-skip when their outputs are fresh.
+[common/windows/delphi/tools/build_standards_data] Delphi CE: no Enter received (stdin closed or EOF) for build_standards_data.dproj.
+
+[common/windows/delphi/tools/build_standards_data] Delphi CE: build_standards_data.dproj (Win32) was not built in the IDE -- its Debug output is still older than its source (or missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.
+
+[common/windows/delphi/tools/build_standards_data] ## build:project failed
+[common/windows/delphi/tools] ## child script '/c/Github/keyman-test-delphi/common/windows/delphi/tools/build_standards_data/build.sh build' failed with exit code 1
+[common/windows/delphi] ## child script '/c/Github/keyman-test-delphi/common/windows/delphi/tools/build.sh build' failed with exit code 1
+[windows/src/engine/tsysinfox64] ## Dependency failed with exit code 1
+[windows/src/engine/tsysinfox64] ## build:project failed
+# exit=1
+dcc32 spawns (probe exec lines in xtrace): 0

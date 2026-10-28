@@ -1,0 +1,20 @@
+# cwd=/c/Github/keyman-test-delphi/windows/src/engine/insthelper date=2026-10-28T10:36:00-05:00 host=ltu-legion HEAD=331b0b3015
+# KEYMAN_DELPHI_CE='1' KEYMAN_DELPHI_VERSION='23.0' NoDefaultCurrentDirectoryInExePath='<unset>' stdin=null
+# cmd: ./build.sh build --no-deps
+[windows/src/engine/insthelper] Local build environment detected:  setting --debug
+[windows/src/engine/insthelper] build.sh parameters: <build --no-deps --debug>
+[windows/src/engine/insthelper] ## build:project starting...
+[windows/src/engine/insthelper] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/insthelper] Delphi CE: CLI compilation is not available.
+[windows/src/engine/insthelper] Please build insthelper.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/engine/insthelper] Tip: opening the parent .groupproj and running Build All pre-builds all sibling projects at once; subsequent CE prompts in this script will auto-skip when their outputs are fresh.
+[windows/src/engine/insthelper] Delphi CE: no Enter received (stdin closed or EOF) for insthelper.dproj.
+
+[windows/src/engine/insthelper] Delphi CE: insthelper.dproj (Win32) was not built in the IDE -- its Debug output is still older than its source (or missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.
+
+[windows/src/engine/insthelper] ## build:project failed
+# exit=1
+dcc32 spawns (probe exec lines in xtrace): 0

@@ -1,0 +1,16 @@
+# cwd=/c/Github/keyman-test-delphi/common/windows/delphi/tools/devtools date=2026-10-28T10:28:40-05:00 host=ltu-legion HEAD=331b0b3015
+# KEYMAN_DELPHI_CE='<unset>' KEYMAN_DELPHI_VERSION='23.0' NoDefaultCurrentDirectoryInExePath='<unset>' stdin=null
+# cmd: ./build.sh build
+[common/windows/delphi/tools/devtools] Local build environment detected:  setting --debug
+[common/windows/delphi/tools/devtools] build.sh parameters: <build --debug>
+[common/windows/delphi/tools/devtools] ## build:project starting...
+[common/windows/delphi] dependency build, started by common/windows/delphi/tools/devtools
+[common/windows/delphi] build.sh parameters: <configure:keymanversion build:keymanversion --debug --deps --builder-dep-parent common/windows/delphi/tools/devtools>
+[common/windows/delphi] ## build:keymanversion starting...
+[common/windows/delphi] ## build:keymanversion completed successfully
+
+[common/windows/delphi/tools/devtools] Delphi Community Edition detected at Studio\23.0\ but KEYMAN_DELPHI_CE is not set. CE blocks CLI compilation; msbuild would fake a success with no output. Run: export KEYMAN_DELPHI_CE=1 (see docs/build/windows-delphi-ce.md).
+
+[common/windows/delphi/tools/devtools] ## build:project failed
+# exit=1
+dcc32 spawns (probe command lines executed): 0

@@ -1,0 +1,1265 @@
++[274] export SHELLOPTS
++[274] case $mode in
++[274] printf '\n'
++[274] case $mode in
++[274] ./build.sh build --no-deps
+++[279] readlink -f ./build.sh
++[279] THIS_SCRIPT=/c/Github/keyman-test-delphi/common/windows/delphi/components/build.sh
++[279] . /c/Github/keyman-test-delphi/common/windows/delphi/components/../../../../resources/build/builder-full.inc.sh
+++[279] set -eu
+++[279] SHLVL=0
+++[279] trap __builder_full_not_a_builder_script exit
+++[279] . /c/Github/keyman-test-delphi/common/windows/delphi/components/../../../../resources/build/builder-basic.inc.sh
++++[279] set -eu
++++[279] SHLVL=0
++++[279] _builder_basic_find_keyman_root
++++[279] unset KEYMAN_ROOT
++++[279] KEYMAN_ROOT=/c/Github/keyman-test-delphi/common/windows/delphi/components/../../../..
+++++[279] cd /c/Github/keyman-test-delphi/common/windows/delphi/components/../../../..
+++++[279] echo /c/Github/keyman-test-delphi
++++[279] KEYMAN_ROOT=/c/Github/keyman-test-delphi
++++[279] readonly KEYMAN_ROOT
++++[279] export KEYMAN_ROOT
++++[279] . /c/Github/keyman-test-delphi/resources/builder.inc.sh
+++++[279] set -eu
+++++[279] SHLVL=0
+++++[279] _builder_reserved_parameters='^(--help|-h|--color|--no-color|--verbose|-v|--timings|--no-timings|--debug|--release|--deps|--no-deps|--force-deps|--builder-dep-parent|--builder-child|--builder-report-dependencies|--builder-completion-describe|--offline|--builder-ignore-unknown-options)$'
+++++[279] builder_extra_params=()
+++++[279] _builder_child_base=
+++++[279] _builder_function_calls=()
+++++[279] _builder_init
+++++[279] _builder_get_operating_system
+++++[279] declare -g BUILDER_OS
+++++[279] builder_is_macos
+++++[279] [[ cygwin == darwin* ]]
+++++[279] return 1
+++++[279] builder_is_windows
+++++[279] [[ cygwin == msys ]]
+++++[279] [[ cygwin == cygwin ]]
+++++[279] return 0
+++++[279] BUILDER_OS=win
+++++[279] readonly BUILDER_OS
+++++[279] _builder_findRepoRoot
++++++[279] readlink -f /c/Github/keyman-test-delphi
+++++[279] REPO_ROOT=/c/Github/keyman-test-delphi
+++++[279] readonly REPO_ROOT
+++++[279] _builder_setBuildScriptIdentifiers
+++++[279] '[' '!' -z x ']'
+++++[279] THIS_SCRIPT_PATH=/c/Github/keyman-test-delphi/common/windows/delphi/components
+++++[279] readonly THIS_SCRIPT_PATH
+++++[279] THIS_SCRIPT_NAME=build.sh
+++++[279] readonly THIS_SCRIPT_NAME
+++++[279] THIS_SCRIPT_IDENTIFIER=common/windows/delphi/components
+++++[279] readonly THIS_SCRIPT_IDENTIFIER
+++++[279] [[ -n xterm-256color ]]
+++++[279] [[ xterm-256color != dumb ]]
+++++[279] [[ xterm-256color != unknown ]]
+++++[279] '[' -t 1 ']'
+++++[279] builder_use_color false
+++++[279] false
+++++[279] COLOR_RED=
+++++[279] COLOR_GREEN=
+++++[279] COLOR_YELLOW=
+++++[279] COLOR_BLUE=
+++++[279] COLOR_PURPLE=
+++++[279] COLOR_TEAL=
+++++[279] COLOR_WHITE=
+++++[279] COLOR_BRIGHT_WHITE=
+++++[279] COLOR_GREY=
+++++[279] COLOR_RESET=
+++++[279] BUILDER_BOLD=
+++++[279] HEADING_SETMARK=
+++++[279] BUILDER_TERM_START='<'
+++++[279] BUILDER_TERM_END='>'
+++++[279] [[ -z '' ]]
+++++[279] export MESON_PACKAGE_CACHE_DIR=/c/Users/thoua/.cache/keyman/builder
+++++[279] MESON_PACKAGE_CACHE_DIR=/c/Users/thoua/.cache/keyman/builder
+++++[279] mkdir -p /c/Users/thoua/.cache/keyman/builder
+++++[279] _builder_check_color build --no-deps
+++++[279] [[ 2 -gt 0 ]]
+++++[279] local key=build
+++++[279] case "$key" in
+++++[279] shift
+++++[279] [[ 1 -gt 0 ]]
+++++[279] local key=--no-deps
+++++[279] case "$key" in
+++++[279] shift
+++++[279] [[ 0 -gt 0 ]]
+++++[279] '[' -z ']'
+++++[279] _builder_debug_internal=false
+++++[279] builder_is_debug_internal
+++++[279] false
+++++[279] return 1
++++[279] _builder_basic_find_tier
++++[279] local KEYMAN_TIER_MD=/c/Github/keyman-test-delphi/TIER.md
+++++[279] builder_trim alpha
+++++[279] local var=alpha
+++++[279] var=alpha
+++++[279] var=alpha
+++++[279] printf %s alpha
++++[279] KEYMAN_TIER=alpha
++++[279] [[ alpha =~ ^(alpha|beta|stable)$ ]]
++++[279] _builder_basic_find_version
++++[279] local KEYMAN_VERSION_MD=/c/Github/keyman-test-delphi/VERSION.md
+++++[279] builder_trim 20.0.9
+++++[279] local var=20.0.9
+++++[279] var=20.0.9
+++++[279] var=20.0.9
+++++[279] printf %s 20.0.9
++++[279] KEYMAN_VERSION=20.0.9
++++[279] [[ 20.0.9 =~ ^([[:digit:]]+)\.([[:digit:]]+)\.([[:digit:]]+)$ ]]
++++[279] KEYMAN_VERSION_MAJOR=20
++++[279] KEYMAN_VERSION_MINOR=0
++++[279] KEYMAN_VERSION_PATCH=9
++++[279] KEYMAN_VERSION_RELEASE=20.0
++++[279] KEYMAN_VERSION_WIN=20.0.9.0
++++[279] '[' alpha == alpha ']'
++++[279] KEYMAN_VERSION_TAG=-alpha
++++[279] builder_is_running_on_teamcity
++++[279] [[ -z '' ]]
++++[279] return 1
++++[279] builder_is_running_on_gha
++++[279] [[ -z '' ]]
++++[279] return 1
++++[279] [[ -z '' ]]
++++[279] KEYMAN_VERSION_TAG=-alpha-local
++++[279] KEYMAN_VERSION_ENVIRONMENT=local
++++[279] KEYMAN_VERSION_WITH_TAG=20.0.9-alpha-local
++++[279] KEYMAN_VERSION_GIT_TAG=release@20.0.9-alpha-local
++++[279] builder_is_ci_release_build
++++[279] [[ local =~ ^alpha|beta|stable$ ]]
++++[279] return 1
++++[279] KEYMAN_VERSION_FOR_FILENAME=20.0.9-alpha-local
++++[279] readonly KEYMAN_VERSION
++++[279] readonly KEYMAN_VERSION_MAJOR
++++[279] readonly KEYMAN_VERSION_MINOR
++++[279] readonly KEYMAN_VERSION_PATCH
++++[279] readonly KEYMAN_VERSION_RELEASE
++++[279] readonly KEYMAN_VERSION_WIN
++++[279] readonly KEYMAN_VERSION_TAG
++++[279] readonly KEYMAN_VERSION_WITH_TAG
++++[279] readonly KEYMAN_VERSION_ENVIRONMENT
++++[279] readonly KEYMAN_VERSION_GIT_TAG
++++[279] readonly KEYMAN_VERSION_FOR_FILENAME
++++[279] export KEYMAN_VERSION
++++[279] export KEYMAN_VERSION_MAJOR
++++[279] export KEYMAN_VERSION_MINOR
++++[279] export KEYMAN_VERSION_PATCH
++++[279] export KEYMAN_VERSION_RELEASE
++++[279] export KEYMAN_VERSION_WIN
++++[279] export KEYMAN_VERSION_TAG
++++[279] export KEYMAN_VERSION_WITH_TAG
++++[279] export KEYMAN_VERSION_ENVIRONMENT
++++[279] export KEYMAN_VERSION_GIT_TAG
++++[279] export KEYMAN_VERSION_FOR_FILENAME
++++[279] export KEYMAN_TIER
++++[279] export UPLOAD_SENTRY
++++[279] export BUILDER_OS
++++[279] _builder_basic_print_build_number_for_teamcity
++++[279] '[' '!' -z '' ']'
++++[279] _builder_basic_print_version_utils_debug
++++[279] builder_is_debug_internal
++++[279] false
++++[279] return 1
++++[279] builder_is_ci_build
++++[279] builder_is_ci_release_build
++++[279] [[ local =~ ^alpha|beta|stable$ ]]
++++[279] return 1
++++[279] builder_is_ci_test_build
++++[279] [[ local == test ]]
++++[279] return 1
++++[279] return 1
++++[279] return
++++[279] _builder_basic_find_should_sentry_release
++++[279] UPLOAD_SENTRY=false
++++[279] case $KEYMAN_VERSION_ENVIRONMENT in
++++[279] _builder_basic_set_keyman_standard_build_path
++++[279] PATH='/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl'
++++[279] builder_is_macos
++++[279] [[ cygwin == darwin* ]]
++++[279] return 1
+++[279] cd /c/Github/keyman-test-delphi/common/windows/delphi/components
++[279] builder_describe 'Common Delphi components' clean configure build test edit
++[279] _builder_record_function_call builder_describe
++[279] local func=builder_describe
++[279] _builder_has_function_been_called builder_describe
++[279] local func=builder_describe
++[279] _builder_item_in_array builder_describe
++[279] local e match=builder_describe
++[279] shift
++[279] [[ -z builder_describe ]]
++[279] return 1
++[279] return 1
++[279] _builder_function_calls+=($1)
++[279] _builder_description='Common Delphi components'
++[279] _builder_actions=()
++[279] _builder_targets=()
++[279] _builder_options=()
++[279] _builder_deps=()
++[279] _builder_options_inheritable=()
++[279] _builder_default_action=build
++[279] _builder_targets_excluded_by_platform=()
++[279] declare -A -g _builder_targets_excluded_by_platform
++[279] declare -A -g _builder_params
++[279] declare -A -g _builder_options_short
++[279] declare -A -g _builder_options_var
++[279] declare -A -g _builder_dep_path
++[279] declare -A -g _builder_dep_related_actions
++[279] declare -A -g _builder_internal_dep
++[279] declare -A -g _builder_target_paths
++[279] declare -A -g _builder_dep_targets
++[279] shift
++[279] sub=()
++[279] local sub
++[279] [[ 5 -gt 0 ]]
++[279] local key=clean
++[279] local value=clean
++[279] local description=
++[279] [[ clean =~ [[:space:]] ]]
++[279] local original_value=clean
++[279] [[ clean =~ ^: ]]
++[279] [[ clean =~ ^@ ]]
++[279] [[ clean =~ ^-- ]]
++[279] [[ clean =~ \+$ ]]
++[279] _builder_actions+=($value)
++[279] [[ -z '' ]]
+++[279] _builder_get_default_description clean
+++[279] local description=
+++[279] local value=clean
+++[279] case "$value" in
+++[279] description='remove build/ folder and build artifacts'
+++[279] echo 'remove build/ folder and build artifacts'
++[279] description='remove build/ folder and build artifacts'
++[279] _builder_params[${original_value}]='remove build/ folder and build artifacts'
++[279] shift
++[279] [[ 4 -gt 0 ]]
++[279] local key=configure
++[279] local value=configure
++[279] local description=
++[279] [[ configure =~ [[:space:]] ]]
++[279] local original_value=configure
++[279] [[ configure =~ ^: ]]
++[279] [[ configure =~ ^@ ]]
++[279] [[ configure =~ ^-- ]]
++[279] [[ configure =~ \+$ ]]
++[279] _builder_actions+=($value)
++[279] [[ -z '' ]]
+++[279] _builder_get_default_description configure
+++[279] local description=
+++[279] local value=configure
+++[279] case "$value" in
+++[279] description='install dependencies, e.g. npm'
+++[279] echo 'install dependencies, e.g. npm'
++[279] description='install dependencies, e.g. npm'
++[279] _builder_params[${original_value}]='install dependencies, e.g. npm'
++[279] shift
++[279] [[ 3 -gt 0 ]]
++[279] local key=build
++[279] local value=build
++[279] local description=
++[279] [[ build =~ [[:space:]] ]]
++[279] local original_value=build
++[279] [[ build =~ ^: ]]
++[279] [[ build =~ ^@ ]]
++[279] [[ build =~ ^-- ]]
++[279] [[ build =~ \+$ ]]
++[279] _builder_actions+=($value)
++[279] [[ -z '' ]]
+++[279] _builder_get_default_description build
+++[279] local description=
+++[279] local value=build
+++[279] case "$value" in
+++[279] description='build target(s)'
+++[279] echo 'build target(s)'
++[279] description='build target(s)'
++[279] _builder_params[${original_value}]='build target(s)'
++[279] shift
++[279] [[ 2 -gt 0 ]]
++[279] local key=test
++[279] local value=test
++[279] local description=
++[279] [[ test =~ [[:space:]] ]]
++[279] local original_value=test
++[279] [[ test =~ ^: ]]
++[279] [[ test =~ ^@ ]]
++[279] [[ test =~ ^-- ]]
++[279] [[ test =~ \+$ ]]
++[279] _builder_actions+=($value)
++[279] [[ -z '' ]]
+++[279] _builder_get_default_description test
+++[279] local description=
+++[279] local value=test
+++[279] case "$value" in
+++[279] description='run automated tests'
+++[279] echo 'run automated tests'
++[279] description='run automated tests'
++[279] _builder_params[${original_value}]='run automated tests'
++[279] shift
++[279] [[ 1 -gt 0 ]]
++[279] local key=edit
++[279] local value=edit
++[279] local description=
++[279] [[ edit =~ [[:space:]] ]]
++[279] local original_value=edit
++[279] [[ edit =~ ^: ]]
++[279] [[ edit =~ ^@ ]]
++[279] [[ edit =~ ^-- ]]
++[279] [[ edit =~ \+$ ]]
++[279] _builder_actions+=($value)
++[279] [[ -z '' ]]
+++[279] _builder_get_default_description edit
+++[279] local description=
+++[279] local value=edit
+++[279] case "$value" in
+++[279] echo ''
++[279] description=
++[279] _builder_params[${original_value}]=
++[279] shift
++[279] [[ 0 -gt 0 ]]
++[279] ((  ! 0  ))
++[279] _builder_targets+=(:project)
+++[279] _builder_get_default_description :project
+++[279] local description=
+++[279] local value=:project
+++[279] case "$value" in
+++[279] description='this project'
+++[279] echo 'this project'
++[279] _builder_params[\:project]='this project'
++[279] builder_parse build --no-deps
++[279] _builder_record_function_call builder_parse
++[279] local func=builder_parse
++[279] _builder_has_function_been_called builder_parse
++[279] local func=builder_parse
++[279] _builder_item_in_array builder_parse builder_describe
++[279] local e match=builder_parse
++[279] shift
++[279] [[ -z builder_parse ]]
++[279] for e in "$@"
++[279] [[ builder_describe == builder_parse ]]
++[279] return 1
++[279] return 1
++[279] _builder_function_calls+=($1)
++[279] exp=()
++[279] local exp
++[279] builder_extra_params=()
++[279] [[ 2 -gt 0 ]]
++[279] local action= target=
++[279] local key=build
++[279] [[ build == \-\- ]]
++[279] [[ build =~ ^- ]]
++[279] [[ build =~ : ]]
++[279] action=build
++[279] target=
++[279] local actions targets
++[279] IFS=,
++[279] read -r -a actions
++[279] IFS=,
++[279] read -r -a targets
++[279] [[ 1 -eq 0 ]]
++[279] for action in "${actions[@]}"
++[279] [[ 0 -eq 0 ]]
++[279] exp+=($action)
++[279] shift
++[279] [[ 1 -gt 0 ]]
++[279] local action= target=
++[279] local key=--no-deps
++[279] [[ --no-deps == \-\- ]]
++[279] [[ --no-deps =~ ^- ]]
++[279] [[ ! -z '' ]]
++[279] exp+=($key)
++[279] [[ ! -z '' ]]
++[279] shift
++[279] [[ 0 -gt 0 ]]
++[279] _builder_parse_expanded_parameters build --no-deps
++[279] _builder_build_deps=--deps
++[279] builder_verbose=
++[279] [[ -z '' ]]
++[279] builder_is_ci_build
++[279] builder_is_ci_release_build
++[279] [[ local =~ ^alpha|beta|stable$ ]]
++[279] return 1
++[279] builder_is_ci_test_build
++[279] [[ local == test ]]
++[279] return 1
++[279] return 1
++[279] _builder_timings=false
++[279] export _builder_timings
++[279] builder_debug=
++[279] local is_release=false
++[279] _params=('build' '--no-deps')
++[279] local _params
++[279] _builder_chosen_action_targets=()
++[279] _builder_chosen_options=()
++[279] _builder_current_action=
++[279] _builder_is_child=1
++[279] _builder_offline=
++[279] _builder_ignore_unknown_options=1
++[279] builder_ignored_options=()
++[279] local n=0
++[279] [[ 2 -gt 0 ]]
++[279] local key=build
++[279] local action=
++[279] local target=
++[279] local e has_action has_target has_option longhand_option
++[279] [[ build =~ : ]]
++[279] action=build
++[279] target=
+++[279] _builder_expand_shorthand build clean configure build test edit
+++[279] local item=build
+++[279] shift
+++[279] local count=0
+++[279] local result=
+++[279] local string=
+++[279] for e in "$@"
+++[279] [[ clean == build ]]
+++[279] [[ clean == build* ]]
+++[279] for e in "$@"
+++[279] [[ configure == build ]]
+++[279] [[ configure == build* ]]
+++[279] for e in "$@"
+++[279] [[ build == build ]]
+++[279] echo build
+++[279] return 1
++[279] new_action=build
++[279] case $? in
++[279] action=build
+++[279] _builder_expand_shorthand :project
+++[279] local item=:project
+++[279] shift
+++[279] local count=0
+++[279] local result=
+++[279] local string=
+++[279] [[ 0 -lt 2 ]]
+++[279] echo
+++[279] return 0
++[279] new_target=
++[279] _builder_item_in_array build clean configure build test edit
++[279] local e match=build
++[279] shift
++[279] [[ -z build ]]
++[279] for e in "$@"
++[279] [[ clean == build ]]
++[279] for e in "$@"
++[279] [[ configure == build ]]
++[279] for e in "$@"
++[279] [[ build == build ]]
++[279] return 0
++[279] has_action=1
++[279] _builder_item_in_array '' :project
++[279] local e match=
++[279] shift
++[279] [[ -z '' ]]
++[279] return 1
++[279] has_target=0
++[279] ((  has_action  ))
++[279] _params[$n]=build
++[279] n=1
++[279] _builder_item_in_array build
++[279] local e match=build
++[279] shift
++[279] [[ -z build ]]
++[279] return 1
++[279] has_option=0
++[279] ((  has_action  ))
++[279] ((  has_target  ))
++[279] ((  has_action  ))
++[279] [[ ! -z '' ]]
++[279] for e in "${_builder_targets[@]}"
++[279] _builder_chosen_action_targets+=("$action$e")
++[279] shift
++[279] [[ 1 -gt 0 ]]
++[279] local key=--no-deps
++[279] local action=
++[279] local target=
++[279] local e has_action has_target has_option longhand_option
++[279] [[ --no-deps =~ : ]]
++[279] action=--no-deps
++[279] target=
+++[279] _builder_expand_shorthand --no-deps clean configure build test edit
+++[279] local item=--no-deps
+++[279] shift
+++[279] local count=0
+++[279] local result=
+++[279] local string=
+++[279] for e in "$@"
+++[279] [[ clean == --no-deps ]]
+++[279] [[ clean == \-\-no\-deps* ]]
+++[279] for e in "$@"
+++[279] [[ configure == --no-deps ]]
+++[279] [[ configure == \-\-no\-deps* ]]
+++[279] for e in "$@"
+++[279] [[ build == --no-deps ]]
+++[279] [[ build == \-\-no\-deps* ]]
+++[279] for e in "$@"
+++[279] [[ test == --no-deps ]]
+++[279] [[ test == \-\-no\-deps* ]]
+++[279] for e in "$@"
+++[279] [[ edit == --no-deps ]]
+++[279] [[ edit == \-\-no\-deps* ]]
+++[279] [[ 0 -lt 2 ]]
+++[279] echo
+++[279] return 0
++[279] new_action=
+++[279] _builder_expand_shorthand :project
+++[279] local item=:project
+++[279] shift
+++[279] local count=0
+++[279] local result=
+++[279] local string=
+++[279] [[ 0 -lt 2 ]]
+++[279] echo
+++[279] return 0
++[279] new_target=
++[279] _builder_item_in_array --no-deps clean configure build test edit
++[279] local e match=--no-deps
++[279] shift
++[279] [[ -z --no-deps ]]
++[279] for e in "$@"
++[279] [[ clean == --no-deps ]]
++[279] for e in "$@"
++[279] [[ configure == --no-deps ]]
++[279] for e in "$@"
++[279] [[ build == --no-deps ]]
++[279] for e in "$@"
++[279] [[ test == --no-deps ]]
++[279] for e in "$@"
++[279] [[ edit == --no-deps ]]
++[279] return 1
++[279] has_action=0
++[279] _builder_item_in_array '' :project
++[279] local e match=
++[279] shift
++[279] [[ -z '' ]]
++[279] return 1
++[279] has_target=0
++[279] ((  has_action  ))
++[279] ((  has_target  ))
++[279] n=2
++[279] _builder_item_in_array --no-deps
++[279] local e match=--no-deps
++[279] shift
++[279] [[ -z --no-deps ]]
++[279] return 1
++[279] has_option=0
++[279] ((  has_action  ))
++[279] ((  has_action  ))
++[279] ((  has_target  ))
++[279] ((  has_option  ))
++[279] case "$key" in
++[279] _builder_build_deps=--no-deps
++[279] shift
++[279] [[ 0 -gt 0 ]]
++[279] ((  ! 1  ))
++[279] _builder_has_function_been_called builder_describe_outputs
++[279] local func=builder_describe_outputs
++[279] _builder_item_in_array builder_describe_outputs builder_describe builder_parse
++[279] local e match=builder_describe_outputs
++[279] shift
++[279] [[ -z builder_describe_outputs ]]
++[279] for e in "$@"
++[279] [[ builder_describe == builder_describe_outputs ]]
++[279] for e in "$@"
++[279] [[ builder_parse == builder_describe_outputs ]]
++[279] return 1
++[279] return 1
++[279] builder_is_dep_build
++[279] [[ ! -z '' ]]
++[279] return 1
++[279] builder_is_child_build
++[279] return 1
+++[279] mktemp
++[279] export _builder_deps_built=/tmp/tmp.huaDZ8DAW6
++[279] _builder_deps_built=/tmp/tmp.huaDZ8DAW6
++[279] _builder_timing_setup
++[279] false
++[279] [[ local == local ]]
++[279] [[ '' != --debug ]]
++[279] false
++[279] builder_echo grey 'Local build environment detected:  setting --debug'
++[279] local color=white message= mark= block= action= test=
++[279] local echo_target=echo
++[279] [[ 2 -gt 1 ]]
++[279] [[ grey =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[279] color=grey
++[279] shift
++[279] message='Local build environment detected:  setting --debug'
++[279] [[ '' == start ]]
++[279] [[ ! -z x ]]
++[279] case $color in
++[279] color=
++[279] builder_is_dep_build
++[279] [[ ! -z '' ]]
++[279] return 1
++[279] echo -e '[common/windows/delphi/components] Local build environment detected:  setting --debug'
++[279] [[ '' == end ]]
++[279] _params+=(--debug)
++[279] _builder_chosen_options+=(--debug)
++[279] builder_debug=--debug
+++[279] basename ./build.sh
++[279] builder_echo setmark 'build.sh parameters: <build' --no-deps '--debug>'
++[279] local color=white message= mark= block= action= test=
++[279] local echo_target=echo
++[279] [[ 4 -gt 1 ]]
++[279] [[ setmark =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[279] color=setmark
++[279] shift
++[279] message='build.sh parameters: <build --no-deps --debug>'
++[279] [[ '' == start ]]
++[279] [[ ! -z x ]]
++[279] case $color in
++[279] mark=
++[279] color=
++[279] builder_is_dep_build
++[279] [[ ! -z '' ]]
++[279] return 1
++[279] echo -e '[common/windows/delphi/components] build.sh parameters: <build --no-deps --debug>'
++[279] [[ '' == end ]]
++[279] [[ 0 -gt 0 ]]
++[279] builder_is_debug_build
++[279] [[ --debug == --debug ]]
++[279] return 0
++[279] export BUILDER_CONFIGURATION=debug
++[279] BUILDER_CONFIGURATION=debug
++[279] _builder_print_internal_debug_info
++[279] builder_is_debug_internal
++[279] false
++[279] return 1
++[279] builder_is_ci_build
++[279] builder_is_ci_release_build
++[279] [[ local =~ ^alpha|beta|stable$ ]]
++[279] return 1
++[279] builder_is_ci_test_build
++[279] [[ local == test ]]
++[279] return 1
++[279] return 1
++[279] return
+++[279] trap -p DEBUG
++[279] [[ -z '' ]]
++[279] trap _builder_failure_trap err exit
++[279] source /c/Github/keyman-test-delphi/resources/build/win/environment.inc.sh
+++[279] _builder_has_function_been_called builder_parse
+++[279] local func=builder_parse
+++[279] _builder_item_in_array builder_parse builder_describe builder_parse
+++[279] local e match=builder_parse
+++[279] shift
+++[279] [[ -z builder_parse ]]
+++[279] for e in "$@"
+++[279] [[ builder_describe == builder_parse ]]
+++[279] for e in "$@"
+++[279] [[ builder_parse == builder_parse ]]
+++[279] return 0
+++[279] return 0
+++[279] source /c/Github/keyman-test-delphi/resources/build/win/configure_environment.inc.sh
+++[279] [[ ! -f /c/Github/keyman-test-delphi/resources/build/win/environment_generated.inc.sh ]]
+++[279] [[ ! -f /c/Github/keyman-test-delphi/resources/build/win/delphi_environment_generated.inc.sh ]]
+++[279] [[ ! -f /c/Github/keyman-test-delphi/resources/build/win/visualstudio_environment_generated.inc.sh ]]
+++[279] source /c/Github/keyman-test-delphi/resources/build/win/environment_generated.inc.sh
++++[279] ProgramFiles='/c/Program Files'
++++[279] ProgramFilesx86='/c/Program Files (x86)'
++++[279] CommonProgramFilesx86='/c/Program Files (x86)/Common Files'
++++[279] INSTALLPATH_KEYMANAPP='/c/Program Files (x86)/Keyman/Keyman Desktop'
++++[279] INSTALLPATH_KEYMANDEVELOPER='/c/Program Files (x86)/Keyman/Keyman Developer'
++++[279] INSTALLPATH_KEYMANENGINE='/c/Program Files (x86)/Common Files/Keyman/Keyman Engine'
+++[279] WINDOWS_ROOT=/c/Github/keyman-test-delphi/windows
+++[279] WINDOWS_PROGRAM_APP=/c/Github/keyman-test-delphi/windows/bin/desktop
+++[279] WINDOWS_PROGRAM_ENGINE=/c/Github/keyman-test-delphi/windows/bin/engine
+++[279] WINDOWS_PROGRAM_SUPPORT=/c/Github/keyman-test-delphi/windows/bin/support
+++[279] WINDOWS_DEBUGPATH_APP=/c/Github/keyman-test-delphi/windows/debug/desktop
+++[279] WINDOWS_DEBUGPATH_ENGINE=/c/Github/keyman-test-delphi/windows/debug/engine
+++[279] WINDOWS_DEBUGPATH_SUPPORT=/c/Github/keyman-test-delphi/windows/debug/support
+++[279] COMMON_ROOT=/c/Github/keyman-test-delphi/common/windows/delphi
+++[279] OUTLIB=/c/Github/keyman-test-delphi/windows/lib
+++[279] COMMON_OUTLIB=/c/Github/keyman-test-delphi/common/windows/lib
+++[279] builder_is_debug_build
+++[279] [[ --debug == --debug ]]
+++[279] return 0
+++[279] GO_FAST=1
+++[279] source /c/Github/keyman-test-delphi/resources/build/win/delphi_flags.inc.sh
++++[279] DELPHIINCLUDES='/c/Github/keyman-test-delphi/common/windows/delphi/ext/cef4delphi/source;/c/Github/keyman-test-delphi/common/windows/delphi/ext/dcpcrypt;/c/Github/keyman-test-delphi/common/windows/delphi/ext/jwa/Win32API;/c/Github/keyman-test-delphi/common/windows/delphi/ext/sentry;/c/Github/keyman-test-delphi/developer/src/ext/mbcolor;/c/Github/keyman-test-delphi/developer/src/ext/scfontcombobox'
++++[279] builder_is_debug_build
++++[279] [[ --debug == --debug ]]
++++[279] return 0
++++[279] TARGET_PATH=Debug
++++[279] DELPHI_MSBUILD_FLAG_DEBUG=//p:Config=Debug
++++[279] WIN32_TARGET_PATH=bin/Win32/Debug
++++[279] X64_TARGET_PATH=bin/x64/Debug
++++[279] ARM64_TARGET_PATH=bin/arm64/Debug
++++[279] ARM64EC_TARGET_PATH=bin/ARM64EC/Debug
++++[279] WIN64_TARGET_PATH=bin/Win64/Debug
++++[279] DEVELOPER_ROOT=/c/Github/keyman-test-delphi/developer
++++[279] DEVELOPER_PROGRAM=/c/Github/keyman-test-delphi/developer/bin
++++[279] DEVELOPER_OUTLIB=/c/Github/keyman-test-delphi/developer/lib
++++[279] DEVELOPER_DEBUGPATH=/c/Github/keyman-test-delphi/developer/debug
++++[279] SENTRYTOOL=/c/Github/keyman-test-delphi/common/windows/delphi/tools/sentrytool/bin/Win32/Debug/sentrytool.exe
++++[279] TDS2DBG=/c/Github/keyman-test-delphi/common/windows/bin/tools/tds2dbg
++++[279] DEVTOOLS=/c/Github/keyman-test-delphi/common/windows/delphi/tools/devtools/bin/Win32/Debug/devtools.exe
+++[279] source /c/Github/keyman-test-delphi/resources/build/win/vs_flags.inc.sh
++++[279] builder_is_debug_build
++++[279] [[ --debug == --debug ]]
++++[279] return 0
++++[279] VS_MSBUILD_FLAG_DEBUG=//p:Configuration=Debug
+++[279] source /c/Github/keyman-test-delphi/resources/build/win/signtime.inc.sh
++++[279] [[ -z '' ]]
++++[279] SC_PFX_SHA1=/c/Github/keyman-test-delphi/common/windows/delphi/tools/certificates/keymantest-sha1.pfx
++++[279] [[ -z '' ]]
++++[279] SC_PFX_SHA256=/c/Github/keyman-test-delphi/common/windows/delphi/tools/certificates/keymantest-sha256.pfx
++++[279] [[ -z '' ]]
++++[279] SC_URL=https://keyman.com/
++++[279] [[ -z '' ]]
++++[279] SC_PWD=
+++[279] VERIFY_SIGNATURES_PATH=/c/Github/keyman-test-delphi/common/windows/delphi/tools/verify_signatures
+++[279] VERIFY_SIGNATURES=/c/Github/keyman-test-delphi/common/windows/delphi/tools/verify_signatures/bin/Win32/Debug/verify_signatures.exe
+++[279] SIGCHECK=/c/Github/keyman-test-delphi/common/windows/delphi/tools/verify_signatures/bin/Win32/Debug/sigcheck.exe
+++[279] _KEYMAN_DELPHI_CE_PROBED=
+++[279] _KEYMAN_DELPHI_IS_CE=
++[279] builder_describe_outputs configure:project /resources/build/win/delphi_environment_generated.inc.sh build:project /common/windows/lib/common_components.bpl
++[279] _builder_record_function_call builder_describe_outputs
++[279] local func=builder_describe_outputs
++[279] _builder_has_function_been_called builder_describe_outputs
++[279] local func=builder_describe_outputs
++[279] _builder_item_in_array builder_describe_outputs builder_describe builder_parse
++[279] local e match=builder_describe_outputs
++[279] shift
++[279] [[ -z builder_describe_outputs ]]
++[279] for e in "$@"
++[279] [[ builder_describe == builder_describe_outputs ]]
++[279] for e in "$@"
++[279] [[ builder_parse == builder_describe_outputs ]]
++[279] return 1
++[279] return 1
++[279] _builder_function_calls+=($1)
++[279] [[ 4 -gt 0 ]]
++[279] local key=configure:project path=/resources/build/win/delphi_environment_generated.inc.sh action= target=
+++[279] _builder_expand_relative_path /resources/build/win/delphi_environment_generated.inc.sh
+++[279] local path=/resources/build/win/delphi_environment_generated.inc.sh
+++[279] [[ /resources/build/win/delphi_environment_generated.inc.sh =~ ^/ ]]
+++[279] echo resources/build/win/delphi_environment_generated.inc.sh
++[279] path=resources/build/win/delphi_environment_generated.inc.sh
++[279] [[ configure:project =~ : ]]
++[279] IFS=:
++[279] read -r action target
++[279] target=:project
++[279] _builder_dep_path[$action$target]=resources/build/win/delphi_environment_generated.inc.sh
++[279] shift 2
++[279] [[ 2 -gt 0 ]]
++[279] local key=build:project path=/common/windows/lib/common_components.bpl action= target=
+++[279] _builder_expand_relative_path /common/windows/lib/common_components.bpl
+++[279] local path=/common/windows/lib/common_components.bpl
+++[279] [[ /common/windows/lib/common_components.bpl =~ ^/ ]]
+++[279] echo common/windows/lib/common_components.bpl
++[279] path=common/windows/lib/common_components.bpl
++[279] [[ build:project =~ : ]]
++[279] IFS=:
++[279] read -r action target
++[279] target=:project
++[279] _builder_dep_path[$action$target]=common/windows/lib/common_components.bpl
++[279] shift 2
++[279] [[ 0 -gt 0 ]]
++[279] _builder_define_default_internal_dependencies
++[279] for target in "${_builder_targets[@]}"
++[279] _builder_define_default_internal_deps_for_target :project
++[279] local target=:project
++[279] _builder_define_default_internal_dep :project configure build
++[279] local target=:project dep=configure action=build
++[279] _builder_item_in_array configure clean configure build test edit
++[279] local e match=configure
++[279] shift
++[279] [[ -z configure ]]
++[279] for e in "$@"
++[279] [[ clean == configure ]]
++[279] for e in "$@"
++[279] [[ configure == configure ]]
++[279] return 0
++[279] _builder_item_in_array build clean configure build test edit
++[279] local e match=build
++[279] shift
++[279] [[ -z build ]]
++[279] for e in "$@"
++[279] [[ clean == build ]]
++[279] for e in "$@"
++[279] [[ configure == build ]]
++[279] for e in "$@"
++[279] [[ build == build ]]
++[279] return 0
++[279] [[ -z '' ]]
++[279] _builder_internal_dep[$action$target]=configure:project
++[279] _builder_define_default_internal_dep :project build test
++[279] local target=:project dep=build action=test
++[279] _builder_item_in_array build clean configure build test edit
++[279] local e match=build
++[279] shift
++[279] [[ -z build ]]
++[279] for e in "$@"
++[279] [[ clean == build ]]
++[279] for e in "$@"
++[279] [[ configure == build ]]
++[279] for e in "$@"
++[279] [[ build == build ]]
++[279] return 0
++[279] _builder_item_in_array test clean configure build test edit
++[279] local e match=test
++[279] shift
++[279] [[ -z test ]]
++[279] for e in "$@"
++[279] [[ clean == test ]]
++[279] for e in "$@"
++[279] [[ configure == test ]]
++[279] for e in "$@"
++[279] [[ build == test ]]
++[279] for e in "$@"
++[279] [[ test == test ]]
++[279] return 0
++[279] [[ -z '' ]]
++[279] _builder_internal_dep[$action$target]=build:project
++[279] _builder_define_default_internal_dep :project build install
++[279] local target=:project dep=build action=install
++[279] _builder_item_in_array build clean configure build test edit
++[279] local e match=build
++[279] shift
++[279] [[ -z build ]]
++[279] for e in "$@"
++[279] [[ clean == build ]]
++[279] for e in "$@"
++[279] [[ configure == build ]]
++[279] for e in "$@"
++[279] [[ build == build ]]
++[279] return 0
++[279] _builder_item_in_array install clean configure build test edit
++[279] local e match=install
++[279] shift
++[279] [[ -z install ]]
++[279] for e in "$@"
++[279] [[ clean == install ]]
++[279] for e in "$@"
++[279] [[ configure == install ]]
++[279] for e in "$@"
++[279] [[ build == install ]]
++[279] for e in "$@"
++[279] [[ test == install ]]
++[279] for e in "$@"
++[279] [[ edit == install ]]
++[279] return 1
++[279] _builder_define_default_internal_deps_for_target ':*'
++[279] local 'target=:*'
++[279] _builder_define_default_internal_dep ':*' configure build
++[279] local 'target=:*' dep=configure action=build
++[279] _builder_item_in_array configure clean configure build test edit
++[279] local e match=configure
++[279] shift
++[279] [[ -z configure ]]
++[279] for e in "$@"
++[279] [[ clean == configure ]]
++[279] for e in "$@"
++[279] [[ configure == configure ]]
++[279] return 0
++[279] _builder_item_in_array build clean configure build test edit
++[279] local e match=build
++[279] shift
++[279] [[ -z build ]]
++[279] for e in "$@"
++[279] [[ clean == build ]]
++[279] for e in "$@"
++[279] [[ configure == build ]]
++[279] for e in "$@"
++[279] [[ build == build ]]
++[279] return 0
++[279] [[ -z '' ]]
++[279] _builder_internal_dep[$action$target]='configure:*'
++[279] _builder_define_default_internal_dep ':*' build test
++[279] local 'target=:*' dep=build action=test
++[279] _builder_item_in_array build clean configure build test edit
++[279] local e match=build
++[279] shift
++[279] [[ -z build ]]
++[279] for e in "$@"
++[279] [[ clean == build ]]
++[279] for e in "$@"
++[279] [[ configure == build ]]
++[279] for e in "$@"
++[279] [[ build == build ]]
++[279] return 0
++[279] _builder_item_in_array test clean configure build test edit
++[279] local e match=test
++[279] shift
++[279] [[ -z test ]]
++[279] for e in "$@"
++[279] [[ clean == test ]]
++[279] for e in "$@"
++[279] [[ configure == test ]]
++[279] for e in "$@"
++[279] [[ build == test ]]
++[279] for e in "$@"
++[279] [[ test == test ]]
++[279] return 0
++[279] [[ -z '' ]]
++[279] _builder_internal_dep[$action$target]='build:*'
++[279] _builder_define_default_internal_dep ':*' build install
++[279] local 'target=:*' dep=build action=install
++[279] _builder_item_in_array build clean configure build test edit
++[279] local e match=build
++[279] shift
++[279] [[ -z build ]]
++[279] for e in "$@"
++[279] [[ clean == build ]]
++[279] for e in "$@"
++[279] [[ configure == build ]]
++[279] for e in "$@"
++[279] [[ build == build ]]
++[279] return 0
++[279] _builder_item_in_array install clean configure build test edit
++[279] local e match=install
++[279] shift
++[279] [[ -z install ]]
++[279] for e in "$@"
++[279] [[ clean == install ]]
++[279] for e in "$@"
++[279] [[ configure == install ]]
++[279] for e in "$@"
++[279] [[ build == install ]]
++[279] for e in "$@"
++[279] [[ test == install ]]
++[279] for e in "$@"
++[279] [[ edit == install ]]
++[279] return 1
++[279] _builder_has_function_been_called builder_parse
++[279] local func=builder_parse
++[279] _builder_item_in_array builder_parse builder_describe builder_parse builder_describe_outputs
++[279] local e match=builder_parse
++[279] shift
++[279] [[ -z builder_parse ]]
++[279] for e in "$@"
++[279] [[ builder_describe == builder_parse ]]
++[279] for e in "$@"
++[279] [[ builder_parse == builder_parse ]]
++[279] return 0
++[279] return 0
++[279] _builder_add_chosen_action_target_dependencies
++[279] new_actions=()
++[279] local action_target i=0 new_actions
++[279] ((  0 < 1  ))
++[279] action_target=build:project
++[279] [[ ! -z x ]]
++[279] dep_outputs=('configure:project')
++[279] local dep_outputs dep_output
++[279] for dep_output in "${dep_outputs[@]}"
++[279] [[ ! -z x ]]
++[279] [[ ! -e /c/Github/keyman-test-delphi/resources/build/win/delphi_environment_generated.inc.sh ]]
++[279] builder_is_full_dep_build
++[279] [[ --no-deps == --force-deps ]]
++[279] return 1
++[279] i=1
++[279] ((  1 < 1  ))
++[279] [[ 0 -gt 0 ]]
++[279] builder_run_action clean:project clean_windows_project_files
++[279] local action=clean:project
++[279] shift
++[279] builder_start_action clean:project
++[279] builder_has_action clean:project
++[279] local action=clean:project target
++[279] [[ clean:project =~ : ]]
++[279] IFS=:
++[279] read -r action target
++[279] target=:project
++[279] _builder_item_in_array clean:project build:project
++[279] local e match=clean:project
++[279] shift
++[279] [[ -z clean:project ]]
++[279] for e in "$@"
++[279] [[ build:project == clean:project ]]
++[279] return 1
++[279] _builder_matched_action=
++[279] return 1
++[279] return 1
++[279] return 0
++[279] builder_run_action configure:project configure_windows_build_environment
++[279] local action=configure:project
++[279] shift
++[279] builder_start_action configure:project
++[279] builder_has_action configure:project
++[279] local action=configure:project target
++[279] [[ configure:project =~ : ]]
++[279] IFS=:
++[279] read -r action target
++[279] target=:project
++[279] _builder_item_in_array configure:project build:project
++[279] local e match=configure:project
++[279] shift
++[279] [[ -z configure:project ]]
++[279] for e in "$@"
++[279] [[ build:project == configure:project ]]
++[279] return 1
++[279] _builder_matched_action=
++[279] return 1
++[279] return 1
++[279] return 0
++[279] builder_run_action build:project do_build
++[279] local action=build:project
++[279] shift
++[279] builder_start_action build:project
++[279] builder_has_action build:project
++[279] local action=build:project target
++[279] [[ build:project =~ : ]]
++[279] IFS=:
++[279] read -r action target
++[279] target=:project
++[279] _builder_item_in_array build:project build:project
++[279] local e match=build:project
++[279] shift
++[279] [[ -z build:project ]]
++[279] for e in "$@"
++[279] [[ build:project == build:project ]]
++[279] return 0
++[279] _builder_matched_action=build:project
++[279] [[ :project == \:\* ]]
++[279] _builder_matched_action_name=build:project
++[279] return 0
++[279] builder_is_dep_build
++[279] [[ ! -z '' ]]
++[279] return 1
++[279] builder_echo start build:project '## build:project starting...'
++[279] local color=white message= mark= block= action= test=
++[279] local echo_target=echo
++[279] [[ 3 -gt 1 ]]
++[279] [[ start =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[279] [[ start == start ]]
++[279] test=start
++[279] block=build:project
++[279] shift 2
++[279] action=start
++[279] color=heading
++[279] message='## build:project starting...'
++[279] [[ start == start ]]
++[279] builder_is_running_on_teamcity
++[279] [[ -z '' ]]
++[279] return 1
++[279] [[ ! -z x ]]
++[279] case $color in
++[279] color=
++[279] builder_is_dep_build
++[279] [[ ! -z '' ]]
++[279] return 1
++[279] echo -e '[common/windows/delphi/components] ## build:project starting...'
++[279] [[ start == end ]]
++[279] [[ -n '' ]]
++[279] _builder_current_action=build:project
++[279] _builder_timing_start build:project
++[279] local context=build:project
++[279] [[ ! -z '' ]]
++[279] _builder_do_build_deps build:project
++[279] local action_target=build:project
++[279] [[ --no-deps == --no-deps ]]
++[279] return 0
++[279] return 0
++[279] do_build
++[279] mkdir -p obj/Win32/Debug
++[279] delphi_msbuild common_components.dproj //p:Platform=Win32
++[279] [[ 1 == 1 ]]
++[279] local project=common_components.dproj
++[279] local platform=Win32
++[279] local arg
++[279] for arg in "$@"
++[279] [[ common_components.dproj == *Platform=Win64* ]]
++[279] for arg in "$@"
++[279] [[ //p:Platform=Win32 == *Platform=Win64* ]]
++[279] _delphi_ce_output_fresh common_components.dproj Win32
++[279] local project=common_components.dproj platform=Win32
++[279] local base=common_components
++[279] local source
++[279] [[ -f common_components.dpr ]]
++[279] [[ -f common_components.dpk ]]
++[279] source=common_components.dpk
++[279] local candidate ext
++[279] for ext in exe dll bpl
++[279] candidate=bin/Win32/Debug/common_components.exe
++[279] [[ -f bin/Win32/Debug/common_components.exe ]]
++[279] for ext in exe dll bpl
++[279] candidate=bin/Win32/Debug/common_components.dll
++[279] [[ -f bin/Win32/Debug/common_components.dll ]]
++[279] for ext in exe dll bpl
++[279] candidate=bin/Win32/Debug/common_components.bpl
++[279] [[ -f bin/Win32/Debug/common_components.bpl ]]
++[279] return 1
++[279] builder_echo warning 'Delphi CE: CLI compilation is not available.'
++[279] local color=white message= mark= block= action= test=
++[279] local echo_target=echo
++[279] [[ 2 -gt 1 ]]
++[279] [[ warning =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[279] color=warning
++[279] shift
++[279] message='Delphi CE: CLI compilation is not available.'
++[279] [[ '' == start ]]
++[279] [[ ! -z x ]]
++[279] case $color in
++[279] color=
++[279] builder_is_dep_build
++[279] [[ ! -z '' ]]
++[279] return 1
++[279] echo -e '[common/windows/delphi/components] Delphi CE: CLI compilation is not available.'
++[279] [[ '' == end ]]
++[279] builder_echo warning 'Please build common_components.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).'
++[279] local color=white message= mark= block= action= test=
++[279] local echo_target=echo
++[279] [[ 2 -gt 1 ]]
++[279] [[ warning =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[279] color=warning
++[279] shift
++[279] message='Please build common_components.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).'
++[279] [[ '' == start ]]
++[279] [[ ! -z x ]]
++[279] case $color in
++[279] color=
++[279] builder_is_dep_build
++[279] [[ ! -z '' ]]
++[279] return 1
++[279] echo -e '[common/windows/delphi/components] Please build common_components.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).'
++[279] [[ '' == end ]]
++[279] builder_echo warning 'Tip: opening the parent .groupproj and running Build All pre-builds all sibling projects at once; subsequent CE prompts in this script will auto-skip when their outputs are fresh.'
++[279] local color=white message= mark= block= action= test=
++[279] local echo_target=echo
++[279] [[ 2 -gt 1 ]]
++[279] [[ warning =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[279] color=warning
++[279] shift
++[279] message='Tip: opening the parent .groupproj and running Build All pre-builds all sibling projects at once; subsequent CE prompts in this script will auto-skip when their outputs are fresh.'
++[279] [[ '' == start ]]
++[279] [[ ! -z x ]]
++[279] case $color in
++[279] color=
++[279] builder_is_dep_build
++[279] [[ ! -z '' ]]
++[279] return 1
++[279] echo -e '[common/windows/delphi/components] Tip: opening the parent .groupproj and running Build All pre-builds all sibling projects at once; subsequent CE prompts in this script will auto-skip when their outputs are fresh.'
++[279] [[ '' == end ]]
++[279] read -r _
++[279] _delphi_ce_output_fresh common_components.dproj Win32
++[279] local project=common_components.dproj platform=Win32
++[279] local base=common_components
++[279] local source
++[279] [[ -f common_components.dpr ]]
++[279] [[ -f common_components.dpk ]]
++[279] source=common_components.dpk
++[279] local candidate ext
++[279] for ext in exe dll bpl
++[279] candidate=bin/Win32/Debug/common_components.exe
++[279] [[ -f bin/Win32/Debug/common_components.exe ]]
++[279] for ext in exe dll bpl
++[279] candidate=bin/Win32/Debug/common_components.dll
++[279] [[ -f bin/Win32/Debug/common_components.dll ]]
++[279] for ext in exe dll bpl
++[279] candidate=bin/Win32/Debug/common_components.bpl
++[279] [[ -f bin/Win32/Debug/common_components.bpl ]]
++[279] return 1
++[279] builder_die 'Delphi CE: common_components.dproj (Win32) was not built in the IDE -- its Debug output is still older than its source (or missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.'
++[279] _builder_error_echo
++[279] [[ 0 -gt 0 ]]
++[279] echo ''
++[279] [[ 1 -eq 0 ]]
++[279] builder_echo error 'Delphi CE: common_components.dproj (Win32) was not built in the IDE -- its Debug output is still older than its source (or missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.'
++[279] local color=white message= mark= block= action= test=
++[279] local echo_target=echo
++[279] [[ 2 -gt 1 ]]
++[279] [[ error =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[279] color=error
++[279] shift
++[279] message='Delphi CE: common_components.dproj (Win32) was not built in the IDE -- its Debug output is still older than its source (or missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.'
++[279] [[ '' == start ]]
++[279] [[ ! -z x ]]
++[279] case $color in
++[279] color=
++[279] echo_target=_builder_error_echo
++[279] builder_is_dep_build
++[279] [[ ! -z '' ]]
++[279] return 1
++[279] _builder_error_echo -e '[common/windows/delphi/components] Delphi CE: common_components.dproj (Win32) was not built in the IDE -- its Debug output is still older than its source (or missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.'
++[279] [[ 2 -gt 0 ]]
++[279] [[ -e == -e ]]
++[279] shift
++[279] echo -e '[common/windows/delphi/components] Delphi CE: common_components.dproj (Win32) was not built in the IDE -- its Debug output is still older than its source (or missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.'
++[279] [[ '' == end ]]
++[279] _builder_error_echo
++[279] [[ 0 -gt 0 ]]
++[279] echo ''
++[279] exit 1
++[279] _builder_failure_trap
++[279] local trappedExitCode=1
++[279] local action target
++[279] _builder_cleanup_deps
++[279] builder_is_dep_build
++[279] [[ ! -z '' ]]
++[279] return 1
++[279] builder_is_child_build
++[279] return 1
++[279] [[ ! -z x ]]
++[279] builder_is_debug_internal
++[279] false
++[279] return 1
++[279] rm -f /tmp/tmp.huaDZ8DAW6
++[279] _builder_deps_built=
++[279] _builder_timing_cleanup_and_report 1
++[279] local build_exit_code=1
++[279] builder_is_dep_build
++[279] [[ ! -z '' ]]
++[279] return 1
++[279] builder_is_child_build
++[279] return 1
++[279] [[ -z '' ]]
++[279] return 0
++[279] [[ 1 == 0 ]]
++[279] '[' -n build:project ']'
++[279] action=build:project
++[279] [[ build:project =~ : ]]
++[279] IFS=:
++[279] read -r action target
++[279] target=:project
++[279] builder_finish_action failure build:project
++[279] local result=failure
++[279] local action=build:project target action_name
++[279] [[ build:project =~ : ]]
++[279] IFS=:
++[279] read -r action target
++[279] target=:project
++[279] [[ :project == \:\* ]]
++[279] action_name=build:project
++[279] local matched_action=build:project
++[279] [[ build:project == build\:project ]]
++[279] [[ failure == success ]]
++[279] [[ failure == failure ]]
++[279] builder_echo end build:project error '## build:project failed'
++[279] local color=white message= mark= block= action= test=
++[279] local echo_target=echo
++[279] [[ 4 -gt 1 ]]
++[279] [[ end =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[279] [[ end == start ]]
++[279] [[ end == startTest ]]
++[279] [[ end == end ]]
++[279] test=end
++[279] block=build:project
++[279] color=error
++[279] shift 3
++[279] action=end
++[279] message='## build:project failed'
++[279] [[ end == start ]]
++[279] [[ ! -z x ]]
++[279] case $color in
++[279] color=
++[279] echo_target=_builder_error_echo
++[279] builder_is_dep_build
++[279] [[ ! -z '' ]]
++[279] return 1
++[279] _builder_error_echo -e '[common/windows/delphi/components] ## build:project failed'
++[279] [[ 2 -gt 0 ]]
++[279] [[ -e == -e ]]
++[279] shift
++[279] echo -e '[common/windows/delphi/components] ## build:project failed'
++[279] [[ end == end ]]
++[279] builder_is_running_on_teamcity
++[279] [[ -z '' ]]
++[279] return 1
++[279] _builder_timing_stop build:project
++[279] local context=build:project
++[279] [[ ! -z '' ]]
++[279] _builder_current_action=
++[279] exit 1
++[274] case $mode in
++[274] rc=1
++[274] set +x

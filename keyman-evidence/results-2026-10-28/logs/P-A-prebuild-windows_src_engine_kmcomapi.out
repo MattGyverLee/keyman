@@ -1,0 +1,34 @@
+# cwd=/c/Github/keyman-test-delphi/windows/src/engine/kmcomapi date=2026-10-28T10:35:59-05:00 host=ltu-legion HEAD=331b0b3015
+# KEYMAN_DELPHI_CE='1' KEYMAN_DELPHI_VERSION='23.0' NoDefaultCurrentDirectoryInExePath='<unset>' stdin=null
+# cmd: ./build.sh build --no-deps
+[windows/src/engine/kmcomapi] Local build environment detected:  setting --debug
+[windows/src/engine/kmcomapi] build.sh parameters: <build --no-deps --debug>
+[windows/src/engine/kmcomapi] ## build:project starting...
+[windows/src/engine/kmcomapi] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/kmcomapi] ### visual_studio: rc manifest.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/kmcomapi] ### visual_studio: rc kbd_noicon.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/kmcomapi] ### visual_studio: gentlb -Tkmcomapi.tlb kmcomapi.ridl
+Embarcadero GenTLB Version 12.16581
+Copyright(c) 1995-2020 Embarcadero Technologies, Inc.
+
+Opening  'kmcomapi.ridl'
+Created  C:\Github\keyman-test-delphi\windows\src\engine\kmcomapi\kmcomapi.tlb
+[windows/src/engine/kmcomapi] Delphi CE: CLI compilation is not available.
+[windows/src/engine/kmcomapi] Please build kmcomapi.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/engine/kmcomapi] Tip: opening the parent .groupproj and running Build All pre-builds all sibling projects at once; subsequent CE prompts in this script will auto-skip when their outputs are fresh.
+[windows/src/engine/kmcomapi] Delphi CE: no Enter received (stdin closed or EOF) for kmcomapi.dproj.
+
+[windows/src/engine/kmcomapi] Delphi CE: kmcomapi.dproj (Win32) was not built in the IDE -- its Debug output is still older than its source (or missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.
+
+[windows/src/engine/kmcomapi] ## build:project failed
+# exit=1
+dcc32 spawns (probe exec lines in xtrace): 0

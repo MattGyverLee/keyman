@@ -1,0 +1,15 @@
+# cwd=/c/Github/keyman-test-delphi/common/windows/delphi/components date=2026-10-28T10:31:59-05:00 host=ltu-legion HEAD=331b0b3015
+# KEYMAN_DELPHI_CE='1' KEYMAN_DELPHI_VERSION='23.0' NoDefaultCurrentDirectoryInExePath='<unset>' stdin=enter
+# cmd: ./build.sh build --no-deps
+[common/windows/delphi/components] Local build environment detected:  setting --debug
+[common/windows/delphi/components] build.sh parameters: <build --no-deps --debug>
+[common/windows/delphi/components] ## build:project starting...
+[common/windows/delphi/components] Delphi CE: CLI compilation is not available.
+[common/windows/delphi/components] Please build common_components.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[common/windows/delphi/components] Tip: opening the parent .groupproj and running Build All pre-builds all sibling projects at once; subsequent CE prompts in this script will auto-skip when their outputs are fresh.
+
+[common/windows/delphi/components] Delphi CE: common_components.dproj (Win32) was not built in the IDE -- its Debug output is still older than its source (or missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.
+
+[common/windows/delphi/components] ## build:project failed
+# exit=1
+dcc32 spawns (probe exec lines in xtrace): 0
