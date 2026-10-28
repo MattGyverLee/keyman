@@ -132,7 +132,7 @@ For the cases that need to see the *injected event* rather than its effect, rebu
   - typing before that release produces capitals
 
   Observed: **FAILURE** (measured 2026-08-27, see
-  [`evidence/baseline-shipped-build.md`](./evidence/baseline-shipped-build.md)). The
+  [`baseline-shipped-build.md`](https://github.com/MattGyverLee/keyman/blob/evidence/8064-16462/keyman-evidence/16527-GH-16462/manual-tests-GH-16462/evidence/baseline-shipped-build.md) in the evidence archive). The
   dismissal took *both*. `UpdateShiftStates` runs on a 50 ms timer and ends with
   `kbd.ShiftState := GetAsyncShiftState`, so `kbd.ShiftState` continuously carries
   physically-held modifiers; the cache was assigned from it wholesale, so a click made
@@ -195,12 +195,12 @@ For the cases that need to see the *injected event* rather than its effect, rebu
 
 ## Baseline
 
-[`evidence/baseline-shipped-build.md`](./evidence/baseline-shipped-build.md) records
+[`baseline-shipped-build.md`](https://github.com/MattGyverLee/keyman/blob/evidence/8064-16462/keyman-evidence/16527-GH-16462/manual-tests-GH-16462/evidence/baseline-shipped-build.md) in the evidence archive records
 the red measurements these cases were written against.
 
 ## Not covered here
 
 `keyman.exe` killed or crashed while an OSK sticky modifier is held. Nothing
 in-process can run after `TerminateProcess`, so no change in this area closes it. It
-is written up in
-[`issues/issue-osk-sticky-stranded-by-kill.md`](./issues/issue-osk-sticky-stranded-by-kill.md).
+is written up as a draft in the evidence archive in
+[`issue-osk-sticky-stranded-by-kill.md`](https://github.com/MattGyverLee/keyman/blob/evidence/8064-16462/keyman-evidence/16527-GH-16462/manual-tests-GH-16462/issues/issue-osk-sticky-stranded-by-kill.md) — a draft, not a filed issue, until someone files it.
