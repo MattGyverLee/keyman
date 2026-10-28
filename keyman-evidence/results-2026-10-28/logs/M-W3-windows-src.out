@@ -130,3 +130,1791 @@
 [common/windows/delphi/tools/test-klog] skipping build:project, up-to-date
 [common/windows/delphi/tools] ## child build:test-klog completed successfully
 [common/windows/delphi/tools] ## child build:verify_signatures starting...
+[common/windows/delphi/tools/verify_signatures] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/verify_signatures] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/verify_signatures] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/verify_signatures] skipping build:project, up-to-date
+[common/windows/delphi/tools] ## child build:verify_signatures completed successfully
+[common/windows/delphi] ## child build:tools completed successfully
+[common/windows/delphi] ## child build:components starting...
+[common/windows/delphi/components] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/components] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/components] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/components] skipping build:project, up-to-date
+[common/windows/delphi] ## child build:components completed successfully
+[common/windows/delphi] ## child build:ext starting...
+[common/windows/delphi/ext] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext] ## child build:cef4delphi starting...
+[common/windows/delphi/ext/cef4delphi] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext/cef4delphi] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext/cef4delphi] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext/cef4delphi] skipping build:project, up-to-date
+[common/windows/delphi/ext] ## child build:cef4delphi completed successfully
+[common/windows/delphi/ext] ## child build:dcpcrypt starting...
+[common/windows/delphi/ext/dcpcrypt] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext/dcpcrypt] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext/dcpcrypt] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext/dcpcrypt] ## build:project starting...
+addincludepath C:/Github/keyman-test-merge2/common/windows/delphi/ext/dcpcrypt
+[common/windows/delphi/ext/dcpcrypt] ## build:project completed successfully
+[common/windows/delphi/ext] ## child build:dcpcrypt completed successfully
+[common/windows/delphi/ext] ## child build:jwa starting...
+[common/windows/delphi/ext/jwa] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext/jwa] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext/jwa] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext/jwa] ## build:project starting...
+addincludepath C:/Github/keyman-test-merge2/common/windows/delphi/ext/jwa/Win32API
+[common/windows/delphi/ext/jwa] ## build:project completed successfully
+[common/windows/delphi/ext] ## child build:jwa completed successfully
+[common/windows/delphi/ext] ## child build:sentry starting...
+[common/windows/delphi/ext/sentry] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext/sentry] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext/sentry] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext] ## child build:sentry completed successfully
+[common/windows/delphi/ext] ## child build:tds2dbg starting...
+[common/windows/delphi/ext/tds2dbg] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext/tds2dbg] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext/tds2dbg] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext/tds2dbg] skipping build:project, up-to-date
+[common/windows/delphi/ext] ## child build:tds2dbg completed successfully
+[common/windows/delphi] ## child build:ext completed successfully
+[windows/src/engine/insthelper] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/insthelper] Delphi CE: CLI compilation is not available.
+[windows/src/engine/insthelper] Please build insthelper.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/engine/insthelper] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[windows/src/engine/insthelper] ### delphi: sentrytool_delphiprep bin/Win32/Debug/insthelper.dll insthelper.dpr
+DebugID: 70CCD82C766F4A7088F5A1EC2659D93F1
+CodeID: 6AE24DD9111000
+[windows/src/engine/insthelper] ## build:project completed successfully
+[windows/src/engine] ## child build:insthelper completed successfully
+[windows/src/engine] ## child build:keyman starting...
+[windows/src/engine/keyman] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/engine/keyman] ## build:project starting...
+[windows/src/global/delphi] dependency build, started by windows/src/engine/keyman
+[windows/src/global/delphi] build.sh parameters: <configure build --debug --deps --builder-dep-parent windows/src/engine/keyman>
+[windows/src/global/delphi] skipping configure:components, up-to-date
+[windows/src/global/delphi] skipping build:components, up-to-date
+[windows/src/global/delphi] skipping build:message-identifiers, up-to-date
+[windows/src/engine/keyman] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/keyman] ### visual_studio: rc manifest.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/keyman] ### visual_studio: rc keymanmenuitem.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/keyman] ### visual_studio: rc icons.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/keyman] ### visual_studio: rc osktoolbar.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/keyman] ### visual_studio: rc langswitch/langswitchmanager.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/keyman] Delphi CE: CLI compilation is not available.
+[windows/src/engine/keyman] Please build keyman.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/engine/keyman] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[windows/src/engine/keyman] ### delphi: sentrytool_delphiprep bin/Win32/Debug/keyman.exe keyman.dpr
+DebugID: D63F9A2AE4E543868A8749A4481C37A31
+CodeID: 6AE24DFE44F000
+[windows/src/engine/keyman] ## build:project completed successfully
+[windows/src/engine] ## child build:keyman completed successfully
+[windows/src/engine] ## child build:keyman32 starting...
+[windows/src/engine/keyman32] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/engine/keyman32] ## build:x86 starting...
+[core] dependency build, started by windows/src/engine/keyman32
+[core] build.sh parameters: <configure:win build:win --debug --deps --builder-dep-parent windows/src/engine/keyman32>
+[core] skipping configure:win, up-to-date
+[core] skipping build:win, up-to-date
+[windows/src/engine/keyman32] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/keyman32] ### visual_studio: msbuild.exe keyman32.vcxproj //t:Build //p:Platform=Win32 //p:Configuration=Debug
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+Build started 10/28/2026 2:33:32 PM.
+
+Project "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\keyman32.vcxproj" on node 1 (Build target(s)).
+PrepareForBuild:
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+InitializeBuildStatus:
+  Creating "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\keyman32.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\keyman32.tlog\unsuccessfulbuild".
+CustomBuild:
+  All outputs are up-to-date.
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I.\ /I..\..\global\inc /I. /ZI /nologo /W4 /WX /diagnostics:column /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _WINDLL /Gm- /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yc"pch.h" /Fp"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\keyman32.pch" /FAcs /Fa"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\\" /Fo"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\\" /Fd"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\vc143.pdb" /FR"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\\" /external:W4 /Gd /TP /analyze- /FC /errorReport:queue pch.cpp
+  pch.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I.\ /I..\..\global\inc /I. /ZI /nologo /W4 /WX /diagnostics:column /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _WINDLL /Gm- /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"pch.h" /Fp"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\keyman32.pch" /FAcs /Fa"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\\" /Fo"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\\" /Fd"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\vc143.pdb" /FR"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\\" /external:W4 /Gd /TP /analyze- /FC /errorReport:queue ..\..\global\cpp\kmtip_guids.cpp "C:/Github/keyman-test-merge2\common\windows\cpp\src\keynames.cpp" "C:/Github/keyman-test-merge2\common\windows\cpp\src\registry.cpp" "C:/Github/keyman-test-merge2\common\windows\cpp\src\unicode.cpp" "C:/Github/keyman-test-merge2\common\windows\cpp\src\xstring.cpp" CoreEnvironment.cpp DebugEventTrace.cpp K32_DBG.CPP K32_load.cpp LowLevelHookWatchDog.cpp RightAltEmulationCheck.cpp SharedBuffers.cpp VKScanCodes.cpp appcontext.cpp appint\aiTIP.cpp appint\aiWin2000Unicode.cpp appint\appint.cpp calldll.cpp capsstate.cpp glossary.cpp hookutils.cpp hotkeys.cpp k32_globals.cpp k32_lowlevelkeyboardhook.cpp k32_tsf.cpp k32_visualkeyboardinterface.cpp keybd_shift.cpp keyboardoptions.cpp keyman32.cpp keystate.cpp kmhook_callwndproc.cpp kmhook_getmessage.cpp kmhook_keyboard.cpp kmprocess.cpp kmprocessactions.cpp preservedkeymap.cpp security.cpp selectkeyboard.cpp serialkeyeventclient.cpp serialkeyeventserver.cpp syskbd.cpp versioninfo.cpp
+  kmtip_guids.cpp
+  keynames.cpp
+  registry.cpp
+  unicode.cpp
+  xstring.cpp
+  CoreEnvironment.cpp
+  DebugEventTrace.cpp
+  K32_DBG.CPP
+  K32_load.cpp
+  LowLevelHookWatchDog.cpp
+  RightAltEmulationCheck.cpp
+  SharedBuffers.cpp
+  VKScanCodes.cpp
+  appcontext.cpp
+  aiTIP.cpp
+  aiWin2000Unicode.cpp
+  appint.cpp
+  calldll.cpp
+  capsstate.cpp
+  glossary.cpp
+  Generating Code...
+  Compiling...
+  hookutils.cpp
+  hotkeys.cpp
+  k32_globals.cpp
+  k32_lowlevelkeyboardhook.cpp
+  k32_tsf.cpp
+  k32_visualkeyboardinterface.cpp
+  keybd_shift.cpp
+  keyboardoptions.cpp
+  keyman32.cpp
+  keystate.cpp
+  kmhook_callwndproc.cpp
+  kmhook_getmessage.cpp
+  kmhook_keyboard.cpp
+  kmprocess.cpp
+  kmprocessactions.cpp
+  preservedkeymap.cpp
+  security.cpp
+  selectkeyboard.cpp
+  serialkeyeventclient.cpp
+  serialkeyeventserver.cpp
+  Generating Code...
+  Compiling...
+  syskbd.cpp
+  versioninfo.cpp
+  Generating Code...
+ResourceCompile:
+  All outputs are up-to-date.
+  All outputs are up-to-date.
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\bin\Win32\Debug\keyman32.dll" /INCREMENTAL /ILK:"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\keyman32.ilk" /NOLOGO libicuuc.a libicuin.a libkeymancore.a psapi.lib rpcrt4.lib version.lib setupapi.lib iphlpapi.lib imm32.lib crypt32.lib wintrust.lib imagehlp.lib ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:"keyman32.def" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='true'" /manifest:embed /DEBUG /PDB:"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\bin\Win32\Debug\keyman32.pdb" /MAP /SUBSYSTEM:WINDOWS /TLBID:1 /BASE:"0x1C100000" /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\..\..\lib\keyman32.lib" /MACHINE:X86 /SAFESEH /verbose:lib /section:.SHARDATA,rws /DLL "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\keyman-debug-etw.res"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\KEYMAN32.res"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\kmtip_guids.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\xstring.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\appcontext.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\aiTIP.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\aiWin2000Unicode.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\appint.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\calldll.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\capsstate.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\CoreEnvironment.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\DebugEventTrace.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\glossary.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\hookutils.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\hotkeys.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\K32_DBG.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\k32_globals.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\K32_load.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\k32_lowlevelkeyboardhook.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\k32_tsf.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\k32_visualkeyboardinterface.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\keybd_shift.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\keyboardoptions.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\keyman32.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\keynames.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\keystate.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\kmhook_callwndproc.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\kmhook_getmessage.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\kmhook_keyboard.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\kmprocess.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\registry.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\kmprocessactions.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\LowLevelHookWatchDog.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\pch.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\preservedkeymap.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\RightAltEmulationCheck.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\security.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\selectkeyboard.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\serialkeyeventclient.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\serialkeyeventserver.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\SharedBuffers.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\syskbd.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\unicode.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\versioninfo.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\VKScanCodes.obj"
+  
+  Searching libraries
+      Searching C:\Github\keyman-test-merge2\windows\src\engine\keyman32\..\..\..\..\core\build\x86\Debug\subprojects\icu\source\common\libicuuc.a:
+  
+  Finished searching libraries
+  keyman32.vcxproj -> C:\Github\keyman-test-merge2\windows\src\engine\keyman32\bin\Win32\Debug\keyman32.dll
+BscMake:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\bscmake.exe /nologo /o"./Keyman32.bsc" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\kmtip_guids.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\xstring.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\appcontext.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\aiTIP.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\aiWin2000Unicode.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\appint.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\calldll.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\capsstate.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\CoreEnvironment.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\DebugEventTrace.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\glossary.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\hookutils.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\hotkeys.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\K32_DBG.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\k32_globals.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\K32_load.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\k32_lowlevelkeyboardhook.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\k32_tsf.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\k32_visualkeyboardinterface.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\keybd_shift.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\keyboardoptions.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\keyman32.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\keynames.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\keystate.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\kmhook_callwndproc.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\kmhook_getmessage.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\kmhook_keyboard.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\kmprocess.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\registry.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\kmprocessactions.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\LowLevelHookWatchDog.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\pch.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\preservedkeymap.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\RightAltEmulationCheck.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\security.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\selectkeyboard.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\serialkeyeventclient.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\serialkeyeventserver.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\SharedBuffers.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\syskbd.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\unicode.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\versioninfo.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\VKScanCodes.sbr"
+FinalizeBuildStatus:
+  Deleting file "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\keyman32.tlog\unsuccessfulbuild".
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\Win32\Debug\keyman32.tlog\keyman32.lastbuildstate".
+Done Building Project "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\keyman32.vcxproj" (Build target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:04.27
+[windows/src/engine/keyman32] ## build:x86 completed successfully
+[windows/src/engine/keyman32] ## build:x64 starting...
+[windows/src/engine/keyman32] ### visual_studio: rc version64.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/keyman32] ### visual_studio: msbuild.exe keyman32.vcxproj //t:Build //p:Platform=x64 //p:Configuration=Debug
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+Build started 10/28/2026 2:33:37 PM.
+
+Project "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\keyman32.vcxproj" on node 1 (Build target(s)).
+PrepareForBuild:
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+InitializeBuildStatus:
+  Creating "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\keyman32.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\keyman32.tlog\unsuccessfulbuild".
+CustomBuild:
+  All outputs are up-to-date.
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64\CL.exe /c /I.\ /I..\..\global\inc /I. /Zi /nologo /W4 /WX /diagnostics:column /Od /D WIN32 /D _DEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _WINDLL /Gm- /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yc"pch.h" /Fp"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\keyman64.pch" /FAcs /Fa"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\\" /Fo"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\\" /Fd"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\vc143.pdb" /FR"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\\" /external:W4 /Gd /TP /FC /errorReport:queue pch.cpp
+  pch.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64\CL.exe /c /I.\ /I..\..\global\inc /I. /Zi /nologo /W4 /WX /diagnostics:column /Od /D WIN32 /D _DEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _WINDLL /Gm- /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"pch.h" /Fp"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\keyman64.pch" /FAcs /Fa"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\\" /Fo"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\\" /Fd"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\vc143.pdb" /FR"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\\" /external:W4 /Gd /TP /FC /errorReport:queue ..\..\global\cpp\kmtip_guids.cpp "C:/Github/keyman-test-merge2\common\windows\cpp\src\keynames.cpp" "C:/Github/keyman-test-merge2\common\windows\cpp\src\registry.cpp" "C:/Github/keyman-test-merge2\common\windows\cpp\src\unicode.cpp" "C:/Github/keyman-test-merge2\common\windows\cpp\src\xstring.cpp" CoreEnvironment.cpp DebugEventTrace.cpp K32_DBG.CPP K32_load.cpp LowLevelHookWatchDog.cpp RightAltEmulationCheck.cpp SharedBuffers.cpp VKScanCodes.cpp appcontext.cpp appint\aiTIP.cpp appint\aiWin2000Unicode.cpp appint\appint.cpp calldll.cpp capsstate.cpp glossary.cpp hookutils.cpp hotkeys.cpp k32_globals.cpp k32_lowlevelkeyboardhook.cpp k32_tsf.cpp k32_visualkeyboardinterface.cpp keybd_shift.cpp keyboardoptions.cpp keyman32.cpp keystate.cpp kmhook_callwndproc.cpp kmhook_getmessage.cpp kmhook_keyboard.cpp kmprocess.cpp kmprocessactions.cpp preservedkeymap.cpp security.cpp selectkeyboard.cpp serialkeyeventclient.cpp serialkeyeventserver.cpp syskbd.cpp versioninfo.cpp
+  kmtip_guids.cpp
+  keynames.cpp
+  registry.cpp
+  unicode.cpp
+  xstring.cpp
+  CoreEnvironment.cpp
+  DebugEventTrace.cpp
+  K32_DBG.CPP
+  K32_load.cpp
+  LowLevelHookWatchDog.cpp
+  RightAltEmulationCheck.cpp
+  SharedBuffers.cpp
+  VKScanCodes.cpp
+  appcontext.cpp
+  aiTIP.cpp
+  aiWin2000Unicode.cpp
+  appint.cpp
+  calldll.cpp
+  capsstate.cpp
+  glossary.cpp
+  Generating Code...
+  Compiling...
+  hookutils.cpp
+  hotkeys.cpp
+  k32_globals.cpp
+  k32_lowlevelkeyboardhook.cpp
+  k32_tsf.cpp
+  k32_visualkeyboardinterface.cpp
+  keybd_shift.cpp
+  keyboardoptions.cpp
+  keyman32.cpp
+  keystate.cpp
+  kmhook_callwndproc.cpp
+  kmhook_getmessage.cpp
+  kmhook_keyboard.cpp
+  kmprocess.cpp
+  kmprocessactions.cpp
+  preservedkeymap.cpp
+  security.cpp
+  selectkeyboard.cpp
+  serialkeyeventclient.cpp
+  serialkeyeventserver.cpp
+  Generating Code...
+  Compiling...
+  syskbd.cpp
+  versioninfo.cpp
+  Generating Code...
+ResourceCompile:
+  All outputs are up-to-date.
+  All outputs are up-to-date.
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\bin\x64\Debug\keyman64.dll" /INCREMENTAL /ILK:"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\keyman64.ilk" /NOLOGO libicuuc.a libicuin.a libkeymancore.a psapi.lib rpcrt4.lib version.lib setupapi.lib iphlpapi.lib imm32.lib crypt32.lib wintrust.lib imagehlp.lib ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:"keyman64.def" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='true'" /manifest:embed /DEBUG /PDB:"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\bin\x64\Debug\keyman64.pdb" /MAP /SUBSYSTEM:WINDOWS /TLBID:1 /BASE:"0x140000000" /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\..\..\lib\keyman64.lib" /MACHINE:X64 /verbose:lib /section:.SHARDATA,rws /DLL "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\keyman-debug-etw.res"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\keyman64.res"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\kmtip_guids.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\xstring.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\appcontext.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\aiTIP.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\aiWin2000Unicode.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\appint.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\calldll.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\capsstate.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\CoreEnvironment.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\DebugEventTrace.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\glossary.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\hookutils.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\hotkeys.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\K32_DBG.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\k32_globals.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\K32_load.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\k32_lowlevelkeyboardhook.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\k32_tsf.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\k32_visualkeyboardinterface.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\keybd_shift.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\keyboardoptions.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\keyman32.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\keynames.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\keystate.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\kmhook_callwndproc.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\kmhook_getmessage.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\kmhook_keyboard.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\kmprocess.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\registry.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\kmprocessactions.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\LowLevelHookWatchDog.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\pch.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\preservedkeymap.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\RightAltEmulationCheck.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\security.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\selectkeyboard.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\serialkeyeventclient.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\serialkeyeventserver.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\SharedBuffers.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\syskbd.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\unicode.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\versioninfo.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\VKScanCodes.obj"
+  
+  Searching libraries
+      Searching C:\Github\keyman-test-merge2\windows\src\engine\keyman32\..\..\..\..\core\build\x64\Debug\subprojects\icu\source\common\libicuuc.a:
+  
+  Finished searching libraries
+  keyman32.vcxproj -> C:\Github\keyman-test-merge2\windows\src\engine\keyman32\bin\x64\Debug\keyman64.dll
+BscMake:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64\bscmake.exe /nologo /o"./Keyman32.bsc" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\kmtip_guids.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\xstring.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\appcontext.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\aiTIP.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\aiWin2000Unicode.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\appint.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\calldll.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\capsstate.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\CoreEnvironment.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\DebugEventTrace.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\glossary.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\hookutils.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\hotkeys.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\K32_DBG.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\k32_globals.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\K32_load.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\k32_lowlevelkeyboardhook.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\k32_tsf.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\k32_visualkeyboardinterface.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\keybd_shift.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\keyboardoptions.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\keyman32.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\keynames.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\keystate.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\kmhook_callwndproc.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\kmhook_getmessage.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\kmhook_keyboard.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\kmprocess.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\registry.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\kmprocessactions.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\LowLevelHookWatchDog.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\pch.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\preservedkeymap.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\RightAltEmulationCheck.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\security.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\selectkeyboard.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\serialkeyeventclient.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\serialkeyeventserver.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\SharedBuffers.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\syskbd.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\unicode.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\versioninfo.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\VKScanCodes.sbr"
+FinalizeBuildStatus:
+  Deleting file "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\keyman32.tlog\unsuccessfulbuild".
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\x64\Debug\keyman32.tlog\keyman32.lastbuildstate".
+Done Building Project "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\keyman32.vcxproj" (Build target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:03.30
+[windows/src/engine/keyman32] ## build:x64 completed successfully
+[windows/src/engine/keyman32] ## build:arm64 starting...
+[windows/src/engine/keyman32] ### visual_studio: rc version64.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/keyman32] ### visual_studio: msbuild.exe keyman32.vcxproj //t:Build //p:Platform=arm64 //p:Configuration=Debug
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+Build started 10/28/2026 2:33:41 PM.
+
+Project "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\keyman32.vcxproj" on node 1 (Build target(s)).
+PrepareForBuild:
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+InitializeBuildStatus:
+  Creating "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\keyman32.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\keyman32.tlog\unsuccessfulbuild".
+CustomBuild:
+  All outputs are up-to-date.
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\arm64\CL.exe /c /I.\ /I..\..\global\inc /I. /Zi /nologo /W4 /WX /diagnostics:column /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _ARM64_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE=1 /D _WINDLL /Gm- /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yc"pch.h" /Fp"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\keymanarm64.pch" /FAcs /Fa"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\\" /Fo"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\\" /Fd"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\vc143.pdb" /FR"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\\" /external:W4 /Gd /TP /analyze- /FC /errorReport:queue pch.cpp
+  pch.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\arm64\CL.exe /c /I.\ /I..\..\global\inc /I. /Zi /nologo /W4 /WX /diagnostics:column /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _ARM64_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE=1 /D _WINDLL /Gm- /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"pch.h" /Fp"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\keymanarm64.pch" /FAcs /Fa"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\\" /Fo"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\\" /Fd"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\vc143.pdb" /FR"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\\" /external:W4 /Gd /TP /analyze- /FC /errorReport:queue ..\..\global\cpp\kmtip_guids.cpp "C:/Github/keyman-test-merge2\common\windows\cpp\src\keynames.cpp" "C:/Github/keyman-test-merge2\common\windows\cpp\src\registry.cpp" "C:/Github/keyman-test-merge2\common\windows\cpp\src\unicode.cpp" "C:/Github/keyman-test-merge2\common\windows\cpp\src\xstring.cpp" CoreEnvironment.cpp DebugEventTrace.cpp K32_DBG.CPP K32_load.cpp LowLevelHookWatchDog.cpp RightAltEmulationCheck.cpp SharedBuffers.cpp VKScanCodes.cpp appcontext.cpp appint\aiTIP.cpp appint\aiWin2000Unicode.cpp appint\appint.cpp calldll.cpp capsstate.cpp glossary.cpp hookutils.cpp hotkeys.cpp k32_globals.cpp k32_lowlevelkeyboardhook.cpp k32_tsf.cpp k32_visualkeyboardinterface.cpp keybd_shift.cpp keyboardoptions.cpp keyman32.cpp keystate.cpp kmhook_callwndproc.cpp kmhook_getmessage.cpp kmhook_keyboard.cpp kmprocess.cpp kmprocessactions.cpp preservedkeymap.cpp security.cpp selectkeyboard.cpp serialkeyeventclient.cpp serialkeyeventserver.cpp syskbd.cpp versioninfo.cpp
+  kmtip_guids.cpp
+  keynames.cpp
+  registry.cpp
+  unicode.cpp
+  xstring.cpp
+  CoreEnvironment.cpp
+  DebugEventTrace.cpp
+  K32_DBG.CPP
+  K32_load.cpp
+  LowLevelHookWatchDog.cpp
+  RightAltEmulationCheck.cpp
+  SharedBuffers.cpp
+  VKScanCodes.cpp
+  appcontext.cpp
+  aiTIP.cpp
+  aiWin2000Unicode.cpp
+  appint.cpp
+  calldll.cpp
+  capsstate.cpp
+  glossary.cpp
+  Generating Code...
+  Compiling...
+  hookutils.cpp
+  hotkeys.cpp
+  k32_globals.cpp
+  k32_lowlevelkeyboardhook.cpp
+  k32_tsf.cpp
+  k32_visualkeyboardinterface.cpp
+  keybd_shift.cpp
+  keyboardoptions.cpp
+  keyman32.cpp
+  keystate.cpp
+  kmhook_callwndproc.cpp
+  kmhook_getmessage.cpp
+  kmhook_keyboard.cpp
+  kmprocess.cpp
+  kmprocessactions.cpp
+  preservedkeymap.cpp
+  security.cpp
+  selectkeyboard.cpp
+  serialkeyeventclient.cpp
+  serialkeyeventserver.cpp
+  Generating Code...
+  Compiling...
+  syskbd.cpp
+  versioninfo.cpp
+  Generating Code...
+ResourceCompile:
+  All outputs are up-to-date.
+  All outputs are up-to-date.
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\arm64\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\bin\arm64\Debug\keymanarm64.dll" /INCREMENTAL /ILK:"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\keymanarm64.ilk" /NOLOGO libicuuc.a libicuin.a libkeymancore.a psapi.lib rpcrt4.lib version.lib setupapi.lib iphlpapi.lib imm32.lib crypt32.lib wintrust.lib imagehlp.lib ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:"keymanarm64.def" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='true'" /manifest:embed /DEBUG /PDB:"C:\Github\keyman-test-merge2\windows\src\engine\keyman32\bin\arm64\Debug\keymanarm64.pdb" /MAP /SUBSYSTEM:WINDOWS /TLBID:1 /BASE:"0x140000000" /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\..\..\lib\keymanarm64.lib" /MACHINE:ARM64 /verbose:lib /section:.SHARDATA,rws /DLL "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\keyman-debug-etw.res"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\keymanarm64.res"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\kmtip_guids.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\xstring.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\appcontext.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\aiTIP.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\aiWin2000Unicode.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\appint.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\calldll.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\capsstate.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\CoreEnvironment.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\DebugEventTrace.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\glossary.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\hookutils.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\hotkeys.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\K32_DBG.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\k32_globals.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\K32_load.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\k32_lowlevelkeyboardhook.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\k32_tsf.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\k32_visualkeyboardinterface.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\keybd_shift.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\keyboardoptions.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\keyman32.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\keynames.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\keystate.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\kmhook_callwndproc.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\kmhook_getmessage.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\kmhook_keyboard.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\kmprocess.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\registry.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\kmprocessactions.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\LowLevelHookWatchDog.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\pch.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\preservedkeymap.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\RightAltEmulationCheck.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\security.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\selectkeyboard.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\serialkeyeventclient.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\serialkeyeventserver.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\SharedBuffers.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\syskbd.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\unicode.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\versioninfo.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\VKScanCodes.obj"
+  
+  Searching libraries
+      Searching C:\Github\keyman-test-merge2\windows\src\engine\keyman32\..\..\..\..\core\build\ARM64\Debug\subprojects\icu\source\common\libicuuc.a:
+  
+  Finished searching libraries
+  keyman32.vcxproj -> C:\Github\keyman-test-merge2\windows\src\engine\keyman32\bin\arm64\Debug\keymanarm64.dll
+BscMake:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\arm64\bscmake.exe /nologo /o"./Keymanarm64.bsc" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\kmtip_guids.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\xstring.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\appcontext.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\aiTIP.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\aiWin2000Unicode.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\appint.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\calldll.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\capsstate.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\CoreEnvironment.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\DebugEventTrace.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\glossary.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\hookutils.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\hotkeys.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\K32_DBG.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\k32_globals.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\K32_load.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\k32_lowlevelkeyboardhook.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\k32_tsf.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\k32_visualkeyboardinterface.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\keybd_shift.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\keyboardoptions.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\keyman32.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\keynames.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\keystate.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\kmhook_callwndproc.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\kmhook_getmessage.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\kmhook_keyboard.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\kmprocess.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\registry.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\kmprocessactions.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\LowLevelHookWatchDog.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\pch.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\preservedkeymap.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\RightAltEmulationCheck.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\security.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\selectkeyboard.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\serialkeyeventclient.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\serialkeyeventserver.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\SharedBuffers.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\syskbd.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\unicode.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\versioninfo.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\VKScanCodes.sbr"
+FinalizeBuildStatus:
+  Deleting file "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\keyman32.tlog\unsuccessfulbuild".
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\obj\arm64\Debug\keyman32.tlog\keyman32.lastbuildstate".
+Done Building Project "C:\Github\keyman-test-merge2\windows\src\engine\keyman32\keyman32.vcxproj" (Build target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:03.61
+[windows/src/engine/keyman32] ## build:arm64 completed successfully
+[windows/src/engine] ## child build:keyman32 completed successfully
+[windows/src/engine] ## child build:keymanmc starting...
+[windows/src/engine/keymanmc] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/engine/keymanmc] ## build:project starting...
+[windows/src/engine/keymanmc] ### visual_studio: mc -U keymanmc.mc
+MC: Compiling keymanmc.mc
+[windows/src/engine/keymanmc] ### visual_studio: rc keymanmc.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/keymanmc] ### visual_studio: link -dll -noentry keymanmc.res -machine:x86
+Microsoft (R) Incremental Linker Version 14.44.35227.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/keymanmc] ## build:project completed successfully
+[windows/src/engine] ## child build:keymanmc completed successfully
+[windows/src/engine] ## child build:keymanhp starting...
+[windows/src/engine/keymanhp] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/engine/keymanhp] ## build:x64 starting...
+[windows/src/engine/keymanhp] ### visual_studio: rc versionx64.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/keymanhp] ### visual_studio: rc manifest.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/keymanhp] ### visual_studio: msbuild.exe keymanhp.vcxproj //t:Build //p:Platform=x64 //p:Configuration=Debug
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+Build started 10/28/2026 2:33:46 PM.
+
+Project "C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\keymanhp.vcxproj" on node 1 (Build target(s)).
+PrepareForBuild:
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+InitializeBuildStatus:
+  Creating "C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\obj\x64\Debug\keymanhp.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\obj\x64\Debug\keymanhp.tlog\unsuccessfulbuild".
+ClCompile:
+  All outputs are up-to-date.
+ResourceCompile:
+  C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\obj\x64\Debug\keymanx64.res" keymanx64.rc 
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\bin\x64\Debug\keymanhp.x64.exe" /INCREMENTAL /ILK:"C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\obj\x64\Debug\keymanhp.x64.ilk" /NOLOGO /LIBPATH:..\..\..\lib ..\..\..\..\common\windows\delphi\ext\sentry\sentry.x64.lib keyman64.lib libcmtd.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib Delayimp.lib /DELAYLOAD:sentry.dll /MANIFEST:NO /DEBUG /PDB:"C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\bin\x64\Debug\keymanhp.x64.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\bin\x64\Debug\keymanhp.x64.lib" /MACHINE:X64 "C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\obj\x64\Debug\keymanx64.res"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\obj\x64\Debug\keymansentry.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\obj\x64\Debug\keymanhp.obj"
+  keymanhp.vcxproj -> C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\bin\x64\Debug\keymanhp.x64.exe
+FinalizeBuildStatus:
+  Deleting file "C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\obj\x64\Debug\keymanhp.tlog\unsuccessfulbuild".
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\obj\x64\Debug\keymanhp.tlog\keymanhp.lastbuildstate".
+Done Building Project "C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\keymanhp.vcxproj" (Build target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.56
+[windows/src/engine/keymanhp] ## build:x64 completed successfully
+[windows/src/engine/keymanhp] ## build:arm64 starting...
+[windows/src/engine/keymanhp] ### visual_studio: rc versionarm64.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/keymanhp] ### visual_studio: rc manifest.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/keymanhp] ### visual_studio: msbuild.exe keymanhp.vcxproj //t:Build //p:Platform=arm64 //p:Configuration=Debug
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+Build started 10/28/2026 2:33:48 PM.
+
+Project "C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\keymanhp.vcxproj" on node 1 (Build target(s)).
+PrepareForBuild:
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+InitializeBuildStatus:
+  Creating "C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\obj\arm64\Debug\keymanhp.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\obj\arm64\Debug\keymanhp.tlog\unsuccessfulbuild".
+ClCompile:
+  All outputs are up-to-date.
+ResourceCompile:
+  C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\obj\arm64\Debug\keymanarm64.res" keymanarm64.rc 
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\arm64\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\bin\arm64\Debug\keymanhp.arm64.exe" /INCREMENTAL /ILK:"C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\obj\arm64\Debug\keymanhp.arm64.ilk" /NOLOGO /LIBPATH:..\..\..\lib keymanarm64.lib libcmtd.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib Delayimp.lib /DELAYLOAD:sentry.dll /MANIFEST:NO /DEBUG /PDB:"C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\bin\arm64\Debug\keymanhp.arm64.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\bin\arm64\Debug\keymanhp.arm64.lib" /MACHINE:ARM64 "C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\obj\arm64\Debug\keymanarm64.res"
+  "C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\obj\arm64\Debug\keymanhp.obj"
+  keymanhp.vcxproj -> C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\bin\arm64\Debug\keymanhp.arm64.exe
+FinalizeBuildStatus:
+  Deleting file "C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\obj\arm64\Debug\keymanhp.tlog\unsuccessfulbuild".
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\obj\arm64\Debug\keymanhp.tlog\keymanhp.lastbuildstate".
+Done Building Project "C:\Github\keyman-test-merge2\windows\src\engine\keymanhp\keymanhp.vcxproj" (Build target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.64
+[windows/src/engine/keymanhp] ## build:arm64 completed successfully
+[windows/src/engine] ## child build:keymanhp completed successfully
+[windows/src/engine] ## child build:kmcomapi starting...
+[windows/src/engine/kmcomapi] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/engine/kmcomapi] ## build:project starting...
+[windows/src/engine/kmcomapi] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/kmcomapi] ### visual_studio: rc manifest.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/kmcomapi] ### visual_studio: rc kbd_noicon.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/kmcomapi] ### visual_studio: gentlb -Tkmcomapi.tlb kmcomapi.ridl
+Embarcadero GenTLB Version 12.16581
+Copyright(c) 1995-2020 Embarcadero Technologies, Inc.
+
+Opening  'kmcomapi.ridl'
+Created! C:\Github\keyman-test-merge2\windows\src\engine\kmcomapi\kmcomapi.tlb
+[windows/src/engine/kmcomapi] Delphi CE: CLI compilation is not available.
+[windows/src/engine/kmcomapi] Please build kmcomapi.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/engine/kmcomapi] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[windows/src/engine/kmcomapi] ### delphi: sentrytool_delphiprep bin/Win32/Debug/kmcomapi.dll kmcomapi.dpr
+DebugID: D7C505D2433D490E814F0E60E5D76F7E1
+CodeID: 6AE24E3F71F000
+[windows/src/engine/kmcomapi] Delphi CE: CLI compilation is not available.
+[windows/src/engine/kmcomapi] Please build kmcomapi.dproj (Platform: Win64, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/engine/kmcomapi] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[windows/src/engine/kmcomapi] ## build:project completed successfully
+[windows/src/engine] ## child build:kmcomapi completed successfully
+[windows/src/engine] ## child build:kmrefresh starting...
+[windows/src/engine/kmrefresh] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/engine/kmrefresh] ## build:project starting...
+[windows/src/engine/kmrefresh] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/kmrefresh] ### visual_studio: msbuild.exe kmrefresh.vcxproj //t:Build //p:Platform=Win32 //p:Configuration=Debug
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+Build started 10/28/2026 2:35:27 PM.
+
+Project "C:\Github\keyman-test-merge2\windows\src\engine\kmrefresh\kmrefresh.vcxproj" on node 1 (Build target(s)).
+PrepareForBuild:
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+InitializeBuildStatus:
+  Creating "C:\Github\keyman-test-merge2\windows\src\engine\kmrefresh\obj\Win32\Debug\kmrefresh.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\kmrefresh\obj\Win32\Debug\kmrefresh.tlog\unsuccessfulbuild".
+ClCompile:
+  All outputs are up-to-date.
+ResourceCompile:
+  All outputs are up-to-date.
+Link:
+  All outputs are up-to-date.
+  kmrefresh.vcxproj -> C:\Github\keyman-test-merge2\windows\src\engine\kmrefresh\bin\Win32\Debug\kmrefresh.x86.exe
+FinalizeBuildStatus:
+  Deleting file "C:\Github\keyman-test-merge2\windows\src\engine\kmrefresh\obj\Win32\Debug\kmrefresh.tlog\unsuccessfulbuild".
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\kmrefresh\obj\Win32\Debug\kmrefresh.tlog\kmrefresh.lastbuildstate".
+Done Building Project "C:\Github\keyman-test-merge2\windows\src\engine\kmrefresh\kmrefresh.vcxproj" (Build target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.35
+[windows/src/engine/kmrefresh] ### visual_studio: msbuild.exe kmrefresh.vcxproj //t:Build //p:Platform=x64 //p:Configuration=Debug
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+Build started 10/28/2026 2:35:27 PM.
+
+Project "C:\Github\keyman-test-merge2\windows\src\engine\kmrefresh\kmrefresh.vcxproj" on node 1 (Build target(s)).
+PrepareForBuild:
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+InitializeBuildStatus:
+  Creating "C:\Github\keyman-test-merge2\windows\src\engine\kmrefresh\obj\x64\Debug\kmrefresh.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\kmrefresh\obj\x64\Debug\kmrefresh.tlog\unsuccessfulbuild".
+ClCompile:
+  All outputs are up-to-date.
+ResourceCompile:
+  All outputs are up-to-date.
+Link:
+  All outputs are up-to-date.
+  kmrefresh.vcxproj -> C:\Github\keyman-test-merge2\windows\src\engine\kmrefresh\bin\x64\Debug\kmrefresh.x64.exe
+FinalizeBuildStatus:
+  Deleting file "C:\Github\keyman-test-merge2\windows\src\engine\kmrefresh\obj\x64\Debug\kmrefresh.tlog\unsuccessfulbuild".
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\kmrefresh\obj\x64\Debug\kmrefresh.tlog\kmrefresh.lastbuildstate".
+Done Building Project "C:\Github\keyman-test-merge2\windows\src\engine\kmrefresh\kmrefresh.vcxproj" (Build target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.35
+[windows/src/engine/kmrefresh] ## build:project completed successfully
+[windows/src/engine] ## child build:kmrefresh completed successfully
+[windows/src/engine] ## child build:kmtip starting...
+[windows/src/engine/kmtip] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/engine/kmtip] ## build:project starting...
+[windows/src/engine/keymanmc] dependency build, started by windows/src/engine/kmtip
+[windows/src/engine/keymanmc] build.sh parameters: <configure build --debug --deps --builder-dep-parent windows/src/engine/kmtip>
+[windows/src/engine/keymanmc] skipping configure:project, up-to-date
+[windows/src/engine/keymanmc] skipping build:project, up-to-date
+[windows/src/engine/kmtip] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/kmtip] ### visual_studio: msbuild.exe kmtip.vcxproj //t:Build //p:Platform=Win32 //p:Configuration=Debug
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+Build started 10/28/2026 2:35:29 PM.
+
+Project "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj" on node 1 (Build target(s)).
+PrepareForBuild:
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+InitializeBuildStatus:
+  Creating "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\kmtip.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\kmtip.tlog\unsuccessfulbuild".
+ClCompile:
+  All outputs are up-to-date.
+  All outputs are up-to-date.
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I.\ /I..\..\global\inc /I..\..\resellers /I"C:\Program Files\Microsoft Platform SDK\Include" /ZI /nologo /W3 /WX /diagnostics:column /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D KMTIP_EXPORTS /D _VC80_UPGRADE=0x0600 /D _WINDLL /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"pch.h" /Fp"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\kmtip.pch" /Fo"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\\" /Fd"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\vc143.pdb" /FR"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\\" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue kmkey.cpp
+  kmkey.cpp
+ResourceCompile:
+  All outputs are up-to-date.
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\bin\Win32\Debug\kmtip.dll" /INCREMENTAL /ILK:"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\kmtip.ilk" /NOLOGO ..\..\..\lib\keyman32.lib version.lib wintrust.lib crypt32.lib imagehlp.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:".\kmtip.def" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\bin\Win32\Debug\kmtip.pdb" /MAP /TLBID:1 /BASE:"0x4C100000" /DYNAMICBASE /NXCOMPAT /MACHINE:X86 /SAFESEH /DLL "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\kmtip.res"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\vkeys.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\kmtip_guids.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\debug.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\keyman32interface.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\keys.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\kmkey.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\kmtip.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\register.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\registryw.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\tmgrsink.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\inserttext.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\keynames.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\registry.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\dllmain.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\globals.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\pch.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\server.obj"
+  kmtip.vcxproj -> C:\Github\keyman-test-merge2\windows\src\engine\kmtip\bin\Win32\Debug\kmtip.dll
+BscMake:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\bscmake.exe /nologo /o"./kmtip.bsc" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\vkeys.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\kmtip_guids.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\debug.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\keyman32interface.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\keys.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\kmkey.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\kmtip.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\register.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\registryw.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\tmgrsink.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\inserttext.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\keynames.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\registry.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\dllmain.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\globals.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\pch.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\server.sbr"
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\vkeys.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\kmtip_guids.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\debug.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\keyman32interface.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\keys.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\kmtip.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\register.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\registryw.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\tmgrsink.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\inserttext.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\keynames.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\registry.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\dllmain.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\globals.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\pch.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\server.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+FinalizeBuildStatus:
+  Deleting file "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\kmtip.tlog\unsuccessfulbuild".
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\kmtip.tlog\kmtip.lastbuildstate".
+Done Building Project "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj" (Build target) (1) ->
+(BscMake target) -> 
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\vkeys.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\kmtip_guids.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\debug.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\keyman32interface.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\keys.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\kmtip.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\register.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\registryw.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\tmgrsink.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\inserttext.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\keynames.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\registry.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\dllmain.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\globals.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\pch.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\Win32\Debug\server.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+
+    16 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.49
+[windows/src/engine/kmtip] ### visual_studio: msbuild.exe kmtip.vcxproj //t:Build //p:Platform=x64 //p:Configuration=Debug
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+Build started 10/28/2026 2:35:31 PM.
+
+Project "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj" on node 1 (Build target(s)).
+PrepareForBuild:
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+InitializeBuildStatus:
+  Creating "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\kmtip.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\kmtip.tlog\unsuccessfulbuild".
+ClCompile:
+  All outputs are up-to-date.
+  All outputs are up-to-date.
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64\CL.exe /c /I.\ /I..\..\global\inc /I..\..\resellers /I"C:\Program Files\Microsoft Platform SDK\Include" /Zi /nologo /W3 /WX /diagnostics:column /Od /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D KMTIP_EXPORTS /D _VC80_UPGRADE=0x0600 /D _WINDLL /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"pch.h" /Fp"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\kmtip64.pch" /Fo"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\\" /Fd"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\vc143.pdb" /FR"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\\" /external:W3 /Gd /TP /FC /errorReport:queue kmkey.cpp
+  kmkey.cpp
+ResourceCompile:
+  All outputs are up-to-date.
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\bin\x64\Debug\kmtip64.dll" /INCREMENTAL /ILK:"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\kmtip64.ilk" /NOLOGO ..\..\..\lib\keyman64.lib version.lib wintrust.lib crypt32.lib imagehlp.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:".\kmtip64.def" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\bin\x64\Debug\kmtip64.pdb" /MAP /TLBID:1 /BASE:"0x140000000" /DYNAMICBASE /NXCOMPAT /MACHINE:X64 /DLL "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\kmtip.res"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\vkeys.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\kmtip_guids.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\debug.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\keyman32interface.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\keys.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\kmkey.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\kmtip.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\register.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\registryw.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\tmgrsink.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\inserttext.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\keynames.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\registry.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\dllmain.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\globals.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\pch.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\server.obj"
+  kmtip.vcxproj -> C:\Github\keyman-test-merge2\windows\src\engine\kmtip\bin\x64\Debug\kmtip64.dll
+BscMake:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64\bscmake.exe /nologo /o"./kmtip.bsc" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\vkeys.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\kmtip_guids.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\debug.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\keyman32interface.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\keys.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\kmkey.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\kmtip.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\register.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\registryw.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\tmgrsink.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\inserttext.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\keynames.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\registry.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\dllmain.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\globals.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\pch.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\server.sbr"
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\vkeys.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\kmtip_guids.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\debug.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\keyman32interface.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\keys.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\kmtip.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\register.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\registryw.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\tmgrsink.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\inserttext.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\keynames.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\registry.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\dllmain.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\globals.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\pch.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\server.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+FinalizeBuildStatus:
+  Deleting file "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\kmtip.tlog\unsuccessfulbuild".
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\kmtip.tlog\kmtip.lastbuildstate".
+Done Building Project "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj" (Build target) (1) ->
+(BscMake target) -> 
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\vkeys.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\kmtip_guids.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\debug.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\keyman32interface.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\keys.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\kmtip.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\register.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\registryw.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\tmgrsink.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\inserttext.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\keynames.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\registry.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\dllmain.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\globals.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\pch.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  BSCMAKE : warning BK4502: truncated .SBR file 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\x64\Debug\server.sbr' not in ./kmtip.bsc [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+
+    16 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.26
+[windows/src/engine/kmtip] ### visual_studio: msbuild.exe kmtip.vcxproj //t:Build //p:Platform=arm64EC //p:Configuration=Debug
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+Build started 10/28/2026 2:35:32 PM.
+
+Project "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj" on node 1 (Build target(s)).
+PrepareForBuild:
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+InitializeBuildStatus:
+  Creating "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\kmtip.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\kmtip.tlog\unsuccessfulbuild".
+ClCompile:
+  All outputs are up-to-date.
+  All outputs are up-to-date.
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\arm64\CL.exe /c /I.\ /I..\..\global\inc /I..\..\resellers /I"C:\Program Files\Microsoft Platform SDK\Include" /Zi /nologo /W3 /WX /diagnostics:column /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D KMTIP_EXPORTS /D _VC80_UPGRADE=0x0600 /D _AMD64_ /D _ARM64EC_ /D _WINDLL /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"pch.h" /Fp"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\kmtiparm64x.pch" /Fo"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\\" /Fd"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\vc143.pdb" /FR"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\\" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue /arm64EC kmkey.cpp
+  kmkey.cpp
+ResourceCompile:
+  All outputs are up-to-date.
+Project "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj" (1) is building "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj" (1:2) on node 1 (SetBuildAsXProperties;BuildAsXBuildSteps;GetLinkInputs;GetLibInputs;GetResourceCompileInputs target(s)).
+PrepareForBuild:
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+InitializeBuildStatus:
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\ARM64\Debug\kmtip.tlog\unsuccessfulbuild".
+ClCompile:
+  All outputs are up-to-date.
+  All outputs are up-to-date.
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\arm64\CL.exe /c /I.\ /I..\..\global\inc /I..\..\resellers /I"C:\Program Files\Microsoft Platform SDK\Include" /Zi /nologo /W3 /WX /diagnostics:column /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D KMTIP_EXPORTS /D _VC80_UPGRADE=0x0600 /D _ARM64_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE=1 /D _WINDLL /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"pch.h" /Fp"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\ARM64\Debug\kmtiparm64.pch" /Fo"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\ARM64\Debug\\" /Fd"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\ARM64\Debug\vc143.pdb" /FR"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\ARM64\Debug\\" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue kmkey.cpp
+  kmkey.cpp
+ResourceCompile:
+  All outputs are up-to-date.
+Done Building Project "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj" (SetBuildAsXProperties;BuildAsXBuildSteps;GetLinkInputs;GetLibInputs;GetResourceCompileInputs target(s)).
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\arm64\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\bin\arm64EC\Debug\kmtiparm64x.dll" /INCREMENTAL /ILK:"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\kmtiparm64x.ilk" /NOLOGO ..\..\..\lib\keyman64.lib ..\..\..\lib\keymanarm64.lib version.lib wintrust.lib crypt32.lib imagehlp.lib softintrin.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:".\kmtiparm64x.def" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\bin\arm64EC\Debug\kmtiparm64x.pdb" /MAP /TLBID:1 /BASE:"0x140000000" /DYNAMICBASE /NXCOMPAT /MACHINE:ARM64X /DLL "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\kmtip.res"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\vkeys.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\kmtip_guids.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\debug.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\keyman32interface.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\keys.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\kmkey.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\kmtip.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\register.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\registryw.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\tmgrsink.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\inserttext.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\keynames.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\registry.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\dllmain.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\globals.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\pch.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\server.obj"
+  /defArm64Native:.\kmtiparm64.def
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\ARM64\Debug\vkeys.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\ARM64\Debug\kmtip_guids.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\ARM64\Debug\debug.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\ARM64\Debug\keyman32interface.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\ARM64\Debug\keys.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\ARM64\Debug\kmkey.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\ARM64\Debug\kmtip.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\ARM64\Debug\register.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\ARM64\Debug\registryw.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\ARM64\Debug\tmgrsink.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\ARM64\Debug\inserttext.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\ARM64\Debug\keynames.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\ARM64\Debug\registry.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\ARM64\Debug\dllmain.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\ARM64\Debug\globals.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\ARM64\Debug\pch.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\ARM64\Debug\server.obj"
+     Creating library C:\Github\keyman-test-merge2\windows\src\engine\kmtip\bin\arm64EC\Debug\kmtiparm64x.lib and object C:\Github\keyman-test-merge2\windows\src\engine\kmtip\bin\arm64EC\Debug\kmtiparm64x.exp
+kmtiparm64x.exp : warning LNK4070: /OUT:kmtiparm64.dll directive in .EXP differs from output filename 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\bin\arm64EC\Debug\kmtiparm64x.dll'; ignoring directive [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+  kmtip.vcxproj -> C:\Github\keyman-test-merge2\windows\src\engine\kmtip\bin\arm64EC\Debug\kmtiparm64x.dll
+BscMake:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\arm64\bscmake.exe /nologo /o"./kmtip.bsc" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\vkeys.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\kmtip_guids.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\debug.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\keyman32interface.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\keys.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\kmkey.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\kmtip.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\register.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\registryw.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\tmgrsink.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\inserttext.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\keynames.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\registry.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\dllmain.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\globals.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\pch.sbr" "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\server.sbr"
+FinalizeBuildStatus:
+  Deleting file "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\kmtip.tlog\unsuccessfulbuild".
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\obj\arm64EC\Debug\kmtip.tlog\kmtip.lastbuildstate".
+Done Building Project "C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+"C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj" (Build target) (1) ->
+(Link target) -> 
+  kmtiparm64x.exp : warning LNK4070: /OUT:kmtiparm64.dll directive in .EXP differs from output filename 'C:\Github\keyman-test-merge2\windows\src\engine\kmtip\bin\arm64EC\Debug\kmtiparm64x.dll'; ignoring directive [C:\Github\keyman-test-merge2\windows\src\engine\kmtip\kmtip.vcxproj]
+
+    1 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:02.26
+[windows/src/engine/kmtip] ## build:project completed successfully
+[windows/src/engine] ## child build:kmtip completed successfully
+[windows/src/engine] ## child build:mcompile starting...
+[windows/src/engine/mcompile] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/engine/mcompile] ## build:project starting...
+[windows/src/engine/mcompile] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/mcompile] ### visual_studio: rc manifest.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/mcompile] ### visual_studio: msbuild.exe mcompile.vcxproj //t:Build //p:Platform=Win32 //p:Configuration=Debug
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+Build started 10/28/2026 2:35:36 PM.
+
+Project "C:\Github\keyman-test-merge2\windows\src\engine\mcompile\mcompile.vcxproj" on node 1 (Build target(s)).
+PrepareForBuild:
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+InitializeBuildStatus:
+  Creating "C:\Github\keyman-test-merge2\windows\src\engine\mcompile\obj\Win32\Debug\mcompile.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\mcompile\obj\Win32\Debug\mcompile.tlog\unsuccessfulbuild".
+ClCompile:
+  All outputs are up-to-date.
+  All outputs are up-to-date.
+  All outputs are up-to-date.
+ResourceCompile:
+  C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"C:\Github\keyman-test-merge2\windows\src\engine\mcompile\obj\Win32\Debug\mcompile.res" mcompile.rc 
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Github\keyman-test-merge2\windows\src\engine\mcompile\bin\Win32\Debug\mcompile.exe" /INCREMENTAL /ILK:"C:\Github\keyman-test-merge2\windows\src\engine\mcompile\obj\Win32\Debug\mcompile.ilk" /NOLOGO ..\..\..\..\common\windows\delphi\ext\sentry\sentry.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib Delayimp.lib /DELAYLOAD:sentry.dll /MANIFEST:NO /DEBUG /PDB:"C:\Github\keyman-test-merge2\windows\src\engine\mcompile\bin\Win32\Debug\mcompile.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Github\keyman-test-merge2\windows\src\engine\mcompile\bin\Win32\Debug\mcompile.lib" /MACHINE:X86 "C:\Github\keyman-test-merge2\windows\src\engine\mcompile\obj\Win32\Debug\mcompile.res"
+  "C:\Github\keyman-test-merge2\windows\src\engine\mcompile\obj\Win32\Debug\keymansentry.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\mcompile\obj\Win32\Debug\VKScanCodes.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\mcompile\obj\Win32\Debug\xstring.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\mcompile\obj\Win32\Debug\mc_import_rules.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\mcompile\obj\Win32\Debug\mc_kmxfile.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\mcompile\obj\Win32\Debug\mcompile.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\mcompile\obj\Win32\Debug\mc_savekeyboard.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\mcompile\obj\Win32\Debug\mc_unicode.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\mcompile\obj\Win32\Debug\pch.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\mcompile\obj\Win32\Debug\mc_syskbd.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\mcompile\obj\Win32\Debug\mc_syskbdnt32.obj"
+  "C:\Github\keyman-test-merge2\windows\src\engine\mcompile\obj\Win32\Debug\mc_syskbdnt64.obj"
+  mcompile.vcxproj -> C:\Github\keyman-test-merge2\windows\src\engine\mcompile\bin\Win32\Debug\mcompile.exe
+FinalizeBuildStatus:
+  Deleting file "C:\Github\keyman-test-merge2\windows\src\engine\mcompile\obj\Win32\Debug\mcompile.tlog\unsuccessfulbuild".
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\mcompile\obj\Win32\Debug\mcompile.tlog\mcompile.lastbuildstate".
+Done Building Project "C:\Github\keyman-test-merge2\windows\src\engine\mcompile\mcompile.vcxproj" (Build target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.68
+[windows/src/engine/mcompile] ## build:project completed successfully
+[windows/src/engine] ## child build:mcompile completed successfully
+[windows/src/engine] ## child build:testhost starting...
+[windows/src/engine/testhost] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/engine/testhost] ## build:project starting...
+[windows/src/engine/testhost] ### visual_studio: msbuild.exe testhost.vcxproj //t:Build //p:Platform=Win32 //p:Configuration=Debug
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+Build started 10/28/2026 2:35:37 PM.
+
+Project "C:\Github\keyman-test-merge2\windows\src\engine\testhost\testhost.vcxproj" on node 1 (Build target(s)).
+PrepareForBuild:
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+InitializeBuildStatus:
+  Creating "C:\Github\keyman-test-merge2\windows\src\engine\testhost\obj\Win32\Debug\testhost.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\testhost\obj\Win32\Debug\testhost.tlog\unsuccessfulbuild".
+ClCompile:
+  All outputs are up-to-date.
+ResourceCompile:
+  All outputs are up-to-date.
+Link:
+  All outputs are up-to-date.
+  testhost.vcxproj -> C:\Github\keyman-test-merge2\windows\src\engine\testhost\bin\Win32\Debug\testhost.exe
+FinalizeBuildStatus:
+  Deleting file "C:\Github\keyman-test-merge2\windows\src\engine\testhost\obj\Win32\Debug\testhost.tlog\unsuccessfulbuild".
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\testhost\obj\Win32\Debug\testhost.tlog\testhost.lastbuildstate".
+Done Building Project "C:\Github\keyman-test-merge2\windows\src\engine\testhost\testhost.vcxproj" (Build target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.40
+[windows/src/engine/testhost] ### visual_studio: msbuild.exe testhost.vcxproj //t:Build //p:Platform=x64 //p:Configuration=Debug
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+Build started 10/28/2026 2:35:38 PM.
+
+Project "C:\Github\keyman-test-merge2\windows\src\engine\testhost\testhost.vcxproj" on node 1 (Build target(s)).
+PrepareForBuild:
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+InitializeBuildStatus:
+  Creating "C:\Github\keyman-test-merge2\windows\src\engine\testhost\obj\x64\Debug\testhost.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\testhost\obj\x64\Debug\testhost.tlog\unsuccessfulbuild".
+ClCompile:
+  All outputs are up-to-date.
+ResourceCompile:
+  All outputs are up-to-date.
+Link:
+  All outputs are up-to-date.
+  testhost.vcxproj -> C:\Github\keyman-test-merge2\windows\src\engine\testhost\bin\x64\Debug\testhost.exe
+FinalizeBuildStatus:
+  Deleting file "C:\Github\keyman-test-merge2\windows\src\engine\testhost\obj\x64\Debug\testhost.tlog\unsuccessfulbuild".
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\testhost\obj\x64\Debug\testhost.tlog\testhost.lastbuildstate".
+Done Building Project "C:\Github\keyman-test-merge2\windows\src\engine\testhost\testhost.vcxproj" (Build target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.35
+[windows/src/engine/testhost] ### visual_studio: msbuild.exe testhost.vcxproj //t:Build //p:Platform=arm64 //p:Configuration=Debug
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+Build started 10/28/2026 2:35:38 PM.
+
+Project "C:\Github\keyman-test-merge2\windows\src\engine\testhost\testhost.vcxproj" on node 1 (Build target(s)).
+PrepareForBuild:
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+InitializeBuildStatus:
+  Creating "C:\Github\keyman-test-merge2\windows\src\engine\testhost\obj\arm64\Debug\testhost.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\testhost\obj\arm64\Debug\testhost.tlog\unsuccessfulbuild".
+ClCompile:
+  All outputs are up-to-date.
+ResourceCompile:
+  All outputs are up-to-date.
+Link:
+  All outputs are up-to-date.
+  testhost.vcxproj -> C:\Github\keyman-test-merge2\windows\src\engine\testhost\bin\arm64\Debug\testhost.exe
+FinalizeBuildStatus:
+  Deleting file "C:\Github\keyman-test-merge2\windows\src\engine\testhost\obj\arm64\Debug\testhost.tlog\unsuccessfulbuild".
+  Touching "C:\Github\keyman-test-merge2\windows\src\engine\testhost\obj\arm64\Debug\testhost.tlog\testhost.lastbuildstate".
+Done Building Project "C:\Github\keyman-test-merge2\windows\src\engine\testhost\testhost.vcxproj" (Build target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.38
+[windows/src/engine/testhost] ## build:project completed successfully
+[windows/src/engine] ## child build:testhost completed successfully
+[windows/src/engine] ## child build:tsysinfo starting...
+[windows/src/engine/tsysinfo] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/engine/tsysinfo] ## build:project starting...
+[windows/src/engine/tsysinfox64] dependency build, started by windows/src/engine/tsysinfo
+[windows/src/engine/tsysinfox64] build.sh parameters: <configure build --debug --deps --builder-dep-parent windows/src/engine/tsysinfo>
+[windows/src/engine/tsysinfox64] skipping configure:project, up-to-date
+[windows/src/engine/tsysinfox64] skipping build:project, up-to-date
+[windows/src/engine/tsysinfo] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/tsysinfo] ### visual_studio: rc manifest.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/tsysinfo] ## script '/windows/src/engine/tsysinfox64/build.sh publish' launched...
+[windows/src/engine/tsysinfox64] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/engine/tsysinfox64] ## publish:project starting...
+[windows/src/engine/tsysinfox64] ### visual_studio: mt.exe -nologo -inputresource:/c/Github/keyman-test-merge2/windows/bin/engine/tsysinfox64.exe -validate_manifest
+Parsing of manifest successful.
+[windows/src/engine/tsysinfox64] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows /c/Github/keyman-test-merge2/windows/bin/engine/tsysinfox64.exe
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/tsysinfox64.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/tsysinfox64.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/tsysinfox64.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/tsysinfox64.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/tsysinfox64.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/tsysinfox64.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/tsysinfox64] ## publish:project completed successfully
+[windows/src/engine/tsysinfo] ## script '/windows/src/engine/tsysinfox64/build.sh publish' completed
+[windows/src/engine/tsysinfo] ### visual_studio: rc tsysinfo_x64.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/tsysinfo] Delphi CE: CLI compilation is not available.
+[windows/src/engine/tsysinfo] Please build tsysinfo.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/engine/tsysinfo] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[windows/src/engine/tsysinfo] ### delphi: sentrytool_delphiprep bin/Win32/Debug/tsysinfo.exe tsysinfo.dpr
+DebugID: 89258B637DBF456AA87BB4400BB52D0F1
+CodeID: 6AE24EA81262000
+[windows/src/engine/tsysinfo] ## build:project completed successfully
+[windows/src/engine] ## child build:tsysinfo completed successfully
+[windows/src/engine] ## child build:tsysinfox64 starting...
+[windows/src/engine/tsysinfox64] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/engine/tsysinfox64] ## build:project starting...
+[windows/src/engine/tsysinfox64] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/tsysinfox64] ### visual_studio: rc manifest.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/tsysinfox64] Delphi CE: CLI compilation is not available.
+[windows/src/engine/tsysinfox64] Please build tsysinfox64.dproj (Platform: Win64, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/engine/tsysinfox64] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[windows/src/engine/tsysinfox64] ## build:project completed successfully
+[windows/src/engine] ## child build:tsysinfox64 completed successfully
+[windows/src/engine] ## child build:inst starting...
+[windows/src/engine/inst] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/engine] ## child build:inst completed successfully
+[windows/src] ## child build:engine completed successfully
+[windows/src] ## child build:desktop starting...
+[windows/src/desktop] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/desktop] ## child build:help starting...
+[windows/src/desktop/help] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/desktop/help] ## build:chm starting...
+Processing ./about/credits.md to credits.htm
+Processing ./about/history.md to history.htm
+Processing ./about/index.md to index.htm
+Processing ./about/license.md to license.htm
+Processing ./about/requirements.md to requirements.htm
+Processing ./about/welcome.md to welcome.htm
+Processing ./about/whatsnew.md to whatsnew.htm
+Processing ./advanced/index.md to index.htm
+Processing ./advanced/locale_edit.md to locale_edit.htm
+Processing ./advanced/proxy_config.md to proxy_config.htm
+Processing ./basic/config/hotkeys.md to hotkeys.htm
+Processing ./basic/config/index.md to index.htm
+Processing ./basic/config/keyboards.md to keyboards.htm
+Processing ./basic/config/options.md to options.htm
+Processing ./basic/config/support.md to support.htm
+Processing ./basic/config/update.md to update.htm
+Processing ./basic/enable-or-disable-keyboard.md to enable-or-disable-keyboard.htm
+Processing ./basic/help.md to help.htm
+Processing ./basic/index.md to index.htm
+Processing ./basic/language-switcher.md to language-switcher.htm
+Processing ./basic/make-taskbar-icon-visible.md to make-taskbar-icon-visible.htm
+Processing ./basic/new-ways-to-use-keyman.md to new-ways-to-use-keyman.htm
+Processing ./basic/select-keyboard.md to select-keyboard.htm
+Processing ./basic/text-editor.md to text-editor.htm
+Processing ./basic/toolbox/character-map.md to character-map.htm
+Processing ./basic/toolbox/font-helper.md to font-helper.htm
+Processing ./basic/toolbox/index.md to index.htm
+Processing ./basic/toolbox/osk.md to osk.htm
+Processing ./basic/tray-menu.md to tray-menu.htm
+Processing ./basic/uninstall-keyboard.md to uninstall-keyboard.htm
+Processing ./basic/uninstall.md to uninstall.htm
+Processing ./basic/update.md to update.htm
+Processing ./common/adware.md to adware.htm
+Processing ./common/bug.md to bug.htm
+Processing ./common/compatibility.md to compatibility.htm
+Processing ./common/free.md to free.htm
+Processing ./common/index.md to index.htm
+Processing ./common/linux.md to linux.htm
+Processing ./common/mac.md to mac.htm
+Processing ./common/old_version.md to old_version.htm
+Processing ./common/os.md to os.htm
+Processing ./common/osk.md to osk.htm
+Processing ./common/requirements.md to requirements.htm
+Processing ./common/support.md to support.htm
+Processing ./common/unicode.md to unicode.htm
+Processing ./context/base-keyboard.md to base-keyboard.htm
+Processing ./context/change-hotkey.md to change-hotkey.htm
+Processing ./context/configuration-hotkeys.md to configuration-hotkeys.htm
+Processing ./context/configuration-keyboards.md to configuration-keyboards.htm
+Processing ./context/configuration-options.md to configuration-options.htm
+Processing ./context/configuration-support.md to configuration-support.htm
+Processing ./context/configuration-update.md to configuration-update.htm
+Processing ./context/download-keyboard.md to download-keyboard.htm
+Processing ./context/index.md to index.htm
+Processing ./context/install-keyboard-language.md to install-keyboard-language.htm
+Processing ./context/install-keyboard.md to install-keyboard.htm
+Processing ./context/keyman.md to keyman.htm
+Processing ./context/online-update.md to online-update.htm
+Processing ./context/proxy-configuration.md to proxy-configuration.htm
+Processing ./context/splash.md to splash.htm
+Processing ./context/text-editor.md to text-editor.htm
+Processing ./context/toolbox-charactermap.md to toolbox-charactermap.htm
+Processing ./context/toolbox-fonthelper.md to toolbox-fonthelper.htm
+Processing ./context/toolbox-onscreenkeyboard.md to toolbox-onscreenkeyboard.htm
+Processing ./context/tray-menu.md to tray-menu.htm
+Processing ./index.md to index.htm
+Processing ./start/configure-computer.md to configure-computer.htm
+Processing ./start/configure_office.md to configure_office.htm
+Processing ./start/download-and-install-keyboard.md to download-and-install-keyboard.htm
+Processing ./start/download-and-install-keyman.md to download-and-install-keyman.htm
+Processing ./start/font.md to font.htm
+Processing ./start/hotkey_set.md to hotkey_set.htm
+Processing ./start/index.md to index.htm
+Processing ./start/locale.md to locale.htm
+Processing ./start/rtl.md to rtl.htm
+Processing ./start/tutorial.md to tutorial.htm
+Processing ./troubleshooting/bootstrapper.md to bootstrapper.htm
+Processing ./troubleshooting/excel.md to excel.htm
+Processing ./troubleshooting/font.md to font.htm
+Processing ./troubleshooting/index.md to index.htm
+Processing ./troubleshooting/install-app-from-anywhere.md to install-app-from-anywhere.htm
+Processing ./troubleshooting/securitysoftware.md to securitysoftware.htm
+Processing ./troubleshooting/sigma.md to sigma.htm
+Microsoft HTML Help Compiler 4.74.8702
+
+Compiling c:\Github\keyman-test-merge2\windows\bin\help\desktop\keymandesktop.chm
+
+toc.hhc
+about\credits.htm
+about\history.htm
+about\index.htm
+about\license.htm
+about\requirements.htm
+about\welcome.htm
+about\whatsnew.htm
+advanced\index.htm
+advanced\locale_edit.htm
+advanced\proxy_config.htm
+basic\config\hotkeys.htm
+basic\config\index.htm
+basic\config\keyboards.htm
+basic\config\options.htm
+basic\config\support.htm
+basic\config\update.htm
+basic\enable-or-disable-keyboard.htm
+basic\help.htm
+basic\index.htm
+basic\language-switcher.htm
+basic\make-taskbar-icon-visible.htm
+basic\new-ways-to-use-keyman.htm
+basic\select-keyboard.htm
+basic\text-editor.htm
+basic\toolbox\character-map.htm
+basic\toolbox\font-helper.htm
+basic\toolbox\index.htm
+basic\toolbox\osk.htm
+basic\tray-menu.htm
+basic\uninstall-keyboard.htm
+basic\uninstall.htm
+basic\update.htm
+common\adware.htm
+common\bug.htm
+common\compatibility.htm
+common\free.htm
+common\index.htm
+common\linux.htm
+common\mac.htm
+common\old_version.htm
+common\os.htm
+common\osk.htm
+common\requirements.htm
+common\support.htm
+common\unicode.htm
+context\base-keyboard.htm
+context\change-hotkey.htm
+context\configuration-hotkeys.htm
+context\configuration-keyboards.htm
+context\configuration-options.htm
+context\configuration-support.htm
+context\configuration-update.htm
+context\download-keyboard.htm
+context\index.htm
+context\install-keyboard-language.htm
+context\install-keyboard.htm
+context\keyman.htm
+context\online-update.htm
+context\proxy-configuration.htm
+context\splash.htm
+context\text-editor.htm
+context\toolbox-charactermap.htm
+context\toolbox-fonthelper.htm
+context\toolbox-onscreenkeyboard.htm
+context\tray-menu.htm
+index.htm
+start\configure-computer.htm
+start\configure_office.htm
+start\download-and-install-keyboard.htm
+start\download-and-install-keyman.htm
+start\font.htm
+start\hotkey_set.htm
+start\index.htm
+start\locale.htm
+start\rtl.htm
+start\tutorial.htm
+troubleshooting\bootstrapper.htm
+troubleshooting\excel.htm
+troubleshooting\font.htm
+troubleshooting\index.htm
+troubleshooting\install-app-from-anywhere.htm
+troubleshooting\securitysoftware.htm
+troubleshooting\sigma.htm
+desktop_images\osk_keyboard.png
+desktop_images\proxy-config.png
+desktop_images\tab-hotkeys.png
+desktop_images\icon-keyman.png
+desktop_images\tab-support.png
+desktop_images\tab-layout.png
+desktop_images\hotkeys-change.png
+desktop_images\tab-layout-help.png
+desktop_images\tab-layout-detail1.png
+desktop_images\keyboards-downarrow.png
+desktop_images\tab-layout-detail2.png
+desktop_images\keyboard-share.png
+desktop_images\tab-options2.png
+desktop_images\options-general.png
+desktop_images\options-startup.png
+desktop_images\windows-startup-apps.png
+desktop_images\options-startup-warning.png
+desktop_images\options-osk.png
+desktop_images\options-advanced.png
+desktop_images\tab-update.png
+desktop_images\menu.png
+desktop_images\tab-layout-disable.png
+desktop_images\tab-layout-enable.png
+desktop_images\help-dialog.png
+desktop_images\languageswitcher.png
+desktop_images\languageswitcher-small.png
+desktop_images\win10-taskbar1.png
+desktop_images\win10-taskbar2.png
+desktop_images\win10-taskbar3.png
+desktop_images\win11-taskbar1.png
+desktop_images\win11-taskbar2.png
+desktop_images\osk-tibetan.png
+desktop_images\texteditor.png
+desktop_images\charmap.png
+desktop_images\charmap-options.png
+desktop_images\charmap-filter.png
+desktop_images\charmap-big.png
+desktop_images\charmap-button.png
+desktop_images\charmap-filterdialog.png
+desktop_images\charmap-goto.png
+desktop_images\charmap-font.png
+desktop_images\charmap-insert.png
+desktop_images\charmap-quality.png
+desktop_images\fonthelper.png
+desktop_images\toolbox-toolbar.png
+desktop_images\toolboxicon-osk.png
+desktop_images\toolboxicon-fonthelper.png
+desktop_images\toolboxicon-charmap.png
+desktop_images\toolboxicon-config.png
+desktop_images\toolboxicon-help.png
+desktop_images\toolboxicon-close.png
+desktop_images\toolbox-options.png
+desktop_images\start_tray.png
+desktop_images\menuicon-osk.png
+desktop_images\menuicon-fonthelper.png
+desktop_images\menuicon-charmap.png
+desktop_images\menuicon-texteditor.png
+desktop_images\menuicon-config.png
+desktop_images\menuicon-help.png
+desktop_images\menuicon-exit.png
+desktop_images\win11-uninstall.png
+desktop_images\tab-options.png
+desktop_images\install-update-now.png
+desktop_images\icon-osk.png
+desktop_images\setup-click3.png
+desktop_images\tab-keyboards.png
+desktop_images\tab-add-lang.png
+desktop_images\tab-add-popup.png
+desktop_images\language-association.png
+desktop_images\icon-uninstall.png
+desktop_images\download-keyboard-step0.png
+desktop_images\download-keyboard-step1.png
+desktop_images\download-keyboard-step2.png
+desktop_images\download-keyboard-step3.png
+desktop_images\download-keyboard-step4.png
+desktop_images\download-keyboard-step5.png
+desktop_images\download-keyboard-step6.png
+desktop_images\km_non_app_store_2.png
+desktop_images\setup-click1.png
+desktop_images\setup-click2.png
+desktop_images\config-locale.png
+desktop_images\km_non_app_store_1.png
+desktop_images\km_install_anywhere_1.png
+desktop_images\km_install_anywhere_2.png
+desktop_images\km_install_anywhere_3.png
+desktop_images\win11_km_install_anywhere_1.png
+
+Compile time: 0 minutes, 1 second
+84	Topics
+413	Local links
+1	Internet link
+86	Graphics
+
+
+Created c:\Github\keyman-test-merge2\windows\bin\help\desktop\keymandesktop.chm, 2,788,501 bytes
+Compression decreased file by 939,482 bytes.
+[windows/src/desktop/help] ## build:chm completed successfully
+[windows/src/desktop/help] ## build:web starting...
+[windows/src/desktop/help] ## build:web completed successfully
+[windows/src/desktop] ## child build:help completed successfully
+[windows/src/desktop] ## child build:kmbrowserhost starting...
+[windows/src/desktop/kmbrowserhost] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/desktop/kmbrowserhost] ## build:project starting...
+[windows/src/desktop/kmbrowserhost] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/desktop/kmbrowserhost] ### visual_studio: rc manifest.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/desktop/kmbrowserhost] Delphi CE: CLI compilation is not available.
+[windows/src/desktop/kmbrowserhost] Please build kmbrowserhost.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/desktop/kmbrowserhost] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[windows/src/desktop/kmbrowserhost] ### delphi: sentrytool_delphiprep bin/Win32/Debug/kmbrowserhost.exe kmbrowserhost.dpr
+DebugID: E68763CA14B04BFD88708CAAC30584EC1
+CodeID: 6AE24F0F2A4000
+[windows/src/desktop/kmbrowserhost] ## build:project completed successfully
+[windows/src/desktop] ## child build:kmbrowserhost completed successfully
+[windows/src/desktop] ## child build:kmconfig starting...
+[windows/src/desktop/kmconfig] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/desktop/kmconfig] ## build:project starting...
+[windows/src/desktop/kmconfig] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/desktop/kmconfig] ### visual_studio: rc manifest.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/desktop/kmconfig] Delphi CE: CLI compilation is not available.
+[windows/src/desktop/kmconfig] Please build kmconfig.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/desktop/kmconfig] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[windows/src/desktop/kmconfig] ### delphi: sentrytool_delphiprep bin/Win32/Debug/kmconfig.exe kmconfig.dpr
+DebugID: 83588E6FCB3C4546BD1A8D82EDDB39731
+CodeID: 6AE24F2F140000
+[windows/src/desktop/kmconfig] ## build:project completed successfully
+[windows/src/desktop] ## child build:kmconfig completed successfully
+[windows/src/desktop] ## child build:kmshell starting...
+[windows/src/desktop/kmshell] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/desktop/kmshell] ## build:project starting...
+[windows/src/global/delphi] dependency build, started by windows/src/desktop/kmshell
+[windows/src/global/delphi] build.sh parameters: <configure:message-identifiers build:message-identifiers --debug --deps --builder-dep-parent windows/src/desktop/kmshell>
+[windows/src/global/delphi] skipping build:message-identifiers, up-to-date
+[windows/src/desktop/kmshell] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/desktop/kmshell] ### visual_studio: rc manifest.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/desktop/kmshell] ### visual_studio: rc icons.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/desktop/kmshell] Delphi CE: CLI compilation is not available.
+[windows/src/desktop/kmshell] Please build kmshell.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/desktop/kmshell] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[windows/src/desktop/kmshell] ### delphi: sentrytool_delphiprep bin/Win32/Debug/kmshell.exe kmshell.dpr
+DebugID: 973506F6BA714A339F77083FC158B44E1
+CodeID: 6AE24F566D4000
+[windows/src/desktop/kmshell] do_build_data
+[windows/src/desktop/kmshell] do_build_locale_index locale
+[windows/src/desktop/kmshell] ## build:project completed successfully
+[windows/src/desktop] ## child build:kmshell completed successfully
+[windows/src/desktop] ## child build:setup starting...
+[windows/src/desktop/setup] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/desktop/setup] ## build:project starting...
+[windows/src/desktop/setup] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/desktop/setup] ### visual_studio: rc manifest.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/desktop/setup] ### visual_studio: rc icons.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/desktop/setup] Delphi CE: CLI compilation is not available.
+[windows/src/desktop/setup] Please build setup.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/desktop/setup] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[windows/src/desktop/setup] ### delphi: sentrytool_delphiprep bin/Win32/Debug/setup.exe setup.dpr
+DebugID: 53FEA0481EDE4E679F2EEBE49ADB67FC1
+CodeID: 6AE24F7D41A000
+[windows/src/desktop/setup] ## build:project completed successfully
+[windows/src/desktop] ## child build:setup completed successfully
+[windows/src/desktop] ## child build:insthelp starting...
+[windows/src/desktop/insthelp] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/desktop/insthelp] ## build:project starting...
+[windows/src/desktop/insthelp] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/desktop/insthelp] ### visual_studio: rc manifest.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/desktop/insthelp] Delphi CE: CLI compilation is not available.
+[windows/src/desktop/insthelp] Please build insthelp.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/desktop/insthelp] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[windows/src/desktop/insthelp] ### delphi: sentrytool_delphiprep bin/Win32/Debug/insthelp.exe insthelp.dpr
+DebugID: 285F794114824E798633BBD8B25FD4451
+CodeID: 6AE24FA3104000
+[windows/src/desktop/insthelp] ## build:project completed successfully
+[windows/src/desktop] ## child build:insthelp completed successfully
+[windows/src/desktop] ## child build:inst starting...
+[windows/src/desktop/inst] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/desktop] ## child build:inst completed successfully
+[windows/src] ## child build:desktop completed successfully
+[windows/src] ## child build:components starting...
+[windows/src/global/delphi] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/global/delphi] ## build:components starting...
+[windows/src/global/delphi] Delphi CE: CLI compilation is not available.
+[windows/src/global/delphi] Please build keyman_components.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/global/delphi] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+installpackage C:/Github/keyman-test-merge2/windows/lib/keyman_components.bpl
+[windows/src/global/delphi] ## build:components completed successfully
+[windows/src/global/delphi] ## build:message-identifiers starting...
+[windows/src/global/delphi] ## build:message-identifiers completed successfully
+[windows/src] ## child build:components completed successfully
+[windows/src] ## child build:support starting...
+[windows/src/support] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/support] ## child build:oskbulkrenderer starting...
+[windows/src/support/oskbulkrenderer] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/support/oskbulkrenderer] ## build:project starting...
+[windows/src/support/oskbulkrenderer] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/support/oskbulkrenderer] Delphi CE: CLI compilation is not available.
+[windows/src/support/oskbulkrenderer] Please build oskbulkrenderer.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/support/oskbulkrenderer] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[windows/src/support/oskbulkrenderer] ## build:project completed successfully
+[windows/src/support] ## child build:oskbulkrenderer completed successfully
+[windows/src/support] ## child build:etl2log starting...
+[windows/src/support/etl2log] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/support/etl2log] ## build:project starting...
+[windows/src/support/etl2log] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/support/etl2log] ### visual_studio: msbuild.exe etl2log.vcxproj //t:Build //p:Platform=Win32 //p:Configuration=Debug
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+Build started 10/28/2026 2:41:38 PM.
+
+Project "C:\Github\keyman-test-merge2\windows\src\support\etl2log\etl2log.vcxproj" on node 1 (Build target(s)).
+PrepareForBuild:
+  Creating directory "C:\Github\keyman-test-merge2\windows\src\support\etl2log\obj\Win32\Debug\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "C:\Github\keyman-test-merge2\windows\src\support\etl2log\bin\Win32\Debug\".
+  Creating directory "C:\Github\keyman-test-merge2\windows\src\support\etl2log\obj\Win32\Debug\etl2log.tlog\".
+InitializeBuildStatus:
+  Creating "C:\Github\keyman-test-merge2\windows\src\support\etl2log\obj\Win32\Debug\etl2log.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "C:\Github\keyman-test-merge2\windows\src\support\etl2log\obj\Win32\Debug\etl2log.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /permissive- /Yc"stdafx.h" /Fp"C:\Github\keyman-test-merge2\windows\src\support\etl2log\obj\Win32\Debug\etl2log.pch" /Fo"C:\Github\keyman-test-merge2\windows\src\support\etl2log\obj\Win32\Debug\\" /Fd"C:\Github\keyman-test-merge2\windows\src\support\etl2log\obj\Win32\Debug\vc143.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue stdafx.cpp
+  stdafx.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /permissive- /Yu"stdafx.h" /Fp"C:\Github\keyman-test-merge2\windows\src\support\etl2log\obj\Win32\Debug\etl2log.pch" /Fo"C:\Github\keyman-test-merge2\windows\src\support\etl2log\obj\Win32\Debug\\" /Fd"C:\Github\keyman-test-merge2\windows\src\support\etl2log\obj\Win32\Debug\vc143.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue etl2log.cpp load.cpp logging.cpp
+  etl2log.cpp
+  load.cpp
+  logging.cpp
+  Generating Code...
+ResourceCompile:
+  C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"C:\Github\keyman-test-merge2\windows\src\support\etl2log\obj\Win32\Debug\version.res" version.rc 
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Github\keyman-test-merge2\windows\src\support\etl2log\bin\Win32\Debug\etl2log.exe" /INCREMENTAL /ILK:"C:\Github\keyman-test-merge2\windows\src\support\etl2log\obj\Win32\Debug\etl2log.ilk" /NOLOGO tdh.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Github\keyman-test-merge2\windows\src\support\etl2log\bin\Win32\Debug\etl2log.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Github\keyman-test-merge2\windows\src\support\etl2log\bin\Win32\Debug\etl2log.lib" /MACHINE:X86 "C:\Github\keyman-test-merge2\windows\src\support\etl2log\obj\Win32\Debug\version.res"
+  "C:\Github\keyman-test-merge2\windows\src\support\etl2log\obj\Win32\Debug\etl2log.obj"
+  "C:\Github\keyman-test-merge2\windows\src\support\etl2log\obj\Win32\Debug\load.obj"
+  "C:\Github\keyman-test-merge2\windows\src\support\etl2log\obj\Win32\Debug\logging.obj"
+  "C:\Github\keyman-test-merge2\windows\src\support\etl2log\obj\Win32\Debug\stdafx.obj"
+  etl2log.vcxproj -> C:\Github\keyman-test-merge2\windows\src\support\etl2log\bin\Win32\Debug\etl2log.exe
+FinalizeBuildStatus:
+  Deleting file "C:\Github\keyman-test-merge2\windows\src\support\etl2log\obj\Win32\Debug\etl2log.tlog\unsuccessfulbuild".
+  Touching "C:\Github\keyman-test-merge2\windows\src\support\etl2log\obj\Win32\Debug\etl2log.tlog\etl2log.lastbuildstate".
+Done Building Project "C:\Github\keyman-test-merge2\windows\src\support\etl2log\etl2log.vcxproj" (Build target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:02.25
+[windows/src/support/etl2log] ## build:project completed successfully
+[windows/src/support] ## child build:etl2log completed successfully
+[windows/src/support] ## child build:texteditor starting...
+[windows/src/support/texteditor] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/support/texteditor] ## build:project starting...
+[windows/src/support/texteditor] ### visual_studio: msbuild.exe Editor.vcxproj //t:Build //p:Platform=Win32 //p:Configuration=Debug
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+Build started 10/28/2026 2:41:41 PM.
+
+Project "C:\Github\keyman-test-merge2\windows\src\support\texteditor\Editor.vcxproj" on node 1 (Build target(s)).
+PrepareForBuild:
+  Creating directory "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\Win32\Debug\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "C:\Github\keyman-test-merge2\windows\src\support\texteditor\bin\Win32\Debug\".
+  Creating directory "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\Win32\Debug\Editor.tlog\".
+InitializeBuildStatus:
+  Creating "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\Win32\Debug\Editor.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\Win32\Debug\Editor.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /permissive- /Fo"C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\Win32\Debug\\" /Fd"C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\Win32\Debug\vc143.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue Editor.cpp FontSelect.cpp
+  Editor.cpp
+  FontSelect.cpp
+  Generating Code...
+ResourceCompile:
+  C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\Win32\Debug\Editor.res" Editor.rc 
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Github\keyman-test-merge2\windows\src\support\texteditor\bin\Win32\Debug\Editor32.exe" /INCREMENTAL /ILK:"C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\Win32\Debug\Editor32.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Github\keyman-test-merge2\windows\src\support\texteditor\bin\Win32\Debug\Editor32.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Github\keyman-test-merge2\windows\src\support\texteditor\bin\Win32\Debug\Editor32.lib" /MACHINE:X86 "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\Win32\Debug\Editor.res"
+  "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\Win32\Debug\Editor.obj"
+  "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\Win32\Debug\FontSelect.obj"
+  Editor.vcxproj -> C:\Github\keyman-test-merge2\windows\src\support\texteditor\bin\Win32\Debug\Editor32.exe
+FinalizeBuildStatus:
+  Deleting file "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\Win32\Debug\Editor.tlog\unsuccessfulbuild".
+  Touching "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\Win32\Debug\Editor.tlog\Editor.lastbuildstate".
+Done Building Project "C:\Github\keyman-test-merge2\windows\src\support\texteditor\Editor.vcxproj" (Build target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.38
+[windows/src/support/texteditor] ### visual_studio: msbuild.exe Editor.vcxproj //t:Build //p:Platform=x64 //p:Configuration=Debug
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+Build started 10/28/2026 2:41:43 PM.
+
+Project "C:\Github\keyman-test-merge2\windows\src\support\texteditor\Editor.vcxproj" on node 1 (Build target(s)).
+PrepareForBuild:
+  Creating directory "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\x64\Debug\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "C:\Github\keyman-test-merge2\windows\src\support\texteditor\bin\x64\Debug\".
+  Creating directory "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\x64\Debug\Editor.tlog\".
+InitializeBuildStatus:
+  Creating "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\x64\Debug\Editor.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\x64\Debug\Editor.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64\CL.exe /c /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /permissive- /Fo"C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\x64\Debug\\" /Fd"C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\x64\Debug\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:queue Editor.cpp FontSelect.cpp
+  Editor.cpp
+  FontSelect.cpp
+  Generating Code...
+ResourceCompile:
+  C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\x64\Debug\Editor.res" Editor.rc 
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Github\keyman-test-merge2\windows\src\support\texteditor\bin\x64\Debug\Editor64.exe" /INCREMENTAL /ILK:"C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\x64\Debug\Editor64.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Github\keyman-test-merge2\windows\src\support\texteditor\bin\x64\Debug\Editor64.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Github\keyman-test-merge2\windows\src\support\texteditor\bin\x64\Debug\Editor64.lib" /MACHINE:X64 "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\x64\Debug\Editor.res"
+  "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\x64\Debug\Editor.obj"
+  "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\x64\Debug\FontSelect.obj"
+  Editor.vcxproj -> C:\Github\keyman-test-merge2\windows\src\support\texteditor\bin\x64\Debug\Editor64.exe
+FinalizeBuildStatus:
+  Deleting file "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\x64\Debug\Editor.tlog\unsuccessfulbuild".
+  Touching "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\x64\Debug\Editor.tlog\Editor.lastbuildstate".
+Done Building Project "C:\Github\keyman-test-merge2\windows\src\support\texteditor\Editor.vcxproj" (Build target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.25
+[windows/src/support/texteditor] ### visual_studio: msbuild.exe Editor.vcxproj //t:Build //p:Platform=arm64 //p:Configuration=Debug
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+Build started 10/28/2026 2:41:44 PM.
+
+Project "C:\Github\keyman-test-merge2\windows\src\support\texteditor\Editor.vcxproj" on node 1 (Build target(s)).
+PrepareForBuild:
+  Creating directory "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\arm64\Debug\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "C:\Github\keyman-test-merge2\windows\src\support\texteditor\bin\arm64\Debug\".
+  Creating directory "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\arm64\Debug\Editor.tlog\".
+InitializeBuildStatus:
+  Creating "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\arm64\Debug\Editor.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\arm64\Debug\Editor.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\arm64\CL.exe /c /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /Oy- /D _DEBUG /D _WINDOWS /D _ARM64_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE=1 /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /permissive- /Fo"C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\arm64\Debug\\" /Fd"C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\arm64\Debug\vc143.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue Editor.cpp FontSelect.cpp
+  Editor.cpp
+  FontSelect.cpp
+  Generating Code...
+ResourceCompile:
+  C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\arm64\Debug\Editor.res" Editor.rc 
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\arm64\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Github\keyman-test-merge2\windows\src\support\texteditor\bin\arm64\Debug\Editorarm64.exe" /INCREMENTAL /ILK:"C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\arm64\Debug\Editorarm64.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Github\keyman-test-merge2\windows\src\support\texteditor\bin\arm64\Debug\Editorarm64.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Github\keyman-test-merge2\windows\src\support\texteditor\bin\arm64\Debug\Editorarm64.lib" /MACHINE:ARM64 "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\arm64\Debug\Editor.res"
+  "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\arm64\Debug\Editor.obj"
+  "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\arm64\Debug\FontSelect.obj"
+  Editor.vcxproj -> C:\Github\keyman-test-merge2\windows\src\support\texteditor\bin\arm64\Debug\Editorarm64.exe
+FinalizeBuildStatus:
+  Deleting file "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\arm64\Debug\Editor.tlog\unsuccessfulbuild".
+  Touching "C:\Github\keyman-test-merge2\windows\src\support\texteditor\obj\arm64\Debug\Editor.tlog\Editor.lastbuildstate".
+Done Building Project "C:\Github\keyman-test-merge2\windows\src\support\texteditor\Editor.vcxproj" (Build target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.41
+[windows/src/support/texteditor] ## build:project completed successfully
+[windows/src/support] ## child build:texteditor completed successfully
+[windows/src] ## child build:support completed successfully
+[windows/src] ## child build:test starting...
+[windows/src/test/unit-tests] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/test/unit-tests] ## child build:androidstringtokeymanlocalestring starting...
+[windows/src/test/unit-tests/androidstringtokeymanlocalestring] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/test/unit-tests/androidstringtokeymanlocalestring] ## build:project starting...
+[windows/src/test/unit-tests/androidstringtokeymanlocalestring] Delphi CE: CLI compilation is not available.
+[windows/src/test/unit-tests/androidstringtokeymanlocalestring] Please build AndroidStringToKeymanLocaleString.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/test/unit-tests/androidstringtokeymanlocalestring] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.

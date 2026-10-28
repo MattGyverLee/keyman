@@ -1,0 +1,47 @@
+﻿=== [14:32:04] W3-windows-src : windows/src ./build.sh build
+[14:32:20] prompt #1: windows/src/engine/insthelper/insthelper.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\engine\insthelper\bin\Win32\Debug\insthelper.exe | C:\Github\keyman-test-merge2\windows\src\engine\insthelper\bin\Win32\Debug\insthelper.dll
+  building...
+  built: C:\Github\keyman-test-merge2\windows\src\engine\insthelper\bin\Win32\Debug\insthelper.dll (1061376 bytes, 14:32:41) after 9s; sending Enter
+[14:32:54] prompt #2: windows/src/engine/keyman/keyman.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\engine\keyman\bin\Win32\Debug\keyman.exe | C:\Github\keyman-test-merge2\windows\src\engine\keyman\bin\Win32\Debug\keyman.dll
+  building...
+  built: C:\Github\keyman-test-merge2\windows\src\engine\keyman\bin\Win32\Debug\keyman.exe (4448256 bytes, 14:33:18) after 9s; sending Enter
+[14:33:51] prompt #3: windows/src/engine/kmcomapi/kmcomapi.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\engine\kmcomapi\bin\Win32\Debug\kmcomapi.exe | C:\Github\keyman-test-merge2\windows\src\engine\kmcomapi\bin\Win32\Debug\kmcomapi.dll
+  building...
+  dismissed untitled IDE dialog class=TCENotificationDialog (OK clicked)
+  built: C:\Github\keyman-test-merge2\windows\src\engine\kmcomapi\bin\Win32\Debug\kmcomapi.dll (7405568 bytes, 14:34:23) after 18s; sending Enter
+[14:34:34] prompt #4: windows/src/engine/kmcomapi/kmcomapi.dproj (Win64, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\engine\kmcomapi\bin\Win64\Debug\kmcomapi.exe | C:\Github\keyman-test-merge2\windows\src\engine\kmcomapi\bin\Win64\Debug\kmcomapi.dll
+  selected Windows 64-bit
+  building...
+  dismissed untitled IDE dialog class=TCENotificationDialog (OK clicked)
+  built: C:\Github\keyman-test-merge2\windows\src\engine\kmcomapi\bin\Win64\Debug\kmcomapi.dll (23200421 bytes, 14:35:17) after 27s; sending Enter
+[14:35:44] prompt #5: windows/src/engine/tsysinfo/tsysinfo.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\engine\tsysinfo\bin\Win32\Debug\tsysinfo.exe | C:\Github\keyman-test-merge2\windows\src\engine\tsysinfo\bin\Win32\Debug\tsysinfo.dll
+  building...
+  built: C:\Github\keyman-test-merge2\windows\src\engine\tsysinfo\bin\Win32\Debug\tsysinfo.exe (19214336 bytes, 14:36:08) after 9s; sending Enter
+[14:36:22] prompt #6: windows/src/engine/tsysinfox64/tsysinfox64.dproj (Win64, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\engine\tsysinfox64\bin\Win64\Debug\tsysinfox64.exe | C:\Github\keyman-test-merge2\windows\src\engine\tsysinfox64\bin\Win64\Debug\tsysinfox64.dll
+  selected Windows 64-bit
+  building...
+  built: C:\Github\keyman-test-merge2\windows\src\engine\tsysinfox64\bin\Win64\Debug\tsysinfox64.exe (15215855 bytes, 14:36:51) after 9s; sending Enter
+[14:37:29] prompt #7: windows/src/desktop/kmbrowserhost/kmbrowserhost.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\desktop\kmbrowserhost\bin\Win32\Debug\kmbrowserhost.exe | C:\Github\keyman-test-merge2\windows\src\desktop\kmbrowserhost\bin\Win32\Debug\kmbrowserhost.dll
+  building...
+  built: C:\Github\keyman-test-merge2\windows\src\desktop\kmbrowserhost\bin\Win32\Debug\kmbrowserhost.exe (2700800 bytes, 14:37:51) after 9s; sending Enter
+[14:38:04] prompt #8: windows/src/desktop/kmconfig/kmconfig.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\desktop\kmconfig\bin\Win32\Debug\kmconfig.exe | C:\Github\keyman-test-merge2\windows\src\desktop\kmconfig\bin\Win32\Debug\kmconfig.dll
+  building...
+  built: C:\Github\keyman-test-merge2\windows\src\desktop\kmconfig\bin\Win32\Debug\kmconfig.exe (1247232 bytes, 14:38:23) after 9s; sending Enter
+[14:38:36] prompt #9: windows/src/desktop/kmshell/kmshell.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\desktop\kmshell\bin\Win32\Debug\kmshell.exe | C:\Github\keyman-test-merge2\windows\src\desktop\kmshell\bin\Win32\Debug\kmshell.dll
+  building...
+  dismissed untitled IDE dialog class=TCENotificationDialog (OK clicked)
+  built: C:\Github\keyman-test-merge2\windows\src\desktop\kmshell\bin\Win32\Debug\kmshell.exe (7091712 bytes, 14:39:02) after 12s; sending Enter
+[14:39:20] prompt #10: windows/src/desktop/setup/setup.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\desktop\setup\bin\Win32\Debug\setup.exe | C:\Github\keyman-test-merge2\windows\src\desktop\setup\bin\Win32\Debug\setup.dll
+  building...
+  built: C:\Github\keyman-test-merge2\windows\src\desktop\setup\bin\Win32\Debug\setup.exe (4235264 bytes, 14:39:41) after 9s; sending Enter
+[14:39:56] prompt #11: windows/src/desktop/insthelp/insthelp.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\desktop\insthelp\bin\Win32\Debug\insthelp.exe | C:\Github\keyman-test-merge2\windows\src\desktop\insthelp\bin\Win32\Debug\insthelp.dll
+  building...
+  built: C:\Github\keyman-test-merge2\windows\src\desktop\insthelp\bin\Win32\Debug\insthelp.exe (1006080 bytes, 14:40:19) after 9s; sending Enter
+[14:40:32] prompt #12: windows/src/global/delphi/keyman_components.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\lib\keyman_components.bpl
+  building...
+  built: C:\Github\keyman-test-merge2\windows\lib\keyman_components.bpl (2783338 bytes, 14:40:53) after 9s; sending Enter
+[14:41:06] prompt #13: windows/src/support/oskbulkrenderer/oskbulkrenderer.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\support\oskbulkrenderer\bin\Win32\Debug\oskbulkrenderer.exe | C:\Github\keyman-test-merge2\windows\src\support\oskbulkrenderer\bin\Win32\Debug\oskbulkrenderer.dll
+  building...
+  built: C:\Github\keyman-test-merge2\windows\src\support\oskbulkrenderer\bin\Win32\Debug\oskbulkrenderer.exe (2758656 bytes, 14:41:28) after 9s; sending Enter
+[14:41:49] prompt #14: windows/src/test/unit-tests/androidstringtokeymanlocalestring/AndroidStringToKeymanLocaleString.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\test\unit-tests\androidstringtokeymanlocalestring\bin\Win32\Debug\AndroidStringToKeymanLocaleString.exe | C:\Github\keyman-test-merge2\windows\src\test\unit-tests\androidstringtokeymanlocalestring\bin\Win32\Debug\AndroidStringToKeymanLocaleString.dll
+  building...
