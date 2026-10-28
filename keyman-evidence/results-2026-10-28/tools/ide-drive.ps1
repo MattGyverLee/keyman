@@ -57,8 +57,8 @@ while (-not (Test-Path $Done)) {
   for ($n = 0; $n -lt 3; $n++) { $d = Dismiss-Nag; if (-not $d) { break }; "  $d"; Start-Sleep 2; Focus-Bds }
   $f = Fg
   if ($f.Title -notmatch [regex]::Escape($name)) { Shot "stop-$seen"; throw "foreground is '$($f.Title)', not the $name project (a dialog?)" }
-  if ($plat -eq 'Win64') { Select-Win64; Shot "win64-$seen" | Out-Null; "  selected Windows 64-bit" }
-  elseif ($plat -ne 'Win32') { Shot "platform-$seen"; throw "prompt wants ${plat}: not automated" }
+  if ($plat -notin 'Win32','Win64') { Shot "platform-$seen"; throw "prompt wants ${plat}: not automated" }
+  Select-Platform $plat; Shot "platform-$seen" | Out-Null; "  selected $plat"
   # Projects pane, maximized IDE, single project: right-click the project node, then "Build" in its
   # context menu (Matthew: builds are triggered from the Projects tab). Shift+F9 did not build.
   Click 2144 182 -Right; Start-Sleep 1; Click 2190 220

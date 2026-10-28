@@ -1918,3 +1918,130 @@ Time Elapsed 00:00:01.41
 [windows/src/test/unit-tests/androidstringtokeymanlocalestring] Delphi CE: CLI compilation is not available.
 [windows/src/test/unit-tests/androidstringtokeymanlocalestring] Please build AndroidStringToKeymanLocaleString.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
 [windows/src/test/unit-tests/androidstringtokeymanlocalestring] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[windows/src/test/unit-tests/androidstringtokeymanlocalestring] ## build:project completed successfully
+[windows/src/test/unit-tests] ## child build:androidstringtokeymanlocalestring completed successfully
+[windows/src/test/unit-tests] ## child build:group-helper-rsp19902 starting...
+[windows/src/test/unit-tests/group-helper-rsp19902] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/test/unit-tests/group-helper-rsp19902] ## build:project starting...
+[windows/src/test/unit-tests/group-helper-rsp19902] Delphi CE: CLI compilation is not available.
+[windows/src/test/unit-tests/group-helper-rsp19902] Please build RegExGroupHelperRSP19902TestSuite.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/test/unit-tests/group-helper-rsp19902] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[windows/src/test/unit-tests/group-helper-rsp19902] ## build:project completed successfully
+[windows/src/test/unit-tests] ## child build:group-helper-rsp19902 completed successfully
+[windows/src/test/unit-tests] ## child build:jsonutil starting...
+[windows/src/test/unit-tests/jsonutil] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/test/unit-tests/jsonutil] ## build:project starting...
+[windows/src/test/unit-tests/jsonutil] Delphi CE: CLI compilation is not available.
+[windows/src/test/unit-tests/jsonutil] Please build JsonUtilTests.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/test/unit-tests/jsonutil] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[windows/src/test/unit-tests/jsonutil] ## build:project completed successfully
+[windows/src/test/unit-tests] ## child build:jsonutil completed successfully
+[windows/src/test/unit-tests] ## child build:shared-data starting...
+[windows/src/test/unit-tests/shared-data] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/test/unit-tests/shared-data] ## child build:cpp starting...
+[windows/src/test/unit-tests/shared-data/cpp] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/test/unit-tests/shared-data/cpp] ## build:project starting...
+[windows/src/test/unit-tests/shared-data/cpp] ### visual_studio: msbuild.exe cppshareddata.vcxproj //p:Platform=Win32 //p:Configuration=Debug
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+Build started 10/28/2026 2:49:34 PM.
+
+Project "C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\cppshareddata.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\Win32\Debug\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\bin\Win32\Debug\".
+  Creating directory "C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\Win32\Debug\cppshareddata.tlog\".
+InitializeBuildStatus:
+  Creating "C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\Win32\Debug\cppshareddata.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\Win32\Debug\cppshareddata.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /permissive /Yc"pch.h" /Fp"C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\Win32\Debug\cppshareddata.pch" /Fo"C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\Win32\Debug\\" /Fd"C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\Win32\Debug\vc143.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue pch.cpp
+  pch.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /permissive /Yu"pch.h" /Fp"C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\Win32\Debug\cppshareddata.pch" /Fo"C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\Win32\Debug\\" /Fd"C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\Win32\Debug\vc143.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue cppshareddata.cpp
+  cppshareddata.cpp
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\bin\Win32\Debug\cppshareddata.exe" /INCREMENTAL /ILK:"C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\Win32\Debug\cppshareddata.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\bin\Win32\Debug\cppshareddata.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\bin\Win32\Debug\cppshareddata.lib" /MACHINE:X86 "C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\Win32\Debug\cppshareddata.obj"
+  "C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\Win32\Debug\pch.obj"
+  cppshareddata.vcxproj -> C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\bin\Win32\Debug\cppshareddata.exe
+FinalizeBuildStatus:
+  Deleting file "C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\Win32\Debug\cppshareddata.tlog\unsuccessfulbuild".
+  Touching "C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\Win32\Debug\cppshareddata.tlog\cppshareddata.lastbuildstate".
+Done Building Project "C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\cppshareddata.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.54
+[windows/src/test/unit-tests/shared-data/cpp] ### visual_studio: msbuild.exe cppshareddata.vcxproj //p:Platform=x64 //p:Configuration=Debug
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+Build started 10/28/2026 2:49:35 PM.
+
+Project "C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\cppshareddata.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\x64\Debug\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\bin\x64\Debug\".
+  Creating directory "C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\x64\Debug\cppshareddata.tlog\".
+InitializeBuildStatus:
+  Creating "C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\x64\Debug\cppshareddata.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\x64\Debug\cppshareddata.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64\CL.exe /c /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /permissive /Yc"pch.h" /Fp"C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\x64\Debug\cppshareddata.pch" /Fo"C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\x64\Debug\\" /Fd"C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\x64\Debug\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:queue pch.cpp
+  pch.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64\CL.exe /c /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /permissive /Yu"pch.h" /Fp"C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\x64\Debug\cppshareddata.pch" /Fo"C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\x64\Debug\\" /Fd"C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\x64\Debug\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:queue cppshareddata.cpp
+  cppshareddata.cpp
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\bin\x64\Debug\cppshareddata.exe" /INCREMENTAL /ILK:"C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\x64\Debug\cppshareddata.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\bin\x64\Debug\cppshareddata.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\bin\x64\Debug\cppshareddata.lib" /MACHINE:X64 "C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\x64\Debug\cppshareddata.obj"
+  "C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\x64\Debug\pch.obj"
+  cppshareddata.vcxproj -> C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\bin\x64\Debug\cppshareddata.exe
+FinalizeBuildStatus:
+  Deleting file "C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\x64\Debug\cppshareddata.tlog\unsuccessfulbuild".
+  Touching "C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\obj\x64\Debug\cppshareddata.tlog\cppshareddata.lastbuildstate".
+Done Building Project "C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\cpp\cppshareddata.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.58
+[windows/src/test/unit-tests/shared-data/cpp] ## build:project completed successfully
+[windows/src/test/unit-tests/shared-data] ## child build:cpp completed successfully
+[windows/src/test/unit-tests/shared-data] ## child build:delphi starting...
+[windows/src/test/unit-tests/shared-data/delphi] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/test/unit-tests/shared-data/delphi] ## build:project starting...
+[windows/src/test/unit-tests/shared-data/delphi] Delphi CE: CLI compilation is not available.
+[windows/src/test/unit-tests/shared-data/delphi] Please build delphishareddata.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/test/unit-tests/shared-data/delphi] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[windows/src/test/unit-tests/shared-data/delphi] Delphi CE: delphishareddata.dproj (Win64) — output was built earlier in this run, skipping prompt.
+[windows/src/test/unit-tests/shared-data/delphi] ## build:project completed successfully
+[windows/src/test/unit-tests/shared-data] ## child build:delphi completed successfully
+[windows/src/test/unit-tests] ## child build:shared-data completed successfully
+[windows/src/test/unit-tests] ## child build:standards-data starting...
+[windows/src/test/unit-tests/standards-data] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/test/unit-tests/standards-data] ## build:project starting...
+[windows/src/test/unit-tests/standards-data] Delphi CE: CLI compilation is not available.
+[windows/src/test/unit-tests/standards-data] Please build standardsdata.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/test/unit-tests/standards-data] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[windows/src/test/unit-tests/standards-data] ## build:project completed successfully
+[windows/src/test/unit-tests] ## child build:standards-data completed successfully
+[windows/src/test/unit-tests] ## child build:windows-setup starting...
+[windows/src/test/unit-tests/windows-setup] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/test/unit-tests/windows-setup] ## build:project starting...
+[windows/src/test/unit-tests/windows-setup] Delphi CE: CLI compilation is not available.
+[windows/src/test/unit-tests/windows-setup] Please build WindowsSetupTest.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/test/unit-tests/windows-setup] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[windows/src/test/unit-tests/windows-setup] ## build:project completed successfully
+[windows/src/test/unit-tests] ## child build:windows-setup completed successfully
+[windows/src/test/unit-tests] ## child build:ui-language-manager starting...
+[windows/src/test/unit-tests/ui-language-manager] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/test/unit-tests/ui-language-manager] ## build:project starting...
+[windows/src/test/unit-tests/ui-language-manager] Delphi CE: CLI compilation is not available.
+[windows/src/test/unit-tests/ui-language-manager] Please build UILanguageManagerTest.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/test/unit-tests/ui-language-manager] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[windows/src/test/unit-tests/ui-language-manager] ## build:project completed successfully
+[windows/src/test/unit-tests] ## child build:ui-language-manager completed successfully
+[windows/src] ## child build:test completed successfully
+[windows/src] ## child build:fv starting...
+[oem/firstvoices/windows/src/inst] child build, parameters: <--builder-child --deps build --debug>
+[windows/src] ## child build:fv completed successfully

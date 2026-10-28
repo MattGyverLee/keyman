@@ -49,8 +49,9 @@ function Dismiss-Nag {
     if ($ok.Count -eq 1) { Shot "nag-$(Get-Date -Format HHmmss)" | Out-Null; [void][IDE.N]::SendMessage($ok[0], 0xF5, [IntPtr]::Zero, [IntPtr]::Zero); "dismissed untitled IDE dialog class=$c (OK clicked)" }
   }
 }
-# Select Windows 64-bit in the toolbar platform box (maximized IDE): open it, click the 2nd entry.
-function Select-Win64 { Click 686 72; Start-Sleep 1; Click 676 116; Start-Sleep 2 }
+# Select the target platform in the toolbar platform box (maximized IDE): open it, then click the
+# 1st entry (Windows 32-bit) or 2nd (Windows 64-bit). A project's saved default can be either.
+function Select-Platform([string]$plat) { Click 686 72; Start-Sleep 1; Click 676 $(if ($plat -eq 'Win64') { 116 } else { 96 }); Start-Sleep 2 }
 function Maximize-Bds { $b = Get-Process bds | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1; [void][IDE.U]::ShowWindow($b.MainWindowHandle, 3); Start-Sleep 1 }
 $Shots = 'C:\Users\thoua\AppData\Local\Temp\claude\C--Github-keyman\d9a7fe69-9d19-45db-b14c-33b3f7474856\scratchpad\shots'
 New-Item -ItemType Directory -Force $Shots | Out-Null
