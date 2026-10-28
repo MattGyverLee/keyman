@@ -6,7 +6,7 @@ Manual end-to-end test for [#8064](https://github.com/keymanapp/keyman/issues/80
 There is no app to build here. The tools this test needs already exist in the
 tree, and the pass/fail oracle is two PowerShell snippets given below.
 
-[TRIAGE.md](./TRIAGE.md) is the companion document: how to tell the serializer
+[TRIAGE.md](https://github.com/MattGyverLee/keyman/blob/evidence/8064-16462/keyman-evidence/16490-GH-8064/manual-tests-GH-8064/TRIAGE.md) (moved to the evidence archive, see `evidence/README.md`) is the companion document: how to tell the serializer
 path from the on-screen keyboard path when a stuck modifier is reported in the
 field. Read it before concluding that a report after this ships is a regression.
 
@@ -93,7 +93,7 @@ clean.
 |---|---|
 | `windows/src/support/fakefreeze` | the stimulus. Posts `KMC_WATCHDOG_FAKEFREEZE` to keyman.exe, which pauses for five seconds. Build with `./windows/src/support/fakefreeze/build.sh --debug build:x86` |
 | `host32/host32.cpp` | the 32-bit host, which drives the whole sequence itself |
-| `host32/rawinput-probe.cpp` | a measurement, not a fix: it changes no production file, and answers one question -- does a `WM_INPUT` feed on a worker thread keep delivering, with Keyman's `dwExtraInfo` tag intact, while the thread the low level hook was installed on is stalled. Its result is committed as [`evidence/rawinput-delivery.md`](evidence/rawinput-delivery.md). Build: `cl /nologo /W4 /EHsc /MT /DUNICODE /D_UNICODE rawinput-probe.cpp /link /SUBSYSTEM:WINDOWS user32.lib gdi32.lib /OUT:rawinput-probe.exe` |
+| `host32/rawinput-probe.cpp` | a measurement, not a fix: it changes no production file, and answers one question -- does a `WM_INPUT` feed on a worker thread keep delivering, with Keyman's `dwExtraInfo` tag intact, while the thread the low level hook was installed on is stalled. Its result is recorded in the evidence archive as [`rawinput-delivery.md`](https://github.com/MattGyverLee/keyman/blob/evidence/8064-16462/keyman-evidence/16490-GH-8064/manual-tests-GH-8064/evidence/rawinput-delivery.md). Build: `cl /nologo /W4 /EHsc /MT /DUNICODE /D_UNICODE rawinput-probe.cpp /link /SUBSYSTEM:WINDOWS user32.lib gdi32.lib /OUT:rawinput-probe.exe` |
 | `run-8064-test.ps1` | the automated harness |
 | `windows/src/test/manual-tests/keyboard_ll_identifier` | the wire logger. A `WH_KEYBOARD_LL` hook that logs `vkCode scanCode flags` for the nine modifier virtual keys. Delphi, and no binary is committed, so it has to be built |
 | the snippets below | the pass/fail oracle, and the recovery |
@@ -136,7 +136,7 @@ consequence -- it wedges 64-bit Windows 11 Notepad and has never had a bitness
 check.
 
 `host32/` remains the recommended host, because it is the one behind the recorded
-before/after pair in `evidence/` and it removes Notepad's packaged-app and
+before/after pair in the evidence archive and it removes Notepad's packaged-app and
 frame-window complications. A 64-bit run through *this* script is not yet backed
 by a recorded measurement, so the script warns and asks you to save the output.
 
@@ -144,7 +144,7 @@ by a recorded measurement, so the script warns and asks you to save the output.
 
 `host32.exe` **requires** `--fakefreeze PATH` and exits without it (`host32.cpp:598`).
 It drives the whole sequence itself -- hold, freeze, release, type, read the oracle --
-and is what produced the recorded pair in `evidence/`. Passing it to
+and is what produced the recorded pair in the evidence archive. Passing it to
 `run-8064-test.ps1` cannot work: it exits immediately and the script has nothing to
 type into. Run it directly instead:
 
@@ -277,7 +277,7 @@ Reproduced and fixed, measured on the same machine with one variable changed:
 
 `host32.exe --probe 1x2x3x --wait-for-rule 120 --iterations 5`, Left Shift held and
 released 1500 ms into the stall, Windows 11 Pro 26200. The fixed half of the pair
-is recorded in [`evidence/host32-fixed-19.0.277.txt`](evidence/host32-fixed-19.0.277.txt).
+is recorded in the evidence archive in [`host32-fixed-19.0.277.txt`](https://github.com/MattGyverLee/keyman/blob/evidence/8064-16462/keyman-evidence/16490-GH-8064/manual-tests-GH-8064/evidence/host32-fixed-19.0.277.txt).
 
 ## Recovery
 
