@@ -2036,7 +2036,7 @@ TEST_F(MODIFIER_DIAGNOSTIC, TwoHoldsLostAtOnceLookLikeADesktopSwitchAndAreReport
       << "two holds were lost in one batch with cache and OS agreeing afterwards, and nothing was "
       << "reported. FR-006 exists because that state is invisible to every other mechanism here";
   EXPECT_TRUE(HasDiagnostic(PossibleDesktopSwitch, 0))
-      << "once per batch with vk = 0, per contracts/modifier-state.md section 4: the condition is a "
+      << "once per batch with vk = 0: the condition is a "
       << "property of the batch, and which keys were lost is already in ReconcileModifierCache's "
       << "own per-VK clearing lines. A per-key form here would bury the batch-level signal";
 }
