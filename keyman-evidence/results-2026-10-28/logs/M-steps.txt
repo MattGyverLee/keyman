@@ -1,0 +1,7 @@
+﻿=== [14:02:07] W-windows-src : windows/src ./build.sh build
+[14:02:21] prompt #1: common/windows/delphi/components/common_components.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\common\windows\lib\common_components.bpl
+  building...
+  built: C:\Github\keyman-test-merge2\common\windows\lib\common_components.bpl (3185642 bytes, 14:02:44) after 9s; sending Enter
+[14:02:55] prompt #2: common/windows/delphi/ext/cef4delphi/packages/CEF4Delphi.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\common\windows\lib\CEF4Delphi.bpl
+  building...
+C:\Users\thoua\AppData\Local\Temp\claude\C--Github-keyman\d9a7fe69-9d19-45db-b14c-33b3f7474856\scratchpad\shots\dialog-2.png

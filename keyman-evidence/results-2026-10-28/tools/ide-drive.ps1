@@ -53,9 +53,12 @@ while (-not (Test-Path $Done)) {
   if (-not $b) { Shot "stop-$seen"; throw "IDE did not open $name within 120 s" }
   Start-Sleep 8   # let the project finish loading
   Focus-Bds; Maximize-Bds; Focus-Bds
+  # The CE EULA reminder can also appear at IDE start-up.
+  for ($n = 0; $n -lt 3; $n++) { $d = Dismiss-Nag; if (-not $d) { break }; "  $d"; Start-Sleep 2; Focus-Bds }
   $f = Fg
   if ($f.Title -notmatch [regex]::Escape($name)) { Shot "stop-$seen"; throw "foreground is '$($f.Title)', not the $name project (a dialog?)" }
-  if ($plat -ne 'Win32') { Shot "platform-$seen"; throw "prompt wants ${plat}: switch the target platform by hand, then rerun with -Skip $($seen - 1)" }
+  if ($plat -eq 'Win64') { Select-Win64; Shot "win64-$seen" | Out-Null; "  selected Windows 64-bit" }
+  elseif ($plat -ne 'Win32') { Shot "platform-$seen"; throw "prompt wants ${plat}: not automated" }
   # Projects pane, maximized IDE, single project: right-click the project node, then "Build" in its
   # context menu (Matthew: builds are triggered from the Projects tab). Shift+F9 did not build.
   Click 2144 182 -Right; Start-Sleep 1; Click 2190 220
@@ -68,7 +71,9 @@ while (-not (Test-Path $Done)) {
     Start-Sleep 3
     $hit = $outs | Where-Object { (Test-Path $_) -and (Get-Item $_).LastWriteTime -gt $promptAt } | Select-Object -First 1
     if (-not $hit) {
+      $d = Dismiss-Nag; if ($d) { "  $d"; continue }
       $f = Fg
+      if ($f.Name -eq 'bds' -and $f.Title -eq '') { continue }   # TApplication: not a dialog
       if ($f.Name -eq 'bds' -and $f.Title -notmatch '^Build$' -and $f.Title -notmatch [regex]::Escape($name)) { Shot "dialog-$seen"; throw "unexpected IDE dialog: '$($f.Title)'" }
       if ($f.Title -match [regex]::Escape($name) -and ((Get-Date) - $t0).TotalSeconds -gt 20) { Start-Sleep 5; if (-not ($outs | Where-Object { (Test-Path $_) -and (Get-Item $_).LastWriteTime -gt $promptAt })) { Shot "nobuild-$seen"; throw "the Build dialog closed but no output was written for $proj" } }
     }
