@@ -249,7 +249,9 @@ void keybd_shift(LPINPUT pInputs, int *n, BOOL isReset, LPBYTE const kbd, int *p
   Not widened to the generic VK_SHIFT/CONTROL/MENU isModifierKey also accepts -- GetAsyncKeyState
   reports the chiral halves even for a generic injection. Measured rather than assumed:
   GenericShiftSendInputReflectsInBothAsyncKeyStates injects a generic wVk with scan 0 and reads back
-  the chiral half, and the recorded run is in the GH-8064 manual test's evidence directory.
+  the chiral half, and the recorded run is in the evidence archive on branch
+  evidence/8064-16462 (keyman-evidence/16490-GH-8064/manual-tests-GH-8064/evidence/interactive-*.txt;
+  the PR tree's manual-test folder holds only a pointer README to that archive).
 
   That test is also the trip-wire, so this is what trips it: if it ever reports VK_LSHIFT and
   VK_RSHIFT both up while VK_SHIFT reads down, widen this to OR the generic reading into both chiral
