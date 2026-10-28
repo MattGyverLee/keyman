@@ -22,7 +22,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\stuck-mod-test.ps1 -Gate -
 "GATE EXIT: $LASTEXITCODE"
 
 # Restart Keyman to clear any wedge before the repro
-Get-Process keyman,keymanx64 -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep 2
+Get-Process keyman,keymanx64,keymanhp.x64 -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep 2
 Start-Process "$eng\keyman.exe" -ArgumentList '-kmc','start'; Start-Sleep 6
 
 "=== REPRO run-8064-test (stock) $(Get-Date -Format o)"
