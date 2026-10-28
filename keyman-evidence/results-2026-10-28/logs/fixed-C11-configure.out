@@ -1,0 +1,20 @@
+[windows/src/engine/keyman32] build.sh parameters: <--debug configure>
+[windows/src/engine/keyman32] ## configure starting...
+[common/include] dependency build, started by windows/src/engine/keyman32
+[common/include] build.sh parameters: <configure build --debug --deps --builder-dep-parent windows/src/engine/keyman32>
+[common/include] skipping configure, up-to-date
+[common/include] skipping build, up-to-date
+[core] dependency build, started by windows/src/engine/keyman32
+[core] build.sh parameters: <configure:win build:win --debug --deps --builder-dep-parent windows/src/engine/keyman32>
+[core] skipping configure:win, up-to-date
+[core] skipping build:win, up-to-date
+[windows/src/engine/keyman32] ### visual_studio: msbuild.exe tests/keyman32.tests.vcxproj -t:Restore -clp:Verbosity=minimal -nologo -p:RestorePackagesConfig=true
+
+  Determining projects to restore...
+  Restoring NuGet package Microsoft.googletest.v140.windesktop.msvcstl.static.rt-static.1.8.1.7.
+  Adding package 'Microsoft.googletest.v140.windesktop.msvcstl.static.rt-static.1.8.1.7' to folder 'C:\Github\keyman-test-merge2\windows\src\engine\keyman32\tests\packages'
+  Added package 'Microsoft.googletest.v140.windesktop.msvcstl.static.rt-static.1.8.1.7' to folder 'C:\Github\keyman-test-merge2\windows\src\engine\keyman32\tests\packages'
+[windows/src/engine/keyman32] ### visual_studio: msbuild.exe tests/keyman32.interactive.tests.vcxproj -t:Restore -clp:Verbosity=minimal -nologo -p:RestorePackagesConfig=true
+
+  Determining projects to restore...
+[windows/src/engine/keyman32] ## configure completed successfully
