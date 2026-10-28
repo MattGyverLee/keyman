@@ -1075,14 +1075,7 @@ constructor TJclMutex.Create(SecAttr: PSecurityAttributes; InitialOwner: Boolean
 begin
   inherited Create;
   FName := Name;
-  // Keyman patch (source-compiled JCL only): in a from-source build through a
-  // fuller dependency graph, the JclWin32.CreateMutex call fails with E2010
-  // 'Cardinal'/'Boolean' (JEDI issue 6560, archived at
-  // https://web.archive.org/web/20240425060944/https://issuetracker.delphi-jedi.org/view.php?id=6560
-  // — reported 2017, 2019, and again on TIKE in 2026, so not Delphi-12-specific).
-  // Route via the RTL like OpenMutex below. Removal test still owed (see
-  // developer/src/ext/PATCHES.md entry 1, test-list item 8).
-  FHandle := {$IFDEF HAS_UNITSCOPE}Winapi.{$ENDIF}Windows.CreateMutex(SecAttr, BOOL(InitialOwner), PChar(Name));
+  FHandle := JclWin32.CreateMutex(SecAttr, InitialOwner, PChar(Name));
   if FHandle = 0 then
     raise EJclMutexError.CreateRes(@RsSynchCreateMutex);
   FExisted := GetLastError = ERROR_ALREADY_EXISTS;
