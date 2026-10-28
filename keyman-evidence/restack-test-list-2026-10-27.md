@@ -373,3 +373,82 @@ changes code, so none of them changes the tips under test.
     results are NOT yet in the bodies — that is the
     reopen edit, after testing, in one edit with the
     results, not a second round of wording edits now.
+
+## G. Open Should-fixes — in these notes, NOT fixed in the PRs yet
+
+Added 2026-10-27 late evening, at Matthew's direction. These are
+known, owned gaps — not hidden, not smoothed over, and not
+claimed as fixed anywhere. They stay open while testing runs on
+the current tips; fixing any of them moves a tip and triggers a
+retest of the affected items only, not the whole suite. Fix
+them after testing, before reopen — that is the reopen edit
+alongside the test-results summary, not a pre-test edit.
+
+1. Silent 248-key batch truncation, no diagnostic.
+   Where: windows/src/engine/keyman32/serialkeyeventcommon.h
+   (truncation policy comment) and PrepareInjectedInputBatch
+   in keybd_shift.cpp. What: the output-key loop's bound is
+   on the running total (256 − 8 = 248), never on output
+   count; the release half spends from the same 248, so
+   240 output keys fit, not 248. What is sent is always a
+   prefix of what was asked for, and the truncation is
+   silent — no debug message, no way for the caller to
+   tell. Pinned in keybd_shift.tests.cpp:774, 788–866.
+   Fix direction (not done): a diagnostic on truncation,
+   and/or a caller-visible signal. Cross-ref: §F item 17.
+   Retest after fix: the unit-suite truncation tests, plus
+   a >240-key batch if a keyboard can produce one.
+
+2. User-held signal not enforced by construction.
+   Where: UserHeldModifierSignal in serialkeyeventcommon.h,
+   fed from keybd_shift.cpp / serialkeyeventserver.cpp.
+   What: the `held & ~unknown` invariant and a drain
+   accessor are not enforced by construction; today the
+   signal is correct by discipline, not by construction.
+   Item 13 (held-before-Keyman-starts) proves the
+   behaviour, not the construction. Fix direction (not
+   done): enforce the invariant in the type / accessor,
+   so a future caller cannot break it silently.
+   Cross-ref: §F item 18. Retest after fix: item 13
+   plus the keybd_shift suite.
+
+3. CE guard prompt silent success.
+   Where: resources/build/win/environment.inc.sh
+   (delphi_msbuild / CE prompt handling, #16191 layer).
+   What: dismissing / closing stdin at the CE build
+   prompt without building must NOT report success —
+   today that behaviour is an open defect. Test item 6
+   is written to FAIL on it on the current tips.
+   Fix direction (not done): a prompt answer of
+   "did not build" must fail loudly, never report
+   "Build succeeded" with no output. Retest after fix:
+   test item 6 only (both directions of the guard).
+
+4. Post-batch verification race (safe direction, still open).
+   Where: PrepareModifierVerificationCorrection in
+   keybd_shift.cpp, after a batch's SendInput returns.
+   What: the verification pass can race a user release
+   that arrived during the batch. Safe direction today:
+   it drops a hold, never manufactures a press — so it
+   cannot strand a modifier, but it can drop one the
+   user still holds. Fix direction (not done): narrow
+   the race window, or record the race as a known
+   limitation in the reopen body if it is judged
+   acceptable. Retest after fix: the three-arm gate
+   and the keybd_shift suite.
+
+5. Vendored Delphi patches have no PATCHES.md.
+   Where: the three vendored patches in the #16043
+   layer (JCL, JVCL, mbcolor — the two speculative
+   patches Marc flagged were already reverted and must
+   stay reverted). What: the remaining patches are
+   crash-driven, upstream-justified and removal-tested,
+   but nothing in the tree records trigger, upstream
+   reference, or removal-test log per patch, so the
+   next upstream refresh will silently lose them.
+   Fix direction (not done): a PATCHES.md in the
+   vendored area, one entry per patch (trigger,
+   upstream reference, removal-test result, date,
+   machine). Retest after fix: none — documentation
+   only — but the removal tests in item 8 must be
+   recorded in it, not just run.
