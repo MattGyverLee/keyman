@@ -1,0 +1,11 @@
+﻿obj emptied: 0 dcu left
+JclSynch call: FHandle := JclWin32.CreateMutex(SecAttr, InitialOwner, PChar(Name));
+search path JCL order: prototypes before windows
+build clicked 16:07:04
+  dismissed untitled IDE dialog class=TCENotificationDialog (OK clicked)
+result: FAILED (compile stopped; JclSynch.dcu not produced)
+  JclWin32.dcu: 16:07:11 includesWinBase.int(prototype)=True
+  JclSynch.dcu: (none)
+dcus compiled: 83
+C:\Users\thoua\AppData\Local\Temp\claude\C--Github-keyman\d9a7fe69-9d19-45db-b14c-33b3f7474856\scratchpad\shots\b7-controlled-unpatched.png
+restored: diff []

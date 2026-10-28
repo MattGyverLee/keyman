@@ -1,0 +1,42 @@
+﻿BEFORE:
+JclWin32.dcu: 15:45:31 size=276020 fromPrototype(WinBase.int)=True
+JclSynch.dcu: 15:45:31 size=53906 fromPrototype(WinBase.int)=False
+[JclSynch2] pre-patch developer/src/ext/jedi/jcl/jcl/source/common/JclSynch.pas from fd04ceda6c^; git diff:
+ developer/src/ext/jedi/jcl/jcl/source/common/JclSynch.pas | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
+[JclSynch2] build clicked 16:02:34
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+  answered a reload prompt: Yes to All
+[JclSynch2] result: FAILED (no output 90 s after Build; see screenshot)
+C:\Users\thoua\AppData\Local\Temp\claude\C--Github-keyman\d9a7fe69-9d19-45db-b14c-33b3f7474856\scratchpad\shots\b7-JclSynch2.png
+[JclSynch2] restored; git diff now: []
+AFTER:
+JclWin32.dcu: 15:45:31 size=276020 fromPrototype(WinBase.int)=True
+JclSynch.dcu: 15:45:31 size=53906 fromPrototype(WinBase.int)=False

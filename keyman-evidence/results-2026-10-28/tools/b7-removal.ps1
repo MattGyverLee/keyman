@@ -3,6 +3,8 @@
 param([Parameter(Mandatory)][string]$Name, [Parameter(Mandatory)][string]$File, [Parameter(Mandatory)][string]$Rev)
 $ErrorActionPreference = 'Stop'
 . "$PSScriptRoot\ide.ps1"
+$ErrorActionPreference = 'Continue'   # git writes CRLF warnings to stderr; they must not abort mid-swap
+$env:GIT_CONFIG_PARAMETERS = "'core.safecrlf=false'"
 $root = 'C:\Github\keyman-test-merge2'; $out = "$root\developer\src\tike\bin\Win32\Debug\tike.exe"
 function Click-DialogButton([string]$class, [string]$textRegex) {
   $ids = @(Get-Process bds).Id; $hit = $false
@@ -15,14 +17,15 @@ function Click-DialogButton([string]$class, [string]$textRegex) {
   $script:hit
 }
 # cmd redirection keeps the bytes exact (a PowerShell pipeline would re-encode the lines).
-Push-Location $root; & cmd /c "git show ${Rev}:$File > `"$File`""; Pop-Location
+# cmd treats '^' as an escape character, so spell parent revisions as '~1'.
+Push-Location $root; & cmd /c "git show $($Rev -replace '\^$','~1'):$File > `"$File`""; Pop-Location
 "[$Name] pre-patch $File from $Rev; git diff:"; & git -C $root diff --stat -- $File
 [void](Click-DialogButton 'TProgressForm' '^&?OK$'); Focus-Bds
 $tb = Get-Date; Build-Project; "[$Name] build clicked $($tb.ToString('HH:mm:ss'))"
 $result = 'TIMEOUT'
 while (((Get-Date) - $tb).TotalSeconds -lt 240) {
   Start-Sleep 3; $n = Dismiss-Nag; if ($n) { "  $n" }
-  if (Click-DialogButton '' '^Yes to &All$') { '  answered a reload prompt: Yes to All' }
+  if (Click-DialogButton 'TMessageForm' '^Yes to &All$') { '  answered a reload prompt: Yes to All' }
   if ((Test-Path $out) -and (Get-Item $out).LastWriteTime -gt $tb) { $result = 'BUILT (patch removal did NOT break the build)'; break }
   if (((Get-Date) - $tb).TotalSeconds -gt 90) { $result = 'FAILED (no output 90 s after Build; see screenshot)'; break }
 }
