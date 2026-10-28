@@ -99,25 +99,69 @@ tds2dbg() {
   builder_if_release_build_level "$TDS2DBG" "$@"
 }
 
-# Check whether the expected Delphi output for a project is already fresh —
-# useful when a developer has pre-built everything via a .groupproj Build All
-# in the IDE. Compares bin/<Platform>/Debug/<base>.{exe,dll,bpl} mtime against
-# the .dpr or .dpk source. Returns 0 (up-to-date, skip prompt) if any match.
-_delphi_ce_output_fresh() {
-  local project="$1" platform="$2"
-  local base="${project%.dproj}"
-  local source
-  if [[ -f "${base}.dpr" ]]; then source="${base}.dpr"
-  elif [[ -f "${base}.dpk" ]]; then source="${base}.dpk"
-  else return 1  # can't judge freshness without a source file
+# Delphi CE: an IDE build is invisible to this script, so the only evidence
+# that it happened is the mtime of the output file at the location the .dproj
+# really writes it to.
+#
+# Session marker: one per top-level build.sh run, shared by every nested
+# child/dependency build.sh of that run. It is keyed on builder's per-run
+# $_builder_deps_built temp file, which every new top-level run replaces, so a
+# marker is never inherited across separate top-level runs. Output older than
+# the marker was not built during this run and is never trusted, whatever the
+# .dpr/.pas mtimes say. The empty marker file is left in the temp folder.
+if [[ "${KEYMAN_DELPHI_CE:-}" == "1" ]]; then
+  if [[ -n "${_builder_deps_built:-}" ]]; then
+    _KEYMAN_DELPHI_CE_SESSION="${_builder_deps_built}.delphi-ce-session"
+  else
+    # Not under a builder top-level run: this process is the session
+    _KEYMAN_DELPHI_CE_SESSION="$(mktemp)"
   fi
-  local candidate ext
-  for ext in exe dll bpl; do
-    candidate="bin/${platform}/Debug/${base}.${ext}"
-    if [[ -f "$candidate" && "$candidate" -nt "$source" ]]; then
-      return 0
-    fi
+  [[ -e "$_KEYMAN_DELPHI_CE_SESSION" ]] || : > "$_KEYMAN_DELPHI_CE_SESSION"
+fi
+
+# Print the files an IDE build of a project writes, one per line: <name>.bpl
+# in DCC_BplOutput for a package (.dpk), else <name>.exe/.dll in
+# DCC_ExeOutput, with $(Platform) and $(Config) expanded and resolved against
+# the .dproj's folder. With no DCC_ExeOutput, assumes bin/<Platform>/<Config>.
+# Prints nothing for a package without DCC_BplOutput (output not knowable).
+_delphi_ce_output_files() {
+  local project="$1" platform="$2" config="$3"
+  local base="${project%.dproj}"
+  base="${base%.dpr}"
+  local dir name tag exts outdir ext
+  dir="$(dirname "$base")"
+  name="$(basename "$base")"
+  if [[ -f "${base}.dpk" ]]; then
+    tag=DCC_BplOutput; exts="bpl"
+  else
+    tag=DCC_ExeOutput; exts="exe dll"
+  fi
+  local outdirs=()
+  if [[ -f "${base}.dproj" ]]; then
+    mapfile -t outdirs < <(sed -n "s|.*<${tag}>\([^<]*\)</${tag}>.*|\1|p" "${base}.dproj" | tr -d '\r' | sort -u)
+  fi
+  if [[ ${#outdirs[@]} -eq 0 && $tag == DCC_ExeOutput ]]; then
+    outdirs=('bin\$(Platform)\$(Config)')
+  fi
+  for outdir in "${outdirs[@]}"; do
+    outdir="${outdir//\$(Platform)/$platform}"
+    outdir="${outdir//\$(Config)/$config}"
+    outdir="${outdir//\\//}"
+    [[ "$outdir" == *'$('* ]] && continue  # other MSBuild macro: not resolvable here
+    outdir="${outdir#./}"
+    [[ "$outdir" =~ ^(/|[A-Za-z]:/) ]] || [[ "$dir" == "." ]] || outdir="$dir/$outdir"
+    for ext in $exts; do
+      echo "$outdir/$name.$ext"
+    done
   done
+}
+
+# Returns 0 if any output file of the project is newer than the marker file.
+_delphi_ce_output_newer_than() {
+  local project="$1" platform="$2" config="$3" marker="$4" output
+  while IFS= read -r output; do
+    [[ -f "$output" && "$output" -nt "$marker" ]] && return 0
+  done < <(_delphi_ce_output_files "$project" "$platform" "$config")
   return 1
 }
 
@@ -127,23 +171,24 @@ delphi_msbuild() {
   if [[ "${KEYMAN_DELPHI_CE:-}" == "1" ]]; then
     local project="${1:-<project.dproj>}"
     local platform="Win32"
+    local config="${TARGET_PATH:-Debug}"
     local arg
     for arg in "$@"; do
       [[ "$arg" == *Platform=Win64* ]] && platform="Win64"
     done
 
-    # Skip prompt if the expected Debug output is already fresh — supports the
-    # "open .groupproj + Build All once, then Enter through each script prompt"
-    # workflow. Subsequent prompts become no-ops as long as outputs are newer
-    # than their sources.
-    if _delphi_ce_output_fresh "$project" "$platform"; then
-      builder_echo "Delphi CE: $project ($platform) — output is up-to-date, skipping prompt."
+    # Skip prompt if the output was written earlier in this same top-level
+    # run — supports the "Build All in the .groupproj at the first prompt,
+    # then the remaining prompts skip themselves" workflow. Output from
+    # before this run is never trusted.
+    if _delphi_ce_output_newer_than "$project" "$platform" "$config" "$_KEYMAN_DELPHI_CE_SESSION"; then
+      builder_echo "Delphi CE: $project ($platform) — output was built earlier in this run, skipping prompt."
       return 0
     fi
 
     builder_echo warning "Delphi CE: CLI compilation is not available."
-    builder_echo warning "Please build ${project} (Platform: ${platform}, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort)."
-    builder_echo warning "Tip: opening the parent .groupproj and running Build All pre-builds all sibling projects at once; subsequent CE prompts in this script will auto-skip when their outputs are fresh."
+    builder_echo warning "Please build ${project} (Platform: ${platform}, Config: ${config}) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort)."
+    builder_echo warning "Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run."
     read -r _
     return 0
   fi
