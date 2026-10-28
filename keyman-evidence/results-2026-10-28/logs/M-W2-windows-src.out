@@ -1,0 +1,139 @@
+[windows/src] Local build environment detected:  setting --debug
+[windows/src] build.sh parameters: <build --debug>
+[windows/src] ## child build:engine starting...
+[windows/src/engine] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/engine] ## child build:insthelper starting...
+[windows/src/engine/insthelper] child build, parameters: <--builder-child --deps build --debug>
+[windows/src/engine/insthelper] ## build:project starting...
+[common/include] dependency build, started by windows/src/engine/insthelper
+[common/include] build.sh parameters: <configure build --debug --deps --builder-dep-parent windows/src/engine/insthelper>
+[common/include] skipping configure, up-to-date
+[common/include] skipping build, up-to-date
+[common/windows/delphi] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi] build.sh parameters: <configure build --debug --deps --builder-dep-parent windows/src/engine/insthelper>
+[common/windows/delphi] ## child configure:tools starting...
+[common/windows/delphi/tools] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools] ## child configure:build_standards_data starting...
+[common/windows/delphi/tools/build_standards_data] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/build_standards_data] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/build_standards_data] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/build_standards_data] skipping configure:project, up-to-date
+[common/windows/delphi/tools] ## child configure:build_standards_data completed successfully
+[common/windows/delphi/tools] ## child configure:buildunidata starting...
+[common/windows/delphi/tools/buildunidata] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/buildunidata] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/buildunidata] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/buildunidata] skipping configure:project, up-to-date
+[common/windows/delphi/tools] ## child configure:buildunidata completed successfully
+[common/windows/delphi/tools] ## child configure:devtools starting...
+[common/windows/delphi/tools/devtools] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/devtools] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/devtools] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/devtools] skipping configure:project, up-to-date
+[common/windows/delphi/tools] ## child configure:devtools completed successfully
+[common/windows/delphi/tools] ## child configure:sentrytool starting...
+[common/windows/delphi/tools/sentrytool] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/sentrytool] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/sentrytool] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/sentrytool] skipping configure:project, up-to-date
+[common/windows/delphi/tools] ## child configure:sentrytool completed successfully
+[common/windows/delphi/tools] ## child configure:test-klog starting...
+[common/windows/delphi/tools/test-klog] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/test-klog] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/test-klog] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/test-klog] skipping configure:project, up-to-date
+[common/windows/delphi/tools] ## child configure:test-klog completed successfully
+[common/windows/delphi/tools] ## child configure:verify_signatures starting...
+[common/windows/delphi/tools/verify_signatures] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/verify_signatures] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/verify_signatures] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/verify_signatures] skipping configure:project, up-to-date
+[common/windows/delphi/tools] ## child configure:verify_signatures completed successfully
+[common/windows/delphi] ## child configure:tools completed successfully
+[common/windows/delphi] ## child configure:components starting...
+[common/windows/delphi/components] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/components] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/components] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/components] skipping configure:project, up-to-date
+[common/windows/delphi] ## child configure:components completed successfully
+[common/windows/delphi] ## child configure:ext starting...
+[common/windows/delphi/ext] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext] ## child configure:cef4delphi starting...
+[common/windows/delphi/ext/cef4delphi] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext/cef4delphi] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext/cef4delphi] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext/cef4delphi] skipping configure:project, up-to-date
+[common/windows/delphi/ext] ## child configure:cef4delphi completed successfully
+[common/windows/delphi/ext] ## child configure:dcpcrypt starting...
+[common/windows/delphi/ext/dcpcrypt] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext/dcpcrypt] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext/dcpcrypt] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext/dcpcrypt] skipping configure:project, up-to-date
+[common/windows/delphi/ext] ## child configure:dcpcrypt completed successfully
+[common/windows/delphi/ext] ## child configure:jwa starting...
+[common/windows/delphi/ext/jwa] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext/jwa] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext/jwa] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext/jwa] skipping configure:project, up-to-date
+[common/windows/delphi/ext] ## child configure:jwa completed successfully
+[common/windows/delphi/ext] ## child configure:sentry starting...
+[common/windows/delphi/ext/sentry] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext/sentry] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext/sentry] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext/sentry] skipping configure:project, up-to-date
+[common/windows/delphi/ext] ## child configure:sentry completed successfully
+[common/windows/delphi/ext] ## child configure:tds2dbg starting...
+[common/windows/delphi/ext/tds2dbg] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext/tds2dbg] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext/tds2dbg] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext/tds2dbg] skipping configure:project, up-to-date
+[common/windows/delphi/ext] ## child configure:tds2dbg completed successfully
+[common/windows/delphi] ## child configure:ext completed successfully
+[common/windows/delphi] ## build:keymanversion starting...
+[common/windows/delphi] ## build:keymanversion completed successfully
+[common/windows/delphi] ## child build:tools starting...
+[common/windows/delphi/tools] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools] ## child build:build_standards_data starting...
+[common/windows/delphi/tools/build_standards_data] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/build_standards_data] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/build_standards_data] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/build_standards_data] skipping build:project, up-to-date
+[common/windows/delphi/tools] ## child build:build_standards_data completed successfully
+[common/windows/delphi/tools] ## child build:buildunidata starting...
+[common/windows/delphi/tools/buildunidata] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/buildunidata] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/buildunidata] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/buildunidata] skipping build:project, up-to-date
+[common/windows/delphi/tools] ## child build:buildunidata completed successfully
+[common/windows/delphi/tools] ## child build:devtools starting...
+[common/windows/delphi/tools/devtools] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/devtools] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/devtools] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/devtools] skipping build:project, up-to-date
+[common/windows/delphi/tools] ## child build:devtools completed successfully
+[common/windows/delphi/tools] ## child build:sentrytool starting...
+[common/windows/delphi/tools/sentrytool] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/sentrytool] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/sentrytool] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/sentrytool] skipping build:project, up-to-date
+[common/windows/delphi/tools] ## child build:sentrytool completed successfully
+[common/windows/delphi/tools] ## child build:test-klog starting...
+[common/windows/delphi/tools/test-klog] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/test-klog] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/test-klog] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/test-klog] skipping build:project, up-to-date
+[common/windows/delphi/tools] ## child build:test-klog completed successfully
+[common/windows/delphi/tools] ## child build:verify_signatures starting...
+[common/windows/delphi/tools/verify_signatures] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/verify_signatures] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/verify_signatures] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/verify_signatures] skipping build:project, up-to-date
+[common/windows/delphi/tools] ## child build:verify_signatures completed successfully
+[common/windows/delphi] ## child build:tools completed successfully
+[common/windows/delphi] ## child build:components starting...

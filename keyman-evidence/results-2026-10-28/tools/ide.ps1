@@ -20,6 +20,37 @@ function Click([int]$x, [int]$y, [switch]$Right) {
   else { [IDE.U]::mouse_event(0x02, 0, 0, 0, [UIntPtr]::Zero); [IDE.U]::mouse_event(0x04, 0, 0, 0, [UIntPtr]::Zero) }
   Start-Sleep -Milliseconds 500
 }
+Add-Type -Namespace IDE -Name N -MemberDefinition @'
+public delegate bool CB(System.IntPtr h, System.IntPtr l);
+[DllImport("user32.dll")] public static extern bool EnumWindows(CB cb, System.IntPtr l);
+[DllImport("user32.dll")] public static extern bool EnumChildWindows(System.IntPtr p, CB cb, System.IntPtr l);
+[DllImport("user32.dll")] public static extern bool IsWindowVisible(System.IntPtr h);
+[DllImport("user32.dll")] public static extern uint GetWindowThreadProcessId(System.IntPtr h, out uint pid);
+[DllImport("user32.dll", CharSet=CharSet.Unicode)] public static extern int GetClassName(System.IntPtr h, System.Text.StringBuilder s, int n);
+[DllImport("user32.dll", CharSet=CharSet.Unicode)] public static extern int GetWindowText(System.IntPtr h, System.Text.StringBuilder s, int n);
+[DllImport("user32.dll")] public static extern System.IntPtr SendMessage(System.IntPtr h, uint m, System.IntPtr w, System.IntPtr l);
+'@
+# The Delphi CE "Community Edition EULA Reminder" nag: an untitled bds top-level window with an OK
+# button. Found by enumeration (not by focus, which it often lacks) and clicked with BM_CLICK.
+# Returns a description of each dialog dismissed.
+function Dismiss-Nag {
+  $ids = @(Get-Process bds -ErrorAction SilentlyContinue).Id; if (-not $ids) { return }
+  $tops = New-Object Collections.ArrayList
+  [void][IDE.N]::EnumWindows({ param($h, $l) $p = 0; [void][IDE.N]::GetWindowThreadProcessId($h, [ref]$p)
+    if ($ids -contains $p -and [IDE.N]::IsWindowVisible($h)) { [void]$tops.Add($h) }; $true }, [IntPtr]::Zero)
+  foreach ($h in $tops) {
+    $c = New-Object Text.StringBuilder 256; $t = New-Object Text.StringBuilder 256
+    [void][IDE.N]::GetClassName($h, $c, 256); [void][IDE.N]::GetWindowText($h, $t, 256)
+    if ("$t" -ne '' -or "$c" -in 'TApplication','TAppBuilder','TProgressForm') { continue }
+    $ok = New-Object Collections.ArrayList
+    [void][IDE.N]::EnumChildWindows($h, { param($ch, $l) $cc = New-Object Text.StringBuilder 64; $ct = New-Object Text.StringBuilder 64
+      [void][IDE.N]::GetClassName($ch, $cc, 64); [void][IDE.N]::GetWindowText($ch, $ct, 64)
+      if ("$cc" -match 'Button' -and "$ct" -match '^&?OK$') { [void]$ok.Add($ch) }; $true }, [IntPtr]::Zero)
+    if ($ok.Count -eq 1) { Shot "nag-$(Get-Date -Format HHmmss)" | Out-Null; [void][IDE.N]::SendMessage($ok[0], 0xF5, [IntPtr]::Zero, [IntPtr]::Zero); "dismissed untitled IDE dialog class=$c (OK clicked)" }
+  }
+}
+# Select Windows 64-bit in the toolbar platform box (maximized IDE): open it, click the 2nd entry.
+function Select-Win64 { Click 686 72; Start-Sleep 1; Click 676 116; Start-Sleep 2 }
 function Maximize-Bds { $b = Get-Process bds | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1; [void][IDE.U]::ShowWindow($b.MainWindowHandle, 3); Start-Sleep 1 }
 $Shots = 'C:\Users\thoua\AppData\Local\Temp\claude\C--Github-keyman\d9a7fe69-9d19-45db-b14c-33b3f7474856\scratchpad\shots'
 New-Item -ItemType Directory -Force $Shots | Out-Null
