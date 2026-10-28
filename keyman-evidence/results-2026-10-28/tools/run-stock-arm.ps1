@@ -14,14 +14,15 @@ Start-Sleep -Seconds $DelaySeconds
 if (-not (Get-Process keyman -ErrorAction SilentlyContinue)) { Start-Process "$eng\keyman.exe" -ArgumentList '-kmc','start'; Start-Sleep 6 }
 "keyman running: $([bool](Get-Process keyman -ErrorAction SilentlyContinue))"
 Get-Process notepad -ErrorAction SilentlyContinue | Out-Null
-Start-Process notepad; Start-Sleep 3
+$np = Start-Process notepad -PassThru; Start-Sleep 3
 
 Set-Location $T
 "=== GATE ($Label) $(Get-Date -Format o)"
 powershell -NoProfile -ExecutionPolicy Bypass -File .\stuck-mod-test.ps1 -Gate -Arms English,Keyman -Repeat $Repeat -LoadThreads $LoadThreads -LogDir "$Out\gate$(if ($LoadThreads -or $Repeat -ne 3) { "-r$Repeat-l$LoadThreads" })"
 "GATE EXIT: $LASTEXITCODE"
 # The repro needs a Keyman restart a limited token cannot do; run it with run-host32.ps1 (elevated).
-if ($GateOnly) { "=== DONE (gate only) $(Get-Date -Format o)"; Stop-Transcript | Out-Null; exit }
+# Close the scratch Notepad (test text only), or it keeps the foreground and blocks later steps.
+if ($GateOnly) { $np | Stop-Process -Force -ErrorAction SilentlyContinue; "=== DONE (gate only) $(Get-Date -Format o)"; Stop-Transcript | Out-Null; exit }
 
 # Restart Keyman to clear any wedge before the repro
 Get-Process keyman,keymanx64,keymanhp.x64 -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep 2
