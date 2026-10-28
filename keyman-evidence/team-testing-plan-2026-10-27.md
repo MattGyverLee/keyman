@@ -4,8 +4,11 @@
 `evidence/8064-16462` in MattGyverLee/keyman, at
 `keyman-evidence/team-testing-plan-2026-10-27.md`, so it
 is there even if the team picks the work up without
-talking to Matthew first. The link to it from the PR
-bodies is to be added at reopen, not before.**
+talking to Matthew first. It is linked from the bodies
+of PRs #16043, #16044, #16191, #16490 and #16527
+(added 2026-10-27, while those PRs were still closed;
+adding the link did not reopen them, request review,
+or change their code).**
 
 **Status of this document: PREPARED, NOT POSTED.**
 It is a reopen packet for Matthew to hand over when the team
