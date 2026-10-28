@@ -227,6 +227,11 @@ delphi_msbuild() {
       exit 0
     fi
 
+    # Recorded before the prompt is shown: only output written after this
+    # point proves the IDE built the project for this prompt.
+    local prompt_marker
+    prompt_marker="$(mktemp)"
+
     builder_echo warning "Delphi CE: CLI compilation is not available."
     builder_echo warning "Please build ${project} (Platform: ${platform}, Config: ${config}) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort)."
     builder_echo warning "Tip: resources/build/win/delphi-ce-build.sh builds whole trees with one IDE build per wave instead of one prompt per project; see docs/build/windows-delphi-ce.md."
@@ -234,15 +239,21 @@ delphi_msbuild() {
     # Pressing Enter without building, or stdin closing (EOF, non-interactive
     # run, piped input) without an IDE build, used to fall through with
     # return 0, and the build then "succeeded" with stale or missing output.
-    # Success is defined by the output, not by the keypress: re-check
-    # freshness after the prompt, and die loudly if the IDE did not build it.
+    # Success is defined by the output, not by the keypress: after the
+    # prompt, the output at the project's real output path must have been
+    # written since the prompt was shown, or the build dies loudly.
     if ! read -r _; then
       builder_echo warning "Delphi CE: no Enter received (stdin closed or EOF) for ${project}."
     fi
-    if _delphi_ce_output_newer_than "$project" "$platform" "$config" "$_KEYMAN_DELPHI_CE_SESSION"; then
+    if _delphi_ce_output_newer_than "$project" "$platform" "$config" "$prompt_marker"; then
+      rm -f "$prompt_marker"
       return 0
     fi
-    builder_die "Delphi CE: ${project} (${platform}) was not built in the IDE -- its ${config} output was not written during this run (or is missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run."
+    rm -f "$prompt_marker"
+    local expected
+    expected="$(_delphi_ce_output_files "$project" "$platform" "$config" | tr '\n' ' ')"
+    expected="${expected% }"
+    builder_die "Delphi CE: ${project} (${platform}) was not built in the IDE -- no ${config} output was written after the prompt (checked: ${expected:-<no output path found in the .dproj>}). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run."
   fi
   # Guard: if the developer is on CE but forgot to set KEYMAN_DELPHI_CE=1,
   # msbuild.exe below silently reports "Build succeeded" without producing any
