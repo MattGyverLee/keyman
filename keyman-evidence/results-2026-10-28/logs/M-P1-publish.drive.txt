@@ -1,0 +1,5 @@
+﻿[14:55:23] prompt #1: common/windows/delphi/tools/test-klog/test_klog.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\common\windows\delphi\tools\test-klog\bin\Win32\Debug\test_klog.exe | C:\Github\keyman-test-merge2\common\windows\delphi\tools\test-klog\bin\Win32\Debug\test_klog.dll
+  selected Win32
+  building...
+  built: C:\Github\keyman-test-merge2\common\windows\delphi\tools\test-klog\bin\Win32\Debug\test_klog.exe (5535855 bytes, 14:55:47) after 9s; sending Enter
+build.sh finished: exit 0
