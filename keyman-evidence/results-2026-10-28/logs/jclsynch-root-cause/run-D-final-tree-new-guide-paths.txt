@@ -1,0 +1,11 @@
+﻿obj emptied: 0 dcu left
+JclSynch call: FHandle := JclWin32.CreateMutex(SecAttr, InitialOwner, PChar(Name));
+search path JCL order: windows
+build clicked 16:22:27
+  dismissed untitled IDE dialog class=TCENotificationDialog (OK clicked)
+result: TIKE BUILT
+  JclWin32.dcu: 16:22:34 includesWinBase.int(prototype)=False
+  JclSynch.dcu: 16:22:34 includesWinBase.int(prototype)=False
+dcus compiled: 522
+screenshot: C:\Github\keyman-test-evidence\keyman-evidence\results-2026-10-28\logs\jclsynch-root-cause\b7-controlled-patched-162247.png
+restored: diff []

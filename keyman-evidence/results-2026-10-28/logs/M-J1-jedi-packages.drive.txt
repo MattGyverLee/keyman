@@ -1,0 +1,5 @@
+﻿[16:23:17] prompt #1: developer/src/ext/jedi/Jcl.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\developer\lib\Jcl.bpl
+  selected Win32
+  building...
+  dismissed untitled IDE dialog class=TCENotificationDialog (OK clicked)
+C:\Users\thoua\AppData\Local\Temp\claude\C--Github-keyman\d9a7fe69-9d19-45db-b14c-33b3f7474856\scratchpad\shots\nobuild-1.png

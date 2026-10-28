@@ -26,6 +26,8 @@ function Output-Files([string]$dproj, [string]$platform, [string]$config) {
     if (-not [IO.Path]::IsPathRooted($o)) { $o = Join-Path $dir $o }
     foreach ($e in $exts) { [IO.Path]::GetFullPath((Join-Path $o "$name.$e")) }
   }
+  # A package with no DCC_BplOutput for this config goes to the IDE default, $(BDSCOMMONDIR)\Bpl (fix in #16044).
+  if ($isPkg) { "$env:PUBLIC\Documents\Embarcadero\Studio\23.0\Bpl\$name.bpl" }
 }
 
 $seen = $Skip
@@ -39,6 +41,11 @@ while (-not (Test-Path $Done)) {
   [void]($line -match '^\[([^\]]+)\] .*Please build (\S+) \(Platform: (\w+), Config: (\w+)\)')
   $rel = $Matches[1]; $proj = $Matches[2]; $plat = $Matches[3]; $cfg = $Matches[4]
   $dproj = [IO.Path]::GetFullPath((Join-Path (Join-Path $Root $rel) $proj))
+  if (-not (Test-Path $dproj)) {
+    # Scripts that pushd into a subfolder (e.g. jedi/build.sh -> packages/) prompt with a bare name.
+    $found = @(Get-ChildItem (Join-Path $Root $rel) -Recurse -Filter (Split-Path $proj -Leaf) -File -ErrorAction SilentlyContinue)
+    if ($found.Count -eq 1) { $dproj = $found[0].FullName }
+  }
   $outs = @(Output-Files $dproj $plat $cfg)
   "[$(Get-Date -Format HH:mm:ss)] prompt #${seen}: $rel/$proj ($plat, $cfg) -> expect one of: $($outs -join ' | ')"
   if (-not (Test-Path $dproj)) { Shot "stop-$seen"; throw "project not found: $dproj" }
@@ -58,7 +65,7 @@ while (-not (Test-Path $Done)) {
   $f = Fg
   if ($f.Title -notmatch [regex]::Escape($name)) { Shot "stop-$seen"; throw "foreground is '$($f.Title)', not the $name project (a dialog?)" }
   if ($plat -notin 'Win32','Win64') { Shot "platform-$seen"; throw "prompt wants ${plat}: not automated" }
-  Select-Platform $plat; Shot "platform-$seen" | Out-Null; "  selected $plat"
+  Select-Platform $plat; Select-Config $cfg; Shot "platform-$seen" | Out-Null; "  selected $plat, $cfg"
   # Projects pane, maximized IDE, single project: right-click the project node, then "Build" in its
   # context menu (Matthew: builds are triggered from the Projects tab). Shift+F9 did not build.
   Build-Project

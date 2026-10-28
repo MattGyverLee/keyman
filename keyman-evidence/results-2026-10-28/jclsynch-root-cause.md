@@ -71,3 +71,37 @@ and refuse to build unless the unpatched call is verified in place. PATCHES.md e
    reason that no longer applies.
 3. Anyone already set up from the current guide should remove `…\jcl\jcl\source\prototypes` from their
    Delphi Search Path (Win32 and Win64).
+
+## Resolution — applied 2026-10-28 16:20–16:45 (Matthew: "make it so"), pushed
+
+- **#16044 CE guide §3** (commit "CE guide registers the JEDI paths jedi/build.sh registers"): the hand list is
+  gone. The guide now reads the nine JEDI paths from the `devtools -ai` calls in
+  `developer/src/ext/jedi/build.sh`, as it already did for `DELPHIINCLUDES`, and warns against adding
+  `jcl/source/prototypes`. Result: `prototypes`, `jvcl/design` and `jedi/jedi` are removed, and `packages`
+  is added. `tools/set-delphi-dev-paths.ps1` now derives its list the same way (15 paths per platform;
+  0 prototypes).
+- **#16043 JclSynch patch removed**: `JclSynch.pas` is byte-identical to the fork base again. PATCHES.md
+  entry 1 is kept as the removal record ("do not re-add; if E2010 reappears, check the Search Path for
+  prototypes").
+- **Run D, verification of the final state** (`logs/jclsynch-root-cause/run-D-final-tree-new-guide-paths.txt`):
+  the tree has unpatched JclSynch, the search path comes from the corrected guide, fresh IDE session, obj
+  emptied. **TIKE BUILT**, 522 units, JclWin32 compiled from `windows/` (WinBase.int: no).
+- Pushed tips: #16043 **4f42a2c9f3**, #16044 **e11f229f53**, #16191 **e73e8a1290** (with the two fixes below).
+
+## Found while checking the JEDI packages with the new paths (`developer/src/ext/jedi/build.sh`)
+
+The guide change dropped `jvcl/design`, so I built the six JCL/JVCL packages. These packages had
+never been built on Delphi 12 in this stack, because TIKE compiles JCL/JVCL from source.
+1. **`Jcl.dproj`** failed: `JclSvcCtrl.pas(529)/(1090): E2010 'LPENUM_SERVICE_STATUSW' and '_ENUM_SERVICE_STATUS…'`.
+   The code dereferenced on every compiler except exactly VER340, but 11 and 12 take a pointer too.
+   **Fixed** (#16043, PATCHES.md entry 5, `RTL340_UP`). **PASS:** Jcl.dproj Debug Win32 builds.
+   The search path is not involved: Jcl.dpk names the file.
+2. **CE post-prompt check (fix 1)** rejected the correct Debug `Jcl.bpl`. Jcl/JclVcl set `DCC_BplOutput` for
+   Release only, so a Debug build lands in `$(BDSCOMMONDIR)\Bpl`. **Fixed** (#16044: packages also accept
+   that folder; a candidate must still be newer than the prompt). **PASS:** the prompt accepted Jcl.bpl.
+3. **`JclVcl.dproj` fails with 109 errors**: `JclGraphUtils.pas(1712…): E2251 Ambiguous overloaded call to
+   'Min'/'Max'`, then `JclVcl.dpk(43): F2063`. These are Delphi 12 RTL overloads that the 10.2-era JCL
+   cannot disambiguate. **NOT fixed. Waiting for Matthew's ruling** on whether the JEDI packages must build
+   on Delphi 12. They are needed for the IDE form designer, through the `devtools -ip` design packages,
+   but not to compile TIKE.
+   JvCore, JvCoreDesign, JvDocking and JvDockingDesign are **UNVERIFIED** (not reached).
