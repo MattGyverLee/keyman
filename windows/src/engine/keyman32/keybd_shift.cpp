@@ -474,9 +474,8 @@ int PrepareInjectedInputBatch(
   if (pUserHeld != NULL) {
     for (int i = 0; i < _countof(KeymanModifierVks); i++) {
       const BYTE vk = KeymanModifierVks[i];
-      // held & ~unknown, the effective read, everywhere -- reading held alone is the mistake this
-      // shape is meant to make hard to write by accident.
-      if ((pUserHeld->held[vk] & 0x80) && !(pUserHeld->unknown[vk] & 0x80)) {
+      // Via UserHeldReportsHeld, never held alone: see property 2 in serialkeyeventcommon.h.
+      if (UserHeldReportsHeld(pUserHeld, vk)) {
         restoreSet[vk] = 0x80;
       }
     }
@@ -576,7 +575,7 @@ int PrepareModifierVerificationCorrection(
     //
     // So a VK the signal reports the user still holds is left alone. Same effective read as the
     // restore half, held & ~unknown, or the two halves would disagree about the same key.
-    if (pUserHeld != NULL && (pUserHeld->held[vk] & 0x80) && !(pUserHeld->unknown[vk] & 0x80)) {
+    if (UserHeldReportsHeld(pUserHeld, vk)) {
       SendDebugMessageFormat(
         "verification: declining to correct vkey=%s -- the user-held signal reports the user is "
         "still holding it, and this batch pressed it on that word",
@@ -643,6 +642,25 @@ void UpdateModifierCacheFromKeyEvent(LPBYTE kbd, BYTE bVk, BOOL fIsExtendedKey, 
   }
 
   kbd[bVk] = fIsUp ? 0 : 0x80;
+}
+
+/**
+  #8064. The effective read of the user-held signal, and the only production
+  read path. TRUE only when the signal last observed this key DOWN and can
+  currently speak for it: held & ~unknown. A held key the signal cannot
+  speak for (poisoned, stale) reports FALSE, so it neither widens a
+  restore set nor blocks a verification correction. NULL reports FALSE.
+  Writers are UpdateUserHeldFromRawKeyboard and the Poison functions
+  below; readers must not reach past this accessor to `held` directly,
+  because a direct read of `held` alone silently treats a stale claim
+  as a genuine hold -- the exact failure this accessor exists to close.
+*/
+BOOL
+UserHeldReportsHeld(const UserHeldModifierSignal *pSignal, BYTE vk) {
+  if (pSignal == NULL) {
+    return FALSE;
+  }
+  return (pSignal->held[vk] & 0x80) && !(pSignal->unknown[vk] & 0x80);
 }
 
 /**

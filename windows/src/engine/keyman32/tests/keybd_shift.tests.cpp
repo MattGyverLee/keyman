@@ -2629,12 +2629,41 @@ public:
 protected:
   UserHeldModifierSignal signal;
 
-  // The effective read, spelled out once: held & ~unknown. No consumer may read held alone.
+  // The effective read, through the production accessor: held & ~unknown.
+  // No consumer may read held alone, in production or in this fixture.
   bool
   EffectivelyHeld(BYTE vk) const {
-    return (signal.held[vk] & 0x80) != 0 && (signal.unknown[vk] & 0x80) == 0;
+    return UserHeldReportsHeld(&signal, vk) != FALSE;
   }
 };
+
+/*
+  The user-held accessor, the construction half of the Should-fix. The
+  effective read is held & ~unknown, and it is the only production read
+  path: a held key the signal cannot speak for (poisoned, stale) must
+  report FALSE, so it neither widens a restore set nor blocks a
+  verification correction. A direct read of held alone would report
+  TRUE for that poisoned case, silently treating a stale claim as a
+  genuine hold -- the failure the accessor exists to close.
+*/
+TEST_F(USER_HELD_FROM_RAW, UserHeldReportsHeldReadsHeldAndNotUnknown) {
+  signal.held[VK_LCONTROL] = 0x80;
+  signal.unknown[VK_LCONTROL] = 0;
+  EXPECT_TRUE(UserHeldReportsHeld(&signal, VK_LCONTROL)) << "held and knowable: the user is holding it";
+
+  signal.unknown[VK_LCONTROL] = 0x80;
+  EXPECT_FALSE(UserHeldReportsHeld(&signal, VK_LCONTROL))
+      << "held but poisoned: the claim carries no weight, or a stale hold would widen a restore set";
+
+  signal.held[VK_LCONTROL] = 0;
+  signal.unknown[VK_LCONTROL] = 0;
+  EXPECT_FALSE(UserHeldReportsHeld(&signal, VK_LCONTROL)) << "not held and knowable: nobody is holding it";
+
+  signal.unknown[VK_LCONTROL] = 0x80;
+  EXPECT_FALSE(UserHeldReportsHeld(&signal, VK_LCONTROL)) << "not held and poisoned: still FALSE";
+
+  EXPECT_FALSE(UserHeldReportsHeld(NULL, VK_LCONTROL)) << "no signal: the cache alone, never a crash";
+}
 
 TEST_F(USER_HELD_FROM_RAW, DerivesChiralityFromTheExtendedFlagAndTheMakeCode) {
   // Control and Alt: RI_KEY_E0 is the only chirality signal.
