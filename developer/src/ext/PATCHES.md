@@ -127,12 +127,25 @@ list and is removed, not kept "just in case".
 - On refresh: an upstream JCL/JVCL refresh that knows 10.3+ makes this entry
   unnecessary. Remove it then, not before.
 
+## 5. JCL — `jedi/jcl/jcl/source/windows/JclSvcCtrl.pas`
+
+- Trigger: the JCL package (`packages/Jcl.dproj`, via `jedi/build.sh`) on Delphi 12 CE:
+  `JclSvcCtrl.pas(529)` and `(1090): E2010 Incompatible types: 'LPENUM_SERVICE_STATUSW' and
+  '_ENUM_SERVICE_STATUS…'`, then `Jcl.dpk(102): F2063`. Delphi 10.4 changed
+  `EnumDependentServices` / `EnumServicesStatus` to take a pointer, and this code skipped the `^`
+  dereference on **exactly** VER340, so 11 and 12, which also take a pointer, still
+  dereferenced. TIKE does not use JclSvcCtrl, so only the package build hits it.
+- Change: `{$IFNDEF VER340}^{$ENDIF}` → `{$IFNDEF RTL340_UP}^{$ENDIF}` at both call sites.
+  10.3 and earlier still dereference, as before.
+- Removal test, 2026-10-28, Delphi 12 Athens CE: without it, the IDE Build of Jcl.dproj fails as
+  above. With it, Jcl.dproj (Debug, Win32) builds, Success. 10.3 compile UNVERIFIED.
+
 ## What is NOT patched
 
 No other file under `developer/src/ext/` carries a Keyman-local
 patch as of the #16043 tip — the JVCL entry above is a sync,
 not a patch, and entry 1 was removed, so the Keyman-local
-patches are entries 3 and 4 only. If a diff on refresh shows a change outside the entries
+patches are entries 3, 4 and 5 only. If a diff on refresh shows a change outside the entries
 above, it is either an upstream change to keep or a patch to
 record here with its trigger and removal test — never a change
 to carry silently.
