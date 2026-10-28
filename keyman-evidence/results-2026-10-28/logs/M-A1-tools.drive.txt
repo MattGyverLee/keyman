@@ -1,0 +1,16 @@
+﻿[13:58:33] prompt #2: common/windows/delphi/tools/buildunidata/buildunidata.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\common\windows\delphi\tools\buildunidata\bin\Win32\Debug\buildunidata.exe | C:\Github\keyman-test-merge2\common\windows\delphi\tools\buildunidata\bin\Win32\Debug\buildunidata.dll
+  building...
+  built: C:\Github\keyman-test-merge2\common\windows\delphi\tools\buildunidata\bin\Win32\Debug\buildunidata.exe (11399105 bytes, 13:58:54) after 9s; sending Enter
+[13:59:05] prompt #3: common/windows/delphi/tools/devtools/devtools.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\common\windows\delphi\tools\devtools\bin\Win32\Debug\devtools.exe | C:\Github\keyman-test-merge2\common\windows\delphi\tools\devtools\bin\Win32\Debug\devtools.dll
+  building...
+  built: C:\Github\keyman-test-merge2\common\windows\delphi\tools\devtools\bin\Win32\Debug\devtools.exe (6436669 bytes, 13:59:26) after 9s; sending Enter
+[13:59:37] prompt #4: common/windows/delphi/tools/sentrytool/sentrytool.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\common\windows\delphi\tools\sentrytool\bin\Win32\Debug\sentrytool.exe | C:\Github\keyman-test-merge2\common\windows\delphi\tools\sentrytool\bin\Win32\Debug\sentrytool.dll
+  building...
+  built: C:\Github\keyman-test-merge2\common\windows\delphi\tools\sentrytool\bin\Win32\Debug\sentrytool.exe (1554944 bytes, 14:00:00) after 9s; sending Enter
+[14:00:11] prompt #5: common/windows/delphi/tools/test-klog/test_klog.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\common\windows\delphi\tools\test-klog\bin\Win32\Debug\test_klog.exe | C:\Github\keyman-test-merge2\common\windows\delphi\tools\test-klog\bin\Win32\Debug\test_klog.dll
+  building...
+  built: C:\Github\keyman-test-merge2\common\windows\delphi\tools\test-klog\bin\Win32\Debug\test_klog.exe (5535855 bytes, 14:00:35) after 9s; sending Enter
+[14:00:45] prompt #6: common/windows/delphi/tools/verify_signatures/verify_signatures.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\common\windows\delphi\tools\verify_signatures\bin\Win32\Debug\verify_signatures.exe | C:\Github\keyman-test-merge2\common\windows\delphi\tools\verify_signatures\bin\Win32\Debug\verify_signatures.dll
+  building...
+  built: C:\Github\keyman-test-merge2\common\windows\delphi\tools\verify_signatures\bin\Win32\Debug\verify_signatures.exe (4661142 bytes, 14:01:07) after 9s; sending Enter
+build.sh finished: exit 0
