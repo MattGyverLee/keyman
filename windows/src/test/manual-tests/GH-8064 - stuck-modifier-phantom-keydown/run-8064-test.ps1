@@ -34,7 +34,7 @@
 otepad.exe hands the
   request to the packaged Notepad -- a separate, already-running process that owns the tabbed
   window -- and then sits there with no window of its own, so this script aborts before measuring
-  anything. Measured 2026-08-31, see evidence/notepad64-stock-19.0.276.txt.
+  anything. Measured 2026-08-31; that run's log was not retained.
 
   For a stock host, charmap.exe is the one that behaves: SysWOW64\charmap.exe for 32-bit,
   System32\charmap.exe for 64-bit. Both present a real top-level window with an Edit control.
@@ -367,7 +367,7 @@ otepad.exe hands the request to the packaged Notepad -- a SEPARATE, already-runn
       Write-Host ('[WARN] 64-bit host: {0} (pid {1}, hwnd 0x{2:X})' -f $HostApp, $proc.Id, [int64]$hostWnd)
       Write-Host '[WARN] The defect is not 32-bit-only, but no run of THIS script against a 64-bit'
       Write-Host '[WARN] host has been recorded yet. Treat the result as a new measurement, not a'
-      Write-Host '[WARN] routine one, and save the output to evidence/. host32/ is the known-good host.'
+      Write-Host '[WARN] routine one, and save the output to a new run log of your own (not the PR evidence folder, which was moved to the evidence archive). host32/ is the known-good host.'
     }
     $editWnd = Get-EditChild -Root $hostWnd
     if ($editWnd -eq [IntPtr]::Zero) {
@@ -405,7 +405,7 @@ if ($hostWnd -ne [IntPtr]::Zero) {
     # does not exist, and every run of this script -- against any host, with any keyboard
     # selected -- aborted with "plain keyboard layout selected". The giveaway in a saved run
     # is "host thread N" printing the same N as the pid on the line above it. See
-    # evidence/charmap32-stock-19.0.276.txt for the run that exposed it.
+    # The 2026 run that exposed it; that run's log was not retained.
     $hostPid = 0
     $tid = [GH8064.Win32]::GetWindowThreadProcessId($focusWnd, [ref]$hostPid)
     # GetGUIThreadInfo(0) reports whatever is in the foreground, which is the host only because
