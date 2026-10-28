@@ -1,6 +1,6 @@
 # B.8 hand tests: verifying the two version-guarded workarounds on Delphi 12
 
-Context: on the side branch `fix2/16043-b8` (ca49b5fc0c, on top of `fix2/16043`), FixedTrackbar.pas
+Context: at `fix2/16043` c003aaf233 (merge tree `test2/16462-on-delphi-stack` c79a12e1d5), FixedTrackbar.pas
 and Keyman.System.HttpServer.Base.pas now emit on VER320/VER330 exactly what upstream emits,
 and on every other compiler they **warn** instead of failing the build. A Delphi 12 build
 proves only that the code compiles. These two tests check the *behaviour* each workaround
