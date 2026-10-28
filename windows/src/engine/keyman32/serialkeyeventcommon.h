@@ -200,8 +200,14 @@ typedef void (*PMODIFIERDIAGNOSTIC)(ModifierDiagnosticCode code, BYTE vk);
      manufactures an unmatched press, which is #8064 arriving from the one direction
      ReconcileModifierCache is structurally blind to, because cache and OS then agree.
 
-  2. The effective read is always `held & ~unknown`; no consumer reads `held` alone. There is no
-     accessor enforcing that -- it is a convention, noted here because breaking it is silent.
+  2. The effective read is always `held & ~unknown`; no production consumer reads `held` alone.
+     That is now enforced, not just a convention: UserHeldReportsHeld (below) is the only
+     production read path, and both production readers (the restore half in
+     PrepareInjectedInputBatch and the verification correction) go through it. A future
+     reader that reads `held` directly reintroduces the silent break this accessor exists
+     to prevent, and the test UserHeldReportsHeldReadsHeldAndNotUnknown guards the accessor
+     itself. Tests still construct signals by writing the arrays directly; that is
+     construction, not a read, and is how the accessor's cases are set up.
 
   3. It is not authoritative alone. The restore set is `cache OR (held & ~unknown)`; the signal only
      ever widens what the cache already justifies. It can add a press the cache missed; it cannot
@@ -226,6 +232,15 @@ struct UserHeldModifierSignal {
   BYTE held[256];    // 0x80 where the signal last observed this key DOWN
   BYTE unknown[256]; // 0x80 where the signal cannot currently report on this key
 };
+
+// #8064. The effective read of the signal, and the only production read path.
+// Returns TRUE only when the signal last observed this key DOWN and can
+// currently speak for it: held & ~unknown. A held key the signal cannot
+// speak for (poisoned / stale) reports FALSE, so it neither widens a
+// restore set nor blocks a verification correction. NULL reports FALSE.
+// Defined in keybd_shift.cpp, outside any _WIN64 guard so the gtest
+// project can reach it like PrepareInjectedInputBatch.
+BOOL UserHeldReportsHeld(const UserHeldModifierSignal *pSignal, BYTE vk);
 
 // Defined in keybd_shift.cpp, outside any _WIN64 guard so both architectures and the gtest project
 // can reach it. #8064 added feedIsConfigured and pRestorePressedMask, both defaulted so existing
