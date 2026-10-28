@@ -1,0 +1,32 @@
+﻿=== [14:13:57] W2-windows-src : windows/src ./build.sh build
+[14:14:12] prompt #1: windows/src/engine/insthelper/insthelper.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\engine\insthelper\bin\Win32\Debug\insthelper.exe | C:\Github\keyman-test-merge2\windows\src\engine\insthelper\bin\Win32\Debug\insthelper.dll
+  building...
+  built: C:\Github\keyman-test-merge2\windows\src\engine\insthelper\bin\Win32\Debug\insthelper.dll (1061376 bytes, 14:14:32) after 9s; sending Enter
+[14:14:45] prompt #2: windows/src/engine/keyman/keyman.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\engine\keyman\bin\Win32\Debug\keyman.exe | C:\Github\keyman-test-merge2\windows\src\engine\keyman\bin\Win32\Debug\keyman.dll
+  building...
+  built: C:\Github\keyman-test-merge2\windows\src\engine\keyman\bin\Win32\Debug\keyman.exe (4448256 bytes, 14:15:08) after 9s; sending Enter
+[14:15:41] prompt #3: windows/src/engine/kmcomapi/kmcomapi.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\engine\kmcomapi\bin\Win32\Debug\kmcomapi.exe | C:\Github\keyman-test-merge2\windows\src\engine\kmcomapi\bin\Win32\Debug\kmcomapi.dll
+  building...
+  dismissed untitled IDE dialog class=TCENotificationDialog (OK clicked)
+  built: C:\Github\keyman-test-merge2\windows\src\engine\kmcomapi\bin\Win32\Debug\kmcomapi.dll (7405568 bytes, 14:16:18) after 21s; sending Enter
+[14:16:30] prompt #4: windows/src/engine/kmcomapi/kmcomapi.dproj (Win64, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\engine\kmcomapi\bin\Win64\Debug\kmcomapi.exe | C:\Github\keyman-test-merge2\windows\src\engine\kmcomapi\bin\Win64\Debug\kmcomapi.dll
+  selected Windows 64-bit
+  building...
+  dismissed untitled IDE dialog class=TCENotificationDialog (OK clicked)
+  built: C:\Github\keyman-test-merge2\windows\src\engine\kmcomapi\bin\Win64\Debug\kmcomapi.dll (23200443 bytes, 14:17:14) after 27s; sending Enter
+[14:17:55] prompt #5: windows/src/engine/tsysinfox64/tsysinfox64.dproj (Win64, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\engine\tsysinfox64\bin\Win64\Debug\tsysinfox64.exe | C:\Github\keyman-test-merge2\windows\src\engine\tsysinfox64\bin\Win64\Debug\tsysinfox64.dll
+  selected Windows 64-bit
+  building...
+  built: C:\Github\keyman-test-merge2\windows\src\engine\tsysinfox64\bin\Win64\Debug\tsysinfox64.exe (15215855 bytes, 14:18:24) after 9s; sending Enter
+[14:18:36] prompt #6: windows/src/engine/tsysinfo/tsysinfo.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\engine\tsysinfo\bin\Win32\Debug\tsysinfo.exe | C:\Github\keyman-test-merge2\windows\src\engine\tsysinfo\bin\Win32\Debug\tsysinfo.dll
+  building...
+  built: C:\Github\keyman-test-merge2\windows\src\engine\tsysinfo\bin\Win32\Debug\tsysinfo.exe (19214336 bytes, 14:19:00) after 9s; sending Enter
+[14:19:45] prompt #7: windows/src/desktop/kmbrowserhost/kmbrowserhost.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\desktop\kmbrowserhost\bin\Win32\Debug\kmbrowserhost.exe | C:\Github\keyman-test-merge2\windows\src\desktop\kmbrowserhost\bin\Win32\Debug\kmbrowserhost.dll
+  building...
+  built: C:\Github\keyman-test-merge2\windows\src\desktop\kmbrowserhost\bin\Win32\Debug\kmbrowserhost.exe (2700800 bytes, 14:20:07) after 9s; sending Enter
+[14:20:19] prompt #8: windows/src/desktop/kmconfig/kmconfig.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\desktop\kmconfig\bin\Win32\Debug\kmconfig.exe | C:\Github\keyman-test-merge2\windows\src\desktop\kmconfig\bin\Win32\Debug\kmconfig.dll
+  building...
+  built: C:\Github\keyman-test-merge2\windows\src\desktop\kmconfig\bin\Win32\Debug\kmconfig.exe (1247232 bytes, 14:20:41) after 9s; sending Enter
+[14:20:54] prompt #9: windows/src/desktop/kmshell/kmshell.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\desktop\kmshell\bin\Win32\Debug\kmshell.exe | C:\Github\keyman-test-merge2\windows\src\desktop\kmshell\bin\Win32\Debug\kmshell.dll
+  building...
+  dismissed untitled IDE dialog class=TCENotificationDialog (OK clicked)
