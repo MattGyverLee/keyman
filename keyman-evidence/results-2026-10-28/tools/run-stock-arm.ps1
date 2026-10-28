@@ -1,15 +1,15 @@
-# Stock arm of the GH-8064 gate (C.12) on the installed, signed Keyman 19.0.289.
+# Stock arm of the GH-8064 gate (C.12) on the installed, official signed Keyman (log folder named after its keyman32.dll version).
 # Starts keyman.exe and an empty Notepad, runs the three-arm gate (two arms: no MSKLC Cameroon),
 # then the fakefreeze repro against charmap. Not elevated. Injects real input: hands off.
 param([int]$DelaySeconds = 60)
 $ErrorActionPreference = 'Continue'
 $T   = 'C:\Github\keyman-test-8064\windows\src\test\manual-tests\GH-8064 - stuck-modifier-phantom-keydown'
-$Out = 'C:\Github\keyman-test-evidence\keyman-evidence\results-2026-10-28\logs\stock-19.0.289'
+$eng = 'C:\Program Files (x86)\Common Files\Keyman\Keyman Engine'
+$Out = "C:\Github\keyman-test-evidence\keyman-evidence\results-2026-10-28\logs\stock-$((Get-Item "$eng\keyman32.dll").VersionInfo.FileVersion)"
 New-Item -ItemType Directory -Force $Out | Out-Null
 Start-Transcript -Path "$Out\transcript.txt" -Force | Out-Null
 
 Start-Sleep -Seconds $DelaySeconds
-$eng = 'C:\Program Files (x86)\Common Files\Keyman\Keyman Engine'
 "keyman32.dll: $((Get-Item "$eng\keyman32.dll").VersionInfo.FileVersion) sig=$((Get-AuthenticodeSignature "$eng\keyman32.dll").Status)"
 if (-not (Get-Process keyman -ErrorAction SilentlyContinue)) { Start-Process "$eng\keyman.exe"; Start-Sleep 6 }
 "keyman running: $([bool](Get-Process keyman -ErrorAction SilentlyContinue))"
