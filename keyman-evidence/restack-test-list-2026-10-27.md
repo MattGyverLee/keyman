@@ -528,3 +528,73 @@ in this VM (no Windows, no Delphi). You are the first build.
 If a fix breaks the build, that is a build failure — which,
 per Matthew's rule, is the honest outcome — and it will need
 a fix + another rebuild cycle for that item, not a silent pass.
+
+## Update, 2026-10-27 late evening — deep scan, pre-review fixes
+
+Matthew asked for one more deep scan comparing code and comments
+to similar content, to get this pre-ready for review, leaving
+only testing bugfixes after. Findings, all fixed in code/comments
+or flagged as open questions (not guessed), are:
+
+- Chirality derivation in UpdateModifierCacheFromKeyEvent vs
+  UpdateUserHeldFromRawKeyboard: VERIFIED MATCHING, including
+  the default-return for non-modifier VKs in both. No change.
+- Release vs restore prefix order, reconcile clears-never-sets,
+  one live reading per batch, verify correction prefix
+  conditional on Alt: VERIFIED MATCHING the comments. No change.
+- Viskbd feed retirement for seeded holds: VERIFIED — physical
+  Shift KEYUPs map through OskModifierShiftValueOf to essShift,
+  so a generic seed retires through the feed. No change.
+- FINDING, FIXED (comment only, #16490): CaptureLive comment
+  pointed at a PR-tree evidence directory that was moved;
+  now points at the evidence archive (interactive-*.txt).
+- FINDING, FIXED (test message only, #16490): a test message
+  cited contracts/modifier-state.md section 4, a file that
+  exists neither in the PR tree nor in the evidence archive.
+  Citation removed, reasoning kept. Assertion unchanged.
+- FINDING, FIXED (comment only, #16490): hook comment said
+  the OSK flag uses the "same decision function" as the cache
+  feed. Shared part is the injected predicate only; serialize
+  gating is cache-feed only. Comment corrected.
+- FINDING, FIXED (body, #16527): body linked the OSK-kill
+  issue draft via a relative ./issues/ path that was moved
+  to the evidence archive. Link now points at the evidence
+  branch URL. Body otherwise verified against the code.
+- FINDING, OPEN QUESTION — JVCL OldCreateOrder guard, the
+  biggest deep-scan finding. Read PATCHES.md entry 2 and the
+  code comment in JvComponent.pas before testing, not after:
+  the patch guards DoCreate with HAS_PROPERTY_OLDCREATEORDER,
+  an upstream guard that is defined NOWHERE in this tree's
+  jedi.inc (unlike HAS_PROPERTY_STYLEELEMENTS, which has a
+  definition there), so as written the block compiles to
+  nothing on every Delphi version here. The PR body described
+  the earlier VER350/VER360 unconditional form — that body
+  text is now corrected to match the code, and the reviewer
+  note no longer claims OldCreateOrder=True as settled.
+  DECISION FOR TESTING, not guessed here: run a TIKE build
+  on Delphi 12 CE with and without this block, plus the
+  removal test (item 8). Outcomes: (a) define the
+  conditional in jedi.inc for versions where the property
+  exists, (b) restore the VER350/VER360 form, or (c) delete
+  the patch if TIKE builds without it (deleting dead code
+  cannot break a build that passes with it in place).
+  Do NOT "fix" the guard silently during testing; record
+  which outcome the TIKE build supports.
+- FINDING, FIXED (body, #16043): body claimed JCL BOOL wraps
+  for seven call sites; the diff is CreateMutex only. Body
+  row corrected to TJclMutex.Create only.
+- FINDING, FIXED (body, #16044): body described the CE prompt
+  as "waits for Enter" only. Body now also says: after Enter,
+  freshness is re-checked, and not-built / stdin-closed is a
+  loud build failure, not a continuation.
+
+New tips after this deep scan (comment/body only, no behaviour
+change except the JVCL comment, which is comment only):
+
+- #16043 tip: **36dc551b09** (was 3e2fa0f790)
+- #16044 tip: **d01e2712a8** (was 5991de50d3, rebased clean)
+- #16191 tip: **cc3ec55a64** (was 32b49cab17, rebased clean)
+- #16490 tip: **f58d9da489** (was 0cc6984ff9)
+- #16527 tip: **c923e1e89d** (was 005f6c150b, rebased clean)
+- All five PRs still closed, draft flags unchanged. Body edits
+  above do not reopen, request review, or change code.
