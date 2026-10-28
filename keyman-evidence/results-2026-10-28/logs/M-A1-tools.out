@@ -1,0 +1,59 @@
+[common/windows/delphi/tools] Local build environment detected:  setting --debug
+[common/windows/delphi/tools] build.sh parameters: <build --debug>
+[common/windows/delphi/tools] ## child build:build_standards_data starting...
+[common/windows/delphi/tools/build_standards_data] child build, parameters: <--builder-child --deps build --debug>
+[common/windows/delphi/tools/build_standards_data] ## build:project starting...
+[common/windows/delphi/tools/build_standards_data] Delphi CE: CLI compilation is not available.
+[common/windows/delphi/tools/build_standards_data] Please build build_standards_data.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[common/windows/delphi/tools/build_standards_data] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+Building C:/Github/keyman-test-merge2/common/windows/delphi/standards/Keyman.System.Standards.ISO6393ToBCP47Registry.pas
+Building C:/Github/keyman-test-merge2/common/windows/delphi/standards/Keyman.System.Standards.BCP47SuppressScriptRegistry.pas
+Building C:/Github/keyman-test-merge2/common/windows/delphi/standards/Keyman.System.Standards.BCP47SubtagRegistry.pas
+Building C:/Github/keyman-test-merge2/common/windows/delphi/standards/Keyman.System.Standards.LCIDToBCP47Registry.pas
+Building C:/Github/keyman-test-merge2/common/windows/delphi/standards/Keyman.System.Standards.LangTagsRegistry.pas
+[common/windows/delphi/tools/build_standards_data] ## build:project completed successfully
+[common/windows/delphi/tools] ## child build:build_standards_data completed successfully
+[common/windows/delphi/tools] ## child build:buildunidata starting...
+[common/windows/delphi/tools/buildunidata] child build, parameters: <--builder-child --deps build --debug>
+[common/windows/delphi/tools/buildunidata] ## build:project starting...
+[common/windows/delphi] dependency build, started by common/windows/delphi/tools/buildunidata
+[common/windows/delphi] build.sh parameters: <configure:keymanversion build:keymanversion --debug --deps --builder-dep-parent common/windows/delphi/tools/buildunidata>
+[common/windows/delphi] ## build:keymanversion starting...
+[common/windows/delphi] ## build:keymanversion completed successfully
+[common/windows/delphi/tools/buildunidata] Delphi CE: CLI compilation is not available.
+[common/windows/delphi/tools/buildunidata] Please build buildunidata.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[common/windows/delphi/tools/buildunidata] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[common/windows/delphi/tools/buildunidata] ## build:project completed successfully
+[common/windows/delphi/tools] ## child build:buildunidata completed successfully
+[common/windows/delphi/tools] ## child build:devtools starting...
+[common/windows/delphi/tools/devtools] child build, parameters: <--builder-child --deps build --debug>
+[common/windows/delphi/tools/devtools] ## build:project starting...
+[common/windows/delphi/tools/devtools] Delphi CE: CLI compilation is not available.
+[common/windows/delphi/tools/devtools] Please build devtools.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[common/windows/delphi/tools/devtools] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[common/windows/delphi/tools/devtools] ## build:project completed successfully
+[common/windows/delphi/tools] ## child build:devtools completed successfully
+[common/windows/delphi/tools] ## child build:sentrytool starting...
+[common/windows/delphi/tools/sentrytool] child build, parameters: <--builder-child --deps build --debug>
+[common/windows/delphi/tools/sentrytool] ## build:project starting...
+[common/windows/delphi/tools/sentrytool] Delphi CE: CLI compilation is not available.
+[common/windows/delphi/tools/sentrytool] Please build sentrytool.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[common/windows/delphi/tools/sentrytool] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[common/windows/delphi/tools/sentrytool] ## build:project completed successfully
+[common/windows/delphi/tools] ## child build:sentrytool completed successfully
+[common/windows/delphi/tools] ## child build:test-klog starting...
+[common/windows/delphi/tools/test-klog] child build, parameters: <--builder-child --deps build --debug>
+[common/windows/delphi/tools/test-klog] ## build:project starting...
+[common/windows/delphi/tools/test-klog] Delphi CE: CLI compilation is not available.
+[common/windows/delphi/tools/test-klog] Please build test_klog.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[common/windows/delphi/tools/test-klog] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[common/windows/delphi/tools/test-klog] ## build:project completed successfully
+[common/windows/delphi/tools] ## child build:test-klog completed successfully
+[common/windows/delphi/tools] ## child build:verify_signatures starting...
+[common/windows/delphi/tools/verify_signatures] child build, parameters: <--builder-child --deps build --debug>
+[common/windows/delphi/tools/verify_signatures] ## build:project starting...
+[common/windows/delphi/tools/verify_signatures] Delphi CE: CLI compilation is not available.
+[common/windows/delphi/tools/verify_signatures] Please build verify_signatures.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[common/windows/delphi/tools/verify_signatures] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[common/windows/delphi/tools/verify_signatures] ## build:project completed successfully
+[common/windows/delphi/tools] ## child build:verify_signatures completed successfully
