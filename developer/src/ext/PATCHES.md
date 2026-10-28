@@ -110,8 +110,8 @@ list and is removed, not kept "just in case".
   - `jedi/jcl/jcl/source/include/jcl.inc`: `{$IFDEF BDS20_UP}` uses
     `jcld25win32.inc` / `jcld25win64.inc` and defines `JCL_CONFIGURED`.
   - `jedi/jvcl/jvcl/run/JvConsts.pas`: `SDelphiKey` for `DELPHI26`..`DELPHI29`
-    (`BDS.0`..`BDS.0`, the real registry keys; the old fallback gave
-    `BDS9.0` to every newer compiler). Delphi 13+ still hits the FATAL.
+    (`BDS\20.0`..`BDS\23.0`, the real registry keys; the old fallback gave
+    `BDS\19.0` to every newer compiler). Delphi 13+ still hits the FATAL.
   The two config patches give 10.3 and later exactly the JCL/JVCL configuration they
   had before the sync (the 10.2 one). The only behavioural change is the SDelphiKey
   value, now correct.
