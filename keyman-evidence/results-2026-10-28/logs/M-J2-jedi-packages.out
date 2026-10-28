@@ -1,0 +1,19 @@
+[developer/src/ext/jedi] Local build environment detected:  setting --debug
+[developer/src/ext/jedi] build.sh parameters: <build --debug>
+[developer/src/ext/jedi] ## build:project starting...
+addincludepath C:/Github/keyman-test-merge2/developer/src/ext/jedi
+addincludepath C:/Github/keyman-test-merge2/developer/src/ext/jedi/jcl/jcl/source/common
+addincludepath C:/Github/keyman-test-merge2/developer/src/ext/jedi/jcl/jcl/source/include
+addincludepath C:/Github/keyman-test-merge2/developer/src/ext/jedi/jcl/jcl/source/vcl
+addincludepath C:/Github/keyman-test-merge2/developer/src/ext/jedi/jcl/jcl/source/windows
+addincludepath C:/Github/keyman-test-merge2/developer/src/ext/jedi/jvcl/jvcl/common
+addincludepath C:/Github/keyman-test-merge2/developer/src/ext/jedi/jvcl/jvcl/resources
+addincludepath C:/Github/keyman-test-merge2/developer/src/ext/jedi/jvcl/jvcl/run
+addincludepath C:/Github/keyman-test-merge2/developer/src/ext/jedi/packages
+/c/Github/keyman-test-merge2/developer/src/ext/jedi/packages /c/Github/keyman-test-merge2/developer/src/ext/jedi
+[developer/src/ext/jedi] Delphi CE: CLI compilation is not available.
+[developer/src/ext/jedi] Please build Jcl.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[developer/src/ext/jedi] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[developer/src/ext/jedi] Delphi CE: CLI compilation is not available.
+[developer/src/ext/jedi] Please build JclVcl.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[developer/src/ext/jedi] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.

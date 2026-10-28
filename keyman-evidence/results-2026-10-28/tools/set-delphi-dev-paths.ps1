@@ -52,16 +52,15 @@ $text = [regex]::Replace($text, '(<Delphi(?:Library|Browsing)Path>)([^<]*)(</Del
 $kp = 'HKCU:\Software\Embarcadero\BDS\23.0\Known Packages'
 (Get-Item $kp).Property | Where-Object { $_ -match $keyman } | ForEach-Object { Remove-ItemProperty $kp -Name $_; "Removed known package $_" }
 
-# 5. Re-register the guide's 17 paths for $Root
+# 5. Re-register the CE guide's paths for $Root: DELPHIINCLUDES, plus the JEDI paths read from the
+#    devtools -ai calls in developer/src/ext/jedi/build.sh (as the guide does; no hand list, so no
+#    jcl\source\prototypes, which makes TIKE compile the DWORD JclWin32 and fail E2010).
 $Root = (Resolve-Path $Root).Path
 $inc = (Select-String -Path "$Root\resources\build\win\delphi_flags.inc.sh" -Pattern '^DELPHIINCLUDES="(.*)"').Matches[0].Groups[1].Value
-$paths = ($inc -split ';' | ForEach-Object { $_ -replace '\$KEYMAN_ROOT', $Root -replace '/', '\' }) + (@(
-  'developer\src\ext\jedi\jcl\jcl\source\common','developer\src\ext\jedi\jcl\jcl\source\prototypes',
-  'developer\src\ext\jedi\jcl\jcl\source\vcl','developer\src\ext\jedi\jcl\jcl\source\windows',
-  'developer\src\ext\jedi\jcl\jcl\source\include','developer\src\ext\jedi\jvcl\jvcl\design',
-  'developer\src\ext\jedi\jvcl\jvcl\run','developer\src\ext\jedi\jvcl\jvcl\common',
-  'developer\src\ext\jedi\jvcl\jvcl\resources','developer\src\ext\jedi\jedi','developer\src\ext\jedi'
-) | ForEach-Object { Join-Path $Root $_ })
+$jedi = Select-String -Path "$Root\developer\src\ext\jedi\build.sh" -Pattern '^\s*"\$DEVTOOLS" -ai "(.*)"$' | ForEach-Object { $_.Matches[0].Groups[1].Value -replace '\$DEVELOPER_ROOT', "$Root\developer" -replace '/', '\' }
+$paths = @($inc -split ';' | ForEach-Object { $_ -replace '\$KEYMAN_ROOT', $Root -replace '/', '\' }) + @($jedi)
+# Remove any jcl\source\prototypes entry a previous version of the guide registered (step 2 strips all Keyman entries anyway).
+if ($paths -match 'prototypes') { throw 'prototypes must not be registered' }
 foreach ($p in $paths) {
   if (-not (Test-Path $p)) { throw "Guide path missing in tree: $p" }
   & $Devtools -ai $p

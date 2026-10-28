@@ -55,6 +55,14 @@ function Dismiss-Nag {
 # Full-resolution click points for that layout, single project open (Projects pane, toolbar).
 $Ide = @{ Node = @(796, 190); Build = @(842, 228); Platform = @(686, 80); Win32 = @(676, 104); Win64 = @(676, 124) }
 function Select-Platform([string]$plat) { Click @($Ide.Platform)[0] @($Ide.Platform)[1]; Start-Sleep 1; $p = $Ide[$plat]; Click $p[0] $p[1]; Start-Sleep 2 }
+# Activate a build configuration: expand the project's "Build Configurations" node (collapsed in a
+# fresh session), then double-click Debug (1st child) or Release (2nd). Some .dproj files save Release.
+function Select-Config([string]$cfg) {
+  Click 778 210; Start-Sleep 1
+  [void][IDE.U]::SetCursorPos(840, $(if ($cfg -eq 'Release') { 250 } else { 230 })); Start-Sleep -Milliseconds 150
+  foreach ($i in 1, 2) { [IDE.U]::mouse_event(0x02, 0, 0, 0, [UIntPtr]::Zero); [IDE.U]::mouse_event(0x04, 0, 0, 0, [UIntPtr]::Zero); Start-Sleep -Milliseconds 80 }
+  Start-Sleep 2
+}
 function Build-Project { Click @($Ide.Node)[0] @($Ide.Node)[1] -Right; Start-Sleep 1; Click @($Ide.Build)[0] @($Ide.Build)[1] }
 Add-Type -Namespace IDE -Name M -MemberDefinition '[DllImport("user32.dll")] public static extern bool MoveWindow(System.IntPtr h, int x, int y, int w, int hh, bool r);'
 function Place-Bds {

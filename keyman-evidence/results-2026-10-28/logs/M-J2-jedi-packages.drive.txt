@@ -1,0 +1,13 @@
+﻿[16:30:15] prompt #1: developer/src/ext/jedi/Jcl.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\developer\lib\Jcl.bpl
+  selected Win32, Debug
+  building...
+  dismissed untitled IDE dialog class=TCENotificationDialog (OK clicked)
+C:\Users\thoua\AppData\Local\Temp\claude\C--Github-keyman\d9a7fe69-9d19-45db-b14c-33b3f7474856\scratchpad\shots\nobuild-1.png
+[16:31:26] prompt #1: developer/src/ext/jedi/Jcl.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\developer\lib\Jcl.bpl | C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\Jcl.bpl
+  selected Win32, Debug
+  building...
+  dismissed untitled IDE dialog class=TCENotificationDialog (OK clicked)
+  built: C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\Jcl.bpl (3028992 bytes, 16:32:01) after 12s; sending Enter
+[16:32:11] prompt #2: developer/src/ext/jedi/JclVcl.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\developer\lib\JclVcl.bpl | C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\JclVcl.bpl
+  selected Win32, Debug
+  building...
