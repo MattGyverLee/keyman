@@ -452,3 +452,79 @@ alongside the test-results summary, not a pre-test edit.
    machine). Retest after fix: none — documentation
    only — but the removal tests in item 8 must be
    recorded in it, not just run.
+
+## Update, 2026-10-27 late evening — Section G Should-fixes FIXED, test these tips
+
+Matthew corrected the plan: fixing after testing would cost a
+second full rebuild + reinstall cycle, and no test has been run
+on the restack tips yet, so the cheap order is fix first, test
+once. All five Section G items are now fixed in the PR branches
+(comment-only changes except as noted), and the tips below are
+the ones to test. The "fix after testing" line in Section G is
+superseded by this update — do not follow it.
+
+- #16043 tip: **3e2fa0f790** (was 582a4dae73)
+- #16044 tip: **5991de50d3** (was 631327a507, rebased clean)
+- #16191 tip: **32b49cab17** (was 08278bd64a, rebased clean)
+- #16490 tip: **0cc6984ff9** (was 1279ebf84a)
+- #16527 tip: **005f6c150b** (was a4fe67fe23, rebased clean)
+- Evidence branch tip for this list update: see the evidence
+  branch commit after this update (Section G itself is unchanged
+  except for this superseding note).
+
+What changed, per Section G item, and what to retest:
+
+1. Truncation diagnostic — FIXED in #16490. New diagnostic
+   BatchOutputTruncated (once per truncated batch, vk = 0) plus
+   a pOutputKeysTruncated out-param (count against the clamped
+   256-entry batch). Behaviour unchanged: what is sent is still
+   a prefix. Retest: the keybd_shift suite, including the two
+   new MODIFIER_DIAGNOSTIC cases (worst case drops 16 and
+   reports once; a fitting batch reports nothing, count zero).
+   The old "truncation is logged nowhere" comments are updated.
+2. User-held construction — FIXED in #16490, read half.
+   UserHeldReportsHeld is now the only production read path
+   (restore half + verification correction); a poisoned claim
+   reports FALSE, NULL reports FALSE. Writers unchanged.
+   NOT type-enforced: the drain half — both production readers
+   already drain pending raw input before reading, and that
+   remains a call-site discipline, stated in the code so it
+   is not mistaken for closed. Retest: keybd_shift suite,
+   including the new accessor case; item 13
+   (held-before-Keyman-starts) still proves behaviour.
+3. CE prompt silent success — FIXED in #16191, and per
+   Matthew's rule a bad outcome here is a BUILD FAILURE, never
+   a silent success. After the prompt, delphi_msbuild re-checks
+   output freshness; if the IDE did not build it (Enter without
+   building, or stdin closed / EOF), it dies loudly with
+   builder_die, same as the CE-unset guard. Success is defined
+   by fresh Debug output, not by the keypress. Retest: test
+   item 6, all three behaviours (fresh output auto-skips,
+   Enter-without-building FAILS, stdin-closed FAILS) — item 6
+   is no longer "written to FAIL on the current tips", it is
+   written to PASS on these tips, and a FAIL now means the fix
+   did not work.
+4. Verification race — FIXED in #16490. ProcessModifierVerification
+   now repeats drain + correction up to 3 times, release-only,
+   exiting early when a pass finds nothing. Corrections only
+   release, never press, so a repeated pass cannot manufacture
+   a press; its worst case is the documented false-positive
+   release. The window is narrowed to the last pass's
+   drain-to-SendInput interval, NOT closed — the code says so.
+   Retest: three-arm gate + keybd_shift suite; watch for
+   spurious releases under rapid modifier typing (the
+   false-positive direction, safe but observable).
+5. PATCHES.md — FIXED in #16043 (docs only, no rebuild).
+   developer/src/ext/PATCHES.md records the three vendored
+   patches (JCL CreateMutex BOOL, JVCL OldCreateOrder guard,
+   mbcolor VER350/VER360 defines), the refresh rule (re-apply
+   exactly these, nothing else), and removal-test status
+   marked PENDING, not verified — removal tests (item 8)
+   still to be run on a Delphi 12 CE machine and recorded in
+   PATCHES.md. Do not mark any entry verified until then.
+
+Caveat, stated plainly: none of these fixes was built or run
+in this VM (no Windows, no Delphi). You are the first build.
+If a fix breaks the build, that is a build failure — which,
+per Matthew's rule, is the honest outcome — and it will need
+a fix + another rebuild cycle for that item, not a silent pass.
