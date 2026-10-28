@@ -261,6 +261,28 @@ pass. A test that was not run is UNVERIFIED, not "works".
   for that stack, even if the diff looks clean. (Only
   .gitignore and environment.inc.sh qualified here, above.)
 
+## Update, 2026-10-27 late evening — ponytail scan rounds 2 and 3
+
+- New #16490 tip: **1279ebf84a** (was a9271a3cbb). New #16527
+  tip: **a4fe67fe23** (was e794044fd6, rebased clean onto the
+  new #16490). Change: comment-only, 3 files, +14 lines —
+  FR-number traceability note in serialkeyeventcommon.h,
+  keybd_shift.cpp and serialkeyeventserver.cpp (FR numbers
+  refer to spec 003-8064-audit-closeout, not in this repo;
+  every FR-tagged comment also states its reason in plain
+  words). No code behaviour changed, so no functional
+  retest trigger beyond the standard clear rebuild (A.1).
+- Round 3 scan result: no new Must or Should findings in
+  the code/comment-quality sweep (stale evidence refs,
+  FIXME/HACK/XXX, TODO in added production lines, dead
+  code, inaccurate comments checked — all clean). The
+  previously known functional Should-fixes (silent
+  248-key truncation, user-held signal construction gap,
+  CE prompt silent success) remain open by design and are
+  recorded in §F; fixing them would be functional code
+  changes that move the tips before testing, and are NOT
+  part of this comment-quality loop.
+
 ## Update, 2026-10-27 late evening — ponytail comment fixes 1 and 2
 
 - New #16490 tip: **a9271a3cbb** (was a31a675567). New #16527
