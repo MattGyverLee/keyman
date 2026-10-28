@@ -123,7 +123,9 @@ fi
 # in DCC_BplOutput for a package (.dpk), else <name>.exe/.dll in
 # DCC_ExeOutput, with $(Platform) and $(Config) expanded and resolved against
 # the .dproj's folder. With no DCC_ExeOutput, assumes bin/<Platform>/<Config>.
-# Prints nothing for a package without DCC_BplOutput (output not knowable).
+# A package also gets the IDE's default package folder, $(BDSCOMMONDIR)\Bpl:
+# that is where it goes in a configuration with no DCC_BplOutput (e.g. Jcl and
+# JclVcl set one for Release only, so a Debug build lands there).
 _delphi_ce_output_files() {
   local project="$1" platform="$2" config="$3"
   local base="${project%.dproj}"
@@ -154,6 +156,9 @@ _delphi_ce_output_files() {
       echo "$outdir/$name.$ext"
     done
   done
+  if [[ $tag == DCC_BplOutput ]]; then
+    echo "$(cygpath -u "${PUBLIC:-C:\\Users\\Public}")/Documents/Embarcadero/Studio/${KEYMAN_DELPHI_VERSION:-20.0}/Bpl/$name.bpl"
+  fi
 }
 
 # Returns 0 if any output file of the project is newer than the marker file.
