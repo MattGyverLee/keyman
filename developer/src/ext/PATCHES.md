@@ -36,16 +36,37 @@ list and is removed, not kept "just in case".
 ## 2. JVCL — `jedi/jvcl/jvcl/run/JvComponent.pas`
 
 - Trigger: Delphi 11/12, `OldCreateOrder` property handling in
-  `TJvComponent` creation. This area was questioned in review
-  (whether the `OldCreateOrder` handling matches the
-  documentation), so the removal test for this entry matters
-  more than for the other two: if removal does not break the
-  build, this patch goes, it does not stay "just in case".
-- Change: call `DoCreate` when `OldCreateOrder` is true, guarded
-  by `{$IFDEF HAS_PROPERTY_OLDCREATEORDER}` so Delphi versions
-  without that property are unaffected.
-- Removal test: PENDING — same procedure as entry 1, record
-  here. Do not mark "verified" until that run is recorded.
+  `TJvComponent` creation. History, because it matters here:
+  the original patch (VER350/VER360 → unconditional `DoCreate`,
+  else `if OldCreateOrder then DoCreate`) was motivated by a
+  concrete Delphi 12 CE error in TIKE: `E2003 Undeclared
+  identifier: 'OldCreateOrder'` at the then-line 126, via
+  `JvDockControlForm`. It was later replaced with the upstream
+  guard `{$IFDEF HAS_PROPERTY_OLDCREATEORDER}`.
+- Change as written: call `DoCreate` when `OldCreateOrder` is
+  true, guarded by `{$IFDEF HAS_PROPERTY_OLDCREATEORDER}`.
+- OPEN QUESTION, flagged by a deep scan 2026-10-27, do not
+  gloss over it: that conditional is defined nowhere in this
+  tree's `jedi.inc` (unlike `HAS_PROPERTY_STYLEELEMENTS`, which
+  has a definition there), so as written this block compiles
+  to nothing on every Delphi version here. The PR body still
+  describes the earlier VER350/VER360 unconditional form —
+  that body text is stale and must be corrected (see the
+  body, not this file, for the correction). Three outcomes
+  are possible, and the TIKE build + removal test decide
+  between them, not this file: (a) define the conditional
+  in `jedi.inc` for the versions where the property exists,
+  (b) restore the VER350/VER360 form, or (c) delete the
+  patch entirely if TIKE builds on Delphi 12 CE without it
+  (dead code compiles to nothing, so deleting it cannot
+  break a build that currently passes with it in place).
+- Removal test: PENDING — same procedure as entry 1, PLUS a
+  TIKE build on Delphi 12 CE with and without this block.
+  Record both runs here. Do not mark "verified" until those
+  runs are recorded, and do not keep this entry on the
+  strength of the earlier VER350 history alone: that history
+  describes a different form of the patch than the one in
+  the tree now.
 
 ## 3. mbcolor — `mbcolor/mxs.inc`
 
