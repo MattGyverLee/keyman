@@ -1,0 +1,15 @@
+﻿Win32 prototypes entries now: 0
+Win64 prototypes entries now: 0
+EnvOptions prototypes in DelphiLibraryPath now: 0
+obj emptied: 0 dcu left
+JclSynch call: FHandle := JclWin32.CreateMutex(SecAttr, InitialOwner, PChar(Name));
+search path JCL order: windows
+build clicked 16:13:11
+  dismissed untitled IDE dialog class=TCENotificationDialog (OK clicked)
+result: TIKE BUILT
+  JclWin32.dcu: 16:13:17 includesWinBase.int(prototype)=False
+  JclSynch.dcu: 16:13:18 includesWinBase.int(prototype)=False
+dcus compiled: 522
+C:\Users\thoua\AppData\Local\Temp\claude\C--Github-keyman\d9a7fe69-9d19-45db-b14c-33b3f7474856\scratchpad\shots\b7-controlled-unpatched.png
+restored: diff []
+RESTORED search paths: Win32 identical=True Win64 identical=True EnvOptions identical=True

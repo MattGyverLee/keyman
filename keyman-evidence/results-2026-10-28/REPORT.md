@@ -7,9 +7,9 @@ UNVERIFIED**. INCONCLUSIVE is never PASS. Evidence is in this folder; each line 
 
 | PR | Branch | Tip now | Was (start of day) |
 |---|---|---|---|
-| #16043 | chore/windows/delphi-11-12-compat | **8a5d561b5a** | 9de382db06 |
-| #16044 | feat/windows/delphi-ce-workflow | **b2a09901a3** | 09b2cbe558 |
-| #16191 | chore/windows/delphi-ce-guard | **2d7200050f** | 331b0b3015 |
+| #16043 | chore/windows/delphi-11-12-compat | **1ff2e36f1e** | 9de382db06 |
+| #16044 | feat/windows/delphi-ce-workflow | **615378b454** | 09b2cbe558 |
+| #16191 | chore/windows/delphi-ce-guard | **5a79f27973** | 331b0b3015 |
 | #16490 | fix/windows/8064-stuck-modifier | f58d9da489 (unchanged) | |
 | #16527 | fix/windows/16462-osk-sticky-modifier | c923e1e89d (unchanged) | |
 
@@ -18,6 +18,11 @@ built and installed at test2 3a514d526a. Since then only `developer/src/ext/**` 
 changed; nothing under `windows/`, `common/` or `core/`, so the fixed-arm results still apply.
 
 ## Headline
+- **JclSynch E2010 root cause found** (`jclsynch-root-cause.md`). The CE guide's search-path list (#16044) adds
+  `jcl/source/prototypes`, which upstream's build scripts never register. With it, TIKE compiles a `JclWin32`
+  whose `CreateMutex` takes `DWORD`, and unpatched JclSynch fails. Without it, unpatched JclSynch builds. That is
+  why Marc's machine never needed the patch. Bug, fix and Marc's case were each reproduced in a controlled run.
+  **Recommendation:** fix the guide's path list, then drop the JclSynch patch (your call).
 
 - **GH-8064 is fixed by the stack, and the A/B is clean.** Official 20.0.8 (code-identical to the
   fork base) FAILs the gate and the host32 repro 5/5. The signed dev 20.0.9 build of the stack PASSes
