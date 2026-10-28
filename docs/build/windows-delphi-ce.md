@@ -45,6 +45,8 @@ build.
   two Keyman test-CA root certificates into your current-user cert
   store (via `certutil -user -addstore Root`). To clean up later:
   `certutil -user -delstore Root "Keyman Test CA"` and the SHA1 variant.
+  Running a signed dev `keyman.exe` (uiAccess) also needs the roots in
+  the local machine store — see §5.
 
 ## 2. Environment variables
 
@@ -158,18 +160,25 @@ windows/src/desktop/build.sh install
 ### Faster iteration: script + IDE Build All (warm-state only)
 
 `delphi_msbuild` under `KEYMAN_DELPHI_CE=1` **auto-skips its prompt**
-when the expected output at `bin/<Platform>/Debug/<project>.{exe,dll,bpl}`
-is newer than the corresponding `.dpr` / `.dpk` source. On subsequent
-builds — where the previous build's `.res` files, codegen `.pas`
-files, and vendored `.bpl`s are all still on disk — this enables:
+when the project's output was written **during the same top-level
+`build.sh` run**. The output checked is where the `.dproj` really
+writes it: `DCC_ExeOutput` (usually `bin/<Platform>/<Config>/`) for an
+`.exe`/`.dll`, `DCC_BplOutput` (a `lib` folder) for a package `.bpl`.
+"Same run" means newer than a session marker created when the
+outermost `build.sh` starts and shared with every nested child and
+dependency `build.sh`; a new top-level run gets a new marker. Output
+from an earlier run, or from an IDE build done before you started the
+script, is never trusted — the prompt fires. On subsequent builds —
+where the previous build's `.res` files, codegen `.pas` files, and
+vendored `.bpl`s are all still on disk — this enables:
 
 1. From a terminal, kick off the shell build script for a subsystem
    (e.g. `./windows/src/engine/build.sh build`). The first CE prompt
    fires and blocks.
 2. Alt-Tab to Delphi 12 CE. Open the relevant project group:
    * `windows/src/engine/engine.groupproj` — engine children (keyman,
-     kmcomapi, tsysinfo, tsysinfox64). Post-PR #16044 `insthelper`
-     is not in the group and needs to be opened on its own.
+     kmcomapi, tsysinfo, tsysinfox64, insthelper; the group's
+     insthelper path is fixed by PR #16044).
    * `windows/src/desktop/desktop.groupproj` — desktop children
      (kmshell, kmbrowserhost, kmconfig, insthelp, setup).
    * `developer/src/developer.groupproj` — TIKE, kmconvert,
@@ -179,8 +188,9 @@ files, and vendored `.bpl`s are all still on disk — this enables:
    **Build All**. Every project in the group compiles once.
 4. Alt-Tab back to the terminal, press Enter to release the first
    prompt.
-5. Each subsequent `delphi_msbuild` call detects its output is fresh
-   and skips the prompt automatically. Post-build steps
+5. Each subsequent `delphi_msbuild` call in this run detects that
+   its output was written during the run and skips the prompt
+   automatically. Post-build steps
    (`sentrytool_delphiprep`, `tds2dbg`, staging `cp`) run against the
    pre-built binaries.
 
@@ -207,10 +217,11 @@ pre-build steps that generate the inputs above; then the CE prompt
 fires; you Build in Delphi; script proceeds. **On the next build**
 (codegen outputs still present) you can switch to the Build All flow.
 
-If a project's output is missing or older than the source (you
-edited a `.dpr`, or Delphi built to Release instead of Debug), the
-CE prompt still fires for that project — no risk of silent
-stale-output failures.
+If a project's output was not written during this run (missing, left
+over from an earlier run, or Delphi built to Release instead of
+Debug), the CE prompt still fires for that project — no risk of
+silent stale-output failures. So run Build All at the first prompt
+of the run, not before you start the script.
 
 **Caveat on engine.groupproj even for warm builds**: the group
 currently orders `tsysinfo` before `tsysinfox64`, so a bare Build All
@@ -274,24 +285,86 @@ scratch.
 > change: right-click → **Clean, then Build**. An incremental Build
 > silently embeds the stale cached `.res`.
 
-## 5. Local-only: uiAccess strip for overlaid keyman.exe
+## 5. Running a dev keyman.exe (uiAccess)
 
-Windows refuses to launch unsigned binaries declaring
-`uiAccess="true"` (error 8235). To run an unsigned dev `keyman.exe`,
-swap in the pre-existing non-elevated manifest:
+`keyman.exe`'s manifest declares `uiAccess="true"`. Microsoft
+documents two checks before Windows starts such a binary with
+UIAccess:
 
-```bash
-cd windows/src/engine/keyman
-./build.sh debug-manifest
-```
+* Its Authenticode signature must chain to a trusted root in the
+  **local machine** Trusted Root Certification Authorities store
+  ([Microsoft, archived UAC guidance](https://learn.microsoft.com/en-us/archive/blogs/winsdk/setwindowhookex-api-with-wh_journalrecord-this-api-fails-with-access-denied-error-5);
+  the current policy page says "the Trusted Root Certification
+  Authorities store on the local device" and notes the signature
+  check applies regardless of the location policy:
+  [User Account Control: Only elevate UIAccess applications that are installed in secure locations](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/user-account-control-only-elevate-uiaccess-applications-that-are-installed-in-secure-locations)).
+* It must sit in a secure, admin-only-writable location:
+  `%ProgramFiles%`, `%ProgramFiles(x86)%` or `%WinDir%` (with some
+  exclusions). The location policy above is enabled by default.
 
-That copies `debug-manifest.in` over `manifest.in` and regenerates
-`manifest.res`. Then Clean + Build `keyman.dproj` in the IDE and
-re-run `windows/src/engine/build.sh install` elevated.
+An unsigned dev `keyman.exe` overlaid into the install folder fails
+to start (observed: `error=8235`).
 
-Trade-off: keyboard injection into elevated apps stops working under
-the debug manifest. Not committed. Revert with
+### Recommended: sign with the Keyman test certificates
+
+This keeps `uiAccess="true"`, so the binary under test behaves like
+a release build.
+
+1. Generate the test certificates once (§1). That script imports the
+   test CA roots with `certutil -user`, into the **current-user**
+   Root store only. That is enough for `signtool`, but by the
+   Microsoft documentation above it is **not** enough for uiAccess.
+2. From an **elevated** prompt, trust the two test CA roots
+   machine-wide (once):
+
+   ```bash
+   cd common/windows/delphi/tools/certificates
+   certutil -addstore Root KeymanTestCA-sha256.cer
+   certutil -addstore Root KeymanTestCA-sha1.cer
+   ```
+
+3. Build, then sign: `publish` checks the linked manifest still says
+   `uiAccess="true"`, then signs `windows/bin/engine/keyman.exe` with
+   the test certificates (symstore is skipped with a warning when
+   `KEYMAN_SYMSTOREPATH` is unset):
+
+   ```bash
+   cd windows/src/engine/keyman
+   ./build.sh build publish
+   ```
+
+4. Install from an **elevated** Git Bash, which copies it into
+   `Common Files\Keyman\Keyman Engine` under `Program Files (x86)`,
+   a secure location: `windows/src/engine/build.sh install`.
+
+Security note: a machine-wide root whose private key (`.pvk`) is on
+your disk lets anyone who can read those files sign code your machine
+trusts. Keep them private, and remove the roots when you are done,
+elevated: `certutil -delstore Root "Keyman Test CA"` and
+`certutil -delstore Root "Keyman Test CA SHA1"`.
+
+### Last resort, local only: strip uiAccess
+
+Use this only if you cannot trust a test root machine-wide. Never
+commit it. In `windows/src/engine/keyman/manifest.in`, change only
+`uiAccess="true"` to `uiAccess="false"`, run `./build.sh build`
+(which regenerates `manifest.res`), Clean + Build `keyman.dproj` in
+the IDE, and install elevated. `publish` refuses this binary by
+design. Revert with
 `git checkout -- windows/src/engine/keyman/manifest.in`.
+
+Trade-off: without UIAccess, `keyman.exe` cannot hook or inject input
+into elevated windows, so a result from this build says nothing about
+elevated-app behaviour.
+
+Do not use `./build.sh debug-manifest` (or `build --debug-manifest`)
+for this. `debug-manifest.in` is not just `uiAccess="false"`: it also
+drops the `dpiAware` setting, the `supportedOS` compatibility GUIDs,
+and the Common Controls v6 dependency, and it renames the assembly
+identity. Any of these can change how `keyman.exe` and the OSK
+behave. (That action swaps `debug-manifest.in` in, regenerates
+`manifest.res`, then restores `manifest.in`. Only `manifest.res`
+changes.)
 
 ## 6. Debugging
 
@@ -368,7 +441,9 @@ Bash: `windows/src/engine/kmcomapi/build.sh install`.
 
 ### `Could not find keyman.exe (error=8235)`
 
-Windows blocked an unsigned `uiAccess="true"` binary. See §5.
+Windows blocked a `uiAccess="true"` binary that is unsigned, signed
+by a root not in the local machine Root store, or outside a secure
+location. See §5.
 
 ### Delphi pops up an "Unsupported CEF version" dialog
 
