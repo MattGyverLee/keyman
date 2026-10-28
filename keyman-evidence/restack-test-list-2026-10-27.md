@@ -598,3 +598,57 @@ change except the JVCL comment, which is comment only):
 - #16527 tip: **c923e1e89d** (was 005f6c150b, rebased clean)
 - All five PRs still closed, draft flags unchanged. Body edits
   above do not reopen, request review, or change code.
+
+## Update, 2026-10-27 late evening — JVCL guard RESOLVED by upstream sync
+
+Matthew's direction: follow the official JV fixes, hopefully by
+just syncing from upstream vendors. Done, and the answer is
+mostly yes — with one honest limit:
+
+- RESOLVED, JVCL: the guard in JvComponent.pas is byte-identical
+  to upstream JVCL (project-jedi/jvcl, HEAD b045b99). What was
+  missing was never the guard — it was the definition. Upstream
+  jedi.inc lives in a separate repo, project-jedi/jedi, and
+  defines HAS_PROPERTY_OLDCREATEORDER for D5–D27, undefining
+  it from RTL350_UP (Delphi 11+), where Embarcadero removed
+  the property. The old vendored jedi.inc predated that
+  definition entirely. So jedi.inc was synced from upstream
+  project-jedi/jedi at a09411655f (2,236 lines vs 1,813 old;
+  still defines RTL130_UP / RTL240_UP / RTL270_UP /
+  HAS_UNITSCOPE, so old code's conditionals survive), and the
+  Keyman comment flagging the guard as undefined was removed.
+  Behaviour now, exactly as upstream intends: guard active on
+  Delphi 10.3 and earlier, inactive on Delphi 11/12.
+- The deep-scan JVCL open question is therefore CLOSED as a
+  code question. What is still owed is the TIKE build on
+  Delphi 12 CE with this tip: guard inactive, no E2003 at
+  the old line 126 via JvDockControlForm. That build is the
+  proof of the sync, and PATCHES.md entry 2 is marked SYNCED,
+  not VERIFIED, until it runs. The earlier VER350 form is
+  superseded — do not restore it.
+- LIMIT, JCL: syncing would NOT remove the JCL patch.
+  Upstream JCL at HEAD still calls JclWin32.CreateMutex with
+  a Boolean in TJclMutex.Create, and JclWin32.CreateMutex is
+  still a BOOL external — the exact call the #16043 patch
+  says Delphi 12 rejects with E2010. So entry 1 stays a
+  Keyman-local patch, removal test still pending (item 8).
+  If that removal test ever shows the build passes without
+  it, the patch goes — but upstream sync alone does not
+  prove that.
+- LIMIT, full-tree sync: the full JCL/JVCL trees were NOT
+  refreshed. Upstream JVCL HEAD carries unrelated changes
+  (e.g. FSearchTickCount: Int64) that would enlarge this PR
+  with no Delphi build in this VM to check them against.
+  Only jedi.inc — the file the guard depends on — was synced.
+  The remaining Keyman-local vendored patches are JCL
+  (CreateMutex) and mbcolor only.
+
+New tips after this sync (16043 layer only; 8064 tips unchanged):
+
+- #16043 tip: **3f764e3133** (was 36dc551b09)
+- #16044 tip: **b108f79653** (was d01e2712a8, rebased clean)
+- #16191 tip: **cff4281df2** (was cc3ec55a64, rebased clean)
+- #16490 tip: **f58d9da489** (unchanged)
+- #16527 tip: **c923e1e89d** (unchanged)
+- All five PRs still closed, draft flags unchanged. #16043
+  body JVCL row + reviewer note updated to the sync wording.
