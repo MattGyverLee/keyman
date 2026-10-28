@@ -829,7 +829,10 @@ private:
     before SendInput has finished, and nothing here synchronises m_userHeld against the injection --
     we did not find a primitive that would. So the drain narrows the interval in which FR-101 is
     blind rather than eliminating it, recorded here for the same reason FR-104 makes the signal say
-    *unknown* rather than guess.
+    *unknown* rather than guess. ProcessModifierVerification now repeats the
+    drain + correction up to three times, release-only, so the remaining window is the last
+    pass's drain-to-SendInput interval, not the whole batch's -- still not zero, and still
+    recorded as not zero.
   */
   void DrainPendingRawInput() {
     if (m_hwnd == NULL) {
@@ -861,20 +864,43 @@ private:
     #8064 Handles WM_KEYMAN_VERIFY_MODIFIER_EVENT: rechecks the VKs the batch restored against the
     cache and live state as they stand now, and releases any the OS still holds that the cache says
     nobody holds.
+
+    Bounded re-verify loop, release-only. One pass is today's behaviour, and
+    one pass has a race window of its own: a user transition that arrives
+    after that pass's drain returns and before its correction SendInput
+    finishes is not in the correction, so a restore press can outlive a
+    user release that raced it -- the stuck direction, until the next
+    batch. Repeating the drain + correction catches transitions that
+    arrived during the previous pass, shrinking the remaining window
+    from the whole verify dispatch to the last pass's drain-to-SendInput
+    interval. It does not close the window: no primitive synchronises
+    the signal against injection (see DrainPendingRawInput), and the
+    last pass still has that interval. What the loop does guarantee is
+    that it cannot make things worse: corrections only RELEASE, never
+    press, so a repeated pass cannot manufacture a press; its worst
+    case is the documented false-positive release, which is
+    re-pressable. The bound (3 passes) caps the work under continuous
+    typing or typematic repeat: the loop exits early when a pass finds
+    nothing, and after the bound it stops, leaving the state exactly
+    as a single pass would have left it.
   */
   void ProcessModifierVerification(DWORD restorePressedMask) {
     // #8064 FR-103a. BEFORE the signal is read, never after: posted messages are retrieved ahead of
     // input messages, so raw observations older than this verify message are still queued behind it.
-    // See DrainPendingRawInput.
-    DrainPendingRawInput();
+    // See DrainPendingRawInput. Drained on every pass, not just the first, or the later passes
+    // would re-read the same stale signal the loop exists to refresh.
+    for (int pass = 0; pass < 3; pass++) {
+      DrainPendingRawInput();
 
-    INPUT correction[MAX_KEYEVENT_INPUTS_MODIFIERS];
-    // In keybd_shift.cpp so the gtest project can reach it, same reasoning as PrepareInjectedInput.
-    // #8064 FR-103a: the same signal the restore half consulted, or the pass would release what the
-    // batch just pressed. FR-101/FR-103 and FR-103a land together or not at all.
-    int n = PrepareModifierVerificationCorrection(
-      correction, m_ModifierKeyboardState, restorePressedMask, GetAsyncKeyState, &m_userHeld);
-    if (n > 0) {
+      INPUT correction[MAX_KEYEVENT_INPUTS_MODIFIERS];
+      // In keybd_shift.cpp so the gtest project can reach it, same reasoning as PrepareInjectedInput.
+      // #8064 FR-103a: the same signal the restore half consulted, or the pass would release what the
+      // batch just pressed. FR-101/FR-103 and FR-103a land together or not at all.
+      int n = PrepareModifierVerificationCorrection(
+        correction, m_ModifierKeyboardState, restorePressedMask, GetAsyncKeyState, &m_userHeld);
+      if (n <= 0) {
+        break;
+      }
       if (!SendInput(n, correction, sizeof(INPUT))) {
         DebugLastError("SendInput");
       }
