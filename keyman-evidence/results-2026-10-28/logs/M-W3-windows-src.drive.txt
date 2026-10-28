@@ -44,3 +44,32 @@
   built: C:\Github\keyman-test-merge2\windows\src\support\oskbulkrenderer\bin\Win32\Debug\oskbulkrenderer.exe (2758656 bytes, 14:41:28) after 9s; sending Enter
 [14:41:49] prompt #14: windows/src/test/unit-tests/androidstringtokeymanlocalestring/AndroidStringToKeymanLocaleString.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\test\unit-tests\androidstringtokeymanlocalestring\bin\Win32\Debug\AndroidStringToKeymanLocaleString.exe | C:\Github\keyman-test-merge2\windows\src\test\unit-tests\androidstringtokeymanlocalestring\bin\Win32\Debug\AndroidStringToKeymanLocaleString.dll
   building...
+[14:47:55] prompt #14: windows/src/test/unit-tests/androidstringtokeymanlocalestring/AndroidStringToKeymanLocaleString.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\test\unit-tests\androidstringtokeymanlocalestring\bin\Win32\Debug\AndroidStringToKeymanLocaleString.exe | C:\Github\keyman-test-merge2\windows\src\test\unit-tests\androidstringtokeymanlocalestring\bin\Win32\Debug\AndroidStringToKeymanLocaleString.dll
+  building...
+  built: C:\Github\keyman-test-merge2\windows\src\test\unit-tests\androidstringtokeymanlocalestring\bin\Win32\Debug\AndroidStringToKeymanLocaleString.exe (10157417 bytes, 14:48:17) after 9s; sending Enter
+[14:48:27] prompt #15: windows/src/test/unit-tests/group-helper-rsp19902/RegExGroupHelperRSP19902TestSuite.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\test\unit-tests\group-helper-rsp19902\bin\Win32\Debug\RegExGroupHelperRSP19902TestSuite.exe | C:\Github\keyman-test-merge2\windows\src\test\unit-tests\group-helper-rsp19902\bin\Win32\Debug\RegExGroupHelperRSP19902TestSuite.dll
+  building...
+  built: C:\Github\keyman-test-merge2\windows\src\test\unit-tests\group-helper-rsp19902\bin\Win32\Debug\RegExGroupHelperRSP19902TestSuite.exe (10165918 bytes, 14:48:51) after 9s; sending Enter
+[14:49:02] prompt #16: windows/src/test/unit-tests/jsonutil/JsonUtilTests.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\test\unit-tests\jsonutil\bin\Win32\Debug\JsonUtilTests.exe | C:\Github\keyman-test-merge2\windows\src\test\unit-tests\jsonutil\bin\Win32\Debug\JsonUtilTests.dll
+  building...
+  built: C:\Github\keyman-test-merge2\windows\src\test\unit-tests\jsonutil\bin\Win32\Debug\JsonUtilTests.exe (16796475 bytes, 14:49:24) after 9s; sending Enter
+[14:49:38] prompt #17: windows/src/test/unit-tests/shared-data/delphi/delphishareddata.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\delphi\bin\Win32\Debug\delphishareddata.exe | C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\delphi\bin\Win32\Debug\delphishareddata.dll
+  building...
+C:\Users\thoua\AppData\Local\Temp\claude\C--Github-keyman\d9a7fe69-9d19-45db-b14c-33b3f7474856\scratchpad\shots\nobuild-17.png
+[14:51:00] prompt #17: windows/src/test/unit-tests/shared-data/delphi/delphishareddata.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\delphi\bin\Win32\Debug\delphishareddata.exe | C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\delphi\bin\Win32\Debug\delphishareddata.dll
+  selected Win32
+  building...
+  built: C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\delphi\bin\Win32\Debug\delphishareddata.exe (1408487 bytes, 14:51:26) after 9s; sending Enter
+[14:51:37] prompt #18: windows/src/test/unit-tests/standards-data/standardsdata.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\test\unit-tests\standards-data\bin\Win32\Debug\standardsdata.exe | C:\Github\keyman-test-merge2\windows\src\test\unit-tests\standards-data\bin\Win32\Debug\standardsdata.dll
+  selected Win32
+  building...
+  built: C:\Github\keyman-test-merge2\windows\src\test\unit-tests\standards-data\bin\Win32\Debug\standardsdata.exe (14434996 bytes, 14:52:14) after 18s; sending Enter
+[14:52:25] prompt #19: windows/src/test/unit-tests/windows-setup/WindowsSetupTest.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\test\unit-tests\windows-setup\bin\Win32\Debug\WindowsSetupTest.exe | C:\Github\keyman-test-merge2\windows\src\test\unit-tests\windows-setup\bin\Win32\Debug\WindowsSetupTest.dll
+  selected Win32
+  building...
+  built: C:\Github\keyman-test-merge2\windows\src\test\unit-tests\windows-setup\bin\Win32\Debug\WindowsSetupTest.exe (15777616 bytes, 14:52:52) after 9s; sending Enter
+[14:53:02] prompt #20: windows/src/test/unit-tests/ui-language-manager/UILanguageManagerTest.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\windows\src\test\unit-tests\ui-language-manager\bin\Win32\Debug\UILanguageManagerTest.exe | C:\Github\keyman-test-merge2\windows\src\test\unit-tests\ui-language-manager\bin\Win32\Debug\UILanguageManagerTest.dll
+  selected Win32
+  building...
+  built: C:\Github\keyman-test-merge2\windows\src\test\unit-tests\ui-language-manager\bin\Win32\Debug\UILanguageManagerTest.exe (10159452 bytes, 14:53:28) after 9s; sending Enter
+build.sh finished: exit 0
