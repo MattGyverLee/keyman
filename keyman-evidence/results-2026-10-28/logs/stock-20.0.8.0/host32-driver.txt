@@ -1,0 +1,44 @@
+﻿[2026-10-28T13:38:05.8728452-05:00] stock host32 run on keyman32.dll 20.0.8.0 (signature Valid)
+keyman restarted: pid 33212 at 10/28/2026 13:38:08
+host32 pid 16904; foreground pid 16904 'GH-8064 host32 [HKL=04090409]'
+Win+Space #1
+Win+Space #2
+rule fired: edit shows '1=OK '
+host32 exit: 1  (0 PASS, 1 FAIL, 2 INCONCLUSIVE, 3 setup error)
+=== GH-8064 self-driving reproduction ===
+modifier LSHIFT (vk 0xA0 scan 0x2A), freeze, 5 iteration(s), release at 1500 ms
+host: GH-8064 host32 [HKL=04090409]
+[OK] baseline clean
+Waiting up to 60 s for a Keyman keyboard whose rules fire on "1x2x3x".
+  Switch the keyboard for THIS window now (Win+Space, or the taskbar language button).
+  Probing every 2 s; the test starts by itself as soon as the probe transforms.
+[OK] rules are firing. GH-8064 host32 [HKL=04090409]
+[OK] keyman32.dll is loaded: the engine has attached to this process
+--- iteration 1 of 5 ---
+    freeze active: yes
+    modifier released (inside the stall)
+    typed "1x2x3x" -> got "1=OK 2=OK 3=OK "  transformed: yes
+    [FAIL] stuck: SHIFT, LSHIFT
+--- iteration 2 of 5 ---
+    freeze active: yes
+    modifier released (inside the stall)
+    typed "1x2x3x" -> got "1=OK 2=OK 3=OK "  transformed: yes
+    [FAIL] stuck: SHIFT, LSHIFT
+--- iteration 3 of 5 ---
+    freeze active: yes
+    modifier released (inside the stall)
+    typed "1x2x3x" -> got "1=OK 2=OK 3=OK "  transformed: yes
+    [FAIL] stuck: SHIFT, LSHIFT
+--- iteration 4 of 5 ---
+    freeze active: yes
+    modifier released (inside the stall)
+    typed "1x2x3x" -> got "1=OK 2=OK 3=OK "  transformed: yes
+    [FAIL] stuck: SHIFT, LSHIFT
+--- iteration 5 of 5 ---
+    freeze active: yes
+    modifier released (inside the stall)
+    typed "1x2x3x" -> got "1=OK 2=OK 3=OK "  transformed: yes
+    [FAIL] stuck: SHIFT, LSHIFT
+=== summary ===
+iterations 5   freeze confirmed 5   text transformed 5   stuck 5
+RESULT: FAIL - the defect reproduced. A modifier was held with nothing pressed.
