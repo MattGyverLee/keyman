@@ -120,6 +120,16 @@ ReportModifierDiagnostic(ModifierDiagnosticCode code, BYTE vk) {
       "two or more held. The reconcile is clearing them and the restore half will press nothing, so "
       "those holds are lost. The 'clearing vkey=' lines that follow name them");
     break;
+  case BatchOutputTruncated:
+    // vk is 0 here by contract: the condition is a property of the batch.
+    // The dropped count is in the batch's pOutputKeysTruncated out-param,
+    // not in this line: this seam reports a code and a VK, never a count.
+    UNREFERENCED_PARAMETER(vk);
+    SendDebugMessageFormat(
+      "#8064 batch truncated: the output-key loop ran out of buffer slots, so "
+      "output keys at the tail of this batch were dropped. What was sent is a "
+      "prefix of what the keyboard asked for, never a hole in the middle");
+    break;
   default:
     SendDebugMessageFormat("#8064 unknown modifier diagnostic code=%d vkey=%s", (int)code, Debug_VirtualKey(vk));
     break;
