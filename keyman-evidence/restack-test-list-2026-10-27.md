@@ -260,3 +260,73 @@ pass. A test that was not run is UNVERIFIED, not "works".
   merge was non-trivial, rerun the full clear rebuild (A.1)
   for that stack, even if the diff looks clean. (Only
   .gitignore and environment.inc.sh qualified here, above.)
+
+## F. Anything else — added 2026-10-27 evening, before testing
+
+These are the items found in the pre-test audit that were
+not in sections A–E. Do them in this order; none of them
+changes code, so none of them changes the tips under test.
+
+16. Evidence-branch link check (5 minutes, do first):
+    open the team-plan link from each of the five PR bodies
+    (#16043, #16044, #16191, #16490, #16527) and the
+    evidence index link, and confirm the files exist:
+    keyman-evidence/team-testing-plan-2026-10-27.md,
+    keyman-evidence/restack-test-list-2026-10-27.md (this
+    list), and the 16490 / 16527 manual-test folders.
+    A broken link found after testing wastes the whole
+    handover; a broken link found now is a one-line fix.
+17. Batch truncation — known Should-fix, do NOT mark as
+    PASS: the serializer output-key loop is bounded on a
+    running total, not on output count
+    (windows/src/engine/keyman32/serialkeyeventcommon.h,
+    "256 - 8 = 248"; the release half spends from the same
+    248 slots, so 240 fit, not 248, and what is sent is
+    always a prefix). Truncation at 248 is silent: no
+    debug message, and no way for the caller to tell
+    (see keybd_shift.tests.cpp:774, 788–866, which pin
+    the arithmetic, not a fix). When you run the unit
+    suite (item 10), confirm the behaviour is exactly
+    as documented — prefix, silent — and record it as
+    KNOWN, not as fixed. Do not claim long-batch output
+    is complete. If a keyboard you test can produce
+    more than 240 output keys in one batch, record the
+    prefix behaviour you actually see; otherwise the
+    unit-suite confirmation is the test.
+18. User-held signal — known construction gap, do NOT
+    mark as PASS: the `held & ~unknown` invariant and a
+    drain accessor are not enforced by construction;
+    today the signal is correct by discipline, not by
+    construction. Item 13 (held-before-Keyman-starts)
+    proves the behaviour, not the construction. Record
+    it that way; a behaviour pass does not close the
+    construction gap.
+19. Dropped #16191 docs — CLOSED, no action: checked
+    2026-10-27 against the #16044 guide (412 lines).
+    Test-signing cert setup, the six-path DELPHIINCLUDES
+    mirroring correction, the registry (not hardcoded)
+    install-path, and build-order dependencies are all
+    already in that guide, in different form. Do not
+    spend test time re-checking the four dropped commits
+    (d36fc00f2e, 83a61b8b0c, 9603b1b562, b6b9b7ec1e);
+    if the CE workflow in item 4 hits a missing step,
+    that is a new finding, not a dropped-doc finding.
+20. CE probe spawn count — documentation check, not a
+    functional test: `_probe_delphi_ce` is cached per
+    shell, so it costs one dcc32 spawn per build.sh
+    invocation, roughly 30 across a full clear rebuild
+    — not one spawn ever. If your build log shows
+    otherwise, note it; if it matches, the #16191 body
+    wording (fixed 2026-10-27) is accurate and needs
+    no further change.
+21. PR body edits — DONE 2026-10-27, results NOT yet in:
+    stale evidence paths and scope wording were fixed
+    in #16490 (evidence archive links, physical-typing
+    scope for #8064), #16527 (OSK-kill exception for
+    #16462), #16191 (probe wording, above), and #16043
+    (no Delphi 12/13 paid licence, Pro not claimed).
+    #16044 needed no wording change. All five bodies
+    still closed, draft flags unchanged. Your test
+    results are NOT yet in the bodies — that is the
+    reopen edit, after testing, in one edit with the
+    results, not a second round of wording edits now.
