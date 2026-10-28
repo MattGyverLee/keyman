@@ -7,9 +7,9 @@ UNVERIFIED**. INCONCLUSIVE is never PASS. Evidence is in this folder; each line 
 
 | PR | Branch | Tip now | Was (start of day) |
 |---|---|---|---|
-| #16043 | chore/windows/delphi-11-12-compat | **08f7c90ff7** | 9de382db06 |
-| #16044 | feat/windows/delphi-ce-workflow | **0f69720e46** | 09b2cbe558 |
-| #16191 | chore/windows/delphi-ce-guard | **114e9405d0** | 331b0b3015 |
+| #16043 | chore/windows/delphi-11-12-compat | **8a5d561b5a** | 9de382db06 |
+| #16044 | feat/windows/delphi-ce-workflow | **b2a09901a3** | 09b2cbe558 |
+| #16191 | chore/windows/delphi-ce-guard | **2d7200050f** | 331b0b3015 |
 | #16490 | fix/windows/8064-stuck-modifier | f58d9da489 (unchanged) | |
 | #16527 | fix/windows/16462-osk-sticky-modifier | c923e1e89d (unchanged) | |
 
@@ -27,7 +27,7 @@ changed; nothing under `windows/`, `common/` or `core/`, so the fixed-arm result
   fixes found by the build** (fixes 5–7 below). All three are in #16043 and all three are pushed.
   Fix 7 matters most: the #16043 `jedi.inc` sync broke TIKE on **10.3 as well as 12**.
 - **Still owed:** your hand tests (C.13, OSK C.14/C.15, B.8 T1/T2): `hand-tests-checklist.md`.
-  Rulings: B.7 JclSynch, F.16. The 10.3 compile of fixes 5–7 is UNVERIFIED (no 10.3 here).
+  Ruling: F.16. (B.7 is settled: the JclSynch patch is needed.) The 10.3 compile of fixes 5–7 is UNVERIFIED (no 10.3 here).
 
 ## Fixes made today (all on #16043 unless noted; details in fixes-2026-10-28.md)
 
@@ -67,8 +67,10 @@ changed; nothing under `windows/`, `common/` or `core/`, so the fixed-arm result
 - **B.6 prompt honesty:** PASS (stdin closed, and Enter without building, both die), `delphi-cli.md` + fix 1 tests.
 - **B.7 removal tests** (`fixes-2026-10-28.md`):
   - **mxs.inc: needed.** Removing it gives E2003 `null` in HTMLColors.
-  - **JclSynch: NOT needed** on D12 CE with the synced jedi.inc. The unpatched source recompiled and
-    TIKE built. **Your ruling**; the patch stays for now.
+  - **JclSynch: needed** (corrected 16:07). A standalone TIKE build without it fails with the July E2010
+    'Cardinal'/'Boolean'. It depends on build order: TIKE compiles `prototypes/JclWin32.pas` (DWORD) through
+    the search path, while `Jcl.dpk` compiles `windows/JclWin32.pas` (BOOL). The earlier "not needed" run had
+    built the patched file.
   - JvComponent: no longer a Keyman patch.
   - The git part of B.7 is in `git-checks.md`.
 - **B.8:** tripwires as ruled. The VER360 compile is **PASS** (warnings only). Behaviour
