@@ -123,14 +123,10 @@ begin
       finally
         Exclude(FFormState, fsCreating);
       end;
-      // Keyman patch (vendored JVCL, see developer/src/ext/PATCHES.md entry 2):
-      // call DoCreate only where OldCreateOrder exists, via the upstream
-      // guard HAS_PROPERTY_OLDCREATEORDER. NOTE: that conditional is not
-      // defined anywhere in this tree's jedi.inc, so as written this block
-      // compiles to nothing on every Delphi version here. Whether it
-      // should be defined, restored to the earlier VER350/VER360 form, or
-      // deleted is decided by the TIKE build and the removal test in
-      // PATCHES.md, not by this comment. Do not "fix" this guard silently.
+      // Upstream JVCL guard, enabled by the synced jedi.inc (see
+      // developer/src/ext/PATCHES.md entry 2): HAS_PROPERTY_OLDCREATEORDER
+      // is defined for D5-D27 and undefined from RTL350_UP (Delphi 11+),
+      // where Embarcadero removed the property. No Keyman patch here.
       {$IFDEF HAS_PROPERTY_OLDCREATEORDER}
       if OldCreateOrder then
         DoCreate;
