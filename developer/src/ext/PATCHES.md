@@ -41,15 +41,18 @@ list and is removed, not kept "just in case".
   in July: `JclSynch.pas(1078): E2010 Incompatible types: 'Cardinal' and 'Boolean'`, then
   `JclSysUtils.pas(3124): F2063`. (An earlier run that day reported "not needed": that
   test had built the patched file by mistake, so disregard it.)
-- Why it depends on what you build: there are two `JclWin32.pas`. `Jcl.dpk` names
-  `jcl/source/windows/JclWin32.pas` (`bInitialOwner: BOOL`), so the JCL package builds
-  without this patch. TIKE finds `JclWin32` through the library search path, where
-  `jcl/source/prototypes` comes before `jcl/source/windows`, so it gets
-  `prototypes/JclWin32.pas`, whose `win32api/WinBase.int` declares `bInitialOwner: DWORD`
-  (the old WinNT4 LongInt workaround) and so rejects the Boolean. A build that compiles the
-  JCL package first in the same IDE session may reuse the package's `JclWin32` and not
-  hit it (not verified). Routing through the RTL makes JclSynch independent of which
-  `JclWin32` is found.
+- Root cause (proven 2026-10-28 by three controlled TIKE builds; see the evidence branch,
+  `results-2026-10-28/jclsynch-root-cause.md`): there are two `JclWin32.pas`.
+  `jcl/source/windows/JclWin32.pas` declares `bInitialOwner: BOOL`.
+  `jcl/source/prototypes/JclWin32.pas` includes `win32api/WinBase.int`, which declares
+  `bInitialOwner: DWORD` (the old WinNT4 LongInt workaround), and that is what rejects the
+  Boolean. TIKE finds `JclWin32` through the library search path. Upstream
+  `developer/src/ext/jedi/build.sh` never registers `jcl/source/prototypes`, so a machine set
+  up by the build scripts compiles the `windows/` copy and needs no patch (Marc's July result).
+  The CE guide's path list (#16044) adds `jcl/source/prototypes` before `windows`, and with
+  that path TIKE compiles the prototype and fails. With only that path removed, unpatched
+  TIKE builds. So this patch compensates for the CE guide's path list. Once the guide
+  registers what upstream registers, it can be removed (Matthew's decision).
 
 ## 2. JVCL + jedi.inc — SYNCED FROM UPSTREAM, NOT A KEYMAN PATCH
 
