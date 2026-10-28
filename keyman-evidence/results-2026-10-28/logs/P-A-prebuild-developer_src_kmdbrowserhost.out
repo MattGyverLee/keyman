@@ -1,0 +1,24 @@
+# cwd=/c/Github/keyman-test-delphi/developer/src/kmdbrowserhost date=2026-10-28T10:36:16-05:00 host=ltu-legion HEAD=331b0b3015
+# KEYMAN_DELPHI_CE='1' KEYMAN_DELPHI_VERSION='23.0' NoDefaultCurrentDirectoryInExePath='<unset>' stdin=null
+# cmd: ./build.sh build --no-deps
+[developer/src/kmdbrowserhost] Local build environment detected:  setting --debug
+[developer/src/kmdbrowserhost] build.sh parameters: <build --no-deps --debug>
+[developer/src/kmdbrowserhost] ## build:project starting...
+[developer/src/kmdbrowserhost] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[developer/src/kmdbrowserhost] ### visual_studio: rc manifest.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[developer/src/kmdbrowserhost] Delphi CE: CLI compilation is not available.
+[developer/src/kmdbrowserhost] Please build kmdbrowserhost.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[developer/src/kmdbrowserhost] Tip: opening the parent .groupproj and running Build All pre-builds all sibling projects at once; subsequent CE prompts in this script will auto-skip when their outputs are fresh.
+[developer/src/kmdbrowserhost] Delphi CE: no Enter received (stdin closed or EOF) for kmdbrowserhost.dproj.
+
+[developer/src/kmdbrowserhost] Delphi CE: kmdbrowserhost.dproj (Win32) was not built in the IDE -- its Debug output is still older than its source (or missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.
+
+[developer/src/kmdbrowserhost] ## build:project failed
+# exit=1
+dcc32 spawns (probe exec lines in xtrace): 0

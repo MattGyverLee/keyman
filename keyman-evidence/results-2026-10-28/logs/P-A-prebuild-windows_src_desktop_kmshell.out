@@ -1,0 +1,28 @@
+# cwd=/c/Github/keyman-test-delphi/windows/src/desktop/kmshell date=2026-10-28T10:36:03-05:00 host=ltu-legion HEAD=331b0b3015
+# KEYMAN_DELPHI_CE='1' KEYMAN_DELPHI_VERSION='23.0' NoDefaultCurrentDirectoryInExePath='<unset>' stdin=null
+# cmd: ./build.sh build --no-deps
+[windows/src/desktop/kmshell] Local build environment detected:  setting --debug
+[windows/src/desktop/kmshell] build.sh parameters: <build --no-deps --debug>
+[windows/src/desktop/kmshell] ## build:project starting...
+[windows/src/desktop/kmshell] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/desktop/kmshell] ### visual_studio: rc manifest.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/desktop/kmshell] ### visual_studio: rc icons.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/desktop/kmshell] Delphi CE: CLI compilation is not available.
+[windows/src/desktop/kmshell] Please build kmshell.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/desktop/kmshell] Tip: opening the parent .groupproj and running Build All pre-builds all sibling projects at once; subsequent CE prompts in this script will auto-skip when their outputs are fresh.
+[windows/src/desktop/kmshell] Delphi CE: no Enter received (stdin closed or EOF) for kmshell.dproj.
+
+[windows/src/desktop/kmshell] Delphi CE: kmshell.dproj (Win32) was not built in the IDE -- its Debug output is still older than its source (or missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.
+
+[windows/src/desktop/kmshell] ## build:project failed
+# exit=1
+dcc32 spawns (probe exec lines in xtrace): 0

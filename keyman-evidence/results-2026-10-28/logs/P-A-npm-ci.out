@@ -1,0 +1,24 @@
+# 2026-10-28T10:37:10-05:00 A npm ci
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: undefined,
+npm warn EBADENGINE   required: { node: '20.16.0' },
+npm warn EBADENGINE   current: { node: 'v22.23.1', npm: '10.9.8' }
+npm warn EBADENGINE }
+npm warn deprecated @humanwhocodes/config-array@0.11.14: Use @eslint/config-array instead
+npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
+
+added 1107 packages, and audited 1146 packages in 43s
+
+180 packages are looking for funding
+  run `npm fund` for details
+
+45 vulnerabilities (5 low, 12 moderate, 25 high, 3 critical)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+# exit=0

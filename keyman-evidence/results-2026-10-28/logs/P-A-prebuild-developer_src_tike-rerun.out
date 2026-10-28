@@ -1,0 +1,28 @@
+# 2026-10-28T10:36:36-05:00 A HEAD=331b0b3015 cmd: KEYMAN_DELPHI_CE=1 ./build.sh build --no-deps </dev/null (no xtrace)
+[developer/src/tike] Local build environment detected:  setting --debug
+[developer/src/tike] build.sh parameters: <build --no-deps --debug>
+[developer/src/tike] Automatically running following required actions with missing outputs:
+[developer/src/tike] * configure:project
+[developer/src/tike] ## configure:project starting...
+/c/Github/keyman-test-delphi/developer/src/tike/xml/app /c/Github/keyman-test-delphi/developer/src/tike
+
+added 1 package, and audited 2 packages in 12s
+
+found 0 vulnerabilities
+npm notice
+npm notice New major version of npm available! 10.9.8 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+/c/Github/keyman-test-delphi/developer/src/tike
+/c/Github/keyman-test-delphi/developer/src/tike/xml/app/lib/sentry /c/Github/keyman-test-delphi/developer/src/tike
+/c/Github/keyman-test-delphi/developer/src/tike
+[developer/src/tike] ### visual_studio: rc icons.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[developer/src/tike] ## configure:project completed successfully
+[developer/src/tike] ## build:touch-layout-editor starting...
+./build.sh: line 76: tsc: command not found
+[developer/src/tike] ## build:touch-layout-editor failed
+# exit=127

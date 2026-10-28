@@ -1,0 +1,2025 @@
++[1438] export SHELLOPTS
++[1438] case $mode in
++[1438] ./build.sh build --no-deps
+++[1442] readlink -f ./build.sh
++[1442] THIS_SCRIPT=/c/Github/keyman-test-delphi/developer/src/tike/build.sh
++[1442] . /c/Github/keyman-test-delphi/developer/src/tike/../../../resources/build/builder-full.inc.sh
+++[1442] set -eu
+++[1442] SHLVL=0
+++[1442] trap __builder_full_not_a_builder_script exit
+++[1442] . /c/Github/keyman-test-delphi/developer/src/tike/../../../resources/build/builder-basic.inc.sh
++++[1442] set -eu
++++[1442] SHLVL=0
++++[1442] _builder_basic_find_keyman_root
++++[1442] unset KEYMAN_ROOT
++++[1442] KEYMAN_ROOT=/c/Github/keyman-test-delphi/developer/src/tike/../../..
+++++[1442] cd /c/Github/keyman-test-delphi/developer/src/tike/../../..
+++++[1442] echo /c/Github/keyman-test-delphi
++++[1442] KEYMAN_ROOT=/c/Github/keyman-test-delphi
++++[1442] readonly KEYMAN_ROOT
++++[1442] export KEYMAN_ROOT
++++[1442] . /c/Github/keyman-test-delphi/resources/builder.inc.sh
+++++[1442] set -eu
+++++[1442] SHLVL=0
+++++[1442] _builder_reserved_parameters='^(--help|-h|--color|--no-color|--verbose|-v|--timings|--no-timings|--debug|--release|--deps|--no-deps|--force-deps|--builder-dep-parent|--builder-child|--builder-report-dependencies|--builder-completion-describe|--offline|--builder-ignore-unknown-options)$'
+++++[1442] builder_extra_params=()
+++++[1442] _builder_child_base=
+++++[1442] _builder_function_calls=()
+++++[1442] _builder_init
+++++[1442] _builder_get_operating_system
+++++[1442] declare -g BUILDER_OS
+++++[1442] builder_is_macos
+++++[1442] [[ cygwin == darwin* ]]
+++++[1442] return 1
+++++[1442] builder_is_windows
+++++[1442] [[ cygwin == msys ]]
+++++[1442] [[ cygwin == cygwin ]]
+++++[1442] return 0
+++++[1442] BUILDER_OS=win
+++++[1442] readonly BUILDER_OS
+++++[1442] _builder_findRepoRoot
++++++[1442] readlink -f /c/Github/keyman-test-delphi
+++++[1442] REPO_ROOT=/c/Github/keyman-test-delphi
+++++[1442] readonly REPO_ROOT
+++++[1442] _builder_setBuildScriptIdentifiers
+++++[1442] '[' '!' -z x ']'
+++++[1442] THIS_SCRIPT_PATH=/c/Github/keyman-test-delphi/developer/src/tike
+++++[1442] readonly THIS_SCRIPT_PATH
+++++[1442] THIS_SCRIPT_NAME=build.sh
+++++[1442] readonly THIS_SCRIPT_NAME
+++++[1442] THIS_SCRIPT_IDENTIFIER=developer/src/tike
+++++[1442] readonly THIS_SCRIPT_IDENTIFIER
+++++[1442] [[ -n xterm-256color ]]
+++++[1442] [[ xterm-256color != dumb ]]
+++++[1442] [[ xterm-256color != unknown ]]
+++++[1442] '[' -t 1 ']'
+++++[1442] builder_use_color false
+++++[1442] false
+++++[1442] COLOR_RED=
+++++[1442] COLOR_GREEN=
+++++[1442] COLOR_YELLOW=
+++++[1442] COLOR_BLUE=
+++++[1442] COLOR_PURPLE=
+++++[1442] COLOR_TEAL=
+++++[1442] COLOR_WHITE=
+++++[1442] COLOR_BRIGHT_WHITE=
+++++[1442] COLOR_GREY=
+++++[1442] COLOR_RESET=
+++++[1442] BUILDER_BOLD=
+++++[1442] HEADING_SETMARK=
+++++[1442] BUILDER_TERM_START='<'
+++++[1442] BUILDER_TERM_END='>'
+++++[1442] [[ -z '' ]]
+++++[1442] export MESON_PACKAGE_CACHE_DIR=/c/Users/thoua/.cache/keyman/builder
+++++[1442] MESON_PACKAGE_CACHE_DIR=/c/Users/thoua/.cache/keyman/builder
+++++[1442] mkdir -p /c/Users/thoua/.cache/keyman/builder
+++++[1442] _builder_check_color build --no-deps
+++++[1442] [[ 2 -gt 0 ]]
+++++[1442] local key=build
+++++[1442] case "$key" in
+++++[1442] shift
+++++[1442] [[ 1 -gt 0 ]]
+++++[1442] local key=--no-deps
+++++[1442] case "$key" in
+++++[1442] shift
+++++[1442] [[ 0 -gt 0 ]]
+++++[1442] '[' -z ']'
+++++[1442] _builder_debug_internal=false
+++++[1442] builder_is_debug_internal
+++++[1442] false
+++++[1442] return 1
++++[1442] _builder_basic_find_tier
++++[1442] local KEYMAN_TIER_MD=/c/Github/keyman-test-delphi/TIER.md
+++++[1442] builder_trim alpha
+++++[1442] local var=alpha
+++++[1442] var=alpha
+++++[1442] var=alpha
+++++[1442] printf %s alpha
++++[1442] KEYMAN_TIER=alpha
++++[1442] [[ alpha =~ ^(alpha|beta|stable)$ ]]
++++[1442] _builder_basic_find_version
++++[1442] local KEYMAN_VERSION_MD=/c/Github/keyman-test-delphi/VERSION.md
+++++[1442] builder_trim 20.0.9
+++++[1442] local var=20.0.9
+++++[1442] var=20.0.9
+++++[1442] var=20.0.9
+++++[1442] printf %s 20.0.9
++++[1442] KEYMAN_VERSION=20.0.9
++++[1442] [[ 20.0.9 =~ ^([[:digit:]]+)\.([[:digit:]]+)\.([[:digit:]]+)$ ]]
++++[1442] KEYMAN_VERSION_MAJOR=20
++++[1442] KEYMAN_VERSION_MINOR=0
++++[1442] KEYMAN_VERSION_PATCH=9
++++[1442] KEYMAN_VERSION_RELEASE=20.0
++++[1442] KEYMAN_VERSION_WIN=20.0.9.0
++++[1442] '[' alpha == alpha ']'
++++[1442] KEYMAN_VERSION_TAG=-alpha
++++[1442] builder_is_running_on_teamcity
++++[1442] [[ -z '' ]]
++++[1442] return 1
++++[1442] builder_is_running_on_gha
++++[1442] [[ -z '' ]]
++++[1442] return 1
++++[1442] [[ -z '' ]]
++++[1442] KEYMAN_VERSION_TAG=-alpha-local
++++[1442] KEYMAN_VERSION_ENVIRONMENT=local
++++[1442] KEYMAN_VERSION_WITH_TAG=20.0.9-alpha-local
++++[1442] KEYMAN_VERSION_GIT_TAG=release@20.0.9-alpha-local
++++[1442] builder_is_ci_release_build
++++[1442] [[ local =~ ^alpha|beta|stable$ ]]
++++[1442] return 1
++++[1442] KEYMAN_VERSION_FOR_FILENAME=20.0.9-alpha-local
++++[1442] readonly KEYMAN_VERSION
++++[1442] readonly KEYMAN_VERSION_MAJOR
++++[1442] readonly KEYMAN_VERSION_MINOR
++++[1442] readonly KEYMAN_VERSION_PATCH
++++[1442] readonly KEYMAN_VERSION_RELEASE
++++[1442] readonly KEYMAN_VERSION_WIN
++++[1442] readonly KEYMAN_VERSION_TAG
++++[1442] readonly KEYMAN_VERSION_WITH_TAG
++++[1442] readonly KEYMAN_VERSION_ENVIRONMENT
++++[1442] readonly KEYMAN_VERSION_GIT_TAG
++++[1442] readonly KEYMAN_VERSION_FOR_FILENAME
++++[1442] export KEYMAN_VERSION
++++[1442] export KEYMAN_VERSION_MAJOR
++++[1442] export KEYMAN_VERSION_MINOR
++++[1442] export KEYMAN_VERSION_PATCH
++++[1442] export KEYMAN_VERSION_RELEASE
++++[1442] export KEYMAN_VERSION_WIN
++++[1442] export KEYMAN_VERSION_TAG
++++[1442] export KEYMAN_VERSION_WITH_TAG
++++[1442] export KEYMAN_VERSION_ENVIRONMENT
++++[1442] export KEYMAN_VERSION_GIT_TAG
++++[1442] export KEYMAN_VERSION_FOR_FILENAME
++++[1442] export KEYMAN_TIER
++++[1442] export UPLOAD_SENTRY
++++[1442] export BUILDER_OS
++++[1442] _builder_basic_print_build_number_for_teamcity
++++[1442] '[' '!' -z '' ']'
++++[1442] _builder_basic_print_version_utils_debug
++++[1442] builder_is_debug_internal
++++[1442] false
++++[1442] return 1
++++[1442] builder_is_ci_build
++++[1442] builder_is_ci_release_build
++++[1442] [[ local =~ ^alpha|beta|stable$ ]]
++++[1442] return 1
++++[1442] builder_is_ci_test_build
++++[1442] [[ local == test ]]
++++[1442] return 1
++++[1442] return 1
++++[1442] return
++++[1442] _builder_basic_find_should_sentry_release
++++[1442] UPLOAD_SENTRY=false
++++[1442] case $KEYMAN_VERSION_ENVIRONMENT in
++++[1442] _builder_basic_set_keyman_standard_build_path
++++[1442] PATH='/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl'
++++[1442] builder_is_macos
++++[1442] [[ cygwin == darwin* ]]
++++[1442] return 1
+++[1442] cd /c/Github/keyman-test-delphi/developer/src/tike
++[1442] builder_describe 'Build Keyman Developer IDE' @/common/include @/core:x86 @/common/windows/delphi :project :touch-layout-editor clean configure build test publish install edit
++[1442] _builder_record_function_call builder_describe
++[1442] local func=builder_describe
++[1442] _builder_has_function_been_called builder_describe
++[1442] local func=builder_describe
++[1442] _builder_item_in_array builder_describe
++[1442] local e match=builder_describe
++[1442] shift
++[1442] [[ -z builder_describe ]]
++[1442] return 1
++[1442] return 1
++[1442] _builder_function_calls+=($1)
++[1442] _builder_description='Build Keyman Developer IDE'
++[1442] _builder_actions=()
++[1442] _builder_targets=()
++[1442] _builder_options=()
++[1442] _builder_deps=()
++[1442] _builder_options_inheritable=()
++[1442] _builder_default_action=build
++[1442] _builder_targets_excluded_by_platform=()
++[1442] declare -A -g _builder_targets_excluded_by_platform
++[1442] declare -A -g _builder_params
++[1442] declare -A -g _builder_options_short
++[1442] declare -A -g _builder_options_var
++[1442] declare -A -g _builder_dep_path
++[1442] declare -A -g _builder_dep_related_actions
++[1442] declare -A -g _builder_internal_dep
++[1442] declare -A -g _builder_target_paths
++[1442] declare -A -g _builder_dep_targets
++[1442] shift
++[1442] sub=()
++[1442] local sub
++[1442] [[ 12 -gt 0 ]]
++[1442] local key=@/common/include
++[1442] local value=@/common/include
++[1442] local description=
++[1442] [[ @/common/include =~ [[:space:]] ]]
++[1442] local original_value=@/common/include
++[1442] [[ @/common/include =~ ^: ]]
++[1442] [[ @/common/include =~ ^@ ]]
++[1442] local dependency=/common/include
++[1442] local dependency_target=
++[1442] [[ /common/include =~ : ]]
+++[1442] _builder_expand_relative_path /common/include
+++[1442] local path=/common/include
+++[1442] [[ /common/include =~ ^/ ]]
+++[1442] echo common/include
++[1442] dependency=common/include
++[1442] _builder_deps+=($dependency)
+++[1442] _builder_expand_action_targets ''
+++[1442] input=()
+++[1442] output=()
+++[1442] local input e output
+++[1442] [[ 0 == 0 ]]
+++[1442] echo '*:*'
++[1442] _builder_dep_related_actions[$dependency]='*:*'
++[1442] _builder_dep_targets[$dependency]=
++[1442] shift
++[1442] continue
++[1442] [[ 11 -gt 0 ]]
++[1442] local key=@/core:x86
++[1442] local value=@/core:x86
++[1442] local description=
++[1442] [[ @/core:x86 =~ [[:space:]] ]]
++[1442] local original_value=@/core:x86
++[1442] [[ @/core:x86 =~ ^: ]]
++[1442] [[ @/core:x86 =~ ^@ ]]
++[1442] local dependency=/core:x86
++[1442] local dependency_target=
++[1442] [[ /core:x86 =~ : ]]
++[1442] IFS=:
++[1442] read -r dependency dependency_target
++[1442] dependency_target=:x86
+++[1442] _builder_expand_relative_path /core
+++[1442] local path=/core
+++[1442] [[ /core =~ ^/ ]]
+++[1442] echo core
++[1442] dependency=core
++[1442] _builder_deps+=($dependency)
+++[1442] _builder_expand_action_targets ''
+++[1442] input=()
+++[1442] output=()
+++[1442] local input e output
+++[1442] [[ 0 == 0 ]]
+++[1442] echo '*:*'
++[1442] _builder_dep_related_actions[$dependency]='*:*'
++[1442] _builder_dep_targets[$dependency]=:x86
++[1442] shift
++[1442] continue
++[1442] [[ 10 -gt 0 ]]
++[1442] local key=@/common/windows/delphi
++[1442] local value=@/common/windows/delphi
++[1442] local description=
++[1442] [[ @/common/windows/delphi =~ [[:space:]] ]]
++[1442] local original_value=@/common/windows/delphi
++[1442] [[ @/common/windows/delphi =~ ^: ]]
++[1442] [[ @/common/windows/delphi =~ ^@ ]]
++[1442] local dependency=/common/windows/delphi
++[1442] local dependency_target=
++[1442] [[ /common/windows/delphi =~ : ]]
+++[1442] _builder_expand_relative_path /common/windows/delphi
+++[1442] local path=/common/windows/delphi
+++[1442] [[ /common/windows/delphi =~ ^/ ]]
+++[1442] echo common/windows/delphi
++[1442] dependency=common/windows/delphi
++[1442] _builder_deps+=($dependency)
+++[1442] _builder_expand_action_targets ''
+++[1442] input=()
+++[1442] output=()
+++[1442] local input e output
+++[1442] [[ 0 == 0 ]]
+++[1442] echo '*:*'
++[1442] _builder_dep_related_actions[$dependency]='*:*'
++[1442] _builder_dep_targets[$dependency]=
++[1442] shift
++[1442] continue
++[1442] [[ 9 -gt 0 ]]
++[1442] local key=:project
++[1442] local value=:project
++[1442] local description=
++[1442] [[ :project =~ [[:space:]] ]]
++[1442] local original_value=:project
++[1442] [[ :project =~ ^: ]]
++[1442] local target_path=
++[1442] [[ :project =~ = ]]
++[1442] [[ -d /c/Github/keyman-test-delphi/developer/src/tike/project ]]
++[1442] target_path=project
++[1442] _builder_targets+=($value)
++[1442] [[ ! -z project ]]
++[1442] _builder_target_paths[$value]=project
++[1442] [[ -z '' ]]
+++[1442] _builder_get_default_description :project
+++[1442] local description=
+++[1442] local value=:project
+++[1442] case "$value" in
+++[1442] description='this project'
+++[1442] echo 'this project'
++[1442] description='this project'
++[1442] _builder_params[${original_value}]='this project'
++[1442] shift
++[1442] [[ 8 -gt 0 ]]
++[1442] local key=:touch-layout-editor
++[1442] local value=:touch-layout-editor
++[1442] local description=
++[1442] [[ :touch-layout-editor =~ [[:space:]] ]]
++[1442] local original_value=:touch-layout-editor
++[1442] [[ :touch-layout-editor =~ ^: ]]
++[1442] local target_path=
++[1442] [[ :touch-layout-editor =~ = ]]
++[1442] [[ -d /c/Github/keyman-test-delphi/developer/src/tike/touch-layout-editor ]]
++[1442] _builder_targets+=($value)
++[1442] [[ ! -z '' ]]
++[1442] [[ -z '' ]]
+++[1442] _builder_get_default_description :touch-layout-editor
+++[1442] local description=
+++[1442] local value=:touch-layout-editor
+++[1442] case "$value" in
+++[1442] echo ''
++[1442] description=
++[1442] _builder_params[${original_value}]=
++[1442] shift
++[1442] [[ 7 -gt 0 ]]
++[1442] local key=clean
++[1442] local value=clean
++[1442] local description=
++[1442] [[ clean =~ [[:space:]] ]]
++[1442] local original_value=clean
++[1442] [[ clean =~ ^: ]]
++[1442] [[ clean =~ ^@ ]]
++[1442] [[ clean =~ ^-- ]]
++[1442] [[ clean =~ \+$ ]]
++[1442] _builder_actions+=($value)
++[1442] [[ -z '' ]]
+++[1442] _builder_get_default_description clean
+++[1442] local description=
+++[1442] local value=clean
+++[1442] case "$value" in
+++[1442] description='remove build/ folder and build artifacts'
+++[1442] echo 'remove build/ folder and build artifacts'
++[1442] description='remove build/ folder and build artifacts'
++[1442] _builder_params[${original_value}]='remove build/ folder and build artifacts'
++[1442] shift
++[1442] [[ 6 -gt 0 ]]
++[1442] local key=configure
++[1442] local value=configure
++[1442] local description=
++[1442] [[ configure =~ [[:space:]] ]]
++[1442] local original_value=configure
++[1442] [[ configure =~ ^: ]]
++[1442] [[ configure =~ ^@ ]]
++[1442] [[ configure =~ ^-- ]]
++[1442] [[ configure =~ \+$ ]]
++[1442] _builder_actions+=($value)
++[1442] [[ -z '' ]]
+++[1442] _builder_get_default_description configure
+++[1442] local description=
+++[1442] local value=configure
+++[1442] case "$value" in
+++[1442] description='install dependencies, e.g. npm'
+++[1442] echo 'install dependencies, e.g. npm'
++[1442] description='install dependencies, e.g. npm'
++[1442] _builder_params[${original_value}]='install dependencies, e.g. npm'
++[1442] shift
++[1442] [[ 5 -gt 0 ]]
++[1442] local key=build
++[1442] local value=build
++[1442] local description=
++[1442] [[ build =~ [[:space:]] ]]
++[1442] local original_value=build
++[1442] [[ build =~ ^: ]]
++[1442] [[ build =~ ^@ ]]
++[1442] [[ build =~ ^-- ]]
++[1442] [[ build =~ \+$ ]]
++[1442] _builder_actions+=($value)
++[1442] [[ -z '' ]]
+++[1442] _builder_get_default_description build
+++[1442] local description=
+++[1442] local value=build
+++[1442] case "$value" in
+++[1442] description='build target(s)'
+++[1442] echo 'build target(s)'
++[1442] description='build target(s)'
++[1442] _builder_params[${original_value}]='build target(s)'
++[1442] shift
++[1442] [[ 4 -gt 0 ]]
++[1442] local key=test
++[1442] local value=test
++[1442] local description=
++[1442] [[ test =~ [[:space:]] ]]
++[1442] local original_value=test
++[1442] [[ test =~ ^: ]]
++[1442] [[ test =~ ^@ ]]
++[1442] [[ test =~ ^-- ]]
++[1442] [[ test =~ \+$ ]]
++[1442] _builder_actions+=($value)
++[1442] [[ -z '' ]]
+++[1442] _builder_get_default_description test
+++[1442] local description=
+++[1442] local value=test
+++[1442] case "$value" in
+++[1442] description='run automated tests'
+++[1442] echo 'run automated tests'
++[1442] description='run automated tests'
++[1442] _builder_params[${original_value}]='run automated tests'
++[1442] shift
++[1442] [[ 3 -gt 0 ]]
++[1442] local key=publish
++[1442] local value=publish
++[1442] local description=
++[1442] [[ publish =~ [[:space:]] ]]
++[1442] local original_value=publish
++[1442] [[ publish =~ ^: ]]
++[1442] [[ publish =~ ^@ ]]
++[1442] [[ publish =~ ^-- ]]
++[1442] [[ publish =~ \+$ ]]
++[1442] _builder_actions+=($value)
++[1442] [[ -z '' ]]
+++[1442] _builder_get_default_description publish
+++[1442] local description=
+++[1442] local value=publish
+++[1442] case "$value" in
+++[1442] echo ''
++[1442] description=
++[1442] _builder_params[${original_value}]=
++[1442] shift
++[1442] [[ 2 -gt 0 ]]
++[1442] local key=install
++[1442] local value=install
++[1442] local description=
++[1442] [[ install =~ [[:space:]] ]]
++[1442] local original_value=install
++[1442] [[ install =~ ^: ]]
++[1442] [[ install =~ ^@ ]]
++[1442] [[ install =~ ^-- ]]
++[1442] [[ install =~ \+$ ]]
++[1442] _builder_actions+=($value)
++[1442] [[ -z '' ]]
+++[1442] _builder_get_default_description install
+++[1442] local description=
+++[1442] local value=install
+++[1442] case "$value" in
+++[1442] echo ''
++[1442] description=
++[1442] _builder_params[${original_value}]=
++[1442] shift
++[1442] [[ 1 -gt 0 ]]
++[1442] local key=edit
++[1442] local value=edit
++[1442] local description=
++[1442] [[ edit =~ [[:space:]] ]]
++[1442] local original_value=edit
++[1442] [[ edit =~ ^: ]]
++[1442] [[ edit =~ ^@ ]]
++[1442] [[ edit =~ ^-- ]]
++[1442] [[ edit =~ \+$ ]]
++[1442] _builder_actions+=($value)
++[1442] [[ -z '' ]]
+++[1442] _builder_get_default_description edit
+++[1442] local description=
+++[1442] local value=edit
+++[1442] case "$value" in
+++[1442] echo ''
++[1442] description=
++[1442] _builder_params[${original_value}]=
++[1442] shift
++[1442] [[ 0 -gt 0 ]]
++[1442] ((  ! 2  ))
++[1442] builder_parse build --no-deps
++[1442] _builder_record_function_call builder_parse
++[1442] local func=builder_parse
++[1442] _builder_has_function_been_called builder_parse
++[1442] local func=builder_parse
++[1442] _builder_item_in_array builder_parse builder_describe
++[1442] local e match=builder_parse
++[1442] shift
++[1442] [[ -z builder_parse ]]
++[1442] for e in "$@"
++[1442] [[ builder_describe == builder_parse ]]
++[1442] return 1
++[1442] return 1
++[1442] _builder_function_calls+=($1)
++[1442] exp=()
++[1442] local exp
++[1442] builder_extra_params=()
++[1442] [[ 2 -gt 0 ]]
++[1442] local action= target=
++[1442] local key=build
++[1442] [[ build == \-\- ]]
++[1442] [[ build =~ ^- ]]
++[1442] [[ build =~ : ]]
++[1442] action=build
++[1442] target=
++[1442] local actions targets
++[1442] IFS=,
++[1442] read -r -a actions
++[1442] IFS=,
++[1442] read -r -a targets
++[1442] [[ 1 -eq 0 ]]
++[1442] for action in "${actions[@]}"
++[1442] [[ 0 -eq 0 ]]
++[1442] exp+=($action)
++[1442] shift
++[1442] [[ 1 -gt 0 ]]
++[1442] local action= target=
++[1442] local key=--no-deps
++[1442] [[ --no-deps == \-\- ]]
++[1442] [[ --no-deps =~ ^- ]]
++[1442] [[ ! -z '' ]]
++[1442] exp+=($key)
++[1442] [[ ! -z '' ]]
++[1442] shift
++[1442] [[ 0 -gt 0 ]]
++[1442] _builder_parse_expanded_parameters build --no-deps
++[1442] _builder_build_deps=--deps
++[1442] builder_verbose=
++[1442] [[ -z '' ]]
++[1442] builder_is_ci_build
++[1442] builder_is_ci_release_build
++[1442] [[ local =~ ^alpha|beta|stable$ ]]
++[1442] return 1
++[1442] builder_is_ci_test_build
++[1442] [[ local == test ]]
++[1442] return 1
++[1442] return 1
++[1442] _builder_timings=false
++[1442] export _builder_timings
++[1442] builder_debug=
++[1442] local is_release=false
++[1442] _params=('build' '--no-deps')
++[1442] local _params
++[1442] _builder_chosen_action_targets=()
++[1442] _builder_chosen_options=()
++[1442] _builder_current_action=
++[1442] _builder_is_child=1
++[1442] _builder_offline=
++[1442] _builder_ignore_unknown_options=1
++[1442] builder_ignored_options=()
++[1442] local n=0
++[1442] [[ 2 -gt 0 ]]
++[1442] local key=build
++[1442] local action=
++[1442] local target=
++[1442] local e has_action has_target has_option longhand_option
++[1442] [[ build =~ : ]]
++[1442] action=build
++[1442] target=
+++[1442] _builder_expand_shorthand build clean configure build test publish install edit
+++[1442] local item=build
+++[1442] shift
+++[1442] local count=0
+++[1442] local result=
+++[1442] local string=
+++[1442] for e in "$@"
+++[1442] [[ clean == build ]]
+++[1442] [[ clean == build* ]]
+++[1442] for e in "$@"
+++[1442] [[ configure == build ]]
+++[1442] [[ configure == build* ]]
+++[1442] for e in "$@"
+++[1442] [[ build == build ]]
+++[1442] echo build
+++[1442] return 1
++[1442] new_action=build
++[1442] case $? in
++[1442] action=build
+++[1442] _builder_expand_shorthand :project :touch-layout-editor
+++[1442] local item=:project
+++[1442] shift
+++[1442] local count=0
+++[1442] local result=
+++[1442] local string=
+++[1442] for e in "$@"
+++[1442] [[ :touch-layout-editor == :project ]]
+++[1442] [[ :touch-layout-editor == \:project* ]]
+++[1442] [[ 0 -lt 2 ]]
+++[1442] echo
+++[1442] return 0
++[1442] new_target=
++[1442] _builder_item_in_array build clean configure build test publish install edit
++[1442] local e match=build
++[1442] shift
++[1442] [[ -z build ]]
++[1442] for e in "$@"
++[1442] [[ clean == build ]]
++[1442] for e in "$@"
++[1442] [[ configure == build ]]
++[1442] for e in "$@"
++[1442] [[ build == build ]]
++[1442] return 0
++[1442] has_action=1
++[1442] _builder_item_in_array '' :project :touch-layout-editor
++[1442] local e match=
++[1442] shift
++[1442] [[ -z '' ]]
++[1442] return 1
++[1442] has_target=0
++[1442] ((  has_action  ))
++[1442] _params[$n]=build
++[1442] n=1
++[1442] _builder_item_in_array build
++[1442] local e match=build
++[1442] shift
++[1442] [[ -z build ]]
++[1442] return 1
++[1442] has_option=0
++[1442] ((  has_action  ))
++[1442] ((  has_target  ))
++[1442] ((  has_action  ))
++[1442] [[ ! -z '' ]]
++[1442] for e in "${_builder_targets[@]}"
++[1442] _builder_chosen_action_targets+=("$action$e")
++[1442] for e in "${_builder_targets[@]}"
++[1442] _builder_chosen_action_targets+=("$action$e")
++[1442] shift
++[1442] [[ 1 -gt 0 ]]
++[1442] local key=--no-deps
++[1442] local action=
++[1442] local target=
++[1442] local e has_action has_target has_option longhand_option
++[1442] [[ --no-deps =~ : ]]
++[1442] action=--no-deps
++[1442] target=
+++[1442] _builder_expand_shorthand --no-deps clean configure build test publish install edit
+++[1442] local item=--no-deps
+++[1442] shift
+++[1442] local count=0
+++[1442] local result=
+++[1442] local string=
+++[1442] for e in "$@"
+++[1442] [[ clean == --no-deps ]]
+++[1442] [[ clean == \-\-no\-deps* ]]
+++[1442] for e in "$@"
+++[1442] [[ configure == --no-deps ]]
+++[1442] [[ configure == \-\-no\-deps* ]]
+++[1442] for e in "$@"
+++[1442] [[ build == --no-deps ]]
+++[1442] [[ build == \-\-no\-deps* ]]
+++[1442] for e in "$@"
+++[1442] [[ test == --no-deps ]]
+++[1442] [[ test == \-\-no\-deps* ]]
+++[1442] for e in "$@"
+++[1442] [[ publish == --no-deps ]]
+++[1442] [[ publish == \-\-no\-deps* ]]
+++[1442] for e in "$@"
+++[1442] [[ install == --no-deps ]]
+++[1442] [[ install == \-\-no\-deps* ]]
+++[1442] for e in "$@"
+++[1442] [[ edit == --no-deps ]]
+++[1442] [[ edit == \-\-no\-deps* ]]
+++[1442] [[ 0 -lt 2 ]]
+++[1442] echo
+++[1442] return 0
++[1442] new_action=
+++[1442] _builder_expand_shorthand :project :touch-layout-editor
+++[1442] local item=:project
+++[1442] shift
+++[1442] local count=0
+++[1442] local result=
+++[1442] local string=
+++[1442] for e in "$@"
+++[1442] [[ :touch-layout-editor == :project ]]
+++[1442] [[ :touch-layout-editor == \:project* ]]
+++[1442] [[ 0 -lt 2 ]]
+++[1442] echo
+++[1442] return 0
++[1442] new_target=
++[1442] _builder_item_in_array --no-deps clean configure build test publish install edit
++[1442] local e match=--no-deps
++[1442] shift
++[1442] [[ -z --no-deps ]]
++[1442] for e in "$@"
++[1442] [[ clean == --no-deps ]]
++[1442] for e in "$@"
++[1442] [[ configure == --no-deps ]]
++[1442] for e in "$@"
++[1442] [[ build == --no-deps ]]
++[1442] for e in "$@"
++[1442] [[ test == --no-deps ]]
++[1442] for e in "$@"
++[1442] [[ publish == --no-deps ]]
++[1442] for e in "$@"
++[1442] [[ install == --no-deps ]]
++[1442] for e in "$@"
++[1442] [[ edit == --no-deps ]]
++[1442] return 1
++[1442] has_action=0
++[1442] _builder_item_in_array '' :project :touch-layout-editor
++[1442] local e match=
++[1442] shift
++[1442] [[ -z '' ]]
++[1442] return 1
++[1442] has_target=0
++[1442] ((  has_action  ))
++[1442] ((  has_target  ))
++[1442] n=2
++[1442] _builder_item_in_array --no-deps
++[1442] local e match=--no-deps
++[1442] shift
++[1442] [[ -z --no-deps ]]
++[1442] return 1
++[1442] has_option=0
++[1442] ((  has_action  ))
++[1442] ((  has_action  ))
++[1442] ((  has_target  ))
++[1442] ((  has_option  ))
++[1442] case "$key" in
++[1442] _builder_build_deps=--no-deps
++[1442] shift
++[1442] [[ 0 -gt 0 ]]
++[1442] ((  ! 2  ))
++[1442] _builder_has_function_been_called builder_describe_outputs
++[1442] local func=builder_describe_outputs
++[1442] _builder_item_in_array builder_describe_outputs builder_describe builder_parse
++[1442] local e match=builder_describe_outputs
++[1442] shift
++[1442] [[ -z builder_describe_outputs ]]
++[1442] for e in "$@"
++[1442] [[ builder_describe == builder_describe_outputs ]]
++[1442] for e in "$@"
++[1442] [[ builder_parse == builder_describe_outputs ]]
++[1442] return 1
++[1442] return 1
++[1442] builder_is_dep_build
++[1442] [[ ! -z '' ]]
++[1442] return 1
++[1442] builder_is_child_build
++[1442] return 1
+++[1442] mktemp
++[1442] export _builder_deps_built=/tmp/tmp.o4JM7kitRC
++[1442] _builder_deps_built=/tmp/tmp.o4JM7kitRC
++[1442] _builder_timing_setup
++[1442] false
++[1442] [[ local == local ]]
++[1442] [[ '' != --debug ]]
++[1442] false
++[1442] builder_echo grey 'Local build environment detected:  setting --debug'
++[1442] local color=white message= mark= block= action= test=
++[1442] local echo_target=echo
++[1442] [[ 2 -gt 1 ]]
++[1442] [[ grey =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[1442] color=grey
++[1442] shift
++[1442] message='Local build environment detected:  setting --debug'
++[1442] [[ '' == start ]]
++[1442] [[ ! -z x ]]
++[1442] case $color in
++[1442] color=
++[1442] builder_is_dep_build
++[1442] [[ ! -z '' ]]
++[1442] return 1
++[1442] echo -e '[developer/src/tike] Local build environment detected:  setting --debug'
++[1442] [[ '' == end ]]
++[1442] _params+=(--debug)
++[1442] _builder_chosen_options+=(--debug)
++[1442] builder_debug=--debug
+++[1442] basename ./build.sh
++[1442] builder_echo setmark 'build.sh parameters: <build' --no-deps '--debug>'
++[1442] local color=white message= mark= block= action= test=
++[1442] local echo_target=echo
++[1442] [[ 4 -gt 1 ]]
++[1442] [[ setmark =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[1442] color=setmark
++[1442] shift
++[1442] message='build.sh parameters: <build --no-deps --debug>'
++[1442] [[ '' == start ]]
++[1442] [[ ! -z x ]]
++[1442] case $color in
++[1442] mark=
++[1442] color=
++[1442] builder_is_dep_build
++[1442] [[ ! -z '' ]]
++[1442] return 1
++[1442] echo -e '[developer/src/tike] build.sh parameters: <build --no-deps --debug>'
++[1442] [[ '' == end ]]
++[1442] [[ 0 -gt 0 ]]
++[1442] builder_is_debug_build
++[1442] [[ --debug == --debug ]]
++[1442] return 0
++[1442] export BUILDER_CONFIGURATION=debug
++[1442] BUILDER_CONFIGURATION=debug
++[1442] _builder_print_internal_debug_info
++[1442] builder_is_debug_internal
++[1442] false
++[1442] return 1
++[1442] builder_is_ci_build
++[1442] builder_is_ci_release_build
++[1442] [[ local =~ ^alpha|beta|stable$ ]]
++[1442] return 1
++[1442] builder_is_ci_test_build
++[1442] [[ local == test ]]
++[1442] return 1
++[1442] return 1
++[1442] return
+++[1442] trap -p DEBUG
++[1442] [[ -z '' ]]
++[1442] trap _builder_failure_trap err exit
++[1442] source /c/Github/keyman-test-delphi/resources/build/win/environment.inc.sh
+++[1442] _builder_has_function_been_called builder_parse
+++[1442] local func=builder_parse
+++[1442] _builder_item_in_array builder_parse builder_describe builder_parse
+++[1442] local e match=builder_parse
+++[1442] shift
+++[1442] [[ -z builder_parse ]]
+++[1442] for e in "$@"
+++[1442] [[ builder_describe == builder_parse ]]
+++[1442] for e in "$@"
+++[1442] [[ builder_parse == builder_parse ]]
+++[1442] return 0
+++[1442] return 0
+++[1442] source /c/Github/keyman-test-delphi/resources/build/win/configure_environment.inc.sh
+++[1442] [[ ! -f /c/Github/keyman-test-delphi/resources/build/win/environment_generated.inc.sh ]]
+++[1442] [[ ! -f /c/Github/keyman-test-delphi/resources/build/win/delphi_environment_generated.inc.sh ]]
+++[1442] [[ ! -f /c/Github/keyman-test-delphi/resources/build/win/visualstudio_environment_generated.inc.sh ]]
+++[1442] source /c/Github/keyman-test-delphi/resources/build/win/environment_generated.inc.sh
++++[1442] ProgramFiles='/c/Program Files'
++++[1442] ProgramFilesx86='/c/Program Files (x86)'
++++[1442] CommonProgramFilesx86='/c/Program Files (x86)/Common Files'
++++[1442] INSTALLPATH_KEYMANAPP='/c/Program Files (x86)/Keyman/Keyman Desktop'
++++[1442] INSTALLPATH_KEYMANDEVELOPER='/c/Program Files (x86)/Keyman/Keyman Developer'
++++[1442] INSTALLPATH_KEYMANENGINE='/c/Program Files (x86)/Common Files/Keyman/Keyman Engine'
+++[1442] WINDOWS_ROOT=/c/Github/keyman-test-delphi/windows
+++[1442] WINDOWS_PROGRAM_APP=/c/Github/keyman-test-delphi/windows/bin/desktop
+++[1442] WINDOWS_PROGRAM_ENGINE=/c/Github/keyman-test-delphi/windows/bin/engine
+++[1442] WINDOWS_PROGRAM_SUPPORT=/c/Github/keyman-test-delphi/windows/bin/support
+++[1442] WINDOWS_DEBUGPATH_APP=/c/Github/keyman-test-delphi/windows/debug/desktop
+++[1442] WINDOWS_DEBUGPATH_ENGINE=/c/Github/keyman-test-delphi/windows/debug/engine
+++[1442] WINDOWS_DEBUGPATH_SUPPORT=/c/Github/keyman-test-delphi/windows/debug/support
+++[1442] COMMON_ROOT=/c/Github/keyman-test-delphi/common/windows/delphi
+++[1442] OUTLIB=/c/Github/keyman-test-delphi/windows/lib
+++[1442] COMMON_OUTLIB=/c/Github/keyman-test-delphi/common/windows/lib
+++[1442] builder_is_debug_build
+++[1442] [[ --debug == --debug ]]
+++[1442] return 0
+++[1442] GO_FAST=1
+++[1442] source /c/Github/keyman-test-delphi/resources/build/win/delphi_flags.inc.sh
++++[1442] DELPHIINCLUDES='/c/Github/keyman-test-delphi/common/windows/delphi/ext/cef4delphi/source;/c/Github/keyman-test-delphi/common/windows/delphi/ext/dcpcrypt;/c/Github/keyman-test-delphi/common/windows/delphi/ext/jwa/Win32API;/c/Github/keyman-test-delphi/common/windows/delphi/ext/sentry;/c/Github/keyman-test-delphi/developer/src/ext/mbcolor;/c/Github/keyman-test-delphi/developer/src/ext/scfontcombobox'
++++[1442] builder_is_debug_build
++++[1442] [[ --debug == --debug ]]
++++[1442] return 0
++++[1442] TARGET_PATH=Debug
++++[1442] DELPHI_MSBUILD_FLAG_DEBUG=//p:Config=Debug
++++[1442] WIN32_TARGET_PATH=bin/Win32/Debug
++++[1442] X64_TARGET_PATH=bin/x64/Debug
++++[1442] ARM64_TARGET_PATH=bin/arm64/Debug
++++[1442] ARM64EC_TARGET_PATH=bin/ARM64EC/Debug
++++[1442] WIN64_TARGET_PATH=bin/Win64/Debug
++++[1442] DEVELOPER_ROOT=/c/Github/keyman-test-delphi/developer
++++[1442] DEVELOPER_PROGRAM=/c/Github/keyman-test-delphi/developer/bin
++++[1442] DEVELOPER_OUTLIB=/c/Github/keyman-test-delphi/developer/lib
++++[1442] DEVELOPER_DEBUGPATH=/c/Github/keyman-test-delphi/developer/debug
++++[1442] SENTRYTOOL=/c/Github/keyman-test-delphi/common/windows/delphi/tools/sentrytool/bin/Win32/Debug/sentrytool.exe
++++[1442] TDS2DBG=/c/Github/keyman-test-delphi/common/windows/bin/tools/tds2dbg
++++[1442] DEVTOOLS=/c/Github/keyman-test-delphi/common/windows/delphi/tools/devtools/bin/Win32/Debug/devtools.exe
+++[1442] source /c/Github/keyman-test-delphi/resources/build/win/vs_flags.inc.sh
++++[1442] builder_is_debug_build
++++[1442] [[ --debug == --debug ]]
++++[1442] return 0
++++[1442] VS_MSBUILD_FLAG_DEBUG=//p:Configuration=Debug
+++[1442] source /c/Github/keyman-test-delphi/resources/build/win/signtime.inc.sh
++++[1442] [[ -z '' ]]
++++[1442] SC_PFX_SHA1=/c/Github/keyman-test-delphi/common/windows/delphi/tools/certificates/keymantest-sha1.pfx
++++[1442] [[ -z '' ]]
++++[1442] SC_PFX_SHA256=/c/Github/keyman-test-delphi/common/windows/delphi/tools/certificates/keymantest-sha256.pfx
++++[1442] [[ -z '' ]]
++++[1442] SC_URL=https://keyman.com/
++++[1442] [[ -z '' ]]
++++[1442] SC_PWD=
+++[1442] VERIFY_SIGNATURES_PATH=/c/Github/keyman-test-delphi/common/windows/delphi/tools/verify_signatures
+++[1442] VERIFY_SIGNATURES=/c/Github/keyman-test-delphi/common/windows/delphi/tools/verify_signatures/bin/Win32/Debug/verify_signatures.exe
+++[1442] SIGCHECK=/c/Github/keyman-test-delphi/common/windows/delphi/tools/verify_signatures/bin/Win32/Debug/sigcheck.exe
+++[1442] _KEYMAN_DELPHI_CE_PROBED=
+++[1442] _KEYMAN_DELPHI_IS_CE=
++[1442] WIN32_TARGET=bin/Win32/Debug/tike.exe
++[1442] KEYMANCORE_DLL=keymancore-2.dll
++[1442] KEYMANCORE_PDB=keymancore-2.pdb
++[1442] builder_describe_internal_dependency build:project build:touch-layout-editor
++[1442] _builder_record_function_call builder_describe_internal_dependency
++[1442] local func=builder_describe_internal_dependency
++[1442] _builder_has_function_been_called builder_describe_internal_dependency
++[1442] local func=builder_describe_internal_dependency
++[1442] _builder_item_in_array builder_describe_internal_dependency builder_describe builder_parse
++[1442] local e match=builder_describe_internal_dependency
++[1442] shift
++[1442] [[ -z builder_describe_internal_dependency ]]
++[1442] for e in "$@"
++[1442] [[ builder_describe == builder_describe_internal_dependency ]]
++[1442] for e in "$@"
++[1442] [[ builder_parse == builder_describe_internal_dependency ]]
++[1442] return 1
++[1442] return 1
++[1442] _builder_function_calls+=($1)
++[1442] _builder_has_function_been_called builder_parse
++[1442] local func=builder_parse
++[1442] _builder_item_in_array builder_parse builder_describe builder_parse builder_describe_internal_dependency
++[1442] local e match=builder_parse
++[1442] shift
++[1442] [[ -z builder_parse ]]
++[1442] for e in "$@"
++[1442] [[ builder_describe == builder_parse ]]
++[1442] for e in "$@"
++[1442] [[ builder_parse == builder_parse ]]
++[1442] return 0
++[1442] return 0
++[1442] _builder_has_function_been_called builder_describe_outputs
++[1442] local func=builder_describe_outputs
++[1442] _builder_item_in_array builder_describe_outputs builder_describe builder_parse builder_describe_internal_dependency
++[1442] local e match=builder_describe_outputs
++[1442] shift
++[1442] [[ -z builder_describe_outputs ]]
++[1442] for e in "$@"
++[1442] [[ builder_describe == builder_describe_outputs ]]
++[1442] for e in "$@"
++[1442] [[ builder_parse == builder_describe_outputs ]]
++[1442] for e in "$@"
++[1442] [[ builder_describe_internal_dependency == builder_describe_outputs ]]
++[1442] return 1
++[1442] return 1
++[1442] [[ 2 -gt 0 ]]
++[1442] local action_target=build:project dep_action_target=build:touch-layout-editor
++[1442] [[ -z '' ]]
++[1442] _builder_internal_dep[$action_target]=build:touch-layout-editor
++[1442] shift 2
++[1442] [[ 0 -gt 0 ]]
++[1442] builder_describe_outputs configure:project /developer/src/tike/icons.res build:project /developer/src/tike/bin/Win32/Debug/tike.exe build:touch-layout-editor /developer/src/tike/xml/layoutbuilder/build/src/builder.js
++[1442] _builder_record_function_call builder_describe_outputs
++[1442] local func=builder_describe_outputs
++[1442] _builder_has_function_been_called builder_describe_outputs
++[1442] local func=builder_describe_outputs
++[1442] _builder_item_in_array builder_describe_outputs builder_describe builder_parse builder_describe_internal_dependency
++[1442] local e match=builder_describe_outputs
++[1442] shift
++[1442] [[ -z builder_describe_outputs ]]
++[1442] for e in "$@"
++[1442] [[ builder_describe == builder_describe_outputs ]]
++[1442] for e in "$@"
++[1442] [[ builder_parse == builder_describe_outputs ]]
++[1442] for e in "$@"
++[1442] [[ builder_describe_internal_dependency == builder_describe_outputs ]]
++[1442] return 1
++[1442] return 1
++[1442] _builder_function_calls+=($1)
++[1442] [[ 6 -gt 0 ]]
++[1442] local key=configure:project path=/developer/src/tike/icons.res action= target=
+++[1442] _builder_expand_relative_path /developer/src/tike/icons.res
+++[1442] local path=/developer/src/tike/icons.res
+++[1442] [[ /developer/src/tike/icons.res =~ ^/ ]]
+++[1442] echo developer/src/tike/icons.res
++[1442] path=developer/src/tike/icons.res
++[1442] [[ configure:project =~ : ]]
++[1442] IFS=:
++[1442] read -r action target
++[1442] target=:project
++[1442] _builder_dep_path[$action$target]=developer/src/tike/icons.res
++[1442] shift 2
++[1442] [[ 4 -gt 0 ]]
++[1442] local key=build:project path=/developer/src/tike/bin/Win32/Debug/tike.exe action= target=
+++[1442] _builder_expand_relative_path /developer/src/tike/bin/Win32/Debug/tike.exe
+++[1442] local path=/developer/src/tike/bin/Win32/Debug/tike.exe
+++[1442] [[ /developer/src/tike/bin/Win32/Debug/tike.exe =~ ^/ ]]
+++[1442] echo developer/src/tike/bin/Win32/Debug/tike.exe
++[1442] path=developer/src/tike/bin/Win32/Debug/tike.exe
++[1442] [[ build:project =~ : ]]
++[1442] IFS=:
++[1442] read -r action target
++[1442] target=:project
++[1442] _builder_dep_path[$action$target]=developer/src/tike/bin/Win32/Debug/tike.exe
++[1442] shift 2
++[1442] [[ 2 -gt 0 ]]
++[1442] local key=build:touch-layout-editor path=/developer/src/tike/xml/layoutbuilder/build/src/builder.js action= target=
+++[1442] _builder_expand_relative_path /developer/src/tike/xml/layoutbuilder/build/src/builder.js
+++[1442] local path=/developer/src/tike/xml/layoutbuilder/build/src/builder.js
+++[1442] [[ /developer/src/tike/xml/layoutbuilder/build/src/builder.js =~ ^/ ]]
+++[1442] echo developer/src/tike/xml/layoutbuilder/build/src/builder.js
++[1442] path=developer/src/tike/xml/layoutbuilder/build/src/builder.js
++[1442] [[ build:touch-layout-editor =~ : ]]
++[1442] IFS=:
++[1442] read -r action target
++[1442] target=:touch-layout-editor
++[1442] _builder_dep_path[$action$target]=developer/src/tike/xml/layoutbuilder/build/src/builder.js
++[1442] shift 2
++[1442] [[ 0 -gt 0 ]]
++[1442] _builder_define_default_internal_dependencies
++[1442] for target in "${_builder_targets[@]}"
++[1442] _builder_define_default_internal_deps_for_target :project
++[1442] local target=:project
++[1442] _builder_define_default_internal_dep :project configure build
++[1442] local target=:project dep=configure action=build
++[1442] _builder_item_in_array configure clean configure build test publish install edit
++[1442] local e match=configure
++[1442] shift
++[1442] [[ -z configure ]]
++[1442] for e in "$@"
++[1442] [[ clean == configure ]]
++[1442] for e in "$@"
++[1442] [[ configure == configure ]]
++[1442] return 0
++[1442] _builder_item_in_array build clean configure build test publish install edit
++[1442] local e match=build
++[1442] shift
++[1442] [[ -z build ]]
++[1442] for e in "$@"
++[1442] [[ clean == build ]]
++[1442] for e in "$@"
++[1442] [[ configure == build ]]
++[1442] for e in "$@"
++[1442] [[ build == build ]]
++[1442] return 0
++[1442] [[ -z x ]]
++[1442] _builder_internal_dep[$action$target]='build:touch-layout-editor configure:project'
++[1442] _builder_define_default_internal_dep :project build test
++[1442] local target=:project dep=build action=test
++[1442] _builder_item_in_array build clean configure build test publish install edit
++[1442] local e match=build
++[1442] shift
++[1442] [[ -z build ]]
++[1442] for e in "$@"
++[1442] [[ clean == build ]]
++[1442] for e in "$@"
++[1442] [[ configure == build ]]
++[1442] for e in "$@"
++[1442] [[ build == build ]]
++[1442] return 0
++[1442] _builder_item_in_array test clean configure build test publish install edit
++[1442] local e match=test
++[1442] shift
++[1442] [[ -z test ]]
++[1442] for e in "$@"
++[1442] [[ clean == test ]]
++[1442] for e in "$@"
++[1442] [[ configure == test ]]
++[1442] for e in "$@"
++[1442] [[ build == test ]]
++[1442] for e in "$@"
++[1442] [[ test == test ]]
++[1442] return 0
++[1442] [[ -z '' ]]
++[1442] _builder_internal_dep[$action$target]=build:project
++[1442] _builder_define_default_internal_dep :project build install
++[1442] local target=:project dep=build action=install
++[1442] _builder_item_in_array build clean configure build test publish install edit
++[1442] local e match=build
++[1442] shift
++[1442] [[ -z build ]]
++[1442] for e in "$@"
++[1442] [[ clean == build ]]
++[1442] for e in "$@"
++[1442] [[ configure == build ]]
++[1442] for e in "$@"
++[1442] [[ build == build ]]
++[1442] return 0
++[1442] _builder_item_in_array install clean configure build test publish install edit
++[1442] local e match=install
++[1442] shift
++[1442] [[ -z install ]]
++[1442] for e in "$@"
++[1442] [[ clean == install ]]
++[1442] for e in "$@"
++[1442] [[ configure == install ]]
++[1442] for e in "$@"
++[1442] [[ build == install ]]
++[1442] for e in "$@"
++[1442] [[ test == install ]]
++[1442] for e in "$@"
++[1442] [[ publish == install ]]
++[1442] for e in "$@"
++[1442] [[ install == install ]]
++[1442] return 0
++[1442] [[ -z '' ]]
++[1442] _builder_internal_dep[$action$target]=build:project
++[1442] for target in "${_builder_targets[@]}"
++[1442] _builder_define_default_internal_deps_for_target :touch-layout-editor
++[1442] local target=:touch-layout-editor
++[1442] _builder_define_default_internal_dep :touch-layout-editor configure build
++[1442] local target=:touch-layout-editor dep=configure action=build
++[1442] _builder_item_in_array configure clean configure build test publish install edit
++[1442] local e match=configure
++[1442] shift
++[1442] [[ -z configure ]]
++[1442] for e in "$@"
++[1442] [[ clean == configure ]]
++[1442] for e in "$@"
++[1442] [[ configure == configure ]]
++[1442] return 0
++[1442] _builder_item_in_array build clean configure build test publish install edit
++[1442] local e match=build
++[1442] shift
++[1442] [[ -z build ]]
++[1442] for e in "$@"
++[1442] [[ clean == build ]]
++[1442] for e in "$@"
++[1442] [[ configure == build ]]
++[1442] for e in "$@"
++[1442] [[ build == build ]]
++[1442] return 0
++[1442] [[ -z '' ]]
++[1442] _builder_internal_dep[$action$target]=configure:touch-layout-editor
++[1442] _builder_define_default_internal_dep :touch-layout-editor build test
++[1442] local target=:touch-layout-editor dep=build action=test
++[1442] _builder_item_in_array build clean configure build test publish install edit
++[1442] local e match=build
++[1442] shift
++[1442] [[ -z build ]]
++[1442] for e in "$@"
++[1442] [[ clean == build ]]
++[1442] for e in "$@"
++[1442] [[ configure == build ]]
++[1442] for e in "$@"
++[1442] [[ build == build ]]
++[1442] return 0
++[1442] _builder_item_in_array test clean configure build test publish install edit
++[1442] local e match=test
++[1442] shift
++[1442] [[ -z test ]]
++[1442] for e in "$@"
++[1442] [[ clean == test ]]
++[1442] for e in "$@"
++[1442] [[ configure == test ]]
++[1442] for e in "$@"
++[1442] [[ build == test ]]
++[1442] for e in "$@"
++[1442] [[ test == test ]]
++[1442] return 0
++[1442] [[ -z '' ]]
++[1442] _builder_internal_dep[$action$target]=build:touch-layout-editor
++[1442] _builder_define_default_internal_dep :touch-layout-editor build install
++[1442] local target=:touch-layout-editor dep=build action=install
++[1442] _builder_item_in_array build clean configure build test publish install edit
++[1442] local e match=build
++[1442] shift
++[1442] [[ -z build ]]
++[1442] for e in "$@"
++[1442] [[ clean == build ]]
++[1442] for e in "$@"
++[1442] [[ configure == build ]]
++[1442] for e in "$@"
++[1442] [[ build == build ]]
++[1442] return 0
++[1442] _builder_item_in_array install clean configure build test publish install edit
++[1442] local e match=install
++[1442] shift
++[1442] [[ -z install ]]
++[1442] for e in "$@"
++[1442] [[ clean == install ]]
++[1442] for e in "$@"
++[1442] [[ configure == install ]]
++[1442] for e in "$@"
++[1442] [[ build == install ]]
++[1442] for e in "$@"
++[1442] [[ test == install ]]
++[1442] for e in "$@"
++[1442] [[ publish == install ]]
++[1442] for e in "$@"
++[1442] [[ install == install ]]
++[1442] return 0
++[1442] [[ -z '' ]]
++[1442] _builder_internal_dep[$action$target]=build:touch-layout-editor
++[1442] _builder_define_default_internal_deps_for_target ':*'
++[1442] local 'target=:*'
++[1442] _builder_define_default_internal_dep ':*' configure build
++[1442] local 'target=:*' dep=configure action=build
++[1442] _builder_item_in_array configure clean configure build test publish install edit
++[1442] local e match=configure
++[1442] shift
++[1442] [[ -z configure ]]
++[1442] for e in "$@"
++[1442] [[ clean == configure ]]
++[1442] for e in "$@"
++[1442] [[ configure == configure ]]
++[1442] return 0
++[1442] _builder_item_in_array build clean configure build test publish install edit
++[1442] local e match=build
++[1442] shift
++[1442] [[ -z build ]]
++[1442] for e in "$@"
++[1442] [[ clean == build ]]
++[1442] for e in "$@"
++[1442] [[ configure == build ]]
++[1442] for e in "$@"
++[1442] [[ build == build ]]
++[1442] return 0
++[1442] [[ -z '' ]]
++[1442] _builder_internal_dep[$action$target]='configure:*'
++[1442] _builder_define_default_internal_dep ':*' build test
++[1442] local 'target=:*' dep=build action=test
++[1442] _builder_item_in_array build clean configure build test publish install edit
++[1442] local e match=build
++[1442] shift
++[1442] [[ -z build ]]
++[1442] for e in "$@"
++[1442] [[ clean == build ]]
++[1442] for e in "$@"
++[1442] [[ configure == build ]]
++[1442] for e in "$@"
++[1442] [[ build == build ]]
++[1442] return 0
++[1442] _builder_item_in_array test clean configure build test publish install edit
++[1442] local e match=test
++[1442] shift
++[1442] [[ -z test ]]
++[1442] for e in "$@"
++[1442] [[ clean == test ]]
++[1442] for e in "$@"
++[1442] [[ configure == test ]]
++[1442] for e in "$@"
++[1442] [[ build == test ]]
++[1442] for e in "$@"
++[1442] [[ test == test ]]
++[1442] return 0
++[1442] [[ -z '' ]]
++[1442] _builder_internal_dep[$action$target]='build:*'
++[1442] _builder_define_default_internal_dep ':*' build install
++[1442] local 'target=:*' dep=build action=install
++[1442] _builder_item_in_array build clean configure build test publish install edit
++[1442] local e match=build
++[1442] shift
++[1442] [[ -z build ]]
++[1442] for e in "$@"
++[1442] [[ clean == build ]]
++[1442] for e in "$@"
++[1442] [[ configure == build ]]
++[1442] for e in "$@"
++[1442] [[ build == build ]]
++[1442] return 0
++[1442] _builder_item_in_array install clean configure build test publish install edit
++[1442] local e match=install
++[1442] shift
++[1442] [[ -z install ]]
++[1442] for e in "$@"
++[1442] [[ clean == install ]]
++[1442] for e in "$@"
++[1442] [[ configure == install ]]
++[1442] for e in "$@"
++[1442] [[ build == install ]]
++[1442] for e in "$@"
++[1442] [[ test == install ]]
++[1442] for e in "$@"
++[1442] [[ publish == install ]]
++[1442] for e in "$@"
++[1442] [[ install == install ]]
++[1442] return 0
++[1442] [[ -z '' ]]
++[1442] _builder_internal_dep[$action$target]='build:*'
++[1442] _builder_has_function_been_called builder_parse
++[1442] local func=builder_parse
++[1442] _builder_item_in_array builder_parse builder_describe builder_parse builder_describe_internal_dependency builder_describe_outputs
++[1442] local e match=builder_parse
++[1442] shift
++[1442] [[ -z builder_parse ]]
++[1442] for e in "$@"
++[1442] [[ builder_describe == builder_parse ]]
++[1442] for e in "$@"
++[1442] [[ builder_parse == builder_parse ]]
++[1442] return 0
++[1442] return 0
++[1442] _builder_add_chosen_action_target_dependencies
++[1442] new_actions=()
++[1442] local action_target i=0 new_actions
++[1442] ((  0 < 2  ))
++[1442] action_target=build:project
++[1442] [[ ! -z x ]]
++[1442] dep_outputs=('build:touch-layout-editor' 'configure:project')
++[1442] local dep_outputs dep_output
++[1442] for dep_output in "${dep_outputs[@]}"
++[1442] [[ ! -z x ]]
++[1442] [[ ! -e /c/Github/keyman-test-delphi/developer/src/tike/xml/layoutbuilder/build/src/builder.js ]]
++[1442] _builder_item_in_array build:touch-layout-editor build:project build:touch-layout-editor
++[1442] local e match=build:touch-layout-editor
++[1442] shift
++[1442] [[ -z build:touch-layout-editor ]]
++[1442] for e in "$@"
++[1442] [[ build:project == build:touch-layout-editor ]]
++[1442] for e in "$@"
++[1442] [[ build:touch-layout-editor == build:touch-layout-editor ]]
++[1442] return 0
++[1442] for dep_output in "${dep_outputs[@]}"
++[1442] [[ ! -z x ]]
++[1442] [[ ! -e /c/Github/keyman-test-delphi/developer/src/tike/icons.res ]]
++[1442] _builder_item_in_array configure:project build:project build:touch-layout-editor
++[1442] local e match=configure:project
++[1442] shift
++[1442] [[ -z configure:project ]]
++[1442] for e in "$@"
++[1442] [[ build:project == configure:project ]]
++[1442] for e in "$@"
++[1442] [[ build:touch-layout-editor == configure:project ]]
++[1442] return 1
++[1442] _builder_chosen_action_targets+=($dep_output)
++[1442] new_actions+=($dep_output)
++[1442] i=1
++[1442] ((  1 < 3  ))
++[1442] action_target=build:touch-layout-editor
++[1442] [[ ! -z x ]]
++[1442] dep_outputs=('configure:touch-layout-editor')
++[1442] local dep_outputs dep_output
++[1442] for dep_output in "${dep_outputs[@]}"
++[1442] [[ ! -z '' ]]
++[1442] i=2
++[1442] ((  2 < 3  ))
++[1442] action_target=configure:project
++[1442] [[ ! -z '' ]]
++[1442] i=3
++[1442] ((  3 < 3  ))
++[1442] [[ 1 -gt 0 ]]
++[1442] builder_is_full_dep_build
++[1442] [[ --no-deps == --force-deps ]]
++[1442] return 1
++[1442] builder_echo 'Automatically running following required actions with missing outputs:'
++[1442] local color=white message= mark= block= action= test=
++[1442] local echo_target=echo
++[1442] [[ 1 -gt 1 ]]
++[1442] message='Automatically running following required actions with missing outputs:'
++[1442] [[ '' == start ]]
++[1442] [[ ! -z x ]]
++[1442] case $color in
++[1442] color=
++[1442] builder_is_dep_build
++[1442] [[ ! -z '' ]]
++[1442] return 1
++[1442] echo -e '[developer/src/tike] Automatically running following required actions with missing outputs:'
++[1442] [[ '' == end ]]
++[1442] for e in "${new_actions[@]}"
++[1442] builder_echo '* configure:project'
++[1442] local color=white message= mark= block= action= test=
++[1442] local echo_target=echo
++[1442] [[ 1 -gt 1 ]]
++[1442] message='* configure:project'
++[1442] [[ '' == start ]]
++[1442] [[ ! -z x ]]
++[1442] case $color in
++[1442] color=
++[1442] builder_is_dep_build
++[1442] [[ ! -z '' ]]
++[1442] return 1
++[1442] echo -e '[developer/src/tike] * configure:project'
++[1442] [[ '' == end ]]
++[1442] builder_run_action clean:project clean_windows_project_files
++[1442] local action=clean:project
++[1442] shift
++[1442] builder_start_action clean:project
++[1442] builder_has_action clean:project
++[1442] local action=clean:project target
++[1442] [[ clean:project =~ : ]]
++[1442] IFS=:
++[1442] read -r action target
++[1442] target=:project
++[1442] _builder_item_in_array clean:project build:project build:touch-layout-editor configure:project
++[1442] local e match=clean:project
++[1442] shift
++[1442] [[ -z clean:project ]]
++[1442] for e in "$@"
++[1442] [[ build:project == clean:project ]]
++[1442] for e in "$@"
++[1442] [[ build:touch-layout-editor == clean:project ]]
++[1442] for e in "$@"
++[1442] [[ configure:project == clean:project ]]
++[1442] return 1
++[1442] _builder_matched_action=
++[1442] return 1
++[1442] return 1
++[1442] return 0
++[1442] builder_run_action configure:project do_configure
++[1442] local action=configure:project
++[1442] shift
++[1442] builder_start_action configure:project
++[1442] builder_has_action configure:project
++[1442] local action=configure:project target
++[1442] [[ configure:project =~ : ]]
++[1442] IFS=:
++[1442] read -r action target
++[1442] target=:project
++[1442] _builder_item_in_array configure:project build:project build:touch-layout-editor configure:project
++[1442] local e match=configure:project
++[1442] shift
++[1442] [[ -z configure:project ]]
++[1442] for e in "$@"
++[1442] [[ build:project == configure:project ]]
++[1442] for e in "$@"
++[1442] [[ build:touch-layout-editor == configure:project ]]
++[1442] for e in "$@"
++[1442] [[ configure:project == configure:project ]]
++[1442] return 0
++[1442] _builder_matched_action=configure:project
++[1442] [[ :project == \:\* ]]
++[1442] _builder_matched_action_name=configure:project
++[1442] return 0
++[1442] builder_is_dep_build
++[1442] [[ ! -z '' ]]
++[1442] return 1
++[1442] builder_echo start configure:project '## configure:project starting...'
++[1442] local color=white message= mark= block= action= test=
++[1442] local echo_target=echo
++[1442] [[ 3 -gt 1 ]]
++[1442] [[ start =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[1442] [[ start == start ]]
++[1442] test=start
++[1442] block=configure:project
++[1442] shift 2
++[1442] action=start
++[1442] color=heading
++[1442] message='## configure:project starting...'
++[1442] [[ start == start ]]
++[1442] builder_is_running_on_teamcity
++[1442] [[ -z '' ]]
++[1442] return 1
++[1442] [[ ! -z x ]]
++[1442] case $color in
++[1442] color=
++[1442] builder_is_dep_build
++[1442] [[ ! -z '' ]]
++[1442] return 1
++[1442] echo -e '[developer/src/tike] ## configure:project starting...'
++[1442] [[ start == end ]]
++[1442] [[ -n '' ]]
++[1442] _builder_current_action=configure:project
++[1442] _builder_timing_start configure:project
++[1442] local context=configure:project
++[1442] [[ ! -z '' ]]
++[1442] _builder_do_build_deps configure:project
++[1442] local action_target=configure:project
++[1442] [[ --no-deps == --no-deps ]]
++[1442] return 0
++[1442] return 0
++[1442] do_configure
++[1442] configure_windows_build_environment
++[1442] _locate_programFilesX86
+++[1442] cygpath -w -F 38
++[1442] ProgramFiles='C:\Program Files'
+++[1442] cygpath -w -F 42
++[1442] ProgramFilesx86='C:\Program Files (x86)'
+++[1442] cygpath -w -F 44
++[1442] CommonProgramFilesx86='C:\Program Files (x86)\Common Files'
++[1442] _build_win_environment
++[1442] local ENVSH=/c/Github/keyman-test-delphi/resources/build/win/environment_generated.inc.sh
++[1442] echo '# Windows development environment settings generated by configure_environment.inc.sh; do not modify'
+++[1442] cygpath -u 'C:\Program Files'
++[1442] echo 'ProgramFiles="/c/Program Files"'
+++[1442] cygpath -u 'C:\Program Files (x86)'
++[1442] echo 'ProgramFilesx86="/c/Program Files (x86)"'
+++[1442] cygpath -u 'C:\Program Files (x86)\Common Files'
++[1442] echo 'CommonProgramFilesx86="/c/Program Files (x86)/Common Files"'
+++[1442] cygpath -u 'C:\Program Files (x86)'
++[1442] echo 'INSTALLPATH_KEYMANAPP="/c/Program Files (x86)/Keyman/Keyman Desktop"'
+++[1442] cygpath -u 'C:\Program Files (x86)'
++[1442] echo 'INSTALLPATH_KEYMANDEVELOPER="/c/Program Files (x86)/Keyman/Keyman Developer"'
+++[1442] cygpath -u 'C:\Program Files (x86)\Common Files'
++[1442] echo 'INSTALLPATH_KEYMANENGINE="/c/Program Files (x86)/Common Files/Keyman/Keyman Engine"'
++[1442] _locate_vsdevcmd
+++[1442] cygpath -u 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe'
++[1442] local 'vswhere=/c/Program Files (x86)/Microsoft Visual Studio/Installer/vswhere.exe'
++++[1442] '/c/Program Files (x86)/Microsoft Visual Studio/Installer/vswhere.exe' -latest -property installationPath
+++[1442] cygpath -u 'C:\Program Files\Microsoft Visual Studio\2022\Community'
++[1442] VSInstallationPath='/c/Program Files/Microsoft Visual Studio/2022/Community'
++[1442] VSDevCmd_Path='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/VsDevCmd.bat'
++[1442] _build_vs_environment
+++[1442] cygpath -w '/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/VsDevCmd.bat'
++[1442] echo '@CALL "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat" > nul'
++[1442] echo @SET
++[1442] cmd //c devenv.bat
++[1442] cmd //c set
++[1442] diff devenv.tmp env.tmp --suppress-common-lines
++[1442] grep -e '^<'
++[1442] cut -c 3- -
++[1442] echo '# VC++ development environment generated by configure_environment.inc.sh constructed from vsdevcmd.bat; do not modify'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=CommandPromptType
++[1442] local value=Native
++[1442] [[ CommandPromptType == PATH ]]
+++[1442] cygpath -up Native
++[1442] echo 'export CommandPromptType="Native"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=DevEnvDir
++[1442] local 'value=C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\'
++[1442] [[ DevEnvDir == PATH ]]
+++[1442] cygpath -up 'C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\'
++[1442] echo 'export DevEnvDir="/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=ExtensionSdkDir
++[1442] local 'value=C:\Program Files (x86)\Microsoft SDKs\Windows Kits\10\ExtensionSDKs'
++[1442] [[ ExtensionSdkDir == PATH ]]
+++[1442] cygpath -up 'C:\Program Files (x86)\Microsoft SDKs\Windows Kits\10\ExtensionSDKs'
++[1442] echo 'export ExtensionSdkDir="/c/Program Files (x86)/Microsoft SDKs/Windows Kits/10/ExtensionSDKs"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=EXTERNAL_INCLUDE
++[1442] local 'value=C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include;C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\VS\include;C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\um;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\shared;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\winrt;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\cppwinrt;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um'
++[1442] [[ EXTERNAL_INCLUDE == PATH ]]
+++[1442] cygpath -up 'C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include;C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\VS\include;C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\um;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\shared;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\winrt;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\cppwinrt;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um'
++[1442] echo 'export EXTERNAL_INCLUDE="/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=Framework40Version
++[1442] local value=v4.0
++[1442] [[ Framework40Version == PATH ]]
+++[1442] cygpath -up v4.0
++[1442] echo 'export Framework40Version="v4.0"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=FrameworkDir
++[1442] local 'value=C:\Windows\Microsoft.NET\Framework\'
++[1442] [[ FrameworkDir == PATH ]]
+++[1442] cygpath -up 'C:\Windows\Microsoft.NET\Framework\'
++[1442] echo 'export FrameworkDir="/c/Windows/Microsoft.NET/Framework/"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=FrameworkDir32
++[1442] local 'value=C:\Windows\Microsoft.NET\Framework\'
++[1442] [[ FrameworkDir32 == PATH ]]
+++[1442] cygpath -up 'C:\Windows\Microsoft.NET\Framework\'
++[1442] echo 'export FrameworkDir32="/c/Windows/Microsoft.NET/Framework/"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=FrameworkVersion
++[1442] local value=v4.0.30319
++[1442] [[ FrameworkVersion == PATH ]]
+++[1442] cygpath -up v4.0.30319
++[1442] echo 'export FrameworkVersion="v4.0.30319"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=FrameworkVersion32
++[1442] local value=v4.0.30319
++[1442] [[ FrameworkVersion32 == PATH ]]
+++[1442] cygpath -up v4.0.30319
++[1442] echo 'export FrameworkVersion32="v4.0.30319"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=INCLUDE
++[1442] local 'value=C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include;C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\VS\include;C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\um;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\shared;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\winrt;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\cppwinrt;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um'
++[1442] [[ INCLUDE == PATH ]]
+++[1442] cygpath -up 'C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include;C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\VS\include;C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\um;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\shared;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\winrt;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\cppwinrt;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um'
++[1442] echo 'export INCLUDE="/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=LIB
++[1442] local 'value=C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x86;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\lib\um\x86;C:\Program Files (x86)\Windows Kits\10\lib\10.0.26100.0\ucrt\x86;C:\Program Files (x86)\Windows Kits\10\\lib\10.0.26100.0\\um\x86'
++[1442] [[ LIB == PATH ]]
+++[1442] cygpath -up 'C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x86;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\lib\um\x86;C:\Program Files (x86)\Windows Kits\10\lib\10.0.26100.0\ucrt\x86;C:\Program Files (x86)\Windows Kits\10\\lib\10.0.26100.0\\um\x86'
++[1442] echo 'export LIB="/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/lib/um/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/ucrt/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/um/x86"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=LIBPATH
++[1442] local 'value=C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x86;C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x86\store\references;C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.26100.0;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0;C:\Windows\Microsoft.NET\Framework\v4.0.30319'
++[1442] [[ LIBPATH == PATH ]]
+++[1442] cygpath -up 'C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x86;C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x86\store\references;C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.26100.0;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0;C:\Windows\Microsoft.NET\Framework\v4.0.30319'
++[1442] echo 'export LIBPATH="/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86/store/references:/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0:/c/Windows/Microsoft.NET/Framework/v4.0.30319"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=NETFXSDKDir
++[1442] local 'value=C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\'
++[1442] [[ NETFXSDKDir == PATH ]]
+++[1442] cygpath -up 'C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\'
++[1442] echo 'export NETFXSDKDir="/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=PATH
++[1442] local 'value=C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\VC\VCPackages;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\bin\Roslyn;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\;C:\Program Files\Microsoft Visual Studio\2022\Community\Team Tools\DiagnosticsHub\Collector;C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\\x86;C:\Program Files (x86)\Windows Kits\10\bin\\x86;C:\Program Files\Microsoft Visual Studio\2022\Community\\MSBuild\Current\Bin\amd64;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\;C:\Github\keyman-test-delphi\node_modules\.bin;C:\Users\thoua\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\thoua\bin;C:\Program Files\SIL\FieldWorks 9;C:\Program Files (x86)\Embarcadero\Studio\23.0\bin;C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl;C:\Program Files (x86)\Embarcadero\Studio\23.0\bin64;C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\Win64;C:\Python314\Scripts;C:\Python314;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\Meson;%NVM_HOME%;%NVM_SYMLINK%;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit;C:\Program Files\GitHub CLI;C:\Program Files\Tailscale;C:\Program Files\dotnet;C:\Program Files (x86)\Keyman\Keyman Developer;C:\Users\thoua\.herdr\packages\standalone\releases\0.9.1-x86_64-pc-windows-msvc;C:\Users\thoua\AppData\Local\hermes\bin;C:\Users\thoua\.local\bin;C:\Users\thoua\AppData\Local\Microsoft\WindowsApps;C:\Users\thoua\AppData\Local\GitHubDesktop\bin;C:\Users\thoua\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\thoua\AppData\Local\Pandoc;C:\ProgramData\nvm;C:\nvm4w\nodejs;C:\Github\keyman\windows\lib;C:\Users\thoua\AppData\Local\gitkraken\bin;C:\Program Files\GitHub CLI;C:\Users\thoua\AppData\Local\Programs\Antigravity IDE\bin;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe\ripgrep-15.2.0-x86_64-pc-windows-msvc;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-9.0.1-full_build\bin;C:\Users\thoua\AppData\Local\Programs\Cua\cua-driver\bin;C:\Users\thoua\AppData\Local\Programs\Ollama;C:\Users\thoua\AppData\Local\Programs\ClaudeScience;C:\Users\thoua\AppData\Local\Programs\cursor\resources\app\bin;C:\Users\thoua\AppData\Local\cursor-agent;C:\Program Files\R\R-4.6.1\bin;C:\Program Files\RStudio\resources\app\bin\quarto\bin;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe\poppler-25.07.0\Library\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\VC\Linux\bin\ConnectionManagerExe'
++[1442] [[ PATH == PATH ]]
++[1442] value='/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\VC\VCPackages;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\bin\Roslyn;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\;C:\Program Files\Microsoft Visual Studio\2022\Community\Team Tools\DiagnosticsHub\Collector;C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\\x86;C:\Program Files (x86)\Windows Kits\10\bin\\x86;C:\Program Files\Microsoft Visual Studio\2022\Community\\MSBuild\Current\Bin\amd64;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\;C:\Github\keyman-test-delphi\node_modules\.bin;C:\Users\thoua\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\thoua\bin;C:\Program Files\SIL\FieldWorks 9;C:\Program Files (x86)\Embarcadero\Studio\23.0\bin;C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl;C:\Program Files (x86)\Embarcadero\Studio\23.0\bin64;C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\Win64;C:\Python314\Scripts;C:\Python314;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\Meson;%NVM_HOME%;%NVM_SYMLINK%;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit;C:\Program Files\GitHub CLI;C:\Program Files\Tailscale;C:\Program Files\dotnet;C:\Program Files (x86)\Keyman\Keyman Developer;C:\Users\thoua\.herdr\packages\standalone\releases\0.9.1-x86_64-pc-windows-msvc;C:\Users\thoua\AppData\Local\hermes\bin;C:\Users\thoua\.local\bin;C:\Users\thoua\AppData\Local\Microsoft\WindowsApps;C:\Users\thoua\AppData\Local\GitHubDesktop\bin;C:\Users\thoua\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\thoua\AppData\Local\Pandoc;C:\ProgramData\nvm;C:\nvm4w\nodejs;C:\Github\keyman\windows\lib;C:\Users\thoua\AppData\Local\gitkraken\bin;C:\Program Files\GitHub CLI;C:\Users\thoua\AppData\Local\Programs\Antigravity IDE\bin;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe\ripgrep-15.2.0-x86_64-pc-windows-msvc;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-9.0.1-full_build\bin;C:\Users\thoua\AppData\Local\Programs\Cua\cua-driver\bin;C:\Users\thoua\AppData\Local\Programs\Ollama;C:\Users\thoua\AppData\Local\Programs\ClaudeScience;C:\Users\thoua\AppData\Local\Programs\cursor\resources\app\bin;C:\Users\thoua\AppData\Local\cursor-agent;C:\Program Files\R\R-4.6.1\bin;C:\Program Files\RStudio\resources\app\bin\quarto\bin;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe\poppler-25.07.0\Library\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\VC\Linux\bin\ConnectionManagerExe'
+++[1442] cygpath -up 'C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\VC\VCPackages;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\bin\Roslyn;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\;C:\Program Files\Microsoft Visual Studio\2022\Community\Team Tools\DiagnosticsHub\Collector;C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\\x86;C:\Program Files (x86)\Windows Kits\10\bin\\x86;C:\Program Files\Microsoft Visual Studio\2022\Community\\MSBuild\Current\Bin\amd64;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\;C:\Github\keyman-test-delphi\node_modules\.bin;C:\Users\thoua\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\thoua\bin;C:\Program Files\SIL\FieldWorks 9;C:\Program Files (x86)\Embarcadero\Studio\23.0\bin;C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl;C:\Program Files (x86)\Embarcadero\Studio\23.0\bin64;C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\Win64;C:\Python314\Scripts;C:\Python314;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\Meson;%NVM_HOME%;%NVM_SYMLINK%;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit;C:\Program Files\GitHub CLI;C:\Program Files\Tailscale;C:\Program Files\dotnet;C:\Program Files (x86)\Keyman\Keyman Developer;C:\Users\thoua\.herdr\packages\standalone\releases\0.9.1-x86_64-pc-windows-msvc;C:\Users\thoua\AppData\Local\hermes\bin;C:\Users\thoua\.local\bin;C:\Users\thoua\AppData\Local\Microsoft\WindowsApps;C:\Users\thoua\AppData\Local\GitHubDesktop\bin;C:\Users\thoua\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\thoua\AppData\Local\Pandoc;C:\ProgramData\nvm;C:\nvm4w\nodejs;C:\Github\keyman\windows\lib;C:\Users\thoua\AppData\Local\gitkraken\bin;C:\Program Files\GitHub CLI;C:\Users\thoua\AppData\Local\Programs\Antigravity IDE\bin;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe\ripgrep-15.2.0-x86_64-pc-windows-msvc;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-9.0.1-full_build\bin;C:\Users\thoua\AppData\Local\Programs\Cua\cua-driver\bin;C:\Users\thoua\AppData\Local\Programs\Ollama;C:\Users\thoua\AppData\Local\Programs\ClaudeScience;C:\Users\thoua\AppData\Local\Programs\cursor\resources\app\bin;C:\Users\thoua\AppData\Local\cursor-agent;C:\Program Files\R\R-4.6.1\bin;C:\Program Files\RStudio\resources\app\bin\quarto\bin;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe\poppler-25.07.0\Library\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\VC\Linux\bin\ConnectionManagerExe'
++[1442] echo 'export PATH="/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX86/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/:/c/Program Files/Microsoft Visual Studio/2022/Community/Team Tools/DiagnosticsHub/Collector:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86:/c/Program Files (x86)/Windows Kits/10/bin/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/:/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/Linux/bin/ConnectionManagerExe"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=UCRTVersion
++[1442] local value=10.0.26100.0
++[1442] [[ UCRTVersion == PATH ]]
+++[1442] cygpath -up 10.0.26100.0
++[1442] echo 'export UCRTVersion="10.0.26100.0"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=UniversalCRTSdkDir
++[1442] local 'value=C:\Program Files (x86)\Windows Kits\10\'
++[1442] [[ UniversalCRTSdkDir == PATH ]]
+++[1442] cygpath -up 'C:\Program Files (x86)\Windows Kits\10\'
++[1442] echo 'export UniversalCRTSdkDir="/c/Program Files (x86)/Windows Kits/10/"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=VCIDEInstallDir
++[1442] local 'value=C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\VC\'
++[1442] [[ VCIDEInstallDir == PATH ]]
+++[1442] cygpath -up 'C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\VC\'
++[1442] echo 'export VCIDEInstallDir="/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=VCINSTALLDIR
++[1442] local 'value=C:\Program Files\Microsoft Visual Studio\2022\Community\VC\'
++[1442] [[ VCINSTALLDIR == PATH ]]
+++[1442] cygpath -up 'C:\Program Files\Microsoft Visual Studio\2022\Community\VC\'
++[1442] echo 'export VCINSTALLDIR="/c/Program Files/Microsoft Visual Studio/2022/Community/VC/"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=VCToolsInstallDir
++[1442] local 'value=C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\'
++[1442] [[ VCToolsInstallDir == PATH ]]
+++[1442] cygpath -up 'C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\'
++[1442] echo 'export VCToolsInstallDir="/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=VCToolsRedistDir
++[1442] local 'value=C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Redist\MSVC\14.44.35112\'
++[1442] [[ VCToolsRedistDir == PATH ]]
+++[1442] cygpath -up 'C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Redist\MSVC\14.44.35112\'
++[1442] echo 'export VCToolsRedistDir="/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Redist/MSVC/14.44.35112/"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=VCToolsVersion
++[1442] local value=14.44.35207
++[1442] [[ VCToolsVersion == PATH ]]
+++[1442] cygpath -up 14.44.35207
++[1442] echo 'export VCToolsVersion="14.44.35207"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=VisualStudioVersion
++[1442] local value=17.0
++[1442] [[ VisualStudioVersion == PATH ]]
+++[1442] cygpath -up 17.0
++[1442] echo 'export VisualStudioVersion="17.0"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=VS170COMNTOOLS
++[1442] local 'value=C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\'
++[1442] [[ VS170COMNTOOLS == PATH ]]
+++[1442] cygpath -up 'C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\'
++[1442] echo 'export VS170COMNTOOLS="/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=VSCMD_ARG_app_plat
++[1442] local value=Desktop
++[1442] [[ VSCMD_ARG_app_plat == PATH ]]
+++[1442] cygpath -up Desktop
++[1442] echo 'export VSCMD_ARG_app_plat="Desktop"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=VSCMD_ARG_HOST_ARCH
++[1442] local value=x86
++[1442] [[ VSCMD_ARG_HOST_ARCH == PATH ]]
+++[1442] cygpath -up x86
++[1442] echo 'export VSCMD_ARG_HOST_ARCH="x86"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=VSCMD_ARG_TGT_ARCH
++[1442] local value=x86
++[1442] [[ VSCMD_ARG_TGT_ARCH == PATH ]]
+++[1442] cygpath -up x86
++[1442] echo 'export VSCMD_ARG_TGT_ARCH="x86"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=VSCMD_VER
++[1442] local value=17.14.33
++[1442] [[ VSCMD_VER == PATH ]]
+++[1442] cygpath -up 17.14.33
++[1442] echo 'export VSCMD_VER="17.14.33"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=VSINSTALLDIR
++[1442] local 'value=C:\Program Files\Microsoft Visual Studio\2022\Community\'
++[1442] [[ VSINSTALLDIR == PATH ]]
+++[1442] cygpath -up 'C:\Program Files\Microsoft Visual Studio\2022\Community\'
++[1442] echo 'export VSINSTALLDIR="/c/Program Files/Microsoft Visual Studio/2022/Community/"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=WindowsLibPath
++[1442] local 'value=C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.26100.0;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0'
++[1442] [[ WindowsLibPath == PATH ]]
+++[1442] cygpath -up 'C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.26100.0;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0'
++[1442] echo 'export WindowsLibPath="/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=WindowsSdkBinPath
++[1442] local 'value=C:\Program Files (x86)\Windows Kits\10\bin\'
++[1442] [[ WindowsSdkBinPath == PATH ]]
+++[1442] cygpath -up 'C:\Program Files (x86)\Windows Kits\10\bin\'
++[1442] echo 'export WindowsSdkBinPath="/c/Program Files (x86)/Windows Kits/10/bin/"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=WindowsSdkDir
++[1442] local 'value=C:\Program Files (x86)\Windows Kits\10\'
++[1442] [[ WindowsSdkDir == PATH ]]
+++[1442] cygpath -up 'C:\Program Files (x86)\Windows Kits\10\'
++[1442] echo 'export WindowsSdkDir="/c/Program Files (x86)/Windows Kits/10/"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=WindowsSDKLibVersion
++[1442] local 'value=10.0.26100.0\'
++[1442] [[ WindowsSDKLibVersion == PATH ]]
+++[1442] cygpath -up '10.0.26100.0\'
++[1442] echo 'export WindowsSDKLibVersion="10.0.26100.0/"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=WindowsSdkVerBinPath
++[1442] local 'value=C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\'
++[1442] [[ WindowsSdkVerBinPath == PATH ]]
+++[1442] cygpath -up 'C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\'
++[1442] echo 'export WindowsSdkVerBinPath="/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=WindowsSDKVersion
++[1442] local 'value=10.0.26100.0\'
++[1442] [[ WindowsSDKVersion == PATH ]]
+++[1442] cygpath -up '10.0.26100.0\'
++[1442] echo 'export WindowsSDKVersion="10.0.26100.0/"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=WindowsSDK_ExecutablePath_x64
++[1442] local 'value=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\x64\'
++[1442] [[ WindowsSDK_ExecutablePath_x64 == PATH ]]
+++[1442] cygpath -up 'C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\x64\'
++[1442] echo 'export WindowsSDK_ExecutablePath_x64="/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64/"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=WindowsSDK_ExecutablePath_x86
++[1442] local 'value=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\'
++[1442] [[ WindowsSDK_ExecutablePath_x86 == PATH ]]
+++[1442] cygpath -up 'C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\'
++[1442] echo 'export WindowsSDK_ExecutablePath_x86="/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=__DOTNET_ADD_32BIT
++[1442] local value=1
++[1442] [[ __DOTNET_ADD_32BIT == PATH ]]
+++[1442] cygpath -up 1
++[1442] echo 'export __DOTNET_ADD_32BIT="1"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=__DOTNET_PREFERRED_BITNESS
++[1442] local value=32
++[1442] [[ __DOTNET_PREFERRED_BITNESS == PATH ]]
+++[1442] cygpath -up 32
++[1442] echo 'export __DOTNET_PREFERRED_BITNESS="32"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=__VSCMD_PREINIT_PATH
++[1442] local 'value=C:\Github\keyman-test-delphi\node_modules\.bin;C:\Users\thoua\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\thoua\bin;C:\Program Files\SIL\FieldWorks 9;C:\Program Files (x86)\Embarcadero\Studio\23.0\bin;C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl;C:\Program Files (x86)\Embarcadero\Studio\23.0\bin64;C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\Win64;C:\Python314\Scripts;C:\Python314;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\Meson;%NVM_HOME%;%NVM_SYMLINK%;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit;C:\Program Files\GitHub CLI;C:\Program Files\Tailscale;C:\Program Files\dotnet;C:\Program Files (x86)\Keyman\Keyman Developer;C:\Users\thoua\.herdr\packages\standalone\releases\0.9.1-x86_64-pc-windows-msvc;C:\Users\thoua\AppData\Local\hermes\bin;C:\Users\thoua\.local\bin;C:\Users\thoua\AppData\Local\Microsoft\WindowsApps;C:\Users\thoua\AppData\Local\GitHubDesktop\bin;C:\Users\thoua\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\thoua\AppData\Local\Pandoc;C:\ProgramData\nvm;C:\nvm4w\nodejs;C:\Github\keyman\windows\lib;C:\Users\thoua\AppData\Local\gitkraken\bin;C:\Program Files\GitHub CLI;C:\Users\thoua\AppData\Local\Programs\Antigravity IDE\bin;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe\ripgrep-15.2.0-x86_64-pc-windows-msvc;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-9.0.1-full_build\bin;C:\Users\thoua\AppData\Local\Programs\Cua\cua-driver\bin;C:\Users\thoua\AppData\Local\Programs\Ollama;C:\Users\thoua\AppData\Local\Programs\ClaudeScience;C:\Users\thoua\AppData\Local\Programs\cursor\resources\app\bin;C:\Users\thoua\AppData\Local\cursor-agent;C:\Program Files\R\R-4.6.1\bin;C:\Program Files\RStudio\resources\app\bin\quarto\bin;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe\poppler-25.07.0\Library\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl'
++[1442] [[ __VSCMD_PREINIT_PATH == PATH ]]
+++[1442] cygpath -up 'C:\Github\keyman-test-delphi\node_modules\.bin;C:\Users\thoua\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\thoua\bin;C:\Program Files\SIL\FieldWorks 9;C:\Program Files (x86)\Embarcadero\Studio\23.0\bin;C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl;C:\Program Files (x86)\Embarcadero\Studio\23.0\bin64;C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\Win64;C:\Python314\Scripts;C:\Python314;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\Meson;%NVM_HOME%;%NVM_SYMLINK%;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit;C:\Program Files\GitHub CLI;C:\Program Files\Tailscale;C:\Program Files\dotnet;C:\Program Files (x86)\Keyman\Keyman Developer;C:\Users\thoua\.herdr\packages\standalone\releases\0.9.1-x86_64-pc-windows-msvc;C:\Users\thoua\AppData\Local\hermes\bin;C:\Users\thoua\.local\bin;C:\Users\thoua\AppData\Local\Microsoft\WindowsApps;C:\Users\thoua\AppData\Local\GitHubDesktop\bin;C:\Users\thoua\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\thoua\AppData\Local\Pandoc;C:\ProgramData\nvm;C:\nvm4w\nodejs;C:\Github\keyman\windows\lib;C:\Users\thoua\AppData\Local\gitkraken\bin;C:\Program Files\GitHub CLI;C:\Users\thoua\AppData\Local\Programs\Antigravity IDE\bin;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe\ripgrep-15.2.0-x86_64-pc-windows-msvc;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-9.0.1-full_build\bin;C:\Users\thoua\AppData\Local\Programs\Cua\cua-driver\bin;C:\Users\thoua\AppData\Local\Programs\Ollama;C:\Users\thoua\AppData\Local\Programs\ClaudeScience;C:\Users\thoua\AppData\Local\Programs\cursor\resources\app\bin;C:\Users\thoua\AppData\Local\cursor-agent;C:\Program Files\R\R-4.6.1\bin;C:\Program Files\RStudio\resources\app\bin\quarto\bin;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe\poppler-25.07.0\Library\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl'
++[1442] echo 'export __VSCMD_PREINIT_PATH="/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl"'
++[1442] read -r line
++[1442] rm -f newenv.tmp devenv.tmp env.tmp devenv.bat
++[1442] _locate_rsvars
++[1442] DELPHI_VERSION=23.0
+++[1442] cygpath -u 'C:\Program Files (x86)\Embarcadero\Studio\23.0\bin'
++[1442] DCC32PATH='/c/Program Files (x86)/Embarcadero/Studio/23.0/bin'
++[1442] RSVars_path='/c/Program Files (x86)/Embarcadero/Studio/23.0/bin/rsvars.bat'
++[1442] _build_delphi_environment
+++[1442] cygpath -w '/c/Program Files (x86)/Embarcadero/Studio/23.0/bin/rsvars.bat'
++[1442] echo '@CALL "C:\Program Files (x86)\Embarcadero\Studio\23.0\bin\rsvars.bat" > nul'
++[1442] echo @SET
++[1442] cmd //c devenv.bat
++[1442] cmd //c set
++[1442] diff devenv.tmp env.tmp --suppress-common-lines
++[1442] grep -e '^<'
++[1442] cut -c 3- -
++[1442] echo '# Delphi development environment generated by configure_environment.inc.sh constructed from rsvars.bat; do not modify'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=BDS
++[1442] local 'value=C:\Program Files (x86)\Embarcadero\Studio\23.0'
++[1442] [[ BDS == PATH ]]
+++[1442] cygpath -up 'C:\Program Files (x86)\Embarcadero\Studio\23.0'
++[1442] echo 'export BDS="/c/Program Files (x86)/Embarcadero/Studio/23.0"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=BDSCOMMONDIR
++[1442] local 'value=C:\Users\Public\Documents\Embarcadero\Studio\23.0'
++[1442] [[ BDSCOMMONDIR == PATH ]]
+++[1442] cygpath -up 'C:\Users\Public\Documents\Embarcadero\Studio\23.0'
++[1442] echo 'export BDSCOMMONDIR="/c/Users/Public/Documents/Embarcadero/Studio/23.0"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=BDSINCLUDE
++[1442] local 'value=C:\Program Files (x86)\Embarcadero\Studio\23.0\include'
++[1442] [[ BDSINCLUDE == PATH ]]
+++[1442] cygpath -up 'C:\Program Files (x86)\Embarcadero\Studio\23.0\include'
++[1442] echo 'export BDSINCLUDE="/c/Program Files (x86)/Embarcadero/Studio/23.0/include"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=FrameworkDir
++[1442] local 'value=C:\Windows\Microsoft.NET\Framework\v4.0.30319'
++[1442] [[ FrameworkDir == PATH ]]
+++[1442] cygpath -up 'C:\Windows\Microsoft.NET\Framework\v4.0.30319'
++[1442] echo 'export FrameworkDir="/c/Windows/Microsoft.NET/Framework/v4.0.30319"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=FrameworkVersion
++[1442] local value=v4.5
++[1442] [[ FrameworkVersion == PATH ]]
+++[1442] cygpath -up v4.5
++[1442] echo 'export FrameworkVersion="v4.5"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=LANGDIR
++[1442] local value=EN
++[1442] [[ LANGDIR == PATH ]]
+++[1442] cygpath -up EN
++[1442] echo 'export LANGDIR="EN"'
++[1442] read -r line
++[1442] IFS==
++[1442] lineDelim=($line)
++[1442] unset IFS
++[1442] local var=PATH
++[1442] local 'value=C:\Windows\Microsoft.NET\Framework\v4.0.30319;;C:\Program Files (x86)\Embarcadero\Studio\23.0\bin;C:\Program Files (x86)\Embarcadero\Studio\23.0\bin64;C:\Program Files (x86)\Embarcadero\Studio\23.0\cmake;C:\Github\keyman-test-delphi\node_modules\.bin;C:\Users\thoua\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\thoua\bin;C:\Program Files\SIL\FieldWorks 9;C:\Program Files (x86)\Embarcadero\Studio\23.0\bin;C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl;C:\Program Files (x86)\Embarcadero\Studio\23.0\bin64;C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\Win64;C:\Python314\Scripts;C:\Python314;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\Meson;%NVM_HOME%;%NVM_SYMLINK%;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit;C:\Program Files\GitHub CLI;C:\Program Files\Tailscale;C:\Program Files\dotnet;C:\Program Files (x86)\Keyman\Keyman Developer;C:\Users\thoua\.herdr\packages\standalone\releases\0.9.1-x86_64-pc-windows-msvc;C:\Users\thoua\AppData\Local\hermes\bin;C:\Users\thoua\.local\bin;C:\Users\thoua\AppData\Local\Microsoft\WindowsApps;C:\Users\thoua\AppData\Local\GitHubDesktop\bin;C:\Users\thoua\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\thoua\AppData\Local\Pandoc;C:\ProgramData\nvm;C:\nvm4w\nodejs;C:\Github\keyman\windows\lib;C:\Users\thoua\AppData\Local\gitkraken\bin;C:\Program Files\GitHub CLI;C:\Users\thoua\AppData\Local\Programs\Antigravity IDE\bin;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe\ripgrep-15.2.0-x86_64-pc-windows-msvc;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-9.0.1-full_build\bin;C:\Users\thoua\AppData\Local\Programs\Cua\cua-driver\bin;C:\Users\thoua\AppData\Local\Programs\Ollama;C:\Users\thoua\AppData\Local\Programs\ClaudeScience;C:\Users\thoua\AppData\Local\Programs\cursor\resources\app\bin;C:\Users\thoua\AppData\Local\cursor-agent;C:\Program Files\R\R-4.6.1\bin;C:\Program Files\RStudio\resources\app\bin\quarto\bin;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe\poppler-25.07.0\Library\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl'
++[1442] [[ PATH == PATH ]]
++[1442] value='/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:C:\Windows\Microsoft.NET\Framework\v4.0.30319;;C:\Program Files (x86)\Embarcadero\Studio\23.0\bin;C:\Program Files (x86)\Embarcadero\Studio\23.0\bin64;C:\Program Files (x86)\Embarcadero\Studio\23.0\cmake;C:\Github\keyman-test-delphi\node_modules\.bin;C:\Users\thoua\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\thoua\bin;C:\Program Files\SIL\FieldWorks 9;C:\Program Files (x86)\Embarcadero\Studio\23.0\bin;C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl;C:\Program Files (x86)\Embarcadero\Studio\23.0\bin64;C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\Win64;C:\Python314\Scripts;C:\Python314;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\Meson;%NVM_HOME%;%NVM_SYMLINK%;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit;C:\Program Files\GitHub CLI;C:\Program Files\Tailscale;C:\Program Files\dotnet;C:\Program Files (x86)\Keyman\Keyman Developer;C:\Users\thoua\.herdr\packages\standalone\releases\0.9.1-x86_64-pc-windows-msvc;C:\Users\thoua\AppData\Local\hermes\bin;C:\Users\thoua\.local\bin;C:\Users\thoua\AppData\Local\Microsoft\WindowsApps;C:\Users\thoua\AppData\Local\GitHubDesktop\bin;C:\Users\thoua\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\thoua\AppData\Local\Pandoc;C:\ProgramData\nvm;C:\nvm4w\nodejs;C:\Github\keyman\windows\lib;C:\Users\thoua\AppData\Local\gitkraken\bin;C:\Program Files\GitHub CLI;C:\Users\thoua\AppData\Local\Programs\Antigravity IDE\bin;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe\ripgrep-15.2.0-x86_64-pc-windows-msvc;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-9.0.1-full_build\bin;C:\Users\thoua\AppData\Local\Programs\Cua\cua-driver\bin;C:\Users\thoua\AppData\Local\Programs\Ollama;C:\Users\thoua\AppData\Local\Programs\ClaudeScience;C:\Users\thoua\AppData\Local\Programs\cursor\resources\app\bin;C:\Users\thoua\AppData\Local\cursor-agent;C:\Program Files\R\R-4.6.1\bin;C:\Program Files\RStudio\resources\app\bin\quarto\bin;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe\poppler-25.07.0\Library\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl'
+++[1442] cygpath -up 'C:\Windows\Microsoft.NET\Framework\v4.0.30319;;C:\Program Files (x86)\Embarcadero\Studio\23.0\bin;C:\Program Files (x86)\Embarcadero\Studio\23.0\bin64;C:\Program Files (x86)\Embarcadero\Studio\23.0\cmake;C:\Github\keyman-test-delphi\node_modules\.bin;C:\Users\thoua\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\thoua\bin;C:\Program Files\SIL\FieldWorks 9;C:\Program Files (x86)\Embarcadero\Studio\23.0\bin;C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl;C:\Program Files (x86)\Embarcadero\Studio\23.0\bin64;C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\Win64;C:\Python314\Scripts;C:\Python314;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\Meson;%NVM_HOME%;%NVM_SYMLINK%;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit;C:\Program Files\GitHub CLI;C:\Program Files\Tailscale;C:\Program Files\dotnet;C:\Program Files (x86)\Keyman\Keyman Developer;C:\Users\thoua\.herdr\packages\standalone\releases\0.9.1-x86_64-pc-windows-msvc;C:\Users\thoua\AppData\Local\hermes\bin;C:\Users\thoua\.local\bin;C:\Users\thoua\AppData\Local\Microsoft\WindowsApps;C:\Users\thoua\AppData\Local\GitHubDesktop\bin;C:\Users\thoua\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\thoua\AppData\Local\Pandoc;C:\ProgramData\nvm;C:\nvm4w\nodejs;C:\Github\keyman\windows\lib;C:\Users\thoua\AppData\Local\gitkraken\bin;C:\Program Files\GitHub CLI;C:\Users\thoua\AppData\Local\Programs\Antigravity IDE\bin;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe\ripgrep-15.2.0-x86_64-pc-windows-msvc;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-9.0.1-full_build\bin;C:\Users\thoua\AppData\Local\Programs\Cua\cua-driver\bin;C:\Users\thoua\AppData\Local\Programs\Ollama;C:\Users\thoua\AppData\Local\Programs\ClaudeScience;C:\Users\thoua\AppData\Local\Programs\cursor\resources\app\bin;C:\Users\thoua\AppData\Local\cursor-agent;C:\Program Files\R\R-4.6.1\bin;C:\Program Files\RStudio\resources\app\bin\quarto\bin;C:\Users\thoua\AppData\Local\Microsoft\WinGet\Packages\oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe\poppler-25.07.0\Library\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl'
++[1442] echo 'export PATH="/c/Windows/Microsoft.NET/Framework/v4.0.30319:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Program Files (x86)/Embarcadero/Studio/23.0/cmake:/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl"'
++[1442] read -r line
++[1442] rm -f newenv.tmp devenv.tmp env.tmp devenv.bat
++[1442] do_monaco_copy
++[1442] pushd /c/Github/keyman-test-delphi/developer/src/tike/xml/app
++[1442] npm ci
++[1548] set -o igncr
++[1548] set -o igncr
+++[1548] dirname /c/nvm4w/nodejs/npm
++[1548] basedir=/c/nvm4w/nodejs
++[1548] case `uname` in
+++[1548] uname
++[1548] case `uname` in
+++[1548] uname
++[1548] case `uname` in
++[1548] '[' MINGW64_NT-10.0-26200 = Linux ']'
++[1548] NODE_EXE=/c/nvm4w/nodejs/node.exe
++[1548] '[' -x /c/nvm4w/nodejs/node.exe ']'
++[1548] '[' -x /c/nvm4w/nodejs/node.exe ']'
+++[1548] /c/nvm4w/nodejs/node.exe -p 'require("path").dirname(process.execPath)'
++[1548] CLI_BASEDIR='C:\nvm4w\nodejs'
++[1548] '[' 0 -ne 0 ']'
++[1548] NPM_PREFIX_JS='C:\nvm4w\nodejs/node_modules/npm/bin/npm-prefix.js'
++[1548] NPM_CLI_JS='C:\nvm4w\nodejs/node_modules/npm/bin/npm-cli.js'
+++[1548] /c/nvm4w/nodejs/node.exe 'C:\nvm4w\nodejs/node_modules/npm/bin/npm-prefix.js'
++[1548] NPM_PREFIX='C:\nvm4w\nodejs'
++[1548] '[' 0 -ne 0 ']'
++[1548] NPM_PREFIX_NPM_CLI_JS='C:\nvm4w\nodejs/node_modules/npm/bin/npm-cli.js'
++[1548] NPM_WSL_PATH=/..
++[1442] _builder_failure_trap
++[1442] local trappedExitCode=1
++[1442] local action target
++[1442] _builder_cleanup_deps
++[1442] builder_is_dep_build
++[1442] [[ ! -z '' ]]
++[1442] return 1
++[1442] builder_is_child_build
++[1442] return 1
++[1442] [[ ! -z x ]]
++[1442] builder_is_debug_internal
++[1442] false
++[1442] return 1
++[1442] rm -f /tmp/tmp.o4JM7kitRC
++[1442] _builder_deps_built=
++[1442] _builder_timing_cleanup_and_report 1
++[1442] local build_exit_code=1
++[1442] builder_is_dep_build
++[1442] [[ ! -z '' ]]
++[1442] return 1
++[1442] builder_is_child_build
++[1442] return 1
++[1442] [[ -z '' ]]
++[1442] return 0
++[1442] [[ 1 == 0 ]]
++[1442] '[' -n configure:project ']'
++[1442] action=configure:project
++[1442] [[ configure:project =~ : ]]
++[1442] IFS=:
++[1442] read -r action target
++[1442] target=:project
++[1442] builder_finish_action failure configure:project
++[1442] local result=failure
++[1442] local action=configure:project target action_name
++[1442] [[ configure:project =~ : ]]
++[1442] IFS=:
++[1442] read -r action target
++[1442] target=:project
++[1442] [[ :project == \:\* ]]
++[1442] action_name=configure:project
++[1442] local matched_action=configure:project
++[1442] [[ configure:project == configure\:project ]]
++[1442] [[ failure == success ]]
++[1442] [[ failure == failure ]]
++[1442] builder_echo end configure:project error '## configure:project failed'
++[1442] local color=white message= mark= block= action= test=
++[1442] local echo_target=echo
++[1442] [[ 4 -gt 1 ]]
++[1442] [[ end =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[1442] [[ end == start ]]
++[1442] [[ end == startTest ]]
++[1442] [[ end == end ]]
++[1442] test=end
++[1442] block=configure:project
++[1442] color=error
++[1442] shift 3
++[1442] action=end
++[1442] message='## configure:project failed'
++[1442] [[ end == start ]]
++[1442] [[ ! -z x ]]
++[1442] case $color in
++[1442] color=
++[1442] echo_target=_builder_error_echo
++[1442] builder_is_dep_build
++[1442] [[ ! -z '' ]]
++[1442] return 1
++[1442] _builder_error_echo -e '[developer/src/tike] ## configure:project failed'
++[1442] [[ 2 -gt 0 ]]
++[1442] [[ -e == -e ]]
++[1442] shift
++[1442] echo -e '[developer/src/tike] ## configure:project failed'
++[1442] [[ end == end ]]
++[1442] builder_is_running_on_teamcity
++[1442] [[ -z '' ]]
++[1442] return 1
++[1442] _builder_timing_stop configure:project
++[1442] local context=configure:project
++[1442] [[ ! -z '' ]]
++[1442] _builder_current_action=
++[1442] exit 1
++[1438] rc=1
++[1438] set +x

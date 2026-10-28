@@ -1,0 +1,530 @@
+# 2026-10-28T10:34:47-05:00 A HEAD=331b0b3015 cmd: core/build.sh configure:x86 build:x86 --no-tests
+[core] Local build environment detected:  setting --debug
+[core] build.sh parameters: <configure:x86 build:x86 --no-tests --debug>
+[core] ## configure:x86 starting...
+[core] ======= Configuring x86 =======
+=== Locating Visual Studio ===
+=== Configuring VC++ ===
+=== Configuring Keyman Core for Windows x86 debug ===
+The Meson build system
+Version: 1.11.0
+Source dir: C:\Github\keyman-test-delphi\core
+Build dir: C:\Github\keyman-test-delphi\core\build\x86\debug
+Build type: native build
+Project name: keyman_core
+Project version: 20.0.9
+C compiler for the host machine: cl (msvc 19.44.35227 "Microsoft (R) C/C++ Optimizing Compiler Version 19.44.35227 for x86")
+C linker for the host machine: link link 14.44.35227.0
+C++ compiler for the host machine: cl (msvc 19.44.35227 "Microsoft (R) C/C++ Optimizing Compiler Version 19.44.35227 for x86")
+C++ linker for the host machine: link link 14.44.35227.0
+Host machine cpu family: x86
+Host machine cpu: x86
+Message: meson.project_version(): 20.0.9
+Message: host_machine.system(): windows
+Message: compiler.get_id(): msvc
+Program python3 found: YES (C:\Program Files\Meson\meson.exe runpython)
+Program hotdoc found: NO
+Configuring keyman_core_api_version.h using configuration
+Windows resource compiler: Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Using icu-minimal source from cache.
+
+Executing subproject icu-minimal 
+
+icu-minimal| Project name: icu
+icu-minimal| Project version: 73.1
+icu-minimal| C compiler for the host machine: cl (msvc 19.44.35227 "Microsoft (R) C/C++ Optimizing Compiler Version 19.44.35227 for x86")
+icu-minimal| C linker for the host machine: link link 14.44.35227.0
+icu-minimal| C++ compiler for the host machine: cl (msvc 19.44.35227 "Microsoft (R) C/C++ Optimizing Compiler Version 19.44.35227 for x86")
+icu-minimal| C++ linker for the host machine: link link 14.44.35227.0
+icu-minimal| Has header "elf.h" : NO
+icu-minimal| Configuring uconfig_local.h using configuration
+icu-minimal| Did not find pkg-config by name 'pkg-config'
+icu-minimal| Found pkg-config: NO
+icu-minimal| Build targets in project: 6
+icu-minimal| Subproject icu-minimal finished.
+
+Message: option "keyman_core_tests" is false, disabling tests
+Build targets in project: 9
+
+keyman_core 20.0.9
+
+  Subprojects
+    icu-minimal      : YES
+
+  User defined options
+    buildtype        : debug
+    default_library  : both
+    keyman_core_tests: false
+    werror           : true
+
+Found ninja-1.13.2 at C:\ProgramData\chocolatey\bin\ninja.EXE
+[core] ## configure:x86 completed successfully
+[core] ## build:x86 starting...
+=== Locating Visual Studio ===
+=== Configuring VC++ ===
+=== Building Keyman Core for Windows x86 debug ===
+[1/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/brkeng.cpp.obj
+[2/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/brkiter.cpp.obj
+[3/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/cwchar.cpp.obj
+[4/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/appendable.cpp.obj
+[5/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/filteredbrk.cpp.obj
+[6/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/dtintrv.cpp.obj
+[7/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/dictbe.cpp.obj
+[8/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/errorcode.cpp.obj
+[9/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/icuplug.cpp.obj
+[10/457] Compiling C++ object subprojects/icu/source/stubdata/libicudt.a.p/stubdata.cpp.obj
+[11/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/cmemory.cpp.obj
+[12/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/chariter.cpp.obj
+[13/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/locdspnm.cpp.obj
+[14/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/dictionarydata.cpp.obj
+[15/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/bytestrie.cpp.obj
+[16/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/localebuilder.cpp.obj
+[17/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/bytesinkutil.cpp.obj
+[18/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/bytestriebuilder.cpp.obj
+[19/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/charstr.cpp.obj
+[20/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/filterednormalizer2.cpp.obj
+[21/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/cstring.cpp.obj
+[22/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/bmpset.cpp.obj
+[23/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/cstr.cpp.obj
+[24/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/bytestream.cpp.obj
+[25/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/bytestrieiterator.cpp.obj
+[26/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/icudataver.cpp.obj
+[27/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/edits.cpp.obj
+[28/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/messagepattern.cpp.obj
+[29/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/locutil.cpp.obj
+[30/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/rbbi_cache.cpp.obj
+[31/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/punycode.cpp.obj
+[32/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/parsepos.cpp.obj
+[33/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/caniter.cpp.obj
+[34/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/rbbirb.cpp.obj
+[35/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/rbbinode.cpp.obj
+[36/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/rbbidata.cpp.obj
+[37/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/rbbiscan.cpp.obj
+[38/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/emojiprops.cpp.obj
+[39/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/rbbi.cpp.obj
+[40/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/characterproperties.cpp.obj
+[41/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/loadednormalizer2impl.cpp.obj
+[42/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/rbbisetb.cpp.obj
+[43/457] Compiling Windows resource subprojects/icu/source/common/common.rc
+common.rc
+[44/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/rbbitblb.cpp.obj
+[45/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/rbbistbl.cpp.obj
+[46/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/servlkf.cpp.obj
+[47/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/servlk.cpp.obj
+[48/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/servnotf.cpp.obj
+[49/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/servrbf.cpp.obj
+[50/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/servslkf.cpp.obj
+[51/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/servls.cpp.obj
+[52/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/static_unicode_sets.cpp.obj
+[53/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/propsvec.cpp.obj
+[54/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/locbased.cpp.obj
+[55/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/serv.cpp.obj
+[56/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/patternprops.cpp.obj
+[57/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/loclikely.cpp.obj
+[58/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/locmap.cpp.obj
+[59/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/locresdata.cpp.obj
+[60/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/locdispnames.cpp.obj
+[61/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/locavailable.cpp.obj
+[62/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/propname.cpp.obj
+[63/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/normalizer2.cpp.obj
+[64/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/normlzr.cpp.obj
+[65/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ucasemap_titlecase_brkiter.cpp.obj
+[66/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ubrk.cpp.obj
+[67/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/schriter.cpp.obj
+[68/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/resource.cpp.obj
+[69/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/normalizer2impl.cpp.obj
+[70/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/locid.cpp.obj
+[71/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ucurr.cpp.obj
+[72/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/lstmbe.cpp.obj
+[73/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/stringtriebuilder.cpp.obj
+[74/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ruleiter.cpp.obj
+[75/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/resbund_cnv.cpp.obj
+[76/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/simpleformatter.cpp.obj
+[77/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uarrsort.cpp.obj
+[78/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/resbund.cpp.obj
+[79/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ubidi_props.cpp.obj
+[80/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uidna.cpp.obj
+[81/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/stringpiece.cpp.obj
+[82/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/udatamem.cpp.obj
+[83/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/sharedobject.cpp.obj
+[84/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ucol_swp.cpp.obj
+[85/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ucmndata.cpp.obj
+[86/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ucat.cpp.obj
+[87/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uenum.cpp.obj
+[88/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ucharstrie.cpp.obj
+[89/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uhash.cpp.obj
+[90/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uchriter.cpp.obj
+[91/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/udataswp.cpp.obj
+[92/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uhash_us.cpp.obj
+[93/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/putil.cpp.obj
+[94/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ucharstrieiterator.cpp.obj
+[95/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ucasemap.cpp.obj
+[96/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ucharstriebuilder.cpp.obj
+[97/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uchar.cpp.obj
+[98/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ucptrie.cpp.obj
+[99/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ucln_cmn.cpp.obj
+[100/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/udata.cpp.obj
+[101/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/unistr_cnv.cpp.obj
+[102/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/umath.cpp.obj
+[103/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/unifilt.cpp.obj
+[104/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/unifunct.cpp.obj
+[105/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/unistr_titlecase_brkiter.cpp.obj
+[106/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ucase.cpp.obj
+[107/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/unisetspan.cpp.obj
+[108/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ulist.cpp.obj
+[109/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uinit.cpp.obj
+[110/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uniset.cpp.obj
+[111/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uinvchar.cpp.obj
+[112/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/umapfile.cpp.obj
+[113/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uloc_tag.cpp.obj
+[114/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uiter.cpp.obj
+[115/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uobject.cpp.obj
+[116/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/umutablecptrie.cpp.obj
+[117/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uniset_props.cpp.obj
+[118/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/unames.cpp.obj
+[119/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/unistr_props.cpp.obj
+[120/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/unistr_case.cpp.obj
+[121/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uloc.cpp.obj
+[122/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/unistr_case_locale.cpp.obj
+[123/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/umutex.cpp.obj
+[124/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uloc_keytype.cpp.obj
+[125/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uniset_closure.cpp.obj
+[126/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/unifiedcache.cpp.obj
+[127/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/unormcmp.cpp.obj
+[128/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/unorm.cpp.obj
+[129/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/unistr.cpp.obj
+[130/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/usprep.cpp.obj
+[131/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ustr_titlecase_brkiter.cpp.obj
+[132/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ustr_cnv.cpp.obj
+[133/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/utf_impl.cpp.obj
+[134/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ustr_wcs.cpp.obj
+[135/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ustring.cpp.obj
+[136/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ushape.cpp.obj
+[137/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ustack.cpp.obj
+[138/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/usc_impl.cpp.obj
+[139/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ustrtrns.cpp.obj
+[140/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ustrfmt.cpp.obj
+[141/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uts46.cpp.obj
+[142/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uset.cpp.obj
+[143/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ures_cnv.cpp.obj
+[144/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uscript_props.cpp.obj
+[145/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/utrace.cpp.obj
+[146/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/utypes.cpp.obj
+[147/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ustrenum.cpp.obj
+[148/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/usetiter.cpp.obj
+[149/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/util.cpp.obj
+[150/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uset_props.cpp.obj
+[151/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/utrie2.cpp.obj
+[152/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uscript.cpp.obj
+[153/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ustrcase_locale.cpp.obj
+[154/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uresdata.cpp.obj
+[155/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/ustrcase.cpp.obj
+[156/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/anytrans.cpp.obj
+[157/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/util_props.cpp.obj
+[158/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/alphaindex.cpp.obj
+[159/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/astro.cpp.obj
+[160/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/basictz.cpp.obj
+[161/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/bocsu.cpp.obj
+[162/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/casetrn.cpp.obj
+[163/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/buddhcal.cpp.obj
+[164/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/utrie.cpp.obj
+[165/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uresbund.cpp.obj
+[166/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/utext.cpp.obj
+[167/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/coleitr.cpp.obj
+[168/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/collation.cpp.obj
+[169/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/cecal.cpp.obj
+[170/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/choicfmt.cpp.obj
+[171/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/brktrans.cpp.obj
+[172/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/collationbuilder.cpp.obj
+[173/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/collationcompare.cpp.obj
+[174/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/chnsecal.cpp.obj
+[175/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uprops.cpp.obj
+[176/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/collationdatareader.cpp.obj
+[177/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/collationdata.cpp.obj
+[178/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/collationdatawriter.cpp.obj
+[179/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/collationdatabuilder.cpp.obj
+[180/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/collationfastlatin.cpp.obj
+[181/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/collationfastlatinbuilder.cpp.obj
+[182/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/collationroot.cpp.obj
+[183/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/collationfcd.cpp.obj
+[184/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/collationkeys.cpp.obj
+[185/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/collationrootelements.cpp.obj
+[186/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/calendar.cpp.obj
+[187/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/coll.cpp.obj
+[188/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/collationsets.cpp.obj
+[189/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/collationruleparser.cpp.obj
+[190/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/collationsettings.cpp.obj
+[191/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/csmatch.cpp.obj
+[192/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/csr2022.cpp.obj
+[193/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/compactdecimalformat.cpp.obj
+[194/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/collationtailoring.cpp.obj
+[195/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uvector.cpp.obj
+[196/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/utrie2_builder.cpp.obj
+[197/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uvectr64.cpp.obj
+[198/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/coptccal.cpp.obj
+[199/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/csdetect.cpp.obj
+[200/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/collationweights.cpp.obj
+[201/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/csrecog.cpp.obj
+[202/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/cpdtrans.cpp.obj
+[203/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/utrie_swap.cpp.obj
+[204/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/csrucode.cpp.obj
+[205/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/currfmt.cpp.obj
+[206/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/csrutf8.cpp.obj
+[207/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/csrmbcs.cpp.obj
+[208/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/currunit.cpp.obj
+[209/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/datefmt.cpp.obj
+[210/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/collationiterator.cpp.obj
+[211/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/dangical.cpp.obj
+[212/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/curramt.cpp.obj
+[213/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/dcfmtsym.cpp.obj
+[214/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/currpinf.cpp.obj
+[215/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/decimfmt.cpp.obj
+[216/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/displayoptions.cpp.obj
+[217/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/double-conversion-bignum-dtoa.cpp.obj
+[218/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/uvectr32.cpp.obj
+[219/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/double-conversion-cached-powers.cpp.obj
+[220/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/double-conversion-fast-dtoa.cpp.obj
+[221/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/dtptngen.cpp.obj
+[222/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/dtitvinf.cpp.obj
+[223/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/double-conversion-bignum.cpp.obj
+[224/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/double-conversion-string-to-double.cpp.obj
+[225/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/double-conversion-strtod.cpp.obj
+[226/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/double-conversion-double-to-string.cpp.obj
+[227/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/fmtable_cnv.cpp.obj
+[228/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/fmtable.cpp.obj
+[229/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/ethpccal.cpp.obj
+[230/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/decContext.cpp.obj
+[231/457] Compiling Windows resource subprojects/icu/source/i18n/i18n.rc
+i18n.rc
+[232/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/esctrn.cpp.obj
+[233/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/dtfmtsym.cpp.obj
+[234/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/formatted_string_builder.cpp.obj
+[235/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/formattedval_iterimpl.cpp.obj
+[236/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/fpositer.cpp.obj
+[237/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/fphdlimp.cpp.obj
+[238/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/formattedvalue.cpp.obj
+[239/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/formattedval_sbimpl.cpp.obj
+[240/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/gregocal.cpp.obj
+[241/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/funcrepl.cpp.obj
+[242/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/gender.cpp.obj
+[243/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/inputext.cpp.obj
+[244/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/islamcal.cpp.obj
+[245/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/hebrwcal.cpp.obj
+[246/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/gregoimp.cpp.obj
+[247/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/indiancal.cpp.obj
+[248/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/erarules.cpp.obj
+[249/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/measunit_extra.cpp.obj
+[250/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/msgfmt.cpp.obj
+[251/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/japancal.cpp.obj
+[252/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/listformatter.cpp.obj
+[253/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/dtitvfmt.cpp.obj
+[254/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/dtrule.cpp.obj
+[255/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/format.cpp.obj
+[256/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_affixutils.cpp.obj
+[257/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/nultrans.cpp.obj
+[258/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/nortrans.cpp.obj
+[259/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_asformat.cpp.obj
+[260/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/nfrs.cpp.obj
+[261/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_capi.cpp.obj
+[262/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/nfrule.cpp.obj
+[263/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/name2uni.cpp.obj
+[264/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_currencysymbols.cpp.obj
+[265/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_decimalquantity.cpp.obj
+[266/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_grouping.cpp.obj
+[267/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_modifiers.cpp.obj
+[268/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_fluent.cpp.obj
+[269/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_compact.cpp.obj
+[270/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_integerwidth.cpp.obj
+[271/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_longnames.cpp.obj
+[272/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_formatimpl.cpp.obj
+[273/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_mapper.cpp.obj
+[274/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_decimfmtprops.cpp.obj
+[275/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_multiplier.cpp.obj
+[276/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/measunit.cpp.obj
+[277/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/measure.cpp.obj
+[278/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/measfmt.cpp.obj
+[279/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_notation.cpp.obj
+[280/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_output.cpp.obj
+[281/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_patternmodifier.cpp.obj
+[282/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/csrsbcs.cpp.obj
+[283/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_skeletons.cpp.obj
+[284/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_scientific.cpp.obj
+[285/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_padding.cpp.obj
+[286/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_patternstring.cpp.obj
+[287/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_rounding.cpp.obj
+[288/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_symbolswrapper.cpp.obj
+[289/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/numparse_affixes.cpp.obj
+[290/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/numparse_impl.cpp.obj
+[291/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/numparse_decimal.cpp.obj
+[292/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_usageprefs.cpp.obj
+[293/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/numparse_parsednumber.cpp.obj
+[294/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/numparse_currency.cpp.obj
+[295/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/numparse_compositions.cpp.obj
+[296/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/numrange_fluent.cpp.obj
+[297/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/number_utils.cpp.obj
+[298/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/numfmt.cpp.obj
+[299/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/numrange_capi.cpp.obj
+[300/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/numparse_validators.cpp.obj
+[301/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/numparse_symbols.cpp.obj
+[302/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/numparse_scientific.cpp.obj
+[303/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/numrange_impl.cpp.obj
+[304/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/nfsubs.cpp.obj
+[305/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/pluralranges.cpp.obj
+[306/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/quant.cpp.obj
+[307/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/quantityformatter.cpp.obj
+[308/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/persncal.cpp.obj
+[309/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/rbt_pars.cpp.obj
+[310/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/rbt_set.cpp.obj
+[311/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/rbt.cpp.obj
+[312/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/rbt_rule.cpp.obj
+[313/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/remtrans.cpp.obj
+[314/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/reldtfmt.cpp.obj
+[315/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/rulebasedcollator.cpp.obj
+[316/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/scientificnumberformatter.cpp.obj
+[317/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/search.cpp.obj
+[318/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/olsontz.cpp.obj
+[319/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/rbnf.cpp.obj
+[320/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/rbtz.cpp.obj
+[321/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/smpdtfst.cpp.obj
+[322/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/smpdtfmt.cpp.obj
+[323/457] Compiling C++ object subprojects/icu/source/common/libicuuc.a.p/wintz.cpp.obj
+[324/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/sortkey.cpp.obj
+[325/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/string_segment.cpp.obj
+[326/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/strmatch.cpp.obj
+[327/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/standardplural.cpp.obj
+[328/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/strrepl.cpp.obj
+[329/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/stsearch.cpp.obj
+[330/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/tmunit.cpp.obj
+[331/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/simpletz.cpp.obj
+[332/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/taiwncal.cpp.obj
+[333/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/tmutfmt.cpp.obj
+[334/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/tmutamt.cpp.obj
+[335/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/titletrn.cpp.obj
+[336/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/dayperiodrules.cpp.obj
+[337/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/tolowtrn.cpp.obj
+[338/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/plurfmt.cpp.obj
+[339/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/toupptrn.cpp.obj
+[340/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/timezone.cpp.obj
+[341/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/tzfmt.cpp.obj
+[342/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/transreg.cpp.obj
+[343/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/tridpars.cpp.obj
+[344/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/tzgnames.cpp.obj
+[345/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/tznames.cpp.obj
+[346/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/tznames_impl.cpp.obj
+[347/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/ucol.cpp.obj
+[348/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/translit.cpp.obj
+[349/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/ucol_res.cpp.obj
+[350/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/ucal.cpp.obj
+[351/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/ucsdet.cpp.obj
+[352/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/ucoleitr.cpp.obj
+[353/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/tzrule.cpp.obj
+[354/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/regextxt.cpp.obj
+[355/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/regeximp.cpp.obj
+[356/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/udatpg.cpp.obj
+[357/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/udateintervalformat.cpp.obj
+[358/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/udat.cpp.obj
+[359/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/reldatefmt.cpp.obj
+[360/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/rbt_data.cpp.obj
+[361/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/tztrans.cpp.obj
+[362/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/ulistformatter.cpp.obj
+[363/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/ufieldpositer.cpp.obj
+[364/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/uni2name.cpp.obj
+[365/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/uitercollationiterator.cpp.obj
+[366/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/unesctrn.cpp.obj
+[367/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/umsg.cpp.obj
+[368/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/scriptset.cpp.obj
+[369/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/repattrn.cpp.obj
+[370/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/regexst.cpp.obj
+[371/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/units_converter.cpp.obj
+[372/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/units_data.cpp.obj
+[373/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/units_complexconverter.cpp.obj
+[374/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/region.cpp.obj
+[375/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/units_router.cpp.obj
+[376/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/regexcmp.cpp.obj
+[377/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/unum.cpp.obj
+[378/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/numsys.cpp.obj
+[379/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/plurrule.cpp.obj
+[380/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/selfmt.cpp.obj
+[381/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/sharedbreakiterator.cpp.obj
+[382/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/rematch.cpp.obj
+[383/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/uregion.cpp.obj
+[384/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/unumsys.cpp.obj
+[385/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/utmscale.cpp.obj
+[386/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/utf8collationiterator.cpp.obj
+[387/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/upluralrules.cpp.obj
+[388/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/utrans.cpp.obj
+[389/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/utf16collationiterator.cpp.obj
+[390/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/windtfmt.cpp.obj
+[391/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/vzone.cpp.obj
+[392/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/usearch.cpp.obj
+[393/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/winnmfmt.cpp.obj
+[394/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/zonemeta.cpp.obj
+[395/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/wintzimpl.cpp.obj
+[396/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/ztrans.cpp.obj
+[397/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/zrule.cpp.obj
+[398/457] Compiling C++ object src/keymancore-2.dll.p/wasm.cpp.obj
+[399/457] Linking static target subprojects/icu/source/common/libicuuc.a
+[400/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/vtzone.cpp.obj
+[401/457] Compiling C++ object src/keymancore-2.dll.p/.._.._common_cpp_kmx_file.cpp.obj
+[402/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/ucln_in.cpp.obj
+[403/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/ulocdata.cpp.obj
+[404/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/ucol_sit.cpp.obj
+[405/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/uregexc.cpp.obj
+[406/457] Compiling C++ object src/keymancore-2.dll.p/.._.._common_cpp_utfcodec.cpp.obj
+[407/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/uspoof_impl.cpp.obj
+[408/457] Compiling C++ object src/keymancore-2.dll.p/vkey_to_contextreset.cpp.obj
+[409/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/uspoof_build.cpp.obj
+[410/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/uregex.cpp.obj
+[411/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/uspoof_conf.cpp.obj
+[412/457] Compiling Windows resource src/version.rc
+version.rc
+../../../src/version.rc(2): fatal error C1083: Cannot open include file: 'include/keyman/keyman_core_api_version.h': No such file or directory
+Error running preprocessor to find resource dependencies
+[413/457] Compiling C++ object subprojects/icu/source/i18n/libicuin.a.p/uspoof.cpp.obj
+[414/457] Compiling C++ object src/keymancore-2.dll.p/context_helpers.cpp.obj
+[415/457] Compiling C++ object src/keymancore-2.dll.p/option.cpp.obj
+[416/457] Compiling C++ object src/keymancore-2.dll.p/km_core_context_api.cpp.obj
+[417/457] Compiling C++ object src/keymancore-2.dll.p/keyboard.cpp.obj
+[418/457] Compiling C++ object src/keymancore-2.dll.p/jsonpp.cpp.obj
+[419/457] Compiling C++ object src/keymancore-2.dll.p/km_core_processevent_api.cpp.obj
+[420/457] Compiling C++ object src/keymancore-2.dll.p/action.cpp.obj
+[421/457] Compiling C++ object src/keymancore-2.dll.p/km_core_debug_api.cpp.obj
+[422/457] Compiling C++ object src/keymancore-2.dll.p/km_core_options_api.cpp.obj
+[423/457] Compiling C++ object src/keymancore-2.dll.p/km_core_action_api.cpp.obj
+[424/457] Compiling C++ object src/keymancore-2.dll.p/actions_normalize.cpp.obj
+[425/457] Compiling C++ object src/keymancore-2.dll.p/km_core_state_api.cpp.obj
+[426/457] Compiling C++ object src/keymancore-2.dll.p/util_normalize.cpp.obj
+[427/457] Compiling C++ object src/keymancore-2.dll.p/km_core_keyboard_api.cpp.obj
+[428/457] Compiling C++ object src/keymancore-2.dll.p/debuglog.cpp.obj
+[429/457] Compiling C++ object src/keymancore-2.dll.p/state.cpp.obj
+[430/457] Compiling C++ object src/keymancore-2.dll.p/core_icu.cpp.obj
+[431/457] Compiling C++ object src/keymancore-2.dll.p/kmx_kmx_consts.cpp.obj
+[432/457] Compiling C++ object src/keymancore-2.dll.p/util_regex.cpp.obj
+[433/457] Linking static target subprojects/icu/source/i18n/libicuin.a
+[434/457] Linking static target subprojects/icu/source/stubdata/libicudt.a
+[435/457] Compiling C++ object src/keymancore-2.dll.p/km_core_state_context_set_if_needed.cpp.obj
+[436/457] Compiling C++ object src/keymancore-2.dll.p/ldml_ldml_markers.cpp.obj
+[437/457] Compiling C++ object src/keymancore-2.dll.p/kmx_kmx_capslock.cpp.obj
+[438/457] Compiling C++ object src/keymancore-2.dll.p/ldml_ldml_vkeys.cpp.obj
+[439/457] Compiling C++ object src/keymancore-2.dll.p/kmx_kmx_processevent.cpp.obj
+[440/457] Compiling C++ object src/keymancore-2.dll.p/kmx_kmx_debugger.cpp.obj
+[441/457] Compiling C++ object src/keymancore-2.dll.p/kmx_kmx_context.cpp.obj
+[442/457] Compiling C++ object src/keymancore-2.dll.p/kmx_kmx_actions.cpp.obj
+[443/457] Compiling C++ object src/keymancore-2.dll.p/kmx_kmx_modifiers.cpp.obj
+[444/457] Compiling C++ object src/keymancore-2.dll.p/kmx_kmx_file.cpp.obj
+[445/457] Compiling C++ object src/keymancore-2.dll.p/kmx_kmx_conversion.cpp.obj
+[446/457] Compiling C++ object src/keymancore-2.dll.p/kmx_kmx_environment.cpp.obj
+[447/457] Compiling C++ object src/keymancore-2.dll.p/ldml_ldml_transforms.cpp.obj
+[448/457] Compiling C++ object src/keymancore-2.dll.p/kmx_kmx_plus.cpp.obj
+[449/457] Compiling C++ object src/keymancore-2.dll.p/mock_mock_processor.cpp.obj
+[450/457] Compiling C++ object src/keymancore-2.dll.p/ldml_ldml_processor.cpp.obj
+[451/457] Compiling C++ object src/keymancore-2.dll.p/kmx_kmx_options.cpp.obj
+[452/457] Compiling C++ object src/keymancore-2.dll.p/kmx_kmx_xstring.cpp.obj
+[453/457] Compiling C++ object src/keymancore-2.dll.p/kmx_kmx_processor.cpp.obj
+[454/457] Compiling C++ object tests/kmx_test_source/libkeymancore-tests.a.p/kmx_test_source.cpp.obj
+[455/457] Linking static target src/libkeymancore.a
+[456/457] Linking static target tests/kmx_test_source/libkeymancore-tests.a
+[457/457] Linking target src/keymancore-2.dll
+   Creating library src\keymancore.lib and object src\keymancore.exp
+[core] ## build:x86 completed successfully
+# exit=0

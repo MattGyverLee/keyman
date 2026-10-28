@@ -1,0 +1,40 @@
+# cwd=/c/Github/keyman-test-16462/windows/src/engine/keyman date=2026-10-28T10:35:37-05:00 host=ltu-legion HEAD=2d5bdf43bd
+# KEYMAN_DELPHI_CE='1' KEYMAN_DELPHI_VERSION='23.0' NoDefaultCurrentDirectoryInExePath='<unset>' stdin=null
+# cmd: ./build.sh build --no-deps
+[windows/src/engine/keyman] Local build environment detected:  setting --debug
+[windows/src/engine/keyman] build.sh parameters: <build --no-deps --debug>
+[windows/src/engine/keyman] ## build:project starting...
+[windows/src/engine/keyman] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/keyman] ### visual_studio: rc manifest.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/keyman] ### visual_studio: rc keymanmenuitem.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/keyman] ### visual_studio: rc icons.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/keyman] ### visual_studio: rc osktoolbar.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/keyman] ### visual_studio: rc langswitch/langswitchmanager.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/keyman] Delphi CE: CLI compilation is not available.
+[windows/src/engine/keyman] Please build keyman.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[windows/src/engine/keyman] Tip: opening the parent .groupproj and running Build All pre-builds all sibling projects at once; subsequent CE prompts in this script will auto-skip when their outputs are fresh.
+[windows/src/engine/keyman] Delphi CE: no Enter received (stdin closed or EOF) for keyman.dproj.
+
+[windows/src/engine/keyman] Delphi CE: keyman.dproj (Win32) was not built in the IDE -- its Debug output is still older than its source (or missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.
+
+[windows/src/engine/keyman] ## build:project failed
+# exit=1
+dcc32 spawns (probe exec lines in xtrace): 0

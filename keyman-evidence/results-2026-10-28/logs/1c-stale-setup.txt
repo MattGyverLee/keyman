@@ -1,0 +1,2 @@
+-rwxr-xr-x 1 thoua 197609   12 2020-01-01 00:00:00.000000000 -0600 /c/Github/keyman-test-delphi/windows/src/engine/tsysinfox64/bin/Win64/Debug/tsysinfox64.exe
+-rw-r--r-- 1 thoua 197609 1566 2026-10-28 10:23:34.315287000 -0500 /c/Github/keyman-test-delphi/windows/src/engine/tsysinfox64/tsysinfox64.dpr

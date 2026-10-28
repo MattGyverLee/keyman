@@ -1,0 +1,25 @@
+# cwd=/c/Github/keyman-test-delphi/windows/src/engine/tsysinfo date=2026-10-28T10:36:01-05:00 host=ltu-legion HEAD=331b0b3015
+# KEYMAN_DELPHI_CE='1' KEYMAN_DELPHI_VERSION='23.0' NoDefaultCurrentDirectoryInExePath='<unset>' stdin=null
+# cmd: ./build.sh build --no-deps
+[windows/src/engine/tsysinfo] Local build environment detected:  setting --debug
+[windows/src/engine/tsysinfo] build.sh parameters: <build --no-deps --debug>
+[windows/src/engine/tsysinfo] ## build:project starting...
+[windows/src/engine/tsysinfo] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/tsysinfo] ### visual_studio: rc manifest.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/tsysinfo] ## script '/windows/src/engine/tsysinfox64/build.sh publish' launched...
+[windows/src/engine/tsysinfox64] child build, parameters: <--builder-child --no-deps publish --debug>
+[windows/src/engine/tsysinfox64] ## publish:project starting...
+[windows/src/engine/tsysinfox64] ### visual_studio: mt.exe -nologo -inputresource:/c/Github/keyman-test-delphi/windows/bin/engine/tsysinfox64.exe -validate_manifest
+
+mt.exe : general error c101008c: Failed to read the manifest from the resource of file "\\?\C:\Github\keyman-test-delphi\windows\bin\engine\tsysinfox64.exe". The system cannot find the file specified.
+[windows/src/engine/tsysinfox64] ## publish:project failed
+[windows/src/engine/tsysinfo] ## child script '/c/Github/keyman-test-delphi/windows/src/engine/tsysinfox64/build.sh publish' failed with exit code 31
+[windows/src/engine/tsysinfo] ## build:project failed
+# exit=31
+dcc32 spawns (probe exec lines in xtrace): 0

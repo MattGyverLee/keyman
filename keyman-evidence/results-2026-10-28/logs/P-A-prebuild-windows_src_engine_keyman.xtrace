@@ -1,0 +1,2102 @@
++[903] export SHELLOPTS
++[903] case $mode in
++[903] ./build.sh build --no-deps
+++[907] readlink -f ./build.sh
++[907] THIS_SCRIPT=/c/Github/keyman-test-delphi/windows/src/engine/keyman/build.sh
++[907] . /c/Github/keyman-test-delphi/windows/src/engine/keyman/../../../../resources/build/builder-full.inc.sh
+++[907] set -eu
+++[907] SHLVL=0
+++[907] trap __builder_full_not_a_builder_script exit
+++[907] . /c/Github/keyman-test-delphi/windows/src/engine/keyman/../../../../resources/build/builder-basic.inc.sh
++++[907] set -eu
++++[907] SHLVL=0
++++[907] _builder_basic_find_keyman_root
++++[907] unset KEYMAN_ROOT
++++[907] KEYMAN_ROOT=/c/Github/keyman-test-delphi/windows/src/engine/keyman/../../../..
+++++[907] cd /c/Github/keyman-test-delphi/windows/src/engine/keyman/../../../..
+++++[907] echo /c/Github/keyman-test-delphi
++++[907] KEYMAN_ROOT=/c/Github/keyman-test-delphi
++++[907] readonly KEYMAN_ROOT
++++[907] export KEYMAN_ROOT
++++[907] . /c/Github/keyman-test-delphi/resources/builder.inc.sh
+++++[907] set -eu
+++++[907] SHLVL=0
+++++[907] _builder_reserved_parameters='^(--help|-h|--color|--no-color|--verbose|-v|--timings|--no-timings|--debug|--release|--deps|--no-deps|--force-deps|--builder-dep-parent|--builder-child|--builder-report-dependencies|--builder-completion-describe|--offline|--builder-ignore-unknown-options)$'
+++++[907] builder_extra_params=()
+++++[907] _builder_child_base=
+++++[907] _builder_function_calls=()
+++++[907] _builder_init
+++++[907] _builder_get_operating_system
+++++[907] declare -g BUILDER_OS
+++++[907] builder_is_macos
+++++[907] [[ cygwin == darwin* ]]
+++++[907] return 1
+++++[907] builder_is_windows
+++++[907] [[ cygwin == msys ]]
+++++[907] [[ cygwin == cygwin ]]
+++++[907] return 0
+++++[907] BUILDER_OS=win
+++++[907] readonly BUILDER_OS
+++++[907] _builder_findRepoRoot
++++++[907] readlink -f /c/Github/keyman-test-delphi
+++++[907] REPO_ROOT=/c/Github/keyman-test-delphi
+++++[907] readonly REPO_ROOT
+++++[907] _builder_setBuildScriptIdentifiers
+++++[907] '[' '!' -z x ']'
+++++[907] THIS_SCRIPT_PATH=/c/Github/keyman-test-delphi/windows/src/engine/keyman
+++++[907] readonly THIS_SCRIPT_PATH
+++++[907] THIS_SCRIPT_NAME=build.sh
+++++[907] readonly THIS_SCRIPT_NAME
+++++[907] THIS_SCRIPT_IDENTIFIER=windows/src/engine/keyman
+++++[907] readonly THIS_SCRIPT_IDENTIFIER
+++++[907] [[ -n xterm-256color ]]
+++++[907] [[ xterm-256color != dumb ]]
+++++[907] [[ xterm-256color != unknown ]]
+++++[907] '[' -t 1 ']'
+++++[907] builder_use_color false
+++++[907] false
+++++[907] COLOR_RED=
+++++[907] COLOR_GREEN=
+++++[907] COLOR_YELLOW=
+++++[907] COLOR_BLUE=
+++++[907] COLOR_PURPLE=
+++++[907] COLOR_TEAL=
+++++[907] COLOR_WHITE=
+++++[907] COLOR_BRIGHT_WHITE=
+++++[907] COLOR_GREY=
+++++[907] COLOR_RESET=
+++++[907] BUILDER_BOLD=
+++++[907] HEADING_SETMARK=
+++++[907] BUILDER_TERM_START='<'
+++++[907] BUILDER_TERM_END='>'
+++++[907] [[ -z '' ]]
+++++[907] export MESON_PACKAGE_CACHE_DIR=/c/Users/thoua/.cache/keyman/builder
+++++[907] MESON_PACKAGE_CACHE_DIR=/c/Users/thoua/.cache/keyman/builder
+++++[907] mkdir -p /c/Users/thoua/.cache/keyman/builder
+++++[907] _builder_check_color build --no-deps
+++++[907] [[ 2 -gt 0 ]]
+++++[907] local key=build
+++++[907] case "$key" in
+++++[907] shift
+++++[907] [[ 1 -gt 0 ]]
+++++[907] local key=--no-deps
+++++[907] case "$key" in
+++++[907] shift
+++++[907] [[ 0 -gt 0 ]]
+++++[907] '[' -z ']'
+++++[907] _builder_debug_internal=false
+++++[907] builder_is_debug_internal
+++++[907] false
+++++[907] return 1
++++[907] _builder_basic_find_tier
++++[907] local KEYMAN_TIER_MD=/c/Github/keyman-test-delphi/TIER.md
+++++[907] builder_trim alpha
+++++[907] local var=alpha
+++++[907] var=alpha
+++++[907] var=alpha
+++++[907] printf %s alpha
++++[907] KEYMAN_TIER=alpha
++++[907] [[ alpha =~ ^(alpha|beta|stable)$ ]]
++++[907] _builder_basic_find_version
++++[907] local KEYMAN_VERSION_MD=/c/Github/keyman-test-delphi/VERSION.md
+++++[907] builder_trim 20.0.9
+++++[907] local var=20.0.9
+++++[907] var=20.0.9
+++++[907] var=20.0.9
+++++[907] printf %s 20.0.9
++++[907] KEYMAN_VERSION=20.0.9
++++[907] [[ 20.0.9 =~ ^([[:digit:]]+)\.([[:digit:]]+)\.([[:digit:]]+)$ ]]
++++[907] KEYMAN_VERSION_MAJOR=20
++++[907] KEYMAN_VERSION_MINOR=0
++++[907] KEYMAN_VERSION_PATCH=9
++++[907] KEYMAN_VERSION_RELEASE=20.0
++++[907] KEYMAN_VERSION_WIN=20.0.9.0
++++[907] '[' alpha == alpha ']'
++++[907] KEYMAN_VERSION_TAG=-alpha
++++[907] builder_is_running_on_teamcity
++++[907] [[ -z '' ]]
++++[907] return 1
++++[907] builder_is_running_on_gha
++++[907] [[ -z '' ]]
++++[907] return 1
++++[907] [[ -z '' ]]
++++[907] KEYMAN_VERSION_TAG=-alpha-local
++++[907] KEYMAN_VERSION_ENVIRONMENT=local
++++[907] KEYMAN_VERSION_WITH_TAG=20.0.9-alpha-local
++++[907] KEYMAN_VERSION_GIT_TAG=release@20.0.9-alpha-local
++++[907] builder_is_ci_release_build
++++[907] [[ local =~ ^alpha|beta|stable$ ]]
++++[907] return 1
++++[907] KEYMAN_VERSION_FOR_FILENAME=20.0.9-alpha-local
++++[907] readonly KEYMAN_VERSION
++++[907] readonly KEYMAN_VERSION_MAJOR
++++[907] readonly KEYMAN_VERSION_MINOR
++++[907] readonly KEYMAN_VERSION_PATCH
++++[907] readonly KEYMAN_VERSION_RELEASE
++++[907] readonly KEYMAN_VERSION_WIN
++++[907] readonly KEYMAN_VERSION_TAG
++++[907] readonly KEYMAN_VERSION_WITH_TAG
++++[907] readonly KEYMAN_VERSION_ENVIRONMENT
++++[907] readonly KEYMAN_VERSION_GIT_TAG
++++[907] readonly KEYMAN_VERSION_FOR_FILENAME
++++[907] export KEYMAN_VERSION
++++[907] export KEYMAN_VERSION_MAJOR
++++[907] export KEYMAN_VERSION_MINOR
++++[907] export KEYMAN_VERSION_PATCH
++++[907] export KEYMAN_VERSION_RELEASE
++++[907] export KEYMAN_VERSION_WIN
++++[907] export KEYMAN_VERSION_TAG
++++[907] export KEYMAN_VERSION_WITH_TAG
++++[907] export KEYMAN_VERSION_ENVIRONMENT
++++[907] export KEYMAN_VERSION_GIT_TAG
++++[907] export KEYMAN_VERSION_FOR_FILENAME
++++[907] export KEYMAN_TIER
++++[907] export UPLOAD_SENTRY
++++[907] export BUILDER_OS
++++[907] _builder_basic_print_build_number_for_teamcity
++++[907] '[' '!' -z '' ']'
++++[907] _builder_basic_print_version_utils_debug
++++[907] builder_is_debug_internal
++++[907] false
++++[907] return 1
++++[907] builder_is_ci_build
++++[907] builder_is_ci_release_build
++++[907] [[ local =~ ^alpha|beta|stable$ ]]
++++[907] return 1
++++[907] builder_is_ci_test_build
++++[907] [[ local == test ]]
++++[907] return 1
++++[907] return 1
++++[907] return
++++[907] _builder_basic_find_should_sentry_release
++++[907] UPLOAD_SENTRY=false
++++[907] case $KEYMAN_VERSION_ENVIRONMENT in
++++[907] _builder_basic_set_keyman_standard_build_path
++++[907] PATH='/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl'
++++[907] builder_is_macos
++++[907] [[ cygwin == darwin* ]]
++++[907] return 1
+++[907] cd /c/Github/keyman-test-delphi/windows/src/engine/keyman
++[907] builder_describe 'Keyman main host process (32-bit)' @/common/include @/common/windows/delphi @/windows/src/global/delphi clean configure build test publish install edit 'debug-manifest     Build a uiAccess=false manifest.res for debugging and build within Delphi IDE' '--debug-manifest   For '\''build'\'' action, use a uiAccess=false manifest.res'
++[907] _builder_record_function_call builder_describe
++[907] local func=builder_describe
++[907] _builder_has_function_been_called builder_describe
++[907] local func=builder_describe
++[907] _builder_item_in_array builder_describe
++[907] local e match=builder_describe
++[907] shift
++[907] [[ -z builder_describe ]]
++[907] return 1
++[907] return 1
++[907] _builder_function_calls+=($1)
++[907] _builder_description='Keyman main host process (32-bit)'
++[907] _builder_actions=()
++[907] _builder_targets=()
++[907] _builder_options=()
++[907] _builder_deps=()
++[907] _builder_options_inheritable=()
++[907] _builder_default_action=build
++[907] _builder_targets_excluded_by_platform=()
++[907] declare -A -g _builder_targets_excluded_by_platform
++[907] declare -A -g _builder_params
++[907] declare -A -g _builder_options_short
++[907] declare -A -g _builder_options_var
++[907] declare -A -g _builder_dep_path
++[907] declare -A -g _builder_dep_related_actions
++[907] declare -A -g _builder_internal_dep
++[907] declare -A -g _builder_target_paths
++[907] declare -A -g _builder_dep_targets
++[907] shift
++[907] sub=()
++[907] local sub
++[907] [[ 12 -gt 0 ]]
++[907] local key=@/common/include
++[907] local value=@/common/include
++[907] local description=
++[907] [[ @/common/include =~ [[:space:]] ]]
++[907] local original_value=@/common/include
++[907] [[ @/common/include =~ ^: ]]
++[907] [[ @/common/include =~ ^@ ]]
++[907] local dependency=/common/include
++[907] local dependency_target=
++[907] [[ /common/include =~ : ]]
+++[907] _builder_expand_relative_path /common/include
+++[907] local path=/common/include
+++[907] [[ /common/include =~ ^/ ]]
+++[907] echo common/include
++[907] dependency=common/include
++[907] _builder_deps+=($dependency)
+++[907] _builder_expand_action_targets ''
+++[907] input=()
+++[907] output=()
+++[907] local input e output
+++[907] [[ 0 == 0 ]]
+++[907] echo '*:*'
++[907] _builder_dep_related_actions[$dependency]='*:*'
++[907] _builder_dep_targets[$dependency]=
++[907] shift
++[907] continue
++[907] [[ 11 -gt 0 ]]
++[907] local key=@/common/windows/delphi
++[907] local value=@/common/windows/delphi
++[907] local description=
++[907] [[ @/common/windows/delphi =~ [[:space:]] ]]
++[907] local original_value=@/common/windows/delphi
++[907] [[ @/common/windows/delphi =~ ^: ]]
++[907] [[ @/common/windows/delphi =~ ^@ ]]
++[907] local dependency=/common/windows/delphi
++[907] local dependency_target=
++[907] [[ /common/windows/delphi =~ : ]]
+++[907] _builder_expand_relative_path /common/windows/delphi
+++[907] local path=/common/windows/delphi
+++[907] [[ /common/windows/delphi =~ ^/ ]]
+++[907] echo common/windows/delphi
++[907] dependency=common/windows/delphi
++[907] _builder_deps+=($dependency)
+++[907] _builder_expand_action_targets ''
+++[907] input=()
+++[907] output=()
+++[907] local input e output
+++[907] [[ 0 == 0 ]]
+++[907] echo '*:*'
++[907] _builder_dep_related_actions[$dependency]='*:*'
++[907] _builder_dep_targets[$dependency]=
++[907] shift
++[907] continue
++[907] [[ 10 -gt 0 ]]
++[907] local key=@/windows/src/global/delphi
++[907] local value=@/windows/src/global/delphi
++[907] local description=
++[907] [[ @/windows/src/global/delphi =~ [[:space:]] ]]
++[907] local original_value=@/windows/src/global/delphi
++[907] [[ @/windows/src/global/delphi =~ ^: ]]
++[907] [[ @/windows/src/global/delphi =~ ^@ ]]
++[907] local dependency=/windows/src/global/delphi
++[907] local dependency_target=
++[907] [[ /windows/src/global/delphi =~ : ]]
+++[907] _builder_expand_relative_path /windows/src/global/delphi
+++[907] local path=/windows/src/global/delphi
+++[907] [[ /windows/src/global/delphi =~ ^/ ]]
+++[907] echo windows/src/global/delphi
++[907] dependency=windows/src/global/delphi
++[907] _builder_deps+=($dependency)
+++[907] _builder_expand_action_targets ''
+++[907] input=()
+++[907] output=()
+++[907] local input e output
+++[907] [[ 0 == 0 ]]
+++[907] echo '*:*'
++[907] _builder_dep_related_actions[$dependency]='*:*'
++[907] _builder_dep_targets[$dependency]=
++[907] shift
++[907] continue
++[907] [[ 9 -gt 0 ]]
++[907] local key=clean
++[907] local value=clean
++[907] local description=
++[907] [[ clean =~ [[:space:]] ]]
++[907] local original_value=clean
++[907] [[ clean =~ ^: ]]
++[907] [[ clean =~ ^@ ]]
++[907] [[ clean =~ ^-- ]]
++[907] [[ clean =~ \+$ ]]
++[907] _builder_actions+=($value)
++[907] [[ -z '' ]]
+++[907] _builder_get_default_description clean
+++[907] local description=
+++[907] local value=clean
+++[907] case "$value" in
+++[907] description='remove build/ folder and build artifacts'
+++[907] echo 'remove build/ folder and build artifacts'
++[907] description='remove build/ folder and build artifacts'
++[907] _builder_params[${original_value}]='remove build/ folder and build artifacts'
++[907] shift
++[907] [[ 8 -gt 0 ]]
++[907] local key=configure
++[907] local value=configure
++[907] local description=
++[907] [[ configure =~ [[:space:]] ]]
++[907] local original_value=configure
++[907] [[ configure =~ ^: ]]
++[907] [[ configure =~ ^@ ]]
++[907] [[ configure =~ ^-- ]]
++[907] [[ configure =~ \+$ ]]
++[907] _builder_actions+=($value)
++[907] [[ -z '' ]]
+++[907] _builder_get_default_description configure
+++[907] local description=
+++[907] local value=configure
+++[907] case "$value" in
+++[907] description='install dependencies, e.g. npm'
+++[907] echo 'install dependencies, e.g. npm'
++[907] description='install dependencies, e.g. npm'
++[907] _builder_params[${original_value}]='install dependencies, e.g. npm'
++[907] shift
++[907] [[ 7 -gt 0 ]]
++[907] local key=build
++[907] local value=build
++[907] local description=
++[907] [[ build =~ [[:space:]] ]]
++[907] local original_value=build
++[907] [[ build =~ ^: ]]
++[907] [[ build =~ ^@ ]]
++[907] [[ build =~ ^-- ]]
++[907] [[ build =~ \+$ ]]
++[907] _builder_actions+=($value)
++[907] [[ -z '' ]]
+++[907] _builder_get_default_description build
+++[907] local description=
+++[907] local value=build
+++[907] case "$value" in
+++[907] description='build target(s)'
+++[907] echo 'build target(s)'
++[907] description='build target(s)'
++[907] _builder_params[${original_value}]='build target(s)'
++[907] shift
++[907] [[ 6 -gt 0 ]]
++[907] local key=test
++[907] local value=test
++[907] local description=
++[907] [[ test =~ [[:space:]] ]]
++[907] local original_value=test
++[907] [[ test =~ ^: ]]
++[907] [[ test =~ ^@ ]]
++[907] [[ test =~ ^-- ]]
++[907] [[ test =~ \+$ ]]
++[907] _builder_actions+=($value)
++[907] [[ -z '' ]]
+++[907] _builder_get_default_description test
+++[907] local description=
+++[907] local value=test
+++[907] case "$value" in
+++[907] description='run automated tests'
+++[907] echo 'run automated tests'
++[907] description='run automated tests'
++[907] _builder_params[${original_value}]='run automated tests'
++[907] shift
++[907] [[ 5 -gt 0 ]]
++[907] local key=publish
++[907] local value=publish
++[907] local description=
++[907] [[ publish =~ [[:space:]] ]]
++[907] local original_value=publish
++[907] [[ publish =~ ^: ]]
++[907] [[ publish =~ ^@ ]]
++[907] [[ publish =~ ^-- ]]
++[907] [[ publish =~ \+$ ]]
++[907] _builder_actions+=($value)
++[907] [[ -z '' ]]
+++[907] _builder_get_default_description publish
+++[907] local description=
+++[907] local value=publish
+++[907] case "$value" in
+++[907] echo ''
++[907] description=
++[907] _builder_params[${original_value}]=
++[907] shift
++[907] [[ 4 -gt 0 ]]
++[907] local key=install
++[907] local value=install
++[907] local description=
++[907] [[ install =~ [[:space:]] ]]
++[907] local original_value=install
++[907] [[ install =~ ^: ]]
++[907] [[ install =~ ^@ ]]
++[907] [[ install =~ ^-- ]]
++[907] [[ install =~ \+$ ]]
++[907] _builder_actions+=($value)
++[907] [[ -z '' ]]
+++[907] _builder_get_default_description install
+++[907] local description=
+++[907] local value=install
+++[907] case "$value" in
+++[907] echo ''
++[907] description=
++[907] _builder_params[${original_value}]=
++[907] shift
++[907] [[ 3 -gt 0 ]]
++[907] local key=edit
++[907] local value=edit
++[907] local description=
++[907] [[ edit =~ [[:space:]] ]]
++[907] local original_value=edit
++[907] [[ edit =~ ^: ]]
++[907] [[ edit =~ ^@ ]]
++[907] [[ edit =~ ^-- ]]
++[907] [[ edit =~ \+$ ]]
++[907] _builder_actions+=($value)
++[907] [[ -z '' ]]
+++[907] _builder_get_default_description edit
+++[907] local description=
+++[907] local value=edit
+++[907] case "$value" in
+++[907] echo ''
++[907] description=
++[907] _builder_params[${original_value}]=
++[907] shift
++[907] [[ 2 -gt 0 ]]
++[907] local 'key=debug-manifest     Build a uiAccess=false manifest.res for debugging and build within Delphi IDE'
++[907] local 'value=debug-manifest     Build a uiAccess=false manifest.res for debugging and build within Delphi IDE'
++[907] local description=
++[907] [[ debug-manifest     Build a uiAccess=false manifest.res for debugging and build within Delphi IDE =~ [[:space:]] ]]
++[907] IFS=' '
++[907] read -r -a sub
++[907] value=debug-manifest
+++[907] builder_trim Build a uiAccess=false manifest.res for debugging and build within Delphi IDE
+++[907] local 'var=Build a uiAccess=false manifest.res for debugging and build within Delphi IDE'
+++[907] var='Build a uiAccess=false manifest.res for debugging and build within Delphi IDE'
+++[907] var='Build a uiAccess=false manifest.res for debugging and build within Delphi IDE'
+++[907] printf %s 'Build a uiAccess=false manifest.res for debugging and build within Delphi IDE'
++[907] description='Build a uiAccess=false manifest.res for debugging and build within Delphi IDE'
++[907] local original_value=debug-manifest
++[907] [[ debug-manifest =~ ^: ]]
++[907] [[ debug-manifest =~ ^@ ]]
++[907] [[ debug-manifest =~ ^-- ]]
++[907] [[ debug-manifest =~ \+$ ]]
++[907] _builder_actions+=($value)
++[907] [[ -z Build a uiAccess=false manifest.res for debugging and build within Delphi IDE ]]
++[907] _builder_params[${original_value}]='Build a uiAccess=false manifest.res for debugging and build within Delphi IDE'
++[907] shift
++[907] [[ 1 -gt 0 ]]
++[907] local 'key=--debug-manifest   For '\''build'\'' action, use a uiAccess=false manifest.res'
++[907] local 'value=--debug-manifest   For '\''build'\'' action, use a uiAccess=false manifest.res'
++[907] local description=
++[907] [[ --debug-manifest   For 'build' action, use a uiAccess=false manifest.res =~ [[:space:]] ]]
++[907] IFS=' '
++[907] read -r -a sub
++[907] value=--debug-manifest
+++[907] builder_trim For ''\''build'\''' action, use a uiAccess=false manifest.res
+++[907] local 'var=For '\''build'\'' action, use a uiAccess=false manifest.res'
+++[907] var='For '\''build'\'' action, use a uiAccess=false manifest.res'
+++[907] var='For '\''build'\'' action, use a uiAccess=false manifest.res'
+++[907] printf %s 'For '\''build'\'' action, use a uiAccess=false manifest.res'
++[907] description='For '\''build'\'' action, use a uiAccess=false manifest.res'
++[907] local original_value=--debug-manifest
++[907] [[ --debug-manifest =~ ^: ]]
++[907] [[ --debug-manifest =~ ^@ ]]
++[907] [[ --debug-manifest =~ ^-- ]]
++[907] local option_var=
++[907] [[ --debug-manifest =~ = ]]
++[907] local is_inheritable=false
++[907] [[ --debug-manifest =~ \+$ ]]
++[907] [[ --debug-manifest =~ , ]]
++[907] _builder_options+=($value)
++[907] false
++[907] [[ ! -z '' ]]
++[907] [[ ! -z '' ]]
++[907] [[ -z For 'build' action, use a uiAccess=false manifest.res ]]
++[907] _builder_params[${original_value}]='For '\''build'\'' action, use a uiAccess=false manifest.res'
++[907] shift
++[907] [[ 0 -gt 0 ]]
++[907] ((  ! 0  ))
++[907] _builder_targets+=(:project)
+++[907] _builder_get_default_description :project
+++[907] local description=
+++[907] local value=:project
+++[907] case "$value" in
+++[907] description='this project'
+++[907] echo 'this project'
++[907] _builder_params[\:project]='this project'
++[907] builder_parse build --no-deps
++[907] _builder_record_function_call builder_parse
++[907] local func=builder_parse
++[907] _builder_has_function_been_called builder_parse
++[907] local func=builder_parse
++[907] _builder_item_in_array builder_parse builder_describe
++[907] local e match=builder_parse
++[907] shift
++[907] [[ -z builder_parse ]]
++[907] for e in "$@"
++[907] [[ builder_describe == builder_parse ]]
++[907] return 1
++[907] return 1
++[907] _builder_function_calls+=($1)
++[907] exp=()
++[907] local exp
++[907] builder_extra_params=()
++[907] [[ 2 -gt 0 ]]
++[907] local action= target=
++[907] local key=build
++[907] [[ build == \-\- ]]
++[907] [[ build =~ ^- ]]
++[907] [[ build =~ : ]]
++[907] action=build
++[907] target=
++[907] local actions targets
++[907] IFS=,
++[907] read -r -a actions
++[907] IFS=,
++[907] read -r -a targets
++[907] [[ 1 -eq 0 ]]
++[907] for action in "${actions[@]}"
++[907] [[ 0 -eq 0 ]]
++[907] exp+=($action)
++[907] shift
++[907] [[ 1 -gt 0 ]]
++[907] local action= target=
++[907] local key=--no-deps
++[907] [[ --no-deps == \-\- ]]
++[907] [[ --no-deps =~ ^- ]]
++[907] [[ ! -z '' ]]
++[907] exp+=($key)
++[907] [[ ! -z '' ]]
++[907] shift
++[907] [[ 0 -gt 0 ]]
++[907] _builder_parse_expanded_parameters build --no-deps
++[907] _builder_build_deps=--deps
++[907] builder_verbose=
++[907] [[ -z '' ]]
++[907] builder_is_ci_build
++[907] builder_is_ci_release_build
++[907] [[ local =~ ^alpha|beta|stable$ ]]
++[907] return 1
++[907] builder_is_ci_test_build
++[907] [[ local == test ]]
++[907] return 1
++[907] return 1
++[907] _builder_timings=false
++[907] export _builder_timings
++[907] builder_debug=
++[907] local is_release=false
++[907] _params=('build' '--no-deps')
++[907] local _params
++[907] _builder_chosen_action_targets=()
++[907] _builder_chosen_options=()
++[907] _builder_current_action=
++[907] _builder_is_child=1
++[907] _builder_offline=
++[907] _builder_ignore_unknown_options=1
++[907] builder_ignored_options=()
++[907] local n=0
++[907] [[ 2 -gt 0 ]]
++[907] local key=build
++[907] local action=
++[907] local target=
++[907] local e has_action has_target has_option longhand_option
++[907] [[ build =~ : ]]
++[907] action=build
++[907] target=
+++[907] _builder_expand_shorthand build clean configure build test publish install edit debug-manifest
+++[907] local item=build
+++[907] shift
+++[907] local count=0
+++[907] local result=
+++[907] local string=
+++[907] for e in "$@"
+++[907] [[ clean == build ]]
+++[907] [[ clean == build* ]]
+++[907] for e in "$@"
+++[907] [[ configure == build ]]
+++[907] [[ configure == build* ]]
+++[907] for e in "$@"
+++[907] [[ build == build ]]
+++[907] echo build
+++[907] return 1
++[907] new_action=build
++[907] case $? in
++[907] action=build
+++[907] _builder_expand_shorthand :project
+++[907] local item=:project
+++[907] shift
+++[907] local count=0
+++[907] local result=
+++[907] local string=
+++[907] [[ 0 -lt 2 ]]
+++[907] echo
+++[907] return 0
++[907] new_target=
++[907] _builder_item_in_array build clean configure build test publish install edit debug-manifest
++[907] local e match=build
++[907] shift
++[907] [[ -z build ]]
++[907] for e in "$@"
++[907] [[ clean == build ]]
++[907] for e in "$@"
++[907] [[ configure == build ]]
++[907] for e in "$@"
++[907] [[ build == build ]]
++[907] return 0
++[907] has_action=1
++[907] _builder_item_in_array '' :project
++[907] local e match=
++[907] shift
++[907] [[ -z '' ]]
++[907] return 1
++[907] has_target=0
++[907] ((  has_action  ))
++[907] _params[$n]=build
++[907] n=1
++[907] _builder_item_in_array build --debug-manifest
++[907] local e match=build
++[907] shift
++[907] [[ -z build ]]
++[907] for e in "$@"
++[907] [[ --debug-manifest == build ]]
++[907] return 1
++[907] has_option=0
++[907] ((  has_action  ))
++[907] ((  has_target  ))
++[907] ((  has_action  ))
++[907] [[ ! -z '' ]]
++[907] for e in "${_builder_targets[@]}"
++[907] _builder_chosen_action_targets+=("$action$e")
++[907] shift
++[907] [[ 1 -gt 0 ]]
++[907] local key=--no-deps
++[907] local action=
++[907] local target=
++[907] local e has_action has_target has_option longhand_option
++[907] [[ --no-deps =~ : ]]
++[907] action=--no-deps
++[907] target=
+++[907] _builder_expand_shorthand --no-deps clean configure build test publish install edit debug-manifest
+++[907] local item=--no-deps
+++[907] shift
+++[907] local count=0
+++[907] local result=
+++[907] local string=
+++[907] for e in "$@"
+++[907] [[ clean == --no-deps ]]
+++[907] [[ clean == \-\-no\-deps* ]]
+++[907] for e in "$@"
+++[907] [[ configure == --no-deps ]]
+++[907] [[ configure == \-\-no\-deps* ]]
+++[907] for e in "$@"
+++[907] [[ build == --no-deps ]]
+++[907] [[ build == \-\-no\-deps* ]]
+++[907] for e in "$@"
+++[907] [[ test == --no-deps ]]
+++[907] [[ test == \-\-no\-deps* ]]
+++[907] for e in "$@"
+++[907] [[ publish == --no-deps ]]
+++[907] [[ publish == \-\-no\-deps* ]]
+++[907] for e in "$@"
+++[907] [[ install == --no-deps ]]
+++[907] [[ install == \-\-no\-deps* ]]
+++[907] for e in "$@"
+++[907] [[ edit == --no-deps ]]
+++[907] [[ edit == \-\-no\-deps* ]]
+++[907] for e in "$@"
+++[907] [[ debug-manifest == --no-deps ]]
+++[907] [[ debug-manifest == \-\-no\-deps* ]]
+++[907] [[ 0 -lt 2 ]]
+++[907] echo
+++[907] return 0
++[907] new_action=
+++[907] _builder_expand_shorthand :project
+++[907] local item=:project
+++[907] shift
+++[907] local count=0
+++[907] local result=
+++[907] local string=
+++[907] [[ 0 -lt 2 ]]
+++[907] echo
+++[907] return 0
++[907] new_target=
++[907] _builder_item_in_array --no-deps clean configure build test publish install edit debug-manifest
++[907] local e match=--no-deps
++[907] shift
++[907] [[ -z --no-deps ]]
++[907] for e in "$@"
++[907] [[ clean == --no-deps ]]
++[907] for e in "$@"
++[907] [[ configure == --no-deps ]]
++[907] for e in "$@"
++[907] [[ build == --no-deps ]]
++[907] for e in "$@"
++[907] [[ test == --no-deps ]]
++[907] for e in "$@"
++[907] [[ publish == --no-deps ]]
++[907] for e in "$@"
++[907] [[ install == --no-deps ]]
++[907] for e in "$@"
++[907] [[ edit == --no-deps ]]
++[907] for e in "$@"
++[907] [[ debug-manifest == --no-deps ]]
++[907] return 1
++[907] has_action=0
++[907] _builder_item_in_array '' :project
++[907] local e match=
++[907] shift
++[907] [[ -z '' ]]
++[907] return 1
++[907] has_target=0
++[907] ((  has_action  ))
++[907] ((  has_target  ))
++[907] n=2
++[907] _builder_item_in_array --no-deps --debug-manifest
++[907] local e match=--no-deps
++[907] shift
++[907] [[ -z --no-deps ]]
++[907] for e in "$@"
++[907] [[ --debug-manifest == --no-deps ]]
++[907] return 1
++[907] has_option=0
++[907] ((  has_action  ))
++[907] ((  has_action  ))
++[907] ((  has_target  ))
++[907] ((  has_option  ))
++[907] case "$key" in
++[907] _builder_build_deps=--no-deps
++[907] shift
++[907] [[ 0 -gt 0 ]]
++[907] ((  ! 1  ))
++[907] _builder_has_function_been_called builder_describe_outputs
++[907] local func=builder_describe_outputs
++[907] _builder_item_in_array builder_describe_outputs builder_describe builder_parse
++[907] local e match=builder_describe_outputs
++[907] shift
++[907] [[ -z builder_describe_outputs ]]
++[907] for e in "$@"
++[907] [[ builder_describe == builder_describe_outputs ]]
++[907] for e in "$@"
++[907] [[ builder_parse == builder_describe_outputs ]]
++[907] return 1
++[907] return 1
++[907] builder_is_dep_build
++[907] [[ ! -z '' ]]
++[907] return 1
++[907] builder_is_child_build
++[907] return 1
+++[907] mktemp
++[907] export _builder_deps_built=/tmp/tmp.svoQKwozUL
++[907] _builder_deps_built=/tmp/tmp.svoQKwozUL
++[907] _builder_timing_setup
++[907] false
++[907] [[ local == local ]]
++[907] [[ '' != --debug ]]
++[907] false
++[907] builder_echo grey 'Local build environment detected:  setting --debug'
++[907] local color=white message= mark= block= action= test=
++[907] local echo_target=echo
++[907] [[ 2 -gt 1 ]]
++[907] [[ grey =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[907] color=grey
++[907] shift
++[907] message='Local build environment detected:  setting --debug'
++[907] [[ '' == start ]]
++[907] [[ ! -z x ]]
++[907] case $color in
++[907] color=
++[907] builder_is_dep_build
++[907] [[ ! -z '' ]]
++[907] return 1
++[907] echo -e '[windows/src/engine/keyman] Local build environment detected:  setting --debug'
++[907] [[ '' == end ]]
++[907] _params+=(--debug)
++[907] _builder_chosen_options+=(--debug)
++[907] builder_debug=--debug
+++[907] basename ./build.sh
++[907] builder_echo setmark 'build.sh parameters: <build' --no-deps '--debug>'
++[907] local color=white message= mark= block= action= test=
++[907] local echo_target=echo
++[907] [[ 4 -gt 1 ]]
++[907] [[ setmark =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[907] color=setmark
++[907] shift
++[907] message='build.sh parameters: <build --no-deps --debug>'
++[907] [[ '' == start ]]
++[907] [[ ! -z x ]]
++[907] case $color in
++[907] mark=
++[907] color=
++[907] builder_is_dep_build
++[907] [[ ! -z '' ]]
++[907] return 1
++[907] echo -e '[windows/src/engine/keyman] build.sh parameters: <build --no-deps --debug>'
++[907] [[ '' == end ]]
++[907] [[ 0 -gt 0 ]]
++[907] builder_is_debug_build
++[907] [[ --debug == --debug ]]
++[907] return 0
++[907] export BUILDER_CONFIGURATION=debug
++[907] BUILDER_CONFIGURATION=debug
++[907] _builder_print_internal_debug_info
++[907] builder_is_debug_internal
++[907] false
++[907] return 1
++[907] builder_is_ci_build
++[907] builder_is_ci_release_build
++[907] [[ local =~ ^alpha|beta|stable$ ]]
++[907] return 1
++[907] builder_is_ci_test_build
++[907] [[ local == test ]]
++[907] return 1
++[907] return 1
++[907] return
+++[907] trap -p DEBUG
++[907] [[ -z '' ]]
++[907] trap _builder_failure_trap err exit
++[907] source /c/Github/keyman-test-delphi/resources/build/win/environment.inc.sh
+++[907] _builder_has_function_been_called builder_parse
+++[907] local func=builder_parse
+++[907] _builder_item_in_array builder_parse builder_describe builder_parse
+++[907] local e match=builder_parse
+++[907] shift
+++[907] [[ -z builder_parse ]]
+++[907] for e in "$@"
+++[907] [[ builder_describe == builder_parse ]]
+++[907] for e in "$@"
+++[907] [[ builder_parse == builder_parse ]]
+++[907] return 0
+++[907] return 0
+++[907] source /c/Github/keyman-test-delphi/resources/build/win/configure_environment.inc.sh
+++[907] [[ ! -f /c/Github/keyman-test-delphi/resources/build/win/environment_generated.inc.sh ]]
+++[907] [[ ! -f /c/Github/keyman-test-delphi/resources/build/win/delphi_environment_generated.inc.sh ]]
+++[907] [[ ! -f /c/Github/keyman-test-delphi/resources/build/win/visualstudio_environment_generated.inc.sh ]]
+++[907] source /c/Github/keyman-test-delphi/resources/build/win/environment_generated.inc.sh
++++[907] ProgramFiles='/c/Program Files'
++++[907] ProgramFilesx86='/c/Program Files (x86)'
++++[907] CommonProgramFilesx86='/c/Program Files (x86)/Common Files'
++++[907] INSTALLPATH_KEYMANAPP='/c/Program Files (x86)/Keyman/Keyman Desktop'
++++[907] INSTALLPATH_KEYMANDEVELOPER='/c/Program Files (x86)/Keyman/Keyman Developer'
++++[907] INSTALLPATH_KEYMANENGINE='/c/Program Files (x86)/Common Files/Keyman/Keyman Engine'
+++[907] WINDOWS_ROOT=/c/Github/keyman-test-delphi/windows
+++[907] WINDOWS_PROGRAM_APP=/c/Github/keyman-test-delphi/windows/bin/desktop
+++[907] WINDOWS_PROGRAM_ENGINE=/c/Github/keyman-test-delphi/windows/bin/engine
+++[907] WINDOWS_PROGRAM_SUPPORT=/c/Github/keyman-test-delphi/windows/bin/support
+++[907] WINDOWS_DEBUGPATH_APP=/c/Github/keyman-test-delphi/windows/debug/desktop
+++[907] WINDOWS_DEBUGPATH_ENGINE=/c/Github/keyman-test-delphi/windows/debug/engine
+++[907] WINDOWS_DEBUGPATH_SUPPORT=/c/Github/keyman-test-delphi/windows/debug/support
+++[907] COMMON_ROOT=/c/Github/keyman-test-delphi/common/windows/delphi
+++[907] OUTLIB=/c/Github/keyman-test-delphi/windows/lib
+++[907] COMMON_OUTLIB=/c/Github/keyman-test-delphi/common/windows/lib
+++[907] builder_is_debug_build
+++[907] [[ --debug == --debug ]]
+++[907] return 0
+++[907] GO_FAST=1
+++[907] source /c/Github/keyman-test-delphi/resources/build/win/delphi_flags.inc.sh
++++[907] DELPHIINCLUDES='/c/Github/keyman-test-delphi/common/windows/delphi/ext/cef4delphi/source;/c/Github/keyman-test-delphi/common/windows/delphi/ext/dcpcrypt;/c/Github/keyman-test-delphi/common/windows/delphi/ext/jwa/Win32API;/c/Github/keyman-test-delphi/common/windows/delphi/ext/sentry;/c/Github/keyman-test-delphi/developer/src/ext/mbcolor;/c/Github/keyman-test-delphi/developer/src/ext/scfontcombobox'
++++[907] builder_is_debug_build
++++[907] [[ --debug == --debug ]]
++++[907] return 0
++++[907] TARGET_PATH=Debug
++++[907] DELPHI_MSBUILD_FLAG_DEBUG=//p:Config=Debug
++++[907] WIN32_TARGET_PATH=bin/Win32/Debug
++++[907] X64_TARGET_PATH=bin/x64/Debug
++++[907] ARM64_TARGET_PATH=bin/arm64/Debug
++++[907] ARM64EC_TARGET_PATH=bin/ARM64EC/Debug
++++[907] WIN64_TARGET_PATH=bin/Win64/Debug
++++[907] DEVELOPER_ROOT=/c/Github/keyman-test-delphi/developer
++++[907] DEVELOPER_PROGRAM=/c/Github/keyman-test-delphi/developer/bin
++++[907] DEVELOPER_OUTLIB=/c/Github/keyman-test-delphi/developer/lib
++++[907] DEVELOPER_DEBUGPATH=/c/Github/keyman-test-delphi/developer/debug
++++[907] SENTRYTOOL=/c/Github/keyman-test-delphi/common/windows/delphi/tools/sentrytool/bin/Win32/Debug/sentrytool.exe
++++[907] TDS2DBG=/c/Github/keyman-test-delphi/common/windows/bin/tools/tds2dbg
++++[907] DEVTOOLS=/c/Github/keyman-test-delphi/common/windows/delphi/tools/devtools/bin/Win32/Debug/devtools.exe
+++[907] source /c/Github/keyman-test-delphi/resources/build/win/vs_flags.inc.sh
++++[907] builder_is_debug_build
++++[907] [[ --debug == --debug ]]
++++[907] return 0
++++[907] VS_MSBUILD_FLAG_DEBUG=//p:Configuration=Debug
+++[907] source /c/Github/keyman-test-delphi/resources/build/win/signtime.inc.sh
++++[907] [[ -z '' ]]
++++[907] SC_PFX_SHA1=/c/Github/keyman-test-delphi/common/windows/delphi/tools/certificates/keymantest-sha1.pfx
++++[907] [[ -z '' ]]
++++[907] SC_PFX_SHA256=/c/Github/keyman-test-delphi/common/windows/delphi/tools/certificates/keymantest-sha256.pfx
++++[907] [[ -z '' ]]
++++[907] SC_URL=https://keyman.com/
++++[907] [[ -z '' ]]
++++[907] SC_PWD=
+++[907] VERIFY_SIGNATURES_PATH=/c/Github/keyman-test-delphi/common/windows/delphi/tools/verify_signatures
+++[907] VERIFY_SIGNATURES=/c/Github/keyman-test-delphi/common/windows/delphi/tools/verify_signatures/bin/Win32/Debug/verify_signatures.exe
+++[907] SIGCHECK=/c/Github/keyman-test-delphi/common/windows/delphi/tools/verify_signatures/bin/Win32/Debug/sigcheck.exe
+++[907] _KEYMAN_DELPHI_CE_PROBED=
+++[907] _KEYMAN_DELPHI_IS_CE=
++[907] WIN32_TARGET=bin/Win32/Debug/keyman.exe
++[907] builder_describe_outputs configure:project /resources/build/win/delphi_environment_generated.inc.sh build:project /windows/src/engine/keyman/bin/Win32/Debug/keyman.exe
++[907] _builder_record_function_call builder_describe_outputs
++[907] local func=builder_describe_outputs
++[907] _builder_has_function_been_called builder_describe_outputs
++[907] local func=builder_describe_outputs
++[907] _builder_item_in_array builder_describe_outputs builder_describe builder_parse
++[907] local e match=builder_describe_outputs
++[907] shift
++[907] [[ -z builder_describe_outputs ]]
++[907] for e in "$@"
++[907] [[ builder_describe == builder_describe_outputs ]]
++[907] for e in "$@"
++[907] [[ builder_parse == builder_describe_outputs ]]
++[907] return 1
++[907] return 1
++[907] _builder_function_calls+=($1)
++[907] [[ 4 -gt 0 ]]
++[907] local key=configure:project path=/resources/build/win/delphi_environment_generated.inc.sh action= target=
+++[907] _builder_expand_relative_path /resources/build/win/delphi_environment_generated.inc.sh
+++[907] local path=/resources/build/win/delphi_environment_generated.inc.sh
+++[907] [[ /resources/build/win/delphi_environment_generated.inc.sh =~ ^/ ]]
+++[907] echo resources/build/win/delphi_environment_generated.inc.sh
++[907] path=resources/build/win/delphi_environment_generated.inc.sh
++[907] [[ configure:project =~ : ]]
++[907] IFS=:
++[907] read -r action target
++[907] target=:project
++[907] _builder_dep_path[$action$target]=resources/build/win/delphi_environment_generated.inc.sh
++[907] shift 2
++[907] [[ 2 -gt 0 ]]
++[907] local key=build:project path=/windows/src/engine/keyman/bin/Win32/Debug/keyman.exe action= target=
+++[907] _builder_expand_relative_path /windows/src/engine/keyman/bin/Win32/Debug/keyman.exe
+++[907] local path=/windows/src/engine/keyman/bin/Win32/Debug/keyman.exe
+++[907] [[ /windows/src/engine/keyman/bin/Win32/Debug/keyman.exe =~ ^/ ]]
+++[907] echo windows/src/engine/keyman/bin/Win32/Debug/keyman.exe
++[907] path=windows/src/engine/keyman/bin/Win32/Debug/keyman.exe
++[907] [[ build:project =~ : ]]
++[907] IFS=:
++[907] read -r action target
++[907] target=:project
++[907] _builder_dep_path[$action$target]=windows/src/engine/keyman/bin/Win32/Debug/keyman.exe
++[907] shift 2
++[907] [[ 0 -gt 0 ]]
++[907] _builder_define_default_internal_dependencies
++[907] for target in "${_builder_targets[@]}"
++[907] _builder_define_default_internal_deps_for_target :project
++[907] local target=:project
++[907] _builder_define_default_internal_dep :project configure build
++[907] local target=:project dep=configure action=build
++[907] _builder_item_in_array configure clean configure build test publish install edit debug-manifest
++[907] local e match=configure
++[907] shift
++[907] [[ -z configure ]]
++[907] for e in "$@"
++[907] [[ clean == configure ]]
++[907] for e in "$@"
++[907] [[ configure == configure ]]
++[907] return 0
++[907] _builder_item_in_array build clean configure build test publish install edit debug-manifest
++[907] local e match=build
++[907] shift
++[907] [[ -z build ]]
++[907] for e in "$@"
++[907] [[ clean == build ]]
++[907] for e in "$@"
++[907] [[ configure == build ]]
++[907] for e in "$@"
++[907] [[ build == build ]]
++[907] return 0
++[907] [[ -z '' ]]
++[907] _builder_internal_dep[$action$target]=configure:project
++[907] _builder_define_default_internal_dep :project build test
++[907] local target=:project dep=build action=test
++[907] _builder_item_in_array build clean configure build test publish install edit debug-manifest
++[907] local e match=build
++[907] shift
++[907] [[ -z build ]]
++[907] for e in "$@"
++[907] [[ clean == build ]]
++[907] for e in "$@"
++[907] [[ configure == build ]]
++[907] for e in "$@"
++[907] [[ build == build ]]
++[907] return 0
++[907] _builder_item_in_array test clean configure build test publish install edit debug-manifest
++[907] local e match=test
++[907] shift
++[907] [[ -z test ]]
++[907] for e in "$@"
++[907] [[ clean == test ]]
++[907] for e in "$@"
++[907] [[ configure == test ]]
++[907] for e in "$@"
++[907] [[ build == test ]]
++[907] for e in "$@"
++[907] [[ test == test ]]
++[907] return 0
++[907] [[ -z '' ]]
++[907] _builder_internal_dep[$action$target]=build:project
++[907] _builder_define_default_internal_dep :project build install
++[907] local target=:project dep=build action=install
++[907] _builder_item_in_array build clean configure build test publish install edit debug-manifest
++[907] local e match=build
++[907] shift
++[907] [[ -z build ]]
++[907] for e in "$@"
++[907] [[ clean == build ]]
++[907] for e in "$@"
++[907] [[ configure == build ]]
++[907] for e in "$@"
++[907] [[ build == build ]]
++[907] return 0
++[907] _builder_item_in_array install clean configure build test publish install edit debug-manifest
++[907] local e match=install
++[907] shift
++[907] [[ -z install ]]
++[907] for e in "$@"
++[907] [[ clean == install ]]
++[907] for e in "$@"
++[907] [[ configure == install ]]
++[907] for e in "$@"
++[907] [[ build == install ]]
++[907] for e in "$@"
++[907] [[ test == install ]]
++[907] for e in "$@"
++[907] [[ publish == install ]]
++[907] for e in "$@"
++[907] [[ install == install ]]
++[907] return 0
++[907] [[ -z '' ]]
++[907] _builder_internal_dep[$action$target]=build:project
++[907] _builder_define_default_internal_deps_for_target ':*'
++[907] local 'target=:*'
++[907] _builder_define_default_internal_dep ':*' configure build
++[907] local 'target=:*' dep=configure action=build
++[907] _builder_item_in_array configure clean configure build test publish install edit debug-manifest
++[907] local e match=configure
++[907] shift
++[907] [[ -z configure ]]
++[907] for e in "$@"
++[907] [[ clean == configure ]]
++[907] for e in "$@"
++[907] [[ configure == configure ]]
++[907] return 0
++[907] _builder_item_in_array build clean configure build test publish install edit debug-manifest
++[907] local e match=build
++[907] shift
++[907] [[ -z build ]]
++[907] for e in "$@"
++[907] [[ clean == build ]]
++[907] for e in "$@"
++[907] [[ configure == build ]]
++[907] for e in "$@"
++[907] [[ build == build ]]
++[907] return 0
++[907] [[ -z '' ]]
++[907] _builder_internal_dep[$action$target]='configure:*'
++[907] _builder_define_default_internal_dep ':*' build test
++[907] local 'target=:*' dep=build action=test
++[907] _builder_item_in_array build clean configure build test publish install edit debug-manifest
++[907] local e match=build
++[907] shift
++[907] [[ -z build ]]
++[907] for e in "$@"
++[907] [[ clean == build ]]
++[907] for e in "$@"
++[907] [[ configure == build ]]
++[907] for e in "$@"
++[907] [[ build == build ]]
++[907] return 0
++[907] _builder_item_in_array test clean configure build test publish install edit debug-manifest
++[907] local e match=test
++[907] shift
++[907] [[ -z test ]]
++[907] for e in "$@"
++[907] [[ clean == test ]]
++[907] for e in "$@"
++[907] [[ configure == test ]]
++[907] for e in "$@"
++[907] [[ build == test ]]
++[907] for e in "$@"
++[907] [[ test == test ]]
++[907] return 0
++[907] [[ -z '' ]]
++[907] _builder_internal_dep[$action$target]='build:*'
++[907] _builder_define_default_internal_dep ':*' build install
++[907] local 'target=:*' dep=build action=install
++[907] _builder_item_in_array build clean configure build test publish install edit debug-manifest
++[907] local e match=build
++[907] shift
++[907] [[ -z build ]]
++[907] for e in "$@"
++[907] [[ clean == build ]]
++[907] for e in "$@"
++[907] [[ configure == build ]]
++[907] for e in "$@"
++[907] [[ build == build ]]
++[907] return 0
++[907] _builder_item_in_array install clean configure build test publish install edit debug-manifest
++[907] local e match=install
++[907] shift
++[907] [[ -z install ]]
++[907] for e in "$@"
++[907] [[ clean == install ]]
++[907] for e in "$@"
++[907] [[ configure == install ]]
++[907] for e in "$@"
++[907] [[ build == install ]]
++[907] for e in "$@"
++[907] [[ test == install ]]
++[907] for e in "$@"
++[907] [[ publish == install ]]
++[907] for e in "$@"
++[907] [[ install == install ]]
++[907] return 0
++[907] [[ -z '' ]]
++[907] _builder_internal_dep[$action$target]='build:*'
++[907] _builder_has_function_been_called builder_parse
++[907] local func=builder_parse
++[907] _builder_item_in_array builder_parse builder_describe builder_parse builder_describe_outputs
++[907] local e match=builder_parse
++[907] shift
++[907] [[ -z builder_parse ]]
++[907] for e in "$@"
++[907] [[ builder_describe == builder_parse ]]
++[907] for e in "$@"
++[907] [[ builder_parse == builder_parse ]]
++[907] return 0
++[907] return 0
++[907] _builder_add_chosen_action_target_dependencies
++[907] new_actions=()
++[907] local action_target i=0 new_actions
++[907] ((  0 < 1  ))
++[907] action_target=build:project
++[907] [[ ! -z x ]]
++[907] dep_outputs=('configure:project')
++[907] local dep_outputs dep_output
++[907] for dep_output in "${dep_outputs[@]}"
++[907] [[ ! -z x ]]
++[907] [[ ! -e /c/Github/keyman-test-delphi/resources/build/win/delphi_environment_generated.inc.sh ]]
++[907] builder_is_full_dep_build
++[907] [[ --no-deps == --force-deps ]]
++[907] return 1
++[907] i=1
++[907] ((  1 < 1  ))
++[907] [[ 0 -gt 0 ]]
++[907] builder_run_action clean:project do_clean
++[907] local action=clean:project
++[907] shift
++[907] builder_start_action clean:project
++[907] builder_has_action clean:project
++[907] local action=clean:project target
++[907] [[ clean:project =~ : ]]
++[907] IFS=:
++[907] read -r action target
++[907] target=:project
++[907] _builder_item_in_array clean:project build:project
++[907] local e match=clean:project
++[907] shift
++[907] [[ -z clean:project ]]
++[907] for e in "$@"
++[907] [[ build:project == clean:project ]]
++[907] return 1
++[907] _builder_matched_action=
++[907] return 1
++[907] return 1
++[907] return 0
++[907] builder_run_action configure:project configure_windows_build_environment
++[907] local action=configure:project
++[907] shift
++[907] builder_start_action configure:project
++[907] builder_has_action configure:project
++[907] local action=configure:project target
++[907] [[ configure:project =~ : ]]
++[907] IFS=:
++[907] read -r action target
++[907] target=:project
++[907] _builder_item_in_array configure:project build:project
++[907] local e match=configure:project
++[907] shift
++[907] [[ -z configure:project ]]
++[907] for e in "$@"
++[907] [[ build:project == configure:project ]]
++[907] return 1
++[907] _builder_matched_action=
++[907] return 1
++[907] return 1
++[907] return 0
++[907] builder_run_action build:project do_build
++[907] local action=build:project
++[907] shift
++[907] builder_start_action build:project
++[907] builder_has_action build:project
++[907] local action=build:project target
++[907] [[ build:project =~ : ]]
++[907] IFS=:
++[907] read -r action target
++[907] target=:project
++[907] _builder_item_in_array build:project build:project
++[907] local e match=build:project
++[907] shift
++[907] [[ -z build:project ]]
++[907] for e in "$@"
++[907] [[ build:project == build:project ]]
++[907] return 0
++[907] _builder_matched_action=build:project
++[907] [[ :project == \:\* ]]
++[907] _builder_matched_action_name=build:project
++[907] return 0
++[907] builder_is_dep_build
++[907] [[ ! -z '' ]]
++[907] return 1
++[907] builder_echo start build:project '## build:project starting...'
++[907] local color=white message= mark= block= action= test=
++[907] local echo_target=echo
++[907] [[ 3 -gt 1 ]]
++[907] [[ start =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[907] [[ start == start ]]
++[907] test=start
++[907] block=build:project
++[907] shift 2
++[907] action=start
++[907] color=heading
++[907] message='## build:project starting...'
++[907] [[ start == start ]]
++[907] builder_is_running_on_teamcity
++[907] [[ -z '' ]]
++[907] return 1
++[907] [[ ! -z x ]]
++[907] case $color in
++[907] color=
++[907] builder_is_dep_build
++[907] [[ ! -z '' ]]
++[907] return 1
++[907] echo -e '[windows/src/engine/keyman] ## build:project starting...'
++[907] [[ start == end ]]
++[907] [[ -n '' ]]
++[907] _builder_current_action=build:project
++[907] _builder_timing_start build:project
++[907] local context=build:project
++[907] [[ ! -z '' ]]
++[907] _builder_do_build_deps build:project
++[907] local action_target=build:project
++[907] [[ --no-deps == --no-deps ]]
++[907] return 0
++[907] return 0
++[907] do_build
++[907] create-windows-output-folders
++[907] mkdir -p /c/Github/keyman-test-delphi/windows/lib
++[907] mkdir -p /c/Github/keyman-test-delphi/windows/bin/desktop
++[907] mkdir -p /c/Github/keyman-test-delphi/windows/bin/engine
++[907] mkdir -p /c/Github/keyman-test-delphi/windows/bin/support
++[907] mkdir -p /c/Github/keyman-test-delphi/windows/debug/desktop
++[907] mkdir -p /c/Github/keyman-test-delphi/windows/debug/engine
++[907] mkdir -p /c/Github/keyman-test-delphi/windows/debug/support
++[907] build_version.res
++[907] run_in_vs_env rc version.rc
++[907] [[ rc == \-\-quiet ]]
++[907] builder_echo heading '### visual_studio: rc version.rc'
++[907] local color=white message= mark= block= action= test=
++[907] local echo_target=echo
++[907] [[ 2 -gt 1 ]]
++[907] [[ heading =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[907] color=heading
++[907] shift
++[907] message='### visual_studio: rc version.rc'
++[907] [[ '' == start ]]
++[907] [[ ! -z x ]]
++[907] case $color in
++[907] color=
++[907] builder_is_dep_build
++[907] [[ ! -z '' ]]
++[907] return 1
++[907] echo -e '[windows/src/engine/keyman] ### visual_studio: rc version.rc'
++[907] [[ '' == end ]]
++[907] source /c/Github/keyman-test-delphi/resources/build/win/visualstudio_environment.inc.sh
+++[907] source /c/Github/keyman-test-delphi/resources/build/win/visualstudio_environment_generated.inc.sh
++++[907] export CommandPromptType=Native
++++[907] CommandPromptType=Native
++++[907] export 'DevEnvDir=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/'
++++[907] DevEnvDir='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/'
++++[907] export 'ExtensionSdkDir=/c/Program Files (x86)/Microsoft SDKs/Windows Kits/10/ExtensionSDKs'
++++[907] ExtensionSdkDir='/c/Program Files (x86)/Microsoft SDKs/Windows Kits/10/ExtensionSDKs'
++++[907] export 'EXTERNAL_INCLUDE=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] EXTERNAL_INCLUDE='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] export Framework40Version=v4.0
++++[907] Framework40Version=v4.0
++++[907] export FrameworkDir=/c/Windows/Microsoft.NET/Framework/
++++[907] FrameworkDir=/c/Windows/Microsoft.NET/Framework/
++++[907] export FrameworkDir32=/c/Windows/Microsoft.NET/Framework/
++++[907] FrameworkDir32=/c/Windows/Microsoft.NET/Framework/
++++[907] export FrameworkVersion=v4.0.30319
++++[907] FrameworkVersion=v4.0.30319
++++[907] export FrameworkVersion32=v4.0.30319
++++[907] FrameworkVersion32=v4.0.30319
++++[907] export 'INCLUDE=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] INCLUDE='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] export 'LIB=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/lib/um/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/ucrt/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/um/x86'
++++[907] LIB='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/lib/um/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/ucrt/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/um/x86'
++++[907] export 'LIBPATH=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86/store/references:/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0:/c/Windows/Microsoft.NET/Framework/v4.0.30319'
++++[907] LIBPATH='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86/store/references:/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0:/c/Windows/Microsoft.NET/Framework/v4.0.30319'
++++[907] export 'NETFXSDKDir=/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/'
++++[907] NETFXSDKDir='/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/'
++++[907] export 'PATH=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX86/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/:/c/Program Files/Microsoft Visual Studio/2022/Community/Team Tools/DiagnosticsHub/Collector:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86:/c/Program Files (x86)/Windows Kits/10/bin/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/:/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/Linux/bin/ConnectionManagerExe'
++++[907] PATH='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX86/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/:/c/Program Files/Microsoft Visual Studio/2022/Community/Team Tools/DiagnosticsHub/Collector:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86:/c/Program Files (x86)/Windows Kits/10/bin/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/:/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/Linux/bin/ConnectionManagerExe'
++++[907] export UCRTVersion=10.0.26100.0
++++[907] UCRTVersion=10.0.26100.0
++++[907] export 'UniversalCRTSdkDir=/c/Program Files (x86)/Windows Kits/10/'
++++[907] UniversalCRTSdkDir='/c/Program Files (x86)/Windows Kits/10/'
++++[907] export 'VCIDEInstallDir=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/'
++++[907] VCIDEInstallDir='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/'
++++[907] export 'VCINSTALLDIR=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/'
++++[907] VCINSTALLDIR='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/'
++++[907] export 'VCToolsInstallDir=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/'
++++[907] VCToolsInstallDir='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/'
++++[907] export 'VCToolsRedistDir=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Redist/MSVC/14.44.35112/'
++++[907] VCToolsRedistDir='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Redist/MSVC/14.44.35112/'
++++[907] export VCToolsVersion=14.44.35207
++++[907] VCToolsVersion=14.44.35207
++++[907] export VisualStudioVersion=17.0
++++[907] VisualStudioVersion=17.0
++++[907] export 'VS170COMNTOOLS=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/'
++++[907] VS170COMNTOOLS='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/'
++++[907] export VSCMD_ARG_app_plat=Desktop
++++[907] VSCMD_ARG_app_plat=Desktop
++++[907] export VSCMD_ARG_HOST_ARCH=x86
++++[907] VSCMD_ARG_HOST_ARCH=x86
++++[907] export VSCMD_ARG_TGT_ARCH=x86
++++[907] VSCMD_ARG_TGT_ARCH=x86
++++[907] export VSCMD_VER=17.14.33
++++[907] VSCMD_VER=17.14.33
++++[907] export 'VSINSTALLDIR=/c/Program Files/Microsoft Visual Studio/2022/Community/'
++++[907] VSINSTALLDIR='/c/Program Files/Microsoft Visual Studio/2022/Community/'
++++[907] export 'WindowsLibPath=/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0'
++++[907] WindowsLibPath='/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0'
++++[907] export 'WindowsSdkBinPath=/c/Program Files (x86)/Windows Kits/10/bin/'
++++[907] WindowsSdkBinPath='/c/Program Files (x86)/Windows Kits/10/bin/'
++++[907] export 'WindowsSdkDir=/c/Program Files (x86)/Windows Kits/10/'
++++[907] WindowsSdkDir='/c/Program Files (x86)/Windows Kits/10/'
++++[907] export WindowsSDKLibVersion=10.0.26100.0/
++++[907] WindowsSDKLibVersion=10.0.26100.0/
++++[907] export 'WindowsSdkVerBinPath=/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/'
++++[907] WindowsSdkVerBinPath='/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/'
++++[907] export WindowsSDKVersion=10.0.26100.0/
++++[907] WindowsSDKVersion=10.0.26100.0/
++++[907] export 'WindowsSDK_ExecutablePath_x64=/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64/'
++++[907] WindowsSDK_ExecutablePath_x64='/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64/'
++++[907] export 'WindowsSDK_ExecutablePath_x86=/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/'
++++[907] WindowsSDK_ExecutablePath_x86='/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/'
++++[907] export __DOTNET_ADD_32BIT=1
++++[907] __DOTNET_ADD_32BIT=1
++++[907] export __DOTNET_PREFERRED_BITNESS=32
++++[907] __DOTNET_PREFERRED_BITNESS=32
++++[907] export '__VSCMD_PREINIT_PATH=/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl'
++++[907] __VSCMD_PREINIT_PATH='/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl'
++[907] rc version.rc
++[907] builder_has_option --debug-manifest
++[907] local option=--debug-manifest
++[907] _builder_item_in_array --debug-manifest --debug
++[907] local e match=--debug-manifest
++[907] shift
++[907] [[ -z --debug-manifest ]]
++[907] for e in "$@"
++[907] [[ --debug == --debug-manifest ]]
++[907] return 1
++[907] return 1
++[907] build_manifest.res
++[907] replaceVersionStrings_Mkver manifest.in manifest.xml
++[907] local infile=manifest.in
++[907] local outfile=manifest.xml
++[907] sed $'\n    s/$VersionWin/20.0.9.0/g;\n    s/$VersionRelease/20.0/g;\n    s/$VersionMajor/20/g;\n    s/$VersionMinor/0/g;\n    s/$VersionPatch/9/g;\n    s/$Tier/alpha/g;\n    s/$Tag/-alpha-local/g;\n    s/$VersionWithTag/20.0.9-alpha-local/g;\n    s/$VersionGitTag/release@20.0.9-alpha-local/g;\n    s/$VersionRc/20,0,9,0/g;\n    s/$Environment/local/g;\n    s/$Version/20.0.9/g;\n    s/$KEYMAN_VERSIONNUM/20,0,9,0/g;\n    s/$RELEASE_MAJOR/20/g;\n    s/$RELEASE_MINOR/0/g;\n    s/$RELEASE/20.0/g;\n\n    s/$KEYMAN_VERSION_WIN/20.0.9.0/g;\n    s/$KEYMAN_VERSION_RELEASE/20.0/g;\n    s/$KEYMAN_VERSION_MAJOR/20/g;\n    s/$KEYMAN_VERSION_MINOR/0/g;\n    s/$KEYMAN_VERSION_PATCH/9/g;\n    s/$KEYMAN_TIER/alpha/g;\n    s/$KEYMAN_VERSION_TAG/-alpha-local/g;\n    s/$KEYMAN_VERSION_WITH_TAG/20.0.9-alpha-local/g;\n    s/$KEYMAN_VERSION_GIT_TAG/release@20.0.9-alpha-local/g;\n    s/$KEYMAN_VERSION_ENVIRONMENT/local/g;\n    s/$KEYMAN_VERSION_FOR_FILENAME/20.0.9-alpha-local/g;\n\n    s/$KEYMAN_VERSION/20.0.9.0/g;\n\n    ' manifest.in
++[907] run_in_vs_env rc manifest.rc
++[907] [[ rc == \-\-quiet ]]
++[907] builder_echo heading '### visual_studio: rc manifest.rc'
++[907] local color=white message= mark= block= action= test=
++[907] local echo_target=echo
++[907] [[ 2 -gt 1 ]]
++[907] [[ heading =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[907] color=heading
++[907] shift
++[907] message='### visual_studio: rc manifest.rc'
++[907] [[ '' == start ]]
++[907] [[ ! -z x ]]
++[907] case $color in
++[907] color=
++[907] builder_is_dep_build
++[907] [[ ! -z '' ]]
++[907] return 1
++[907] echo -e '[windows/src/engine/keyman] ### visual_studio: rc manifest.rc'
++[907] [[ '' == end ]]
++[907] source /c/Github/keyman-test-delphi/resources/build/win/visualstudio_environment.inc.sh
+++[907] source /c/Github/keyman-test-delphi/resources/build/win/visualstudio_environment_generated.inc.sh
++++[907] export CommandPromptType=Native
++++[907] CommandPromptType=Native
++++[907] export 'DevEnvDir=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/'
++++[907] DevEnvDir='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/'
++++[907] export 'ExtensionSdkDir=/c/Program Files (x86)/Microsoft SDKs/Windows Kits/10/ExtensionSDKs'
++++[907] ExtensionSdkDir='/c/Program Files (x86)/Microsoft SDKs/Windows Kits/10/ExtensionSDKs'
++++[907] export 'EXTERNAL_INCLUDE=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] EXTERNAL_INCLUDE='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] export Framework40Version=v4.0
++++[907] Framework40Version=v4.0
++++[907] export FrameworkDir=/c/Windows/Microsoft.NET/Framework/
++++[907] FrameworkDir=/c/Windows/Microsoft.NET/Framework/
++++[907] export FrameworkDir32=/c/Windows/Microsoft.NET/Framework/
++++[907] FrameworkDir32=/c/Windows/Microsoft.NET/Framework/
++++[907] export FrameworkVersion=v4.0.30319
++++[907] FrameworkVersion=v4.0.30319
++++[907] export FrameworkVersion32=v4.0.30319
++++[907] FrameworkVersion32=v4.0.30319
++++[907] export 'INCLUDE=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] INCLUDE='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] export 'LIB=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/lib/um/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/ucrt/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/um/x86'
++++[907] LIB='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/lib/um/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/ucrt/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/um/x86'
++++[907] export 'LIBPATH=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86/store/references:/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0:/c/Windows/Microsoft.NET/Framework/v4.0.30319'
++++[907] LIBPATH='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86/store/references:/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0:/c/Windows/Microsoft.NET/Framework/v4.0.30319'
++++[907] export 'NETFXSDKDir=/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/'
++++[907] NETFXSDKDir='/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/'
++++[907] export 'PATH=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX86/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/:/c/Program Files/Microsoft Visual Studio/2022/Community/Team Tools/DiagnosticsHub/Collector:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86:/c/Program Files (x86)/Windows Kits/10/bin/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/:/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/Linux/bin/ConnectionManagerExe'
++++[907] PATH='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX86/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/:/c/Program Files/Microsoft Visual Studio/2022/Community/Team Tools/DiagnosticsHub/Collector:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86:/c/Program Files (x86)/Windows Kits/10/bin/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/:/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/Linux/bin/ConnectionManagerExe'
++++[907] export UCRTVersion=10.0.26100.0
++++[907] UCRTVersion=10.0.26100.0
++++[907] export 'UniversalCRTSdkDir=/c/Program Files (x86)/Windows Kits/10/'
++++[907] UniversalCRTSdkDir='/c/Program Files (x86)/Windows Kits/10/'
++++[907] export 'VCIDEInstallDir=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/'
++++[907] VCIDEInstallDir='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/'
++++[907] export 'VCINSTALLDIR=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/'
++++[907] VCINSTALLDIR='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/'
++++[907] export 'VCToolsInstallDir=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/'
++++[907] VCToolsInstallDir='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/'
++++[907] export 'VCToolsRedistDir=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Redist/MSVC/14.44.35112/'
++++[907] VCToolsRedistDir='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Redist/MSVC/14.44.35112/'
++++[907] export VCToolsVersion=14.44.35207
++++[907] VCToolsVersion=14.44.35207
++++[907] export VisualStudioVersion=17.0
++++[907] VisualStudioVersion=17.0
++++[907] export 'VS170COMNTOOLS=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/'
++++[907] VS170COMNTOOLS='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/'
++++[907] export VSCMD_ARG_app_plat=Desktop
++++[907] VSCMD_ARG_app_plat=Desktop
++++[907] export VSCMD_ARG_HOST_ARCH=x86
++++[907] VSCMD_ARG_HOST_ARCH=x86
++++[907] export VSCMD_ARG_TGT_ARCH=x86
++++[907] VSCMD_ARG_TGT_ARCH=x86
++++[907] export VSCMD_VER=17.14.33
++++[907] VSCMD_VER=17.14.33
++++[907] export 'VSINSTALLDIR=/c/Program Files/Microsoft Visual Studio/2022/Community/'
++++[907] VSINSTALLDIR='/c/Program Files/Microsoft Visual Studio/2022/Community/'
++++[907] export 'WindowsLibPath=/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0'
++++[907] WindowsLibPath='/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0'
++++[907] export 'WindowsSdkBinPath=/c/Program Files (x86)/Windows Kits/10/bin/'
++++[907] WindowsSdkBinPath='/c/Program Files (x86)/Windows Kits/10/bin/'
++++[907] export 'WindowsSdkDir=/c/Program Files (x86)/Windows Kits/10/'
++++[907] WindowsSdkDir='/c/Program Files (x86)/Windows Kits/10/'
++++[907] export WindowsSDKLibVersion=10.0.26100.0/
++++[907] WindowsSDKLibVersion=10.0.26100.0/
++++[907] export 'WindowsSdkVerBinPath=/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/'
++++[907] WindowsSdkVerBinPath='/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/'
++++[907] export WindowsSDKVersion=10.0.26100.0/
++++[907] WindowsSDKVersion=10.0.26100.0/
++++[907] export 'WindowsSDK_ExecutablePath_x64=/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64/'
++++[907] WindowsSDK_ExecutablePath_x64='/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64/'
++++[907] export 'WindowsSDK_ExecutablePath_x86=/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/'
++++[907] WindowsSDK_ExecutablePath_x86='/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/'
++++[907] export __DOTNET_ADD_32BIT=1
++++[907] __DOTNET_ADD_32BIT=1
++++[907] export __DOTNET_PREFERRED_BITNESS=32
++++[907] __DOTNET_PREFERRED_BITNESS=32
++++[907] export '__VSCMD_PREINIT_PATH=/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl'
++++[907] __VSCMD_PREINIT_PATH='/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl'
++[907] rc manifest.rc
++[907] run_in_vs_env rc keymanmenuitem.rc
++[907] [[ rc == \-\-quiet ]]
++[907] builder_echo heading '### visual_studio: rc keymanmenuitem.rc'
++[907] local color=white message= mark= block= action= test=
++[907] local echo_target=echo
++[907] [[ 2 -gt 1 ]]
++[907] [[ heading =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[907] color=heading
++[907] shift
++[907] message='### visual_studio: rc keymanmenuitem.rc'
++[907] [[ '' == start ]]
++[907] [[ ! -z x ]]
++[907] case $color in
++[907] color=
++[907] builder_is_dep_build
++[907] [[ ! -z '' ]]
++[907] return 1
++[907] echo -e '[windows/src/engine/keyman] ### visual_studio: rc keymanmenuitem.rc'
++[907] [[ '' == end ]]
++[907] source /c/Github/keyman-test-delphi/resources/build/win/visualstudio_environment.inc.sh
+++[907] source /c/Github/keyman-test-delphi/resources/build/win/visualstudio_environment_generated.inc.sh
++++[907] export CommandPromptType=Native
++++[907] CommandPromptType=Native
++++[907] export 'DevEnvDir=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/'
++++[907] DevEnvDir='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/'
++++[907] export 'ExtensionSdkDir=/c/Program Files (x86)/Microsoft SDKs/Windows Kits/10/ExtensionSDKs'
++++[907] ExtensionSdkDir='/c/Program Files (x86)/Microsoft SDKs/Windows Kits/10/ExtensionSDKs'
++++[907] export 'EXTERNAL_INCLUDE=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] EXTERNAL_INCLUDE='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] export Framework40Version=v4.0
++++[907] Framework40Version=v4.0
++++[907] export FrameworkDir=/c/Windows/Microsoft.NET/Framework/
++++[907] FrameworkDir=/c/Windows/Microsoft.NET/Framework/
++++[907] export FrameworkDir32=/c/Windows/Microsoft.NET/Framework/
++++[907] FrameworkDir32=/c/Windows/Microsoft.NET/Framework/
++++[907] export FrameworkVersion=v4.0.30319
++++[907] FrameworkVersion=v4.0.30319
++++[907] export FrameworkVersion32=v4.0.30319
++++[907] FrameworkVersion32=v4.0.30319
++++[907] export 'INCLUDE=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] INCLUDE='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] export 'LIB=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/lib/um/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/ucrt/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/um/x86'
++++[907] LIB='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/lib/um/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/ucrt/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/um/x86'
++++[907] export 'LIBPATH=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86/store/references:/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0:/c/Windows/Microsoft.NET/Framework/v4.0.30319'
++++[907] LIBPATH='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86/store/references:/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0:/c/Windows/Microsoft.NET/Framework/v4.0.30319'
++++[907] export 'NETFXSDKDir=/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/'
++++[907] NETFXSDKDir='/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/'
++++[907] export 'PATH=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX86/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/:/c/Program Files/Microsoft Visual Studio/2022/Community/Team Tools/DiagnosticsHub/Collector:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86:/c/Program Files (x86)/Windows Kits/10/bin/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/:/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/Linux/bin/ConnectionManagerExe'
++++[907] PATH='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX86/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/:/c/Program Files/Microsoft Visual Studio/2022/Community/Team Tools/DiagnosticsHub/Collector:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86:/c/Program Files (x86)/Windows Kits/10/bin/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/:/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/Linux/bin/ConnectionManagerExe'
++++[907] export UCRTVersion=10.0.26100.0
++++[907] UCRTVersion=10.0.26100.0
++++[907] export 'UniversalCRTSdkDir=/c/Program Files (x86)/Windows Kits/10/'
++++[907] UniversalCRTSdkDir='/c/Program Files (x86)/Windows Kits/10/'
++++[907] export 'VCIDEInstallDir=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/'
++++[907] VCIDEInstallDir='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/'
++++[907] export 'VCINSTALLDIR=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/'
++++[907] VCINSTALLDIR='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/'
++++[907] export 'VCToolsInstallDir=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/'
++++[907] VCToolsInstallDir='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/'
++++[907] export 'VCToolsRedistDir=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Redist/MSVC/14.44.35112/'
++++[907] VCToolsRedistDir='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Redist/MSVC/14.44.35112/'
++++[907] export VCToolsVersion=14.44.35207
++++[907] VCToolsVersion=14.44.35207
++++[907] export VisualStudioVersion=17.0
++++[907] VisualStudioVersion=17.0
++++[907] export 'VS170COMNTOOLS=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/'
++++[907] VS170COMNTOOLS='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/'
++++[907] export VSCMD_ARG_app_plat=Desktop
++++[907] VSCMD_ARG_app_plat=Desktop
++++[907] export VSCMD_ARG_HOST_ARCH=x86
++++[907] VSCMD_ARG_HOST_ARCH=x86
++++[907] export VSCMD_ARG_TGT_ARCH=x86
++++[907] VSCMD_ARG_TGT_ARCH=x86
++++[907] export VSCMD_VER=17.14.33
++++[907] VSCMD_VER=17.14.33
++++[907] export 'VSINSTALLDIR=/c/Program Files/Microsoft Visual Studio/2022/Community/'
++++[907] VSINSTALLDIR='/c/Program Files/Microsoft Visual Studio/2022/Community/'
++++[907] export 'WindowsLibPath=/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0'
++++[907] WindowsLibPath='/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0'
++++[907] export 'WindowsSdkBinPath=/c/Program Files (x86)/Windows Kits/10/bin/'
++++[907] WindowsSdkBinPath='/c/Program Files (x86)/Windows Kits/10/bin/'
++++[907] export 'WindowsSdkDir=/c/Program Files (x86)/Windows Kits/10/'
++++[907] WindowsSdkDir='/c/Program Files (x86)/Windows Kits/10/'
++++[907] export WindowsSDKLibVersion=10.0.26100.0/
++++[907] WindowsSDKLibVersion=10.0.26100.0/
++++[907] export 'WindowsSdkVerBinPath=/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/'
++++[907] WindowsSdkVerBinPath='/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/'
++++[907] export WindowsSDKVersion=10.0.26100.0/
++++[907] WindowsSDKVersion=10.0.26100.0/
++++[907] export 'WindowsSDK_ExecutablePath_x64=/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64/'
++++[907] WindowsSDK_ExecutablePath_x64='/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64/'
++++[907] export 'WindowsSDK_ExecutablePath_x86=/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/'
++++[907] WindowsSDK_ExecutablePath_x86='/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/'
++++[907] export __DOTNET_ADD_32BIT=1
++++[907] __DOTNET_ADD_32BIT=1
++++[907] export __DOTNET_PREFERRED_BITNESS=32
++++[907] __DOTNET_PREFERRED_BITNESS=32
++++[907] export '__VSCMD_PREINIT_PATH=/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl'
++++[907] __VSCMD_PREINIT_PATH='/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl'
++[907] rc keymanmenuitem.rc
++[907] run_in_vs_env rc icons.rc
++[907] [[ rc == \-\-quiet ]]
++[907] builder_echo heading '### visual_studio: rc icons.rc'
++[907] local color=white message= mark= block= action= test=
++[907] local echo_target=echo
++[907] [[ 2 -gt 1 ]]
++[907] [[ heading =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[907] color=heading
++[907] shift
++[907] message='### visual_studio: rc icons.rc'
++[907] [[ '' == start ]]
++[907] [[ ! -z x ]]
++[907] case $color in
++[907] color=
++[907] builder_is_dep_build
++[907] [[ ! -z '' ]]
++[907] return 1
++[907] echo -e '[windows/src/engine/keyman] ### visual_studio: rc icons.rc'
++[907] [[ '' == end ]]
++[907] source /c/Github/keyman-test-delphi/resources/build/win/visualstudio_environment.inc.sh
+++[907] source /c/Github/keyman-test-delphi/resources/build/win/visualstudio_environment_generated.inc.sh
++++[907] export CommandPromptType=Native
++++[907] CommandPromptType=Native
++++[907] export 'DevEnvDir=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/'
++++[907] DevEnvDir='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/'
++++[907] export 'ExtensionSdkDir=/c/Program Files (x86)/Microsoft SDKs/Windows Kits/10/ExtensionSDKs'
++++[907] ExtensionSdkDir='/c/Program Files (x86)/Microsoft SDKs/Windows Kits/10/ExtensionSDKs'
++++[907] export 'EXTERNAL_INCLUDE=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] EXTERNAL_INCLUDE='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] export Framework40Version=v4.0
++++[907] Framework40Version=v4.0
++++[907] export FrameworkDir=/c/Windows/Microsoft.NET/Framework/
++++[907] FrameworkDir=/c/Windows/Microsoft.NET/Framework/
++++[907] export FrameworkDir32=/c/Windows/Microsoft.NET/Framework/
++++[907] FrameworkDir32=/c/Windows/Microsoft.NET/Framework/
++++[907] export FrameworkVersion=v4.0.30319
++++[907] FrameworkVersion=v4.0.30319
++++[907] export FrameworkVersion32=v4.0.30319
++++[907] FrameworkVersion32=v4.0.30319
++++[907] export 'INCLUDE=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] INCLUDE='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] export 'LIB=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/lib/um/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/ucrt/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/um/x86'
++++[907] LIB='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/lib/um/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/ucrt/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/um/x86'
++++[907] export 'LIBPATH=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86/store/references:/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0:/c/Windows/Microsoft.NET/Framework/v4.0.30319'
++++[907] LIBPATH='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86/store/references:/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0:/c/Windows/Microsoft.NET/Framework/v4.0.30319'
++++[907] export 'NETFXSDKDir=/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/'
++++[907] NETFXSDKDir='/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/'
++++[907] export 'PATH=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX86/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/:/c/Program Files/Microsoft Visual Studio/2022/Community/Team Tools/DiagnosticsHub/Collector:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86:/c/Program Files (x86)/Windows Kits/10/bin/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/:/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/Linux/bin/ConnectionManagerExe'
++++[907] PATH='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX86/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/:/c/Program Files/Microsoft Visual Studio/2022/Community/Team Tools/DiagnosticsHub/Collector:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86:/c/Program Files (x86)/Windows Kits/10/bin/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/:/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/Linux/bin/ConnectionManagerExe'
++++[907] export UCRTVersion=10.0.26100.0
++++[907] UCRTVersion=10.0.26100.0
++++[907] export 'UniversalCRTSdkDir=/c/Program Files (x86)/Windows Kits/10/'
++++[907] UniversalCRTSdkDir='/c/Program Files (x86)/Windows Kits/10/'
++++[907] export 'VCIDEInstallDir=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/'
++++[907] VCIDEInstallDir='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/'
++++[907] export 'VCINSTALLDIR=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/'
++++[907] VCINSTALLDIR='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/'
++++[907] export 'VCToolsInstallDir=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/'
++++[907] VCToolsInstallDir='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/'
++++[907] export 'VCToolsRedistDir=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Redist/MSVC/14.44.35112/'
++++[907] VCToolsRedistDir='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Redist/MSVC/14.44.35112/'
++++[907] export VCToolsVersion=14.44.35207
++++[907] VCToolsVersion=14.44.35207
++++[907] export VisualStudioVersion=17.0
++++[907] VisualStudioVersion=17.0
++++[907] export 'VS170COMNTOOLS=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/'
++++[907] VS170COMNTOOLS='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/'
++++[907] export VSCMD_ARG_app_plat=Desktop
++++[907] VSCMD_ARG_app_plat=Desktop
++++[907] export VSCMD_ARG_HOST_ARCH=x86
++++[907] VSCMD_ARG_HOST_ARCH=x86
++++[907] export VSCMD_ARG_TGT_ARCH=x86
++++[907] VSCMD_ARG_TGT_ARCH=x86
++++[907] export VSCMD_VER=17.14.33
++++[907] VSCMD_VER=17.14.33
++++[907] export 'VSINSTALLDIR=/c/Program Files/Microsoft Visual Studio/2022/Community/'
++++[907] VSINSTALLDIR='/c/Program Files/Microsoft Visual Studio/2022/Community/'
++++[907] export 'WindowsLibPath=/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0'
++++[907] WindowsLibPath='/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0'
++++[907] export 'WindowsSdkBinPath=/c/Program Files (x86)/Windows Kits/10/bin/'
++++[907] WindowsSdkBinPath='/c/Program Files (x86)/Windows Kits/10/bin/'
++++[907] export 'WindowsSdkDir=/c/Program Files (x86)/Windows Kits/10/'
++++[907] WindowsSdkDir='/c/Program Files (x86)/Windows Kits/10/'
++++[907] export WindowsSDKLibVersion=10.0.26100.0/
++++[907] WindowsSDKLibVersion=10.0.26100.0/
++++[907] export 'WindowsSdkVerBinPath=/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/'
++++[907] WindowsSdkVerBinPath='/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/'
++++[907] export WindowsSDKVersion=10.0.26100.0/
++++[907] WindowsSDKVersion=10.0.26100.0/
++++[907] export 'WindowsSDK_ExecutablePath_x64=/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64/'
++++[907] WindowsSDK_ExecutablePath_x64='/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64/'
++++[907] export 'WindowsSDK_ExecutablePath_x86=/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/'
++++[907] WindowsSDK_ExecutablePath_x86='/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/'
++++[907] export __DOTNET_ADD_32BIT=1
++++[907] __DOTNET_ADD_32BIT=1
++++[907] export __DOTNET_PREFERRED_BITNESS=32
++++[907] __DOTNET_PREFERRED_BITNESS=32
++++[907] export '__VSCMD_PREINIT_PATH=/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl'
++++[907] __VSCMD_PREINIT_PATH='/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl'
++[907] rc icons.rc
++[907] run_in_vs_env rc osktoolbar.rc
++[907] [[ rc == \-\-quiet ]]
++[907] builder_echo heading '### visual_studio: rc osktoolbar.rc'
++[907] local color=white message= mark= block= action= test=
++[907] local echo_target=echo
++[907] [[ 2 -gt 1 ]]
++[907] [[ heading =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[907] color=heading
++[907] shift
++[907] message='### visual_studio: rc osktoolbar.rc'
++[907] [[ '' == start ]]
++[907] [[ ! -z x ]]
++[907] case $color in
++[907] color=
++[907] builder_is_dep_build
++[907] [[ ! -z '' ]]
++[907] return 1
++[907] echo -e '[windows/src/engine/keyman] ### visual_studio: rc osktoolbar.rc'
++[907] [[ '' == end ]]
++[907] source /c/Github/keyman-test-delphi/resources/build/win/visualstudio_environment.inc.sh
+++[907] source /c/Github/keyman-test-delphi/resources/build/win/visualstudio_environment_generated.inc.sh
++++[907] export CommandPromptType=Native
++++[907] CommandPromptType=Native
++++[907] export 'DevEnvDir=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/'
++++[907] DevEnvDir='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/'
++++[907] export 'ExtensionSdkDir=/c/Program Files (x86)/Microsoft SDKs/Windows Kits/10/ExtensionSDKs'
++++[907] ExtensionSdkDir='/c/Program Files (x86)/Microsoft SDKs/Windows Kits/10/ExtensionSDKs'
++++[907] export 'EXTERNAL_INCLUDE=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] EXTERNAL_INCLUDE='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] export Framework40Version=v4.0
++++[907] Framework40Version=v4.0
++++[907] export FrameworkDir=/c/Windows/Microsoft.NET/Framework/
++++[907] FrameworkDir=/c/Windows/Microsoft.NET/Framework/
++++[907] export FrameworkDir32=/c/Windows/Microsoft.NET/Framework/
++++[907] FrameworkDir32=/c/Windows/Microsoft.NET/Framework/
++++[907] export FrameworkVersion=v4.0.30319
++++[907] FrameworkVersion=v4.0.30319
++++[907] export FrameworkVersion32=v4.0.30319
++++[907] FrameworkVersion32=v4.0.30319
++++[907] export 'INCLUDE=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] INCLUDE='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] export 'LIB=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/lib/um/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/ucrt/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/um/x86'
++++[907] LIB='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/lib/um/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/ucrt/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/um/x86'
++++[907] export 'LIBPATH=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86/store/references:/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0:/c/Windows/Microsoft.NET/Framework/v4.0.30319'
++++[907] LIBPATH='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86/store/references:/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0:/c/Windows/Microsoft.NET/Framework/v4.0.30319'
++++[907] export 'NETFXSDKDir=/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/'
++++[907] NETFXSDKDir='/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/'
++++[907] export 'PATH=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX86/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/:/c/Program Files/Microsoft Visual Studio/2022/Community/Team Tools/DiagnosticsHub/Collector:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86:/c/Program Files (x86)/Windows Kits/10/bin/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/:/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/Linux/bin/ConnectionManagerExe'
++++[907] PATH='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX86/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/:/c/Program Files/Microsoft Visual Studio/2022/Community/Team Tools/DiagnosticsHub/Collector:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86:/c/Program Files (x86)/Windows Kits/10/bin/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/:/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/Linux/bin/ConnectionManagerExe'
++++[907] export UCRTVersion=10.0.26100.0
++++[907] UCRTVersion=10.0.26100.0
++++[907] export 'UniversalCRTSdkDir=/c/Program Files (x86)/Windows Kits/10/'
++++[907] UniversalCRTSdkDir='/c/Program Files (x86)/Windows Kits/10/'
++++[907] export 'VCIDEInstallDir=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/'
++++[907] VCIDEInstallDir='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/'
++++[907] export 'VCINSTALLDIR=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/'
++++[907] VCINSTALLDIR='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/'
++++[907] export 'VCToolsInstallDir=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/'
++++[907] VCToolsInstallDir='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/'
++++[907] export 'VCToolsRedistDir=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Redist/MSVC/14.44.35112/'
++++[907] VCToolsRedistDir='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Redist/MSVC/14.44.35112/'
++++[907] export VCToolsVersion=14.44.35207
++++[907] VCToolsVersion=14.44.35207
++++[907] export VisualStudioVersion=17.0
++++[907] VisualStudioVersion=17.0
++++[907] export 'VS170COMNTOOLS=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/'
++++[907] VS170COMNTOOLS='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/'
++++[907] export VSCMD_ARG_app_plat=Desktop
++++[907] VSCMD_ARG_app_plat=Desktop
++++[907] export VSCMD_ARG_HOST_ARCH=x86
++++[907] VSCMD_ARG_HOST_ARCH=x86
++++[907] export VSCMD_ARG_TGT_ARCH=x86
++++[907] VSCMD_ARG_TGT_ARCH=x86
++++[907] export VSCMD_VER=17.14.33
++++[907] VSCMD_VER=17.14.33
++++[907] export 'VSINSTALLDIR=/c/Program Files/Microsoft Visual Studio/2022/Community/'
++++[907] VSINSTALLDIR='/c/Program Files/Microsoft Visual Studio/2022/Community/'
++++[907] export 'WindowsLibPath=/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0'
++++[907] WindowsLibPath='/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0'
++++[907] export 'WindowsSdkBinPath=/c/Program Files (x86)/Windows Kits/10/bin/'
++++[907] WindowsSdkBinPath='/c/Program Files (x86)/Windows Kits/10/bin/'
++++[907] export 'WindowsSdkDir=/c/Program Files (x86)/Windows Kits/10/'
++++[907] WindowsSdkDir='/c/Program Files (x86)/Windows Kits/10/'
++++[907] export WindowsSDKLibVersion=10.0.26100.0/
++++[907] WindowsSDKLibVersion=10.0.26100.0/
++++[907] export 'WindowsSdkVerBinPath=/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/'
++++[907] WindowsSdkVerBinPath='/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/'
++++[907] export WindowsSDKVersion=10.0.26100.0/
++++[907] WindowsSDKVersion=10.0.26100.0/
++++[907] export 'WindowsSDK_ExecutablePath_x64=/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64/'
++++[907] WindowsSDK_ExecutablePath_x64='/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64/'
++++[907] export 'WindowsSDK_ExecutablePath_x86=/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/'
++++[907] WindowsSDK_ExecutablePath_x86='/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/'
++++[907] export __DOTNET_ADD_32BIT=1
++++[907] __DOTNET_ADD_32BIT=1
++++[907] export __DOTNET_PREFERRED_BITNESS=32
++++[907] __DOTNET_PREFERRED_BITNESS=32
++++[907] export '__VSCMD_PREINIT_PATH=/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl'
++++[907] __VSCMD_PREINIT_PATH='/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl'
++[907] rc osktoolbar.rc
++[907] run_in_vs_env rc langswitch/langswitchmanager.rc
++[907] [[ rc == \-\-quiet ]]
++[907] builder_echo heading '### visual_studio: rc langswitch/langswitchmanager.rc'
++[907] local color=white message= mark= block= action= test=
++[907] local echo_target=echo
++[907] [[ 2 -gt 1 ]]
++[907] [[ heading =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[907] color=heading
++[907] shift
++[907] message='### visual_studio: rc langswitch/langswitchmanager.rc'
++[907] [[ '' == start ]]
++[907] [[ ! -z x ]]
++[907] case $color in
++[907] color=
++[907] builder_is_dep_build
++[907] [[ ! -z '' ]]
++[907] return 1
++[907] echo -e '[windows/src/engine/keyman] ### visual_studio: rc langswitch/langswitchmanager.rc'
++[907] [[ '' == end ]]
++[907] source /c/Github/keyman-test-delphi/resources/build/win/visualstudio_environment.inc.sh
+++[907] source /c/Github/keyman-test-delphi/resources/build/win/visualstudio_environment_generated.inc.sh
++++[907] export CommandPromptType=Native
++++[907] CommandPromptType=Native
++++[907] export 'DevEnvDir=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/'
++++[907] DevEnvDir='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/'
++++[907] export 'ExtensionSdkDir=/c/Program Files (x86)/Microsoft SDKs/Windows Kits/10/ExtensionSDKs'
++++[907] ExtensionSdkDir='/c/Program Files (x86)/Microsoft SDKs/Windows Kits/10/ExtensionSDKs'
++++[907] export 'EXTERNAL_INCLUDE=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] EXTERNAL_INCLUDE='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] export Framework40Version=v4.0
++++[907] Framework40Version=v4.0
++++[907] export FrameworkDir=/c/Windows/Microsoft.NET/Framework/
++++[907] FrameworkDir=/c/Windows/Microsoft.NET/Framework/
++++[907] export FrameworkDir32=/c/Windows/Microsoft.NET/Framework/
++++[907] FrameworkDir32=/c/Windows/Microsoft.NET/Framework/
++++[907] export FrameworkVersion=v4.0.30319
++++[907] FrameworkVersion=v4.0.30319
++++[907] export FrameworkVersion32=v4.0.30319
++++[907] FrameworkVersion32=v4.0.30319
++++[907] export 'INCLUDE=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] INCLUDE='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[907] export 'LIB=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/lib/um/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/ucrt/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/um/x86'
++++[907] LIB='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/lib/um/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/ucrt/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/um/x86'
++++[907] export 'LIBPATH=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86/store/references:/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0:/c/Windows/Microsoft.NET/Framework/v4.0.30319'
++++[907] LIBPATH='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86/store/references:/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0:/c/Windows/Microsoft.NET/Framework/v4.0.30319'
++++[907] export 'NETFXSDKDir=/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/'
++++[907] NETFXSDKDir='/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/'
++++[907] export 'PATH=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX86/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/:/c/Program Files/Microsoft Visual Studio/2022/Community/Team Tools/DiagnosticsHub/Collector:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86:/c/Program Files (x86)/Windows Kits/10/bin/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/:/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/Linux/bin/ConnectionManagerExe'
++++[907] PATH='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX86/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/:/c/Program Files/Microsoft Visual Studio/2022/Community/Team Tools/DiagnosticsHub/Collector:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86:/c/Program Files (x86)/Windows Kits/10/bin/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/:/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/Linux/bin/ConnectionManagerExe'
++++[907] export UCRTVersion=10.0.26100.0
++++[907] UCRTVersion=10.0.26100.0
++++[907] export 'UniversalCRTSdkDir=/c/Program Files (x86)/Windows Kits/10/'
++++[907] UniversalCRTSdkDir='/c/Program Files (x86)/Windows Kits/10/'
++++[907] export 'VCIDEInstallDir=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/'
++++[907] VCIDEInstallDir='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/'
++++[907] export 'VCINSTALLDIR=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/'
++++[907] VCINSTALLDIR='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/'
++++[907] export 'VCToolsInstallDir=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/'
++++[907] VCToolsInstallDir='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/'
++++[907] export 'VCToolsRedistDir=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Redist/MSVC/14.44.35112/'
++++[907] VCToolsRedistDir='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Redist/MSVC/14.44.35112/'
++++[907] export VCToolsVersion=14.44.35207
++++[907] VCToolsVersion=14.44.35207
++++[907] export VisualStudioVersion=17.0
++++[907] VisualStudioVersion=17.0
++++[907] export 'VS170COMNTOOLS=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/'
++++[907] VS170COMNTOOLS='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/'
++++[907] export VSCMD_ARG_app_plat=Desktop
++++[907] VSCMD_ARG_app_plat=Desktop
++++[907] export VSCMD_ARG_HOST_ARCH=x86
++++[907] VSCMD_ARG_HOST_ARCH=x86
++++[907] export VSCMD_ARG_TGT_ARCH=x86
++++[907] VSCMD_ARG_TGT_ARCH=x86
++++[907] export VSCMD_VER=17.14.33
++++[907] VSCMD_VER=17.14.33
++++[907] export 'VSINSTALLDIR=/c/Program Files/Microsoft Visual Studio/2022/Community/'
++++[907] VSINSTALLDIR='/c/Program Files/Microsoft Visual Studio/2022/Community/'
++++[907] export 'WindowsLibPath=/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0'
++++[907] WindowsLibPath='/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0'
++++[907] export 'WindowsSdkBinPath=/c/Program Files (x86)/Windows Kits/10/bin/'
++++[907] WindowsSdkBinPath='/c/Program Files (x86)/Windows Kits/10/bin/'
++++[907] export 'WindowsSdkDir=/c/Program Files (x86)/Windows Kits/10/'
++++[907] WindowsSdkDir='/c/Program Files (x86)/Windows Kits/10/'
++++[907] export WindowsSDKLibVersion=10.0.26100.0/
++++[907] WindowsSDKLibVersion=10.0.26100.0/
++++[907] export 'WindowsSdkVerBinPath=/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/'
++++[907] WindowsSdkVerBinPath='/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/'
++++[907] export WindowsSDKVersion=10.0.26100.0/
++++[907] WindowsSDKVersion=10.0.26100.0/
++++[907] export 'WindowsSDK_ExecutablePath_x64=/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64/'
++++[907] WindowsSDK_ExecutablePath_x64='/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64/'
++++[907] export 'WindowsSDK_ExecutablePath_x86=/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/'
++++[907] WindowsSDK_ExecutablePath_x86='/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/'
++++[907] export __DOTNET_ADD_32BIT=1
++++[907] __DOTNET_ADD_32BIT=1
++++[907] export __DOTNET_PREFERRED_BITNESS=32
++++[907] __DOTNET_PREFERRED_BITNESS=32
++++[907] export '__VSCMD_PREINIT_PATH=/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl'
++++[907] __VSCMD_PREINIT_PATH='/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl'
++[907] rc langswitch/langswitchmanager.rc
++[907] delphi_msbuild keyman.dproj //p:Platform=Win32
++[907] [[ 1 == 1 ]]
++[907] local project=keyman.dproj
++[907] local platform=Win32
++[907] local arg
++[907] for arg in "$@"
++[907] [[ keyman.dproj == *Platform=Win64* ]]
++[907] for arg in "$@"
++[907] [[ //p:Platform=Win32 == *Platform=Win64* ]]
++[907] _delphi_ce_output_fresh keyman.dproj Win32
++[907] local project=keyman.dproj platform=Win32
++[907] local base=keyman
++[907] local source
++[907] [[ -f keyman.dpr ]]
++[907] source=keyman.dpr
++[907] local candidate ext
++[907] for ext in exe dll bpl
++[907] candidate=bin/Win32/Debug/keyman.exe
++[907] [[ -f bin/Win32/Debug/keyman.exe ]]
++[907] for ext in exe dll bpl
++[907] candidate=bin/Win32/Debug/keyman.dll
++[907] [[ -f bin/Win32/Debug/keyman.dll ]]
++[907] for ext in exe dll bpl
++[907] candidate=bin/Win32/Debug/keyman.bpl
++[907] [[ -f bin/Win32/Debug/keyman.bpl ]]
++[907] return 1
++[907] builder_echo warning 'Delphi CE: CLI compilation is not available.'
++[907] local color=white message= mark= block= action= test=
++[907] local echo_target=echo
++[907] [[ 2 -gt 1 ]]
++[907] [[ warning =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[907] color=warning
++[907] shift
++[907] message='Delphi CE: CLI compilation is not available.'
++[907] [[ '' == start ]]
++[907] [[ ! -z x ]]
++[907] case $color in
++[907] color=
++[907] builder_is_dep_build
++[907] [[ ! -z '' ]]
++[907] return 1
++[907] echo -e '[windows/src/engine/keyman] Delphi CE: CLI compilation is not available.'
++[907] [[ '' == end ]]
++[907] builder_echo warning 'Please build keyman.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).'
++[907] local color=white message= mark= block= action= test=
++[907] local echo_target=echo
++[907] [[ 2 -gt 1 ]]
++[907] [[ warning =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[907] color=warning
++[907] shift
++[907] message='Please build keyman.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).'
++[907] [[ '' == start ]]
++[907] [[ ! -z x ]]
++[907] case $color in
++[907] color=
++[907] builder_is_dep_build
++[907] [[ ! -z '' ]]
++[907] return 1
++[907] echo -e '[windows/src/engine/keyman] Please build keyman.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).'
++[907] [[ '' == end ]]
++[907] builder_echo warning 'Tip: opening the parent .groupproj and running Build All pre-builds all sibling projects at once; subsequent CE prompts in this script will auto-skip when their outputs are fresh.'
++[907] local color=white message= mark= block= action= test=
++[907] local echo_target=echo
++[907] [[ 2 -gt 1 ]]
++[907] [[ warning =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[907] color=warning
++[907] shift
++[907] message='Tip: opening the parent .groupproj and running Build All pre-builds all sibling projects at once; subsequent CE prompts in this script will auto-skip when their outputs are fresh.'
++[907] [[ '' == start ]]
++[907] [[ ! -z x ]]
++[907] case $color in
++[907] color=
++[907] builder_is_dep_build
++[907] [[ ! -z '' ]]
++[907] return 1
++[907] echo -e '[windows/src/engine/keyman] Tip: opening the parent .groupproj and running Build All pre-builds all sibling projects at once; subsequent CE prompts in this script will auto-skip when their outputs are fresh.'
++[907] [[ '' == end ]]
++[907] read -r _
++[907] builder_echo warning 'Delphi CE: no Enter received (stdin closed or EOF) for keyman.dproj.'
++[907] local color=white message= mark= block= action= test=
++[907] local echo_target=echo
++[907] [[ 2 -gt 1 ]]
++[907] [[ warning =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[907] color=warning
++[907] shift
++[907] message='Delphi CE: no Enter received (stdin closed or EOF) for keyman.dproj.'
++[907] [[ '' == start ]]
++[907] [[ ! -z x ]]
++[907] case $color in
++[907] color=
++[907] builder_is_dep_build
++[907] [[ ! -z '' ]]
++[907] return 1
++[907] echo -e '[windows/src/engine/keyman] Delphi CE: no Enter received (stdin closed or EOF) for keyman.dproj.'
++[907] [[ '' == end ]]
++[907] _delphi_ce_output_fresh keyman.dproj Win32
++[907] local project=keyman.dproj platform=Win32
++[907] local base=keyman
++[907] local source
++[907] [[ -f keyman.dpr ]]
++[907] source=keyman.dpr
++[907] local candidate ext
++[907] for ext in exe dll bpl
++[907] candidate=bin/Win32/Debug/keyman.exe
++[907] [[ -f bin/Win32/Debug/keyman.exe ]]
++[907] for ext in exe dll bpl
++[907] candidate=bin/Win32/Debug/keyman.dll
++[907] [[ -f bin/Win32/Debug/keyman.dll ]]
++[907] for ext in exe dll bpl
++[907] candidate=bin/Win32/Debug/keyman.bpl
++[907] [[ -f bin/Win32/Debug/keyman.bpl ]]
++[907] return 1
++[907] builder_die 'Delphi CE: keyman.dproj (Win32) was not built in the IDE -- its Debug output is still older than its source (or missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.'
++[907] _builder_error_echo
++[907] [[ 0 -gt 0 ]]
++[907] echo ''
++[907] [[ 1 -eq 0 ]]
++[907] builder_echo error 'Delphi CE: keyman.dproj (Win32) was not built in the IDE -- its Debug output is still older than its source (or missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.'
++[907] local color=white message= mark= block= action= test=
++[907] local echo_target=echo
++[907] [[ 2 -gt 1 ]]
++[907] [[ error =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[907] color=error
++[907] shift
++[907] message='Delphi CE: keyman.dproj (Win32) was not built in the IDE -- its Debug output is still older than its source (or missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.'
++[907] [[ '' == start ]]
++[907] [[ ! -z x ]]
++[907] case $color in
++[907] color=
++[907] echo_target=_builder_error_echo
++[907] builder_is_dep_build
++[907] [[ ! -z '' ]]
++[907] return 1
++[907] _builder_error_echo -e '[windows/src/engine/keyman] Delphi CE: keyman.dproj (Win32) was not built in the IDE -- its Debug output is still older than its source (or missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.'
++[907] [[ 2 -gt 0 ]]
++[907] [[ -e == -e ]]
++[907] shift
++[907] echo -e '[windows/src/engine/keyman] Delphi CE: keyman.dproj (Win32) was not built in the IDE -- its Debug output is still older than its source (or missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.'
++[907] [[ '' == end ]]
++[907] _builder_error_echo
++[907] [[ 0 -gt 0 ]]
++[907] echo ''
++[907] exit 1
++[907] _builder_failure_trap
++[907] local trappedExitCode=1
++[907] local action target
++[907] _builder_cleanup_deps
++[907] builder_is_dep_build
++[907] [[ ! -z '' ]]
++[907] return 1
++[907] builder_is_child_build
++[907] return 1
++[907] [[ ! -z x ]]
++[907] builder_is_debug_internal
++[907] false
++[907] return 1
++[907] rm -f /tmp/tmp.svoQKwozUL
++[907] _builder_deps_built=
++[907] _builder_timing_cleanup_and_report 1
++[907] local build_exit_code=1
++[907] builder_is_dep_build
++[907] [[ ! -z '' ]]
++[907] return 1
++[907] builder_is_child_build
++[907] return 1
++[907] [[ -z '' ]]
++[907] return 0
++[907] [[ 1 == 0 ]]
++[907] '[' -n build:project ']'
++[907] action=build:project
++[907] [[ build:project =~ : ]]
++[907] IFS=:
++[907] read -r action target
++[907] target=:project
++[907] builder_finish_action failure build:project
++[907] local result=failure
++[907] local action=build:project target action_name
++[907] [[ build:project =~ : ]]
++[907] IFS=:
++[907] read -r action target
++[907] target=:project
++[907] [[ :project == \:\* ]]
++[907] action_name=build:project
++[907] local matched_action=build:project
++[907] [[ build:project == build\:project ]]
++[907] [[ failure == success ]]
++[907] [[ failure == failure ]]
++[907] builder_echo end build:project error '## build:project failed'
++[907] local color=white message= mark= block= action= test=
++[907] local echo_target=echo
++[907] [[ 4 -gt 1 ]]
++[907] [[ end =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[907] [[ end == start ]]
++[907] [[ end == startTest ]]
++[907] [[ end == end ]]
++[907] test=end
++[907] block=build:project
++[907] color=error
++[907] shift 3
++[907] action=end
++[907] message='## build:project failed'
++[907] [[ end == start ]]
++[907] [[ ! -z x ]]
++[907] case $color in
++[907] color=
++[907] echo_target=_builder_error_echo
++[907] builder_is_dep_build
++[907] [[ ! -z '' ]]
++[907] return 1
++[907] _builder_error_echo -e '[windows/src/engine/keyman] ## build:project failed'
++[907] [[ 2 -gt 0 ]]
++[907] [[ -e == -e ]]
++[907] shift
++[907] echo -e '[windows/src/engine/keyman] ## build:project failed'
++[907] [[ end == end ]]
++[907] builder_is_running_on_teamcity
++[907] [[ -z '' ]]
++[907] return 1
++[907] _builder_timing_stop build:project
++[907] local context=build:project
++[907] [[ ! -z '' ]]
++[907] _builder_current_action=
++[907] exit 1
++[903] rc=1
++[903] set +x

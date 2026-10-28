@@ -1,0 +1,1598 @@
++[1619] export SHELLOPTS
++[1619] case $mode in
++[1619] ./build.sh build --no-deps
+++[1623] readlink -f ./build.sh
++[1623] THIS_SCRIPT=/c/Github/keyman-test-delphi/developer/src/kmdbrowserhost/build.sh
++[1623] . /c/Github/keyman-test-delphi/developer/src/kmdbrowserhost/../../../resources/build/builder-full.inc.sh
+++[1623] set -eu
+++[1623] SHLVL=0
+++[1623] trap __builder_full_not_a_builder_script exit
+++[1623] . /c/Github/keyman-test-delphi/developer/src/kmdbrowserhost/../../../resources/build/builder-basic.inc.sh
++++[1623] set -eu
++++[1623] SHLVL=0
++++[1623] _builder_basic_find_keyman_root
++++[1623] unset KEYMAN_ROOT
++++[1623] KEYMAN_ROOT=/c/Github/keyman-test-delphi/developer/src/kmdbrowserhost/../../..
+++++[1623] cd /c/Github/keyman-test-delphi/developer/src/kmdbrowserhost/../../..
+++++[1623] echo /c/Github/keyman-test-delphi
++++[1623] KEYMAN_ROOT=/c/Github/keyman-test-delphi
++++[1623] readonly KEYMAN_ROOT
++++[1623] export KEYMAN_ROOT
++++[1623] . /c/Github/keyman-test-delphi/resources/builder.inc.sh
+++++[1623] set -eu
+++++[1623] SHLVL=0
+++++[1623] _builder_reserved_parameters='^(--help|-h|--color|--no-color|--verbose|-v|--timings|--no-timings|--debug|--release|--deps|--no-deps|--force-deps|--builder-dep-parent|--builder-child|--builder-report-dependencies|--builder-completion-describe|--offline|--builder-ignore-unknown-options)$'
+++++[1623] builder_extra_params=()
+++++[1623] _builder_child_base=
+++++[1623] _builder_function_calls=()
+++++[1623] _builder_init
+++++[1623] _builder_get_operating_system
+++++[1623] declare -g BUILDER_OS
+++++[1623] builder_is_macos
+++++[1623] [[ cygwin == darwin* ]]
+++++[1623] return 1
+++++[1623] builder_is_windows
+++++[1623] [[ cygwin == msys ]]
+++++[1623] [[ cygwin == cygwin ]]
+++++[1623] return 0
+++++[1623] BUILDER_OS=win
+++++[1623] readonly BUILDER_OS
+++++[1623] _builder_findRepoRoot
++++++[1623] readlink -f /c/Github/keyman-test-delphi
+++++[1623] REPO_ROOT=/c/Github/keyman-test-delphi
+++++[1623] readonly REPO_ROOT
+++++[1623] _builder_setBuildScriptIdentifiers
+++++[1623] '[' '!' -z x ']'
+++++[1623] THIS_SCRIPT_PATH=/c/Github/keyman-test-delphi/developer/src/kmdbrowserhost
+++++[1623] readonly THIS_SCRIPT_PATH
+++++[1623] THIS_SCRIPT_NAME=build.sh
+++++[1623] readonly THIS_SCRIPT_NAME
+++++[1623] THIS_SCRIPT_IDENTIFIER=developer/src/kmdbrowserhost
+++++[1623] readonly THIS_SCRIPT_IDENTIFIER
+++++[1623] [[ -n xterm-256color ]]
+++++[1623] [[ xterm-256color != dumb ]]
+++++[1623] [[ xterm-256color != unknown ]]
+++++[1623] '[' -t 1 ']'
+++++[1623] builder_use_color false
+++++[1623] false
+++++[1623] COLOR_RED=
+++++[1623] COLOR_GREEN=
+++++[1623] COLOR_YELLOW=
+++++[1623] COLOR_BLUE=
+++++[1623] COLOR_PURPLE=
+++++[1623] COLOR_TEAL=
+++++[1623] COLOR_WHITE=
+++++[1623] COLOR_BRIGHT_WHITE=
+++++[1623] COLOR_GREY=
+++++[1623] COLOR_RESET=
+++++[1623] BUILDER_BOLD=
+++++[1623] HEADING_SETMARK=
+++++[1623] BUILDER_TERM_START='<'
+++++[1623] BUILDER_TERM_END='>'
+++++[1623] [[ -z '' ]]
+++++[1623] export MESON_PACKAGE_CACHE_DIR=/c/Users/thoua/.cache/keyman/builder
+++++[1623] MESON_PACKAGE_CACHE_DIR=/c/Users/thoua/.cache/keyman/builder
+++++[1623] mkdir -p /c/Users/thoua/.cache/keyman/builder
+++++[1623] _builder_check_color build --no-deps
+++++[1623] [[ 2 -gt 0 ]]
+++++[1623] local key=build
+++++[1623] case "$key" in
+++++[1623] shift
+++++[1623] [[ 1 -gt 0 ]]
+++++[1623] local key=--no-deps
+++++[1623] case "$key" in
+++++[1623] shift
+++++[1623] [[ 0 -gt 0 ]]
+++++[1623] '[' -z ']'
+++++[1623] _builder_debug_internal=false
+++++[1623] builder_is_debug_internal
+++++[1623] false
+++++[1623] return 1
++++[1623] _builder_basic_find_tier
++++[1623] local KEYMAN_TIER_MD=/c/Github/keyman-test-delphi/TIER.md
+++++[1623] builder_trim alpha
+++++[1623] local var=alpha
+++++[1623] var=alpha
+++++[1623] var=alpha
+++++[1623] printf %s alpha
++++[1623] KEYMAN_TIER=alpha
++++[1623] [[ alpha =~ ^(alpha|beta|stable)$ ]]
++++[1623] _builder_basic_find_version
++++[1623] local KEYMAN_VERSION_MD=/c/Github/keyman-test-delphi/VERSION.md
+++++[1623] builder_trim 20.0.9
+++++[1623] local var=20.0.9
+++++[1623] var=20.0.9
+++++[1623] var=20.0.9
+++++[1623] printf %s 20.0.9
++++[1623] KEYMAN_VERSION=20.0.9
++++[1623] [[ 20.0.9 =~ ^([[:digit:]]+)\.([[:digit:]]+)\.([[:digit:]]+)$ ]]
++++[1623] KEYMAN_VERSION_MAJOR=20
++++[1623] KEYMAN_VERSION_MINOR=0
++++[1623] KEYMAN_VERSION_PATCH=9
++++[1623] KEYMAN_VERSION_RELEASE=20.0
++++[1623] KEYMAN_VERSION_WIN=20.0.9.0
++++[1623] '[' alpha == alpha ']'
++++[1623] KEYMAN_VERSION_TAG=-alpha
++++[1623] builder_is_running_on_teamcity
++++[1623] [[ -z '' ]]
++++[1623] return 1
++++[1623] builder_is_running_on_gha
++++[1623] [[ -z '' ]]
++++[1623] return 1
++++[1623] [[ -z '' ]]
++++[1623] KEYMAN_VERSION_TAG=-alpha-local
++++[1623] KEYMAN_VERSION_ENVIRONMENT=local
++++[1623] KEYMAN_VERSION_WITH_TAG=20.0.9-alpha-local
++++[1623] KEYMAN_VERSION_GIT_TAG=release@20.0.9-alpha-local
++++[1623] builder_is_ci_release_build
++++[1623] [[ local =~ ^alpha|beta|stable$ ]]
++++[1623] return 1
++++[1623] KEYMAN_VERSION_FOR_FILENAME=20.0.9-alpha-local
++++[1623] readonly KEYMAN_VERSION
++++[1623] readonly KEYMAN_VERSION_MAJOR
++++[1623] readonly KEYMAN_VERSION_MINOR
++++[1623] readonly KEYMAN_VERSION_PATCH
++++[1623] readonly KEYMAN_VERSION_RELEASE
++++[1623] readonly KEYMAN_VERSION_WIN
++++[1623] readonly KEYMAN_VERSION_TAG
++++[1623] readonly KEYMAN_VERSION_WITH_TAG
++++[1623] readonly KEYMAN_VERSION_ENVIRONMENT
++++[1623] readonly KEYMAN_VERSION_GIT_TAG
++++[1623] readonly KEYMAN_VERSION_FOR_FILENAME
++++[1623] export KEYMAN_VERSION
++++[1623] export KEYMAN_VERSION_MAJOR
++++[1623] export KEYMAN_VERSION_MINOR
++++[1623] export KEYMAN_VERSION_PATCH
++++[1623] export KEYMAN_VERSION_RELEASE
++++[1623] export KEYMAN_VERSION_WIN
++++[1623] export KEYMAN_VERSION_TAG
++++[1623] export KEYMAN_VERSION_WITH_TAG
++++[1623] export KEYMAN_VERSION_ENVIRONMENT
++++[1623] export KEYMAN_VERSION_GIT_TAG
++++[1623] export KEYMAN_VERSION_FOR_FILENAME
++++[1623] export KEYMAN_TIER
++++[1623] export UPLOAD_SENTRY
++++[1623] export BUILDER_OS
++++[1623] _builder_basic_print_build_number_for_teamcity
++++[1623] '[' '!' -z '' ']'
++++[1623] _builder_basic_print_version_utils_debug
++++[1623] builder_is_debug_internal
++++[1623] false
++++[1623] return 1
++++[1623] builder_is_ci_build
++++[1623] builder_is_ci_release_build
++++[1623] [[ local =~ ^alpha|beta|stable$ ]]
++++[1623] return 1
++++[1623] builder_is_ci_test_build
++++[1623] [[ local == test ]]
++++[1623] return 1
++++[1623] return 1
++++[1623] return
++++[1623] _builder_basic_find_should_sentry_release
++++[1623] UPLOAD_SENTRY=false
++++[1623] case $KEYMAN_VERSION_ENVIRONMENT in
++++[1623] _builder_basic_set_keyman_standard_build_path
++++[1623] PATH='/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl'
++++[1623] builder_is_macos
++++[1623] [[ cygwin == darwin* ]]
++++[1623] return 1
+++[1623] cd /c/Github/keyman-test-delphi/developer/src/kmdbrowserhost
++[1623] builder_describe 'Chromium browser host process for Keyman Developer' @/common/include @/common/windows/delphi clean configure build test publish install edit
++[1623] _builder_record_function_call builder_describe
++[1623] local func=builder_describe
++[1623] _builder_has_function_been_called builder_describe
++[1623] local func=builder_describe
++[1623] _builder_item_in_array builder_describe
++[1623] local e match=builder_describe
++[1623] shift
++[1623] [[ -z builder_describe ]]
++[1623] return 1
++[1623] return 1
++[1623] _builder_function_calls+=($1)
++[1623] _builder_description='Chromium browser host process for Keyman Developer'
++[1623] _builder_actions=()
++[1623] _builder_targets=()
++[1623] _builder_options=()
++[1623] _builder_deps=()
++[1623] _builder_options_inheritable=()
++[1623] _builder_default_action=build
++[1623] _builder_targets_excluded_by_platform=()
++[1623] declare -A -g _builder_targets_excluded_by_platform
++[1623] declare -A -g _builder_params
++[1623] declare -A -g _builder_options_short
++[1623] declare -A -g _builder_options_var
++[1623] declare -A -g _builder_dep_path
++[1623] declare -A -g _builder_dep_related_actions
++[1623] declare -A -g _builder_internal_dep
++[1623] declare -A -g _builder_target_paths
++[1623] declare -A -g _builder_dep_targets
++[1623] shift
++[1623] sub=()
++[1623] local sub
++[1623] [[ 9 -gt 0 ]]
++[1623] local key=@/common/include
++[1623] local value=@/common/include
++[1623] local description=
++[1623] [[ @/common/include =~ [[:space:]] ]]
++[1623] local original_value=@/common/include
++[1623] [[ @/common/include =~ ^: ]]
++[1623] [[ @/common/include =~ ^@ ]]
++[1623] local dependency=/common/include
++[1623] local dependency_target=
++[1623] [[ /common/include =~ : ]]
+++[1623] _builder_expand_relative_path /common/include
+++[1623] local path=/common/include
+++[1623] [[ /common/include =~ ^/ ]]
+++[1623] echo common/include
++[1623] dependency=common/include
++[1623] _builder_deps+=($dependency)
+++[1623] _builder_expand_action_targets ''
+++[1623] input=()
+++[1623] output=()
+++[1623] local input e output
+++[1623] [[ 0 == 0 ]]
+++[1623] echo '*:*'
++[1623] _builder_dep_related_actions[$dependency]='*:*'
++[1623] _builder_dep_targets[$dependency]=
++[1623] shift
++[1623] continue
++[1623] [[ 8 -gt 0 ]]
++[1623] local key=@/common/windows/delphi
++[1623] local value=@/common/windows/delphi
++[1623] local description=
++[1623] [[ @/common/windows/delphi =~ [[:space:]] ]]
++[1623] local original_value=@/common/windows/delphi
++[1623] [[ @/common/windows/delphi =~ ^: ]]
++[1623] [[ @/common/windows/delphi =~ ^@ ]]
++[1623] local dependency=/common/windows/delphi
++[1623] local dependency_target=
++[1623] [[ /common/windows/delphi =~ : ]]
+++[1623] _builder_expand_relative_path /common/windows/delphi
+++[1623] local path=/common/windows/delphi
+++[1623] [[ /common/windows/delphi =~ ^/ ]]
+++[1623] echo common/windows/delphi
++[1623] dependency=common/windows/delphi
++[1623] _builder_deps+=($dependency)
+++[1623] _builder_expand_action_targets ''
+++[1623] input=()
+++[1623] output=()
+++[1623] local input e output
+++[1623] [[ 0 == 0 ]]
+++[1623] echo '*:*'
++[1623] _builder_dep_related_actions[$dependency]='*:*'
++[1623] _builder_dep_targets[$dependency]=
++[1623] shift
++[1623] continue
++[1623] [[ 7 -gt 0 ]]
++[1623] local key=clean
++[1623] local value=clean
++[1623] local description=
++[1623] [[ clean =~ [[:space:]] ]]
++[1623] local original_value=clean
++[1623] [[ clean =~ ^: ]]
++[1623] [[ clean =~ ^@ ]]
++[1623] [[ clean =~ ^-- ]]
++[1623] [[ clean =~ \+$ ]]
++[1623] _builder_actions+=($value)
++[1623] [[ -z '' ]]
+++[1623] _builder_get_default_description clean
+++[1623] local description=
+++[1623] local value=clean
+++[1623] case "$value" in
+++[1623] description='remove build/ folder and build artifacts'
+++[1623] echo 'remove build/ folder and build artifacts'
++[1623] description='remove build/ folder and build artifacts'
++[1623] _builder_params[${original_value}]='remove build/ folder and build artifacts'
++[1623] shift
++[1623] [[ 6 -gt 0 ]]
++[1623] local key=configure
++[1623] local value=configure
++[1623] local description=
++[1623] [[ configure =~ [[:space:]] ]]
++[1623] local original_value=configure
++[1623] [[ configure =~ ^: ]]
++[1623] [[ configure =~ ^@ ]]
++[1623] [[ configure =~ ^-- ]]
++[1623] [[ configure =~ \+$ ]]
++[1623] _builder_actions+=($value)
++[1623] [[ -z '' ]]
+++[1623] _builder_get_default_description configure
+++[1623] local description=
+++[1623] local value=configure
+++[1623] case "$value" in
+++[1623] description='install dependencies, e.g. npm'
+++[1623] echo 'install dependencies, e.g. npm'
++[1623] description='install dependencies, e.g. npm'
++[1623] _builder_params[${original_value}]='install dependencies, e.g. npm'
++[1623] shift
++[1623] [[ 5 -gt 0 ]]
++[1623] local key=build
++[1623] local value=build
++[1623] local description=
++[1623] [[ build =~ [[:space:]] ]]
++[1623] local original_value=build
++[1623] [[ build =~ ^: ]]
++[1623] [[ build =~ ^@ ]]
++[1623] [[ build =~ ^-- ]]
++[1623] [[ build =~ \+$ ]]
++[1623] _builder_actions+=($value)
++[1623] [[ -z '' ]]
+++[1623] _builder_get_default_description build
+++[1623] local description=
+++[1623] local value=build
+++[1623] case "$value" in
+++[1623] description='build target(s)'
+++[1623] echo 'build target(s)'
++[1623] description='build target(s)'
++[1623] _builder_params[${original_value}]='build target(s)'
++[1623] shift
++[1623] [[ 4 -gt 0 ]]
++[1623] local key=test
++[1623] local value=test
++[1623] local description=
++[1623] [[ test =~ [[:space:]] ]]
++[1623] local original_value=test
++[1623] [[ test =~ ^: ]]
++[1623] [[ test =~ ^@ ]]
++[1623] [[ test =~ ^-- ]]
++[1623] [[ test =~ \+$ ]]
++[1623] _builder_actions+=($value)
++[1623] [[ -z '' ]]
+++[1623] _builder_get_default_description test
+++[1623] local description=
+++[1623] local value=test
+++[1623] case "$value" in
+++[1623] description='run automated tests'
+++[1623] echo 'run automated tests'
++[1623] description='run automated tests'
++[1623] _builder_params[${original_value}]='run automated tests'
++[1623] shift
++[1623] [[ 3 -gt 0 ]]
++[1623] local key=publish
++[1623] local value=publish
++[1623] local description=
++[1623] [[ publish =~ [[:space:]] ]]
++[1623] local original_value=publish
++[1623] [[ publish =~ ^: ]]
++[1623] [[ publish =~ ^@ ]]
++[1623] [[ publish =~ ^-- ]]
++[1623] [[ publish =~ \+$ ]]
++[1623] _builder_actions+=($value)
++[1623] [[ -z '' ]]
+++[1623] _builder_get_default_description publish
+++[1623] local description=
+++[1623] local value=publish
+++[1623] case "$value" in
+++[1623] echo ''
++[1623] description=
++[1623] _builder_params[${original_value}]=
++[1623] shift
++[1623] [[ 2 -gt 0 ]]
++[1623] local key=install
++[1623] local value=install
++[1623] local description=
++[1623] [[ install =~ [[:space:]] ]]
++[1623] local original_value=install
++[1623] [[ install =~ ^: ]]
++[1623] [[ install =~ ^@ ]]
++[1623] [[ install =~ ^-- ]]
++[1623] [[ install =~ \+$ ]]
++[1623] _builder_actions+=($value)
++[1623] [[ -z '' ]]
+++[1623] _builder_get_default_description install
+++[1623] local description=
+++[1623] local value=install
+++[1623] case "$value" in
+++[1623] echo ''
++[1623] description=
++[1623] _builder_params[${original_value}]=
++[1623] shift
++[1623] [[ 1 -gt 0 ]]
++[1623] local key=edit
++[1623] local value=edit
++[1623] local description=
++[1623] [[ edit =~ [[:space:]] ]]
++[1623] local original_value=edit
++[1623] [[ edit =~ ^: ]]
++[1623] [[ edit =~ ^@ ]]
++[1623] [[ edit =~ ^-- ]]
++[1623] [[ edit =~ \+$ ]]
++[1623] _builder_actions+=($value)
++[1623] [[ -z '' ]]
+++[1623] _builder_get_default_description edit
+++[1623] local description=
+++[1623] local value=edit
+++[1623] case "$value" in
+++[1623] echo ''
++[1623] description=
++[1623] _builder_params[${original_value}]=
++[1623] shift
++[1623] [[ 0 -gt 0 ]]
++[1623] ((  ! 0  ))
++[1623] _builder_targets+=(:project)
+++[1623] _builder_get_default_description :project
+++[1623] local description=
+++[1623] local value=:project
+++[1623] case "$value" in
+++[1623] description='this project'
+++[1623] echo 'this project'
++[1623] _builder_params[\:project]='this project'
++[1623] builder_parse build --no-deps
++[1623] _builder_record_function_call builder_parse
++[1623] local func=builder_parse
++[1623] _builder_has_function_been_called builder_parse
++[1623] local func=builder_parse
++[1623] _builder_item_in_array builder_parse builder_describe
++[1623] local e match=builder_parse
++[1623] shift
++[1623] [[ -z builder_parse ]]
++[1623] for e in "$@"
++[1623] [[ builder_describe == builder_parse ]]
++[1623] return 1
++[1623] return 1
++[1623] _builder_function_calls+=($1)
++[1623] exp=()
++[1623] local exp
++[1623] builder_extra_params=()
++[1623] [[ 2 -gt 0 ]]
++[1623] local action= target=
++[1623] local key=build
++[1623] [[ build == \-\- ]]
++[1623] [[ build =~ ^- ]]
++[1623] [[ build =~ : ]]
++[1623] action=build
++[1623] target=
++[1623] local actions targets
++[1623] IFS=,
++[1623] read -r -a actions
++[1623] IFS=,
++[1623] read -r -a targets
++[1623] [[ 1 -eq 0 ]]
++[1623] for action in "${actions[@]}"
++[1623] [[ 0 -eq 0 ]]
++[1623] exp+=($action)
++[1623] shift
++[1623] [[ 1 -gt 0 ]]
++[1623] local action= target=
++[1623] local key=--no-deps
++[1623] [[ --no-deps == \-\- ]]
++[1623] [[ --no-deps =~ ^- ]]
++[1623] [[ ! -z '' ]]
++[1623] exp+=($key)
++[1623] [[ ! -z '' ]]
++[1623] shift
++[1623] [[ 0 -gt 0 ]]
++[1623] _builder_parse_expanded_parameters build --no-deps
++[1623] _builder_build_deps=--deps
++[1623] builder_verbose=
++[1623] [[ -z '' ]]
++[1623] builder_is_ci_build
++[1623] builder_is_ci_release_build
++[1623] [[ local =~ ^alpha|beta|stable$ ]]
++[1623] return 1
++[1623] builder_is_ci_test_build
++[1623] [[ local == test ]]
++[1623] return 1
++[1623] return 1
++[1623] _builder_timings=false
++[1623] export _builder_timings
++[1623] builder_debug=
++[1623] local is_release=false
++[1623] _params=('build' '--no-deps')
++[1623] local _params
++[1623] _builder_chosen_action_targets=()
++[1623] _builder_chosen_options=()
++[1623] _builder_current_action=
++[1623] _builder_is_child=1
++[1623] _builder_offline=
++[1623] _builder_ignore_unknown_options=1
++[1623] builder_ignored_options=()
++[1623] local n=0
++[1623] [[ 2 -gt 0 ]]
++[1623] local key=build
++[1623] local action=
++[1623] local target=
++[1623] local e has_action has_target has_option longhand_option
++[1623] [[ build =~ : ]]
++[1623] action=build
++[1623] target=
+++[1623] _builder_expand_shorthand build clean configure build test publish install edit
+++[1623] local item=build
+++[1623] shift
+++[1623] local count=0
+++[1623] local result=
+++[1623] local string=
+++[1623] for e in "$@"
+++[1623] [[ clean == build ]]
+++[1623] [[ clean == build* ]]
+++[1623] for e in "$@"
+++[1623] [[ configure == build ]]
+++[1623] [[ configure == build* ]]
+++[1623] for e in "$@"
+++[1623] [[ build == build ]]
+++[1623] echo build
+++[1623] return 1
++[1623] new_action=build
++[1623] case $? in
++[1623] action=build
+++[1623] _builder_expand_shorthand :project
+++[1623] local item=:project
+++[1623] shift
+++[1623] local count=0
+++[1623] local result=
+++[1623] local string=
+++[1623] [[ 0 -lt 2 ]]
+++[1623] echo
+++[1623] return 0
++[1623] new_target=
++[1623] _builder_item_in_array build clean configure build test publish install edit
++[1623] local e match=build
++[1623] shift
++[1623] [[ -z build ]]
++[1623] for e in "$@"
++[1623] [[ clean == build ]]
++[1623] for e in "$@"
++[1623] [[ configure == build ]]
++[1623] for e in "$@"
++[1623] [[ build == build ]]
++[1623] return 0
++[1623] has_action=1
++[1623] _builder_item_in_array '' :project
++[1623] local e match=
++[1623] shift
++[1623] [[ -z '' ]]
++[1623] return 1
++[1623] has_target=0
++[1623] ((  has_action  ))
++[1623] _params[$n]=build
++[1623] n=1
++[1623] _builder_item_in_array build
++[1623] local e match=build
++[1623] shift
++[1623] [[ -z build ]]
++[1623] return 1
++[1623] has_option=0
++[1623] ((  has_action  ))
++[1623] ((  has_target  ))
++[1623] ((  has_action  ))
++[1623] [[ ! -z '' ]]
++[1623] for e in "${_builder_targets[@]}"
++[1623] _builder_chosen_action_targets+=("$action$e")
++[1623] shift
++[1623] [[ 1 -gt 0 ]]
++[1623] local key=--no-deps
++[1623] local action=
++[1623] local target=
++[1623] local e has_action has_target has_option longhand_option
++[1623] [[ --no-deps =~ : ]]
++[1623] action=--no-deps
++[1623] target=
+++[1623] _builder_expand_shorthand --no-deps clean configure build test publish install edit
+++[1623] local item=--no-deps
+++[1623] shift
+++[1623] local count=0
+++[1623] local result=
+++[1623] local string=
+++[1623] for e in "$@"
+++[1623] [[ clean == --no-deps ]]
+++[1623] [[ clean == \-\-no\-deps* ]]
+++[1623] for e in "$@"
+++[1623] [[ configure == --no-deps ]]
+++[1623] [[ configure == \-\-no\-deps* ]]
+++[1623] for e in "$@"
+++[1623] [[ build == --no-deps ]]
+++[1623] [[ build == \-\-no\-deps* ]]
+++[1623] for e in "$@"
+++[1623] [[ test == --no-deps ]]
+++[1623] [[ test == \-\-no\-deps* ]]
+++[1623] for e in "$@"
+++[1623] [[ publish == --no-deps ]]
+++[1623] [[ publish == \-\-no\-deps* ]]
+++[1623] for e in "$@"
+++[1623] [[ install == --no-deps ]]
+++[1623] [[ install == \-\-no\-deps* ]]
+++[1623] for e in "$@"
+++[1623] [[ edit == --no-deps ]]
+++[1623] [[ edit == \-\-no\-deps* ]]
+++[1623] [[ 0 -lt 2 ]]
+++[1623] echo
+++[1623] return 0
++[1623] new_action=
+++[1623] _builder_expand_shorthand :project
+++[1623] local item=:project
+++[1623] shift
+++[1623] local count=0
+++[1623] local result=
+++[1623] local string=
+++[1623] [[ 0 -lt 2 ]]
+++[1623] echo
+++[1623] return 0
++[1623] new_target=
++[1623] _builder_item_in_array --no-deps clean configure build test publish install edit
++[1623] local e match=--no-deps
++[1623] shift
++[1623] [[ -z --no-deps ]]
++[1623] for e in "$@"
++[1623] [[ clean == --no-deps ]]
++[1623] for e in "$@"
++[1623] [[ configure == --no-deps ]]
++[1623] for e in "$@"
++[1623] [[ build == --no-deps ]]
++[1623] for e in "$@"
++[1623] [[ test == --no-deps ]]
++[1623] for e in "$@"
++[1623] [[ publish == --no-deps ]]
++[1623] for e in "$@"
++[1623] [[ install == --no-deps ]]
++[1623] for e in "$@"
++[1623] [[ edit == --no-deps ]]
++[1623] return 1
++[1623] has_action=0
++[1623] _builder_item_in_array '' :project
++[1623] local e match=
++[1623] shift
++[1623] [[ -z '' ]]
++[1623] return 1
++[1623] has_target=0
++[1623] ((  has_action  ))
++[1623] ((  has_target  ))
++[1623] n=2
++[1623] _builder_item_in_array --no-deps
++[1623] local e match=--no-deps
++[1623] shift
++[1623] [[ -z --no-deps ]]
++[1623] return 1
++[1623] has_option=0
++[1623] ((  has_action  ))
++[1623] ((  has_action  ))
++[1623] ((  has_target  ))
++[1623] ((  has_option  ))
++[1623] case "$key" in
++[1623] _builder_build_deps=--no-deps
++[1623] shift
++[1623] [[ 0 -gt 0 ]]
++[1623] ((  ! 1  ))
++[1623] _builder_has_function_been_called builder_describe_outputs
++[1623] local func=builder_describe_outputs
++[1623] _builder_item_in_array builder_describe_outputs builder_describe builder_parse
++[1623] local e match=builder_describe_outputs
++[1623] shift
++[1623] [[ -z builder_describe_outputs ]]
++[1623] for e in "$@"
++[1623] [[ builder_describe == builder_describe_outputs ]]
++[1623] for e in "$@"
++[1623] [[ builder_parse == builder_describe_outputs ]]
++[1623] return 1
++[1623] return 1
++[1623] builder_is_dep_build
++[1623] [[ ! -z '' ]]
++[1623] return 1
++[1623] builder_is_child_build
++[1623] return 1
+++[1623] mktemp
++[1623] export _builder_deps_built=/tmp/tmp.5REaGkXvsK
++[1623] _builder_deps_built=/tmp/tmp.5REaGkXvsK
++[1623] _builder_timing_setup
++[1623] false
++[1623] [[ local == local ]]
++[1623] [[ '' != --debug ]]
++[1623] false
++[1623] builder_echo grey 'Local build environment detected:  setting --debug'
++[1623] local color=white message= mark= block= action= test=
++[1623] local echo_target=echo
++[1623] [[ 2 -gt 1 ]]
++[1623] [[ grey =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[1623] color=grey
++[1623] shift
++[1623] message='Local build environment detected:  setting --debug'
++[1623] [[ '' == start ]]
++[1623] [[ ! -z x ]]
++[1623] case $color in
++[1623] color=
++[1623] builder_is_dep_build
++[1623] [[ ! -z '' ]]
++[1623] return 1
++[1623] echo -e '[developer/src/kmdbrowserhost] Local build environment detected:  setting --debug'
++[1623] [[ '' == end ]]
++[1623] _params+=(--debug)
++[1623] _builder_chosen_options+=(--debug)
++[1623] builder_debug=--debug
+++[1623] basename ./build.sh
++[1623] builder_echo setmark 'build.sh parameters: <build' --no-deps '--debug>'
++[1623] local color=white message= mark= block= action= test=
++[1623] local echo_target=echo
++[1623] [[ 4 -gt 1 ]]
++[1623] [[ setmark =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[1623] color=setmark
++[1623] shift
++[1623] message='build.sh parameters: <build --no-deps --debug>'
++[1623] [[ '' == start ]]
++[1623] [[ ! -z x ]]
++[1623] case $color in
++[1623] mark=
++[1623] color=
++[1623] builder_is_dep_build
++[1623] [[ ! -z '' ]]
++[1623] return 1
++[1623] echo -e '[developer/src/kmdbrowserhost] build.sh parameters: <build --no-deps --debug>'
++[1623] [[ '' == end ]]
++[1623] [[ 0 -gt 0 ]]
++[1623] builder_is_debug_build
++[1623] [[ --debug == --debug ]]
++[1623] return 0
++[1623] export BUILDER_CONFIGURATION=debug
++[1623] BUILDER_CONFIGURATION=debug
++[1623] _builder_print_internal_debug_info
++[1623] builder_is_debug_internal
++[1623] false
++[1623] return 1
++[1623] builder_is_ci_build
++[1623] builder_is_ci_release_build
++[1623] [[ local =~ ^alpha|beta|stable$ ]]
++[1623] return 1
++[1623] builder_is_ci_test_build
++[1623] [[ local == test ]]
++[1623] return 1
++[1623] return 1
++[1623] return
+++[1623] trap -p DEBUG
++[1623] [[ -z '' ]]
++[1623] trap _builder_failure_trap err exit
++[1623] source /c/Github/keyman-test-delphi/resources/build/win/environment.inc.sh
+++[1623] _builder_has_function_been_called builder_parse
+++[1623] local func=builder_parse
+++[1623] _builder_item_in_array builder_parse builder_describe builder_parse
+++[1623] local e match=builder_parse
+++[1623] shift
+++[1623] [[ -z builder_parse ]]
+++[1623] for e in "$@"
+++[1623] [[ builder_describe == builder_parse ]]
+++[1623] for e in "$@"
+++[1623] [[ builder_parse == builder_parse ]]
+++[1623] return 0
+++[1623] return 0
+++[1623] source /c/Github/keyman-test-delphi/resources/build/win/configure_environment.inc.sh
+++[1623] [[ ! -f /c/Github/keyman-test-delphi/resources/build/win/environment_generated.inc.sh ]]
+++[1623] [[ ! -f /c/Github/keyman-test-delphi/resources/build/win/delphi_environment_generated.inc.sh ]]
+++[1623] [[ ! -f /c/Github/keyman-test-delphi/resources/build/win/visualstudio_environment_generated.inc.sh ]]
+++[1623] source /c/Github/keyman-test-delphi/resources/build/win/environment_generated.inc.sh
++++[1623] ProgramFiles='/c/Program Files'
++++[1623] ProgramFilesx86='/c/Program Files (x86)'
++++[1623] CommonProgramFilesx86='/c/Program Files (x86)/Common Files'
++++[1623] INSTALLPATH_KEYMANAPP='/c/Program Files (x86)/Keyman/Keyman Desktop'
++++[1623] INSTALLPATH_KEYMANDEVELOPER='/c/Program Files (x86)/Keyman/Keyman Developer'
++++[1623] INSTALLPATH_KEYMANENGINE='/c/Program Files (x86)/Common Files/Keyman/Keyman Engine'
+++[1623] WINDOWS_ROOT=/c/Github/keyman-test-delphi/windows
+++[1623] WINDOWS_PROGRAM_APP=/c/Github/keyman-test-delphi/windows/bin/desktop
+++[1623] WINDOWS_PROGRAM_ENGINE=/c/Github/keyman-test-delphi/windows/bin/engine
+++[1623] WINDOWS_PROGRAM_SUPPORT=/c/Github/keyman-test-delphi/windows/bin/support
+++[1623] WINDOWS_DEBUGPATH_APP=/c/Github/keyman-test-delphi/windows/debug/desktop
+++[1623] WINDOWS_DEBUGPATH_ENGINE=/c/Github/keyman-test-delphi/windows/debug/engine
+++[1623] WINDOWS_DEBUGPATH_SUPPORT=/c/Github/keyman-test-delphi/windows/debug/support
+++[1623] COMMON_ROOT=/c/Github/keyman-test-delphi/common/windows/delphi
+++[1623] OUTLIB=/c/Github/keyman-test-delphi/windows/lib
+++[1623] COMMON_OUTLIB=/c/Github/keyman-test-delphi/common/windows/lib
+++[1623] builder_is_debug_build
+++[1623] [[ --debug == --debug ]]
+++[1623] return 0
+++[1623] GO_FAST=1
+++[1623] source /c/Github/keyman-test-delphi/resources/build/win/delphi_flags.inc.sh
++++[1623] DELPHIINCLUDES='/c/Github/keyman-test-delphi/common/windows/delphi/ext/cef4delphi/source;/c/Github/keyman-test-delphi/common/windows/delphi/ext/dcpcrypt;/c/Github/keyman-test-delphi/common/windows/delphi/ext/jwa/Win32API;/c/Github/keyman-test-delphi/common/windows/delphi/ext/sentry;/c/Github/keyman-test-delphi/developer/src/ext/mbcolor;/c/Github/keyman-test-delphi/developer/src/ext/scfontcombobox'
++++[1623] builder_is_debug_build
++++[1623] [[ --debug == --debug ]]
++++[1623] return 0
++++[1623] TARGET_PATH=Debug
++++[1623] DELPHI_MSBUILD_FLAG_DEBUG=//p:Config=Debug
++++[1623] WIN32_TARGET_PATH=bin/Win32/Debug
++++[1623] X64_TARGET_PATH=bin/x64/Debug
++++[1623] ARM64_TARGET_PATH=bin/arm64/Debug
++++[1623] ARM64EC_TARGET_PATH=bin/ARM64EC/Debug
++++[1623] WIN64_TARGET_PATH=bin/Win64/Debug
++++[1623] DEVELOPER_ROOT=/c/Github/keyman-test-delphi/developer
++++[1623] DEVELOPER_PROGRAM=/c/Github/keyman-test-delphi/developer/bin
++++[1623] DEVELOPER_OUTLIB=/c/Github/keyman-test-delphi/developer/lib
++++[1623] DEVELOPER_DEBUGPATH=/c/Github/keyman-test-delphi/developer/debug
++++[1623] SENTRYTOOL=/c/Github/keyman-test-delphi/common/windows/delphi/tools/sentrytool/bin/Win32/Debug/sentrytool.exe
++++[1623] TDS2DBG=/c/Github/keyman-test-delphi/common/windows/bin/tools/tds2dbg
++++[1623] DEVTOOLS=/c/Github/keyman-test-delphi/common/windows/delphi/tools/devtools/bin/Win32/Debug/devtools.exe
+++[1623] source /c/Github/keyman-test-delphi/resources/build/win/vs_flags.inc.sh
++++[1623] builder_is_debug_build
++++[1623] [[ --debug == --debug ]]
++++[1623] return 0
++++[1623] VS_MSBUILD_FLAG_DEBUG=//p:Configuration=Debug
+++[1623] source /c/Github/keyman-test-delphi/resources/build/win/signtime.inc.sh
++++[1623] [[ -z '' ]]
++++[1623] SC_PFX_SHA1=/c/Github/keyman-test-delphi/common/windows/delphi/tools/certificates/keymantest-sha1.pfx
++++[1623] [[ -z '' ]]
++++[1623] SC_PFX_SHA256=/c/Github/keyman-test-delphi/common/windows/delphi/tools/certificates/keymantest-sha256.pfx
++++[1623] [[ -z '' ]]
++++[1623] SC_URL=https://keyman.com/
++++[1623] [[ -z '' ]]
++++[1623] SC_PWD=
+++[1623] VERIFY_SIGNATURES_PATH=/c/Github/keyman-test-delphi/common/windows/delphi/tools/verify_signatures
+++[1623] VERIFY_SIGNATURES=/c/Github/keyman-test-delphi/common/windows/delphi/tools/verify_signatures/bin/Win32/Debug/verify_signatures.exe
+++[1623] SIGCHECK=/c/Github/keyman-test-delphi/common/windows/delphi/tools/verify_signatures/bin/Win32/Debug/sigcheck.exe
+++[1623] _KEYMAN_DELPHI_CE_PROBED=
+++[1623] _KEYMAN_DELPHI_IS_CE=
++[1623] WIN32_TARGET=bin/Win32/Debug/kmdbrowserhost.exe
++[1623] builder_describe_outputs configure:project /resources/build/win/delphi_environment_generated.inc.sh build:project /developer/src/kmdbrowserhost/bin/Win32/Debug/kmdbrowserhost.exe
++[1623] _builder_record_function_call builder_describe_outputs
++[1623] local func=builder_describe_outputs
++[1623] _builder_has_function_been_called builder_describe_outputs
++[1623] local func=builder_describe_outputs
++[1623] _builder_item_in_array builder_describe_outputs builder_describe builder_parse
++[1623] local e match=builder_describe_outputs
++[1623] shift
++[1623] [[ -z builder_describe_outputs ]]
++[1623] for e in "$@"
++[1623] [[ builder_describe == builder_describe_outputs ]]
++[1623] for e in "$@"
++[1623] [[ builder_parse == builder_describe_outputs ]]
++[1623] return 1
++[1623] return 1
++[1623] _builder_function_calls+=($1)
++[1623] [[ 4 -gt 0 ]]
++[1623] local key=configure:project path=/resources/build/win/delphi_environment_generated.inc.sh action= target=
+++[1623] _builder_expand_relative_path /resources/build/win/delphi_environment_generated.inc.sh
+++[1623] local path=/resources/build/win/delphi_environment_generated.inc.sh
+++[1623] [[ /resources/build/win/delphi_environment_generated.inc.sh =~ ^/ ]]
+++[1623] echo resources/build/win/delphi_environment_generated.inc.sh
++[1623] path=resources/build/win/delphi_environment_generated.inc.sh
++[1623] [[ configure:project =~ : ]]
++[1623] IFS=:
++[1623] read -r action target
++[1623] target=:project
++[1623] _builder_dep_path[$action$target]=resources/build/win/delphi_environment_generated.inc.sh
++[1623] shift 2
++[1623] [[ 2 -gt 0 ]]
++[1623] local key=build:project path=/developer/src/kmdbrowserhost/bin/Win32/Debug/kmdbrowserhost.exe action= target=
+++[1623] _builder_expand_relative_path /developer/src/kmdbrowserhost/bin/Win32/Debug/kmdbrowserhost.exe
+++[1623] local path=/developer/src/kmdbrowserhost/bin/Win32/Debug/kmdbrowserhost.exe
+++[1623] [[ /developer/src/kmdbrowserhost/bin/Win32/Debug/kmdbrowserhost.exe =~ ^/ ]]
+++[1623] echo developer/src/kmdbrowserhost/bin/Win32/Debug/kmdbrowserhost.exe
++[1623] path=developer/src/kmdbrowserhost/bin/Win32/Debug/kmdbrowserhost.exe
++[1623] [[ build:project =~ : ]]
++[1623] IFS=:
++[1623] read -r action target
++[1623] target=:project
++[1623] _builder_dep_path[$action$target]=developer/src/kmdbrowserhost/bin/Win32/Debug/kmdbrowserhost.exe
++[1623] shift 2
++[1623] [[ 0 -gt 0 ]]
++[1623] _builder_define_default_internal_dependencies
++[1623] for target in "${_builder_targets[@]}"
++[1623] _builder_define_default_internal_deps_for_target :project
++[1623] local target=:project
++[1623] _builder_define_default_internal_dep :project configure build
++[1623] local target=:project dep=configure action=build
++[1623] _builder_item_in_array configure clean configure build test publish install edit
++[1623] local e match=configure
++[1623] shift
++[1623] [[ -z configure ]]
++[1623] for e in "$@"
++[1623] [[ clean == configure ]]
++[1623] for e in "$@"
++[1623] [[ configure == configure ]]
++[1623] return 0
++[1623] _builder_item_in_array build clean configure build test publish install edit
++[1623] local e match=build
++[1623] shift
++[1623] [[ -z build ]]
++[1623] for e in "$@"
++[1623] [[ clean == build ]]
++[1623] for e in "$@"
++[1623] [[ configure == build ]]
++[1623] for e in "$@"
++[1623] [[ build == build ]]
++[1623] return 0
++[1623] [[ -z '' ]]
++[1623] _builder_internal_dep[$action$target]=configure:project
++[1623] _builder_define_default_internal_dep :project build test
++[1623] local target=:project dep=build action=test
++[1623] _builder_item_in_array build clean configure build test publish install edit
++[1623] local e match=build
++[1623] shift
++[1623] [[ -z build ]]
++[1623] for e in "$@"
++[1623] [[ clean == build ]]
++[1623] for e in "$@"
++[1623] [[ configure == build ]]
++[1623] for e in "$@"
++[1623] [[ build == build ]]
++[1623] return 0
++[1623] _builder_item_in_array test clean configure build test publish install edit
++[1623] local e match=test
++[1623] shift
++[1623] [[ -z test ]]
++[1623] for e in "$@"
++[1623] [[ clean == test ]]
++[1623] for e in "$@"
++[1623] [[ configure == test ]]
++[1623] for e in "$@"
++[1623] [[ build == test ]]
++[1623] for e in "$@"
++[1623] [[ test == test ]]
++[1623] return 0
++[1623] [[ -z '' ]]
++[1623] _builder_internal_dep[$action$target]=build:project
++[1623] _builder_define_default_internal_dep :project build install
++[1623] local target=:project dep=build action=install
++[1623] _builder_item_in_array build clean configure build test publish install edit
++[1623] local e match=build
++[1623] shift
++[1623] [[ -z build ]]
++[1623] for e in "$@"
++[1623] [[ clean == build ]]
++[1623] for e in "$@"
++[1623] [[ configure == build ]]
++[1623] for e in "$@"
++[1623] [[ build == build ]]
++[1623] return 0
++[1623] _builder_item_in_array install clean configure build test publish install edit
++[1623] local e match=install
++[1623] shift
++[1623] [[ -z install ]]
++[1623] for e in "$@"
++[1623] [[ clean == install ]]
++[1623] for e in "$@"
++[1623] [[ configure == install ]]
++[1623] for e in "$@"
++[1623] [[ build == install ]]
++[1623] for e in "$@"
++[1623] [[ test == install ]]
++[1623] for e in "$@"
++[1623] [[ publish == install ]]
++[1623] for e in "$@"
++[1623] [[ install == install ]]
++[1623] return 0
++[1623] [[ -z '' ]]
++[1623] _builder_internal_dep[$action$target]=build:project
++[1623] _builder_define_default_internal_deps_for_target ':*'
++[1623] local 'target=:*'
++[1623] _builder_define_default_internal_dep ':*' configure build
++[1623] local 'target=:*' dep=configure action=build
++[1623] _builder_item_in_array configure clean configure build test publish install edit
++[1623] local e match=configure
++[1623] shift
++[1623] [[ -z configure ]]
++[1623] for e in "$@"
++[1623] [[ clean == configure ]]
++[1623] for e in "$@"
++[1623] [[ configure == configure ]]
++[1623] return 0
++[1623] _builder_item_in_array build clean configure build test publish install edit
++[1623] local e match=build
++[1623] shift
++[1623] [[ -z build ]]
++[1623] for e in "$@"
++[1623] [[ clean == build ]]
++[1623] for e in "$@"
++[1623] [[ configure == build ]]
++[1623] for e in "$@"
++[1623] [[ build == build ]]
++[1623] return 0
++[1623] [[ -z '' ]]
++[1623] _builder_internal_dep[$action$target]='configure:*'
++[1623] _builder_define_default_internal_dep ':*' build test
++[1623] local 'target=:*' dep=build action=test
++[1623] _builder_item_in_array build clean configure build test publish install edit
++[1623] local e match=build
++[1623] shift
++[1623] [[ -z build ]]
++[1623] for e in "$@"
++[1623] [[ clean == build ]]
++[1623] for e in "$@"
++[1623] [[ configure == build ]]
++[1623] for e in "$@"
++[1623] [[ build == build ]]
++[1623] return 0
++[1623] _builder_item_in_array test clean configure build test publish install edit
++[1623] local e match=test
++[1623] shift
++[1623] [[ -z test ]]
++[1623] for e in "$@"
++[1623] [[ clean == test ]]
++[1623] for e in "$@"
++[1623] [[ configure == test ]]
++[1623] for e in "$@"
++[1623] [[ build == test ]]
++[1623] for e in "$@"
++[1623] [[ test == test ]]
++[1623] return 0
++[1623] [[ -z '' ]]
++[1623] _builder_internal_dep[$action$target]='build:*'
++[1623] _builder_define_default_internal_dep ':*' build install
++[1623] local 'target=:*' dep=build action=install
++[1623] _builder_item_in_array build clean configure build test publish install edit
++[1623] local e match=build
++[1623] shift
++[1623] [[ -z build ]]
++[1623] for e in "$@"
++[1623] [[ clean == build ]]
++[1623] for e in "$@"
++[1623] [[ configure == build ]]
++[1623] for e in "$@"
++[1623] [[ build == build ]]
++[1623] return 0
++[1623] _builder_item_in_array install clean configure build test publish install edit
++[1623] local e match=install
++[1623] shift
++[1623] [[ -z install ]]
++[1623] for e in "$@"
++[1623] [[ clean == install ]]
++[1623] for e in "$@"
++[1623] [[ configure == install ]]
++[1623] for e in "$@"
++[1623] [[ build == install ]]
++[1623] for e in "$@"
++[1623] [[ test == install ]]
++[1623] for e in "$@"
++[1623] [[ publish == install ]]
++[1623] for e in "$@"
++[1623] [[ install == install ]]
++[1623] return 0
++[1623] [[ -z '' ]]
++[1623] _builder_internal_dep[$action$target]='build:*'
++[1623] _builder_has_function_been_called builder_parse
++[1623] local func=builder_parse
++[1623] _builder_item_in_array builder_parse builder_describe builder_parse builder_describe_outputs
++[1623] local e match=builder_parse
++[1623] shift
++[1623] [[ -z builder_parse ]]
++[1623] for e in "$@"
++[1623] [[ builder_describe == builder_parse ]]
++[1623] for e in "$@"
++[1623] [[ builder_parse == builder_parse ]]
++[1623] return 0
++[1623] return 0
++[1623] _builder_add_chosen_action_target_dependencies
++[1623] new_actions=()
++[1623] local action_target i=0 new_actions
++[1623] ((  0 < 1  ))
++[1623] action_target=build:project
++[1623] [[ ! -z x ]]
++[1623] dep_outputs=('configure:project')
++[1623] local dep_outputs dep_output
++[1623] for dep_output in "${dep_outputs[@]}"
++[1623] [[ ! -z x ]]
++[1623] [[ ! -e /c/Github/keyman-test-delphi/resources/build/win/delphi_environment_generated.inc.sh ]]
++[1623] builder_is_full_dep_build
++[1623] [[ --no-deps == --force-deps ]]
++[1623] return 1
++[1623] i=1
++[1623] ((  1 < 1  ))
++[1623] [[ 0 -gt 0 ]]
++[1623] builder_run_action clean:project clean_windows_project_files
++[1623] local action=clean:project
++[1623] shift
++[1623] builder_start_action clean:project
++[1623] builder_has_action clean:project
++[1623] local action=clean:project target
++[1623] [[ clean:project =~ : ]]
++[1623] IFS=:
++[1623] read -r action target
++[1623] target=:project
++[1623] _builder_item_in_array clean:project build:project
++[1623] local e match=clean:project
++[1623] shift
++[1623] [[ -z clean:project ]]
++[1623] for e in "$@"
++[1623] [[ build:project == clean:project ]]
++[1623] return 1
++[1623] _builder_matched_action=
++[1623] return 1
++[1623] return 1
++[1623] return 0
++[1623] builder_run_action configure:project configure_windows_build_environment
++[1623] local action=configure:project
++[1623] shift
++[1623] builder_start_action configure:project
++[1623] builder_has_action configure:project
++[1623] local action=configure:project target
++[1623] [[ configure:project =~ : ]]
++[1623] IFS=:
++[1623] read -r action target
++[1623] target=:project
++[1623] _builder_item_in_array configure:project build:project
++[1623] local e match=configure:project
++[1623] shift
++[1623] [[ -z configure:project ]]
++[1623] for e in "$@"
++[1623] [[ build:project == configure:project ]]
++[1623] return 1
++[1623] _builder_matched_action=
++[1623] return 1
++[1623] return 1
++[1623] return 0
++[1623] builder_run_action build:project do_build
++[1623] local action=build:project
++[1623] shift
++[1623] builder_start_action build:project
++[1623] builder_has_action build:project
++[1623] local action=build:project target
++[1623] [[ build:project =~ : ]]
++[1623] IFS=:
++[1623] read -r action target
++[1623] target=:project
++[1623] _builder_item_in_array build:project build:project
++[1623] local e match=build:project
++[1623] shift
++[1623] [[ -z build:project ]]
++[1623] for e in "$@"
++[1623] [[ build:project == build:project ]]
++[1623] return 0
++[1623] _builder_matched_action=build:project
++[1623] [[ :project == \:\* ]]
++[1623] _builder_matched_action_name=build:project
++[1623] return 0
++[1623] builder_is_dep_build
++[1623] [[ ! -z '' ]]
++[1623] return 1
++[1623] builder_echo start build:project '## build:project starting...'
++[1623] local color=white message= mark= block= action= test=
++[1623] local echo_target=echo
++[1623] [[ 3 -gt 1 ]]
++[1623] [[ start =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[1623] [[ start == start ]]
++[1623] test=start
++[1623] block=build:project
++[1623] shift 2
++[1623] action=start
++[1623] color=heading
++[1623] message='## build:project starting...'
++[1623] [[ start == start ]]
++[1623] builder_is_running_on_teamcity
++[1623] [[ -z '' ]]
++[1623] return 1
++[1623] [[ ! -z x ]]
++[1623] case $color in
++[1623] color=
++[1623] builder_is_dep_build
++[1623] [[ ! -z '' ]]
++[1623] return 1
++[1623] echo -e '[developer/src/kmdbrowserhost] ## build:project starting...'
++[1623] [[ start == end ]]
++[1623] [[ -n '' ]]
++[1623] _builder_current_action=build:project
++[1623] _builder_timing_start build:project
++[1623] local context=build:project
++[1623] [[ ! -z '' ]]
++[1623] _builder_do_build_deps build:project
++[1623] local action_target=build:project
++[1623] [[ --no-deps == --no-deps ]]
++[1623] return 0
++[1623] return 0
++[1623] do_build
++[1623] create-developer-output-folders
++[1623] mkdir -p /c/Github/keyman-test-delphi/developer/bin/xml
++[1623] mkdir -p /c/Github/keyman-test-delphi/developer/debug
++[1623] build_version.res
++[1623] run_in_vs_env rc version.rc
++[1623] [[ rc == \-\-quiet ]]
++[1623] builder_echo heading '### visual_studio: rc version.rc'
++[1623] local color=white message= mark= block= action= test=
++[1623] local echo_target=echo
++[1623] [[ 2 -gt 1 ]]
++[1623] [[ heading =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[1623] color=heading
++[1623] shift
++[1623] message='### visual_studio: rc version.rc'
++[1623] [[ '' == start ]]
++[1623] [[ ! -z x ]]
++[1623] case $color in
++[1623] color=
++[1623] builder_is_dep_build
++[1623] [[ ! -z '' ]]
++[1623] return 1
++[1623] echo -e '[developer/src/kmdbrowserhost] ### visual_studio: rc version.rc'
++[1623] [[ '' == end ]]
++[1623] source /c/Github/keyman-test-delphi/resources/build/win/visualstudio_environment.inc.sh
+++[1623] source /c/Github/keyman-test-delphi/resources/build/win/visualstudio_environment_generated.inc.sh
++++[1623] export CommandPromptType=Native
++++[1623] CommandPromptType=Native
++++[1623] export 'DevEnvDir=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/'
++++[1623] DevEnvDir='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/'
++++[1623] export 'ExtensionSdkDir=/c/Program Files (x86)/Microsoft SDKs/Windows Kits/10/ExtensionSDKs'
++++[1623] ExtensionSdkDir='/c/Program Files (x86)/Microsoft SDKs/Windows Kits/10/ExtensionSDKs'
++++[1623] export 'EXTERNAL_INCLUDE=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[1623] EXTERNAL_INCLUDE='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[1623] export Framework40Version=v4.0
++++[1623] Framework40Version=v4.0
++++[1623] export FrameworkDir=/c/Windows/Microsoft.NET/Framework/
++++[1623] FrameworkDir=/c/Windows/Microsoft.NET/Framework/
++++[1623] export FrameworkDir32=/c/Windows/Microsoft.NET/Framework/
++++[1623] FrameworkDir32=/c/Windows/Microsoft.NET/Framework/
++++[1623] export FrameworkVersion=v4.0.30319
++++[1623] FrameworkVersion=v4.0.30319
++++[1623] export FrameworkVersion32=v4.0.30319
++++[1623] FrameworkVersion32=v4.0.30319
++++[1623] export 'INCLUDE=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[1623] INCLUDE='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[1623] export 'LIB=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/lib/um/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/ucrt/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/um/x86'
++++[1623] LIB='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/lib/um/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/ucrt/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/um/x86'
++++[1623] export 'LIBPATH=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86/store/references:/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0:/c/Windows/Microsoft.NET/Framework/v4.0.30319'
++++[1623] LIBPATH='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86/store/references:/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0:/c/Windows/Microsoft.NET/Framework/v4.0.30319'
++++[1623] export 'NETFXSDKDir=/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/'
++++[1623] NETFXSDKDir='/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/'
++++[1623] export 'PATH=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX86/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/:/c/Program Files/Microsoft Visual Studio/2022/Community/Team Tools/DiagnosticsHub/Collector:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86:/c/Program Files (x86)/Windows Kits/10/bin/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/:/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/Linux/bin/ConnectionManagerExe'
++++[1623] PATH='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX86/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/:/c/Program Files/Microsoft Visual Studio/2022/Community/Team Tools/DiagnosticsHub/Collector:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86:/c/Program Files (x86)/Windows Kits/10/bin/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/:/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/Linux/bin/ConnectionManagerExe'
++++[1623] export UCRTVersion=10.0.26100.0
++++[1623] UCRTVersion=10.0.26100.0
++++[1623] export 'UniversalCRTSdkDir=/c/Program Files (x86)/Windows Kits/10/'
++++[1623] UniversalCRTSdkDir='/c/Program Files (x86)/Windows Kits/10/'
++++[1623] export 'VCIDEInstallDir=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/'
++++[1623] VCIDEInstallDir='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/'
++++[1623] export 'VCINSTALLDIR=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/'
++++[1623] VCINSTALLDIR='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/'
++++[1623] export 'VCToolsInstallDir=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/'
++++[1623] VCToolsInstallDir='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/'
++++[1623] export 'VCToolsRedistDir=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Redist/MSVC/14.44.35112/'
++++[1623] VCToolsRedistDir='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Redist/MSVC/14.44.35112/'
++++[1623] export VCToolsVersion=14.44.35207
++++[1623] VCToolsVersion=14.44.35207
++++[1623] export VisualStudioVersion=17.0
++++[1623] VisualStudioVersion=17.0
++++[1623] export 'VS170COMNTOOLS=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/'
++++[1623] VS170COMNTOOLS='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/'
++++[1623] export VSCMD_ARG_app_plat=Desktop
++++[1623] VSCMD_ARG_app_plat=Desktop
++++[1623] export VSCMD_ARG_HOST_ARCH=x86
++++[1623] VSCMD_ARG_HOST_ARCH=x86
++++[1623] export VSCMD_ARG_TGT_ARCH=x86
++++[1623] VSCMD_ARG_TGT_ARCH=x86
++++[1623] export VSCMD_VER=17.14.33
++++[1623] VSCMD_VER=17.14.33
++++[1623] export 'VSINSTALLDIR=/c/Program Files/Microsoft Visual Studio/2022/Community/'
++++[1623] VSINSTALLDIR='/c/Program Files/Microsoft Visual Studio/2022/Community/'
++++[1623] export 'WindowsLibPath=/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0'
++++[1623] WindowsLibPath='/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0'
++++[1623] export 'WindowsSdkBinPath=/c/Program Files (x86)/Windows Kits/10/bin/'
++++[1623] WindowsSdkBinPath='/c/Program Files (x86)/Windows Kits/10/bin/'
++++[1623] export 'WindowsSdkDir=/c/Program Files (x86)/Windows Kits/10/'
++++[1623] WindowsSdkDir='/c/Program Files (x86)/Windows Kits/10/'
++++[1623] export WindowsSDKLibVersion=10.0.26100.0/
++++[1623] WindowsSDKLibVersion=10.0.26100.0/
++++[1623] export 'WindowsSdkVerBinPath=/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/'
++++[1623] WindowsSdkVerBinPath='/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/'
++++[1623] export WindowsSDKVersion=10.0.26100.0/
++++[1623] WindowsSDKVersion=10.0.26100.0/
++++[1623] export 'WindowsSDK_ExecutablePath_x64=/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64/'
++++[1623] WindowsSDK_ExecutablePath_x64='/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64/'
++++[1623] export 'WindowsSDK_ExecutablePath_x86=/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/'
++++[1623] WindowsSDK_ExecutablePath_x86='/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/'
++++[1623] export __DOTNET_ADD_32BIT=1
++++[1623] __DOTNET_ADD_32BIT=1
++++[1623] export __DOTNET_PREFERRED_BITNESS=32
++++[1623] __DOTNET_PREFERRED_BITNESS=32
++++[1623] export '__VSCMD_PREINIT_PATH=/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl'
++++[1623] __VSCMD_PREINIT_PATH='/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl'
++[1623] rc version.rc
++[1623] build_manifest.res
++[1623] replaceVersionStrings_Mkver manifest.in manifest.xml
++[1623] local infile=manifest.in
++[1623] local outfile=manifest.xml
++[1623] sed $'\n    s/$VersionWin/20.0.9.0/g;\n    s/$VersionRelease/20.0/g;\n    s/$VersionMajor/20/g;\n    s/$VersionMinor/0/g;\n    s/$VersionPatch/9/g;\n    s/$Tier/alpha/g;\n    s/$Tag/-alpha-local/g;\n    s/$VersionWithTag/20.0.9-alpha-local/g;\n    s/$VersionGitTag/release@20.0.9-alpha-local/g;\n    s/$VersionRc/20,0,9,0/g;\n    s/$Environment/local/g;\n    s/$Version/20.0.9/g;\n    s/$KEYMAN_VERSIONNUM/20,0,9,0/g;\n    s/$RELEASE_MAJOR/20/g;\n    s/$RELEASE_MINOR/0/g;\n    s/$RELEASE/20.0/g;\n\n    s/$KEYMAN_VERSION_WIN/20.0.9.0/g;\n    s/$KEYMAN_VERSION_RELEASE/20.0/g;\n    s/$KEYMAN_VERSION_MAJOR/20/g;\n    s/$KEYMAN_VERSION_MINOR/0/g;\n    s/$KEYMAN_VERSION_PATCH/9/g;\n    s/$KEYMAN_TIER/alpha/g;\n    s/$KEYMAN_VERSION_TAG/-alpha-local/g;\n    s/$KEYMAN_VERSION_WITH_TAG/20.0.9-alpha-local/g;\n    s/$KEYMAN_VERSION_GIT_TAG/release@20.0.9-alpha-local/g;\n    s/$KEYMAN_VERSION_ENVIRONMENT/local/g;\n    s/$KEYMAN_VERSION_FOR_FILENAME/20.0.9-alpha-local/g;\n\n    s/$KEYMAN_VERSION/20.0.9.0/g;\n\n    ' manifest.in
++[1623] run_in_vs_env rc manifest.rc
++[1623] [[ rc == \-\-quiet ]]
++[1623] builder_echo heading '### visual_studio: rc manifest.rc'
++[1623] local color=white message= mark= block= action= test=
++[1623] local echo_target=echo
++[1623] [[ 2 -gt 1 ]]
++[1623] [[ heading =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[1623] color=heading
++[1623] shift
++[1623] message='### visual_studio: rc manifest.rc'
++[1623] [[ '' == start ]]
++[1623] [[ ! -z x ]]
++[1623] case $color in
++[1623] color=
++[1623] builder_is_dep_build
++[1623] [[ ! -z '' ]]
++[1623] return 1
++[1623] echo -e '[developer/src/kmdbrowserhost] ### visual_studio: rc manifest.rc'
++[1623] [[ '' == end ]]
++[1623] source /c/Github/keyman-test-delphi/resources/build/win/visualstudio_environment.inc.sh
+++[1623] source /c/Github/keyman-test-delphi/resources/build/win/visualstudio_environment_generated.inc.sh
++++[1623] export CommandPromptType=Native
++++[1623] CommandPromptType=Native
++++[1623] export 'DevEnvDir=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/'
++++[1623] DevEnvDir='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/'
++++[1623] export 'ExtensionSdkDir=/c/Program Files (x86)/Microsoft SDKs/Windows Kits/10/ExtensionSDKs'
++++[1623] ExtensionSdkDir='/c/Program Files (x86)/Microsoft SDKs/Windows Kits/10/ExtensionSDKs'
++++[1623] export 'EXTERNAL_INCLUDE=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[1623] EXTERNAL_INCLUDE='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[1623] export Framework40Version=v4.0
++++[1623] Framework40Version=v4.0
++++[1623] export FrameworkDir=/c/Windows/Microsoft.NET/Framework/
++++[1623] FrameworkDir=/c/Windows/Microsoft.NET/Framework/
++++[1623] export FrameworkDir32=/c/Windows/Microsoft.NET/Framework/
++++[1623] FrameworkDir32=/c/Windows/Microsoft.NET/Framework/
++++[1623] export FrameworkVersion=v4.0.30319
++++[1623] FrameworkVersion=v4.0.30319
++++[1623] export FrameworkVersion32=v4.0.30319
++++[1623] FrameworkVersion32=v4.0.30319
++++[1623] export 'INCLUDE=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[1623] INCLUDE='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/ucrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/um:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/shared:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/winrt:/c/Program Files (x86)/Windows Kits/10/include/10.0.26100.0/cppwinrt:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um'
++++[1623] export 'LIB=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/lib/um/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/ucrt/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/um/x86'
++++[1623] LIB='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/lib/um/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/ucrt/x86:/c/Program Files (x86)/Windows Kits/10/lib/10.0.26100.0/um/x86'
++++[1623] export 'LIBPATH=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86/store/references:/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0:/c/Windows/Microsoft.NET/Framework/v4.0.30319'
++++[1623] LIBPATH='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x86/store/references:/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0:/c/Windows/Microsoft.NET/Framework/v4.0.30319'
++++[1623] export 'NETFXSDKDir=/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/'
++++[1623] NETFXSDKDir='/c/Program Files (x86)/Windows Kits/NETFXSDK/4.8/'
++++[1623] export 'PATH=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX86/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/:/c/Program Files/Microsoft Visual Studio/2022/Community/Team Tools/DiagnosticsHub/Collector:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86:/c/Program Files (x86)/Windows Kits/10/bin/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/:/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/Linux/bin/ConnectionManagerExe'
++++[1623] PATH='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX86/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/:/c/Program Files/Microsoft Visual Studio/2022/Community/Team Tools/DiagnosticsHub/Collector:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x86:/c/Program Files (x86)/Windows Kits/10/bin/x86:/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/:/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/Linux/bin/ConnectionManagerExe'
++++[1623] export UCRTVersion=10.0.26100.0
++++[1623] UCRTVersion=10.0.26100.0
++++[1623] export 'UniversalCRTSdkDir=/c/Program Files (x86)/Windows Kits/10/'
++++[1623] UniversalCRTSdkDir='/c/Program Files (x86)/Windows Kits/10/'
++++[1623] export 'VCIDEInstallDir=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/'
++++[1623] VCIDEInstallDir='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/'
++++[1623] export 'VCINSTALLDIR=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/'
++++[1623] VCINSTALLDIR='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/'
++++[1623] export 'VCToolsInstallDir=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/'
++++[1623] VCToolsInstallDir='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/'
++++[1623] export 'VCToolsRedistDir=/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Redist/MSVC/14.44.35112/'
++++[1623] VCToolsRedistDir='/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Redist/MSVC/14.44.35112/'
++++[1623] export VCToolsVersion=14.44.35207
++++[1623] VCToolsVersion=14.44.35207
++++[1623] export VisualStudioVersion=17.0
++++[1623] VisualStudioVersion=17.0
++++[1623] export 'VS170COMNTOOLS=/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/'
++++[1623] VS170COMNTOOLS='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/'
++++[1623] export VSCMD_ARG_app_plat=Desktop
++++[1623] VSCMD_ARG_app_plat=Desktop
++++[1623] export VSCMD_ARG_HOST_ARCH=x86
++++[1623] VSCMD_ARG_HOST_ARCH=x86
++++[1623] export VSCMD_ARG_TGT_ARCH=x86
++++[1623] VSCMD_ARG_TGT_ARCH=x86
++++[1623] export VSCMD_VER=17.14.33
++++[1623] VSCMD_VER=17.14.33
++++[1623] export 'VSINSTALLDIR=/c/Program Files/Microsoft Visual Studio/2022/Community/'
++++[1623] VSINSTALLDIR='/c/Program Files/Microsoft Visual Studio/2022/Community/'
++++[1623] export 'WindowsLibPath=/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0'
++++[1623] WindowsLibPath='/c/Program Files (x86)/Windows Kits/10/UnionMetadata/10.0.26100.0:/c/Program Files (x86)/Windows Kits/10/References/10.0.26100.0'
++++[1623] export 'WindowsSdkBinPath=/c/Program Files (x86)/Windows Kits/10/bin/'
++++[1623] WindowsSdkBinPath='/c/Program Files (x86)/Windows Kits/10/bin/'
++++[1623] export 'WindowsSdkDir=/c/Program Files (x86)/Windows Kits/10/'
++++[1623] WindowsSdkDir='/c/Program Files (x86)/Windows Kits/10/'
++++[1623] export WindowsSDKLibVersion=10.0.26100.0/
++++[1623] WindowsSDKLibVersion=10.0.26100.0/
++++[1623] export 'WindowsSdkVerBinPath=/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/'
++++[1623] WindowsSdkVerBinPath='/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/'
++++[1623] export WindowsSDKVersion=10.0.26100.0/
++++[1623] WindowsSDKVersion=10.0.26100.0/
++++[1623] export 'WindowsSDK_ExecutablePath_x64=/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64/'
++++[1623] WindowsSDK_ExecutablePath_x64='/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64/'
++++[1623] export 'WindowsSDK_ExecutablePath_x86=/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/'
++++[1623] WindowsSDK_ExecutablePath_x86='/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/'
++++[1623] export __DOTNET_ADD_32BIT=1
++++[1623] __DOTNET_ADD_32BIT=1
++++[1623] export __DOTNET_PREFERRED_BITNESS=32
++++[1623] __DOTNET_PREFERRED_BITNESS=32
++++[1623] export '__VSCMD_PREINIT_PATH=/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl'
++++[1623] __VSCMD_PREINIT_PATH='/c/Github/keyman-test-delphi/node_modules/.bin:/c/Users/thoua/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/mingw64/bin:/usr/bin:/c/Users/thoua/bin:/c/Program Files/SIL/FieldWorks 9:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl:/c/Program Files (x86)/Embarcadero/Studio/23.0/bin64:/c/Users/Public/Documents/Embarcadero/Studio/23.0/Bpl/Win64:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/ProgramData/chocolatey/bin:/cmd:/c/Program Files/Meson:%NVM_HOME%:%NVM_SYMLINK%:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files/dotnet:/c/Program Files (x86)/Keyman/Keyman Developer:/c/Users/thoua/.herdr/packages/standalone/releases/0.9.1-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/hermes/bin:/c/Users/thoua/.local/bin:/c/Users/thoua/AppData/Local/Microsoft/WindowsApps:/c/Users/thoua/AppData/Local/GitHubDesktop/bin:/c/Users/thoua/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/thoua/AppData/Local/Pandoc:/c/ProgramData/nvm:/c/nvm4w/nodejs:/c/Github/keyman/windows/lib:/c/Users/thoua/AppData/Local/gitkraken/bin:/c/Program Files/GitHub CLI:/c/Users/thoua/AppData/Local/Programs/Antigravity IDE/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin:/c/Users/thoua/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/thoua/AppData/Local/Programs/Ollama:/c/Users/thoua/AppData/Local/Programs/ClaudeScience:/c/Users/thoua/AppData/Local/Programs/cursor/resources/app/bin:/c/Users/thoua/AppData/Local/cursor-agent:/c/Program Files/R/R-4.6.1/bin:/c/Program Files/RStudio/resources/app/bin/quarto/bin:/c/Users/thoua/AppData/Local/Microsoft/WinGet/Packages/oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe/poppler-25.07.0/Library/bin:/usr/bin/vendor_perl:/usr/bin/core_perl'
++[1623] rc manifest.rc
++[1623] delphi_msbuild kmdbrowserhost.dproj //p:Platform=Win32
++[1623] [[ 1 == 1 ]]
++[1623] local project=kmdbrowserhost.dproj
++[1623] local platform=Win32
++[1623] local arg
++[1623] for arg in "$@"
++[1623] [[ kmdbrowserhost.dproj == *Platform=Win64* ]]
++[1623] for arg in "$@"
++[1623] [[ //p:Platform=Win32 == *Platform=Win64* ]]
++[1623] _delphi_ce_output_fresh kmdbrowserhost.dproj Win32
++[1623] local project=kmdbrowserhost.dproj platform=Win32
++[1623] local base=kmdbrowserhost
++[1623] local source
++[1623] [[ -f kmdbrowserhost.dpr ]]
++[1623] source=kmdbrowserhost.dpr
++[1623] local candidate ext
++[1623] for ext in exe dll bpl
++[1623] candidate=bin/Win32/Debug/kmdbrowserhost.exe
++[1623] [[ -f bin/Win32/Debug/kmdbrowserhost.exe ]]
++[1623] for ext in exe dll bpl
++[1623] candidate=bin/Win32/Debug/kmdbrowserhost.dll
++[1623] [[ -f bin/Win32/Debug/kmdbrowserhost.dll ]]
++[1623] for ext in exe dll bpl
++[1623] candidate=bin/Win32/Debug/kmdbrowserhost.bpl
++[1623] [[ -f bin/Win32/Debug/kmdbrowserhost.bpl ]]
++[1623] return 1
++[1623] builder_echo warning 'Delphi CE: CLI compilation is not available.'
++[1623] local color=white message= mark= block= action= test=
++[1623] local echo_target=echo
++[1623] [[ 2 -gt 1 ]]
++[1623] [[ warning =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[1623] color=warning
++[1623] shift
++[1623] message='Delphi CE: CLI compilation is not available.'
++[1623] [[ '' == start ]]
++[1623] [[ ! -z x ]]
++[1623] case $color in
++[1623] color=
++[1623] builder_is_dep_build
++[1623] [[ ! -z '' ]]
++[1623] return 1
++[1623] echo -e '[developer/src/kmdbrowserhost] Delphi CE: CLI compilation is not available.'
++[1623] [[ '' == end ]]
++[1623] builder_echo warning 'Please build kmdbrowserhost.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).'
++[1623] local color=white message= mark= block= action= test=
++[1623] local echo_target=echo
++[1623] [[ 2 -gt 1 ]]
++[1623] [[ warning =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[1623] color=warning
++[1623] shift
++[1623] message='Please build kmdbrowserhost.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).'
++[1623] [[ '' == start ]]
++[1623] [[ ! -z x ]]
++[1623] case $color in
++[1623] color=
++[1623] builder_is_dep_build
++[1623] [[ ! -z '' ]]
++[1623] return 1
++[1623] echo -e '[developer/src/kmdbrowserhost] Please build kmdbrowserhost.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).'
++[1623] [[ '' == end ]]
++[1623] builder_echo warning 'Tip: opening the parent .groupproj and running Build All pre-builds all sibling projects at once; subsequent CE prompts in this script will auto-skip when their outputs are fresh.'
++[1623] local color=white message= mark= block= action= test=
++[1623] local echo_target=echo
++[1623] [[ 2 -gt 1 ]]
++[1623] [[ warning =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[1623] color=warning
++[1623] shift
++[1623] message='Tip: opening the parent .groupproj and running Build All pre-builds all sibling projects at once; subsequent CE prompts in this script will auto-skip when their outputs are fresh.'
++[1623] [[ '' == start ]]
++[1623] [[ ! -z x ]]
++[1623] case $color in
++[1623] color=
++[1623] builder_is_dep_build
++[1623] [[ ! -z '' ]]
++[1623] return 1
++[1623] echo -e '[developer/src/kmdbrowserhost] Tip: opening the parent .groupproj and running Build All pre-builds all sibling projects at once; subsequent CE prompts in this script will auto-skip when their outputs are fresh.'
++[1623] [[ '' == end ]]
++[1623] read -r _
++[1623] builder_echo warning 'Delphi CE: no Enter received (stdin closed or EOF) for kmdbrowserhost.dproj.'
++[1623] local color=white message= mark= block= action= test=
++[1623] local echo_target=echo
++[1623] [[ 2 -gt 1 ]]
++[1623] [[ warning =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[1623] color=warning
++[1623] shift
++[1623] message='Delphi CE: no Enter received (stdin closed or EOF) for kmdbrowserhost.dproj.'
++[1623] [[ '' == start ]]
++[1623] [[ ! -z x ]]
++[1623] case $color in
++[1623] color=
++[1623] builder_is_dep_build
++[1623] [[ ! -z '' ]]
++[1623] return 1
++[1623] echo -e '[developer/src/kmdbrowserhost] Delphi CE: no Enter received (stdin closed or EOF) for kmdbrowserhost.dproj.'
++[1623] [[ '' == end ]]
++[1623] _delphi_ce_output_fresh kmdbrowserhost.dproj Win32
++[1623] local project=kmdbrowserhost.dproj platform=Win32
++[1623] local base=kmdbrowserhost
++[1623] local source
++[1623] [[ -f kmdbrowserhost.dpr ]]
++[1623] source=kmdbrowserhost.dpr
++[1623] local candidate ext
++[1623] for ext in exe dll bpl
++[1623] candidate=bin/Win32/Debug/kmdbrowserhost.exe
++[1623] [[ -f bin/Win32/Debug/kmdbrowserhost.exe ]]
++[1623] for ext in exe dll bpl
++[1623] candidate=bin/Win32/Debug/kmdbrowserhost.dll
++[1623] [[ -f bin/Win32/Debug/kmdbrowserhost.dll ]]
++[1623] for ext in exe dll bpl
++[1623] candidate=bin/Win32/Debug/kmdbrowserhost.bpl
++[1623] [[ -f bin/Win32/Debug/kmdbrowserhost.bpl ]]
++[1623] return 1
++[1623] builder_die 'Delphi CE: kmdbrowserhost.dproj (Win32) was not built in the IDE -- its Debug output is still older than its source (or missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.'
++[1623] _builder_error_echo
++[1623] [[ 0 -gt 0 ]]
++[1623] echo ''
++[1623] [[ 1 -eq 0 ]]
++[1623] builder_echo error 'Delphi CE: kmdbrowserhost.dproj (Win32) was not built in the IDE -- its Debug output is still older than its source (or missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.'
++[1623] local color=white message= mark= block= action= test=
++[1623] local echo_target=echo
++[1623] [[ 2 -gt 1 ]]
++[1623] [[ error =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[1623] color=error
++[1623] shift
++[1623] message='Delphi CE: kmdbrowserhost.dproj (Win32) was not built in the IDE -- its Debug output is still older than its source (or missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.'
++[1623] [[ '' == start ]]
++[1623] [[ ! -z x ]]
++[1623] case $color in
++[1623] color=
++[1623] echo_target=_builder_error_echo
++[1623] builder_is_dep_build
++[1623] [[ ! -z '' ]]
++[1623] return 1
++[1623] _builder_error_echo -e '[developer/src/kmdbrowserhost] Delphi CE: kmdbrowserhost.dproj (Win32) was not built in the IDE -- its Debug output is still older than its source (or missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.'
++[1623] [[ 2 -gt 0 ]]
++[1623] [[ -e == -e ]]
++[1623] shift
++[1623] echo -e '[developer/src/kmdbrowserhost] Delphi CE: kmdbrowserhost.dproj (Win32) was not built in the IDE -- its Debug output is still older than its source (or missing). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.'
++[1623] [[ '' == end ]]
++[1623] _builder_error_echo
++[1623] [[ 0 -gt 0 ]]
++[1623] echo ''
++[1623] exit 1
++[1623] _builder_failure_trap
++[1623] local trappedExitCode=1
++[1623] local action target
++[1623] _builder_cleanup_deps
++[1623] builder_is_dep_build
++[1623] [[ ! -z '' ]]
++[1623] return 1
++[1623] builder_is_child_build
++[1623] return 1
++[1623] [[ ! -z x ]]
++[1623] builder_is_debug_internal
++[1623] false
++[1623] return 1
++[1623] rm -f /tmp/tmp.5REaGkXvsK
++[1623] _builder_deps_built=
++[1623] _builder_timing_cleanup_and_report 1
++[1623] local build_exit_code=1
++[1623] builder_is_dep_build
++[1623] [[ ! -z '' ]]
++[1623] return 1
++[1623] builder_is_child_build
++[1623] return 1
++[1623] [[ -z '' ]]
++[1623] return 0
++[1623] [[ 1 == 0 ]]
++[1623] '[' -n build:project ']'
++[1623] action=build:project
++[1623] [[ build:project =~ : ]]
++[1623] IFS=:
++[1623] read -r action target
++[1623] target=:project
++[1623] builder_finish_action failure build:project
++[1623] local result=failure
++[1623] local action=build:project target action_name
++[1623] [[ build:project =~ : ]]
++[1623] IFS=:
++[1623] read -r action target
++[1623] target=:project
++[1623] [[ :project == \:\* ]]
++[1623] action_name=build:project
++[1623] local matched_action=build:project
++[1623] [[ build:project == build\:project ]]
++[1623] [[ failure == success ]]
++[1623] [[ failure == failure ]]
++[1623] builder_echo end build:project error '## build:project failed'
++[1623] local color=white message= mark= block= action= test=
++[1623] local echo_target=echo
++[1623] [[ 4 -gt 1 ]]
++[1623] [[ end =~ ^(white|grey|green|success|blue|heading|yellow|warning|red|error|purple|brightwhite|teal|debug|setmark)$ ]]
++[1623] [[ end == start ]]
++[1623] [[ end == startTest ]]
++[1623] [[ end == end ]]
++[1623] test=end
++[1623] block=build:project
++[1623] color=error
++[1623] shift 3
++[1623] action=end
++[1623] message='## build:project failed'
++[1623] [[ end == start ]]
++[1623] [[ ! -z x ]]
++[1623] case $color in
++[1623] color=
++[1623] echo_target=_builder_error_echo
++[1623] builder_is_dep_build
++[1623] [[ ! -z '' ]]
++[1623] return 1
++[1623] _builder_error_echo -e '[developer/src/kmdbrowserhost] ## build:project failed'
++[1623] [[ 2 -gt 0 ]]
++[1623] [[ -e == -e ]]
++[1623] shift
++[1623] echo -e '[developer/src/kmdbrowserhost] ## build:project failed'
++[1623] [[ end == end ]]
++[1623] builder_is_running_on_teamcity
++[1623] [[ -z '' ]]
++[1623] return 1
++[1623] _builder_timing_stop build:project
++[1623] local context=build:project
++[1623] [[ ! -z '' ]]
++[1623] _builder_current_action=
++[1623] exit 1
++[1619] rc=1
++[1619] set +x

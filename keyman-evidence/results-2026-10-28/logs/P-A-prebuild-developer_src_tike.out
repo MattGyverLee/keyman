@@ -1,0 +1,13 @@
+# cwd=/c/Github/keyman-test-delphi/developer/src/tike date=2026-10-28T10:36:09-05:00 host=ltu-legion HEAD=331b0b3015
+# KEYMAN_DELPHI_CE='1' KEYMAN_DELPHI_VERSION='23.0' NoDefaultCurrentDirectoryInExePath='<unset>' stdin=null
+# cmd: ./build.sh build --no-deps
+[developer/src/tike] Local build environment detected:  setting --debug
+[developer/src/tike] build.sh parameters: <build --no-deps --debug>
+[developer/src/tike] Automatically running following required actions with missing outputs:
+[developer/src/tike] * configure:project
+[developer/src/tike] ## configure:project starting...
+/c/Github/keyman-test-delphi/developer/src/tike/xml/app /c/Github/keyman-test-delphi/developer/src/tike
+/c/nvm4w/nodejs/npm: line 58: IS_WSL: unbound variable
+[developer/src/tike] ## configure:project failed
+# exit=1
+dcc32 spawns (probe exec lines in xtrace): 0

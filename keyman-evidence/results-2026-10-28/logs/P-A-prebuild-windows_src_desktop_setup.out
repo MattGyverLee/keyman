@@ -1,0 +1,22 @@
+# cwd=/c/Github/keyman-test-delphi/windows/src/desktop/setup date=2026-10-28T10:36:08-05:00 host=ltu-legion HEAD=331b0b3015
+# KEYMAN_DELPHI_CE='1' KEYMAN_DELPHI_VERSION='23.0' NoDefaultCurrentDirectoryInExePath='<unset>' stdin=null
+# cmd: ./build.sh build --no-deps
+[windows/src/desktop/setup] Local build environment detected:  setting --debug
+[windows/src/desktop/setup] build.sh parameters: <build --no-deps --debug>
+[windows/src/desktop/setup] ## build:project starting...
+[windows/src/desktop/setup] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/desktop/setup] ### visual_studio: rc manifest.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/desktop/setup] ### visual_studio: rc icons.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+./build.sh: line 37: /c/Github/keyman-test-delphi/common/windows/delphi/tools/devtools/bin/Win32/Debug/devtools.exe: No such file or directory
+[windows/src/desktop/setup] ## build:project failed
+# exit=127
+dcc32 spawns (probe exec lines in xtrace): 0
