@@ -1,0 +1,15 @@
+# test=fix2-T5-ce1-package-bpl-after-prompt.out cwd=/c/Github/keyman-fix-delphi/common/windows/delphi/components date=2026-10-28T12:11:55-05:00 host=ltu-legion HEAD=7476a9e54c branch=fix2/16191
+# KEYMAN_DELPHI_CE='1' KEYMAN_DELPHI_VERSION='23.0' NoDefaultCurrentDirectoryInExePath='<unset>' stdin=drive
+# cmd: ./build.sh build --no-deps
+[common/windows/delphi/components] Local build environment detected:  setting --debug
+[common/windows/delphi/components] build.sh parameters: <build --no-deps --debug>
+[common/windows/delphi/components] ## build:project starting...
+[common/windows/delphi/components] Delphi CE: CLI compilation is not available.
+[common/windows/delphi/components] Please build common_components.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[common/windows/delphi/components] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+# [watcher 12:11:57.697597800] prompt 1 seen; action: fake /c/Github/keyman-fix-delphi/common/windows/lib/common_components.bpl; ls -l --time-style=full-iso /c/Github/keyman-fix-delphi/common/windows/lib/common_components.bpl
+-rw-r--r-- 1 thoua 197609 10 2026-10-28 12:11:57.761487600 -0500 /c/Github/keyman-fix-delphi/common/windows/lib/common_components.bpl
+# [watcher 12:11:58.852811800] sending Enter for prompt 1
+./build.sh: line 24: /c/Github/keyman-fix-delphi/common/windows/delphi/tools/devtools/bin/Win32/Debug/devtools.exe: No such file or directory
+[common/windows/delphi/components] ## build:project failed
+# exit=127

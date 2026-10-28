@@ -1,0 +1,2 @@
+-rwxr-xr-x 1 thoua 197609   10 2026-10-28 12:11:59.343170000 -0500 /c/Github/keyman-fix-delphi/common/windows/delphi/tools/devtools/bin/Win32/Debug/devtools.exe
+-rw-r--r-- 1 thoua 197609 1331 2026-10-28 11:59:34.097453100 -0500 /c/Github/keyman-fix-delphi/common/windows/delphi/tools/devtools/devtools.dpr

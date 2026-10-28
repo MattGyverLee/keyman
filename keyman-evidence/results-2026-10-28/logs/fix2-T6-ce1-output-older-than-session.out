@@ -1,0 +1,19 @@
+# test=fix2-T6-ce1-output-older-than-session.out cwd=/c/Github/keyman-fix-delphi/common/windows/delphi/tools/devtools date=2026-10-28T12:12:01-05:00 host=ltu-legion HEAD=7476a9e54c branch=fix2/16191
+# KEYMAN_DELPHI_CE='1' KEYMAN_DELPHI_VERSION='23.0' NoDefaultCurrentDirectoryInExePath='<unset>' stdin=null
+# cmd: ./build.sh build
+[common/windows/delphi/tools/devtools] Local build environment detected:  setting --debug
+[common/windows/delphi/tools/devtools] build.sh parameters: <build --debug>
+[common/windows/delphi/tools/devtools] ## build:project starting...
+[common/windows/delphi] dependency build, started by common/windows/delphi/tools/devtools
+[common/windows/delphi] build.sh parameters: <configure:keymanversion build:keymanversion --debug --deps --builder-dep-parent common/windows/delphi/tools/devtools>
+[common/windows/delphi] ## build:keymanversion starting...
+[common/windows/delphi] ## build:keymanversion completed successfully
+[common/windows/delphi/tools/devtools] Delphi CE: CLI compilation is not available.
+[common/windows/delphi/tools/devtools] Please build devtools.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[common/windows/delphi/tools/devtools] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[common/windows/delphi/tools/devtools] Delphi CE: no Enter received (stdin closed or EOF) for devtools.dproj.
+
+[common/windows/delphi/tools/devtools] Delphi CE: devtools.dproj (Win32) was not built in the IDE -- no Debug output was written after the prompt (checked: bin/Win32/Debug/devtools.exe bin/Win32/Debug/devtools.dll). The build FAILS here rather than continuing with stale or missing output. Build it in the Delphi IDE, then re-run.
+
+[common/windows/delphi/tools/devtools] ## build:project failed
+# exit=1
