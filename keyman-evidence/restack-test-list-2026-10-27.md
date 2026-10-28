@@ -5,6 +5,65 @@ build machine, after the restack of #16043 / #16044 / #16191 and
 #16490 / #16527 onto modern upstream/master. Not a PR body, not posted
 anywhere.
 
+## Update, evening 2026-10-27 — evidence move, tool READMEs, new tips
+
+After the restack, the evidence logs, TRIAGE.md, issue drafts and
+pr-M.md were moved out of the PR branches into a separate evidence
+branch, and standalone READMEs were written for the two tools that
+lacked them. Production code did not change in this move.
+
+- Evidence branch (fork MattGyverLee/keyman, pushed 2026-10-27):
+  `evidence/8064-16462`, tip **b12192d0ff**. Index:
+  `keyman-evidence/README.md` on that branch. It holds faithful
+  copies of the GH-8064 and GH-16462 manual-test folders as they
+  stood at the restack tips, the tool READMEs, and a copy of this
+  list. The PR branches now hold only a pointer
+  (`evidence/README.md` in each manual-test folder) plus links
+  to the evidence branch in their READMEs.
+- New #16490 tip: **a31a675567** (was 289eb29eab). Changes since
+  the restack: host32/README.md, fakefreeze/README.md, then the
+  evidence/TRIAGE/issues removal plus README link repointing.
+  No production code, no test code, no script behaviour changed.
+- New #16527 tip: **90329530cc** (was 67f9c23053). Changes since
+  the restack: rebased onto the new #16490 tip (clean, 7 commits),
+  then the GH-16462 evidence / issue draft / pr-M removal plus
+  README link repointing. Its own layer vs #16490 is now exactly
+  5 files, +754 / -45 (two .pas files, GH-16462 README,
+  evidence pointer README, watch-modifiers.ps1).
+- Delphi tips unchanged: #16043 582a4dae73, #16044 631327a507,
+  #16191 08278bd64a.
+- All five PRs are still closed, with no new comments, no
+  reopening, no new PRs. GitHub's closed-PR head fields still
+  show the old SHAs (16490: f55c8997, 16527: df4317ec0) — that
+  discrepancy predates the restack and must be confirmed at
+  reopen time, not now.
+- Tool READMEs, new in the PR branches:
+  - `windows/src/test/manual-tests/GH-8064 - stuck-modifier-phantom-keydown/host32/README.md`
+    (host32.exe: build, usage, exit codes; rawinput-probe: a
+    measurement only, not a fix, and why hDevice must not be
+    reused as a device filter)
+  - `windows/src/support/fakefreeze/README.md`
+    (what fakefreeze posts, how to build it, exit behaviour)
+  - Everything else already had a folder README or a thorough
+    script header: GH-8064 README, GH-16462 README,
+    keyboard_ll_identifier README, stuck-mod-test.ps1,
+    run-8064-test.ps1, watch-modifiers.ps1, deploy-8064.ps1.
+    No new README was written for those.
+- Retest trigger added by this move (in addition to A–E below):
+  run C.12 (three-arm gate) and C.14 (OSK tests) on the NEW tips
+  a31a675567 / 90329530cc, even though only docs/evidence moved,
+  because the 16527 branch was rebased in the process. Also
+  confirm the evidence-branch links in both manual-test READMEs
+  resolve, and that `git status` after a build shows no
+  unexpected files (the deleted evidence folder must not
+  reappear as untracked logs — new logs go to the evidence
+  archive, not back into the PR).
+
+The rest of this list, below, is unchanged from the restack
+version, except that every reference to tip 289eb29eab should
+now be read as a31a675567, and every reference to 67f9c23053
+as 90329530cc.
+
 Restack actually performed 2026-10-27, upstream base
 fcc0bd369d (Merge PR #16910, auto/version-master-20.0.9):
 - #16043 restack/16043 tip 582a4dae73 (14 commits, rebased from
