@@ -1,0 +1,18 @@
+# test=fix2-T4-ce1-output-after-prompt.out cwd=/c/Github/keyman-fix-delphi/common/windows/delphi/tools/devtools date=2026-10-28T12:11:51-05:00 host=ltu-legion HEAD=7476a9e54c branch=fix2/16191
+# KEYMAN_DELPHI_CE='1' KEYMAN_DELPHI_VERSION='23.0' NoDefaultCurrentDirectoryInExePath='<unset>' stdin=drive
+# cmd: ./build.sh build
+[common/windows/delphi/tools/devtools] Local build environment detected:  setting --debug
+[common/windows/delphi/tools/devtools] build.sh parameters: <build --debug>
+[common/windows/delphi/tools/devtools] ## build:project starting...
+[common/windows/delphi] dependency build, started by common/windows/delphi/tools/devtools
+[common/windows/delphi] build.sh parameters: <configure:keymanversion build:keymanversion --debug --deps --builder-dep-parent common/windows/delphi/tools/devtools>
+[common/windows/delphi] ## build:keymanversion starting...
+[common/windows/delphi] ## build:keymanversion completed successfully
+[common/windows/delphi/tools/devtools] Delphi CE: CLI compilation is not available.
+[common/windows/delphi/tools/devtools] Please build devtools.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[common/windows/delphi/tools/devtools] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+# [watcher 12:11:53.902350500] prompt 1 seen; action: fake bin/Win32/Debug/devtools.exe; ls -l --time-style=full-iso bin/Win32/Debug/devtools.exe
+-rwxr-xr-x 1 thoua 197609 10 2026-10-28 12:11:53.952574000 -0500 bin/Win32/Debug/devtools.exe
+# [watcher 12:11:55.020300800] sending Enter for prompt 1
+[common/windows/delphi/tools/devtools] ## build:project completed successfully
+# exit=0
