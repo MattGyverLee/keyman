@@ -110,27 +110,26 @@ register() { "$DEVTOOLS" -ai "$(cygpath -w "$1")"; }
 eval "$(grep '^DELPHIINCLUDES=' "$KEYMAN_ROOT/resources/build/win/delphi_flags.inc.sh")"
 IFS=';'; for p in $DELPHIINCLUDES; do register "$p"; done; unset IFS
 
-# The IDE-only JCL/JVCL/jedi paths (no build-side equivalent):
-for p in \
-  developer/src/ext/jedi/jcl/jcl/source/common \
-  developer/src/ext/jedi/jcl/jcl/source/prototypes \
-  developer/src/ext/jedi/jcl/jcl/source/vcl \
-  developer/src/ext/jedi/jcl/jcl/source/windows \
-  developer/src/ext/jedi/jcl/jcl/source/include \
-  developer/src/ext/jedi/jvcl/jvcl/design \
-  developer/src/ext/jedi/jvcl/jvcl/run \
-  developer/src/ext/jedi/jvcl/jvcl/common \
-  developer/src/ext/jedi/jvcl/jvcl/resources \
-  developer/src/ext/jedi/jedi \
-  developer/src/ext/jedi ; do
-  register "$KEYMAN_ROOT/$p"
-done
+# The JCL / JVCL / jedi paths, read from the script that registers them for the build:
+DEVELOPER_ROOT="$KEYMAN_ROOT/developer"
+sed -n 's/^ *"\$DEVTOOLS" -ai "\(.*\)"$/\1/p' "$KEYMAN_ROOT/developer/src/ext/jedi/build.sh" |
+  while read -r p; do register "$(eval "echo \"$p\"")"; done
 ```
 
-The first block reads the six CLI include paths straight from `DELPHIINCLUDES`
-in [`delphi_flags.inc.sh`](../../resources/build/win/delphi_flags.inc.sh), so
-they can't drift from the build. The eleven JCL / JVCL / jedi paths are
-IDE-only with no build-side equivalent, so they stay listed explicitly.
+Both blocks read their paths from where the build itself defines them: the six
+CLI include paths from `DELPHIINCLUDES` in
+[`delphi_flags.inc.sh`](../../resources/build/win/delphi_flags.inc.sh), and the
+nine JCL / JVCL / jedi paths from the `devtools -ai` calls in
+[`developer/src/ext/jedi/build.sh`](../../developer/src/ext/jedi/build.sh). So the IDE sees
+exactly the paths the build registers.
+
+Do **not** add other JCL folders by hand, in particular
+`developer/src/ext/jedi/jcl/jcl/source/prototypes`. It holds a second `JclWin32.pas`
+whose `CreateMutex` takes a `DWORD` where `source/windows/JclWin32.pas` takes a
+`BOOL`. With `prototypes` on the path, TIKE compiles that copy and fails with
+`JclSynch.pas(1078): E2010 Incompatible types: 'Cardinal' and 'Boolean'`. If you set
+up your paths from an earlier version of this guide, remove that entry from the
+Win32 and Win64 Search Path.
 `devtools` targets the `BDS\<version>` hive matching the Delphi it was built
 with (`23.0` under Delphi 12, per `SourceRootPath.pas`), so build it under the
 same Delphi you'll open the projects in.
