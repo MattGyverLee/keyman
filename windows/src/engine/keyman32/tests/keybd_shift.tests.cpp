@@ -771,8 +771,9 @@ TEST_F(PREPARE_INJECTED_INPUT_BATCH, NeverWritesPastTheBufferWhenTheSharedBuffer
   has to be exactly right in both directions. One too small and the restore half writes past the end
   of the server's `new INPUT[MAX_KEYEVENT_INPUTS]` (serialkeyeventserver.cpp:249) -- a heap overrun,
   silent, in the process that owns the keyboard. One too large and output keys that would have fitted
-  are dropped instead, silently as well: the truncation at 248 is logged nowhere (see the truncation
-  policy comment in serialkeyeventcommon.h). Neither direction shows up as a failure anywhere else,
+  are dropped instead: the truncation at 248 is now reported through
+  BatchOutputTruncated (see the truncation policy comment in
+  serialkeyeventcommon.h), but it still drops keys. Neither direction shows up as a failure anywhere else,
   so the boundary is pinned here from both sides.
 
   The expected numbers are derived from the literal worst case, NOT recomputed from the production
@@ -2038,6 +2039,56 @@ TEST_F(MODIFIER_DIAGNOSTIC, TwoHoldsLostAtOnceLookLikeADesktopSwitchAndAreReport
       << "once per batch with vk = 0, per contracts/modifier-state.md section 4: the condition is a "
       << "property of the batch, and which keys were lost is already in ReconcileModifierCache's "
       << "own per-VK clearing lines. A per-key form here would bury the batch-level signal";
+}
+
+/*
+  The truncation diagnostic. The worst case (all six modifiers held, 256
+  output keys) fits 240 output keys: 8 release + 240 output + 8 restore
+  = 256. That drop used to be silent. It is now reported once per batch
+  through the diagnostic seam, and the dropped count (16, against the
+  clamped 256) is returned in the batch's pOutputKeysTruncated out-param.
+  The batch itself is unchanged: what is sent is still a prefix.
+*/
+TEST_F(MODIFIER_DIAGNOSTIC, ATruncatedBatchIsNamedInTheDiagnosticAndCountsItsDrop) {
+  for (int i = 0; i < (int)_countof(KeymanModifierVks); i++) {
+    kbd[KeymanModifierVks[i]]                 = 0x80;
+    g_liveModifierState[KeymanModifierVks[i]] = 0x80;
+  }
+  for (int i = 0; i < MAX_KEYEVENT_INPUTS; i++) {
+    AddOutputKey('A');
+  }
+
+  DWORD truncated = 0xFFFFFFFF;
+  restorePressedMask = kRestoreMaskUnwritten;
+  n = PrepareInjectedInputBatch(
+    inputs, kbd, &sharedData, StubGetAsyncKeyState, TRUE, &restorePressedMask, RecordDiagnostic,
+    NULL, NULL, &truncated);
+
+  EXPECT_EQ(n, MAX_KEYEVENT_INPUTS) << "the worst case still fills the buffer exactly";
+  EXPECT_EQ(truncated, (DWORD)16) << "256 output keys, 240 fit: 16 dropped, against the clamped batch";
+  EXPECT_EQ(CountDiagnostics(BatchOutputTruncated), 1)
+      << "the batch dropped output keys and said nothing: that silence was the Should-fix";
+  EXPECT_TRUE(HasDiagnostic(BatchOutputTruncated, 0))
+      << "once per batch with vk = 0: truncation is a property of the batch";
+}
+
+/*
+  The truncation diagnostic's negative: a batch that fits reports nothing
+  and returns a zero drop count, so the diagnostic cannot fire on every
+  ordinary batch and mean nothing.
+*/
+TEST_F(MODIFIER_DIAGNOSTIC, ABatchThatFitsReportsNoTruncation) {
+  AddOutputKey('A');
+
+  DWORD truncated = 0xFFFFFFFF;
+  restorePressedMask = kRestoreMaskUnwritten;
+  n = PrepareInjectedInputBatch(
+    inputs, kbd, &sharedData, StubGetAsyncKeyState, TRUE, &restorePressedMask, RecordDiagnostic,
+    NULL, NULL, &truncated);
+
+  EXPECT_EQ(truncated, (DWORD)0) << "nothing was dropped, so the out-param must say zero, not stay unwritten";
+  EXPECT_EQ(CountDiagnostics(BatchOutputTruncated), 0)
+      << "a fitting batch must not report truncation";
 }
 
 /*

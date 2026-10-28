@@ -346,7 +346,8 @@ int PrepareInjectedInputBatch(
   DWORD *pRestorePressedMask,
   PMODIFIERDIAGNOSTIC pfnDiagnostic,
   int *pRestoreEventIndex,
-  const UserHeldModifierSignal *pUserHeld) {
+  const UserHeldModifierSignal *pUserHeld,
+  DWORD *pOutputKeysTruncated) {
   DWORD nInputs = min(pSharedData->nInputs, MAX_KEYEVENT_INPUTS);
   int n         = 0;
 
@@ -422,6 +423,7 @@ int PrepareInjectedInputBatch(
   // The !feedIsConfigured arm passes kbd instead; see feedIsConfigured above.
   keybd_shift(pInputs, &n, FALSE, feedIsConfigured ? live : kbd);
 
+  DWORD outputKeysCopied = 0;
   for (DWORD i = 0; i < nInputs && n < MAX_KEYEVENT_INPUTS - MAX_KEYEVENT_INPUTS_MODIFIERS; i++, n++) {
     pInputs[n].type           = INPUT_KEYBOARD;
     pInputs[n].ki.wVk         = pSharedData->inputs[i].wVk;
@@ -429,6 +431,26 @@ int PrepareInjectedInputBatch(
     pInputs[n].ki.dwFlags     = pSharedData->inputs[i].dwFlags;
     pInputs[n].ki.time        = pSharedData->inputs[i].time;
     pInputs[n].ki.dwExtraInfo = (ULONG_PTR)pSharedData->inputs[i].extraInfo;
+    outputKeysCopied++;
+  }
+
+  // The truncation diagnostic: what is sent is still a prefix, but it is
+  // no longer silent. Reported once per batch (vk = 0, a batch property),
+  // and the dropped count is returned to the caller, so a batch of
+  // 249..256 output keys is no longer truncated and reported nowhere.
+  // The count is against the clamped nInputs (at most 256), not the raw
+  // shared count: keys beyond 256 were never read, by the clamp above.
+  // The behaviour is unchanged: this reports the drop, it does not
+  // change what is sent.
+  if (outputKeysCopied < nInputs) {
+    if (pOutputKeysTruncated != NULL) {
+      *pOutputKeysTruncated = nInputs - outputKeysCopied;
+    }
+    if (pfnDiagnostic != NULL) {
+      pfnDiagnostic(BatchOutputTruncated, 0);
+    }
+  } else if (pOutputKeysTruncated != NULL) {
+    *pOutputKeysTruncated = 0;
   }
 
   // #8064 FR-101. The restore set is `kbd OR (pUserHeld->held & ~pUserHeld->unknown)`.

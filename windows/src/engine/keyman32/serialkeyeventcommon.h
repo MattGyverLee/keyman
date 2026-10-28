@@ -52,12 +52,16 @@
 //     The older test writes into an exactly-256 array, so under that mutation it would itself
 //     overrun before it could report -- which is why the boundary is pinned from both sides.
 //
-// Truncation at 248 is silent: no debug message, and no way for the caller to tell. The only
-// logged clamp is the earlier one in SerialKeyEventClient::SignalServer (serialkeyeventclient.cpp),
-// and it caps at 256, so a batch of 249..256 output keys is truncated here and reported nowhere.
-// The min(pSharedData->nInputs, MAX_KEYEVENT_INPUTS) at the top of PrepareInjectedInputBatch is not
-// this policy either: it guards the READ of pSharedData->inputs[i], since nInputs lives in shared
-// memory and an over-large value would walk off the end of a 256-element array.
+// Truncation at 248 is reported, not silent: PrepareInjectedInputBatch emits
+// BatchOutputTruncated once per truncated batch (vk = 0) through pfnDiagnostic,
+// and returns the dropped count in its pOutputKeysTruncated out-param.
+// The only logged clamp before that was the earlier one in
+// SerialKeyEventClient::SignalServer (serialkeyeventclient.cpp), which caps at
+// 256, so a batch of 249..256 output keys was truncated here and reported
+// nowhere. The min(pSharedData->nInputs, MAX_KEYEVENT_INPUTS) at the top of
+// PrepareInjectedInputBatch is not this policy either: it guards the READ of
+// pSharedData->inputs[i], since nInputs lives in shared memory and an
+// over-large value would walk off the end of a 256-element array.
 
 #define KEYEVENT_WINDOW_CLASS "Keyman_KeyEventConsumerWnd"
 
@@ -161,6 +165,20 @@ enum ModifierDiagnosticCode {
     report rather than a suppression.
   */
   PossibleDesktopSwitch = 2,
+
+  /**
+    Truncation. The output-key loop stops at MAX_KEYEVENT_INPUTS -
+    MAX_KEYEVENT_INPUTS_MODIFIERS total events, so with a full
+    release half only 240 output keys fit and the rest are
+    dropped tail-first. That drop used to be silent: no debug
+    message, and no way for the caller to tell. It is now
+    reported once per batch, with vk = 0 (a property of the
+    batch, like PossibleDesktopSwitch), and the dropped
+    count is returned in PrepareInjectedInputBatch's
+    pOutputKeysTruncated out-param. The batch itself is
+    unchanged: what is sent is still a prefix, never a hole.
+  */
+  BatchOutputTruncated = 3,
 };
 
 typedef void (*PMODIFIERDIAGNOSTIC)(ModifierDiagnosticCode code, BYTE vk);
@@ -232,7 +250,8 @@ int PrepareInjectedInputBatch(
   DWORD *pRestorePressedMask = NULL,
   PMODIFIERDIAGNOSTIC pfnDiagnostic = NULL,
   int *pRestoreEventIndex = NULL,
-  const UserHeldModifierSignal *pUserHeld = NULL);
+  const UserHeldModifierSignal *pUserHeld = NULL,
+  DWORD *pOutputKeysTruncated = NULL);
 
 // #8064. Defined in keybd_shift.cpp; see its doc comment and WM_KEYMAN_VERIFY_MODIFIER_EVENT above.
 int PrepareModifierVerificationCorrection(
