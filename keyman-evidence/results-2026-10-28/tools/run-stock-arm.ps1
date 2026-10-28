@@ -1,11 +1,11 @@
 # Stock arm of the GH-8064 gate (C.12) on the installed, official signed Keyman (log folder named after its keyman32.dll version).
 # Starts keyman.exe and an empty Notepad, runs the three-arm gate (two arms: no MSKLC Cameroon),
 # then the fakefreeze repro against charmap. Not elevated. Injects real input: hands off.
-param([int]$DelaySeconds = 60)
+param([int]$DelaySeconds = 60, [string]$Label = 'stock', [switch]$GateOnly, [int]$Repeat = 3, [int]$LoadThreads = 0)
 $ErrorActionPreference = 'Continue'
 $T   = 'C:\Github\keyman-test-8064\windows\src\test\manual-tests\GH-8064 - stuck-modifier-phantom-keydown'
 $eng = 'C:\Program Files (x86)\Common Files\Keyman\Keyman Engine'
-$Out = "C:\Github\keyman-test-evidence\keyman-evidence\results-2026-10-28\logs\stock-$((Get-Item "$eng\keyman32.dll").VersionInfo.FileVersion)"
+$Out = "C:\Github\keyman-test-evidence\keyman-evidence\results-2026-10-28\logs\$Label-$((Get-Item "$eng\keyman32.dll").VersionInfo.FileVersion)"
 New-Item -ItemType Directory -Force $Out | Out-Null
 Start-Transcript -Path "$Out\transcript.txt" -Force | Out-Null
 
@@ -17,9 +17,11 @@ Get-Process notepad -ErrorAction SilentlyContinue | Out-Null
 Start-Process notepad; Start-Sleep 3
 
 Set-Location $T
-"=== GATE (stock) $(Get-Date -Format o)"
-powershell -NoProfile -ExecutionPolicy Bypass -File .\stuck-mod-test.ps1 -Gate -Arms English,Keyman -LogDir "$Out\gate"
+"=== GATE ($Label) $(Get-Date -Format o)"
+powershell -NoProfile -ExecutionPolicy Bypass -File .\stuck-mod-test.ps1 -Gate -Arms English,Keyman -Repeat $Repeat -LoadThreads $LoadThreads -LogDir "$Out\gate$(if ($LoadThreads -or $Repeat -ne 3) { "-r$Repeat-l$LoadThreads" })"
 "GATE EXIT: $LASTEXITCODE"
+# The repro needs a Keyman restart a limited token cannot do; run it with run-host32.ps1 (elevated).
+if ($GateOnly) { "=== DONE (gate only) $(Get-Date -Format o)"; Stop-Transcript | Out-Null; exit }
 
 # Restart Keyman to clear any wedge before the repro
 Get-Process keyman,keymanx64,keymanhp.x64 -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep 2

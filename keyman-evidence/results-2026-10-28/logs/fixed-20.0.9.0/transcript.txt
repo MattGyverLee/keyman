@@ -1,0 +1,53 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261028151238
+Username: LTU-LEGION\thoua
+RunAs User: LTU-LEGION\thoua
+Configuration Name: 
+Machine: LTU-LEGION (Microsoft Windows NT 10.0.26200.0)
+Host Application: powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\Github\keyman-test-evidence\keyman-evidence\results-2026-10-28\tools\run-stock-arm.ps1 -DelaySeconds 10 -Label fixed -GateOnly -Repeat 5 -LoadThreads 4
+Process ID: 5916
+PSVersion: 5.1.26100.9444
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9444
+BuildVersion: 10.0.26100.9444
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+keyman32.dll: 20.0.9.0 sig=Valid
+keyman running: True
+=== GATE (fixed) 2026-10-28T15:12:51.3778279-05:00
+15:20:29.478   internal control A (no freeze) on Keyman: 0/5 wedged - consistent with the freeze being the mechanism.
+15:20:29.493   [NOTE] English: exit probe CLEAN (U+0061 U+0062 U+0063)
+15:20:29.508   [NOTE] Keyman: exit probe CLEAN (U+0061 U+0062 U+0063)
+15:20:29.559
+15:20:29.560   csv  : C:\Github\keyman-test-evidence\keyman-evidence\results-2026-10-28\logs\fixed-20.0.9.0\gate-r5-l4\s
+tuck-mod-test-20261028-151251.csv
+15:20:29.576   json : C:\Github\keyman-test-evidence\keyman-evidence\results-2026-10-28\logs\fixed-20.0.9.0\gate-r5-l4\s
+tuck-mod-test-20261028-151251.json
+15:20:29.592   log  : C:\Github\keyman-test-evidence\keyman-evidence\results-2026-10-28\logs\fixed-20.0.9.0\gate-r5-l4\s
+tuck-mod-test-20261028-151251.txt
+15:20:29.600 ===============================================================
+15:20:29.611
+15:20:29.618 ===================== GH-8064 REGRESSION GATE =====================
+15:20:29.633   arms run      : English, Keyman
+15:20:29.644   candidates    : A,I
+15:20:29.656   trials scored : PASS 30   FAIL 0   INCONCLUSIVE 0
+15:20:29.672   decisive trials on the Keyman arm: 20
+15:20:29.685
+15:20:29.701   OVERALL: PASS
+15:20:29.717            No arm wedged, and every precondition was confirmed. This is what a build
+15:20:29.725            carrying the GH-8064 fixes is expected to produce. A vanilla build is
+15:20:29.733            expected to FAIL here instead.
+15:20:29.748   exit code: 0
+15:20:29.756   log      : C:\Github\keyman-test-evidence\keyman-evidence\results-2026-10-28\logs\fixed-20.0.9.0\gate-r5-
+l4\stuck-mod-test-20261028-151251.txt
+15:20:29.771 ==================================================================
+GATE EXIT: 0
+=== DONE (gate only) 2026-10-28T15:20:29.8456796-05:00
+**********************
+Windows PowerShell transcript end
+End time: 20261028152029
+**********************

@@ -1,0 +1,1610 @@
+[windows/src] Local build environment detected:  setting --debug
+[windows/src] build.sh parameters: <publish --debug>
+[windows/src] ## child publish:engine starting...
+[windows/src/engine] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/engine] ## child publish:insthelper starting...
+[windows/src/engine/insthelper] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/engine/insthelper] ## publish:project starting...
+[common/include] dependency build, started by windows/src/engine/insthelper
+[common/include] build.sh parameters: <configure build --debug --deps --builder-dep-parent windows/src/engine/insthelper>
+[common/include] skipping configure, up-to-date
+[common/include] skipping build, up-to-date
+[common/windows/delphi] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi] build.sh parameters: <configure build --debug --deps --builder-dep-parent windows/src/engine/insthelper>
+[common/windows/delphi] ## child configure:tools starting...
+[common/windows/delphi/tools] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools] ## child configure:build_standards_data starting...
+[common/windows/delphi/tools/build_standards_data] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/build_standards_data] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/build_standards_data] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/build_standards_data] skipping configure:project, up-to-date
+[common/windows/delphi/tools] ## child configure:build_standards_data completed successfully
+[common/windows/delphi/tools] ## child configure:buildunidata starting...
+[common/windows/delphi/tools/buildunidata] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/buildunidata] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/buildunidata] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/buildunidata] skipping configure:project, up-to-date
+[common/windows/delphi/tools] ## child configure:buildunidata completed successfully
+[common/windows/delphi/tools] ## child configure:devtools starting...
+[common/windows/delphi/tools/devtools] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/devtools] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/devtools] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/devtools] skipping configure:project, up-to-date
+[common/windows/delphi/tools] ## child configure:devtools completed successfully
+[common/windows/delphi/tools] ## child configure:sentrytool starting...
+[common/windows/delphi/tools/sentrytool] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/sentrytool] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/sentrytool] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/sentrytool] skipping configure:project, up-to-date
+[common/windows/delphi/tools] ## child configure:sentrytool completed successfully
+[common/windows/delphi/tools] ## child configure:test-klog starting...
+[common/windows/delphi/tools/test-klog] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/test-klog] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/test-klog] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/test-klog] skipping configure:project, up-to-date
+[common/windows/delphi/tools] ## child configure:test-klog completed successfully
+[common/windows/delphi/tools] ## child configure:verify_signatures starting...
+[common/windows/delphi/tools/verify_signatures] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/verify_signatures] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/verify_signatures] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/tools/verify_signatures] skipping configure:project, up-to-date
+[common/windows/delphi/tools] ## child configure:verify_signatures completed successfully
+[common/windows/delphi] ## child configure:tools completed successfully
+[common/windows/delphi] ## child configure:components starting...
+[common/windows/delphi/components] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/components] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/components] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/components] skipping configure:project, up-to-date
+[common/windows/delphi] ## child configure:components completed successfully
+[common/windows/delphi] ## child configure:ext starting...
+[common/windows/delphi/ext] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext] ## child configure:cef4delphi starting...
+[common/windows/delphi/ext/cef4delphi] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext/cef4delphi] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext/cef4delphi] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext/cef4delphi] skipping configure:project, up-to-date
+[common/windows/delphi/ext] ## child configure:cef4delphi completed successfully
+[common/windows/delphi/ext] ## child configure:dcpcrypt starting...
+[common/windows/delphi/ext/dcpcrypt] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext/dcpcrypt] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext/dcpcrypt] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext/dcpcrypt] skipping configure:project, up-to-date
+[common/windows/delphi/ext] ## child configure:dcpcrypt completed successfully
+[common/windows/delphi/ext] ## child configure:jwa starting...
+[common/windows/delphi/ext/jwa] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext/jwa] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext/jwa] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext/jwa] skipping configure:project, up-to-date
+[common/windows/delphi/ext] ## child configure:jwa completed successfully
+[common/windows/delphi/ext] ## child configure:sentry starting...
+[common/windows/delphi/ext/sentry] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext/sentry] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext/sentry] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext/sentry] skipping configure:project, up-to-date
+[common/windows/delphi/ext] ## child configure:sentry completed successfully
+[common/windows/delphi/ext] ## child configure:tds2dbg starting...
+[common/windows/delphi/ext/tds2dbg] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext/tds2dbg] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext/tds2dbg] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper configure --debug>
+[common/windows/delphi/ext/tds2dbg] skipping configure:project, up-to-date
+[common/windows/delphi/ext] ## child configure:tds2dbg completed successfully
+[common/windows/delphi] ## child configure:ext completed successfully
+[common/windows/delphi] ## build:keymanversion starting...
+[common/windows/delphi] ## build:keymanversion completed successfully
+[common/windows/delphi] ## child build:tools starting...
+[common/windows/delphi/tools] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools] ## child build:build_standards_data starting...
+[common/windows/delphi/tools/build_standards_data] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/build_standards_data] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/build_standards_data] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/build_standards_data] skipping build:project, up-to-date
+[common/windows/delphi/tools] ## child build:build_standards_data completed successfully
+[common/windows/delphi/tools] ## child build:buildunidata starting...
+[common/windows/delphi/tools/buildunidata] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/buildunidata] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/buildunidata] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/buildunidata] skipping build:project, up-to-date
+[common/windows/delphi/tools] ## child build:buildunidata completed successfully
+[common/windows/delphi/tools] ## child build:devtools starting...
+[common/windows/delphi/tools/devtools] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/devtools] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/devtools] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/devtools] skipping build:project, up-to-date
+[common/windows/delphi/tools] ## child build:devtools completed successfully
+[common/windows/delphi/tools] ## child build:sentrytool starting...
+[common/windows/delphi/tools/sentrytool] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/sentrytool] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/sentrytool] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/sentrytool] skipping build:project, up-to-date
+[common/windows/delphi/tools] ## child build:sentrytool completed successfully
+[common/windows/delphi/tools] ## child build:test-klog starting...
+[common/windows/delphi/tools/test-klog] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/test-klog] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/test-klog] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/test-klog] skipping build:project, up-to-date
+[common/windows/delphi/tools] ## child build:test-klog completed successfully
+[common/windows/delphi/tools] ## child build:verify_signatures starting...
+[common/windows/delphi/tools/verify_signatures] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/verify_signatures] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/tools/verify_signatures] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/tools/verify_signatures] skipping build:project, up-to-date
+[common/windows/delphi/tools] ## child build:verify_signatures completed successfully
+[common/windows/delphi] ## child build:tools completed successfully
+[common/windows/delphi] ## child build:components starting...
+[common/windows/delphi/components] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/components] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/components] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/components] skipping build:project, up-to-date
+[common/windows/delphi] ## child build:components completed successfully
+[common/windows/delphi] ## child build:ext starting...
+[common/windows/delphi/ext] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext] ## child build:cef4delphi starting...
+[common/windows/delphi/ext/cef4delphi] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext/cef4delphi] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext/cef4delphi] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext/cef4delphi] skipping build:project, up-to-date
+[common/windows/delphi/ext] ## child build:cef4delphi completed successfully
+[common/windows/delphi/ext] ## child build:dcpcrypt starting...
+[common/windows/delphi/ext/dcpcrypt] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext/dcpcrypt] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext/dcpcrypt] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext/dcpcrypt] ## build:project starting...
+addincludepath C:/Github/keyman-test-merge2/common/windows/delphi/ext/dcpcrypt
+[common/windows/delphi/ext/dcpcrypt] ## build:project completed successfully
+[common/windows/delphi/ext] ## child build:dcpcrypt completed successfully
+[common/windows/delphi/ext] ## child build:jwa starting...
+[common/windows/delphi/ext/jwa] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext/jwa] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext/jwa] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext/jwa] ## build:project starting...
+addincludepath C:/Github/keyman-test-merge2/common/windows/delphi/ext/jwa/Win32API
+[common/windows/delphi/ext/jwa] ## build:project completed successfully
+[common/windows/delphi/ext] ## child build:jwa completed successfully
+[common/windows/delphi/ext] ## child build:sentry starting...
+[common/windows/delphi/ext/sentry] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext/sentry] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext/sentry] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext] ## child build:sentry completed successfully
+[common/windows/delphi/ext] ## child build:tds2dbg starting...
+[common/windows/delphi/ext/tds2dbg] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext/tds2dbg] dependency build, started by windows/src/engine/insthelper
+[common/windows/delphi/ext/tds2dbg] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/insthelper build --debug>
+[common/windows/delphi/ext/tds2dbg] skipping build:project, up-to-date
+[common/windows/delphi/ext] ## child build:tds2dbg completed successfully
+[common/windows/delphi] ## child build:ext completed successfully
+[windows/src/engine/insthelper] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows /c/Github/keyman-test-merge2/windows/bin/engine/insthelper.dll
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/insthelper.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/insthelper.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/insthelper.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/insthelper.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/insthelper.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/insthelper.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/insthelper] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/bin/engine/insthelper.dll //t keyman-engine-windows
+[windows/src/engine/insthelper] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/debug/engine/insthelper.dbg //t keyman-engine-windows
+[windows/src/engine/insthelper] ## publish:project completed successfully
+[windows/src/engine] ## child publish:insthelper completed successfully
+[windows/src/engine] ## child publish:keyman starting...
+[windows/src/engine/keyman] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/engine/keyman] ## publish:project starting...
+[windows/src/global/delphi] dependency build, started by windows/src/engine/keyman
+[windows/src/global/delphi] build.sh parameters: <configure build --debug --deps --builder-dep-parent windows/src/engine/keyman>
+[windows/src/global/delphi] skipping configure:components, up-to-date
+[windows/src/global/delphi] skipping build:components, up-to-date
+[windows/src/global/delphi] skipping build:message-identifiers, up-to-date
+[windows/src/engine/keyman] ### visual_studio: mt.exe -nologo -inputresource:/c/Github/keyman-test-merge2/windows/bin/engine/keyman.exe -validate_manifest
+Parsing of manifest successful.
+[windows/src/engine/keyman] ### visual_studio: mt.exe -nologo -inputresource:/c/Github/keyman-test-merge2/windows/bin/engine/keyman.exe -out:temp.manifest
+[windows/src/engine/keyman] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows /c/Github/keyman-test-merge2/windows/bin/engine/keyman.exe
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/keyman.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/keyman.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/keyman.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/keyman.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/keyman.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/keyman.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/keyman] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows /c/Github/keyman-test-merge2/windows/bin/engine/sentry.dll
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/sentry.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/sentry.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/sentry.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/sentry.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/sentry.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/sentry.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/keyman] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows /c/Github/keyman-test-merge2/windows/bin/engine/sentry.x64.dll
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/sentry.x64.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/sentry.x64.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/sentry.x64.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/sentry.x64.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/sentry.x64.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/sentry.x64.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/keyman] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows /c/Github/keyman-test-merge2/windows/bin/engine/crashpad_handler.exe
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/crashpad_handler.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/crashpad_handler.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/crashpad_handler.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/crashpad_handler.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/crashpad_handler.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/crashpad_handler.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/keyman] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/bin/engine/keyman.exe //t keyman-engine-windows
+[windows/src/engine/keyman] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/debug/engine/keyman.dbg //t keyman-engine-windows
+[windows/src/engine/keyman] ## publish:project completed successfully
+[windows/src/engine] ## child publish:keyman completed successfully
+[windows/src/engine] ## child publish:keyman32 starting...
+[windows/src/engine/keyman32] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/engine/keyman32] ## publish:x86 starting...
+[core] dependency build, started by windows/src/engine/keyman32
+[core] build.sh parameters: <configure:win build:win --debug --deps --builder-dep-parent windows/src/engine/keyman32>
+[core] skipping configure:win, up-to-date
+[core] skipping build:win, up-to-date
+[windows/src/engine/keyman32] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows /c/Github/keyman-test-merge2/windows/bin/engine/keyman32.dll
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/keyman32.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/keyman32.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/keyman32.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/keyman32.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/keyman32.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/keyman32.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/keyman32] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/bin/engine/keyman32.dll //t keyman-engine-windows
+[windows/src/engine/keyman32] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/debug/engine/keyman32.pdb //t keyman-engine-windows
+[windows/src/engine/keyman32] ## publish:x86 completed successfully
+[windows/src/engine/keyman32] ## publish:x64 starting...
+[windows/src/engine/keyman32] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows /c/Github/keyman-test-merge2/windows/bin/engine/keyman64.dll
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/keyman64.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/keyman64.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/keyman64.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/keyman64.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/keyman64.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/keyman64.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/keyman32] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/bin/engine/keyman64.dll //t keyman-engine-windows
+[windows/src/engine/keyman32] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/debug/engine/keyman64.pdb //t keyman-engine-windows
+[windows/src/engine/keyman32] ## publish:x64 completed successfully
+[windows/src/engine/keyman32] ## publish:arm64 starting...
+[windows/src/engine/keyman32] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows /c/Github/keyman-test-merge2/windows/bin/engine/keymanarm64.dll
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/keymanarm64.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/keymanarm64.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/keymanarm64.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/keymanarm64.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/keymanarm64.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/keymanarm64.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/keyman32] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/bin/engine/keymanarm64.dll //t keyman-engine-windows
+[windows/src/engine/keyman32] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/debug/engine/keymanarm64.pdb //t keyman-engine-windows
+[windows/src/engine/keyman32] ## publish:arm64 completed successfully
+[windows/src/engine] ## child publish:keyman32 completed successfully
+[windows/src/engine] ## child publish:keymanmc starting...
+[windows/src/engine/keymanmc] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/engine/keymanmc] ## publish:project starting...
+[windows/src/engine/keymanmc] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows /c/Github/keyman-test-merge2/windows/bin/engine/keymanmc.dll
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/keymanmc.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/keymanmc.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/keymanmc.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/keymanmc.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/keymanmc.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/keymanmc.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/keymanmc] ## publish:project completed successfully
+[windows/src/engine] ## child publish:keymanmc completed successfully
+[windows/src/engine] ## child publish:keymanhp starting...
+[windows/src/engine/keymanhp] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/engine/keymanhp] ## publish:x64 starting...
+[windows/src/engine/keymanhp] ### visual_studio: mt.exe -nologo -inputresource:/c/Github/keyman-test-merge2/windows/bin/engine/keymanhp.x64.exe -validate_manifest
+Parsing of manifest successful.
+[windows/src/engine/keymanhp] ### visual_studio: mt.exe -nologo -inputresource:/c/Github/keyman-test-merge2/windows/bin/engine/keymanhp.x64.exe -out:temp.manifest
+[windows/src/engine/keymanhp] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows /c/Github/keyman-test-merge2/windows/bin/engine/keymanhp.x64.exe
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/keymanhp.x64.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/keymanhp.x64.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/keymanhp.x64.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/keymanhp.x64.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/keymanhp.x64.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/keymanhp.x64.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/keymanhp] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/bin/engine/keymanhp.x64.exe //t keyman-engine-windows
+[windows/src/engine/keymanhp] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/debug/engine/keymanhp.x64.pdb //t keyman-engine-windows
+[windows/src/engine/keymanhp] ## publish:x64 completed successfully
+[windows/src/engine/keymanhp] ## publish:arm64 starting...
+[windows/src/engine/keymanhp] ### visual_studio: mt.exe -nologo -inputresource:/c/Github/keyman-test-merge2/windows/bin/engine/keymanhp.arm64.exe -validate_manifest
+Parsing of manifest successful.
+[windows/src/engine/keymanhp] ### visual_studio: mt.exe -nologo -inputresource:/c/Github/keyman-test-merge2/windows/bin/engine/keymanhp.arm64.exe -out:temp.manifest
+[windows/src/engine/keymanhp] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows /c/Github/keyman-test-merge2/windows/bin/engine/keymanhp.arm64.exe
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/keymanhp.arm64.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/keymanhp.arm64.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/keymanhp.arm64.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/keymanhp.arm64.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/keymanhp.arm64.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/keymanhp.arm64.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/keymanhp] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/bin/engine/keymanhp.arm64.exe //t keyman-engine-windows
+[windows/src/engine/keymanhp] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/debug/engine/keymanhp.arm64.pdb //t keyman-engine-windows
+[windows/src/engine/keymanhp] ## publish:arm64 completed successfully
+[windows/src/engine] ## child publish:keymanhp completed successfully
+[windows/src/engine] ## child publish:kmcomapi starting...
+[windows/src/engine/kmcomapi] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/engine/kmcomapi] ## publish:project starting...
+[windows/src/engine/kmcomapi] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows /c/Github/keyman-test-merge2/windows/bin/engine/kmcomapi.dll
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/kmcomapi.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/kmcomapi.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/kmcomapi.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/kmcomapi.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/kmcomapi.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/kmcomapi.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/kmcomapi] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows /c/Github/keyman-test-merge2/windows/bin/engine/kmcomapi.x64.dll
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/kmcomapi.x64.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/kmcomapi.x64.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/kmcomapi.x64.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/kmcomapi.x64.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/kmcomapi.x64.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/kmcomapi.x64.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/kmcomapi] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/bin/engine/kmcomapi.dll //t keyman-engine-windows
+[windows/src/engine/kmcomapi] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/bin/engine/kmcomapi.x64.dll //t keyman-engine-windows
+[windows/src/engine/kmcomapi] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/debug/engine/kmcomapi.dbg //t keyman-engine-windows
+[windows/src/engine/kmcomapi] ## publish:project completed successfully
+[windows/src/engine] ## child publish:kmcomapi completed successfully
+[windows/src/engine] ## child publish:kmrefresh starting...
+[windows/src/engine/kmrefresh] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/engine/kmrefresh] ## publish:project starting...
+[windows/src/engine/kmrefresh] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows /c/Github/keyman-test-merge2/windows/bin/engine/kmrefresh.x86.exe
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/kmrefresh.x86.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/kmrefresh.x86.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/kmrefresh.x86.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/kmrefresh.x86.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/kmrefresh.x86.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/kmrefresh.x86.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/kmrefresh] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows /c/Github/keyman-test-merge2/windows/bin/engine/kmrefresh.x64.exe
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/kmrefresh.x64.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/kmrefresh.x64.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/kmrefresh.x64.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/kmrefresh.x64.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/kmrefresh.x64.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/kmrefresh.x64.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/kmrefresh] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/bin/engine/kmrefresh.x86.exe //t keyman-engine-windows
+[windows/src/engine/kmrefresh] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/debug/engine/kmrefresh.x86.pdb //t keyman-engine-windows
+[windows/src/engine/kmrefresh] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/bin/engine/kmrefresh.x64.exe //t keyman-engine-windows
+[windows/src/engine/kmrefresh] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/debug/engine/kmrefresh.x64.pdb //t keyman-engine-windows
+[windows/src/engine/kmrefresh] ## publish:project completed successfully
+[windows/src/engine] ## child publish:kmrefresh completed successfully
+[windows/src/engine] ## child publish:kmtip starting...
+[windows/src/engine/kmtip] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/engine/kmtip] ## publish:project starting...
+[windows/src/engine/keymanmc] dependency build, started by windows/src/engine/kmtip
+[windows/src/engine/keymanmc] build.sh parameters: <configure build --debug --deps --builder-dep-parent windows/src/engine/kmtip>
+[windows/src/engine/keymanmc] skipping configure:project, up-to-date
+[windows/src/engine/keymanmc] skipping build:project, up-to-date
+[windows/src/engine/kmtip] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows /c/Github/keyman-test-merge2/windows/bin/engine/kmtip.dll
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/kmtip.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/kmtip.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/kmtip.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/kmtip.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/kmtip.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/kmtip.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/kmtip] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows /c/Github/keyman-test-merge2/windows/bin/engine/kmtip64.dll
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/kmtip64.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/kmtip64.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/kmtip64.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/kmtip64.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/kmtip64.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/kmtip64.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/kmtip] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows /c/Github/keyman-test-merge2/windows/bin/engine/kmtiparm64x.dll
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/kmtiparm64x.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/kmtiparm64x.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/kmtiparm64x.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/kmtiparm64x.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/kmtiparm64x.dll with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/kmtiparm64x.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/kmtip] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/bin/engine/kmtip.dll //t keyman-engine-windows
+[windows/src/engine/kmtip] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/debug/engine/kmtip.pdb //t keyman-engine-windows
+[windows/src/engine/kmtip] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/bin/engine/kmtip64.dll //t keyman-engine-windows
+[windows/src/engine/kmtip] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/debug/engine/kmtip64.pdb //t keyman-engine-windows
+[windows/src/engine/kmtip] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/bin/engine/kmtiparm64x.dll //t keyman-engine-windows
+[windows/src/engine/kmtip] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/debug/engine/kmtiparm64x.pdb //t keyman-engine-windows
+[windows/src/engine/kmtip] ## publish:project completed successfully
+[windows/src/engine] ## child publish:kmtip completed successfully
+[windows/src/engine] ## child publish:mcompile starting...
+[windows/src/engine/mcompile] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/engine/mcompile] ## publish:project starting...
+[windows/src/engine/mcompile] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows /c/Github/keyman-test-merge2/windows/bin/engine/mcompile.exe
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/mcompile.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/mcompile.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/mcompile.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/mcompile.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/mcompile.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/mcompile.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/mcompile] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/bin/engine/mcompile.exe //t keyman-engine-windows
+[windows/src/engine/mcompile] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/debug/engine/mcompile.pdb //t keyman-engine-windows
+[windows/src/engine/mcompile] ## publish:project completed successfully
+[windows/src/engine] ## child publish:mcompile completed successfully
+[windows/src/engine] ## child publish:testhost starting...
+[windows/src/engine/testhost] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/engine/testhost] [DEBUG] Parameter 'publish' is not supported, ignoring
+[windows/src/engine] ## child publish:testhost completed successfully
+[windows/src/engine] ## child publish:tsysinfo starting...
+[windows/src/engine/tsysinfo] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/engine/tsysinfo] ## publish:project starting...
+[windows/src/engine/tsysinfox64] dependency build, started by windows/src/engine/tsysinfo
+[windows/src/engine/tsysinfox64] build.sh parameters: <configure build --debug --deps --builder-dep-parent windows/src/engine/tsysinfo>
+[windows/src/engine/tsysinfox64] skipping configure:project, up-to-date
+[windows/src/engine/tsysinfox64] skipping build:project, up-to-date
+[windows/src/engine/tsysinfo] ### visual_studio: mt.exe -nologo -inputresource:/c/Github/keyman-test-merge2/windows/bin/engine/keyman.exe -validate_manifest
+Parsing of manifest successful.
+[windows/src/engine/tsysinfo] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows /c/Github/keyman-test-merge2/windows/bin/engine/tsysinfo.exe
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/tsysinfo.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/tsysinfo.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/tsysinfo.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/tsysinfo.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/tsysinfo.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/tsysinfo.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/tsysinfo] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/bin/engine/tsysinfo.exe //t keyman-engine-windows
+[windows/src/engine/tsysinfo] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/debug/engine/tsysinfo.dbg //t keyman-engine-windows
+[windows/src/engine/tsysinfo] ## publish:project completed successfully
+[windows/src/engine] ## child publish:tsysinfo completed successfully
+[windows/src/engine] ## child publish:tsysinfox64 starting...
+[windows/src/engine/tsysinfox64] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/engine/tsysinfox64] ## publish:project starting...
+[windows/src/engine/tsysinfox64] ### visual_studio: mt.exe -nologo -inputresource:/c/Github/keyman-test-merge2/windows/bin/engine/tsysinfox64.exe -validate_manifest
+Parsing of manifest successful.
+[windows/src/engine/tsysinfox64] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows /c/Github/keyman-test-merge2/windows/bin/engine/tsysinfox64.exe
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/tsysinfox64.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/tsysinfox64.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/tsysinfox64.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/engine/tsysinfox64.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/engine/tsysinfox64.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/engine/tsysinfox64.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/tsysinfox64] ## publish:project completed successfully
+[windows/src/engine] ## child publish:tsysinfox64 completed successfully
+[windows/src/engine] ## child publish:inst starting...
+[windows/src/engine/inst] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/engine/inst] ## publish starting...
+[windows/src/engine/inst] verify-program-signatures
+Windows Installer XML Toolset Compiler version 3.14.1.8722
+Copyright (c) .NET Foundation and contributors. All rights reserved.
+
+keymanengine.wxs
+components.wxs
+Windows Installer XML Toolset Linker version 3.14.1.8722
+Copyright (c) .NET Foundation and contributors. All rights reserved.
+
+[windows/src/engine/inst] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Engine for Windows keymanengine.msm
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: keymanengine.msm
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign keymanengine.msm with http://timestamp.digicert.com
+Successfully timestamped: keymanengine.msm
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/engine/inst] copy-installer
+[windows/src/engine/inst] ## publish completed successfully
+[windows/src/engine] ## child publish:inst completed successfully
+[windows/src] ## child publish:engine completed successfully
+[windows/src] ## child publish:desktop starting...
+[windows/src/desktop] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/desktop] prepublish - verify environment before build
+[windows/src/desktop] ## script '/common/windows/delphi/tools/test-klog/build.sh configure build prepublish' launched...
+[common/windows/delphi/tools/test-klog] child build, parameters: <--builder-child --deps configure build prepublish --debug>
+[common/windows/delphi/tools/test-klog] ## configure:project starting...
+[common/windows/delphi/tools/test-klog] ## configure:project completed successfully
+[common/windows/delphi/tools/test-klog] ## build:project starting...
+[common/windows/delphi/tools/test-klog] Delphi CE: CLI compilation is not available.
+[common/windows/delphi/tools/test-klog] Please build test_klog.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[common/windows/delphi/tools/test-klog] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[common/windows/delphi/tools/test-klog] ## build:project completed successfully
+[common/windows/delphi/tools/test-klog] ## prepublish:project starting...
+KLog is disabled
+[common/windows/delphi/tools/test-klog] ## prepublish:project completed successfully
+[windows/src/desktop] ## script '/common/windows/delphi/tools/test-klog/build.sh configure build prepublish' completed
+[windows/src/desktop] ## child publish:help starting...
+[windows/src/desktop/help] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/desktop/help] [DEBUG] Parameter 'publish' is not supported, ignoring
+[windows/src/desktop] ## child publish:help completed successfully
+[windows/src/desktop] ## child publish:kmbrowserhost starting...
+[windows/src/desktop/kmbrowserhost] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/desktop/kmbrowserhost] ## publish:project starting...
+[windows/src/desktop/kmbrowserhost] ### visual_studio: mt.exe -nologo -inputresource:/c/Github/keyman-test-merge2/windows/bin/desktop/kmbrowserhost.exe -validate_manifest
+Parsing of manifest successful.
+[windows/src/desktop/kmbrowserhost] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman for Windows /c/Github/keyman-test-merge2/windows/bin/desktop/kmbrowserhost.exe
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/desktop/kmbrowserhost.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/desktop/kmbrowserhost.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/desktop/kmbrowserhost.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/desktop/kmbrowserhost.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/desktop/kmbrowserhost.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/desktop/kmbrowserhost.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/desktop/kmbrowserhost] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/bin/desktop/kmbrowserhost.exe //t keyman-windows
+[windows/src/desktop/kmbrowserhost] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/debug/desktop/kmbrowserhost.dbg //t keyman-windows
+[windows/src/desktop/kmbrowserhost] ## publish:project completed successfully
+[windows/src/desktop] ## child publish:kmbrowserhost completed successfully
+[windows/src/desktop] ## child publish:kmconfig starting...
+[windows/src/desktop/kmconfig] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/desktop/kmconfig] ## publish:project starting...
+[windows/src/desktop/kmconfig] ### visual_studio: mt.exe -nologo -inputresource:/c/Github/keyman-test-merge2/windows/bin/desktop/kmconfig.exe -validate_manifest
+Parsing of manifest successful.
+[windows/src/desktop/kmconfig] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman for Windows /c/Github/keyman-test-merge2/windows/bin/desktop/kmconfig.exe
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/desktop/kmconfig.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/desktop/kmconfig.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/desktop/kmconfig.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/desktop/kmconfig.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/desktop/kmconfig.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/desktop/kmconfig.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/desktop/kmconfig] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/bin/desktop/kmconfig.exe //t keyman-windows
+[windows/src/desktop/kmconfig] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/debug/desktop/kmconfig.dbg //t keyman-windows
+[windows/src/desktop/kmconfig] ## publish:project completed successfully
+[windows/src/desktop] ## child publish:kmconfig completed successfully
+[windows/src/desktop] ## child publish:kmshell starting...
+[windows/src/desktop/kmshell] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/desktop/kmshell] ## publish:project starting...
+[windows/src/global/delphi] dependency build, started by windows/src/desktop/kmshell
+[windows/src/global/delphi] build.sh parameters: <configure:message-identifiers build:message-identifiers --debug --deps --builder-dep-parent windows/src/desktop/kmshell>
+[windows/src/global/delphi] skipping build:message-identifiers, up-to-date
+[windows/src/desktop/kmshell] ### visual_studio: mt.exe -nologo -inputresource:/c/Github/keyman-test-merge2/windows/bin/desktop/kmshell.exe -validate_manifest
+Parsing of manifest successful.
+[windows/src/desktop/kmshell] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman for Windows /c/Github/keyman-test-merge2/windows/bin/desktop/kmshell.exe
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/desktop/kmshell.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/desktop/kmshell.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/desktop/kmshell.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/desktop/kmshell.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/desktop/kmshell.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/desktop/kmshell.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/desktop/kmshell] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/bin/desktop/kmshell.exe //t keyman-windows
+[windows/src/desktop/kmshell] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/debug/desktop/kmshell.dbg //t keyman-windows
+[windows/src/desktop/kmshell] ## publish:project completed successfully
+[windows/src/desktop] ## child publish:kmshell completed successfully
+[windows/src/desktop] ## child publish:setup starting...
+[windows/src/desktop/setup] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/desktop/setup] ## publish:project starting...
+[windows/src/desktop/setup] ### visual_studio: mt.exe -nologo -inputresource:/c/Github/keyman-test-merge2/windows/bin/desktop/setup.exe -validate_manifest
+Parsing of manifest successful.
+[windows/src/desktop/setup] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman for Windows Setup /c/Github/keyman-test-merge2/windows/bin/desktop/setup.exe
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/desktop/setup.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/desktop/setup.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/desktop/setup.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/desktop/setup.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/desktop/setup.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/desktop/setup.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/desktop/setup] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/bin/desktop/setup.exe //t keyman-windows
+[windows/src/desktop/setup] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/debug/desktop/setup.dbg //t keyman-windows
+[windows/src/desktop/setup] ## publish:project completed successfully
+[windows/src/desktop] ## child publish:setup completed successfully
+[windows/src/desktop] ## child publish:insthelp starting...
+[windows/src/desktop/insthelp] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/desktop/insthelp] ## publish:project starting...
+[windows/src/desktop/insthelp] ### visual_studio: mt.exe -nologo -inputresource:/c/Github/keyman-test-merge2/windows/bin/desktop/insthelp.exe -validate_manifest
+Parsing of manifest successful.
+[windows/src/desktop/insthelp] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman for Windows Install Helper /c/Github/keyman-test-merge2/windows/bin/desktop/insthelp.exe
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/desktop/insthelp.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/desktop/insthelp.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/desktop/insthelp.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: C:/Github/keyman-test-merge2/windows/bin/desktop/insthelp.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign C:/Github/keyman-test-merge2/windows/bin/desktop/insthelp.exe with http://timestamp.digicert.com
+Successfully timestamped: C:/Github/keyman-test-merge2/windows/bin/desktop/insthelp.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/desktop/insthelp] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/bin/desktop/insthelp.exe //t keyman-windows
+[windows/src/desktop/insthelp] $KEYMAN_SYMSTOREPATH is not set. Skipping symstore for /c/Github/keyman-test-merge2/windows/debug/desktop/insthelp.dbg //t keyman-windows
+[windows/src/desktop/insthelp] ## publish:project completed successfully
+[windows/src/desktop] ## child publish:insthelp completed successfully
+[windows/src/desktop] ## child publish:inst starting...
+[windows/src/desktop/inst] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/desktop/inst] ## publish starting...
+[common/windows/data] dependency build, started by windows/src/desktop/inst
+[common/windows/data] build.sh parameters: <configure build --debug --deps --builder-dep-parent windows/src/desktop/inst>
+[common/windows/data] skipping configure:project, up-to-date
+[common/windows/data] ## build:project starting...
+[common/windows/delphi/tools/buildunidata] dependency build, started by common/windows/data
+[common/windows/delphi/tools/buildunidata] build.sh parameters: <configure build --debug --deps --builder-dep-parent common/windows/data>
+[common/windows/delphi/tools/buildunidata] skipping configure:project, up-to-date
+[common/windows/delphi/tools/buildunidata] skipping build:project, up-to-date
+Building Unicode Database
+Creating databaseFilling databaseFilling database (U+00CD)Filling database (U+0141)Filling database (U+01BE)Filling database (U+0242)Filling database (U+02E0)Filling database (U+038A)Filling database (U+042E)Filling database (U+04BB)Filling database (U+0563)Filling database (U+0650)Filling database (U+06EE)Filling database (U+07C5)Filling database (U+08B0)Filling database (U+0988)Filling database (U+0AE8)Filling database (U+0C5C)Filling database (U+0D7C)Filling database (U+0E8D)Filling database (U+0F97)Filling database (U+1099)Filling database (U+1162)Filling database (U+1248)Filling database (U+134F)Filling database (U+1441)Filling database (U+151E)Filling database (U+15F6)Filling database (U+16D3)Filling database (U+180C)Filling database (U+1905)Filling database (U+1A1E)Filling database (U+1B1D)Filling database (U+1C08)Filling database (U+1CF0)Filling database (U+1DAB)Filling database (U+1E4B)Filling database (U+1ED7)Filling database (U+1F6C)Filling database (U+1FFA)Filling database (U+20D9)Filling database (U+2197)Filling database (U+2258)Filling database (U+2334)Filling database (U+2400)Filling database (U+24C3)Filling database (U+2548)Filling database (U+25E8)Filling database (U+26E4)Filling database (U+279F)Filling database (U+2861)Filling database (U+2933)Filling database (U+29EE)Filling database (U+2AB4)Filling database (U+2B7F)Filling database (U+2C41)Filling database (U+2CFD)Filling database (U+2E07)Filling database (U+2F1A)Filling database (U+2FF1)Filling database (U+30C2)Filling database (U+3184)Filling database (U+323D)Filling database (U+32E2)Filling database (U+337A)Filling database (U+4DD7)Filling database (U+A0DF)Filling database (U+A1F5)Filling database (U+A30A)Filling database (U+A41E)Filling database (U+A53E)Filling database (U+A657)Filling database (U+A731)Filling database (U+A7F7)Filling database (U+A8F9)Filling database (U+A9F8)Filling database (U+AB26)Filling database (U+ABF4)Filling database (U+F96C)Filling database (U+FA24)Filling database (U+FB04)Filling database (U+FBBD)Filling database (U+FC41)Filling database (U+FCBF)Filling database (U+FD3F)Filling database (U+FDB6)Filling database (U+FE62)Filling database (U+FEDC)Filling database (U+FF6B)Filling database (U+1002C)Filling database (U+10137)Filling database (U+102CB)Filling database (U+10408)Filling database (U+104EB)Filling database (U+105E2)Filling database (U+106E9)Filling database (U+10832)Filling database (U+1098E)Filling database (U+10A76)Filling database (U+10B81)Filling database (U+10CE6)Filling database (U+10EC3)Filling database (U+1102B)Filling database (U+11143)Filling database (U+11297)Filling database (U+113C2)Filling database (U+115B2)Filling database (U+1170C)Filling database (U+11922)Filling database (U+11A77)Filling database (U+11C30)Filling database (U+11D82)Filling database (U+11FE8)Filling database (U+120C8)Filling database (U+1219D)Filling database (U+1226B)Filling database (U+12343)Filling database (U+12469)Filling database (U+1253A)Filling database (U+13074)Filling database (U+13153)Filling database (U+13232)Filling database (U+13311)Filling database (U+133F0)Filling database (U+134C9)Filling database (U+135A5)Filling database (U+13681)Filling database (U+1375D)Filling database (U+13839)Filling database (U+13915)Filling database (U+139F1)Filling database (U+13ACD)Filling database (U+13BA9)Filling database (U+13C85)Filling database (U+13D61)Filling database (U+13E3D)Filling database (U+13F19)Filling database (U+13FF5)Filling database (U+140D1)Filling database (U+141AD)Filling database (U+14289)Filling database (U+14365)Filling database (U+14446)Filling database (U+14521)Filling database (U+145FC)Filling database (U+1684F)Filling database (U+16923)Filling database (U+169FD)Filling database (U+16B13)Filling database (U+16E6E)Filling database (U+16F84)Filling database (U+188CE)Filling database (U+189C2)Filling database (U+18AB6)Filling database (U+18B80)Filling database (U+18C38)Filling database (U+18D9F)Filling database (U+1B089)Filling database (U+1B1B7)Filling database (U+1B2A6)Filling database (U+1CC00)Filling database (U+1CCCC)Filling database (U+1CDBA)Filling database (U+1CE83)Filling database (U+1CF70)Filling database (U+1D05F)Filling database (U+1D111)Filling database (U+1D1D2)Filling database (U+1D349)Filling database (U+1D48C)Filling database (U+1D544)Filling database (U+1D5E7)Filling database (U+1D679)Filling database (U+1D721)Filling database (U+1D7B2)Filling database (U+1D849)Filling database (U+1D8F4)Filling database (U+1D996)Filling database (U+1DA2F)Filling database (U+1E028)Filling database (U+1E2D6)Filling database (U+1E81E)Filling database (U+1E90D)Filling database (U+1ED34)Filling database (U+1F00C)Filling database (U+1F0F3)Filling database (U+1F1E7)Filling database (U+1F37E)Filling database (U+1F49D)Filling database (U+1F593)Filling database (U+1F67A)Filling database (U+1F768)Filling database (U+1F851)Filling database (U+1F96F)Filling database (U+1FA63)Filling database (U+1FB65)Filling database (U+2F809)Filling database (U+2F8BB)Filling database (U+2F96D)Creating databaseFilling databaseFilling database (U+00CD)Filling database (U+0141)Filling database (U+01BE)Filling database (U+0242)Filling database (U+02E0)Filling database (U+038A)Filling database (U+042E)Filling database (U+04BB)Filling database (U+0563)Filling database (U+0650)Filling database (U+06EE)Filling database (U+07C5)Filling database (U+08B0)Filling database (U+0988)Filling database (U+0AE8)Filling database (U+0C5C)Filling database (U+0D7C)Filling database (U+0E8D)Filling database (U+0F97)Filling database (U+1099)Filling database (U+1162)Filling database (U+1248)Filling database (U+134F)Filling database (U+1441)Filling database (U+151E)Filling database (U+15F6)Filling database (U+16D3)Filling database (U+180C)Filling database (U+1905)Filling database (U+1A1E)Filling database (U+1B1D)Filling database (U+1C08)Filling database (U+1CF0)Filling database (U+1DAB)Filling database (U+1E4B)Filling database (U+1ED7)Filling database (U+1F6C)Filling database (U+1FFA)Filling database (U+20D9)Filling database (U+2197)Filling database (U+2258)Filling database (U+2334)Filling database (U+2400)Filling database (U+24C3)Filling database (U+2548)Filling database (U+25E8)Filling database (U+26E4)Filling database (U+279F)Filling database (U+2861)Filling database (U+2933)Filling database (U+29EE)Filling database (U+2AB4)Filling database (U+2B7F)Filling database (U+2C41)Filling database (U+2CFD)Filling database (U+2E07)Filling database (U+2F1A)Filling database (U+2FF1)Filling database (U+30C2)Filling database (U+3184)Filling database (U+323D)Filling database (U+32E2)Filling database (U+337A)Filling database (U+4DD7)Filling database (U+A0DF)Filling database (U+A1F5)Filling database (U+A30A)Filling database (U+A41E)Filling database (U+A53E)Filling database (U+A657)Filling database (U+A731)Filling database (U+A7F7)Filling database (U+A8F9)Filling database (U+A9F8)Filling database (U+AB26)Filling database (U+ABF4)Filling database (U+F96C)Filling database (U+FA24)Filling database (U+FB04)Filling database (U+FBBD)Filling database (U+FC41)Filling database (U+FCBF)Filling database (U+FD3F)Filling database (U+FDB6)Filling database (U+FE62)Filling database (U+FEDC)Filling database (U+FF6B)Filling database (U+1002C)Filling database (U+10137)Filling database (U+102CB)Filling database (U+10408)Filling database (U+104EB)Filling database (U+105E2)Filling database (U+106E9)Filling database (U+10832)Filling database (U+1098E)Filling database (U+10A76)Filling database (U+10B81)Filling database (U+10CE6)Filling database (U+10EC3)Filling database (U+1102B)Filling database (U+11143)Filling database (U+11297)Filling database (U+113C2)Filling database (U+115B2)Filling database (U+1170C)Filling database (U+11922)Filling database (U+11A77)Filling database (U+11C30)Filling database (U+11D82)Filling database (U+11FE8)Filling database (U+120C8)Filling database (U+1219D)Filling database (U+1226B)Filling database (U+12343)Filling database (U+12469)Filling database (U+1253A)Filling database (U+13074)Filling database (U+13153)Filling database (U+13232)Filling database (U+13311)Filling database (U+133F0)Filling database (U+134C9)Filling database (U+135A5)Filling database (U+13681)Filling database (U+1375D)Filling database (U+13839)Filling database (U+13915)Filling database (U+139F1)Filling database (U+13ACD)Filling database (U+13BA9)Filling database (U+13C85)Filling database (U+13D61)Filling database (U+13E3D)Filling database (U+13F19)Filling database (U+13FF5)Filling database (U+140D1)Filling database (U+141AD)Filling database (U+14289)Filling database (U+14365)Filling database (U+14446)Filling database (U+14521)Filling database (U+145FC)Filling database (U+1684F)Filling database (U+16923)Filling database (U+169FD)Filling database (U+16B13)Filling database (U+16E6E)Filling database (U+16F84)Filling database (U+188CE)Filling database (U+189C2)Filling database (U+18AB6)Filling database (U+18B80)Filling database (U+18C38)Filling database (U+18D9F)Filling database (U+1B089)Filling database (U+1B1B7)Filling database (U+1B2A6)Filling database (U+1CC00)Filling database (U+1CCCC)Filling database (U+1CDBA)Filling database (U+1CE83)Filling database (U+1CF70)Filling database (U+1D05F)Filling database (U+1D111)Filling database (U+1D1D2)Filling database (U+1D349)Filling database (U+1D48C)Filling database (U+1D544)Filling database (U+1D5E7)Filling database (U+1D679)Filling database (U+1D721)Filling database (U+1D7B2)Filling database (U+1D849)Filling database (U+1D8F4)Filling database (U+1D996)Filling database (U+1DA2F)Filling database (U+1E028)Filling database (U+1E2D6)Filling database (U+1E81E)Filling database (U+1E90D)Filling database (U+1ED34)Filling database (U+1F00C)Filling database (U+1F0F3)Filling database (U+1F1E7)Filling database (U+1F37E)Filling database (U+1F49D)Filling database (U+1F593)Filling database (U+1F67A)Filling database (U+1F768)Filling database (U+1F851)Filling database (U+1F96F)Filling database (U+1FA63)Filling database (U+1FB65)Filling database (U+2F809)Filling database (U+2F8BB)Filling database (U+2F96D)
+Unicode Database build completed successfully.
+Compacting Unicode Database
+Compacting Unicode Database completed successfully.
+[common/windows/data] ## build:project completed successfully
+[windows/src/desktop/inst] verify-program-signatures
+HEAD is now at 78019fb chore: CEF v89.0.18
+Removing libcef.dll
+From https://github.com/keymanapp/CEF4Delphi_Binary
+ * branch            v89.0.18   -> FETCH_HEAD
+Already on 'v89.0.18'
+Your branch is up to date with 'origin/v89.0.18'.
+Archive:  libcef.zip
+  inflating: libcef.dll              
+[windows/src/desktop/inst] ### visual_studio: rc desktop_resources.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/desktop/inst] ### visual_studio: link //DLL //OUT:desktop_resources.dll //RELEASE //NOENTRY //MACHINE:X86 desktop_resources.RES
+Microsoft (R) Incremental Linker Version 14.44.35227.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/desktop/inst] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman Resources desktop_resources.dll
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: desktop_resources.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign desktop_resources.dll with http://timestamp.digicert.com
+Successfully timestamped: desktop_resources.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: desktop_resources.dll
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign desktop_resources.dll with http://timestamp.digicert.com
+Successfully timestamped: desktop_resources.dll
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/desktop/inst] heat-cef
+[windows/src/desktop/inst] candle
+Windows Installer XML Toolset Compiler version 3.14.1.8722
+Copyright (c) .NET Foundation and contributors. All rights reserved.
+
+keymandesktop.wxs
+desktopui.wxs
+locale.wxs
+cef.wxs
+[windows/src/desktop/inst] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman for Windows keymandesktop.msi
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: keymandesktop.msi
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign keymandesktop.msi with http://timestamp.digicert.com
+Successfully timestamped: keymandesktop.msi
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/desktop/inst] create-setup-inf
+
+7-Zip 26.01 (x64) : Copyright (c) 1999-2026 Igor Pavlov : 2026-04-27
+
+Scanning the drive:
+3 files, 305690058 bytes (292 MiB)
+
+Creating archive: keymandesktop.zip
+
+Add new data to archive: 3 files, 305690058 bytes (292 MiB)
+
+
+Files read from disk: 3
+Archive size: 121976520 bytes (117 MiB)
+Everything is Ok
+[windows/src/desktop/inst] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d Keyman for Windows keymandesktop.exe
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: keymandesktop.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign keymandesktop.exe with http://timestamp.digicert.com
+Successfully timestamped: keymandesktop.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: keymandesktop.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign keymandesktop.exe with http://timestamp.digicert.com
+Successfully timestamped: keymandesktop.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[windows/src/desktop/inst] copy-installer
+[windows/src/desktop/inst] verify-installer-signatures
+
+7-Zip 26.01 (x64) : Copyright (c) 1999-2026 Igor Pavlov : 2026-04-27
+
+Scanning the drive:
+1 file, 4235776 bytes (4137 KiB)
+
+Creating archive: C:/Github/keyman-test-merge2/windows/release/20.0.9/setup-redist.zip
+
+Add new data to archive: 1 file, 4235776 bytes (4137 KiB)
+
+
+Files read from disk: 1
+Archive size: 1638269 bytes (1600 KiB)
+Everything is Ok
+[windows/src/desktop/inst] ## publish completed successfully
+[windows/src/desktop] ## child publish:inst completed successfully
+[windows/src] ## child publish:desktop completed successfully
+[windows/src] ## child publish:components starting...
+[windows/src/global/delphi] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/global/delphi] [DEBUG] Parameter 'publish' is not supported, ignoring
+[windows/src] ## child publish:components completed successfully
+[windows/src] ## child publish:support starting...
+[windows/src/support] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/support] [DEBUG] Parameter 'publish' is not supported, ignoring
+[windows/src] ## child publish:support completed successfully
+[windows/src] ## child publish:test starting...
+[windows/src/test/unit-tests] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/test/unit-tests] [DEBUG] Parameter 'publish' is not supported, ignoring
+[windows/src] ## child publish:test completed successfully
+[windows/src] ## child publish:fv starting...
+[oem/firstvoices/windows/src/inst] child build, parameters: <--builder-child --deps publish --debug>
+[oem/firstvoices/windows/src/inst] ## publish starting...
+Downloading fv_all.kmp from downloads.keyman.com up to 5 attempts
+Windows Installer XML Toolset Compiler version 3.14.1.8722
+Copyright (c) .NET Foundation and contributors. All rights reserved.
+
+firstvoices.wxs
+desktopui.wxs
+Windows Installer XML Toolset Linker version 3.14.1.8722
+Copyright (c) .NET Foundation and contributors. All rights reserved.
+
+[oem/firstvoices/windows/src/inst] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d FirstVoices Keyboards firstvoices.msi
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: firstvoices.msi
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign firstvoices.msi with http://timestamp.digicert.com
+Successfully timestamped: firstvoices.msi
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[oem/firstvoices/windows/src/inst] create-setup-inf
+
+7-Zip 26.01 (x64) : Copyright (c) 1999-2026 Igor Pavlov : 2026-04-27
+
+Scanning the drive:
+5 files, 41592849 bytes (40 MiB)
+
+Creating archive: firstvoices.zip
+
+Add new data to archive: 5 files, 41592849 bytes (40 MiB)
+
+
+Files read from disk: 5
+Archive size: 38745587 bytes (37 MiB)
+Everything is Ok
+[oem/firstvoices/windows/src/inst] ### visual_studio: cmd //c /c/Github/keyman-test-merge2/common/windows/signtime.bat signtool.exe /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha1.pfx /c/Github/keyman-test-merge2/common/windows/delphi/tools/certificates/keymantest-sha256.pfx https://keyman.com/  //d FirstVoices Keyboards firstvoices.exe
+The following certificate was selected:
+    Issued to: Keyman Test Certificate SHA1
+    Issued by: Keyman Test CA SHA1
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: F725A8915CE553FCBB6D74D8A75C284010C18DC5
+
+Done Adding Additional Store
+Successfully signed: firstvoices.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign firstvoices.exe with http://timestamp.digicert.com
+Successfully timestamped: firstvoices.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+The following certificate was selected:
+    Issued to: Keyman Test Certificate
+    Issued by: Keyman Test CA
+    Expires:   Sat Dec 31 18:59:59 2039
+    SHA1 hash: 1CD2AF68E8DC62E611EFDA8B39DAA0291153FBE9
+
+Done Adding Additional Store
+Successfully signed: firstvoices.exe
+
+Number of files successfully Signed: 1
+Number of warnings: 0
+Number of errors: 0
+Trying to sign firstvoices.exe with http://timestamp.digicert.com
+Successfully timestamped: firstvoices.exe
+
+Number of files successfully timestamped: 1
+Number of errors: 0
+signtime.bat exit code is 0. There were 0 timestamping errors.
+[oem/firstvoices/windows/src/inst] copy-installer
+[oem/firstvoices/windows/src/inst] verify-installer-signatures
+[oem/firstvoices/windows/src/inst] ## publish completed successfully
+[windows/src] ## child publish:fv completed successfully
