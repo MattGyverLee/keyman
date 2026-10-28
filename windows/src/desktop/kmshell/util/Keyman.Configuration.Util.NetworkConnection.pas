@@ -63,7 +63,9 @@ begin
     begin
       CostLevel := Profile.GetConnectionCost;
       if CostLevel <> nil then
-        Result := (CostLevel.NetworkCostType <> NetworkCostType.Unrestricted)
+        // Delphi 12's WinRT import has no NetworkCostType property or Unrestricted name to
+        // compare with; the getter and the documented value (Unrestricted = 1) exist in 10.3 and 12.
+        Result := (Ord(CostLevel.get_NetworkCostType) <> 1 {NetworkCostType.Unrestricted})
           or CostLevel.Roaming
           or CostLevel.OverDataLimit;
     end;
