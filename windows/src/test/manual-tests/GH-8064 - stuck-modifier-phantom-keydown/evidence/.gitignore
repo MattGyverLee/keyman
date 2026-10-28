@@ -1,2 +1,0 @@
-# Capture listener stop-sentinels, if a run is interrupted before cleanup.
-*.log.stop

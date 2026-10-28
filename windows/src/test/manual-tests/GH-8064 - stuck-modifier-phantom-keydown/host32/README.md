@@ -69,8 +69,9 @@ delivering, with Keyman's `dwExtraInfo` tag intact, while
 the thread the low-level hook was installed on is stalled?
 That question gated the user-held signal (Route 2, the
 serializer's `WM_INPUT` shadow). Its result is recorded in
-`../evidence/rawinput-delivery.md` in the evidence archive
-(branch `evidence/8064-16462` in MattGyverLee/keyman);
+the evidence archive (branch `evidence/8064-16462` in
+MattGyverLee/keyman, at
+`keyman-evidence/16490-GH-8064/manual-tests-GH-8064/evidence/rawinput-delivery.md`);
 the evidence logs were moved out of this PR branch, so
 they are not in this folder anymore.
 
