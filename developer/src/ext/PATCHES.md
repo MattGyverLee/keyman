@@ -1,16 +1,19 @@
 # Vendored patches — Keyman-local changes to third-party code
 
 This file is the only record of Keyman-local patches to the vendored
-trees under `developer/src/ext/`. An upstream refresh of any of these
-trees will silently lose the patches below unless they are re-applied
-after the refresh. That is the failure this file exists to prevent:
-a refresh that drops a patch is a build failure waiting to happen —
-the Delphi 11/12 build breaks without them — not a silent success.
+trees under `developer/src/ext/`, plus the one vendored file that is
+a straight upstream sync, not a patch. An upstream refresh of any of
+these trees will silently lose the patches below unless they are
+re-applied after the refresh. That is the failure this file exists
+to prevent: a refresh that drops a patch is a build failure waiting
+to happen — the Delphi 11/12 build breaks without them — not a
+silent success.
 
 Rule on refresh: re-apply exactly the patches listed here, in this
-file, and nothing else. Do not re-add a patch that is not listed
-here; an unlisted patch was either never made or was reverted
-deliberately after review.
+file, and nothing else, and re-sync `jedi/jedi/jedi.inc` from
+project-jedi/jedi (entry 2) instead of hand-editing it. Do not
+re-add a patch that is not listed here; an unlisted patch was
+either never made or was reverted deliberately after review.
 
 Each entry names the file, the trigger (the build error it fixes),
 the change, and its removal-test status. Removal test means: remove
@@ -33,40 +36,47 @@ list and is removed, not kept "just in case".
   and record the result here (date, machine, error seen).
   Do not mark this entry "verified" until that run is recorded.
 
-## 2. JVCL — `jedi/jvcl/jvcl/run/JvComponent.pas`
+## 2. JVCL + jedi.inc — SYNCED FROM UPSTREAM, NOT A KEYMAN PATCH
 
-- Trigger: Delphi 11/12, `OldCreateOrder` property handling in
-  `TJvComponent` creation. History, because it matters here:
-  the original patch (VER350/VER360 → unconditional `DoCreate`,
-  else `if OldCreateOrder then DoCreate`) was motivated by a
-  concrete Delphi 12 CE error in TIKE: `E2003 Undeclared
-  identifier: 'OldCreateOrder'` at the then-line 126, via
-  `JvDockControlForm`. It was later replaced with the upstream
-  guard `{$IFDEF HAS_PROPERTY_OLDCREATEORDER}`.
-- Change as written: call `DoCreate` when `OldCreateOrder` is
-  true, guarded by `{$IFDEF HAS_PROPERTY_OLDCREATEORDER}`.
-- OPEN QUESTION, flagged by a deep scan 2026-10-27, do not
-  gloss over it: that conditional is defined nowhere in this
-  tree's `jedi.inc` (unlike `HAS_PROPERTY_STYLEELEMENTS`, which
-  has a definition there), so as written this block compiles
-  to nothing on every Delphi version here. The PR body still
-  describes the earlier VER350/VER360 unconditional form —
-  that body text is stale and must be corrected (see the
-  body, not this file, for the correction). Three outcomes
-  are possible, and the TIKE build + removal test decide
-  between them, not this file: (a) define the conditional
-  in `jedi.inc` for the versions where the property exists,
-  (b) restore the VER350/VER360 form, or (c) delete the
-  patch entirely if TIKE builds on Delphi 12 CE without it
-  (dead code compiles to nothing, so deleting it cannot
-  break a build that currently passes with it in place).
-- Removal test: PENDING — same procedure as entry 1, PLUS a
-  TIKE build on Delphi 12 CE with and without this block.
-  Record both runs here. Do not mark "verified" until those
-  runs are recorded, and do not keep this entry on the
-  strength of the earlier VER350 history alone: that history
-  describes a different form of the patch than the one in
-  the tree now.
+- What changed, 2026-10-27: `jedi/jedi/jedi.inc` was replaced
+  with upstream project-jedi/jedi `jedi.inc` at commit
+  `a09411655fb3aef7a095f8c2d10ab8535b277c95` (the repo JCL's
+  own readme points to for jedi.inc; it is a submodule of
+  upstream JCL, not part of the JCL repo itself). That file
+  defines `HAS_PROPERTY_OLDCREATEORDER` for D5–D27 and
+  undefines it from `RTL350_UP` (Delphi 11+), where
+  Embarcadero removed the property. The `JvComponent.pas`
+  guard `{$IFDEF HAS_PROPERTY_OLDCREATEORDER} if
+  OldCreateOrder then DoCreate;` is byte-identical to
+  upstream JVCL's guard (project-jedi/jvcl, HEAD `b045b99`),
+  and now works exactly as upstream intends: active on
+  Delphi 10.3 and earlier, inactive on Delphi 11/12, where
+  the property does not exist. The earlier deep-scan open
+  question — the guard was undefined in the old vendored
+  jedi.inc, so it compiled to nothing — is resolved by this
+  sync, not by a hand edit to either file.
+- History, kept because it explains the earlier VER350 form:
+  the original Keyman patch (VER350/VER360 → unconditional
+  `DoCreate`) was motivated by a concrete Delphi 12 CE
+  error in TIKE: `E2003 Undeclared identifier:
+  'OldCreateOrder'` at the then-line 126, via
+  `JvDockControlForm`. That form is superseded by the
+  upstream guard + synced jedi.inc; do not restore it.
+- What was NOT synced, deliberately: the full JCL and JVCL
+  trees were not refreshed. Upstream JCL at HEAD still
+  calls `JclWin32.CreateMutex` with a Boolean (entry 1's
+  trigger is unchanged upstream), so a JCL sync would not
+  remove entry 1, and upstream JVCL HEAD carries unrelated
+  changes (e.g. `FSearchTickCount: Int64`) that would
+  enlarge this PR without a Delphi build in this VM to
+  check them against. Sync only jedi.inc, which is the
+  file the guard depends on.
+- Verification still owed: a TIKE build on Delphi 12 CE
+  with this tip (guard inactive, no E2003) — that is the
+  test that proves the sync, not a removal test of a
+  patch that no longer exists as a Keyman patch. Record
+  it here when run; until then this entry is SYNCED, not
+  VERIFIED on Delphi 12 CE.
 
 ## 3. mbcolor — `mbcolor/mxs.inc`
 
@@ -83,7 +93,9 @@ list and is removed, not kept "just in case".
 ## What is NOT patched
 
 No other file under `developer/src/ext/` carries a Keyman-local
-patch as of the #16043 tip. If a diff on refresh shows a change
-outside the three entries above, it is either an upstream change
-to keep or a patch to record here with its trigger and removal
-test — never a change to carry silently.
+patch as of the #16043 tip — the JVCL entry above is a sync,
+not a patch, so the Keyman-local patches are entries 1 and 3
+only. If a diff on refresh shows a change outside the entries
+above, it is either an upstream change to keep or a patch to
+record here with its trigger and removal test — never a change
+to carry silently.
