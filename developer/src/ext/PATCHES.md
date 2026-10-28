@@ -22,37 +22,30 @@ build breaks in the way the trigger describes. A patch whose
 removal does NOT break the build goes back on the speculative
 list and is removed, not kept "just in case".
 
-## 1. JCL — `jedi/jcl/jcl/source/common/JclSynch.pas`
+## 1. JCL — `jedi/jcl/jcl/source/common/JclSynch.pas` — REMOVED 2026-10-28, do not re-add
 
-- Trigger: source-compiled JCL, fuller dependency graph. The
-  `JclWin32.CreateMutex` call fails with E2010
-  'Cardinal'/'Boolean'. External reference: JEDI issue 6560
-  (archived at
-  https://web.archive.org/web/20240425060944/https://issuetracker.delphi-jedi.org/view.php?id=6560),
-  reported 2017, 2019, and again on TIKE in 2026 — so this is
-  not Delphi-12-specific, and not a claim that Delphi 12
-  rejects Boolean → BOOL as such. Only bites when JCL is
-  built from source.
-- Change: in `TJclMutex.Create`, route via the RTL
-  (`Winapi.Windows.CreateMutex`, with `BOOL(InitialOwner)`),
-  like `OpenMutex` below it, instead of `JclWin32.CreateMutex`.
-- Removal test, 2026-10-28, ltu-legion, Delphi 12 Athens CE: **needed.** A standalone TIKE
-  IDE Build (fresh IDE session, TIKE's obj emptied) with the unpatched call fails exactly as
-  in July: `JclSynch.pas(1078): E2010 Incompatible types: 'Cardinal' and 'Boolean'`, then
-  `JclSysUtils.pas(3124): F2063`. (An earlier run that day reported "not needed": that
-  test had built the patched file by mistake, so disregard it.)
-- Root cause (proven 2026-10-28 by three controlled TIKE builds; see the evidence branch,
-  `results-2026-10-28/jclsynch-root-cause.md`): there are two `JclWin32.pas`.
-  `jcl/source/windows/JclWin32.pas` declares `bInitialOwner: BOOL`.
-  `jcl/source/prototypes/JclWin32.pas` includes `win32api/WinBase.int`, which declares
-  `bInitialOwner: DWORD` (the old WinNT4 LongInt workaround), and that is what rejects the
-  Boolean. TIKE finds `JclWin32` through the library search path. Upstream
-  `developer/src/ext/jedi/build.sh` never registers `jcl/source/prototypes`, so a machine set
-  up by the build scripts compiles the `windows/` copy and needs no patch (Marc's July result).
-  The CE guide's path list (#16044) adds `jcl/source/prototypes` before `windows`, and with
-  that path TIKE compiles the prototype and fails. With only that path removed, unpatched
-  TIKE builds. So this patch compensates for the CE guide's path list. Once the guide
-  registers what upstream registers, it can be removed (Matthew's decision).
+`JclSynch.pas` is back to the vendored upstream file. This entry is kept as the record of why.
+
+- What it was: `TJclMutex.Create` routed through `Winapi.Windows.CreateMutex(…, BOOL(InitialOwner), …)`
+  instead of `JclWin32.CreateMutex`. It was added for TIKE's
+  `JclSynch.pas(1078): E2010 Incompatible types: 'Cardinal' and 'Boolean'` (July 2026; JEDI
+  issue 6560, archived at
+  https://web.archive.org/web/20240425060944/https://issuetracker.delphi-jedi.org/view.php?id=6560).
+- Why it was removed: the error comes from the **search path**, not from Delphi 12 or JclSynch.
+  There are two `JclWin32.pas`. `jcl/source/windows/JclWin32.pas` declares
+  `CreateMutex(…; bInitialOwner: BOOL; …)`. `jcl/source/prototypes/JclWin32.pas` includes
+  `win32api/WinBase.int`, which declares `bInitialOwner: DWORD` (an old WinNT4 workaround),
+  and that is what rejects the Boolean. TIKE finds `JclWin32` through the IDE library
+  search path. `developer/src/ext/jedi/build.sh` never registers `jcl/source/prototypes`. An
+  earlier version of the CE guide (#16044) did, ahead of `windows`, so TIKE compiled the
+  prototype and failed. A machine set up by the build scripts never needed this patch.
+- Proof (2026-10-28, ltu-legion, Delphi 12 Athens CE, standalone TIKE IDE Build, fresh IDE
+  session, obj emptied): CE-guide path + this patch → built; CE-guide path, unpatched →
+  E2010 as above; CE-guide path minus `jcl/source/prototypes`, unpatched → built. Details on
+  the evidence branch, `results-2026-10-28/jclsynch-root-cause.md`. The CE guide now reads
+  its JEDI paths from `jedi/build.sh`, so `prototypes` is no longer registered.
+- If this E2010 appears again: check the Delphi Search Path (Win32 and Win64) for
+  `…\jcl\jcl\source\prototypes` and remove it. Do not re-add the patch.
 
 ## 2. JVCL + jedi.inc — SYNCED FROM UPSTREAM, NOT A KEYMAN PATCH
 
@@ -82,9 +75,9 @@ list and is removed, not kept "just in case".
   upstream guard + synced jedi.inc; do not restore it.
 - What was NOT synced, deliberately: the full JCL and JVCL
   trees were not refreshed. Upstream JCL at HEAD still
-  calls `JclWin32.CreateMutex` with a Boolean (entry 1's
-  trigger is unchanged upstream), so a JCL sync would not
-  remove entry 1, and upstream JVCL HEAD carries unrelated
+  calls `JclWin32.CreateMutex` with a Boolean, which is fine
+  against `source/windows/JclWin32.pas` (see entry 1, removed),
+  and upstream JVCL HEAD carries unrelated
   changes (e.g. `FSearchTickCount: Int64`) that would
   enlarge this PR without a Delphi build in this VM to
   check them against. Sync only jedi.inc, which is the
@@ -138,8 +131,8 @@ list and is removed, not kept "just in case".
 
 No other file under `developer/src/ext/` carries a Keyman-local
 patch as of the #16043 tip — the JVCL entry above is a sync,
-not a patch, so the Keyman-local patches are entries 1 and 3
-only. If a diff on refresh shows a change outside the entries
+not a patch, and entry 1 was removed, so the Keyman-local
+patches are entries 3 and 4 only. If a diff on refresh shows a change outside the entries
 above, it is either an upstream change to keep or a patch to
 record here with its trigger and removal test — never a change
 to carry silently.
