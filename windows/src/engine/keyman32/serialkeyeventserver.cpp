@@ -3,6 +3,10 @@
 #include "security.h"
 #include "kbd.h"
 
+// #8064 FR numbers in comments here refer to the #8064 audit-closeout requirements
+// (spec 003-8064-audit-closeout, not in this repo); see serialkeyeventcommon.h.
+// Every FR-tagged comment also states its reason in plain words.
+
 // This file is used only in keyman32.dll; implements the serial key event server
 #ifndef _WIN64
 

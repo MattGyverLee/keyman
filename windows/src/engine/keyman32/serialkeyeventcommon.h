@@ -2,6 +2,12 @@
 
 #include <windows.h>
 
+// #8064 FR numbers in comments in this area (FR-001, FR-014, FR-101, FR-104, ...)
+// refer to the #8064 audit-closeout requirements (spec 003-8064-audit-closeout).
+// That spec document is not in this repo, so every FR-tagged comment also states
+// its reason in plain words; if a comment ever relies on the number alone, the
+// comment is wrong, not the code.
+
 // We permit up to 256 input events in a single transaction
 // This allows roughly 120 characters to be output from a single
 // Keyman rule, less a bit of space for modifier shenanigans

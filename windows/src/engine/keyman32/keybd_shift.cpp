@@ -22,6 +22,10 @@
 #include "pch.h"
 #include "kbd.h"
 
+// #8064 FR numbers in comments here refer to the #8064 audit-closeout requirements
+// (spec 003-8064-audit-closeout, not in this repo); see serialkeyeventcommon.h.
+// Every FR-tagged comment also states its reason in plain words.
+
 // The modifier VKs Keyman manages. Not the hook's accepted-VK set: isModifierKey takes nine VKs,
 // which collapse onto these six, so the two sets are kept separate.
 const BYTE KeymanModifierVks[KEYMAN_MODIFIER_VK_COUNT] = {
