@@ -1,0 +1,30 @@
+# Stock arm, run 2 — official Keyman 20.0.8 (fresh install), ltu-legion, 2026-10-28 13:20–13:26
+
+Ran as a limited-token interactive scheduled task (not elevated). Test scripts are from keyman-test-8064 @
+f58d9da489. keyman32.dll is 20.0.8.0 with a Valid signature. Two arms (English, Keyman), because no MSKLC
+Cameroon layout is installed.
+
+## Gate (C.12): **FAIL, exit 1 — as expected for stock. GH-8064 is present in 20.0.8.**
+
+- English arm: 0/6 wedged (3 no-freeze controls A, 3 freeze trials I). Exit probe CLEAN.
+- Keyman arm (Cameroon QWERTY, HKL 0x04092C00): after recovery to CLEAN, **3/3 freeze trials (I) wedged**
+  (Ascii read 'ABC', deadkey U+003A U+0045 U+014A, LShift held at readback), while **0/3 no-freeze
+  controls (A) wedged**. Exit probe CLEAN.
+- Gate verdict: "[PROOF] The wedge appeared ONLY on the Keyman arm. Keyman 3/6 wedged; English 0/6."
+
+Caveats, all recorded by the gate itself:
+1. **The gate's start-of-run Keyman restart did not happen.** A limited token cannot stop the uiAccess
+   keyman.exe (Access Denied), and nobody restarted it within the 120 s wait. Its purpose, a clean
+   start, was nonetheless **verified directly**: the gate's entry check typed on the Keyman arm and read
+   CLEAN. That Keyman had been started fresh at 13:16:42.
+2. **The Keyman arm arrived already wedged** after the English arm ran: the carry-over in which the
+   control arms charge Keyman's modifier cache. The gate's source (stuck-mod-test.ps1, about line 1264)
+   classes this as a RESULT, not a setup failure. Its fingerprints were taken while it was wedged, so the
+   Ascii and Deadkey oracles were "not marked valid by fingerprinting". The gate lists these as "UNMET
+   PRECONDITIONS — each of these on its own forbids a PASS". They forbid a PASS, not this FAIL.
+3. Two arms only, so engine versus layout data is not separated (needs MSKLC Cameroon).
+
+## Repro (run-8064-test, charmap): **UNVERIFIED — void, exit 2.** It needs a rerun.
+The script's restart before the repro hit the same Access Denied, so the repro started against the
+still-wedged instance and stopped at its preconditions. Keyman was then restarted from the elevated
+orchestrator, and started non-elevated through a limited task (13:27:49).
