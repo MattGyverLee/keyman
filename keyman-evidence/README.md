@@ -48,6 +48,18 @@ is not lost when the evidence logs are removed from the PR branches.
   and is recorded in the assistant's memory under the
   Keyman / mcdurdin notes, so it can be found by searching
   for "keyman restack test list" even without this branch.
+- `team-testing-plan-2026-10-27.md` — the Keyman team's
+  testing plan for the November revisit, stored here
+  deliberately (no fork issue — Matthew's fork has
+  issues disabled, and no issue was created) so it is
+  there even if the team picks the work up without
+  talking to Matthew first. It is PREPARED, NOT POSTED:
+  it has not been added to any upstream PR, and the
+  link to it from the PR bodies is to be added at
+  reopen, not before. If you found this branch without
+  a PR link, start here — it contains the reopen
+  agenda, the honest proven/unverified table, and the
+  still-open list.
 
 ## What moved out of the PR branches, and what stayed
 
