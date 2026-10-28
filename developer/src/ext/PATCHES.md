@@ -24,9 +24,14 @@ list and is removed, not kept "just in case".
 
 ## 1. JCL — `jedi/jcl/jcl/source/common/JclSynch.pas`
 
-- Trigger: Delphi 12, source-compiled JCL. `JclWin32.CreateMutex`
-  is an external declaration with a BOOL parameter; Delphi 12
-  rejects Boolean → BOOL there (E2010). Only bites when JCL is
+- Trigger: source-compiled JCL, fuller dependency graph. The
+  `JclWin32.CreateMutex` call fails with E2010
+  'Cardinal'/'Boolean'. External reference: JEDI issue 6560
+  (archived at
+  https://web.archive.org/web/20240425060944/https://issuetracker.delphi-jedi.org/view.php?id=6560),
+  reported 2017, 2019, and again on TIKE in 2026 — so this is
+  not Delphi-12-specific, and not a claim that Delphi 12
+  rejects Boolean → BOOL as such. Only bites when JCL is
   built from source.
 - Change: in `TJclMutex.Create`, route via the RTL
   (`Winapi.Windows.CreateMutex`, with `BOOL(InitialOwner)`),
