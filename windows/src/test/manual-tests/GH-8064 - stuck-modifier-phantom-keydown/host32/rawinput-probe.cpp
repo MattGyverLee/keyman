@@ -55,7 +55,8 @@
  *
  * Every line goes to stdout AND to OutputDebugString -- so a DebugView capture taken alongside an
  * engine trace interleaves correctly -- and to --out if given. The output is markdown: paste a run
- * straight into evidence/rawinput-probe-<date>.md, which per T011 must carry the FR-100a header
+ * straight into a new run log of your own (the PR's evidence folder was moved to the
+ * evidence archive, branch evidence/8064-16462), which per T011 must carry the FR-100a header
  * above.
  *
  * Exit codes: 0 the step ran and its verdicts are recorded, 2 inconclusive (a precondition the
@@ -875,7 +876,7 @@ Usage(void) {
   Report(L"  --wait SECONDS     How long each operator prompt waits (default 12).");
   Report(L"  --self-stall MS    Step 2 only: busy-block the MAIN thread for MS milliseconds.");
   Report(L"  --fakefreeze PATH  Step 2 only: also run fakefreeze, which stalls keyman.exe.");
-  Report(L"  --out PATH         Also write every line to PATH, for evidence/.");
+  Report(L"  --out PATH         Also write every line to PATH, for your own run log.");
   Report(L"");
   Report(L"FR-100a: hDevice is recorded for completeness only. Keying the signal on it is refuted,");
   Report(L"because genuine user input from RDP and from the OSK is OS-injected. The admissible");
@@ -1057,7 +1058,7 @@ wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdS
 
   Report(L"");
   Report(L"---");
-  Report(L"Paste the whole of the above into evidence/rawinput-probe-<date>.md, keeping the");
+  Report(L"Paste the whole of the above into a new run log of your own, keeping the");
   Report(L"FR-100a paragraph with it. T012 then applies plan.md W0's decision rule -- written");
   Report(L"before the run -- and records the verdict in the same file.");
 
