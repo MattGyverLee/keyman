@@ -1,0 +1,15 @@
+﻿Win32 prototypes entries now: 0
+Win64 prototypes entries now: 0
+EnvOptions prototypes in DelphiLibraryPath now: 0
+obj emptied: 0 dcu left
+JclSynch call: FHandle := JclWin32.CreateMutex(SecAttr, InitialOwner, PChar(Name));
+search path JCL order: windows
+build clicked 16:16:39
+  dismissed untitled IDE dialog class=TCENotificationDialog (OK clicked)
+result: TIKE BUILT
+  JclWin32.dcu: 16:16:45 includesWinBase.int(prototype)=False
+  JclSynch.dcu: 16:16:46 includesWinBase.int(prototype)=False
+dcus compiled: 522
+screenshot: C:\Github\keyman-test-evidence\keyman-evidence\results-2026-10-28\logs\jclsynch-root-cause\b7-controlled-unpatched-161659.png
+restored: diff []
+RESTORED search paths: Win32 identical=True Win64 identical=True EnvOptions identical=True

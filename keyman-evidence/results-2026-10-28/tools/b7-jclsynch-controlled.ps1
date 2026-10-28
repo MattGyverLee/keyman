@@ -32,5 +32,8 @@ while (((Get-Date) - $tb).TotalSeconds -lt 240) {
 }
 "result: $result"; Dcu JclWin32; Dcu JclSynch
 "dcus compiled: $(@(Get-ChildItem $obj -Filter *.dcu).Count)"
-Start-Sleep 2; Shot "b7-controlled-$(if ($Patched) { 'patched' } else { 'unpatched' })"
+Start-Sleep 2
+$png = Shot "b7-controlled-$(if ($Patched) { 'patched' } else { 'unpatched' })-$(Get-Date -Format HHmmss)"
+$keep = 'C:\Github\keyman-test-evidence\keyman-evidence\results-2026-10-28\logs\jclsynch-root-cause'; New-Item -ItemType Directory -Force $keep | Out-Null
+Copy-Item $png $keep; "screenshot: $keep\$(Split-Path $png -Leaf)"
 & git -C $root checkout -- $file 2>$null; "restored: diff [$(& git -C $root diff --stat -- $file 2>$null)]"
