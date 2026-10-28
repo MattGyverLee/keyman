@@ -261,6 +261,27 @@ pass. A test that was not run is UNVERIFIED, not "works".
   for that stack, even if the diff looks clean. (Only
   .gitignore and environment.inc.sh qualified here, above.)
 
+## Update, 2026-10-27 late evening — ponytail comment fixes 1 and 2
+
+- New #16490 tip: **a9271a3cbb** (was a31a675567). New #16527
+  tip: **e794044fd6** (was 90329530cc, rebased clean onto the
+  new #16490, 8 commits). Change: comment-only, 2 files,
+  7 insertions / 6 deletions — run-8064-test.ps1 stale
+  evidence-log citations removed, rawinput-probe.cpp output
+  path repointed to the user's own run log / the evidence
+  archive. No script or probe behaviour changed, so no
+  functional retest trigger beyond the standard clear
+  rebuild (A.1) on the new tips.
+- Speckit check, same evening: searched all five PR branches
+  and the evidence branch for speckit / spec-kit / .specify
+  paths and content, and the PR diff for spec files.
+  Result: NONE. No speckit files in this work to remove.
+  Keyman does not use speckit, and nothing in these PRs
+  introduces it. The FR-xxx numbers in serializer comments
+  are NOT speckit files — they are requirement numbers in
+  comments, with no spec document in the PR tree (ponytail
+  review finding 3, Nice to have, not fixed here).
+
 ## F. Anything else — added 2026-10-27 evening, before testing
 
 These are the items found in the pre-test audit that were
