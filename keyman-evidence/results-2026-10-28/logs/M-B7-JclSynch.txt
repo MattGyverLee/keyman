@@ -1,0 +1,16 @@
+﻿[JclSynch] pre-patch developer/src/ext/jedi/jcl/jcl/source/common/JclSynch.pas from fd04ceda6c^; git diff:
+powershell : warning: in the working copy of 'developer/src/ext/jedi/jcl/jcl/source/common/JclSynch.pas', LF will be 
+replaced by CRLF the next time Git touches it
+At line:2 char:1
++ powershell -NoProfile -ExecutionPolicy Bypass -File 'C:\Github\keyman ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+ developer/src/ext/jedi/jcl/jcl/source/common/JclSynch.pas | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
+[JclSynch] build clicked 15:42:37
+  dismissed untitled IDE dialog class=TCENotificationDialog (OK clicked)
+[JclSynch] result: BUILT (patch removal did NOT break the build)
+C:\Users\thoua\AppData\Local\Temp\claude\C--Github-keyman\d9a7fe69-9d19-45db-b14c-33b3f7474856\scratchpad\shots\b7-JclSynch.png
+[JclSynch] restored; git diff now: []

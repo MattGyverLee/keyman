@@ -1,0 +1,8 @@
+﻿[mxs] pre-patch developer/src/ext/mbcolor/mxs.inc from fcc0bd369d; git diff:
+ developer/src/ext/mbcolor/mxs.inc | 20 --------------------
+ 1 file changed, 20 deletions(-)
+[mxs] build clicked 15:43:28
+  dismissed untitled IDE dialog class=TCENotificationDialog (OK clicked)
+[mxs] result: FAILED (no output 90 s after Build; see screenshot)
+C:\Users\thoua\AppData\Local\Temp\claude\C--Github-keyman\d9a7fe69-9d19-45db-b14c-33b3f7474856\scratchpad\shots\b7-mxs.png
+[mxs] restored; git diff now: []

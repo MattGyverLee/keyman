@@ -51,8 +51,17 @@ function Dismiss-Nag {
 }
 # Select the target platform in the toolbar platform box (maximized IDE): open it, then click the
 # 1st entry (Windows 32-bit) or 2nd (Windows 64-bit). A project's saved default can be either.
-function Select-Platform([string]$plat) { Click 686 72; Start-Sleep 1; Click 676 $(if ($plat -eq 'Win64') { 116 } else { 96 }); Start-Sleep 2 }
-function Maximize-Bds { $b = Get-Process bds | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1; [void][IDE.U]::ShowWindow($b.MainWindowHandle, 3); Start-Sleep 1 }
+# Layout: the IDE on the left half of the 2560x1552 work area, the console on the right (Matthew).
+# Full-resolution click points for that layout, single project open (Projects pane, toolbar).
+$Ide = @{ Node = @(796, 190); Build = @(842, 228); Platform = @(686, 80); Win32 = @(676, 104); Win64 = @(676, 124) }
+function Select-Platform([string]$plat) { Click @($Ide.Platform)[0] @($Ide.Platform)[1]; Start-Sleep 1; $p = $Ide[$plat]; Click $p[0] $p[1]; Start-Sleep 2 }
+function Build-Project { Click @($Ide.Node)[0] @($Ide.Node)[1] -Right; Start-Sleep 1; Click @($Ide.Build)[0] @($Ide.Build)[1] }
+Add-Type -Namespace IDE -Name M -MemberDefinition '[DllImport("user32.dll")] public static extern bool MoveWindow(System.IntPtr h, int x, int y, int w, int hh, bool r);'
+function Place-Bds {
+  $b = Get-Process bds | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1
+  $wa = [System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea
+  [void][IDE.U]::ShowWindow($b.MainWindowHandle, 9); [void][IDE.M]::MoveWindow($b.MainWindowHandle, 0, 0, [int]($wa.Width / 2), $wa.Height, $true); Start-Sleep 1
+}
 $Shots = 'C:\Users\thoua\AppData\Local\Temp\claude\C--Github-keyman\d9a7fe69-9d19-45db-b14c-33b3f7474856\scratchpad\shots'
 New-Item -ItemType Directory -Force $Shots | Out-Null
 
@@ -76,8 +85,14 @@ function Start-Bds([string]$Root, [string]$Project) {
 function Focus-Bds {
   $b = Get-Process bds -ErrorAction SilentlyContinue | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1
   if (-not $b) { throw 'no bds main window' }
+  if ((Fg).Name -eq 'explorer' -and (Fg).Title -eq 'Snap Assist') { [System.Windows.Forms.SendKeys]::SendWait('{ESC}'); Start-Sleep 1 }
   [IDE.U]::keybd_event(0x12, 0, 0, [UIntPtr]::Zero); [IDE.U]::keybd_event(0x12, 0, 2, [UIntPtr]::Zero)
   [void][IDE.U]::SetForegroundWindow($b.MainWindowHandle); Start-Sleep -Milliseconds 400
+  if ((Fg).Pid -ne $b.Id) {
+    # SetForegroundWindow refused: a real click on the IDE title bar always activates it.
+    [void][IDE.U]::SetCursorPos(640, 12); Start-Sleep -Milliseconds 150
+    [IDE.U]::mouse_event(0x02, 0, 0, 0, [UIntPtr]::Zero); [IDE.U]::mouse_event(0x04, 0, 0, 0, [UIntPtr]::Zero); Start-Sleep -Milliseconds 600
+  }
   if ((Fg).Pid -ne $b.Id) { throw "bds is not foreground (foreground: $((Fg).Name) '$((Fg).Title)')" }
   # The Alt tap that unlocks SetForegroundWindow also arms the IDE's menu bar; Esc disarms it.
   [System.Windows.Forms.SendKeys]::SendWait('{ESC}'); Start-Sleep -Milliseconds 300

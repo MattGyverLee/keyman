@@ -52,7 +52,7 @@ while (-not (Test-Path $Done)) {
   do { Start-Sleep 2; $b = Get-Process bds -ErrorAction SilentlyContinue | Where-Object { $_.MainWindowTitle -match [regex]::Escape($name) } } until ($b -or ((Get-Date) - $t0).TotalSeconds -gt 120)
   if (-not $b) { Shot "stop-$seen"; throw "IDE did not open $name within 120 s" }
   Start-Sleep 8   # let the project finish loading
-  Focus-Bds; Maximize-Bds; Focus-Bds
+  Focus-Bds; Place-Bds; Focus-Bds
   # The CE EULA reminder can also appear at IDE start-up.
   for ($n = 0; $n -lt 3; $n++) { $d = Dismiss-Nag; if (-not $d) { break }; "  $d"; Start-Sleep 2; Focus-Bds }
   $f = Fg
@@ -61,7 +61,7 @@ while (-not (Test-Path $Done)) {
   Select-Platform $plat; Shot "platform-$seen" | Out-Null; "  selected $plat"
   # Projects pane, maximized IDE, single project: right-click the project node, then "Build" in its
   # context menu (Matthew: builds are triggered from the Projects tab). Shift+F9 did not build.
-  Click 2144 182 -Right; Start-Sleep 1; Click 2190 220
+  Build-Project
   "  building..."
 
   # Success: the output appears and the Build dialog auto-closes (box ticked). Failure: no output,
