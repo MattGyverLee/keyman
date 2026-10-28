@@ -209,3 +209,7 @@ Copyright (C) Microsoft Corporation.  All rights reserved.
 [developer/src/tike] Delphi CE: CLI compilation is not available.
 [developer/src/tike] Please build tike.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
 [developer/src/tike] Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run.
+[developer/src/tike] ### delphi: sentrytool_delphiprep bin/Win32/Debug/tike.exe tike.dpr
+DebugID: C37A625F01FA4EB2A9A8A76D983D90EE1
+CodeID: 6AE25CEC1081000
+[developer/src/tike] ## build:project completed successfully
