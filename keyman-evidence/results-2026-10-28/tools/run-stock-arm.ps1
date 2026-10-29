@@ -1,6 +1,7 @@
-# Stock arm of the GH-8064 gate (C.12) on the installed, official signed Keyman (log folder named after its keyman32.dll version).
-# Starts keyman.exe and an empty Notepad, runs the three-arm gate (two arms: no MSKLC Cameroon),
-# then the fakefreeze repro against charmap. Not elevated. Injects real input: hands off.
+# GH-8064 gate (C.12) on the installed Keyman, any arm (log folder named after -Label and its keyman32.dll version).
+# Starts keyman.exe and an empty Notepad and runs the three-arm gate (two arms: no MSKLC Cameroon).
+# The repro is run-host32.ps1. -GateOnly is accepted for old task definitions and changes nothing.
+# Not elevated. Injects real input: hands off.
 param([int]$DelaySeconds = 60, [string]$Label = 'stock', [switch]$GateOnly, [int]$Repeat = 3, [int]$LoadThreads = 0)
 $ErrorActionPreference = 'Continue'
 $T   = 'C:\Github\keyman-test-8064\windows\src\test\manual-tests\GH-8064 - stuck-modifier-phantom-keydown'
@@ -14,22 +15,16 @@ Start-Sleep -Seconds $DelaySeconds
 if (-not (Get-Process keyman -ErrorAction SilentlyContinue)) { Start-Process "$eng\keyman.exe" -ArgumentList '-kmc','start'; Start-Sleep 6 }
 "keyman running: $([bool](Get-Process keyman -ErrorAction SilentlyContinue))"
 Get-Process notepad -ErrorAction SilentlyContinue | Out-Null
+# Windows 11 Notepad hands the launch to the packaged app, so the process Start-Process returns
+# is not the one that owns the window. Close every Notepad started from here on instead.
+$npSince = Get-Date
 $np = Start-Process notepad -PassThru; Start-Sleep 3
 
 Set-Location $T
 "=== GATE ($Label) $(Get-Date -Format o)"
 powershell -NoProfile -ExecutionPolicy Bypass -File .\stuck-mod-test.ps1 -Gate -Arms English,Keyman -Repeat $Repeat -LoadThreads $LoadThreads -LogDir "$Out\gate$(if ($LoadThreads -or $Repeat -ne 3) { "-r$Repeat-l$LoadThreads" })"
 "GATE EXIT: $LASTEXITCODE"
-# The repro needs a Keyman restart a limited token cannot do; run it with run-host32.ps1 (elevated).
-# Close the scratch Notepad (test text only), or it keeps the foreground and blocks later steps.
-if ($GateOnly) { $np | Stop-Process -Force -ErrorAction SilentlyContinue; "=== DONE (gate only) $(Get-Date -Format o)"; Stop-Transcript | Out-Null; exit }
-
-# Restart Keyman to clear any wedge before the repro
-Get-Process keyman,keymanx64,keymanhp.x64 -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep 2
-Start-Process "$eng\keyman.exe" -ArgumentList '-kmc','start'; Start-Sleep 6
-
-"=== REPRO run-8064-test (stock) $(Get-Date -Format o)"
-powershell -NoProfile -ExecutionPolicy Bypass -File .\run-8064-test.ps1 -HostApp C:\Windows\SysWOW64\charmap.exe
-"REPRO EXIT: $LASTEXITCODE"
-"=== DONE $(Get-Date -Format o)"
+Get-Process notepad -ErrorAction SilentlyContinue | Where-Object StartTime -ge $npSince | Stop-Process -Force -ErrorAction SilentlyContinue
+# The repro needs a Keyman restart a limited token cannot do: run tools/run-host32.ps1 (elevated).
+"=== DONE (gate) $(Get-Date -Format o)"
 Stop-Transcript | Out-Null

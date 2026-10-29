@@ -10,8 +10,8 @@ UNVERIFIED**. INCONCLUSIVE is never PASS. Evidence is in this folder; each line 
 | #16043 | chore/windows/delphi-11-12-compat | **dcefa58340** | 9de382db06 |
 | #16044 | feat/windows/delphi-ce-workflow | **b3dcf2a95d** (2026-10-29: CE route) | 09b2cbe558 |
 | #16191 | chore/windows/delphi-ce-guard | **8efbe71abe** (restacked) | 331b0b3015 |
-| #16490 | fix/windows/8064-stuck-modifier | **ff79d29257** (2026-10-29: run-8064-test.ps1 removed) | f58d9da489 |
-| #16527 | fix/windows/16462-osk-sticky-modifier | **e13622ca4a** (restacked, no other change) | c923e1e89d |
+| #16490 | fix/windows/8064-stuck-modifier | **7681e589d0** (2026-10-29: run-8064-test.ps1 removed; diagnostics trimmed) | f58d9da489 |
+| #16527 | fix/windows/16462-osk-sticky-modifier | **fd5ec76b3c** (restacked, no other change) | c923e1e89d |
 
 Integration tree `C:\Github\keyman-test-merge2`, test2 = #16191 tip + c923e1e89d. The fixed arm was
 built and installed at test2 3a514d526a. Since then only `developer/src/ext/**` and PATCHES.md
@@ -39,6 +39,10 @@ changed; nothing under `windows/`, `common/` or `core/`, so the fixed-arm result
 - **2026-10-29: scope.** `run-8064-test.ps1` (the charmap mode) is removed from #16490; host32 is the
   repro harness. Remote desktop is out of scope for 8064 and becomes a follow-up issue and test.
   Neither change touches the engine, so the A/B results above stand.
+- **2026-10-29: #16490 diagnostics trimmed** (7681e589d0, −479/+46 lines; #16527 restacked as
+  fd5ec76b3c). Retested on the same install with the trimmed DLLs: unit x86 96/96 and x64 95/95 (3
+  tests removed by design), gate PASS 18/18, stressed gate PASS 30/30, host32 PASS 0/5 stuck.
+  `logs/trim-20.0.9.0/RESULT.md`.
 
 ## Fixes made today (all on #16043 unless noted; details in fixes-2026-10-28.md)
 
@@ -121,6 +125,9 @@ clean contributor machine.
   the PRs.
 
 ## Machine state left behind (all reversible)
+- Engine DLLs: `keyman32.dll` and `keyman64.dll` in the installed Keyman Engine folder are the
+  trimmed 7681e589d0 builds (test-signed). The fixed-arm originals are beside them as `*.old-fixed`;
+  rename them back to restore.
 - Installed: **signed dev Keyman 20.0.9** from merge2. Keyman Developer 19.0.289 is untouched. The
   backup and reinstall record are in `reinstall-2026-10-28.md`.
 - **Keyman Test CA (SHA256 + SHA1) in LocalMachine Root.** Remove with
