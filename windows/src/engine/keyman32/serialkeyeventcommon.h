@@ -52,13 +52,9 @@
 //     The older test writes into an exactly-256 array, so under that mutation it would itself
 //     overrun before it could report -- which is why the boundary is pinned from both sides.
 //
-// Truncation at 248 is reported, not silent: PrepareInjectedInputBatch emits
-// BatchOutputTruncated once per truncated batch (vk = 0) through pfnDiagnostic,
-// and returns the dropped count in its pOutputKeysTruncated out-param.
-// The only logged clamp before that was the earlier one in
+// Truncation at 248 is not logged. The only logged clamp is the earlier one in
 // SerialKeyEventClient::SignalServer (serialkeyeventclient.cpp), which caps at
-// 256, so a batch of 249..256 output keys was truncated here and reported
-// nowhere. The min(pSharedData->nInputs, MAX_KEYEVENT_INPUTS) at the top of
+// 256. The min(pSharedData->nInputs, MAX_KEYEVENT_INPUTS) at the top of
 // PrepareInjectedInputBatch is not this policy either: it guards the READ of
 // pSharedData->inputs[i], since nInputs lives in shared memory and an
 // over-large value would walk off the end of a 256-element array.
@@ -117,71 +113,6 @@ typedef SHORT (WINAPI *PGETASYNCKEYSTATE)(int vKey);
 // PostKeyEventAndDecideEat's eat-only-on-a-successful-post decision is exercisable without a
 // message queue, a window or an interactive desktop.
 typedef BOOL (WINAPI *PPOSTMESSAGEFN)(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
-
-/**
-  #8064 FR-002 / FR-006 -- what a batch reports about a hold it could not keep.
-
-  FR-001 governs the behaviour: absent a signal that says what the USER holds, the release and
-  restore halves do not change, so some holds are still dropped. Both live-state-only alternatives
-  are refuted in the spec. What FR-002 and FR-006 add is that a dropped hold stops being SILENT:
-  the batch names it, so a field report has something to match against instead of a user sentence.
-
-  A code rather than a format string: the suite asserts on a value, so the wording of the message
-  can be rewritten at any time without turning the assertion into a tautology.
-
-  A plain function pointer, same shape and same reason as PGETASYNCKEYSTATE and PPOSTMESSAGEFN
-  above: gmock is not linked into keyman32.tests.vcxproj. Production binds a thunk over
-  SendDebugMessageFormat (serialkeyeventserver.cpp); the suite binds a recorder, because
-  SendDebugMessageFormat resolves to ETW (K32_DBG.CPP:189) and the suite has no way to read that
-  back. So FR-002 and FR-006 are both assertable with no machine, no desktop and no timing, which is
-  why the seam exists rather than a debug string.
-*/
-enum ModifierDiagnosticCode {
-  /**
-    FR-002. The release half is about to release a modifier that the LIVE state says is held and
-    the CACHE does not claim -- so the restore half, which reads the cache, will not press it back.
-    That is a hold this batch drops, and it is the residue outside any signal's reach: a console
-    window or the secure desktop, where the cache feed never saw the KEYDOWN.
-
-    Emitted once per such VK, naming it. Only meaningful when feedIsConfigured is TRUE, because with
-    the feed off both halves read the same kbd and the condition cannot arise.
-  */
-  ReleasedWithoutCacheClaim = 1,
-
-  /**
-    FR-006 / FR-007. All six managed modifiers read UP live while the cache claims two or more
-    held. The reconcile is about to clear every one of them and the restore half will press nothing,
-    so every one of those holds is dropped at once. Two or more, not one, is deliberate: exactly one
-    modifier held at launch and released before the feed was live is the normal launch-seed case
-    002 exists to clear, and firing there would warn on an ordinary session.
-
-    Emitted once per batch, with vk = 0, rather than once per lost key. ReconcileModifierCache
-    already logs "cache says held but OS says up, clearing vkey=..." for each byte it clears, and in
-    this state it clears exactly the claimed set, so the per-key detail is in the log immediately
-    below either way. This code says "the batch as a whole looks like a desktop switch"; the lines
-    under it say which keys.
-
-    The reconcile still runs -- see FR-007a at the reconcile call in keybd_shift.cpp. This is a
-    report rather than a suppression.
-  */
-  PossibleDesktopSwitch = 2,
-
-  /**
-    Truncation. The output-key loop stops at MAX_KEYEVENT_INPUTS -
-    MAX_KEYEVENT_INPUTS_MODIFIERS total events, so with a full
-    release half only 240 output keys fit and the rest are
-    dropped tail-first. That drop used to be silent: no debug
-    message, and no way for the caller to tell. It is now
-    reported once per batch, with vk = 0 (a property of the
-    batch, like PossibleDesktopSwitch), and the dropped
-    count is returned in PrepareInjectedInputBatch's
-    pOutputKeysTruncated out-param. The batch itself is
-    unchanged: what is sent is still a prefix, never a hole.
-  */
-  BatchOutputTruncated = 3,
-};
-
-typedef void (*PMODIFIERDIAGNOSTIC)(ModifierDiagnosticCode code, BYTE vk);
 
 /**
   #8064 W5 / FR-100a, FR-101, FR-104. What a source that is NOT KEYMAN'S OWN last said about each
@@ -263,10 +194,8 @@ int PrepareInjectedInputBatch(
   PGETASYNCKEYSTATE pfnGetAsyncKeyState,
   BOOL feedIsConfigured = TRUE,
   DWORD *pRestorePressedMask = NULL,
-  PMODIFIERDIAGNOSTIC pfnDiagnostic = NULL,
   int *pRestoreEventIndex = NULL,
-  const UserHeldModifierSignal *pUserHeld = NULL,
-  DWORD *pOutputKeysTruncated = NULL);
+  const UserHeldModifierSignal *pUserHeld = NULL);
 
 // #8064. Defined in keybd_shift.cpp; see its doc comment and WM_KEYMAN_VERIFY_MODIFIER_EVENT above.
 int PrepareModifierVerificationCorrection(
