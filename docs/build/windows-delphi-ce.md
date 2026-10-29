@@ -130,9 +130,18 @@ whose `CreateMutex` takes a `DWORD` where `source/windows/JclWin32.pas` takes a
 `JclSynch.pas(1078): E2010 Incompatible types: 'Cardinal' and 'Boolean'`. If you set
 up your paths from an earlier version of this guide, remove that entry from the
 Win32 and Win64 Search Path.
+
 `devtools` targets the `BDS\<version>` hive matching the Delphi it was built
 with (`23.0` under Delphi 12, per `SourceRootPath.pas`), so build it under the
 same Delphi you'll open the projects in.
+
+**Put both package folders on `PATH`.** Builds install design-time packages into the
+IDE with `devtools -ip`: `windows/lib` (Keyman components) and `developer/lib` (JVCL
+docking, `developer_components`, `browse4folder`, `mbColorLibD10`). Delphi loads them at
+start-up, and Windows can only find the packages they depend on through `PATH`.
+[`windows.md`](windows.md) asks for `windows\lib`. Add `developer\lib` as well, or the IDE
+reports `Can't load package …\developer\lib\JvCoreDesign.bpl. The specified module could
+not be found.` (it cannot find `JvCore.bpl` next to it).
 
 ## 4. Building the Delphi projects under CE
 
@@ -424,7 +433,12 @@ after the registry edit.
 
 ### `F2613 Unit 'JvComponentBase' not found`
 
-JVCL `run/` (or `design/`) missing from Library Search Path. See §3.
+JVCL `run/` missing from Library Search Path. See §3.
+
+### `Can't load package …\developer\lib\JvCoreDesign.bpl. The specified module could not be found.`
+
+`developer\lib` is not on `PATH`, so Windows cannot find `JvCore.bpl`, which the design
+package depends on. See §3. Restart Delphi after changing `PATH`.
 
 ### `SKApplicationTitle has had a fatal error` on kmshell launch
 
