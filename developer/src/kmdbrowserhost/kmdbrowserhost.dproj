@@ -1,6 +1,6 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{C78BCA95-4D5F-48DA-A878-65CA22128BFC}</ProjectGuid>
+        <ProjectGuid>{313AA9F5-5489-40B3-A0C2-744DFF3A0B84}</ProjectGuid>
         <ProjectVersion>18.8</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <MainSource>kmdbrowserhost.dpr</MainSource>

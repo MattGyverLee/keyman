@@ -177,6 +177,63 @@ windows/src/engine/build.sh install
 windows/src/desktop/build.sh install
 ```
 
+### Fewest clicks: `delphi-ce-build.sh` (two IDE builds)
+
+`resources/build/win/delphi-ce-build.sh` runs the same `build.sh`
+scripts, in the same order as CI, and collects their Delphi compiles
+into one generated project group, so the IDE work is two builds
+instead of one prompt per project:
+
+```bash
+export KEYMAN_DELPHI_CE=1
+resources/build/win/delphi-ce-build.sh windows/src developer/src
+```
+
+1. **Prepare, wave 1** (unattended): the tool scripts
+   (`common/windows/delphi/tools`, `windows/src/engine/tsysinfox64`)
+   run their pre-steps and record their projects. With
+   `KEYMAN_DELPHI_CE_PHASE=prepare`, `delphi_msbuild` records every
+   compile in the calling script and stops that script cleanly at its
+   first compile not yet built.
+2. **IDE build 1**: open the group file the script prints, show the
+   Projects pane's **Build Groups** pane, pick Active Group **CE-1**
+   and press its Build button. Then press Enter in the terminal.
+3. **Prepare, wave 2** (unattended): the targets run. The tools now
+   exist, so the codegen pre-steps run; every script stops at its
+   first compile.
+4. **IDE build 2**: close the group and open it again (the IDE does not
+   notice that the script rewrote it), pick **CE-2**, press Build, then
+   Enter.
+5. **Finish** (unattended): the normal `build.sh build` of each
+   target. Every compile built since step 1 is skipped. A compile the
+   group could not hold gets its usual CE prompt.
+
+Each build group row carries its own platforms (kmcomapi and
+delphishareddata get Win32 and Win64), and the IDE builds the rows in
+the listed order, which is CI order. The group declares no project
+dependencies on purpose: the IDE builds a project's dependencies for
+every platform it is building, so a chain pulls Win32-only tools into
+a Win64 build.
+
+Limits of a project group, and how the script handles them:
+
+* **Same project name**: the IDE matches projects to the group's
+  targets by name, so two `setup.dproj` (Desktop and Developer) cannot
+  share a group. The second one is left out and gets its prompt in
+  step 5: one ordinary IDE build.
+* **Same ProjectGuid**: the IDE stops loading with a "Duplicate GUID"
+  dialog that offers to rewrite one `.dproj`. Don't accept it. The
+  script refuses to write such a group and names the pair. Give one
+  project a new GUID in source.
+* **CE notification**: CE shows its notification dialog a few times
+  during a long build. Click OK and the build carries on.
+
+Measured on Delphi 12 CE: wave 1 is 8 projects in about 5 s, wave 2 is
+37 projects in about 2 minutes, and the finish skipped 38 compiles
+with one prompt (Developer `setup`). This was run on a working tree
+with a fresh session, so every Delphi compile was rebuilt. A run on a
+fresh clone has not been verified yet.
+
 ### Faster iteration: script + IDE Build All (warm-state only)
 
 `delphi_msbuild` under `KEYMAN_DELPHI_CE=1` **auto-skips its prompt**
@@ -231,8 +288,8 @@ generate:
 * Per-project `version.res` / `manifest.res` (from each `build.sh`'s
   pre-build)
 
-**Fresh clone or after `git clean -fdx`**: you must walk the CE
-prompts one-by-one at least once. Each project's `build.sh` fires the
+**Fresh clone or after `git clean -fdx`**: use `delphi-ce-build.sh`
+(above), or walk the CE prompts one by one at least once. Each project's `build.sh` fires the
 pre-build steps that generate the inputs above; then the CE prompt
 fires; you Build in Delphi; script proceeds. **On the next build**
 (codegen outputs still present) you can switch to the Build All flow.
@@ -510,3 +567,20 @@ You built kmcomapi (or another multi-platform Delphi package) with
 Delphi's Platform dropdown set to Win32 for both CE prompts. The
 second prompt is for Win64 — toggle the dropdown between the two
 prompts. See §4 "Multi-platform Delphi packages".
+
+### `TrayIcon.cpp: error C3861: 'max': identifier not found` (developer/src/server)
+
+Not specific to CE: Node is newer than the version Keyman pins
+(`engines.node` in the root `package.json`, 20.16.0 today). Node 22's
+`common.gypi` defines `NOMINMAX`, which hides the `max` macro that the
+tray-icon addon uses. Use the pinned Node: put its folder first on
+PATH in the build shell (with nvm-windows,
+`export PATH=/c/ProgramData/nvm/v20.16.0:$PATH`), or `nvm use 20.16.0`.
+
+### Delphi shows "Duplicate GUID Found" when opening a project group
+
+Two `.dproj` in the group share a `ProjectGuid`, usually because one
+was copied from the other. Don't let the IDE generate a new one. It
+rewrites the `.dproj` in your tree without telling you. Give one of
+them a new GUID in source instead. `delphi-ce-build.sh` checks this
+before writing its group (see §4).
