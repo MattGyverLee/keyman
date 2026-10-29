@@ -135,13 +135,25 @@ Win32 and Win64 Search Path.
 with (`23.0` under Delphi 12, per `SourceRootPath.pas`), so build it under the
 same Delphi you'll open the projects in.
 
-**Put both package folders on `PATH`.** Builds install design-time packages into the
-IDE with `devtools -ip`: `windows/lib` (Keyman components) and `developer/lib` (JVCL
-docking, `developer_components`, `browse4folder`, `mbColorLibD10`). Delphi loads them at
-start-up, and Windows can only find the packages they depend on through `PATH`.
-[`windows.md`](windows.md) asks for `windows\lib`. Add `developer\lib` as well, or the IDE
-reports `Can't load package …\developer\lib\JvCoreDesign.bpl. The specified module could
-not be found.` (it cannot find `JvCore.bpl` next to it).
+**Put both package folders on `PATH`.** Builds install design-time packages into the IDE
+with `devtools -ip`, and Delphi loads them at start-up by full path. Windows finds the
+packages *they* require only through `PATH`. These are all of them (from the `-ip` calls in
+the `build.sh` scripts and the `requires` clause of each `.dpk`):
+
+| Installed package | Folder | Requires, besides Delphi's own packages |
+|---|---|---|
+| `keyman_components` | `windows\lib` | none |
+| `common_components`, `CEF4Delphi` | `common\windows\lib` | none |
+| `developer_components`, `browse4folder`, `mbColorLibD10`, `scFontCombo` | `developer\lib` | none |
+| `JvCoreDesign` | `developer\lib` | `JvCore` (`developer\lib`), `Jcl`, `JclVcl` (`developer\lib` in Release; Delphi's `$(BDSCOMMONDIR)\Bpl` in Debug) |
+| `JvDockingDesign` | `developer\lib` | `JvCoreDesign`, `JvDocking` (`developer\lib`) |
+
+So `developer\lib` must be on `PATH`, or the IDE reports `Can't load package
+…\developer\lib\JvCoreDesign.bpl. The specified module could not be found.` (it cannot find
+`JvCore.bpl` next to it). Delphi's installer already puts `$(BDSCOMMONDIR)\Bpl` on `PATH`.
+[`windows.md`](windows.md) also asks for `windows\lib`, and keeps it. No installed package
+requires one from there today, but removing it has not been tested. If you add a package
+that `requires` another Keyman package, add that package's folder here.
 
 ## 4. Building the Delphi projects under CE
 
