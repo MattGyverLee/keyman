@@ -48,7 +48,8 @@ run_builds() { # $1 = log name, rest = build dirs; prepare phase if KEYMAN_DELPH
 # with one build group per wave (CE-1, CE-2). Each build group row carries its own
 # platforms. No project depends on another: the IDE builds a project's dependencies
 # for every platform being built, so a chain would pull Win32-only tools into Win64.
-# The IDE builds a build group in the order the projects are listed.
+# The IDE builds a build group in the order the projects are listed. It needs the per-project
+# targets to list the projects, and reads the build groups from the conditional ItemGroups.
 write_group() {
   local list="$work/projects.txt" i n w t sfx all
   local -a names=() paths=() plats=() cfgs=() waves=() guids=()
@@ -57,7 +58,7 @@ write_group() {
               if (index(";"plat[k]";", ";"$3";")==0) plat[k]=(plat[k]==""?$3:plat[k]";"$3) }
          END { for (i=1;i<=n;i++) print key[i]"|"plat[key[i]]"|"cfg[key[i]]"|"wave[key[i]] }' \
     "$work"/pending-*.txt > "$list"
-  local path plat cfg wave
+  local path plat cfg wave guid
   while IFS='|' read -r path plat cfg wave; do
     # a build.sh may name a .dpr, or a path relative to another folder; the IDE needs
     # the .dproj, found by name in the recorded folder or below it
@@ -68,9 +69,11 @@ write_group() {
     # project of the same name (Desktop and Developer both have setup.dproj) is left out
     [[ " ${names[*]} " != *" $(basename "${path%.dproj}") "* ]] || {
       echo "A project named $(basename "$path") is already in the group; $path will fall back to its prompt." >&2; continue; }
+    guid="$(sed -n 's/.*<ProjectGuid>\([^<]*\)<.*/\1/p' "$path" | head -1)"
+    # a row with an empty GUID makes the IDE load no projects at all
+    [[ -n "$guid" ]] || { echo "No ProjectGuid in $path; it will fall back to its prompt." >&2; continue; }
     paths+=("$(cygpath -w "$path")"); names+=("$(basename "${path%.dproj}")")
-    plats+=("$plat"); cfgs+=("$cfg"); waves+=("$wave")
-    guids+=("$(sed -n 's/.*<ProjectGuid>\([^<]*\)<.*/\1/p' "$path" | head -1)")
+    plats+=("$plat"); cfgs+=("$cfg"); waves+=("$wave"); guids+=("$guid")
   done < "$list"
   n=${#paths[@]}
   # the IDE stops on a "Duplicate GUID" dialog, offering to rewrite one .dproj
@@ -95,18 +98,8 @@ write_group() {
     echo '        <Borland.ProjectType/>'
     echo '        <BorlandProject>'
     echo '            <Default.Personality/>'
-    echo '            <BuildGroups>'
-    for w in 1 2; do
-      echo "                <BuildGroup Name=\"CE-$w\" Active=\"$([[ $w == "$1" ]] && echo True || echo False)\">"
-      for ((i=0;i<n;i++)); do
-        echo "                    <BuildGroupProject Name=\"${paths[i]}\" ProjectGUID=\"${guids[i]}\" Configurations=\"${cfgs[i]}\" Platforms=\"${plats[i]}\" Enabled=\"$(enabled $i $w)\"/>"
-      done
-      echo '                </BuildGroup>'
-    done
-    echo '            </BuildGroups>'
     echo '        </BorlandProject>'
     echo '    </ProjectExtensions>'
-    # the IDE does not list the projects of a group file without these targets
     for t in "" :Clean :Make; do
       for ((i=0;i<n;i++)); do
         echo "    <Target Name=\"${names[i]}$t\">"
@@ -152,13 +145,13 @@ export KEYMAN_DELPHI_CE_PHASE=prepare
 export KEYMAN_DELPHI_CE_PENDING="$work/pending-raw-1.txt"
 run_builds prepare-1 "${WAVE1[@]}"
 sed 's/$/|1/' "$work/pending-raw-1.txt" > "$work/pending-1.txt"
-write_group 1
+write_group
 wait_click CE-1
 
 export KEYMAN_DELPHI_CE_PENDING="$work/pending-raw-2.txt"
 run_builds prepare-2 "$@"
 sed 's/$/|2/' "$work/pending-raw-2.txt" > "$work/pending-2.txt"
-write_group 2
+write_group
 wait_click CE-2
 
 unset KEYMAN_DELPHI_CE_PHASE KEYMAN_DELPHI_CE_PENDING

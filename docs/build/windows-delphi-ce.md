@@ -234,84 +234,16 @@ with one prompt (Developer `setup`). This was run on a working tree
 with a fresh session, so every Delphi compile was rebuilt. A run on a
 fresh clone has not been verified yet.
 
-### Faster iteration: script + IDE Build All (warm-state only)
+### Prompts skip output built in this run
 
-`delphi_msbuild` under `KEYMAN_DELPHI_CE=1` **auto-skips its prompt**
-when the project's output was written **during the same top-level
-`build.sh` run**. The output checked is where the `.dproj` really
-writes it: `DCC_ExeOutput` (usually `bin/<Platform>/<Config>/`) for an
-`.exe`/`.dll`, `DCC_BplOutput` (a `lib` folder) for a package `.bpl`.
-"Same run" means newer than a session marker created when the
-outermost `build.sh` starts and shared with every nested child and
-dependency `build.sh`; a new top-level run gets a new marker. Output
-from an earlier run, or from an IDE build done before you started the
-script, is never trusted — the prompt fires. On subsequent builds —
-where the previous build's `.res` files, codegen `.pas` files, and
-vendored `.bpl`s are all still on disk — this enables:
-
-1. From a terminal, kick off the shell build script for a subsystem
-   (e.g. `./windows/src/engine/build.sh build`). The first CE prompt
-   fires and blocks.
-2. Alt-Tab to Delphi 12 CE. Open the relevant project group:
-   * `windows/src/engine/engine.groupproj` — engine children (keyman,
-     kmcomapi, tsysinfo, tsysinfox64, insthelper; the group's
-     insthelper path is fixed by PR #16044).
-   * `windows/src/desktop/desktop.groupproj` — desktop children
-     (kmshell, kmbrowserhost, kmconfig, insthelp, setup).
-   * `developer/src/developer.groupproj` — TIKE, kmconvert,
-     developer/setup.
-3. Check Delphi's Config = **Debug** and Platform = **Win32** (or
-   Win64 for the 64-bit half of kmcomapi and for tsysinfox64), then
-   **Build All**. Every project in the group compiles once.
-4. Alt-Tab back to the terminal, press Enter to release the first
-   prompt.
-5. Each subsequent `delphi_msbuild` call in this run detects that
-   its output was written during the run and skips the prompt
-   automatically. Post-build steps
-   (`sentrytool_delphiprep`, `tds2dbg`, staging `cp`) run against the
-   pre-built binaries.
-
-**This flow only works when all Delphi inputs already exist on disk.**
-Delphi Build All can't fabricate the inputs the shell scripts
-generate:
-
-* `MessageIdentifierConsts.pas` (from `devtools -buildmessageconstants`
-  in `windows/src/global/delphi/build.sh`)
-* `Keyman.Setup.System.Locale.*.pas` (from `devtools -buildsetupstrings`
-  in `windows/src/desktop/setup/build.sh`)
-* `Keyman.System.Standards.BCP47*.pas` (from `build_standards_data/build.sh`)
-* `keyman_components.bpl`, `common_components.bpl`, `CEF4Delphi.bpl`
-  (from their respective `build.sh` scripts)
-* `tsysinfo_x64.res` (from tsysinfo/build.sh's tsysinfox64 → copy →
-  rc.exe chain)
-* `kbd_noicon.res` + `kmcomapi.tlb` (from kmcomapi/build.sh do_build)
-* Per-project `version.res` / `manifest.res` (from each `build.sh`'s
-  pre-build)
-
-**Fresh clone or after `git clean -fdx`**: use `delphi-ce-build.sh`
-(above), or walk the CE prompts one by one at least once. Each project's `build.sh` fires the
-pre-build steps that generate the inputs above; then the CE prompt
-fires; you Build in Delphi; script proceeds. **On the next build**
-(codegen outputs still present) you can switch to the Build All flow.
-
-If a project's output was not written during this run (missing, left
-over from an earlier run, or Delphi built to Release instead of
-Debug), the CE prompt still fires for that project — no risk of
-silent stale-output failures. So run Build All at the first prompt
-of the run, not before you start the script.
-
-**Caveat on engine.groupproj even for warm builds**: the group
-currently orders `tsysinfo` before `tsysinfox64`, so a bare Build All
-on the engine group fails on tsysinfo (missing `tsysinfo_x64.res`)
-unless `windows/src/engine/tsysinfo/build.sh` was run at least once
-first (which produces the `.res`).
-[#16192](https://github.com/keymanapp/keyman/issues/16192) proposes
-a reorder + pre-build event that would remove this caveat.
-
-If you prefer per-project prompts (e.g. debugging a single project
-in isolation, or a truly fresh clone), skip step 3 above — the
-script will prompt for each `.dproj` in dep order and you can Build
-them one at a time.
+Under `KEYMAN_DELPHI_CE=1`, `delphi_msbuild` skips its prompt when the
+project's output, at the path the `.dproj` writes it (`DCC_ExeOutput`
+for an `.exe`/`.dll`, `DCC_BplOutput` for a package), was written
+during the same top-level run: newer than a session marker the
+outermost `build.sh` creates and shares with every nested `build.sh`.
+Output from an earlier run, or from an IDE build done before the script
+started, is never trusted. This is what lets the route above, or an IDE
+Build All at the first prompt, skip the later prompts.
 
 ### Verify Configuration + Platform before every IDE build
 
@@ -567,15 +499,6 @@ You built kmcomapi (or another multi-platform Delphi package) with
 Delphi's Platform dropdown set to Win32 for both CE prompts. The
 second prompt is for Win64 — toggle the dropdown between the two
 prompts. See §4 "Multi-platform Delphi packages".
-
-### `TrayIcon.cpp: error C3861: 'max': identifier not found` (developer/src/server)
-
-Not specific to CE: Node is newer than the version Keyman pins
-(`engines.node` in the root `package.json`, 20.16.0 today). Node 22's
-`common.gypi` defines `NOMINMAX`, which hides the `max` macro that the
-tray-icon addon uses. Use the pinned Node: put its folder first on
-PATH in the build shell (with nvm-windows,
-`export PATH=/c/ProgramData/nvm/v20.16.0:$PATH`), or `nvm use 20.16.0`.
 
 ### Delphi shows "Duplicate GUID Found" when opening a project group
 

@@ -185,9 +185,8 @@ delphi_msbuild() {
     done
 
     # Skip prompt if the output was written earlier in this same top-level
-    # run — supports the "Build All in the .groupproj at the first prompt,
-    # then the remaining prompts skip themselves" workflow. Output from
-    # before this run is never trusted.
+    # run, which is what delphi-ce-build.sh and a Build All at the first prompt
+    # rely on. Output from before this run is never trusted.
     if _delphi_ce_output_newer_than "$project" "$platform" "$config" "$_KEYMAN_DELPHI_CE_SESSION"; then
       builder_echo "Delphi CE: $project ($platform) — output was built earlier in this run, skipping prompt."
       return 0
