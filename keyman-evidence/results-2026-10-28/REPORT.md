@@ -7,9 +7,9 @@ UNVERIFIED**. INCONCLUSIVE is never PASS. Evidence is in this folder; each line 
 
 | PR | Branch | Tip now | Was (start of day) |
 |---|---|---|---|
-| #16043 | chore/windows/delphi-11-12-compat | **4f42a2c9f3** | 9de382db06 |
-| #16044 | feat/windows/delphi-ce-workflow | **e11f229f53** | 09b2cbe558 |
-| #16191 | chore/windows/delphi-ce-guard | **e73e8a1290** | 331b0b3015 |
+| #16043 | chore/windows/delphi-11-12-compat | **dcefa58340** | 9de382db06 |
+| #16044 | feat/windows/delphi-ce-workflow | **d0bc028801** | 09b2cbe558 |
+| #16191 | chore/windows/delphi-ce-guard | **22512237d6** | 331b0b3015 |
 | #16490 | fix/windows/8064-stuck-modifier | f58d9da489 (unchanged) | |
 | #16527 | fix/windows/16462-osk-sticky-modifier | c923e1e89d (unchanged) | |
 
@@ -23,7 +23,7 @@ changed; nothing under `windows/`, `common/` or `core/`, so the fixed-arm result
   whose `CreateMutex` takes `DWORD`, and unpatched JclSynch fails. Without it, unpatched JclSynch builds. That is
   why Marc's machine never needed the patch. Bug, fix and Marc's case were each reproduced in a controlled run.
   **Done:** the guide now reads its paths from jedi/build.sh, and the JclSynch patch is removed. Verified by a
-  clean TIKE build. The JCL *packages* do not build on Delphi 12 (JclVcl: 109 Min/Max errors), so that needs a ruling.
+  clean TIKE build. The six JCL/JVCL packages, which 10.3's normal Developer build also builds, now build on Delphi 12. The fixes are JclSvcCtrl and JclGraphUtils, and the CE guide now has a PATH note for `developer\lib`.
 
 - **GH-8064 is fixed by the stack, and the A/B is clean.** Official 20.0.8 (code-identical to the
   fork base) FAILs the gate and the host32 repro 5/5. The signed dev 20.0.9 build of the stack PASSes

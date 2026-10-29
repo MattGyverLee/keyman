@@ -1,0 +1,34 @@
+﻿[09:29:53] prompt #1: developer/src/ext/jedi/Jcl.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\developer\lib\Jcl.bpl | C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\Jcl.bpl
+  selected Win32, Debug
+  building...
+  dismissed untitled IDE dialog class=TCENotificationDialog (OK clicked)
+  built: C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\Jcl.bpl (3028992 bytes, 09:30:30) after 12s; sending Enter
+[09:30:40] prompt #2: developer/src/ext/jedi/JclVcl.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\developer\lib\JclVcl.bpl | C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\JclVcl.bpl
+  selected Win32, Debug
+  building...
+C:\Users\thoua\AppData\Local\Temp\claude\C--Github-keyman\d9a7fe69-9d19-45db-b14c-33b3f7474856\scratchpad\shots\nobuild-2.png
+[09:32:10] prompt #2: developer/src/ext/jedi/JclVcl.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\developer\lib\JclVcl.bpl | C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\JclVcl.bpl
+  selected Win32, Debug
+  building...
+[09:34:29] prompt #2: developer/src/ext/jedi/JclVcl.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\developer\lib\JclVcl.bpl | C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\JclVcl.bpl
+  selected Win32, Debug
+  building...
+  built: C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\JclVcl.bpl (252928 bytes, 09:34:59) after 9s; sending Enter
+[09:35:10] prompt #3: developer/src/ext/jedi/JvCore.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\developer\lib\JvCore.bpl | C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\JvCore.bpl
+  selected Win32, Debug
+  building...
+  dismissed untitled IDE dialog class=TCENotificationDialog (OK clicked)
+  built: C:\Github\keyman-test-merge2\developer\lib\JvCore.bpl (1931776 bytes, 09:35:45) after 12s; sending Enter
+[09:35:55] prompt #4: developer/src/ext/jedi/JvCoreDesign.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\developer\lib\JvCoreDesign.bpl | C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\JvCoreDesign.bpl
+  selected Win32, Debug
+  building...
+  built: C:\Github\keyman-test-merge2\developer\lib\JvCoreDesign.bpl (395264 bytes, 09:36:29) after 9s; sending Enter
+[09:36:39] prompt #5: developer/src/ext/jedi/JvDocking.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\developer\lib\JvDocking.bpl | C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\JvDocking.bpl
+  selected Win32, Debug
+  building...
+  built: C:\Github\keyman-test-merge2\developer\lib\JvDocking.bpl (598016 bytes, 09:37:13) after 9s; sending Enter
+[09:37:24] prompt #6: developer/src/ext/jedi/JvDockingDesign.dproj (Win32, Debug) -> expect one of: C:\Github\keyman-test-merge2\developer\lib\JvDockingDesign.bpl | C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\JvDockingDesign.bpl
+  selected Win32, Debug
+  building...
+  built: C:\Github\keyman-test-merge2\developer\lib\JvDockingDesign.bpl (51712 bytes, 09:37:55) after 9s; sending Enter
+build.sh finished: exit 0
