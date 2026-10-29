@@ -1,22 +1,20 @@
 #!/usr/bin/env bash
 #
 # Delphi Community Edition route: build the given top-level targets with one IDE
-# build per wave (two in all) instead of one prompt per Delphi project. Everything
-# else runs unattended, from the same build.sh scripts, in the same order as CI.
+# build per wave instead of one prompt per Delphi project. Everything else runs
+# unattended, from the same build.sh scripts, in the same order as CI.
 # The IDE still shows its CE notification during a long build; click OK to go on.
 #
 #   resources/build/win/delphi-ce-build.sh windows/src developer/src
 #
-# 1. Prepare, wave 1: run the tool scripts whose outputs other scripts' pre-steps
-#    use. With KEYMAN_DELPHI_CE_PHASE=prepare each script runs its pre-steps,
-#    records its Delphi projects, and stops at its first compile not yet built.
-# 2. Click 1: in the generated project group, build the build group "CE-1".
-# 3. Prepare, wave 2: run the targets. The tools now exist, so their codegen runs;
-#    every other script stops at its first compile, its projects recorded.
-# 4. Click 2: reopen the regenerated group (the IDE does not notice the rewrite)
-#    and build the build group "CE-2".
-# 5. Finish: run the targets' build.sh normally. Every Delphi compile built since
-#    step 1 is skipped; any compile the groups missed falls back to its usual prompt.
+# Each wave: run some build.sh scripts with KEYMAN_DELPHI_CE_PHASE=prepare, so each
+# runs its pre-steps, records its Delphi projects, and stops at its first compile not
+# yet built; then build that wave's build group ("CE-<n>") in the generated project
+# group, reopening it each time (the IDE does not notice the rewrite). The scripts in
+# EARLY each get a wave of their own, because later pre-steps run what they build;
+# the targets get the last wave. A wave with nothing to build is skipped.
+# Finish: run the targets' build.sh normally. Every Delphi compile built since the
+# start is skipped; any compile the groups missed falls back to its usual prompt.
 #
 set -eu
 [[ $# -gt 0 ]] || { echo "usage: $0 <build dir relative to KEYMAN_ROOT>..." >&2; exit 2; }
@@ -24,10 +22,10 @@ set -eu
 [[ "${KEYMAN_DELPHI_CE:-}" == "1" ]] || { echo "This route is for Delphi CE: export KEYMAN_DELPHI_CE=1" >&2; exit 2; }
 unset NoDefaultCurrentDirectoryInExePath
 
-# Tool scripts whose outputs other scripts' pre-steps run (devtools codegen, the
-# standards data, the tsysinfox64 resource). If one is missing, wave 2 fails loudly
-# at that pre-step rather than building on a stale or missing input.
-WAVE1=(common/windows/delphi/tools windows/src/engine/tsysinfox64)
+# In dependency order: later pre-steps run devtools and the other tools (the
+# tsysinfox64 dependency build among them), and tsysinfo's pre-step runs tsysinfox64.
+# If one is missing, a later wave fails loudly at that pre-step.
+EARLY=(common/windows/delphi/tools windows/src/engine/tsysinfox64)
 
 work="$(mktemp -d)"
 export KEYMAN_DELPHI_CE_SESSION="$work/session"
@@ -45,7 +43,7 @@ run_builds() { # $1 = log name, rest = build dirs; prepare phase if KEYMAN_DELPH
 }
 
 # Writes the project group: every recorded project once, in recorded (CI) order,
-# with one build group per wave (CE-1, CE-2). Each build group row carries its own
+# with one build group per wave (CE-<n>). Each build group row carries its own
 # platforms. No project depends on another: the IDE builds a project's dependencies
 # for every platform being built, so a chain would pull Win32-only tools into Win64.
 # The IDE builds a build group in the order the projects are listed. It needs the per-project
@@ -115,7 +113,8 @@ write_group() {
       echo '    </Target>'
     done
     echo '    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('"'"'$(BDS)\Bin\CodeGear.Group.Targets'"'"')"/>'
-    for w in 1 2; do
+    for w in $(printf '%s
+' "${waves[@]}" | sort -un); do
       echo "    <ItemGroup Condition=\"'\$(BuildGroup)'=='CE-$w'\">"
       for ((i=0;i<n;i++)); do
         echo "        <BuildGroupProject Include=\"${paths[i]}\">"
@@ -141,18 +140,21 @@ wait_click() { # $1 = build group name
   read -r _ || { echo "No Enter received (stdin closed): stopping." >&2; exit 1; }
 }
 
-export KEYMAN_DELPHI_CE_PHASE=prepare
-export KEYMAN_DELPHI_CE_PENDING="$work/pending-raw-1.txt"
-run_builds prepare-1 "${WAVE1[@]}"
-sed 's/$/|1/' "$work/pending-raw-1.txt" > "$work/pending-1.txt"
-write_group
-wait_click CE-1
+wave=0
+prepare_wave() { # build dirs; records their compiles and asks for one IDE build of them
+  wave=$((wave + 1))
+  export KEYMAN_DELPHI_CE_PENDING="$work/pending-raw-$wave.txt"
+  : > "$KEYMAN_DELPHI_CE_PENDING"
+  run_builds "prepare-$wave" "$@"
+  sed "s/\$/|$wave/" "$KEYMAN_DELPHI_CE_PENDING" > "$work/pending-$wave.txt"
+  [[ -s "$work/pending-$wave.txt" ]] || { echo "Wave $wave: nothing to build."; return 0; }
+  write_group
+  wait_click "CE-$wave"
+}
 
-export KEYMAN_DELPHI_CE_PENDING="$work/pending-raw-2.txt"
-run_builds prepare-2 "$@"
-sed 's/$/|2/' "$work/pending-raw-2.txt" > "$work/pending-2.txt"
-write_group
-wait_click CE-2
+export KEYMAN_DELPHI_CE_PHASE=prepare
+for d in "${EARLY[@]}"; do prepare_wave "$d"; done
+prepare_wave "$@"
 
 unset KEYMAN_DELPHI_CE_PHASE KEYMAN_DELPHI_CE_PENDING
 echo "=== Finish: the normal build, CI order; Delphi compiles built since the start are skipped."
