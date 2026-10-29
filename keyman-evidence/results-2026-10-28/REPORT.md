@@ -116,13 +116,13 @@ clean contributor machine.
 
 ## E–G
 - **E .gitignore:** PASS (`git-checks.md`).
-- **F.16 links:** FAIL (17 relative PR-body links, 1 malformed). Not edited, by rule. **Your ruling.**
+- **F.16 links:** fixed 2026-10-29. The refreshed PR bodies use code spans for paths and absolute links
+  for evidence; no relative links remain.
 - **F.17/G.1 batch truncation:** known behaviour, PASS as recorded.
 - **F.18 user-held signal:** open. OSK-4/5/6 are the hand tests for it.
 - **F.19** closed. **F.20:** PASS for the mechanism.
-- **F.21 PR bodies:** **stale.** #16044/#16191 still describe the old `.dpr` freshness rule and the old §5,
-  and #16043 does not mention fixes 5–7. Not edited, by rule. Bring them up to date when you reopen
-  the PRs.
+- **F.21 PR bodies:** refreshed 2026-10-29 at Matthew's request (bodies only; the PRs stay closed, no
+  comments). Before and after: `pr-bodies-2026-10-29/`.
 
 ## Machine state left behind (all reversible)
 - Engine DLLs: `keyman32.dll` and `keyman64.dll` in the installed Keyman Engine folder are the
