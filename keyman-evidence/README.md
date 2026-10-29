@@ -23,7 +23,7 @@ is not lost when the evidence logs are removed from the PR branches.
   - `issues/` — paste-ready drafts for follow-on issues
     (init-hooks return discarded, PostKeys pair-splitting).
     They are drafts, not filed issues, until someone files them.
-  - `host32/`, `run-8064-test.ps1`, `stuck-mod-test.ps1`,
+  - `host32/`, `stuck-mod-test.ps1`,
     `deploy-8064.ps1`, `README.md` — the tools and scripts
     themselves, copied so this snapshot is self-contained.
     The live, maintained copies stay in the PR branches under
@@ -71,7 +71,7 @@ Stayed in the PR branches, because they are rerunnable:
 the production code, the automated tests
 (`windows/src/engine/keyman32/tests/keybd_shift.tests.cpp`
 and `keybd_shift.interactive.tests.cpp`), the manual-test
-scripts (`stuck-mod-test.ps1`, `run-8064-test.ps1`,
+scripts (`stuck-mod-test.ps1`,
 `watch-modifiers.ps1`, `deploy-8064.ps1`), the probe tools
 (`host32/`, `fakefreeze`), and the manual-test READMEs.
 
@@ -89,8 +89,7 @@ scripts (`stuck-mod-test.ps1`, `run-8064-test.ps1`,
   remain the main documentation for the manual tests
   themselves, including preconditions, hazards, and oracles.
   The script headers (`stuck-mod-test.ps1`,
-  `watch-modifiers.ps1`, `deploy-8064.ps1`,
-  `run-8064-test.ps1`) also carry their own usage and
+  `watch-modifiers.ps1`, `deploy-8064.ps1`) also carry their own usage and
   exit-code contracts — read the header before running
   a script, not just the folder README.
 
