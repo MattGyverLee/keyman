@@ -7,14 +7,14 @@
 #
 #   resources/build/win/delphi-ce-build.sh windows/src developer/src
 #
-# Each wave: run some build.sh scripts with KEYMAN_DELPHI_CE_PHASE=prepare, so each
-# runs its pre-steps, records its Delphi projects, and stops at its first compile not
-# yet built; then build that wave's build group ("CE-<n>") in the generated project
-# group, reopening it each time (the IDE does not notice the rewrite). The scripts in
-# EARLY each get a wave of their own, because later pre-steps run what they build;
-# the targets get the last wave. A wave with nothing to build is skipped.
-# Finish: run the targets' build.sh normally. Every Delphi compile built since the
-# start is skipped; any compile the groups missed falls back to its usual prompt.
+# Each wave: run some build.sh scripts in prepare mode, so each runs its pre-steps,
+# records its Delphi projects and stops at its first compile not yet built; build
+# that wave's build group ("CE-<n>") in the generated project group, reopening it
+# each time (the IDE does not notice the rewrite); then run the same scripts normally.
+# The normal run skips every compile built since the start and runs the post-steps
+# that prepare stopped short of; a compile the group missed gets its usual prompt.
+# The scripts in EARLY each get a wave of their own, because later pre-steps run what
+# they build. The targets get the last wave, and its normal run is the finish.
 #
 set -eu
 [[ $# -gt 0 ]] || { echo "usage: $0 <build dir relative to KEYMAN_ROOT>..." >&2; exit 2; }
@@ -33,12 +33,12 @@ export KEYMAN_DELPHI_CE_SESSION="$work/session"
 group="$work/keyman-ce.groupproj"
 group_win="$(cygpath -w "$group")"
 
-run_builds() { # $1 = log name, rest = build dirs; prepare phase if KEYMAN_DELPHI_CE_PHASE is set
-  local log="$work/$1.log" d; shift
+run_prepare() { # $1 = wave, rest = build dirs
+  local w=$1 d; shift
   for d in "$@"; do
-    echo "--- $d/build.sh build ($(date +%H:%M:%S))"
-    ( cd "$KEYMAN_ROOT/$d" && ./build.sh build < /dev/null ) >> "$log" 2>&1 || {
-      echo "FAILED: $d/build.sh build -- see $log" >&2; tail -20 "$log" >&2; exit 1; }
+    echo "--- prepare $d ($(date +%H:%M:%S))"
+    ( cd "$KEYMAN_ROOT/$d" && KEYMAN_DELPHI_CE_PHASE=prepare KEYMAN_DELPHI_CE_PENDING="$work/pending-raw-$w.txt" ./build.sh build < /dev/null ) >> "$work/prepare-$w.log" 2>&1 || {
+      echo "FAILED: prepare $d -- see $work/prepare-$w.log" >&2; tail -20 "$work/prepare-$w.log" >&2; exit 1; }
   done
 }
 
@@ -140,26 +140,20 @@ wait_click() { # $1 = build group name
   read -r _ || { echo "No Enter received (stdin closed): stopping." >&2; exit 1; }
 }
 
-wave=0
-prepare_wave() { # build dirs; records their compiles and asks for one IDE build of them
-  wave=$((wave + 1))
-  export KEYMAN_DELPHI_CE_PENDING="$work/pending-raw-$wave.txt"
-  : > "$KEYMAN_DELPHI_CE_PENDING"
-  run_builds "prepare-$wave" "$@"
-  sed "s/\$/|$wave/" "$KEYMAN_DELPHI_CE_PENDING" > "$work/pending-$wave.txt"
-  [[ -s "$work/pending-$wave.txt" ]] || { echo "Wave $wave: nothing to build."; return 0; }
-  write_group
-  wait_click "CE-$wave"
+wave() { # build dirs
+  w=$((w + 1))
+  : > "$work/pending-raw-$w.txt"
+  run_prepare "$w" "$@"
+  sed "s/\$/|$w/" "$work/pending-raw-$w.txt" > "$work/pending-$w.txt"
+  if [[ -s "$work/pending-$w.txt" ]]; then write_group; wait_click "CE-$w"; else echo "Wave $w: nothing to build."; fi
+  local d
+  for d in "$@"; do
+    echo "--- $d/build.sh build"
+    ( cd "$KEYMAN_ROOT/$d" && ./build.sh build )
+  done
 }
 
-export KEYMAN_DELPHI_CE_PHASE=prepare
-for d in "${EARLY[@]}"; do prepare_wave "$d"; done
-prepare_wave "$@"
-
-unset KEYMAN_DELPHI_CE_PHASE KEYMAN_DELPHI_CE_PENDING
-echo "=== Finish: the normal build, CI order; Delphi compiles built since the start are skipped."
-for d in "$@"; do
-  echo "--- $d/build.sh build"
-  ( cd "$KEYMAN_ROOT/$d" && ./build.sh build )
-done
+w=0
+for d in "${EARLY[@]}"; do wave "$d"; done
+wave "$@"
 echo "Delphi CE route complete. Work files: $work"
