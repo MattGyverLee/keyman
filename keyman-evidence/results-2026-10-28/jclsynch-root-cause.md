@@ -129,3 +129,6 @@ never been built on Delphi 12 in this stack, because TIKE compiles JCL/JVCL from
   build gave Success, 522 units (`logs/jclsynch-root-cause/run-E-…`). TIKE does not compile JclGraphUtils.
 - Pushed: #16043 **dcefa58340**, #16044 **d0bc028801**, #16191 **22512237d6** (the #16191 layer patch-id is
   unchanged, 15d4bd60644b). test2 a1a8cf91a5.
+
+## PATH folders for design packages, derived 2026-10-29
+Recorded as a table in the CE guide section 3 (#16044 32c5b33142). Of the nine packages the build installs into the IDE, only JvCoreDesign and JvDockingDesign require Keyman-built packages, all in `developer\lib`. So `developer\lib` is the folder that must be on PATH (Debug Jcl/JclVcl are in BDSCOMMONDIR\Bpl, which the Delphi installer puts on PATH). windows.md's `windows\lib` is not required by any package's requires clause today, but is kept because removing it is untested.
