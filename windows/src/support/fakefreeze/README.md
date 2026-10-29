@@ -53,6 +53,6 @@ of the test, not an accident.
 
 - `windows/src/test/manual-tests/GH-8064 - stuck-modifier-phantom-keydown/`
   — the GH-8064 manual test, its README, `host32.exe`,
-  `run-8064-test.ps1`, and `stuck-mod-test.ps1 -Gate`.
+  and `stuck-mod-test.ps1 -Gate`.
 - `LowLevelHookWatchDog.cpp` in the engine — see that file
   for more detail on the watchdog mechanism itself.
