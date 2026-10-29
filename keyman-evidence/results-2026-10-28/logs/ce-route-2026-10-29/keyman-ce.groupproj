@@ -1,0 +1,1178 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{6D3C2A57-0C9E-4B71-9E52-5E1F4A7C0CE1}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="C:\Github\keyman-test-merge2\common\windows\delphi\tools\build_standards_data\build_standards_data.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\common\windows\delphi\tools\buildunidata\buildunidata.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\common\windows\delphi\tools\devtools\devtools.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\common\windows\delphi\tools\sentrytool\Test\sentrytoolTests.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\common\windows\delphi\tools\sentrytool\sentrytool.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\common\windows\delphi\tools\test-klog\test_klog.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\common\windows\delphi\tools\verify_signatures\verify_signatures.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\windows\src\engine\tsysinfox64\tsysinfox64.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\windows\src\engine\insthelper\insthelper.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\windows\src\engine\keyman\keyman.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\windows\src\engine\kmcomapi\kmcomapi.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\windows\src\engine\tsysinfo\tsysinfo.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\windows\src\desktop\kmbrowserhost\kmbrowserhost.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\windows\src\desktop\kmconfig\kmconfig.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\windows\src\desktop\kmshell\kmshell.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\windows\src\desktop\setup\setup.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\windows\src\desktop\insthelp\insthelp.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\windows\src\global\delphi\keyman_components.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\windows\src\support\oskbulkrenderer\oskbulkrenderer.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\androidstringtokeymanlocalestring\AndroidStringToKeymanLocaleString.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\group-helper-rsp19902\RegExGroupHelperRSP19902TestSuite.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\jsonutil\JsonUtilTests.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\delphi\delphishareddata.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\standards-data\standardsdata.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\windows-setup\WindowsSetupTest.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\ui-language-manager\UILanguageManagerTest.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\developer\src\common\delphi\components\developer_components.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\developer\src\ext\browse4folder\browse4folder.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\Jcl.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JclVcl.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvCore.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvCoreDesign.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvDocking.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvDockingDesign.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\developer\src\ext\mbcolor\mbColorLibD10.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\developer\src\ext\scfontcombobox\scFontCombo.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\developer\src\kmdbrowserhost\kmdbrowserhost.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\developer\src\kmconvert\kmconvert.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\developer\src\kmconvert\test\kmconverttest.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\developer\src\test\auto\keyboard-js-info\KeyboardJSInfoTestSuite.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\developer\src\test\auto\kmx-file-languages\KMXFileLanguagesTestSuite.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\developer\src\test\auto\model-ts-parser\ModelTsParserTest.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\developer\src\test\auto\package-info\PackageInfoTestSuite.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Github\keyman-test-merge2\developer\src\tike\tike.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+            <BuildGroups>
+                <BuildGroup Name="CE-1" Active="False">
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\common\windows\delphi\tools\build_standards_data\build_standards_data.dproj" ProjectGUID="{1AD91C23-D720-4EB6-8A90-1C60FFB2FAAD}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\common\windows\delphi\tools\buildunidata\buildunidata.dproj" ProjectGUID="{9D6E88A8-115B-448D-AFA0-686C83F965E4}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\common\windows\delphi\tools\devtools\devtools.dproj" ProjectGUID="{49F05380-7150-4925-A5AF-81382713F77E}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\common\windows\delphi\tools\sentrytool\Test\sentrytoolTests.dproj" ProjectGUID="{AEB65821-6895-4E67-ADA6-7818343D3CA3}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\common\windows\delphi\tools\sentrytool\sentrytool.dproj" ProjectGUID="{61118C12-2C1C-4A77-9DAB-95304B37101E}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\common\windows\delphi\tools\test-klog\test_klog.dproj" ProjectGUID="{9D5B1799-B1BC-4892-9584-F0DD1DBB6C78}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\common\windows\delphi\tools\verify_signatures\verify_signatures.dproj" ProjectGUID="{A6DCA558-8DD0-4FFF-8DAE-F305AB8D2AF4}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\engine\tsysinfox64\tsysinfox64.dproj" ProjectGUID="{7205C254-6B8A-4F72-9B7F-08216A8798CF}" Configurations="Debug" Platforms="Win64" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\engine\insthelper\insthelper.dproj" ProjectGUID="{47B3274B-FC3D-4BB6-94B6-98F61D2CD47B}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\engine\keyman\keyman.dproj" ProjectGUID="{8A30F2CD-9C25-4776-BAEB-446AC989A941}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\engine\kmcomapi\kmcomapi.dproj" ProjectGUID="{A20773C5-2124-434E-9F3C-27DC9EBC85EE}" Configurations="Debug" Platforms="Win32;Win64" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\engine\tsysinfo\tsysinfo.dproj" ProjectGUID="{3794F00C-901D-4D12-B785-1FEF49456489}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\desktop\kmbrowserhost\kmbrowserhost.dproj" ProjectGUID="{C78BCA95-4D5F-48DA-A878-65CA22128BFC}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\desktop\kmconfig\kmconfig.dproj" ProjectGUID="{6C5626E9-4DA0-4A60-93CB-D5BDE0B3D29E}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\desktop\kmshell\kmshell.dproj" ProjectGUID="{268FF8CC-8BC1-4A99-954F-32A4554E8B79}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\desktop\setup\setup.dproj" ProjectGUID="{6199E379-0539-4702-AD8B-97B3859C16EC}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\desktop\insthelp\insthelp.dproj" ProjectGUID="{03239CFF-D2B4-40AC-BBA7-803244F4ACDD}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\global\delphi\keyman_components.dproj" ProjectGUID="{F82A51EA-92DE-4D68-AFDF-D2989BC8FE7C}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\support\oskbulkrenderer\oskbulkrenderer.dproj" ProjectGUID="{1495BC62-612D-4669-9965-05CF15036E7B}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\androidstringtokeymanlocalestring\AndroidStringToKeymanLocaleString.dproj" ProjectGUID="{121A6269-ECE8-49E9-A61F-5CA90A05E4D7}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\group-helper-rsp19902\RegExGroupHelperRSP19902TestSuite.dproj" ProjectGUID="{9FD6D70F-1C07-4AE3-9A3C-84A1160D15D4}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\jsonutil\JsonUtilTests.dproj" ProjectGUID="{35F0D7A1-F93D-46BC-913D-5C47E5123C35}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\delphi\delphishareddata.dproj" ProjectGUID="{A74921AA-B928-4BC2-AB82-112730E1BD72}" Configurations="Debug" Platforms="Win32;Win64" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\standards-data\standardsdata.dproj" ProjectGUID="{AB209170-4E96-402C-99F4-109CA703A1DF}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\windows-setup\WindowsSetupTest.dproj" ProjectGUID="{206EED94-2B40-4658-B643-A34D02D17F43}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\ui-language-manager\UILanguageManagerTest.dproj" ProjectGUID="{7B96D06E-0D11-42C7-9F89-0E9089D61DB8}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\common\delphi\components\developer_components.dproj" ProjectGUID="{07B49B5D-DCB7-4CAA-BFB2-677600659E4E}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\ext\browse4folder\browse4folder.dproj" ProjectGUID="{5DC6633B-FD33-4615-95B5-2053B949C099}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\Jcl.dproj" ProjectGUID="{44DB645B-C167-410D-9334-38AF9F0C7913}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JclVcl.dproj" ProjectGUID="{EB88BAFD-FD11-4F14-A6F6-9036D67B1F8F}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvCore.dproj" ProjectGUID="{CCA5391F-35F6-43D1-AB48-187085D1EF5B}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvCoreDesign.dproj" ProjectGUID="{F38F1718-D90B-4E0A-AACD-D34077DBBF15}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvDocking.dproj" ProjectGUID="{45F663F1-EF6E-436F-AE8A-85B96C6EE41E}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvDockingDesign.dproj" ProjectGUID="{2EE6377F-B2BB-4036-87FA-15C2DEC8BFFE}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\ext\mbcolor\mbColorLibD10.dproj" ProjectGUID="{4A376810-7A35-43F1-8A56-C04A8AA99FBF}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\ext\scfontcombobox\scFontCombo.dproj" ProjectGUID="{E1958C83-D175-4B1A-B01B-C951926D7D87}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\kmdbrowserhost\kmdbrowserhost.dproj" ProjectGUID="{313AA9F5-5489-40B3-A0C2-744DFF3A0B84}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\kmconvert\kmconvert.dproj" ProjectGUID="{57C21638-FB93-415F-BBF4-49A39281715C}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\kmconvert\test\kmconverttest.dproj" ProjectGUID="{7DD6800D-AC26-4A06-81A7-2818448FE4B9}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\test\auto\keyboard-js-info\KeyboardJSInfoTestSuite.dproj" ProjectGUID="{231E46DD-7A38-4D9B-BA20-163B0ECB6B17}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\test\auto\kmx-file-languages\KMXFileLanguagesTestSuite.dproj" ProjectGUID="{A9388625-2992-4E7C-9AE8-4B2A25BC30E3}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\test\auto\model-ts-parser\ModelTsParserTest.dproj" ProjectGUID="{0158CB55-B9BC-4F32-B860-FD6073AE2EB7}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\test\auto\package-info\PackageInfoTestSuite.dproj" ProjectGUID="{D450A640-6394-4474-BBBA-69C83A571086}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\tike\tike.dproj" ProjectGUID="{82E04599-9378-4816-B0AB-8AB58BD307B3}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                </BuildGroup>
+                <BuildGroup Name="CE-2" Active="True">
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\common\windows\delphi\tools\build_standards_data\build_standards_data.dproj" ProjectGUID="{1AD91C23-D720-4EB6-8A90-1C60FFB2FAAD}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\common\windows\delphi\tools\buildunidata\buildunidata.dproj" ProjectGUID="{9D6E88A8-115B-448D-AFA0-686C83F965E4}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\common\windows\delphi\tools\devtools\devtools.dproj" ProjectGUID="{49F05380-7150-4925-A5AF-81382713F77E}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\common\windows\delphi\tools\sentrytool\Test\sentrytoolTests.dproj" ProjectGUID="{AEB65821-6895-4E67-ADA6-7818343D3CA3}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\common\windows\delphi\tools\sentrytool\sentrytool.dproj" ProjectGUID="{61118C12-2C1C-4A77-9DAB-95304B37101E}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\common\windows\delphi\tools\test-klog\test_klog.dproj" ProjectGUID="{9D5B1799-B1BC-4892-9584-F0DD1DBB6C78}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\common\windows\delphi\tools\verify_signatures\verify_signatures.dproj" ProjectGUID="{A6DCA558-8DD0-4FFF-8DAE-F305AB8D2AF4}" Configurations="Debug" Platforms="Win32" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\engine\tsysinfox64\tsysinfox64.dproj" ProjectGUID="{7205C254-6B8A-4F72-9B7F-08216A8798CF}" Configurations="Debug" Platforms="Win64" Enabled="False"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\engine\insthelper\insthelper.dproj" ProjectGUID="{47B3274B-FC3D-4BB6-94B6-98F61D2CD47B}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\engine\keyman\keyman.dproj" ProjectGUID="{8A30F2CD-9C25-4776-BAEB-446AC989A941}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\engine\kmcomapi\kmcomapi.dproj" ProjectGUID="{A20773C5-2124-434E-9F3C-27DC9EBC85EE}" Configurations="Debug" Platforms="Win32;Win64" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\engine\tsysinfo\tsysinfo.dproj" ProjectGUID="{3794F00C-901D-4D12-B785-1FEF49456489}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\desktop\kmbrowserhost\kmbrowserhost.dproj" ProjectGUID="{C78BCA95-4D5F-48DA-A878-65CA22128BFC}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\desktop\kmconfig\kmconfig.dproj" ProjectGUID="{6C5626E9-4DA0-4A60-93CB-D5BDE0B3D29E}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\desktop\kmshell\kmshell.dproj" ProjectGUID="{268FF8CC-8BC1-4A99-954F-32A4554E8B79}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\desktop\setup\setup.dproj" ProjectGUID="{6199E379-0539-4702-AD8B-97B3859C16EC}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\desktop\insthelp\insthelp.dproj" ProjectGUID="{03239CFF-D2B4-40AC-BBA7-803244F4ACDD}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\global\delphi\keyman_components.dproj" ProjectGUID="{F82A51EA-92DE-4D68-AFDF-D2989BC8FE7C}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\support\oskbulkrenderer\oskbulkrenderer.dproj" ProjectGUID="{1495BC62-612D-4669-9965-05CF15036E7B}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\androidstringtokeymanlocalestring\AndroidStringToKeymanLocaleString.dproj" ProjectGUID="{121A6269-ECE8-49E9-A61F-5CA90A05E4D7}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\group-helper-rsp19902\RegExGroupHelperRSP19902TestSuite.dproj" ProjectGUID="{9FD6D70F-1C07-4AE3-9A3C-84A1160D15D4}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\jsonutil\JsonUtilTests.dproj" ProjectGUID="{35F0D7A1-F93D-46BC-913D-5C47E5123C35}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\delphi\delphishareddata.dproj" ProjectGUID="{A74921AA-B928-4BC2-AB82-112730E1BD72}" Configurations="Debug" Platforms="Win32;Win64" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\standards-data\standardsdata.dproj" ProjectGUID="{AB209170-4E96-402C-99F4-109CA703A1DF}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\windows-setup\WindowsSetupTest.dproj" ProjectGUID="{206EED94-2B40-4658-B643-A34D02D17F43}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\ui-language-manager\UILanguageManagerTest.dproj" ProjectGUID="{7B96D06E-0D11-42C7-9F89-0E9089D61DB8}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\common\delphi\components\developer_components.dproj" ProjectGUID="{07B49B5D-DCB7-4CAA-BFB2-677600659E4E}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\ext\browse4folder\browse4folder.dproj" ProjectGUID="{5DC6633B-FD33-4615-95B5-2053B949C099}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\Jcl.dproj" ProjectGUID="{44DB645B-C167-410D-9334-38AF9F0C7913}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JclVcl.dproj" ProjectGUID="{EB88BAFD-FD11-4F14-A6F6-9036D67B1F8F}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvCore.dproj" ProjectGUID="{CCA5391F-35F6-43D1-AB48-187085D1EF5B}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvCoreDesign.dproj" ProjectGUID="{F38F1718-D90B-4E0A-AACD-D34077DBBF15}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvDocking.dproj" ProjectGUID="{45F663F1-EF6E-436F-AE8A-85B96C6EE41E}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvDockingDesign.dproj" ProjectGUID="{2EE6377F-B2BB-4036-87FA-15C2DEC8BFFE}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\ext\mbcolor\mbColorLibD10.dproj" ProjectGUID="{4A376810-7A35-43F1-8A56-C04A8AA99FBF}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\ext\scfontcombobox\scFontCombo.dproj" ProjectGUID="{E1958C83-D175-4B1A-B01B-C951926D7D87}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\kmdbrowserhost\kmdbrowserhost.dproj" ProjectGUID="{313AA9F5-5489-40B3-A0C2-744DFF3A0B84}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\kmconvert\kmconvert.dproj" ProjectGUID="{57C21638-FB93-415F-BBF4-49A39281715C}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\kmconvert\test\kmconverttest.dproj" ProjectGUID="{7DD6800D-AC26-4A06-81A7-2818448FE4B9}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\test\auto\keyboard-js-info\KeyboardJSInfoTestSuite.dproj" ProjectGUID="{231E46DD-7A38-4D9B-BA20-163B0ECB6B17}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\test\auto\kmx-file-languages\KMXFileLanguagesTestSuite.dproj" ProjectGUID="{A9388625-2992-4E7C-9AE8-4B2A25BC30E3}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\test\auto\model-ts-parser\ModelTsParserTest.dproj" ProjectGUID="{0158CB55-B9BC-4F32-B860-FD6073AE2EB7}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\test\auto\package-info\PackageInfoTestSuite.dproj" ProjectGUID="{D450A640-6394-4474-BBBA-69C83A571086}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                    <BuildGroupProject Name="C:\Github\keyman-test-merge2\developer\src\tike\tike.dproj" ProjectGUID="{82E04599-9378-4816-B0AB-8AB58BD307B3}" Configurations="Debug" Platforms="Win32" Enabled="True"/>
+                </BuildGroup>
+            </BuildGroups>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="build_standards_data">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\common\windows\delphi\tools\build_standards_data\build_standards_data.dproj"/>
+    </Target>
+    <Target Name="buildunidata">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\common\windows\delphi\tools\buildunidata\buildunidata.dproj"/>
+    </Target>
+    <Target Name="devtools">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\common\windows\delphi\tools\devtools\devtools.dproj"/>
+    </Target>
+    <Target Name="sentrytoolTests">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\common\windows\delphi\tools\sentrytool\Test\sentrytoolTests.dproj"/>
+    </Target>
+    <Target Name="sentrytool">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\common\windows\delphi\tools\sentrytool\sentrytool.dproj"/>
+    </Target>
+    <Target Name="test_klog">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\common\windows\delphi\tools\test-klog\test_klog.dproj"/>
+    </Target>
+    <Target Name="verify_signatures">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\common\windows\delphi\tools\verify_signatures\verify_signatures.dproj"/>
+    </Target>
+    <Target Name="tsysinfox64">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\engine\tsysinfox64\tsysinfox64.dproj"/>
+    </Target>
+    <Target Name="insthelper">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\engine\insthelper\insthelper.dproj"/>
+    </Target>
+    <Target Name="keyman">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\engine\keyman\keyman.dproj"/>
+    </Target>
+    <Target Name="kmcomapi">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\engine\kmcomapi\kmcomapi.dproj"/>
+    </Target>
+    <Target Name="tsysinfo">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\engine\tsysinfo\tsysinfo.dproj"/>
+    </Target>
+    <Target Name="kmbrowserhost">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\desktop\kmbrowserhost\kmbrowserhost.dproj"/>
+    </Target>
+    <Target Name="kmconfig">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\desktop\kmconfig\kmconfig.dproj"/>
+    </Target>
+    <Target Name="kmshell">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\desktop\kmshell\kmshell.dproj"/>
+    </Target>
+    <Target Name="setup">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\desktop\setup\setup.dproj"/>
+    </Target>
+    <Target Name="insthelp">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\desktop\insthelp\insthelp.dproj"/>
+    </Target>
+    <Target Name="keyman_components">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\global\delphi\keyman_components.dproj"/>
+    </Target>
+    <Target Name="oskbulkrenderer">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\support\oskbulkrenderer\oskbulkrenderer.dproj"/>
+    </Target>
+    <Target Name="AndroidStringToKeymanLocaleString">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\androidstringtokeymanlocalestring\AndroidStringToKeymanLocaleString.dproj"/>
+    </Target>
+    <Target Name="RegExGroupHelperRSP19902TestSuite">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\group-helper-rsp19902\RegExGroupHelperRSP19902TestSuite.dproj"/>
+    </Target>
+    <Target Name="JsonUtilTests">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\jsonutil\JsonUtilTests.dproj"/>
+    </Target>
+    <Target Name="delphishareddata">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\delphi\delphishareddata.dproj"/>
+    </Target>
+    <Target Name="standardsdata">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\standards-data\standardsdata.dproj"/>
+    </Target>
+    <Target Name="WindowsSetupTest">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\windows-setup\WindowsSetupTest.dproj"/>
+    </Target>
+    <Target Name="UILanguageManagerTest">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\ui-language-manager\UILanguageManagerTest.dproj"/>
+    </Target>
+    <Target Name="developer_components">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\common\delphi\components\developer_components.dproj"/>
+    </Target>
+    <Target Name="browse4folder">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\browse4folder\browse4folder.dproj"/>
+    </Target>
+    <Target Name="Jcl">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\Jcl.dproj"/>
+    </Target>
+    <Target Name="JclVcl">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JclVcl.dproj"/>
+    </Target>
+    <Target Name="JvCore">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvCore.dproj"/>
+    </Target>
+    <Target Name="JvCoreDesign">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvCoreDesign.dproj"/>
+    </Target>
+    <Target Name="JvDocking">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvDocking.dproj"/>
+    </Target>
+    <Target Name="JvDockingDesign">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvDockingDesign.dproj"/>
+    </Target>
+    <Target Name="mbColorLibD10">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\mbcolor\mbColorLibD10.dproj"/>
+    </Target>
+    <Target Name="scFontCombo">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\scfontcombobox\scFontCombo.dproj"/>
+    </Target>
+    <Target Name="kmdbrowserhost">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\kmdbrowserhost\kmdbrowserhost.dproj"/>
+    </Target>
+    <Target Name="kmconvert">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\kmconvert\kmconvert.dproj"/>
+    </Target>
+    <Target Name="kmconverttest">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\kmconvert\test\kmconverttest.dproj"/>
+    </Target>
+    <Target Name="KeyboardJSInfoTestSuite">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\test\auto\keyboard-js-info\KeyboardJSInfoTestSuite.dproj"/>
+    </Target>
+    <Target Name="KMXFileLanguagesTestSuite">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\test\auto\kmx-file-languages\KMXFileLanguagesTestSuite.dproj"/>
+    </Target>
+    <Target Name="ModelTsParserTest">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\test\auto\model-ts-parser\ModelTsParserTest.dproj"/>
+    </Target>
+    <Target Name="PackageInfoTestSuite">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\test\auto\package-info\PackageInfoTestSuite.dproj"/>
+    </Target>
+    <Target Name="tike">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\tike\tike.dproj"/>
+    </Target>
+    <Target Name="build_standards_data:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\common\windows\delphi\tools\build_standards_data\build_standards_data.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="buildunidata:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\common\windows\delphi\tools\buildunidata\buildunidata.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="devtools:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\common\windows\delphi\tools\devtools\devtools.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="sentrytoolTests:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\common\windows\delphi\tools\sentrytool\Test\sentrytoolTests.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="sentrytool:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\common\windows\delphi\tools\sentrytool\sentrytool.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="test_klog:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\common\windows\delphi\tools\test-klog\test_klog.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="verify_signatures:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\common\windows\delphi\tools\verify_signatures\verify_signatures.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="tsysinfox64:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\engine\tsysinfox64\tsysinfox64.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="insthelper:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\engine\insthelper\insthelper.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="keyman:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\engine\keyman\keyman.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="kmcomapi:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\engine\kmcomapi\kmcomapi.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="tsysinfo:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\engine\tsysinfo\tsysinfo.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="kmbrowserhost:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\desktop\kmbrowserhost\kmbrowserhost.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="kmconfig:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\desktop\kmconfig\kmconfig.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="kmshell:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\desktop\kmshell\kmshell.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="setup:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\desktop\setup\setup.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="insthelp:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\desktop\insthelp\insthelp.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="keyman_components:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\global\delphi\keyman_components.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="oskbulkrenderer:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\support\oskbulkrenderer\oskbulkrenderer.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="AndroidStringToKeymanLocaleString:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\androidstringtokeymanlocalestring\AndroidStringToKeymanLocaleString.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="RegExGroupHelperRSP19902TestSuite:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\group-helper-rsp19902\RegExGroupHelperRSP19902TestSuite.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="JsonUtilTests:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\jsonutil\JsonUtilTests.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="delphishareddata:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\delphi\delphishareddata.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="standardsdata:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\standards-data\standardsdata.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="WindowsSetupTest:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\windows-setup\WindowsSetupTest.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="UILanguageManagerTest:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\ui-language-manager\UILanguageManagerTest.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="developer_components:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\common\delphi\components\developer_components.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="browse4folder:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\browse4folder\browse4folder.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Jcl:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\Jcl.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="JclVcl:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JclVcl.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="JvCore:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvCore.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="JvCoreDesign:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvCoreDesign.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="JvDocking:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvDocking.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="JvDockingDesign:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvDockingDesign.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="mbColorLibD10:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\mbcolor\mbColorLibD10.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="scFontCombo:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\scfontcombobox\scFontCombo.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="kmdbrowserhost:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\kmdbrowserhost\kmdbrowserhost.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="kmconvert:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\kmconvert\kmconvert.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="kmconverttest:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\kmconvert\test\kmconverttest.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="KeyboardJSInfoTestSuite:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\test\auto\keyboard-js-info\KeyboardJSInfoTestSuite.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="KMXFileLanguagesTestSuite:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\test\auto\kmx-file-languages\KMXFileLanguagesTestSuite.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ModelTsParserTest:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\test\auto\model-ts-parser\ModelTsParserTest.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PackageInfoTestSuite:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\test\auto\package-info\PackageInfoTestSuite.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="tike:Clean">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\tike\tike.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="build_standards_data:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\common\windows\delphi\tools\build_standards_data\build_standards_data.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="buildunidata:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\common\windows\delphi\tools\buildunidata\buildunidata.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="devtools:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\common\windows\delphi\tools\devtools\devtools.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="sentrytoolTests:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\common\windows\delphi\tools\sentrytool\Test\sentrytoolTests.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="sentrytool:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\common\windows\delphi\tools\sentrytool\sentrytool.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="test_klog:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\common\windows\delphi\tools\test-klog\test_klog.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="verify_signatures:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\common\windows\delphi\tools\verify_signatures\verify_signatures.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="tsysinfox64:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\engine\tsysinfox64\tsysinfox64.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="insthelper:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\engine\insthelper\insthelper.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="keyman:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\engine\keyman\keyman.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="kmcomapi:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\engine\kmcomapi\kmcomapi.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="tsysinfo:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\engine\tsysinfo\tsysinfo.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="kmbrowserhost:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\desktop\kmbrowserhost\kmbrowserhost.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="kmconfig:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\desktop\kmconfig\kmconfig.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="kmshell:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\desktop\kmshell\kmshell.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="setup:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\desktop\setup\setup.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="insthelp:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\desktop\insthelp\insthelp.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="keyman_components:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\global\delphi\keyman_components.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="oskbulkrenderer:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\support\oskbulkrenderer\oskbulkrenderer.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="AndroidStringToKeymanLocaleString:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\androidstringtokeymanlocalestring\AndroidStringToKeymanLocaleString.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="RegExGroupHelperRSP19902TestSuite:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\group-helper-rsp19902\RegExGroupHelperRSP19902TestSuite.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="JsonUtilTests:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\jsonutil\JsonUtilTests.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="delphishareddata:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\delphi\delphishareddata.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="standardsdata:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\standards-data\standardsdata.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="WindowsSetupTest:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\windows-setup\WindowsSetupTest.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="UILanguageManagerTest:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\ui-language-manager\UILanguageManagerTest.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="developer_components:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\common\delphi\components\developer_components.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="browse4folder:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\browse4folder\browse4folder.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Jcl:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\Jcl.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="JclVcl:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JclVcl.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="JvCore:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvCore.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="JvCoreDesign:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvCoreDesign.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="JvDocking:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvDocking.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="JvDockingDesign:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvDockingDesign.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="mbColorLibD10:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\mbcolor\mbColorLibD10.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="scFontCombo:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\ext\scfontcombobox\scFontCombo.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="kmdbrowserhost:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\kmdbrowserhost\kmdbrowserhost.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="kmconvert:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\kmconvert\kmconvert.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="kmconverttest:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\kmconvert\test\kmconverttest.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="KeyboardJSInfoTestSuite:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\test\auto\keyboard-js-info\KeyboardJSInfoTestSuite.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="KMXFileLanguagesTestSuite:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\test\auto\kmx-file-languages\KMXFileLanguagesTestSuite.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ModelTsParserTest:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\test\auto\model-ts-parser\ModelTsParserTest.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="PackageInfoTestSuite:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\test\auto\package-info\PackageInfoTestSuite.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="tike:Make">
+        <MSBuild Projects="C:\Github\keyman-test-merge2\developer\src\tike\tike.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="build_standards_data;buildunidata;devtools;sentrytoolTests;sentrytool;test_klog;verify_signatures;tsysinfox64;insthelper;keyman;kmcomapi;tsysinfo;kmbrowserhost;kmconfig;kmshell;setup;insthelp;keyman_components;oskbulkrenderer;AndroidStringToKeymanLocaleString;RegExGroupHelperRSP19902TestSuite;JsonUtilTests;delphishareddata;standardsdata;WindowsSetupTest;UILanguageManagerTest;developer_components;browse4folder;Jcl;JclVcl;JvCore;JvCoreDesign;JvDocking;JvDockingDesign;mbColorLibD10;scFontCombo;kmdbrowserhost;kmconvert;kmconverttest;KeyboardJSInfoTestSuite;KMXFileLanguagesTestSuite;ModelTsParserTest;PackageInfoTestSuite;tike"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="build_standards_data:Clean;buildunidata:Clean;devtools:Clean;sentrytoolTests:Clean;sentrytool:Clean;test_klog:Clean;verify_signatures:Clean;tsysinfox64:Clean;insthelper:Clean;keyman:Clean;kmcomapi:Clean;tsysinfo:Clean;kmbrowserhost:Clean;kmconfig:Clean;kmshell:Clean;setup:Clean;insthelp:Clean;keyman_components:Clean;oskbulkrenderer:Clean;AndroidStringToKeymanLocaleString:Clean;RegExGroupHelperRSP19902TestSuite:Clean;JsonUtilTests:Clean;delphishareddata:Clean;standardsdata:Clean;WindowsSetupTest:Clean;UILanguageManagerTest:Clean;developer_components:Clean;browse4folder:Clean;Jcl:Clean;JclVcl:Clean;JvCore:Clean;JvCoreDesign:Clean;JvDocking:Clean;JvDockingDesign:Clean;mbColorLibD10:Clean;scFontCombo:Clean;kmdbrowserhost:Clean;kmconvert:Clean;kmconverttest:Clean;KeyboardJSInfoTestSuite:Clean;KMXFileLanguagesTestSuite:Clean;ModelTsParserTest:Clean;PackageInfoTestSuite:Clean;tike:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="build_standards_data:Make;buildunidata:Make;devtools:Make;sentrytoolTests:Make;sentrytool:Make;test_klog:Make;verify_signatures:Make;tsysinfox64:Make;insthelper:Make;keyman:Make;kmcomapi:Make;tsysinfo:Make;kmbrowserhost:Make;kmconfig:Make;kmshell:Make;setup:Make;insthelp:Make;keyman_components:Make;oskbulkrenderer:Make;AndroidStringToKeymanLocaleString:Make;RegExGroupHelperRSP19902TestSuite:Make;JsonUtilTests:Make;delphishareddata:Make;standardsdata:Make;WindowsSetupTest:Make;UILanguageManagerTest:Make;developer_components:Make;browse4folder:Make;Jcl:Make;JclVcl:Make;JvCore:Make;JvCoreDesign:Make;JvDocking:Make;JvDockingDesign:Make;mbColorLibD10:Make;scFontCombo:Make;kmdbrowserhost:Make;kmconvert:Make;kmconverttest:Make;KeyboardJSInfoTestSuite:Make;KMXFileLanguagesTestSuite:Make;ModelTsParserTest:Make;PackageInfoTestSuite:Make;tike:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+    <ItemGroup Condition="'$(BuildGroup)'=='CE-1'">
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\common\windows\delphi\tools\build_standards_data\build_standards_data.dproj">
+            <ProjectGuid>{1AD91C23-D720-4EB6-8A90-1C60FFB2FAAD}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\common\windows\delphi\tools\buildunidata\buildunidata.dproj">
+            <ProjectGuid>{9D6E88A8-115B-448D-AFA0-686C83F965E4}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\common\windows\delphi\tools\devtools\devtools.dproj">
+            <ProjectGuid>{49F05380-7150-4925-A5AF-81382713F77E}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\common\windows\delphi\tools\sentrytool\Test\sentrytoolTests.dproj">
+            <ProjectGuid>{AEB65821-6895-4E67-ADA6-7818343D3CA3}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\common\windows\delphi\tools\sentrytool\sentrytool.dproj">
+            <ProjectGuid>{61118C12-2C1C-4A77-9DAB-95304B37101E}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\common\windows\delphi\tools\test-klog\test_klog.dproj">
+            <ProjectGuid>{9D5B1799-B1BC-4892-9584-F0DD1DBB6C78}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\common\windows\delphi\tools\verify_signatures\verify_signatures.dproj">
+            <ProjectGuid>{A6DCA558-8DD0-4FFF-8DAE-F305AB8D2AF4}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\engine\tsysinfox64\tsysinfox64.dproj">
+            <ProjectGuid>{7205C254-6B8A-4F72-9B7F-08216A8798CF}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\engine\insthelper\insthelper.dproj">
+            <ProjectGuid>{47B3274B-FC3D-4BB6-94B6-98F61D2CD47B}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\engine\keyman\keyman.dproj">
+            <ProjectGuid>{8A30F2CD-9C25-4776-BAEB-446AC989A941}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\engine\kmcomapi\kmcomapi.dproj">
+            <ProjectGuid>{A20773C5-2124-434E-9F3C-27DC9EBC85EE}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32;Win64</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\engine\tsysinfo\tsysinfo.dproj">
+            <ProjectGuid>{3794F00C-901D-4D12-B785-1FEF49456489}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\desktop\kmbrowserhost\kmbrowserhost.dproj">
+            <ProjectGuid>{C78BCA95-4D5F-48DA-A878-65CA22128BFC}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\desktop\kmconfig\kmconfig.dproj">
+            <ProjectGuid>{6C5626E9-4DA0-4A60-93CB-D5BDE0B3D29E}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\desktop\kmshell\kmshell.dproj">
+            <ProjectGuid>{268FF8CC-8BC1-4A99-954F-32A4554E8B79}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\desktop\setup\setup.dproj">
+            <ProjectGuid>{6199E379-0539-4702-AD8B-97B3859C16EC}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\desktop\insthelp\insthelp.dproj">
+            <ProjectGuid>{03239CFF-D2B4-40AC-BBA7-803244F4ACDD}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\global\delphi\keyman_components.dproj">
+            <ProjectGuid>{F82A51EA-92DE-4D68-AFDF-D2989BC8FE7C}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\support\oskbulkrenderer\oskbulkrenderer.dproj">
+            <ProjectGuid>{1495BC62-612D-4669-9965-05CF15036E7B}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\androidstringtokeymanlocalestring\AndroidStringToKeymanLocaleString.dproj">
+            <ProjectGuid>{121A6269-ECE8-49E9-A61F-5CA90A05E4D7}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\group-helper-rsp19902\RegExGroupHelperRSP19902TestSuite.dproj">
+            <ProjectGuid>{9FD6D70F-1C07-4AE3-9A3C-84A1160D15D4}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\jsonutil\JsonUtilTests.dproj">
+            <ProjectGuid>{35F0D7A1-F93D-46BC-913D-5C47E5123C35}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\delphi\delphishareddata.dproj">
+            <ProjectGuid>{A74921AA-B928-4BC2-AB82-112730E1BD72}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32;Win64</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\standards-data\standardsdata.dproj">
+            <ProjectGuid>{AB209170-4E96-402C-99F4-109CA703A1DF}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\windows-setup\WindowsSetupTest.dproj">
+            <ProjectGuid>{206EED94-2B40-4658-B643-A34D02D17F43}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\ui-language-manager\UILanguageManagerTest.dproj">
+            <ProjectGuid>{7B96D06E-0D11-42C7-9F89-0E9089D61DB8}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\common\delphi\components\developer_components.dproj">
+            <ProjectGuid>{07B49B5D-DCB7-4CAA-BFB2-677600659E4E}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\ext\browse4folder\browse4folder.dproj">
+            <ProjectGuid>{5DC6633B-FD33-4615-95B5-2053B949C099}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\Jcl.dproj">
+            <ProjectGuid>{44DB645B-C167-410D-9334-38AF9F0C7913}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JclVcl.dproj">
+            <ProjectGuid>{EB88BAFD-FD11-4F14-A6F6-9036D67B1F8F}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvCore.dproj">
+            <ProjectGuid>{CCA5391F-35F6-43D1-AB48-187085D1EF5B}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvCoreDesign.dproj">
+            <ProjectGuid>{F38F1718-D90B-4E0A-AACD-D34077DBBF15}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvDocking.dproj">
+            <ProjectGuid>{45F663F1-EF6E-436F-AE8A-85B96C6EE41E}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvDockingDesign.dproj">
+            <ProjectGuid>{2EE6377F-B2BB-4036-87FA-15C2DEC8BFFE}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\ext\mbcolor\mbColorLibD10.dproj">
+            <ProjectGuid>{4A376810-7A35-43F1-8A56-C04A8AA99FBF}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\ext\scfontcombobox\scFontCombo.dproj">
+            <ProjectGuid>{E1958C83-D175-4B1A-B01B-C951926D7D87}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\kmdbrowserhost\kmdbrowserhost.dproj">
+            <ProjectGuid>{313AA9F5-5489-40B3-A0C2-744DFF3A0B84}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\kmconvert\kmconvert.dproj">
+            <ProjectGuid>{57C21638-FB93-415F-BBF4-49A39281715C}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\kmconvert\test\kmconverttest.dproj">
+            <ProjectGuid>{7DD6800D-AC26-4A06-81A7-2818448FE4B9}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\test\auto\keyboard-js-info\KeyboardJSInfoTestSuite.dproj">
+            <ProjectGuid>{231E46DD-7A38-4D9B-BA20-163B0ECB6B17}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\test\auto\kmx-file-languages\KMXFileLanguagesTestSuite.dproj">
+            <ProjectGuid>{A9388625-2992-4E7C-9AE8-4B2A25BC30E3}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\test\auto\model-ts-parser\ModelTsParserTest.dproj">
+            <ProjectGuid>{0158CB55-B9BC-4F32-B860-FD6073AE2EB7}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\test\auto\package-info\PackageInfoTestSuite.dproj">
+            <ProjectGuid>{D450A640-6394-4474-BBBA-69C83A571086}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\tike\tike.dproj">
+            <ProjectGuid>{82E04599-9378-4816-B0AB-8AB58BD307B3}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+    </ItemGroup>
+    <ItemGroup Condition="'$(BuildGroup)'=='CE-2'">
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\common\windows\delphi\tools\build_standards_data\build_standards_data.dproj">
+            <ProjectGuid>{1AD91C23-D720-4EB6-8A90-1C60FFB2FAAD}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\common\windows\delphi\tools\buildunidata\buildunidata.dproj">
+            <ProjectGuid>{9D6E88A8-115B-448D-AFA0-686C83F965E4}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\common\windows\delphi\tools\devtools\devtools.dproj">
+            <ProjectGuid>{49F05380-7150-4925-A5AF-81382713F77E}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\common\windows\delphi\tools\sentrytool\Test\sentrytoolTests.dproj">
+            <ProjectGuid>{AEB65821-6895-4E67-ADA6-7818343D3CA3}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\common\windows\delphi\tools\sentrytool\sentrytool.dproj">
+            <ProjectGuid>{61118C12-2C1C-4A77-9DAB-95304B37101E}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\common\windows\delphi\tools\test-klog\test_klog.dproj">
+            <ProjectGuid>{9D5B1799-B1BC-4892-9584-F0DD1DBB6C78}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\common\windows\delphi\tools\verify_signatures\verify_signatures.dproj">
+            <ProjectGuid>{A6DCA558-8DD0-4FFF-8DAE-F305AB8D2AF4}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\engine\tsysinfox64\tsysinfox64.dproj">
+            <ProjectGuid>{7205C254-6B8A-4F72-9B7F-08216A8798CF}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\engine\insthelper\insthelper.dproj">
+            <ProjectGuid>{47B3274B-FC3D-4BB6-94B6-98F61D2CD47B}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\engine\keyman\keyman.dproj">
+            <ProjectGuid>{8A30F2CD-9C25-4776-BAEB-446AC989A941}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\engine\kmcomapi\kmcomapi.dproj">
+            <ProjectGuid>{A20773C5-2124-434E-9F3C-27DC9EBC85EE}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32;Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\engine\tsysinfo\tsysinfo.dproj">
+            <ProjectGuid>{3794F00C-901D-4D12-B785-1FEF49456489}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\desktop\kmbrowserhost\kmbrowserhost.dproj">
+            <ProjectGuid>{C78BCA95-4D5F-48DA-A878-65CA22128BFC}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\desktop\kmconfig\kmconfig.dproj">
+            <ProjectGuid>{6C5626E9-4DA0-4A60-93CB-D5BDE0B3D29E}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\desktop\kmshell\kmshell.dproj">
+            <ProjectGuid>{268FF8CC-8BC1-4A99-954F-32A4554E8B79}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\desktop\setup\setup.dproj">
+            <ProjectGuid>{6199E379-0539-4702-AD8B-97B3859C16EC}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\desktop\insthelp\insthelp.dproj">
+            <ProjectGuid>{03239CFF-D2B4-40AC-BBA7-803244F4ACDD}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\global\delphi\keyman_components.dproj">
+            <ProjectGuid>{F82A51EA-92DE-4D68-AFDF-D2989BC8FE7C}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\support\oskbulkrenderer\oskbulkrenderer.dproj">
+            <ProjectGuid>{1495BC62-612D-4669-9965-05CF15036E7B}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\androidstringtokeymanlocalestring\AndroidStringToKeymanLocaleString.dproj">
+            <ProjectGuid>{121A6269-ECE8-49E9-A61F-5CA90A05E4D7}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\group-helper-rsp19902\RegExGroupHelperRSP19902TestSuite.dproj">
+            <ProjectGuid>{9FD6D70F-1C07-4AE3-9A3C-84A1160D15D4}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\jsonutil\JsonUtilTests.dproj">
+            <ProjectGuid>{35F0D7A1-F93D-46BC-913D-5C47E5123C35}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\shared-data\delphi\delphishareddata.dproj">
+            <ProjectGuid>{A74921AA-B928-4BC2-AB82-112730E1BD72}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32;Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\standards-data\standardsdata.dproj">
+            <ProjectGuid>{AB209170-4E96-402C-99F4-109CA703A1DF}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\windows-setup\WindowsSetupTest.dproj">
+            <ProjectGuid>{206EED94-2B40-4658-B643-A34D02D17F43}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\windows\src\test\unit-tests\ui-language-manager\UILanguageManagerTest.dproj">
+            <ProjectGuid>{7B96D06E-0D11-42C7-9F89-0E9089D61DB8}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\common\delphi\components\developer_components.dproj">
+            <ProjectGuid>{07B49B5D-DCB7-4CAA-BFB2-677600659E4E}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\ext\browse4folder\browse4folder.dproj">
+            <ProjectGuid>{5DC6633B-FD33-4615-95B5-2053B949C099}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\Jcl.dproj">
+            <ProjectGuid>{44DB645B-C167-410D-9334-38AF9F0C7913}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JclVcl.dproj">
+            <ProjectGuid>{EB88BAFD-FD11-4F14-A6F6-9036D67B1F8F}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvCore.dproj">
+            <ProjectGuid>{CCA5391F-35F6-43D1-AB48-187085D1EF5B}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvCoreDesign.dproj">
+            <ProjectGuid>{F38F1718-D90B-4E0A-AACD-D34077DBBF15}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvDocking.dproj">
+            <ProjectGuid>{45F663F1-EF6E-436F-AE8A-85B96C6EE41E}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\ext\jedi\packages\JvDockingDesign.dproj">
+            <ProjectGuid>{2EE6377F-B2BB-4036-87FA-15C2DEC8BFFE}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\ext\mbcolor\mbColorLibD10.dproj">
+            <ProjectGuid>{4A376810-7A35-43F1-8A56-C04A8AA99FBF}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\ext\scfontcombobox\scFontCombo.dproj">
+            <ProjectGuid>{E1958C83-D175-4B1A-B01B-C951926D7D87}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\kmdbrowserhost\kmdbrowserhost.dproj">
+            <ProjectGuid>{313AA9F5-5489-40B3-A0C2-744DFF3A0B84}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\kmconvert\kmconvert.dproj">
+            <ProjectGuid>{57C21638-FB93-415F-BBF4-49A39281715C}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\kmconvert\test\kmconverttest.dproj">
+            <ProjectGuid>{7DD6800D-AC26-4A06-81A7-2818448FE4B9}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\test\auto\keyboard-js-info\KeyboardJSInfoTestSuite.dproj">
+            <ProjectGuid>{231E46DD-7A38-4D9B-BA20-163B0ECB6B17}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\test\auto\kmx-file-languages\KMXFileLanguagesTestSuite.dproj">
+            <ProjectGuid>{A9388625-2992-4E7C-9AE8-4B2A25BC30E3}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\test\auto\model-ts-parser\ModelTsParserTest.dproj">
+            <ProjectGuid>{0158CB55-B9BC-4F32-B860-FD6073AE2EB7}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\test\auto\package-info\PackageInfoTestSuite.dproj">
+            <ProjectGuid>{D450A640-6394-4474-BBBA-69C83A571086}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="C:\Github\keyman-test-merge2\developer\src\tike\tike.dproj">
+            <ProjectGuid>{82E04599-9378-4816-B0AB-8AB58BD307B3}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+    </ItemGroup>
+</Project>
