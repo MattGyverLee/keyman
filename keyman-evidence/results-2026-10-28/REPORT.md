@@ -8,10 +8,10 @@ UNVERIFIED**. INCONCLUSIVE is never PASS. Evidence is in this folder; each line 
 | PR | Branch | Tip now | Was (start of day) |
 |---|---|---|---|
 | #16043 | chore/windows/delphi-11-12-compat | **dcefa58340** | 9de382db06 |
-| #16044 | feat/windows/delphi-ce-workflow | **d0bc028801** | 09b2cbe558 |
-| #16191 | chore/windows/delphi-ce-guard | **22512237d6** | 331b0b3015 |
-| #16490 | fix/windows/8064-stuck-modifier | f58d9da489 (unchanged) | |
-| #16527 | fix/windows/16462-osk-sticky-modifier | c923e1e89d (unchanged) | |
+| #16044 | feat/windows/delphi-ce-workflow | **b3dcf2a95d** (2026-10-29: CE route) | 09b2cbe558 |
+| #16191 | chore/windows/delphi-ce-guard | **8efbe71abe** (restacked) | 331b0b3015 |
+| #16490 | fix/windows/8064-stuck-modifier | **ff79d29257** (2026-10-29: run-8064-test.ps1 removed) | f58d9da489 |
+| #16527 | fix/windows/16462-osk-sticky-modifier | **e13622ca4a** (restacked, no other change) | c923e1e89d |
 
 Integration tree `C:\Github\keyman-test-merge2`, test2 = #16191 tip + c923e1e89d. The fixed arm was
 built and installed at test2 3a514d526a. Since then only `developer/src/ext/**` and PATCHES.md
@@ -33,7 +33,12 @@ changed; nothing under `windows/`, `common/` or `core/`, so the fixed-arm result
   fixes found by the build** (fixes 5–7 below). All three are in #16043 and all three are pushed.
   Fix 7 matters most: the #16043 `jedi.inc` sync broke TIKE on **10.3 as well as 12**.
 - **Still owed:** your hand tests (C.13, OSK C.14/C.15, B.8 T1/T2): `hand-tests-checklist.md`.
-  Ruling: F.16. (B.7 is settled: the JclSynch patch is needed.) The 10.3 compile of fixes 5–7 is UNVERIFIED (no 10.3 here).
+  Ruling: F.16. The 10.3 compile of fixes 5–7 is UNVERIFIED (no 10.3 here).
+- **2026-10-29: the CE route** (`delphi-ce-build.sh`, two IDE build-group builds for windows/src +
+  developer/src) PASSED end to end: `ce-route-2026-10-29.md`. A fresh-clone run is still owed.
+- **2026-10-29: scope.** `run-8064-test.ps1` (the charmap mode) is removed from #16490; host32 is the
+  repro harness. Remote desktop is out of scope for 8064 and becomes a follow-up issue and test.
+  Neither change touches the engine, so the A/B results above stand.
 
 ## Fixes made today (all on #16043 unless noted; details in fixes-2026-10-28.md)
 
@@ -73,10 +78,10 @@ changed; nothing under `windows/`, `common/` or `core/`, so the fixed-arm result
 - **B.6 prompt honesty:** PASS (stdin closed, and Enter without building, both die), `delphi-cli.md` + fix 1 tests.
 - **B.7 removal tests** (`fixes-2026-10-28.md`):
   - **mxs.inc: needed.** Removing it gives E2003 `null` in HTMLColors.
-  - **JclSynch: needed** (corrected 16:07). A standalone TIKE build without it fails with the July E2010
-    'Cardinal'/'Boolean'. It depends on build order: TIKE compiles `prototypes/JclWin32.pas` (DWORD) through
-    the search path, while `Jcl.dpk` compiles `windows/JclWin32.pas` (BOOL). The earlier "not needed" run had
-    built the patched file.
+  - **JclSynch: not needed once the search path is right; patch removed.** With `prototypes/` on the
+    search path (as the old CE guide had it), TIKE compiles `prototypes/JclWin32.pas` (DWORD) and unpatched
+    JclSynch fails with the July E2010 'Cardinal'/'Boolean'. `Jcl.dpk` compiles `windows/JclWin32.pas`
+    (BOOL). The guide no longer adds `prototypes/`, and the patch is gone (`jclsynch-root-cause.md`).
   - JvComponent: no longer a Keyman patch.
   - The git part of B.7 is in `git-checks.md`.
 - **B.8:** tripwires as ruled. The VER360 compile is **PASS** (warnings only). Behaviour
@@ -90,8 +95,8 @@ changed; nothing under `windows/`, `common/` or `core/`, so the fixed-arm result
 - **C.12 gate + repro:**
   - Stock 20.0.8: gate **FAIL** (expected). The repro FAILs 5/5 via host32.
   - Fixed: gate **PASS** 18/18 and stressed 30/30. The repro **PASSes**, 0/5 stuck.
-  - `run-8064-test.ps1 -HostApp charmap` is **INCONCLUSIVE by design**: it cannot give charmap's Edit
-    focus. The README says to use host32.
+  - The `run-8064-test.ps1 -HostApp charmap` mode was INCONCLUSIVE by design (it cannot give charmap's
+    Edit focus) and was removed from #16490 on 2026-10-29. host32 is the repro harness.
   - Two arms only: no MSKLC Cameroon layout is installed.
 - **C.13 hand tests: UNVERIFIED**, checklist ready.
 - **C.14 OSK tests / C.15 oracle: UNVERIFIED**, checklist ready. TEST_OSK-3 is BLOCKED: it needs a
@@ -101,8 +106,8 @@ changed; nothing under `windows/`, `common/` or `core/`, so the fixed-arm result
 
 ## D. Not testable here
 Delphi 12 Pro, **Delphi 13** (never claimed; B.8 makes it visible as a warning), **10.3**
-(fixes 5–7 compile UNVERIFIED), Linux CE, ARM64, RDP (TEST_REMOTE_DESKTOP is BLOCKED without a
-second machine), and upstream CI. The fixed arm ran on a fresh install on this machine, not on a
+(fixes 5–7 compile UNVERIFIED), Linux CE, ARM64, and upstream CI. Remote desktop
+(TEST_REMOTE_DESKTOP) is out of scope for 8064: a follow-up issue and test. The fixed arm ran on a fresh install on this machine, not on a
 clean contributor machine.
 
 ## E–G

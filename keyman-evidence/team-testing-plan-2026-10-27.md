@@ -219,9 +219,9 @@ requires accepting the whole stack first.
   machines for: the three 8064 hand tests in §3, the
   OSK tests on #16527 (including teardown paths: tray
   menu, tray double-click, hotkey, exiting Keyman — not
-  just the OSK close button), and, if a tester has the
-  setup, `TEST_REMOTE_DESKTOP`. If no tester has it,
-  that test stays BLOCKED, with the team as owner.
+  just the OSK close button). Remote desktop
+  (`TEST_REMOTE_DESKTOP`) is out of scope for 8064 and
+  becomes a follow-up issue and test.
 - **A manual build on a team machine.** Matthew's proof
   is one machine. A second machine — ideally one that
   is not a long-lived development machine with non-default
@@ -321,7 +321,7 @@ October, and none is claimed to exist.
 | Delphi 12 Pro, Delphi 13, Delphi 10 regression, CE on Linux | UNVERIFIED — no licence, no machine | Team decision (§4C) |
 | Clean contributor machine | UNVERIFIED — closest is a fresh VM, recorded | Team, if available |
 | ARM64, secure desktop, higher-integrity | UNVERIFIED | Follow-on / team tester |
-| RDP (`TEST_REMOTE_DESKTOP`) | UNVERIFIED — needs a second machine/VM to RDP from | Team tester, or follow-on |
+| RDP (`TEST_REMOTE_DESKTOP`) | Out of scope for 8064 (ruled 2026-10-29) | Follow-up issue and test |
 | OSK-kill (crash while sticky held) | UNVERIFIED by design — no in-process code can fix it | Follow-on issue, not this PR |
 | CI / TeamCity result, team's manual build | UNSEEN by Matthew | Team (§4B) |
 | User tests by other testers | UNREPORTED at close (not failed) | Team (§4B) |

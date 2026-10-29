@@ -223,11 +223,8 @@ pass. A test that was not run is UNVERIFIED, not "works".
   higher-integrity focus, Mac/Linux/Android/iOS for 8064
   (8064 is Windows-tagged, so the last group is out of scope,
   not a failure).
-- TEST_REMOTE_DESKTOP: testable ONLY if he has a second machine
-  or VM to RDP from, with a Keyman keyboard selected and
-  modifiers typed over the session. If he does not have that
-  setup, it stays BLOCKED (needs a team tester with RDP), not
-  PASSED and not failed.
+- TEST_REMOTE_DESKTOP: OUT OF SCOPE for 8064 (Matthew, 2026-10-29).
+  Remote desktop becomes a follow-up issue and test of its own.
 - TeamCity / upstream CI, the team's manual build, and any user
   test run by someone else. He can define the tests and run his
   own; he cannot see or schedule theirs.

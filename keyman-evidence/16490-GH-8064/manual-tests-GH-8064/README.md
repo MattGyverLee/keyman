@@ -94,7 +94,6 @@ clean.
 | `windows/src/support/fakefreeze` | the stimulus. Posts `KMC_WATCHDOG_FAKEFREEZE` to keyman.exe, which pauses for five seconds. Build with `./windows/src/support/fakefreeze/build.sh --debug build:x86` |
 | `host32/host32.cpp` | the 32-bit host, which drives the whole sequence itself |
 | `host32/rawinput-probe.cpp` | a measurement, not a fix: it changes no production file, and answers one question -- does a `WM_INPUT` feed on a worker thread keep delivering, with Keyman's `dwExtraInfo` tag intact, while the thread the low level hook was installed on is stalled. Its result is committed as [`evidence/rawinput-delivery.md`](evidence/rawinput-delivery.md). Build: `cl /nologo /W4 /EHsc /MT /DUNICODE /D_UNICODE rawinput-probe.cpp /link /SUBSYSTEM:WINDOWS user32.lib gdi32.lib /OUT:rawinput-probe.exe` |
-| `run-8064-test.ps1` | the automated harness |
 | `windows/src/test/manual-tests/keyboard_ll_identifier` | the wire logger. A `WH_KEYBOARD_LL` hook that logs `vkCode scanCode flags` for the nine modifier virtual keys. Delphi, and no binary is committed, so it has to be built |
 | the snippets below | the pass/fail oracle, and the recovery |
 | [`stuck-mod-test.ps1`](./stuck-mod-test.ps1) | the three-arm regression gate. `-Gate` returns 0 PASS / 1 FAIL / 2 INCONCLUSIVE / 3 setup error, and reports engine logging state. Needs `sil_cameroon_qwerty` and any Microsoft English QWERTY |
@@ -107,91 +106,51 @@ clean.
 run once, to settle a design question, and is listed so it is not mistaken for a
 repro step.
 
-## Automated harness
+## Automated repro: host32
 
-`run-8064-test.ps1` performs steps 3 to 7 of the manual procedure: it holds the
-modifier, posts the freeze, releases inside the stall, types a probe string, reads
-the oracle, and clears any modifier it left asserted.
+`host32/host32.exe` performs steps 3 to 7 of the manual procedure in its own
+window: it holds the modifier, posts the freeze, releases inside the stall, types
+a probe string, reads the oracle, and clears any modifier it left asserted. Build,
+options and exit codes are in [`host32/README.md`](./host32/README.md).
 
-It requires `-HostApp`, a path to an application with a text field, and verifies
-that it presents a real window rather than assuming it. There is no default,
-because on Windows 11 both `notepad.exe` and the `SysWOW64` copy resolve to the
-same 64-bit packaged Notepad, whose top-level frame brings complications of its
-own (see the input-locale note under Preconditions).
+```
+./host32/host32.exe --fakefreeze <fakefreeze.exe> --control                # harness sanity check
+./host32/host32.exe --fakefreeze <fakefreeze.exe> --probe 1x2x3x --iterations 5 --wait-for-rule 30
+./host32/host32.exe --fakefreeze <fakefreeze.exe> --modifier RSHIFT
+```
+
+The host drives the sequence itself because a background process cannot reliably
+give another process's window keyboard focus: `SetForegroundWindow` succeeds and
+`GetForegroundWindow` confirms the host is foreground, yet `GetFocus` in the
+host's thread stays 0 and `SendInput` keystrokes go nowhere, because `SetFocus`
+needs the calling thread to own the active window. A process that owns its own
+window has focus by construction, the same way a person pressing keys does. For
+the same reason there is no harness that drives a stock application such as
+`charmap.exe` from outside.
+
+host32 reports **INCONCLUSIVE** rather than PASS when a precondition is unmet or
+the probe text was not transformed. A precondition that is only plausible would
+produce a false PASS, which on this defect is hard to tell from a real one.
+
+`--modifier RSHIFT` is the interesting case: Right Shift is the one modifier whose
+`SCAN_FLAG_KEYMAN_KEY_EVENT` is overwritten with `SCANCODE_RSHIFT`, so only the
+`dwExtraInfo` arm of the provenance gate covers it.
 
 ### Host bitness
 
-Until 2026-08-31 this harness *required* a 32-bit host and aborted on anything
-else, on the reasoning that `serialkeyeventserver.cpp` being `#ifndef _WIN64`
-makes a 64-bit host immune. That does not follow, and the requirement has been
-downgraded to a reported value.
+Bitness is not a precondition of the defect. `serialkeyeventserver.cpp` is
+`#ifndef _WIN64`, so the server, the low level keyboard hook and the modifier
+cache are compiled only into the 32-bit engine and run in 32-bit `keyman.exe`.
+But `WH_KEYBOARD_LL` is system-wide, and `serialkeyeventclient.cpp` carries no
+`_WIN64` guard: a 64-bit client reaches that same single server by unsuffixed
+global name through a memory-mapped file (`GLOBAL_FILE_MAPPING_NAME`,
+`serialkeyeventcommon.h:59`). One server per session, serving both bitnesses.
+`stuck-mod-test.ps1` demonstrates the consequence: it wedges 64-bit Windows 11
+Notepad.
 
-The server, the low level keyboard hook and the modifier cache are indeed compiled
-only into the 32-bit engine and run in 32-bit `keyman.exe`. But `WH_KEYBOARD_LL`
-is system-wide, and `serialkeyeventclient.cpp` carries no `_WIN64` guard: a 64-bit
-client reaches that same single server by unsuffixed global name through a
-memory-mapped file (`GLOBAL_FILE_MAPPING_NAME`, `serialkeyeventcommon.h:59`). One
-server per session, serving both bitnesses. `stuck-mod-test.ps1` demonstrates the
-consequence -- it wedges 64-bit Windows 11 Notepad and has never had a bitness
-check.
-
-`host32/` remains the recommended host, because it is the one behind the recorded
-before/after pair in `evidence/` and it removes Notepad's packaged-app and
-frame-window complications. A 64-bit run through *this* script is not yet backed
-by a recorded measurement, so the script warns and asks you to save the output.
-
-### host32 is a separate harness, not a host for this script
-
-`host32.exe` **requires** `--fakefreeze PATH` and exits without it (`host32.cpp:598`).
-It drives the whole sequence itself -- hold, freeze, release, type, read the oracle --
-and is what produced the recorded pair in `evidence/`. Passing it to
-`run-8064-test.ps1` cannot work: it exits immediately and the script has nothing to
-type into. Run it directly instead:
-
-```
-./host32/host32.exe --fakefreeze <fakefreeze.exe> --probe 1x2x3x --iterations 5 --wait-for-rule 30
-```
-
-`run-8064-test.ps1` wants an ordinary passive application with an Edit control.
-`C:\Windows\SysWOW64\charmap.exe` is one that ships with Windows and is 32-bit at
-runtime; most stock alternatives are not (see Host bitness above).
-
-`host32/` itself is a minimal 32-bit window with a single Edit control,
-a fixed class and title, and it publishes its active keyboard layout in that title
-because `GetKeyboardLayout(idThread)` returns 0 for a thread in another process
-and the harness cannot otherwise tell which layout is selected. Build it with the
-Keyman build environment sourced:
-
-```
-cl /nologo /W4 /EHsc /MT /DUNICODE /D_UNICODE host32.cpp \
-   /link /SUBSYSTEM:WINDOWS user32.lib gdi32.lib /OUT:host32.exe
-```
-
-`host32` drives the sequence itself rather than being driven from the harness, and
-that is a Windows constraint rather than a preference. A background process cannot
-reliably grant another process's window keyboard focus: `SetForegroundWindow`
-succeeds and `GetForegroundWindow` confirms the host is foreground, yet `GetFocus`
-in the host's thread stays 0 and `SendInput` keystrokes go nowhere, because
-`SetFocus` needs the calling thread to own the active window. A process that owns
-its own window has focus by construction, the same way a person pressing keys
-does.
-
-The harness reports **INCONCLUSIVE** rather than PASS unless it confirms all three
-of: the freeze took effect, a Keyman TIP is selected in a host it actually brought
-to the foreground, and Keyman transformed the probe text. Host bitness is reported
-on the result line but is not one of them. A precondition that is only plausible
-would produce a false PASS, which on this defect is hard to tell from a real one.
-
-```
-# An ordinary app with a text field -- NOT host32.exe, see below.
-./run-8064-test.ps1 -HostApp <editor.exe> -Control    # harness sanity check
-./run-8064-test.ps1 -HostApp <editor.exe>
-./run-8064-test.ps1 -HostApp <editor.exe> -Modifier RSHIFT
-```
-
-`-Modifier RSHIFT` is the interesting case: Right Shift is the one modifier whose
-`SCAN_FLAG_KEYMAN_KEY_EVENT` is overwritten with `SCANCODE_RSHIFT`, so only the
-`dwExtraInfo` arm of the provenance gate covers it.
+`host32` is the recommended repro host because it is the one behind the recorded
+before/after pair in `evidence/`, and it avoids Notepad's packaged-app
+and frame-window complications (see the input-locale note under Preconditions).
 
 ### Why the provenance gate keeps a scan-code arm
 
