@@ -662,7 +662,7 @@ protected:
       restoreEventIndex[i] = kRestoreEventIndexUnwritten;
     }
     n = PrepareInjectedInputBatch(
-      inputs, kbd, &sharedData, StubGetAsyncKeyState, feedIsConfigured, &restorePressedMask, NULL,
+      inputs, kbd, &sharedData, StubGetAsyncKeyState, feedIsConfigured, &restorePressedMask,
       restoreEventIndex);
   }
 };
@@ -771,10 +771,8 @@ TEST_F(PREPARE_INJECTED_INPUT_BATCH, NeverWritesPastTheBufferWhenTheSharedBuffer
   has to be exactly right in both directions. One too small and the restore half writes past the end
   of the server's `new INPUT[MAX_KEYEVENT_INPUTS]` (serialkeyeventserver.cpp:249) -- a heap overrun,
   silent, in the process that owns the keyboard. One too large and output keys that would have fitted
-  are dropped instead: the truncation at 248 is now reported through
-  BatchOutputTruncated (see the truncation policy comment in
-  serialkeyeventcommon.h), but it still drops keys. Neither direction shows up as a failure anywhere else,
-  so the boundary is pinned here from both sides.
+  are dropped instead (see the truncation policy comment in serialkeyeventcommon.h). Neither
+  direction shows up as a failure anywhere else, so the boundary is pinned here from both sides.
 
   The expected numbers are derived from the literal worst case, NOT recomputed from the production
   expression `MAX_KEYEVENT_INPUTS - MAX_KEYEVENT_INPUTS_MODIFIERS`. Recomputing it would make the
@@ -1850,85 +1848,17 @@ TEST_F(POST_KEY_EVENT_AND_DECIDE_EAT, NeitherHandoffFailureRouteEatsTheEvent) {
       << "the serializer accepted the event and will re-inject it, so this one is eaten";
 }
 
-namespace {
 /*
-  #8064 FR-002 / FR-006 -- the diagnostic recorder the seam exists for.
-
-  SendDebugMessageFormat resolves to ETW (K32_DBG.CPP:189) and nothing in this process can read it
-  back, so a test that wanted to assert "the batch reported this" had no way to. Binding
-  PMODIFIERDIAGNOSTIC to this recorder is what makes FR-002 and FR-006 assertable with NO machine:
-  no interactive desktop, no injection, no timing, no desktop switch. That is the value of
-  the seam, and it is why these live on the default target rather than in
-  keybd_shift.interactive.tests.cpp.
-
-  A file-local recorder rather than a mock, for the same reason as StubGetAsyncKeyState above:
-  gmock is not linked into keyman32.tests.vcxproj.
+  #8064 FR-001. The release half reads live state and the restore half reads the cache, so a hold
+  the cache never saw is released and not pressed back. These pin that asymmetry from both sides.
 */
-struct DiagnosticRecord {
-  ModifierDiagnosticCode code;
-  BYTE vk;
-};
-
-DiagnosticRecord g_diagnostics[16];
-int g_diagnosticCount = 0;
-
-void
-RecordDiagnostic(ModifierDiagnosticCode code, BYTE vk) {
-  if (g_diagnosticCount < _countof(g_diagnostics)) {
-    g_diagnostics[g_diagnosticCount].code = code;
-    g_diagnostics[g_diagnosticCount].vk   = vk;
-    g_diagnosticCount++;
-  }
-}
-
-int
-CountDiagnostics(ModifierDiagnosticCode code) {
-  int count = 0;
-  for (int i = 0; i < g_diagnosticCount; i++) {
-    if (g_diagnostics[i].code == code) {
-      count++;
-    }
-  }
-  return count;
-}
-
-bool
-HasDiagnostic(ModifierDiagnosticCode code, BYTE vk) {
-  for (int i = 0; i < g_diagnosticCount; i++) {
-    if (g_diagnostics[i].code == code && g_diagnostics[i].vk == vk) {
-      return true;
-    }
-  }
-  return false;
-}
-} // namespace
-
-/*
-  #8064 FR-002 / FR-006. A batch that cannot keep a hold must NAME it.
-
-  FR-001 governs what the batch does, and it does not change here: absent a signal that says what
-  the user holds, the release and restore halves are untouched and some holds are still dropped.
-  Both live-state-only alternatives are refuted in the spec. What changes is that a dropped hold
-  stops being silent, so a field report has something to match instead of a user sentence.
-
-  Every case here asserts the BEHAVIOUR is unchanged as well as that the report happened. A
-  diagnostic that quietly altered the batch would be a worse bug than the silence it replaced.
-*/
-class MODIFIER_DIAGNOSTIC : public PREPARE_INJECTED_INPUT_BATCH {
-public:
-  void
-  SetUp() {
-    PREPARE_INJECTED_INPUT_BATCH::SetUp();
-    g_diagnosticCount = 0;
-    memset(g_diagnostics, 0, sizeof(g_diagnostics));
-  }
-
+class RELEASE_RESTORE_ASYMMETRY : public PREPARE_INJECTED_INPUT_BATCH {
 protected:
   void
-  RunBatchReporting(BOOL feedIsConfigured = TRUE) {
+  RunBatch(BOOL feedIsConfigured = TRUE) {
     restorePressedMask = kRestoreMaskUnwritten;
     n                  = PrepareInjectedInputBatch(
-      inputs, kbd, &sharedData, StubGetAsyncKeyState, feedIsConfigured, &restorePressedMask, RecordDiagnostic);
+      inputs, kbd, &sharedData, StubGetAsyncKeyState, feedIsConfigured, &restorePressedMask);
   }
 };
 
@@ -1939,14 +1869,14 @@ protected:
   cache feed never saw the KEYDOWN.
 
   The batch is right to do this; releasing on the cache alone reopens 002/FR-001's silent text
-  destruction. What was wrong is that it happened without a word.
+  destruction.
 */
-TEST_F(MODIFIER_DIAGNOSTIC, ADroppedHoldIsNamedInTheDiagnostic) {
+TEST_F(RELEASE_RESTORE_ASYMMETRY, AHoldTheCacheDoesNotClaimIsReleasedAndNotPressedBack) {
   kbd[VK_LCONTROL]                 = 0;    // cache: never saw the KEYDOWN
   g_liveModifierState[VK_LCONTROL] = 0x80; // OS: the user is holding it
   AddOutputKey('A');
 
-  RunBatchReporting();
+  RunBatch();
 
   // The behaviour FR-001 pins, asserted first: the hold IS dropped, deliberately.
   // do_keybd_event collapses VK_LCONTROL to VK_CONTROL, so the queued events name the generic VK
@@ -1955,54 +1885,37 @@ TEST_F(MODIFIER_DIAGNOSTIC, ADroppedHoldIsNamedInTheDiagnostic) {
   EXPECT_EQ(Count(VK_CONTROL, false), 0)
       << "the restore half reads the cache, which does not claim it, so nothing presses it back -- "
       << "this is the accepted drop, not a defect to fix here";
-
-  // And the report, which is what FR-002 adds.
-  EXPECT_EQ(CountDiagnostics(ReleasedWithoutCacheClaim), 1)
-      << "the batch dropped a hold and said nothing. That silence is FR-002's subject: a user "
-      << "reports a modifier that went dead and there is nothing in the log to match it against";
-  EXPECT_TRUE(HasDiagnostic(ReleasedWithoutCacheClaim, VK_LCONTROL))
-      << "the report must NAME the modifier -- 'a hold was dropped' does not let anyone correlate "
-      << "it with what the user was pressing";
 }
 
 /*
-  FR-002's negative, and the reason the code is not simply emitted on every release. A modifier the
-  cache DOES claim is released and pressed straight back, so no hold is lost and there is nothing
-  to report. Without this case the diagnostic could fire on every ordinary batch and mean nothing.
+  The negative: a modifier the cache DOES claim is released and pressed straight back, so no hold
+  is lost.
 */
-TEST_F(MODIFIER_DIAGNOSTIC, AHoldTheCacheClaimsIsRestoredAndNotReported) {
+TEST_F(RELEASE_RESTORE_ASYMMETRY, AHoldTheCacheClaimsIsReleasedAndPressedBack) {
   kbd[VK_LSHIFT]                 = 0x80;
   g_liveModifierState[VK_LSHIFT] = 0x80;
   AddOutputKey('A');
 
-  RunBatchReporting();
+  RunBatch();
 
   ASSERT_EQ(Count(VK_SHIFT, true), 1) << "released by the release half";
   ASSERT_EQ(Count(VK_SHIFT, false), 1) << "and pressed back by the restore half";
-  EXPECT_EQ(CountDiagnostics(ReleasedWithoutCacheClaim), 0)
-      << "nothing was lost, so a report here would be noise -- and noise is what stops anyone "
-      << "reading the ones that matter";
 }
 
 /*
-  FR-002 with the feed off. Both halves read the same kbd, so the condition cannot arise: whatever
-  the release half released, the restore half presses back. Asserted rather than assumed, because
-  the obvious implementation -- compare live against kbd unconditionally -- would report a drop on
-  every !feedIsConfigured batch that had any live modifier at all.
+  With the feed off both halves read the same kbd, so no hold can be dropped: whatever the release
+  half released, the restore half presses back.
 */
-TEST_F(MODIFIER_DIAGNOSTIC, WithTheFeedOffThereIsNoDropToReport) {
+TEST_F(RELEASE_RESTORE_ASYMMETRY, WithTheFeedOffBothHalvesReadTheCache) {
   kbd[VK_LSHIFT]                   = 0;
   g_liveModifierState[VK_LSHIFT]   = 0x80;
   g_liveModifierState[VK_LCONTROL] = 0x80;
   AddOutputKey('A');
 
-  RunBatchReporting(FALSE);
+  RunBatch(FALSE);
 
   EXPECT_EQ(Count(VK_SHIFT, true), 0) << "the release set is kbd here, which claims nothing";
   EXPECT_EQ(Count(VK_CONTROL, true), 0) << "nor Control, for the same reason";
-  EXPECT_EQ(CountDiagnostics(ReleasedWithoutCacheClaim), 0)
-      << "with the feed off the release half never releases what the cache does not claim, so "
-      << "there is no dropped hold and nothing to say about one";
 }
 
 /*
@@ -2014,98 +1927,22 @@ TEST_F(MODIFIER_DIAGNOSTIC, WithTheFeedOffThereIsNoDropToReport) {
 
   ReconcileModifierCache is structurally blind to it forever, because it tests for
   cache-up-and-live-down and this state IS cache-up-and-live-down -- it is doing exactly its job.
-  So the only thing that can be added is that it says so.
 */
-TEST_F(MODIFIER_DIAGNOSTIC, TwoHoldsLostAtOnceLookLikeADesktopSwitchAndAreReportedAsOne) {
+TEST_F(RELEASE_RESTORE_ASYMMETRY, TwoHoldsLostAtOnceAreClearedAndNothingIsPressed) {
   kbd[VK_LSHIFT]   = 0x80; // cache: the user was holding both
   kbd[VK_LCONTROL] = 0x80;
   // and every live reading is up
   AddOutputKey('A');
 
-  RunBatchReporting();
+  RunBatch();
 
-  // FR-007: the reconcile MUST still run, and this guard causes no press that would not otherwise
-  // be emitted. Asserted before the report, because getting this wrong reopens #8064.
+  // FR-007: the reconcile MUST still run, and no press may be manufactured. Getting this wrong
+  // reopens #8064.
   EXPECT_EQ(kbd[VK_LSHIFT], (BYTE)0) << "the reconcile must still clear -- suppressing it here is "
                                      << "what an earlier draft did, and it reintroduced #8064";
   EXPECT_EQ(kbd[VK_LCONTROL], (BYTE)0);
   EXPECT_EQ(Count(VK_SHIFT, false), 0) << "and no modifier KEYDOWN may be manufactured";
   EXPECT_EQ(Count(VK_CONTROL, false), 0);
-
-  EXPECT_EQ(CountDiagnostics(PossibleDesktopSwitch), 1)
-      << "two holds were lost in one batch with cache and OS agreeing afterwards, and nothing was "
-      << "reported. FR-006 exists because that state is invisible to every other mechanism here";
-  EXPECT_TRUE(HasDiagnostic(PossibleDesktopSwitch, 0))
-      << "once per batch with vk = 0: the condition is a "
-      << "property of the batch, and which keys were lost is already in ReconcileModifierCache's "
-      << "own per-VK clearing lines. A per-key form here would bury the batch-level signal";
-}
-
-/*
-  The truncation diagnostic. The worst case (all six modifiers held, 256
-  output keys) fits 240 output keys: 8 release + 240 output + 8 restore
-  = 256. That drop used to be silent. It is now reported once per batch
-  through the diagnostic seam, and the dropped count (16, against the
-  clamped 256) is returned in the batch's pOutputKeysTruncated out-param.
-  The batch itself is unchanged: what is sent is still a prefix.
-*/
-TEST_F(MODIFIER_DIAGNOSTIC, ATruncatedBatchIsNamedInTheDiagnosticAndCountsItsDrop) {
-  for (int i = 0; i < (int)_countof(KeymanModifierVks); i++) {
-    kbd[KeymanModifierVks[i]]                 = 0x80;
-    g_liveModifierState[KeymanModifierVks[i]] = 0x80;
-  }
-  for (int i = 0; i < MAX_KEYEVENT_INPUTS; i++) {
-    AddOutputKey('A');
-  }
-
-  DWORD truncated = 0xFFFFFFFF;
-  restorePressedMask = kRestoreMaskUnwritten;
-  n = PrepareInjectedInputBatch(
-    inputs, kbd, &sharedData, StubGetAsyncKeyState, TRUE, &restorePressedMask, RecordDiagnostic,
-    NULL, NULL, &truncated);
-
-  EXPECT_EQ(n, MAX_KEYEVENT_INPUTS) << "the worst case still fills the buffer exactly";
-  EXPECT_EQ(truncated, (DWORD)16) << "256 output keys, 240 fit: 16 dropped, against the clamped batch";
-  EXPECT_EQ(CountDiagnostics(BatchOutputTruncated), 1)
-      << "the batch dropped output keys and said nothing: that silence was the Should-fix";
-  EXPECT_TRUE(HasDiagnostic(BatchOutputTruncated, 0))
-      << "once per batch with vk = 0: truncation is a property of the batch";
-}
-
-/*
-  The truncation diagnostic's negative: a batch that fits reports nothing
-  and returns a zero drop count, so the diagnostic cannot fire on every
-  ordinary batch and mean nothing.
-*/
-TEST_F(MODIFIER_DIAGNOSTIC, ABatchThatFitsReportsNoTruncation) {
-  AddOutputKey('A');
-
-  DWORD truncated = 0xFFFFFFFF;
-  restorePressedMask = kRestoreMaskUnwritten;
-  n = PrepareInjectedInputBatch(
-    inputs, kbd, &sharedData, StubGetAsyncKeyState, TRUE, &restorePressedMask, RecordDiagnostic,
-    NULL, NULL, &truncated);
-
-  EXPECT_EQ(truncated, (DWORD)0) << "nothing was dropped, so the out-param must say zero, not stay unwritten";
-  EXPECT_EQ(CountDiagnostics(BatchOutputTruncated), 0)
-      << "a fitting batch must not report truncation";
-}
-
-/*
-  FR-006's threshold, which is the load-bearing half of the requirement. Exactly one modifier held
-  at launch and released before the feed was live is the ordinary launch-seed case 002's reconcile
-  exists to clear, so firing here would put a line in the log on an ordinary session.
-*/
-TEST_F(MODIFIER_DIAGNOSTIC, OneLostHoldIsTheLaunchSeedCaseAndIsNotReportedAsADesktopSwitch) {
-  kbd[VK_LSHIFT] = 0x80; // the launch seed caught it; the user let go before the feed was live
-  AddOutputKey('A');
-
-  RunBatchReporting();
-
-  ASSERT_EQ(kbd[VK_LSHIFT], (BYTE)0) << "the reconcile still clears it -- that is 002's whole route";
-  EXPECT_EQ(CountDiagnostics(PossibleDesktopSwitch), 0)
-      << "one cleared modifier is the launch-seed case, not a desktop switch. Two or more is the "
-      << "threshold so that this session does not get a warning it cannot act on";
 }
 
 /*
@@ -2328,7 +2165,7 @@ protected:
       restoreEventIndex[i] = kRestoreEventIndexUnwritten;
     }
     n = PrepareInjectedInputBatch(
-      inputs, kbd, &sharedData, StubGetAsyncKeyState, TRUE, &restorePressedMask, NULL,
+      inputs, kbd, &sharedData, StubGetAsyncKeyState, TRUE, &restorePressedMask,
       restoreEventIndex, &userHeld);
   }
 };

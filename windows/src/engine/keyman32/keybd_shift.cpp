@@ -308,10 +308,6 @@ BOOL ReconcileModifierCache(LPBYTE const kbd, LPBYTE const live) {
               feedIsConfigured     FALSE degrades the release set to the cache alone; see below
               pRestorePressedMask  optional out; bitmask over KeymanModifierVks of what the restore
                                    half pressed, scoping PrepareModifierVerificationCorrection
-              pfnDiagnostic        optional; called for each hold this batch cannot keep. See
-                                   ModifierDiagnosticCode in serialkeyeventcommon.h. NULL means no
-                                   reporting and changes no behaviour -- nothing here decides
-                                   anything on whether a diagnostic sink is bound
               pUserHeld            optional; the user-held signal. NULL means no signal and the
                                    restore half falls back to the cache alone, which is FR-104's
                                    fallback and the shape if US0 is struck. See
@@ -346,45 +342,13 @@ int PrepareInjectedInputBatch(
   PGETASYNCKEYSTATE pfnGetAsyncKeyState,
   BOOL feedIsConfigured,
   DWORD *pRestorePressedMask,
-  PMODIFIERDIAGNOSTIC pfnDiagnostic,
   int *pRestoreEventIndex,
-  const UserHeldModifierSignal *pUserHeld,
-  DWORD *pOutputKeysTruncated) {
+  const UserHeldModifierSignal *pUserHeld) {
   DWORD nInputs = min(pSharedData->nInputs, MAX_KEYEVENT_INPUTS);
   int n         = 0;
 
   BYTE live[256];
   CaptureLiveModifierState(live, pfnGetAsyncKeyState);
-
-  // #8064 FR-006 / FR-007. Before the reconcile, because the reconcile is about to clear the very
-  // bytes this reads. Every managed modifier reading up live while the cache claims two or more
-  // held is the shape a desktop switch leaves: the user held two modifiers, released them somewhere
-  // the feed could not see -- the secure desktop, a console window -- and came back. The reconcile
-  // will clear both, the release half will release nothing, the restore half will press nothing,
-  // and cache and OS will agree perfectly afterwards. ReconcileModifierCache is structurally blind
-  // to that forever: it tests for cache-up-and-live-down, and this state IS cache-up-and-live-down.
-  // It is doing its job. The only thing that can be added is that somebody is told.
-  //
-  // Two or more, not one: exactly one modifier held at launch and released before the feed was
-  // live is the ordinary launch-seed case 002's reconcile exists to clear, so a threshold of one
-  // would warn on an ordinary session.
-  if (pfnDiagnostic != NULL) {
-    int liveHeld = 0, cacheClaimed = 0;
-    for (int i = 0; i < _countof(KeymanModifierVks); i++) {
-      if (live[KeymanModifierVks[i]] & 0x80) {
-        liveHeld++;
-      }
-      if (kbd[KeymanModifierVks[i]] & 0x80) {
-        cacheClaimed++;
-      }
-    }
-    if (liveHeld == 0 && cacheClaimed >= 2) {
-      // Once per batch, vk = 0: this is a statement about the batch, not about a key. Which keys
-      // were lost is in ReconcileModifierCache's own per-VK clearing lines, logged immediately
-      // below for exactly this set.
-      pfnDiagnostic(PossibleDesktopSwitch, 0);
-    }
-  }
 
   // Clear before keybd_shift below presses it for real (#8064). Only ever clears, so this stays
   // safe when !feedIsConfigured.
@@ -395,26 +359,23 @@ int PrepareInjectedInputBatch(
   // the restore in presses a modifier nobody is holding. An earlier draft of this branch skipped
   // the reconcile when the state looked like a desktop switch, and that reintroduced #8064 with
   // cache and OS agreeing -- the one state ReconcileModifierCache cannot detect, since it tests for
-  // cache-up-and-live-down and this is its opposite.
-  //
-  // The guard above is therefore a report rather than a suppression: it emits and returns, and
-  // causes no press that would not otherwise be emitted. Losing a hold is the accepted direction
-  // here (FR-001, FR-004); manufacturing a press is not.
+  // cache-up-and-live-down and this is its opposite. Losing a hold is the accepted direction here
+  // (FR-001, FR-004); manufacturing a press is not.
   ReconcileModifierCache(kbd, live);
 
   // #8064 FR-002. The release set is live, the restore set is kbd, so a modifier the OS holds that
   // the cache does not claim is released here and never pressed back -- a hold this batch drops.
   // That is correct and stays: releasing on the cache alone reopens 002/FR-001's silent text
-  // destruction via Ctrl+Backspace. What FR-002 adds is that it stops happening in silence, so a
-  // user reporting "my Ctrl went dead" has something in the log to match.
-  //
-  // Guarded on feedIsConfigured because with the feed off both halves read the same kbd, so the
-  // condition cannot arise and reporting it would misdescribe every degraded batch.
-  if (pfnDiagnostic != NULL && feedIsConfigured) {
+  // destruction via Ctrl+Backspace. It is logged so a user reporting "my Ctrl went dead" has
+  // something in the log to match. With the feed off both halves read the same kbd, so the
+  // condition cannot arise.
+  if (feedIsConfigured) {
     for (int i = 0; i < _countof(KeymanModifierVks); i++) {
       const BYTE vk = KeymanModifierVks[i];
       if ((live[vk] & 0x80) && !(kbd[vk] & 0x80)) {
-        pfnDiagnostic(ReleasedWithoutCacheClaim, vk);
+        SendDebugMessageFormat(
+          "#8064 dropped hold: released vkey=%s that the OS reports held and the cache does not claim, "
+          "so the restore half will not press it back", Debug_VirtualKey(vk));
       }
     }
   }
@@ -425,7 +386,6 @@ int PrepareInjectedInputBatch(
   // The !feedIsConfigured arm passes kbd instead; see feedIsConfigured above.
   keybd_shift(pInputs, &n, FALSE, feedIsConfigured ? live : kbd);
 
-  DWORD outputKeysCopied = 0;
   for (DWORD i = 0; i < nInputs && n < MAX_KEYEVENT_INPUTS - MAX_KEYEVENT_INPUTS_MODIFIERS; i++, n++) {
     pInputs[n].type           = INPUT_KEYBOARD;
     pInputs[n].ki.wVk         = pSharedData->inputs[i].wVk;
@@ -433,26 +393,6 @@ int PrepareInjectedInputBatch(
     pInputs[n].ki.dwFlags     = pSharedData->inputs[i].dwFlags;
     pInputs[n].ki.time        = pSharedData->inputs[i].time;
     pInputs[n].ki.dwExtraInfo = (ULONG_PTR)pSharedData->inputs[i].extraInfo;
-    outputKeysCopied++;
-  }
-
-  // The truncation diagnostic: what is sent is still a prefix, but it is
-  // no longer silent. Reported once per batch (vk = 0, a batch property),
-  // and the dropped count is returned to the caller, so a batch of
-  // 249..256 output keys is no longer truncated and reported nowhere.
-  // The count is against the clamped nInputs (at most 256), not the raw
-  // shared count: keys beyond 256 were never read, by the clamp above.
-  // The behaviour is unchanged: this reports the drop, it does not
-  // change what is sent.
-  if (outputKeysCopied < nInputs) {
-    if (pOutputKeysTruncated != NULL) {
-      *pOutputKeysTruncated = nInputs - outputKeysCopied;
-    }
-    if (pfnDiagnostic != NULL) {
-      pfnDiagnostic(BatchOutputTruncated, 0);
-    }
-  } else if (pOutputKeysTruncated != NULL) {
-    *pOutputKeysTruncated = 0;
   }
 
   // #8064 FR-101. The restore set is `kbd OR (pUserHeld->held & ~pUserHeld->unknown)`.

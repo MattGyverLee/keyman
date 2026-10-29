@@ -44,16 +44,6 @@
 
 // TODO: refactor this into the SerialKeyEventServer class and provide getters for them
 
-/**
-  #8064 FR-002 / FR-006. The production end of the PMODIFIERDIAGNOSTIC seam: turn a
-  ModifierDiagnosticCode into a debug line. The batch reports a code and a VK, never a string, so
-  the wording below can be rewritten by anyone without touching what the suite asserts -- which is
-  the whole reason the seam is typed. The suite binds a recorder instead of this, because
-  SendDebugMessageFormat resolves to ETW (K32_DBG.CPP) and nothing in-process can read it back.
-
-  A file-local free function rather than a member: PMODIFIERDIAGNOSTIC is a plain function pointer,
-  for the same reason PGETASYNCKEYSTATE is (gmock is not linked into the test project).
-*/
 /*
   #8064 FR-104. WTSRegisterSessionNotification lives in wtsapi32.dll, and it is bound at RUNTIME
   rather than linked.
@@ -98,42 +88,6 @@ BindSessionNotificationApi() {
     (PWTSUNREGISTERSESSIONNOTIFICATION)GetProcAddress(g_hWtsApi, "WTSUnRegisterSessionNotification");
 
   return g_pWtsRegisterSession != NULL && g_pWtsUnregisterSession != NULL;
-}
-
-static void
-ReportModifierDiagnostic(ModifierDiagnosticCode code, BYTE vk) {
-  switch (code) {
-  case ReleasedWithoutCacheClaim:
-    // The hold this batch could not keep. FR-001 accepts the drop; FR-002 is why it is not silent.
-    SendDebugMessageFormat(
-      "#8064 dropped hold: released vkey=%s that the OS reports held and the cache does not claim, "
-      "so the restore half will not press it back. Expect the user to report this modifier dead "
-      "until they press it again",
-      Debug_VirtualKey(vk));
-    break;
-  case PossibleDesktopSwitch:
-    // vk is 0 here by contract: the condition is a property of the batch. The keys involved are
-    // named by ReconcileModifierCache's own clearing lines, which follow immediately.
-    UNREFERENCED_PARAMETER(vk);
-    SendDebugMessageFormat(
-      "#8064 possible desktop switch: every managed modifier reads up live while the cache claimed "
-      "two or more held. The reconcile is clearing them and the restore half will press nothing, so "
-      "those holds are lost. The 'clearing vkey=' lines that follow name them");
-    break;
-  case BatchOutputTruncated:
-    // vk is 0 here by contract: the condition is a property of the batch.
-    // The dropped count is in the batch's pOutputKeysTruncated out-param,
-    // not in this line: this seam reports a code and a VK, never a count.
-    UNREFERENCED_PARAMETER(vk);
-    SendDebugMessageFormat(
-      "#8064 batch truncated: the output-key loop ran out of buffer slots, so "
-      "output keys at the tail of this batch were dropped. What was sent is a "
-      "prefix of what the keyboard asked for, never a hole in the middle");
-    break;
-  default:
-    SendDebugMessageFormat("#8064 unknown modifier diagnostic code=%d vkey=%s", (int)code, Debug_VirtualKey(vk));
-    break;
-  }
 }
 
 class SerialKeyEventServer: public ISerialKeyEventServer {
@@ -767,7 +721,7 @@ private:
 
     m_nInputs = PrepareInjectedInputBatch(
       m_pInputs, m_ModifierKeyboardState, m_pSharedData, GetAsyncKeyState, flag_ShouldSerializeInput,
-      &restorePressedMask, ReportModifierDiagnostic, m_restoreEventIndex, &m_userHeld);
+      &restorePressedMask, m_restoreEventIndex, &m_userHeld);
     return restorePressedMask;
   }
 
