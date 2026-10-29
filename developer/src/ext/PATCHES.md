@@ -140,12 +140,26 @@ list and is removed, not kept "just in case".
 - Removal test, 2026-10-28, Delphi 12 Athens CE: without it, the IDE Build of Jcl.dproj fails as
   above. With it, Jcl.dproj (Debug, Win32) builds, Success. 10.3 compile UNVERIFIED.
 
+## 6. JCL — `jedi/jcl/jcl/source/vcl/JclGraphUtils.pas`
+
+- Trigger: the JclVcl package (`packages/JclVcl.dproj`, via `jedi/build.sh`) on Delphi 12 CE: 109
+  errors, `JclGraphUtils.pas(1480…1716): E2251 Ambiguous overloaded call to 'Min'` / `'Max'`, then
+  `JclVcl.dpk(43): F2063`. The unit uses both `System.Math` and `JclLogic`, and both declare
+  overloaded `Min`/`Max` with identical signatures. The 18 unqualified clamps
+  `Max(0, Min(255, Byte(x)))` are ambiguous on Delphi 12. (An `Integer(…)` cast does not help,
+  and was tried.) The file's other calls are already written `JclLogic.Max(…)` / `JclLogic.Min(…)`.
+- Change: qualify those 18 calls the same way: `JclLogic.Max(0, JclLogic.Min(255, Byte(x)))`. This
+  selects JclLogic's `Byte` overload, and the results are unchanged.
+- Removal test, 2026-10-29, Delphi 12 Athens CE: without it, JclVcl.dproj fails as above. With it,
+  all six JEDI packages build (Debug, Win32) and `jedi/build.sh build` completes, exit 0. 10.3 compile
+  UNVERIFIED.
+
 ## What is NOT patched
 
 No other file under `developer/src/ext/` carries a Keyman-local
 patch as of the #16043 tip — the JVCL entry above is a sync,
 not a patch, and entry 1 was removed, so the Keyman-local
-patches are entries 3, 4 and 5 only. If a diff on refresh shows a change outside the entries
+patches are entries 3, 4, 5 and 6 only. If a diff on refresh shows a change outside the entries
 above, it is either an upstream change to keep or a patch to
 record here with its trigger and removal test — never a change
 to carry silently.
