@@ -1,0 +1,24 @@
+--- common/windows/delphi/tools/build.sh build (16:51:32)
+--- windows/src/engine/tsysinfox64/build.sh build (16:51:40)
+FAILED: windows/src/engine/tsysinfox64/build.sh build -- see /tmp/tmp.wm9a5HzPtz/prepare-1.log
+[common/windows/delphi/components] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 build --debug>
+[common/windows/delphi/components] ## build:project starting...
+[common/windows/delphi/components] Delphi CE prepare: common_components.dproj (Win32) is not built yet; stopping this script here (pre-steps done).
+[common/windows/delphi/components] WARNING: build:project never reported success or failure
+[common/windows/delphi] ## child build:components completed successfully
+[common/windows/delphi] ## child build:ext starting...
+[common/windows/delphi/ext] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 build --debug>
+[common/windows/delphi/ext] dependency build, started by windows/src/engine/tsysinfox64
+[common/windows/delphi/ext] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 build --debug>
+[common/windows/delphi/ext] ## child build:cef4delphi starting...
+[common/windows/delphi/ext/cef4delphi] child build, parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 build --debug>
+[common/windows/delphi/ext/cef4delphi] dependency build, started by windows/src/engine/tsysinfox64
+[common/windows/delphi/ext/cef4delphi] build.sh parameters: <--builder-child --deps --builder-dep-parent windows/src/engine/tsysinfox64 build --debug>
+[common/windows/delphi/ext/cef4delphi] ## build:project starting...
+/c/Github/keyman-fresh-ce/common/windows/delphi/ext/cef4delphi/build.sh: line 22: /c/Github/keyman-fresh-ce/common/windows/delphi/tools/devtools/bin/Win32/Debug/devtools.exe: No such file or directory
+[common/windows/delphi/ext/cef4delphi] ## build:project failed
+[common/windows/delphi/ext] ## child script '/c/Github/keyman-fresh-ce/common/windows/delphi/ext/cef4delphi/build.sh build' failed with exit code 127
+[common/windows/delphi] ## child script '/c/Github/keyman-fresh-ce/common/windows/delphi/ext/build.sh build' failed with exit code 127
+[windows/src/engine/tsysinfox64] ## Dependency failed with exit code 127
+[windows/src/engine/tsysinfox64] ## build:project failed
+exit 1

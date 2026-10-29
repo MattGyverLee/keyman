@@ -1,0 +1,37 @@
+--- common/windows/delphi/tools/build.sh build (16:53:39)
+Project group: C:\Users\thoua\AppData\Local\Temp\tmp.7MHImBa4Mx\keyman-ce.groupproj (7 projects)
+
+=== In the Delphi IDE: open C:\Users\thoua\AppData\Local\Temp\tmp.7MHImBa4Mx\keyman-ce.groupproj (if it is already open, close it and
+    open it again: the IDE does not notice that this script rewrote it),
+    show the Build Groups pane, pick Active Group 'CE-1', and press its Build button.
+    Then press Enter here. Ctrl-C aborts.
+--- windows/src/engine/tsysinfox64/build.sh build (16:55:28)
+Project group: C:\Users\thoua\AppData\Local\Temp\tmp.7MHImBa4Mx\keyman-ce.groupproj (10 projects)
+
+=== In the Delphi IDE: open C:\Users\thoua\AppData\Local\Temp\tmp.7MHImBa4Mx\keyman-ce.groupproj (if it is already open, close it and
+    open it again: the IDE does not notice that this script rewrote it),
+    show the Build Groups pane, pick Active Group 'CE-2', and press its Build button.
+    Then press Enter here. Ctrl-C aborts.
+--- windows/src/build.sh build (16:59:59)
+FAILED: windows/src/build.sh build -- see /tmp/tmp.7MHImBa4Mx/prepare-3.log
+[windows/src/engine/tsysinfox64] skipping build:project, up-to-date
+[windows/src/engine/tsysinfo] ### visual_studio: rc version.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/tsysinfo] ### visual_studio: rc manifest.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+[windows/src/engine/tsysinfo] ## script '/windows/src/engine/tsysinfox64/build.sh publish' launched...
+[windows/src/engine/tsysinfox64] child build, parameters: <--builder-child --deps publish --debug>
+[windows/src/engine/tsysinfox64] ## publish:project starting...
+[windows/src/engine/tsysinfox64] ### visual_studio: mt.exe -nologo -inputresource:/c/Github/keyman-fresh-ce/windows/bin/engine/tsysinfox64.exe -validate_manifest
+
+mt.exe : general error c101008c: Failed to read the manifest from the resource of file "\\?\C:\Github\keyman-fresh-ce\windows\bin\engine\tsysinfox64.exe". The system cannot find the file specified.
+[windows/src/engine/tsysinfox64] ## publish:project failed
+[windows/src/engine/tsysinfo] ## child script '/c/Github/keyman-fresh-ce/windows/src/engine/tsysinfox64/build.sh publish' failed with exit code 31
+[windows/src/engine/tsysinfo] ## build:project failed
+[windows/src/engine] ## child script '/c/Github/keyman-fresh-ce/windows/src/engine/tsysinfo/build.sh build' failed with exit code 31
+[windows/src] ## child script '/c/Github/keyman-fresh-ce/windows/src/engine/build.sh build' failed with exit code 31
+exit 1

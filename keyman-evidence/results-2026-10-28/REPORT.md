@@ -8,8 +8,8 @@ UNVERIFIED**. INCONCLUSIVE is never PASS. Evidence is in this folder; each line 
 | PR | Branch | Tip now | Was (start of day) |
 |---|---|---|---|
 | #16043 | chore/windows/delphi-11-12-compat | **dcefa58340** | 9de382db06 |
-| #16044 | feat/windows/delphi-ce-workflow | **b3dcf2a95d** (2026-10-29: CE route) | 09b2cbe558 |
-| #16191 | chore/windows/delphi-ce-guard | **8efbe71abe** (restacked) | 331b0b3015 |
+| #16044 | feat/windows/delphi-ce-workflow | **1ff169af15** (2026-10-29: CE route; fresh-tree fixes) | 09b2cbe558 |
+| #16191 | chore/windows/delphi-ce-guard | **54335fa43f** (restacked) | 331b0b3015 |
 | #16490 | fix/windows/8064-stuck-modifier | **7681e589d0** (2026-10-29: run-8064-test.ps1 removed; diagnostics trimmed) | f58d9da489 |
 | #16527 | fix/windows/16462-osk-sticky-modifier | **fd5ec76b3c** (restacked, no other change) | c923e1e89d |
 

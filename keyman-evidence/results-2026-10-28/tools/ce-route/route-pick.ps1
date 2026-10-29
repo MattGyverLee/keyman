@@ -3,6 +3,6 @@ param([int]$Down = 1)
 Add-Type -AssemblyName System.Windows.Forms
 Focus-Bds
 Click 910 680; Start-Sleep 1
-for ($i = 0; $i -lt $Down; $i++) { [System.Windows.Forms.SendKeys]::SendWait('{DOWN}'); Start-Sleep -Milliseconds 300 }
-[System.Windows.Forms.SendKeys]::SendWait('{ENTER}'); Start-Sleep 2
+# keystrokes into the dropped list are unreliable; click the item (rows are ~13 px apart)
+Click 850 (701 + 13 * $Down); Start-Sleep 2
 Shot 'route-pick'
