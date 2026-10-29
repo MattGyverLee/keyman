@@ -1,0 +1,65 @@
+--- prepare common/windows/delphi/tools (17:03:17)
+Project group: C:\Users\thoua\AppData\Local\Temp\tmp.lQJvVsV9F7\keyman-ce.groupproj (7 projects)
+
+=== In the Delphi IDE: open C:\Users\thoua\AppData\Local\Temp\tmp.lQJvVsV9F7\keyman-ce.groupproj (if it is already open, close it and
+    open it again: the IDE does not notice that this script rewrote it),
+    show the Build Groups pane, pick Active Group 'CE-1', and press its Build button.
+    Then press Enter here. Ctrl-C aborts.
+--- common/windows/delphi/tools/build.sh build
+[common/windows/delphi/tools] Local build environment detected:  setting --debug
+[common/windows/delphi/tools] build.sh parameters: <build --debug>
+[common/windows/delphi/tools] ## child build:build_standards_data starting...
+[common/windows/delphi/tools/build_standards_data] child build, parameters: <--builder-child --deps build --debug>
+[common/windows/delphi/tools/build_standards_data] ## build:project starting...
+[common/windows/delphi/tools/build_standards_data] Delphi CE: build_standards_data.dproj (Win32) — output was built earlier in this run, skipping prompt.
+Building C:/Github/keyman-fresh-ce/common/windows/delphi/standards/Keyman.System.Standards.ISO6393ToBCP47Registry.pas
+Building C:/Github/keyman-fresh-ce/common/windows/delphi/standards/Keyman.System.Standards.BCP47SuppressScriptRegistry.pas
+Building C:/Github/keyman-fresh-ce/common/windows/delphi/standards/Keyman.System.Standards.BCP47SubtagRegistry.pas
+Building C:/Github/keyman-fresh-ce/common/windows/delphi/standards/Keyman.System.Standards.LCIDToBCP47Registry.pas
+Building C:/Github/keyman-fresh-ce/common/windows/delphi/standards/Keyman.System.Standards.LangTagsRegistry.pas
+[common/windows/delphi/tools/build_standards_data] ## build:project completed successfully
+[common/windows/delphi/tools] ## child build:build_standards_data completed successfully
+[common/windows/delphi/tools] ## child build:buildunidata starting...
+[common/windows/delphi/tools/buildunidata] child build, parameters: <--builder-child --deps build --debug>
+[common/windows/delphi/tools/buildunidata] ## build:project starting...
+[common/windows/delphi] dependency build, started by common/windows/delphi/tools/buildunidata
+[common/windows/delphi] build.sh parameters: <configure:keymanversion build:keymanversion --debug --deps --builder-dep-parent common/windows/delphi/tools/buildunidata>
+[common/windows/delphi] ## build:keymanversion starting...
+[common/windows/delphi] ## build:keymanversion completed successfully
+[common/windows/delphi/tools/buildunidata] Delphi CE: buildunidata.dproj (Win32) — output was built earlier in this run, skipping prompt.
+[common/windows/delphi/tools/buildunidata] ## build:project completed successfully
+[common/windows/delphi/tools] ## child build:buildunidata completed successfully
+[common/windows/delphi/tools] ## child build:devtools starting...
+[common/windows/delphi/tools/devtools] child build, parameters: <--builder-child --deps build --debug>
+[common/windows/delphi/tools/devtools] ## build:project starting...
+[common/windows/delphi/tools/devtools] Delphi CE: devtools.dproj (Win32) — output was built earlier in this run, skipping prompt.
+[common/windows/delphi/tools/devtools] ## build:project completed successfully
+[common/windows/delphi/tools] ## child build:devtools completed successfully
+[common/windows/delphi/tools] ## child build:sentrytool starting...
+[common/windows/delphi/tools/sentrytool] child build, parameters: <--builder-child --deps build --debug>
+[common/windows/delphi/tools/sentrytool] ## build:project starting...
+[common/windows/delphi/tools/sentrytool] Delphi CE: sentrytool.dproj (Win32) — output was built earlier in this run, skipping prompt.
+[common/windows/delphi/tools/sentrytool] ## build:project completed successfully
+[common/windows/delphi/tools] ## child build:sentrytool completed successfully
+[common/windows/delphi/tools] ## child build:test-klog starting...
+[common/windows/delphi/tools/test-klog] child build, parameters: <--builder-child --deps build --debug>
+[common/windows/delphi/tools/test-klog] ## build:project starting...
+[common/windows/delphi/tools/test-klog] Delphi CE: CLI compilation is not available.
+[common/windows/delphi/tools/test-klog] Please build test_klog.dproj (Platform: Win32, Config: Debug) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort).
+[common/windows/delphi/tools/test-klog] Tip: resources/build/win/delphi-ce-build.sh builds whole trees with one IDE build per wave instead of one prompt per project; see docs/build/windows-delphi-ce.md.
+[common/windows/delphi/tools/test-klog] ## build:project completed successfully
+[common/windows/delphi/tools] ## child build:test-klog completed successfully
+[common/windows/delphi/tools] ## child build:verify_signatures starting...
+[common/windows/delphi/tools/verify_signatures] child build, parameters: <--builder-child --deps build --debug>
+[common/windows/delphi/tools/verify_signatures] ## build:project starting...
+[common/windows/delphi/tools/verify_signatures] Delphi CE: verify_signatures.dproj (Win32) — output was built earlier in this run, skipping prompt.
+[common/windows/delphi/tools/verify_signatures] ## build:project completed successfully
+[common/windows/delphi/tools] ## child build:verify_signatures completed successfully
+--- prepare windows/src/engine/tsysinfox64 (17:06:55)
+Project group: C:\Users\thoua\AppData\Local\Temp\tmp.lQJvVsV9F7\keyman-ce.groupproj (10 projects)
+
+=== In the Delphi IDE: open C:\Users\thoua\AppData\Local\Temp\tmp.lQJvVsV9F7\keyman-ce.groupproj (if it is already open, close it and
+    open it again: the IDE does not notice that this script rewrote it),
+    show the Build Groups pane, pick Active Group 'CE-2', and press its Build button.
+    Then press Enter here. Ctrl-C aborts.
+No Enter received (stdin closed): stopping.
