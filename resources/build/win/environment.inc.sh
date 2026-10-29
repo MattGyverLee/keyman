@@ -110,7 +110,9 @@ tds2dbg() {
 # the marker was not built during this run and is never trusted, whatever the
 # .dpr/.pas mtimes say. The empty marker file is left in the temp folder.
 if [[ "${KEYMAN_DELPHI_CE:-}" == "1" ]]; then
-  if [[ -n "${_builder_deps_built:-}" ]]; then
+  if [[ -n "${KEYMAN_DELPHI_CE_SESSION:-}" ]]; then
+    _KEYMAN_DELPHI_CE_SESSION="$KEYMAN_DELPHI_CE_SESSION"
+  elif [[ -n "${_builder_deps_built:-}" ]]; then
     _KEYMAN_DELPHI_CE_SESSION="${_builder_deps_built}.delphi-ce-session"
   else
     # Not under a builder top-level run: this process is the session
@@ -191,9 +193,24 @@ delphi_msbuild() {
       return 0
     fi
 
+    # CE prepare phase: stop this script cleanly at its first compile not yet
+    # built in this CE session, after its pre-steps have run, and record it.
+    if [[ "${KEYMAN_DELPHI_CE_PHASE:-}" == "prepare" ]]; then
+      # Record every delphi_msbuild call in this script (read from the script
+      # itself, so multi-compile scripts are covered and nothing is hand-listed).
+      local here line p plat
+      here="$(pwd -W 2>/dev/null || pwd)"
+      while IFS= read -r line; do
+        p="${line%% *}"; plat=Win32; [[ "$line" == *Platform=Win64* ]] && plat=Win64
+        echo "$here|$p|$plat|$config" >> "${KEYMAN_DELPHI_CE_PENDING:-/dev/null}"
+      done < <(sed -n 's/^[^#]*delphi_msbuild[[:space:]]\{1,\}//p' "${THIS_SCRIPT:-$0}" | tr -d '\r')
+      builder_echo "Delphi CE prepare: $project ($platform) is not built yet; stopping this script here (pre-steps done)."
+      exit 0
+    fi
+
     builder_echo warning "Delphi CE: CLI compilation is not available."
     builder_echo warning "Please build ${project} (Platform: ${platform}, Config: ${config}) in the Delphi IDE now, then press Enter to continue (or Ctrl-C to abort)."
-    builder_echo warning "Tip: opening the parent .groupproj and running Build All now pre-builds all sibling projects at once; later CE prompts in this run will auto-skip for outputs built during the run."
+    builder_echo warning "Tip: resources/build/win/delphi-ce-build.sh builds whole trees with one IDE build per wave instead of one prompt per project; see docs/build/windows-delphi-ce.md."
     read -r _
     return 0
   fi
