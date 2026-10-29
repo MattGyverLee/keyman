@@ -105,3 +105,27 @@ never been built on Delphi 12 in this stack, because TIKE compiles JCL/JVCL from
    on Delphi 12. They are needed for the IDE form designer, through the `devtools -ip` design packages,
    but not to compile TIKE.
    JvCore, JvCoreDesign, JvDocking and JvDockingDesign are **UNVERIFIED** (not reached).
+
+## Update 2026-10-29 — should the JEDI packages build? Yes; they now do on Delphi 12
+
+- **They are part of the normal 10.3 build.** Upstream `developer/src/build.sh` has the child `:ext`
+  (win,delphi), and `developer/src/ext/build.sh` runs `:browse4folder :jedi :mbcolor :scfontcombobox`.
+  `jedi/build.sh build` compiles Jcl, JclVcl, JvCore, JvCoreDesign, JvDocking and JvDockingDesign, then
+  `devtools -ip` installs the two design packages into the IDE (needed by the form designer for TIKE's
+  docking forms; TIKE itself compiles JCL/JVCL from source). Delphi 12 should match.
+- **JclVcl fixed** (#16043, PATCHES.md entry 6): `JclGraphUtils.pas` uses both `System.Math` and `JclLogic`,
+  which declare `Min`/`Max` overloads with identical signatures, so on Delphi 12 the 18 unqualified
+  `Max(0, Min(255, Byte(x)))` were ambiguous (E2251 ×109). They are now qualified `JclLogic.Max/Min`, as
+  the file already does elsewhere. A first attempt with an `Integer(…)` cast did not fix it: it hit the
+  same 109 errors.
+- **PASS:** `developer/src/ext/jedi/build.sh build` ran, with all six packages built in the IDE in Debug
+  (09:30–09:38), the two design packages installed, and **exit 0**. Log: `logs/M-J3-jedi-packages.*`.
+  This also confirms that dropping `jvcl/design` from the search path is fine.
+- **Design packages would not load at IDE start-up**: `Can't load package …\developer\lib\JvCoreDesign.bpl.
+  The specified module could not be found.` `JvCore.bpl` beside it is found only through PATH, and
+  `windows.md` asks for `windows\lib` on PATH but never `developer\lib`. **CE guide updated** (#16044):
+  put both on PATH, with a troubleshooting entry. The driver's IDE launcher now adds
+  `developer\lib` for its own process. **PASS:** relaunched IDE showed no load error, and a clean TIKE
+  build gave Success, 522 units (`logs/jclsynch-root-cause/run-E-…`). TIKE does not compile JclGraphUtils.
+- Pushed: #16043 **dcefa58340**, #16044 **d0bc028801**, #16191 **22512237d6** (the #16191 layer patch-id is
+  unchanged, 15d4bd60644b). test2 a1a8cf91a5.

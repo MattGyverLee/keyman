@@ -64,11 +64,22 @@ function Select-Config([string]$cfg) {
   Start-Sleep 2
 }
 function Build-Project { Click @($Ide.Node)[0] @($Ide.Node)[1] -Right; Start-Sleep 1; Click @($Ide.Build)[0] @($Ide.Build)[1] }
-Add-Type -Namespace IDE -Name M -MemberDefinition '[DllImport("user32.dll")] public static extern bool MoveWindow(System.IntPtr h, int x, int y, int w, int hh, bool r);'
+Add-Type -Namespace IDE -Name M -MemberDefinition @'
+[DllImport("user32.dll")] public static extern bool MoveWindow(System.IntPtr h, int x, int y, int w, int hh, bool r);
+[DllImport("user32.dll")] public static extern bool GetWindowRect(System.IntPtr h, out RECT r);
+public struct RECT { public int Left, Top, Right, Bottom; }
+'@
+# The IDE can restore its saved window size after start-up, undoing a resize: retry until the
+# rect really is the left half, since every click position depends on it.
 function Place-Bds {
   $b = Get-Process bds | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1
-  $wa = [System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea
-  [void][IDE.U]::ShowWindow($b.MainWindowHandle, 9); [void][IDE.M]::MoveWindow($b.MainWindowHandle, 0, 0, [int]($wa.Width / 2), $wa.Height, $true); Start-Sleep 1
+  $wa = [System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea; $w = [int]($wa.Width / 2)
+  for ($i = 0; $i -lt 8; $i++) {
+    [void][IDE.U]::ShowWindow($b.MainWindowHandle, 9); [void][IDE.M]::MoveWindow($b.MainWindowHandle, 0, 0, $w, $wa.Height, $true); Start-Sleep 2
+    $r = New-Object IDE.M+RECT; [void][IDE.M]::GetWindowRect($b.MainWindowHandle, [ref]$r)
+    if ($r.Left -eq 0 -and $r.Top -eq 0 -and ($r.Right - $r.Left) -eq $w) { return }
+  }
+  throw "IDE window would not stay at the left half (rect $($r.Left),$($r.Top),$($r.Right),$($r.Bottom))"
 }
 $Shots = 'C:\Users\thoua\AppData\Local\Temp\claude\C--Github-keyman\d9a7fe69-9d19-45db-b14c-33b3f7474856\scratchpad\shots'
 New-Item -ItemType Directory -Force $Shots | Out-Null
@@ -85,7 +96,9 @@ function Shot([string]$name = (Get-Date -Format HHmmss)) {
 }
 function Fg { $h = [IDE.U]::GetForegroundWindow(); $p = 0; [void][IDE.U]::GetWindowThreadProcessId($h, [ref]$p); $sb = New-Object Text.StringBuilder 512; [void][IDE.U]::GetWindowText($h, $sb, 512); [pscustomobject]@{ Hwnd = $h; Pid = $p; Name = (Get-Process -Id $p -ErrorAction SilentlyContinue).Name; Title = "$sb" } }
 function Start-Bds([string]$Root, [string]$Project) {
-  $env:KEYMAN_ROOT = $Root; $env:PATH = "$Root\windows\lib;" + (($env:PATH -split ';' | Where-Object { $_ -notmatch '(?i)Github\\keyman[^;]*\\windows\\lib' }) -join ';')
+  # Both package folders: the IDE loads installed design packages at start-up and Windows finds
+  # their dependencies (e.g. JvCore.bpl beside JvCoreDesign.bpl) only through PATH.
+  $env:KEYMAN_ROOT = $Root; $env:PATH = "$Root\windows\lib;$Root\developer\lib;" + (($env:PATH -split ';' | Where-Object { $_ -notmatch '(?i)Github\\keyman[^;]*\\(windows|developer)\\lib' }) -join ';')
   $env:KEYMAN_DELPHI_CE = '1'; $env:KEYMAN_DELPHI_VERSION = '23.0'; Remove-Item Env:NoDefaultCurrentDirectoryInExePath -ErrorAction SilentlyContinue
   $a = @('-pDelphi'); if ($Project) { $a += "`"$Project`"" }
   Start-Process 'C:\Program Files (x86)\Embarcadero\Studio\23.0\bin\bds.exe' -ArgumentList $a -PassThru
