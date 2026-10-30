@@ -1,0 +1,53 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261030134501
+Username: LTU-LEGION\thoua
+RunAs User: LTU-LEGION\thoua
+Configuration Name: 
+Machine: LTU-LEGION (Microsoft Windows NT 10.0.26200.0)
+Host Application: powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\Github\keyman-test-evidence\keyman-evidence\results-2026-10-28\tools\run-stock-arm.ps1 -DelaySeconds 10 -Label split -GateOnly -Repeat 3
+Process ID: 28524
+PSVersion: 5.1.26100.9444
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9444
+BuildVersion: 10.0.26100.9444
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+keyman32.dll: 20.0.9.0 sig=Valid
+keyman running: True
+=== GATE (split) 2026-10-30T13:45:20.9801274-05:00
+13:51:15.384   internal control A (no freeze) on Keyman: 0/3 wedged - consistent with the freeze being the mechanism.
+13:51:15.387   [NOTE] English: exit probe CLEAN (U+0061 U+0062 U+0063)
+13:51:15.400   [NOTE] Keyman: exit probe CLEAN (U+0061 U+0062 U+0063)
+13:51:15.475
+13:51:15.476   csv  : C:\Github\keyman-test-evidence\keyman-evidence\results-2026-10-28\logs\split-20.0.9.0\gate\stuck-m
+od-test-20261030-134522.csv
+13:51:15.499   json : C:\Github\keyman-test-evidence\keyman-evidence\results-2026-10-28\logs\split-20.0.9.0\gate\stuck-m
+od-test-20261030-134522.json
+13:51:15.518   log  : C:\Github\keyman-test-evidence\keyman-evidence\results-2026-10-28\logs\split-20.0.9.0\gate\stuck-m
+od-test-20261030-134522.txt
+13:51:15.535 ===============================================================
+13:51:15.553
+13:51:15.563 ===================== GH-8064 REGRESSION GATE =====================
+13:51:15.581   arms run      : English, Keyman
+13:51:15.621   candidates    : A,I
+13:51:15.623   trials scored : PASS 18   FAIL 0   INCONCLUSIVE 0
+13:51:15.637   decisive trials on the Keyman arm: 12
+13:51:15.654
+13:51:15.674   OVERALL: PASS
+13:51:15.691            No arm wedged, and every precondition was confirmed. This is what a build
+13:51:15.711            carrying the GH-8064 fixes is expected to produce. A vanilla build is
+13:51:15.724            expected to FAIL here instead.
+13:51:15.746   exit code: 0
+13:51:15.754   log      : C:\Github\keyman-test-evidence\keyman-evidence\results-2026-10-28\logs\split-20.0.9.0\gate\stu
+ck-mod-test-20261030-134522.txt
+13:51:15.766 ==================================================================
+GATE EXIT: 0
+=== DONE (gate) 2026-10-30T13:51:15.8512503-05:00
+**********************
+Windows PowerShell transcript end
+End time: 20261030135115
+**********************
