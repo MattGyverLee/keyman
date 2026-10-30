@@ -93,7 +93,6 @@ clean.
 |---|---|
 | `windows/src/support/fakefreeze` | the stimulus. Posts `KMC_WATCHDOG_FAKEFREEZE` to keyman.exe, which pauses for five seconds. Build with `./windows/src/support/fakefreeze/build.sh --debug build:x86` |
 | `host32/host32.cpp` | the 32-bit host, which drives the whole sequence itself |
-| `host32/rawinput-probe.cpp` | a measurement, not a fix: it changes no production file, and answers one question -- does a `WM_INPUT` feed on a worker thread keep delivering, with Keyman's `dwExtraInfo` tag intact, while the thread the low level hook was installed on is stalled. Its result is recorded in the evidence archive as [`rawinput-delivery.md`](https://github.com/MattGyverLee/keyman/blob/evidence/8064-16462/keyman-evidence/16490-GH-8064/manual-tests-GH-8064/evidence/rawinput-delivery.md). Build: `cl /nologo /W4 /EHsc /MT /DUNICODE /D_UNICODE rawinput-probe.cpp /link /SUBSYSTEM:WINDOWS user32.lib gdi32.lib /OUT:rawinput-probe.exe` |
 | `windows/src/test/manual-tests/keyboard_ll_identifier` | the wire logger. A `WH_KEYBOARD_LL` hook that logs `vkCode scanCode flags` for the nine modifier virtual keys. Delphi, and no binary is committed, so it has to be built |
 | the snippets below | the pass/fail oracle, and the recovery |
 | [`stuck-mod-test.ps1`](./stuck-mod-test.ps1) | the three-arm regression gate. `-Gate` returns 0 PASS / 1 FAIL / 2 INCONCLUSIVE / 3 setup error, and reports engine logging state. Needs `sil_cameroon_qwerty` and any Microsoft English QWERTY |
@@ -101,10 +100,6 @@ clean.
 > `keyboard_ll_identifier` installs a **global** low level hook and logs every
 > modifier keystroke on the machine while it runs. It does not log character keys,
 > but close it before typing anything sensitive.
-
-`rawinput-probe` is the one entry above that no step of this test invokes: it was
-run once, to settle a design question, and is listed so it is not mistaken for a
-repro step.
 
 ## Automated repro: host32
 

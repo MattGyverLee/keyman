@@ -308,10 +308,6 @@ BOOL ReconcileModifierCache(LPBYTE const kbd, LPBYTE const live) {
               feedIsConfigured     FALSE degrades the release set to the cache alone; see below
               pRestorePressedMask  optional out; bitmask over KeymanModifierVks of what the restore
                                    half pressed, scoping PrepareModifierVerificationCorrection
-              pUserHeld            optional; the user-held signal. NULL means no signal and the
-                                   restore half falls back to the cache alone, which is FR-104's
-                                   fallback and the shape if US0 is struck. See
-                                   UserHeldModifierSignal in serialkeyeventcommon.h
               pRestoreEventIndex   optional out; KEYMAN_MODIFIER_VK_COUNT ints, one per bit of
                                    pRestorePressedMask, giving the BUFFER INDEX of the restore
                                    KEYDOWN that bit stands for, or -1 where the bit is clear.
@@ -342,8 +338,7 @@ int PrepareInjectedInputBatch(
   PGETASYNCKEYSTATE pfnGetAsyncKeyState,
   BOOL feedIsConfigured,
   DWORD *pRestorePressedMask,
-  int *pRestoreEventIndex,
-  const UserHeldModifierSignal *pUserHeld) {
+  int *pRestoreEventIndex) {
   DWORD nInputs = min(pSharedData->nInputs, MAX_KEYEVENT_INPUTS);
   int n         = 0;
 
@@ -395,48 +390,20 @@ int PrepareInjectedInputBatch(
     pInputs[n].ki.dwExtraInfo = (ULONG_PTR)pSharedData->inputs[i].extraInfo;
   }
 
-  // #8064 FR-101. The restore set is `kbd OR (pUserHeld->held & ~pUserHeld->unknown)`.
-  //
-  // Not live, and the exclusion is part of the requirement rather than an implementation detail:
-  // live OS state reports the same value for "the user is holding it" and "we pressed it ourselves
-  // one message ago", so restoring from it manufactures unmatched presses -- #8064 from a new
-  // direction, and on hardware with no physical Right Ctrl the user cannot clear it at all. FR-102.
-  //
-  // The signal is admissible where live state is not, because it reports what a non-Keyman source
-  // observed, and reports *unknown* rather than stale when it cannot observe. It only ever widens
-  // what the cache already justifies; it can add a press the cache missed, never veto one the cache
-  // asserts. NULL means no signal and the cache alone -- FR-104's fallback, and the shape if US0 is
-  // struck.
-  //
-  // kbd itself is not modified. The cache records what Keyman's feed saw and nothing here may
-  // rewrite that; the widening lives in a local so the two sources stay distinguishable.
-  BYTE restoreSet[256];
-  memcpy(restoreSet, kbd, sizeof(restoreSet));
-
-  if (pUserHeld != NULL) {
-    for (int i = 0; i < _countof(KeymanModifierVks); i++) {
-      const BYTE vk = KeymanModifierVks[i];
-      // Via UserHeldReportsHeld, never held alone: see property 2 in serialkeyeventcommon.h.
-      if (UserHeldReportsHeld(pUserHeld, vk)) {
-        restoreSet[vk] = 0x80;
-      }
-    }
-  }
-
-  // No reconcile against live here -- mid-batch OS state is Keyman's own doing, not ground truth.
+  // The restore set is kbd, not live: live state reports the same value for "the user is holding
+  // it" and "we pressed it ourselves one message ago", so restoring from it manufactures unmatched
+  // presses -- #8064 from a new direction. No reconcile against live here either: mid-batch OS state
+  // is Keyman's own doing, not ground truth.
   //
   // #8064 FR-015b: keybd_shift_reset records where it put each press, at the point of emission. The
   // caller needs that to reconcile a short SendInput exactly; see pRestoreEventIndex above.
-  keybd_shift(pInputs, &n, TRUE, restoreSet, pRestoreEventIndex);
+  keybd_shift(pInputs, &n, TRUE, kbd, pRestoreEventIndex);
 
-  // #8064 FR-103. Built from restoreSet and NOT from kbd, so it covers the presses FR-101 added.
-  // Those are the presses most likely to race a user release, because they are made about a key the
-  // user is actively holding -- and a press the mask omits can never be corrected, since the
-  // verification pass is scoped by it.
+  // The verification pass is scoped by this mask, so it names every press the restore half made.
   if (pRestorePressedMask != NULL) {
     DWORD mask = 0;
     for (int i = 0; i < _countof(KeymanModifierVks); i++) {
-      if (restoreSet[KeymanModifierVks[i]] & 0x80) {
+      if (kbd[KeymanModifierVks[i]] & 0x80) {
         mask |= (1u << i);
       }
     }
@@ -493,8 +460,7 @@ int PrepareModifierVerificationCorrection(
   LPINPUT pInputs,
   LPBYTE const kbd,
   DWORD restorePressedMask,
-  PGETASYNCKEYSTATE pfnGetAsyncKeyState,
-  const UserHeldModifierSignal *pUserHeld) {
+  PGETASYNCKEYSTATE pfnGetAsyncKeyState) {
   int n = 0;
 
   BYTE live[256];
@@ -508,22 +474,6 @@ int PrepareModifierVerificationCorrection(
       continue; // outside the set this batch touched -- not this verification's problem
     }
     const BYTE vk = KeymanModifierVks[i];
-
-    // #8064 FR-103a. This check and the FR-103 mask widening go together. The pass corrects on
-    // cache-up-and-live-down, which is the state every FR-101 restore creates whenever the cache is
-    // blind -- inside the A0 window, always. Widening the mask without this check would release the
-    // modifier one message after the restore pressed it, back to the no-op the signal was
-    // introduced to escape, at a cost of two injected events per batch.
-    //
-    // So a VK the signal reports the user still holds is left alone. Same effective read as the
-    // restore half, held & ~unknown, or the two halves would disagree about the same key.
-    if (UserHeldReportsHeld(pUserHeld, vk)) {
-      SendDebugMessageFormat(
-        "verification: declining to correct vkey=%s -- the user-held signal reports the user is "
-        "still holding it, and this batch pressed it on that word",
-        Debug_VirtualKey(vk));
-      continue;
-    }
 
     if (!(kbd[vk] & 0x80) && (live[vk] & 0x80)) {
       SendDebugMessageFormat("verification: OS holds vkey=%s that the cache says nobody holds, correcting", Debug_VirtualKey(vk));
@@ -584,133 +534,6 @@ void UpdateModifierCacheFromKeyEvent(LPBYTE kbd, BYTE bVk, BOOL fIsExtendedKey, 
   }
 
   kbd[bVk] = fIsUp ? 0 : 0x80;
-}
-
-/**
-  #8064. The effective read of the user-held signal, and the only production
-  read path. TRUE only when the signal last observed this key DOWN and can
-  currently speak for it: held & ~unknown. A held key the signal cannot
-  speak for (poisoned, stale) reports FALSE, so it neither widens a
-  restore set nor blocks a verification correction. NULL reports FALSE.
-  Writers are UpdateUserHeldFromRawKeyboard and the Poison functions
-  below; readers must not reach past this accessor to `held` directly,
-  because a direct read of `held` alone silently treats a stale claim
-  as a genuine hold -- the exact failure this accessor exists to close.
-*/
-BOOL
-UserHeldReportsHeld(const UserHeldModifierSignal *pSignal, BYTE vk) {
-  if (pSignal == NULL) {
-    return FALSE;
-  }
-  return (pSignal->held[vk] & 0x80) && !(pSignal->unknown[vk] & 0x80);
-}
-
-/**
-  #8064 W5 / FR-100a, FR-101, FR-104a. Applies one RAW KEYBOARD event to the user-held signal.
-
-  Parameters: pSignal          the signal, updated in place
-              vkey             RAWKEYBOARD::VKey
-              makeCode         RAWKEYBOARD::MakeCode -- for VK_SHIFT the only chirality signal
-              rawFlags         RAWKEYBOARD::Flags: RI_KEY_BREAK, RI_KEY_E0, RI_KEY_E1
-              extraInformation RAWKEYBOARD::ExtraInformation
-
-  The discriminator is "not Keyman's own", not "not injected" (I-U1). This applies the event unless
-  IsKeymanInjectedKeyEvent says it is ours -- the same policy, byte for byte, as the hook's own
-  cache-feed gate. It is not a test for injection, and that difference is what makes the signal
-  useful:
-
-    - Remote Desktop delivers genuine user keystrokes as OS-injected events (extraInfo 0x4321DCBA).
-    - The Keyman OSK delivers genuine user clicks as OS-injected events.
-
-  Both are the user, and both need to reach the signal, or a hold made over RDP is one the restore
-  half drops. IsKeymanInjectedKeyEventTests carries regression guards for both populations. The
-  function does not take hDevice, so the refuted device-identity policy is not expressible here --
-  and the W0 probe recorded hDevice as unusable for this in any case.
-
-  Chirality is derived exactly as UpdateModifierCacheFromKeyEvent derives it, because both write a
-  256-byte array keyed by the chiral VK and a disagreement between them would be silent: RI_KEY_E0
-  for Control and Alt, MakeCode for Shift.
-
-  A KEYUP writes held = 0 and a KEYDOWN writes held = 0x80. EITHER WAY unknown is cleared: a fresh
-  observation of a key is the only thing that clears its poison (I-U3), and an observation is
-  exactly what this is.
-*/
-void UpdateUserHeldFromRawKeyboard(
-  UserHeldModifierSignal *pSignal,
-  USHORT vkey, USHORT makeCode, USHORT rawFlags, ULONG extraInformation) {
-  if (pSignal == NULL) {
-    return;
-  }
-
-  // Keyman's own events are not evidence about what the user is holding. Same gate as the hook's.
-  if (IsKeymanInjectedKeyEvent(makeCode, (ULONG_PTR)extraInformation)) {
-    return;
-  }
-
-  const BOOL isExtended = (rawFlags & RI_KEY_E0) != 0;
-  const BOOL isUp       = (rawFlags & RI_KEY_BREAK) != 0;
-
-  BYTE vk = (BYTE)vkey;
-  switch (vk) {
-  case VK_CONTROL:
-    vk = isExtended ? VK_RCONTROL : VK_LCONTROL;
-    break;
-  case VK_MENU:
-    vk = isExtended ? VK_RMENU : VK_LMENU;
-    break;
-  case VK_SHIFT:
-    vk = makeCode == SCANCODE_RSHIFT ? VK_RSHIFT : VK_LSHIFT;
-    break;
-  case VK_LCONTROL:
-  case VK_RCONTROL:
-  case VK_LSHIFT:
-  case VK_RSHIFT:
-  case VK_LMENU:
-  case VK_RMENU:
-    break;
-  default:
-    return; // nothing outside the managed six is written
-  }
-
-  pSignal->held[vk]    = isUp ? 0 : 0x80;
-  pSignal->unknown[vk] = 0; // a fresh observation, so this key is knowable again
-}
-
-/**
-  #8064 W5 / FR-104, FR-104a. Marks the named keys as ones the signal cannot currently speak for.
-
-  Per key, and cleared only by a fresh observation of that key -- never on a timer (I-U3). A timer
-  would decide a key is knowable again because time passed, which is precisely the reasoning that
-  makes a stale shadow dangerous: the UAC case is a user who held Ctrl, released it on the secure
-  desktop where nothing could see it, and came back. No amount of elapsed time makes the last
-  observation true again; only a new observation does.
-
-  held is left untouched. The effective read is held & ~unknown everywhere, so poisoning suppresses
-  the claim without destroying it, and one real event restores the key to service.
-*/
-void PoisonUserHeldKeys(UserHeldModifierSignal *pSignal, LPBYTE const vks, int count) {
-  if (pSignal == NULL || vks == NULL) {
-    return;
-  }
-  for (int i = 0; i < count; i++) {
-    pSignal->unknown[vks[i]] = 0x80;
-  }
-}
-
-/**
-  #8064 W5 / FR-104b. Poisons every managed modifier at once.
-
-  The whole-signal case: the feed is not established yet, the active desktop is not the user's, the
-  session changed, or the raw-input registration was displaced. In each of those the signal has no
-  standing to speak about any key, so it says so about all six.
-*/
-void PoisonAllUserHeldKeys(UserHeldModifierSignal *pSignal) {
-  if (pSignal == NULL) {
-    return;
-  }
-  for (int i = 0; i < _countof(KeymanModifierVks); i++) {
-    pSignal->unknown[KeymanModifierVks[i]] = 0x80;
-  }
 }
 
 /**
