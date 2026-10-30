@@ -224,9 +224,7 @@ PWSTR  GetSystemStore(LPKEYBOARD kb, DWORD SystemID);
 
 DWORD ExceptionMessage(LPSTR Proc, LPEXCEPTION_POINTERS ep);
 
-// #8064 FR-015b: pPressIndex is written only for the isReset direction, where
-// keybd_shift_reset records the pInputs index of each modifier KEYDOWN it emits. See its
-// doc comment in keybd_shift.cpp. Defaulted, so existing call sites are unaffected.
+// pPressIndex is written only when isReset; see keybd_shift_reset.
 void keybd_shift(LPINPUT pInputs, int* n, BOOL isReset, LPBYTE const kbd, int *pPressIndex = NULL);
 
 // for KEYMAN_MODIFIER_VK_COUNT and PGETASYNCKEYSTATE
@@ -243,21 +241,10 @@ void UpdateModifierCacheFromKeyEvent(LPBYTE kbd, BYTE bVk, BOOL fIsExtendedKey, 
 
 BOOL IsKeymanInjectedKeyEvent(DWORD scanCode, ULONG_PTR extraInfo);
 
-/**
-  #8064 The gate the low level keyboard hook applies before it posts WM_KEYMAN_MODIFIER_EVENT to the
-  serializer. Declared here, unguarded, and defined in keybd_shift.cpp, so x86, x64 and the gtest
-  project all see it: k32_lowlevelkeyboardhook.cpp is entirely inside #ifndef _WIN64 and the suite
-  cannot link it. The suite calls this rather than mirroring it; see the note in keybd_shift.cpp for
-  what the earlier mirror missed.
-*/
+// #8064 Hook decisions, defined in keybd_shift.cpp outside any _WIN64 guard so the unit tests can
+// reach them; k32_lowlevelkeyboardhook.cpp is x86 only.
 BOOL ShouldFeedModifierCache(BOOL serializeInput, DWORD scanCode, ULONG_PTR extraInfo);
 
-/**
-  #8064 Post a key event to the serializer and decide whether the hook should eat it. Declared and
-  defined for the same reason as ShouldFeedModifierCache. pfnPost is a plain function pointer -- the
-  seam shape PGETASYNCKEYSTATE (serialkeyeventcommon.h) already established -- because gmock is not
-  linked into keyman32.tests.vcxproj.
-*/
 BOOL PostKeyEventAndDecideEat(HWND hwndServer, DWORD vkCode, DWORD flags, PPOSTMESSAGEFN pfnPost);
 
 //#define KEYEVENT_EXTRAINFO_KEYMAN 0xF00F0000   // I4370

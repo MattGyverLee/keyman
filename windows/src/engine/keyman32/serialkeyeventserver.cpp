@@ -3,10 +3,6 @@
 #include "security.h"
 #include "kbd.h"
 
-// #8064 FR numbers in comments here refer to the #8064 audit-closeout requirements
-// (spec 003-8064-audit-closeout, not in this repo); see serialkeyeventcommon.h.
-// Every FR-tagged comment also states its reason in plain words.
-
 // This file is used only in keyman32.dll; implements the serial key event server
 #ifndef _WIN64
 
@@ -58,9 +54,7 @@ private:
   int m_nInputs;
   PINPUT m_pInputs;
 
-  // #8064 FR-015b. One entry per bit of the restore mask, giving the m_pInputs index of that
-  // modifier's restore KEYDOWN, or -1. Filled by PrepareInjectedInput, read after SendInput returns
-  // so a short send can be reconciled exactly rather than conservatively.
+  // #8064 Per bit of the restore mask, the m_pInputs index of that restore KEYDOWN, or -1.
   int m_restoreEventIndex[KEYMAN_MODIFIER_VK_COUNT];
 
   SerialKeyEventSharedData *m_pSharedData;
@@ -261,9 +255,8 @@ private:
   BOOL InitThread() {
     m_pInputs = new INPUT[MAX_KEYEVENT_INPUTS];
 
-    // This thread has no input queue yet, so GetKeyboardState looks like it should return nothing;
-    // it returns live state. See FreshThreadKeyboardStateReflectsLiveModifiers. A modifier
-    // held at launch is captured here and goes stale if released before the hook feed starts.
+    // Returns live state even though this thread has no input queue yet. A modifier held at launch
+    // goes stale here if released before the hook feed starts.
     GetKeyboardState(m_ModifierKeyboardState);
 
     WNDCLASS wndClass = { 0 };
@@ -385,24 +378,13 @@ private:
     //
     // Send the input to the system input queue
     //
-    // #8064 FR-015b. `!= m_nInputs`, not `== 0`. The earlier check's reasoning -- "not a latch
-    // source: the restore KEYDOWNs are last, so truncation drops presses, never releases" -- holds
-    // for latching but not for the mask. The restore presses being last is why a short send drops
-    // them, and restorePressedMask would then name presses the OS never received. The verification
-    // pass corrects on cache-up-and-live-down; for a press that was never sent, live is down, so it
-    // would release a modifier on the strength of an event that does not exist.
-    //
-    // Reported with the counts, because "SendInput failed" and "SendInput sent 251 of 256" need
-    // different responses and GetLastError does not distinguish them.
+    // #8064 A short send drops the tail, where the restore presses are. Take out of the verification
+    // mask only the presses the OS never received; the rest still need verifying.
     const UINT sent = SendInput(m_nInputs, m_pInputs, sizeof(INPUT));
     if (sent != (UINT)m_nInputs) {
       DebugLastError("SendInput");
       SendDebugMessageFormat("#8064 short send: SendInput accepted %u of %d events", sent, m_nInputs);
 
-      // Exactly the bits whose press did not go out, and no more. Clearing the whole mask on any
-      // short send would suppress the correction for the presses that did land, trading a second
-      // dropped hold for the first. m_restoreEventIndex says where each press was, so the boundary
-      // is decidable rather than guessed.
       for (int i = 0; i < KEYMAN_MODIFIER_VK_COUNT; i++) {
         if ((restorePressedMask & (1u << i)) && m_restoreEventIndex[i] >= (int)sent) {
           SendDebugMessageFormat(
@@ -415,9 +397,7 @@ private:
     }
     m_nInputs = 0;
 
-    // #8064 Schedule the post-batch verification pass; WM_KEYMAN_VERIFY_MODIFIER_EVENT says why it
-    // must be a self-post. Skipped with the feed off, where m_ModifierKeyboardState is stale by
-    // construction and "the cache says up" means nothing.
+    // Not with the feed off: the cache is then stale by construction.
     if (flag_ShouldSerializeInput && restorePressedMask != 0) {
       PostMessage(m_hwnd, WM_KEYMAN_VERIFY_MODIFIER_EVENT, (WPARAM)restorePressedMask, 0);
     }
@@ -427,13 +407,9 @@ private:
 
   /**
     Add modifier state adjustment events and then copy the new input events from the shared
-    buffer. Returns the bitmask of managed modifiers this batch's restore half pressed (see
-    PrepareInjectedInputBatch's pRestorePressedMask), so the caller can decide whether the
-    post-batch verification pass (#8064) is needed.
+    buffer. Returns the modifiers the restore half pressed.
   */
   DWORD PrepareInjectedInput() {
-    // In keybd_shift.cpp so the gtest project can reach it; this file is #ifndef _WIN64 and this is
-    // a private member, so nothing here is testable. See #8064.
     DWORD restorePressedMask = 0;
     m_nInputs = PrepareInjectedInputBatch(
       m_pInputs, m_ModifierKeyboardState, m_pSharedData, GetAsyncKeyState, flag_ShouldSerializeInput,
@@ -442,13 +418,10 @@ private:
   }
 
   /**
-    #8064 Handles WM_KEYMAN_VERIFY_MODIFIER_EVENT: rechecks the VKs the batch restored against the
-    cache and live state as they stand now, and releases any the OS still holds that the cache says
-    nobody holds.
+    #8064 Handles WM_KEYMAN_VERIFY_MODIFIER_EVENT; see PrepareModifierVerificationCorrection.
   */
   void ProcessModifierVerification(DWORD restorePressedMask) {
     INPUT correction[MAX_KEYEVENT_INPUTS_MODIFIERS];
-    // In keybd_shift.cpp so the gtest project can reach it, same reasoning as PrepareInjectedInput.
     int n = PrepareModifierVerificationCorrection(correction, m_ModifierKeyboardState, restorePressedMask, GetAsyncKeyState);
     if (n > 0) {
       if (!SendInput(n, correction, sizeof(INPUT))) {
@@ -477,8 +450,6 @@ private:
       ProcessQueuedKeyEvents();
     }
 
-    // #8064 Not inline in ProcessQueuedKeyEvents: the point of posting is to land behind every
-    // WM_KEYMAN_MODIFIER_EVENT already queued when the batch's SendInput returned.
     if (msg == WM_KEYMAN_VERIFY_MODIFIER_EVENT) {
       ProcessModifierVerification((DWORD)wParam);
     }
@@ -616,8 +587,7 @@ private:
    reality.
   */
   void UpdateLocalModifierState(BYTE bVk, BOOL fIsExtendedKey, BYTE bScan, BOOL fIsUp) {
-    // In keybd_shift.cpp so the gtest project can reach it; this file is #ifndef _WIN64 and this is
-    // a private member, so nothing here is testable. See #8064.
+    // In keybd_shift.cpp so the unit tests can reach it.
     UpdateModifierCacheFromKeyEvent(m_ModifierKeyboardState, bVk, fIsExtendedKey, bScan, fIsUp);
   }
 };

@@ -2,12 +2,6 @@
 
 #include <windows.h>
 
-// #8064 FR numbers in comments in this area (FR-001, FR-014, FR-015b, ...)
-// refer to the #8064 audit-closeout requirements (spec 003-8064-audit-closeout).
-// That spec document is not in this repo, so every FR-tagged comment also states
-// its reason in plain words; if a comment ever relies on the number alone, the
-// comment is wrong, not the code.
-
 // We permit up to 256 input events in a single transaction
 // This allows roughly 120 characters to be output from a single
 // Keyman rule, less a bit of space for modifier shenanigans
@@ -21,43 +15,10 @@
 // state at the end of the output. This value depends on keybd_shift behaviour.
 #define MAX_KEYEVENT_INPUTS_MODIFIERS (KEYMAN_MODIFIER_VK_COUNT + 2)
 
-// #8064 Truncation policy for one injected batch. MAX_KEYEVENT_INPUTS is the whole buffer and
-// MAX_KEYEVENT_INPUTS_MODIFIERS is a reserve carved off the end of it, not a second buffer.
-// PrepareInjectedInputBatch (keybd_shift.cpp) lays a batch down in three parts, in this order:
-//
-//   1. release half -- keybd_shift(FALSE): up to 6 modifier KEYUPs + a prefix down/up, so <= 8
-//   2. output keys  -- copied from SerialKeyEventSharedData::inputs, in shared-buffer order
-//   3. restore half -- keybd_shift(TRUE): up to 6 modifier KEYDOWNs + a prefix down/up, so <= 8
-//
-// Parts 1 and 2 share the first MAX_KEYEVENT_INPUTS - MAX_KEYEVENT_INPUTS_MODIFIERS slots
-// (256 - 8 = 248); the last 8 belong to part 3 alone. The output-key loop's bound is on the
-// running total, never on the output count, so the release half spends from that same 248: with
-// all six managed modifiers held it emits 8 events and only 240 output keys fit. Output keys that
-// do not fit are dropped TAIL-FIRST -- the loop walks the shared buffer from index 0 and stops the
-// moment the total reaches 248, so what is sent is always a prefix of what the keyboard asked for:
-// never a hole in the middle, never a reordering. Tail-first is deliberate rather than an accident
-// of the loop shape: dropping the tail leaves the release and restore halves paired, which is the
-// invariant #8064 turns on, while dropping or shortening part 3 to make room would leave a modifier
-// down -- the stuck modifier this work is about.
-//
-// So the reserve is never encroached, and the worst case fills the buffer exactly: 248 + 8 = 256.
-// That exactness means an off-by-one in the loop bound is a heap overrun rather than a failing
-// test, so it is pinned twice in keybd_shift.tests.cpp:
-//
-//   NeverWritesPastTheBufferWhenTheSharedBufferOverflows -- drives the worst case and asserts
-//     n == MAX_KEYEVENT_INPUTS.
-//   WorstCaseBatchFillsTheBufferToItsLastSlotAndNotOneFurther -- asserts the same total against
-//     literals (8 + 240 + 8), so it does not move when the constants do, and writes into a
-//     guarded over-allocation so that a too-small reserve is recorded rather than committed.
-//     The older test writes into an exactly-256 array, so under that mutation it would itself
-//     overrun before it could report -- which is why the boundary is pinned from both sides.
-//
-// Truncation at 248 is not logged. The only logged clamp is the earlier one in
-// SerialKeyEventClient::SignalServer (serialkeyeventclient.cpp), which caps at
-// 256. The min(pSharedData->nInputs, MAX_KEYEVENT_INPUTS) at the top of
-// PrepareInjectedInputBatch is not this policy either: it guards the READ of
-// pSharedData->inputs[i], since nInputs lives in shared memory and an
-// over-large value would walk off the end of a 256-element array.
+// #8064 A batch is the release half and the output keys, which share the first 248 slots, then the
+// restore half in the last 8. Output keys that do not fit are dropped from the tail, so the release
+// and restore halves always stay paired. The worst case fills all 256 slots exactly, so an
+// off-by-one in the output loop bound is a heap overrun.
 
 #define KEYEVENT_WINDOW_CLASS "Keyman_KeyEventConsumerWnd"
 
@@ -73,14 +34,10 @@ between low level keyboard hook and serial key event server
 #define WM_KEYMAN_MODIFIER_EVENT (WM_USER + 2)
 
 /**
-  #8064 Posted by the serial key event server to itself after a batch's SendInput returns, when the
-  restore half pressed at least one modifier. wParam is PrepareInjectedInputBatch's
-  pRestorePressedMask, consumed by PrepareModifierVerificationCorrection.
-
-  Posted, never an inline check after SendInput: posted messages are FIFO, so by the time this is
-  dispatched, every modifier event the hook posted earlier -- including a user release that raced
-  the batch -- has reached the cache. Inline, those are still undispatched in this thread's queue,
-  since nothing pumps it until the current DispatchMessage returns.
+  #8064 Posted by the serial key event server to itself after a batch's SendInput, when the restore
+  half pressed a modifier; wParam is the restore mask. Posted rather than checked inline, so that
+  every modifier event the hook posted before it, including a user release that raced the batch,
+  has reached the cache first.
 */
 #define WM_KEYMAN_VERIFY_MODIFIER_EVENT (WM_USER + 3)
 
@@ -107,27 +64,12 @@ struct SerialKeyEventSharedData {
 // keyman32.tests.vcxproj, so the tests bind a file-local stub.
 typedef SHORT (WINAPI *PGETASYNCKEYSTATE)(int vKey);
 
-// #8064 The message-post seam. Same shape and same reason as PGETASYNCKEYSTATE above: a plain
-// function pointer, because gmock is not linked into keyman32.tests.vcxproj. Production passes
-// PostMessage; the suite binds a file-local stub that records the post and can be made to fail, so
-// PostKeyEventAndDecideEat's eat-only-on-a-successful-post decision is exercisable without a
-// message queue, a window or an interactive desktop.
+// Message-post seam, a function pointer for the same reason as PGETASYNCKEYSTATE.
 typedef BOOL (WINAPI *PPOSTMESSAGEFN)(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 
 // Defined in keybd_shift.cpp, outside any _WIN64 guard so both architectures and the gtest project
-// can reach it. #8064 added feedIsConfigured and pRestorePressedMask, both defaulted so existing
-// call sites are unaffected; see the doc comment there.
-//
-// feedIsConfigured means "the hook's cache feed is configured on". It does not mean "the feed is
-// working", and nothing here can tell the caller that it is. Production passes
-// flag_ShouldSerializeInput, which as far as we can tell reads TRUE in at least three same-process
-// situations where the feed may not be running: InitHooks()'s return value is not read at
-// keyman32.cpp:401, FSingleApp=TRUE appears to make the global-only LL install fail by construction
-// (keyman32.cpp:367,279), and Windows' silent hook removal at 200 ms is not noticed until a later
-// keystroke sees a >=1000 ms gap (LowLevelHookWatchDog.cpp). So TRUE is a statement about
-// configuration; read as "the cache is current" it would justify trusting a cache that has not been
-// updated since its launch seed. FALSE is the safe degradation rather than a diagnosis: it makes
-// the release and restore halves read the same kbd, stale or not.
+// can reach it. feedIsConfigured means the hook's cache feed is configured on, not that it is
+// working: flag_ShouldSerializeInput can read TRUE while the hook is not running.
 int PrepareInjectedInputBatch(
   LPINPUT pInputs,
   LPBYTE const kbd,
@@ -137,7 +79,7 @@ int PrepareInjectedInputBatch(
   DWORD *pRestorePressedMask = NULL,
   int *pRestoreEventIndex = NULL);
 
-// #8064. Defined in keybd_shift.cpp; see its doc comment and WM_KEYMAN_VERIFY_MODIFIER_EVENT above.
+// Defined in keybd_shift.cpp; see WM_KEYMAN_VERIFY_MODIFIER_EVENT.
 int PrepareModifierVerificationCorrection(
   LPINPUT pInputs,
   LPBYTE const kbd,

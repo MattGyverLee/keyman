@@ -134,20 +134,9 @@ function do_test() {
   "./tests/bin/${Platform}/${Configuration}/keyman32.tests.exe"
 }
 
-# #8064 FR-023: the opt-in interactive tests. Same build shape as do_test, a different project and
-# a different executable, and deliberately not reachable from the `test` action -- these four tests
-# inject real keyboard input and read it back, which a Session-0 CI service account cannot do. On the
-# default target they could only report PASSED without asserting anything (FR-022, SC-005); in
-# keybd_shift.interactive.tests.cpp an absent capability is FAIL() instead, which works because this
-# action is invoked by a person on a desktop where the capability should exist.
-#
-# The action is spelled `test-interactive` and not `test:interactive` because builder.inc.sh splits a
-# command-line parameter on its first colon into action and target, so `test:interactive:x86` would
-# parse as action `test` with target `:interactive:x86`; declaring that as a target would make the
-# bare `test` action sweep it in, which is exactly what FR-023 forbids.
-#
-# Requires an interactive desktop, and is a named step of the release manual-test pass -- see
-# windows/src/test/manual-tests/GH-8064 - stuck-modifier-phantom-keydown/README.md.
+# #8064 Opt-in interactive tests: they inject real keyboard input, which CI cannot, so they are
+# deliberately not part of the `test` action. Spelled `test-interactive` because builder splits
+# `test:interactive` into action `test` and a target, which `test` would then run.
 #
 # Parameters:
 #   1: Platform = Win32 | x64
