@@ -1,0 +1,96 @@
+## Summary
+
+Lets the existing tree compile under Delphi 11 (`VER350`) and Delphi 12 (`VER360`) without breaking Delphi 10.3 (`VER330`). Lowers contributor friction on #4599. A future build-server bump to a paid Delphi 11/12 license would be an environment change, if/when a licence is available — no team member currently has a Delphi 12/13 paid licence (as of 2026-10-27), so Pro verification is not claimed here; see the team testing plan linked at the end of this body. **CI is unchanged**: with `KEYMAN_DELPHI_VERSION` unset, every build script keeps defaulting to Delphi 10.3 (BDS 20.0) exactly as before.
+
+Split off from #16039 per @mcdurdin's review — that PR bundled the 11/12 compat work with the CE-specific build-chain workarounds. This PR is the compat half; the CE half is a separate PR.
+
+## Why this is in scope for the Delphi removal roadmap
+
+Delphi 10.3 Pro is no longer obtainable, and CE 10.3 has been removed from Embarcadero's downloads. Any future build-server bump or new contributor onboarding must go to Delphi 11/12. This PR makes that bump a pure environment change rather than a chase for compile errors in vendored third-party code.
+
+## What's in the change
+
+### 1. Build-script knob (CI-safe)
+
+| File | Change |
+| --- | --- |
+| `resources/build/win/configure_environment.inc.sh` | `DELPHI_VERSION` reads `${KEYMAN_DELPHI_VERSION:-20.0}` |
+| `resources/build/win/delphi_environment.inc.sh` | Same |
+| `resources/builder.inc.sh` | `builder_describe_platform` delphi-tool probe also respects `KEYMAN_DELPHI_VERSION`. Without this, machines with only Delphi 12 installed had all `win,delphi`-gated targets silently skipped |
+| `docs/build/windows.md` | How to set `KEYMAN_DELPHI_VERSION` for a CLI-capable Delphi 11/12 |
+
+**Default unchanged.** CI doesn't set the var; nothing about the canonical 10.3 flow changes.
+
+### 2. Delphi 11/12 source compat in Keyman-owned code
+
+Each change was hit by a real compile error on Delphi 12.
+
+| File | Change | Why |
+| --- | --- | --- |
+| `common/windows/delphi/tools/devtools/SourceRootPath.pas` | Add VER350/VER360 -> `'22.0'`/`'23.0'` | `DelphiMajorVersion` needs to know the new BDS install dirs |
+| `common/windows/delphi/tools/devtools/DevIncludePaths.pas` | Read the `Condition` attribute and the path nodes through `VarToStrDef` | Delphi 12's `EnvOptions.proj` has an empty `<PropertyGroup/>` and empty path nodes, whose Null variants raised `EVariantTypeCastError` |
+| `common/windows/delphi/web/Keyman.System.HttpServer.Base.pas` | Version tripwire: 10.3 compiles exactly as before; any other version compiles with a `{$MESSAGE WARN}` instead of a hard error | The existing comment asks for a re-check on new Delphi versions; a warning keeps that visible without blocking the build. 10.2/10.3 unchanged |
+| `common/windows/delphi/components/FixedTrackbar.pas` | Same tripwire shape (10.2/10.3 exact as before, others warn) | Same pattern |
+| `common/windows/delphi/general/CleartypeDrawCharacter.pas` | `EnumFontFamiliesEx` integer-return comparison on VER340/350/360 (was VER340-only) | The Win32 wrapper return type changed in 10.4+; existing guard only covered 10.4 |
+| `common/windows/delphi/general/JsonUtil.pas` | Pass `[]` options arg to `TJSONAncestor.ToChars` on VER350/360 | Delphi 11+ added a required `Options` parameter |
+| `windows/src/global/delphi/cust/CustomisationStorage.pas` | `AddCustFile` returns the new object directly instead of reading it back through `Items[]` | Delphi 12 dcc64 resolves `Items[]` there to the inherited `TObject` property (E2010) in kmcomapi Win64. Same behaviour on every version |
+| `windows/src/desktop/kmshell/util/Keyman.Configuration.Util.NetworkConnection.pas` | Compare `Ord(get_NetworkCostType)` with `1` (Unrestricted) | Delphi 12's WinRT import has no `NetworkCostType` property or `Unrestricted` name (E2003). The getter and value exist in 10.3 too |
+
+The last two are not version-guarded, so 10.3 compiles the new form. They are written to mean the same thing on every version, but the 10.3 compile of them has not been run (no 10.3 install was available).
+
+### 3. Vendored third-party code (please look here first)
+
+WARNING: **This is the highest-risk piece of the PR.** Everything is recorded, with a refresh strategy for each entry, in `developer/src/ext/PATCHES.md`.
+
+| File | Change | Why |
+| --- | --- | --- |
+| `jedi/jedi/jedi.inc` | Synced from upstream project-jedi/jedi (`a094116`) | The old vendored copy predated `HAS_PROPERTY_OLDCREATEORDER`, so JVCL's own guard in `JvComponent.pas` compiled to nothing. Upstream defines it for D5–D27 and undefines it from Delphi 11, where Embarcadero removed `OldCreateOrder` (E2003 on Delphi 12). PATCHES.md entry 2: a sync, not a Keyman patch |
+| `jedi/jvcl/jvcl/run/JvComponent.pas` | Upstream JVCL's `{$IFDEF HAS_PROPERTY_OLDCREATEORDER}` guard, byte-identical to project-jedi/jvcl | Enabled by the synced jedi.inc |
+| `jedi/jcl/.../include/jcl.inc`, `jedi/jvcl/.../common/jvcl.inc`, `jedi/jvcl/jvcl/run/JvConsts.pas` | Configure JCL/JVCL for Delphi 10.3+ (`DELPHI26_UP`/`BDS20_UP` get the 10.2 configuration; `SDelphiKey` for DELPHI26..29) | The old jedi.inc's unknown-compiler fallback treated 10.3+ as 10.2. The synced one correctly names 10.3–12, which the vendored JCL/JVCL did not know, so TIKE stopped with F1054 on 10.3 as well as 12. PATCHES.md entry 4 |
+| `jedi/jcl/jcl/source/windows/JclSvcCtrl.pas` | `{$IFNDEF VER340}^{$ENDIF}` becomes `{$IFNDEF RTL340_UP}^{$ENDIF}` at two call sites | Delphi 10.4 made `EnumDependentServices`/`EnumServicesStatus` take a pointer, and the code skipped the `^` on exactly VER340, so 11 and 12 still dereferenced (E2010 in the Jcl package). 10.3 and earlier still dereference. PATCHES.md entry 5 |
+| `jedi/jcl/jcl/source/vcl/JclGraphUtils.pas` | 18 clamps qualified as `JclLogic.Max/Min` | The unit uses both `System.Math` and `JclLogic`, whose `Min`/`Max` overloads are ambiguous on Delphi 12 (E2251 ×109 in the JclVcl package). The file's other calls are already qualified this way; results unchanged. PATCHES.md entry 6 |
+| `mbcolor/mxs.inc` | Add VER350/VER360 blocks defining `DELPHI_5_UP` ... `DELPHI_10_UP` | Without these, `HTMLColors.pas` silently drops `Variants` from its `uses` clause and breaks with `"Undeclared identifier: 'null'"`. Removal-tested: needed |
+
+**No JclSynch patch.** An earlier revision patched `JclSynch.pas` (`CreateMutex` with `BOOL()`). It is removed: the E2010 it worked around only happens when `jcl/source/prototypes` is on the IDE search path, which upstream's build scripts never register. With the paths from `developer/src/ext/jedi/build.sh`, unpatched JclSynch builds. The bug, the fix and the machine that never needed the patch were each reproduced in a controlled run ([jclsynch-root-cause.md](https://github.com/MattGyverLee/keyman/blob/evidence/8064-16462/keyman-evidence/results-2026-10-28/jclsynch-root-cause.md)).
+
+**A smaller alternative exists for the jedi.inc row.** A 6-line version check in `JvComponent.pas` alone would avoid the sync and the entry 4 configuration, and would leave the 10.3 compile byte-identical. The sync was chosen so the vendored guard matches upstream; reviewers may prefer the smaller form.
+
+### 4. .gitignore
+
+Add patterns for per-arch `version*.res` files. General build-output cleanup; not tied to either Delphi tier.
+
+## Verified (Delphi 12 Athens CE, Windows 11, 2026-10-28/29)
+
+- Full `windows/src` build, `publish`, TIKE, and the six JCL/JVCL packages (`developer/src/ext/jedi/build.sh`) all build on Delphi 12 CE with this stack.
+- The 10.3 compile is **not** verified here (no 10.3 install). CI on 10.3 is the check for that.
+- Details: [REPORT.md](https://github.com/MattGyverLee/keyman/blob/evidence/8064-16462/keyman-evidence/results-2026-10-28/REPORT.md), sections A and B.
+
+## Reviewer notes
+
+* The vendored code in section 3 is the only place real behaviour could shift. The intent is no runtime change — every cast is value-preserving, and the JVCL guard is upstream code enabled by a synced jedi.inc.
+* Untouched on purpose: the compiler stack (`kmcmplib`, `kmc-*`, Keyman Core). Those are already Delphi-free per #4599 progress and aren't in this PR's blast radius.
+
+## User Testing
+
+User testing not required: build-environment / source-compat change with no runtime behaviour modification. CI will exercise the 10.3 default path.
+
+## Relates-to
+
+Relates-to: #4599
+Replaces: #16039 (split into this PR + #16044)
+
+---
+
+## Testing plan and evidence (updated 2026-10-29, PR still closed)
+
+Team testing plan for this stack, stored on the author's fork (not a fork issue, not part of the PR diff):
+https://github.com/MattGyverLee/keyman/blob/evidence/8064-16462/keyman-evidence/team-testing-plan-2026-10-27.md
+
+Test report for the current tips (Delphi stack and 8064 stack):
+https://github.com/MattGyverLee/keyman/blob/evidence/8064-16462/keyman-evidence/results-2026-10-28/REPORT.md
+
+Evidence index:
+https://github.com/MattGyverLee/keyman/blob/evidence/8064-16462/keyman-evidence/README.md
+
+These links were added while the PR is closed; they do not reopen the PR, request review, or change the PR's code.
+
