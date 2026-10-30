@@ -371,21 +371,95 @@ ALERT_jedi_inc_incompatible
       {$ENDIF MSWINDOWS}
     {$ENDIF BDS19}
     {----------------------------}
-    // Keyman patch (see developer/src/ext/PATCHES.md): this vendored JCL predates 10.3.
-    // The old vendored jedi.inc mapped every newer compiler to BDS19 and so used the
-    // jcld25 configuration; the upstream jedi.inc defines BDS20..BDS23, so keep that
-    // same 10.2 configuration for 10.3 and later.
-    {$IFDEF BDS20_UP}
+    {$IFDEF BDS20}
       {$IFDEF MSWINDOWS}
       {$IFDEF CPUX86}
-      {$I jcld25win32.inc}
+      // This file should be located in directory jcl/source/include
+      // It is automatically created by the JCL installer
+      // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
+      {$I jcld26win32.inc}
       {$ENDIF CPUX86}
       {$IFDEF CPUX64}
-      {$I jcld25win64.inc}
+      // This file should be located in directory jcl/source/include
+      // It is automatically created by the JCL installer
+      // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
+      {$I jcld26win64.inc}
       {$ENDIF CPUX64}
       {$DEFINE JCL_CONFIGURED}
       {$ENDIF MSWINDOWS}
-    {$ENDIF BDS20_UP}
+    {$ENDIF BDS20}
+    {----------------------------}
+    {$IFDEF BDS21}
+      {$IFDEF MSWINDOWS}
+      {$IFDEF CPUX86}
+      // This file should be located in directory jcl/source/include
+      // It is automatically created by the JCL installer
+      // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
+      {$I jcld27win32.inc}
+      {$ENDIF CPUX86}
+      {$IFDEF CPUX64}
+      // This file should be located in directory jcl/source/include
+      // It is automatically created by the JCL installer
+      // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
+      {$I jcld27win64.inc}
+      {$ENDIF CPUX64}
+      {$DEFINE JCL_CONFIGURED}
+      {$ENDIF MSWINDOWS}
+    {$ENDIF BDS21}
+    {----------------------------}
+    {$IFDEF BDS22}
+      {$IFDEF MSWINDOWS}
+      {$IFDEF CPUX86}
+      // This file should be located in directory jcl/source/include
+      // It is automatically created by the JCL installer
+      // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
+      {$I jcld28win32.inc}
+      {$ENDIF CPUX86}
+      {$IFDEF CPUX64}
+      // This file should be located in directory jcl/source/include
+      // It is automatically created by the JCL installer
+      // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
+      {$I jcld28win64.inc}
+      {$ENDIF CPUX64}
+      {$DEFINE JCL_CONFIGURED}
+      {$ENDIF MSWINDOWS}
+    {$ENDIF BDS22}
+    {----------------------------}
+    {$IFDEF BDS23}
+      {$IFDEF MSWINDOWS}
+      {$IFDEF CPUX86}
+      // This file should be located in directory jcl/source/include
+      // It is automatically created by the JCL installer
+      // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
+      {$I jcld29win32.inc}
+      {$ENDIF CPUX86}
+      {$IFDEF CPUX64}
+      // This file should be located in directory jcl/source/include
+      // It is automatically created by the JCL installer
+      // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
+      {$I jcld29win64.inc}
+      {$ENDIF CPUX64}
+      {$DEFINE JCL_CONFIGURED}
+      {$ENDIF MSWINDOWS}
+    {$ENDIF BDS23}
+    {----------------------------}
+    {$IFDEF BDS37}
+      {$IFDEF MSWINDOWS}
+      {$IFDEF CPUX86}
+      // This file should be located in directory jcl/source/include
+      // It is automatically created by the JCL installer
+      // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
+      {$I jcld37win32.inc}
+      {$ENDIF CPUX86}
+      {$IFDEF CPUX64}
+      // This file should be located in directory jcl/source/include
+      // It is automatically created by the JCL installer
+      // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
+      {$I jcld37win64.inc}
+      {$ENDIF CPUX64}
+      {$DEFINE JCL_CONFIGURED}
+      {$ENDIF MSWINDOWS}
+    {$ENDIF BDS37}
     {----------------------------}
     {$IFDEF FPC}
       // This file should be located in directory jcl/source/include

@@ -123,10 +123,6 @@ begin
       finally
         Exclude(FFormState, fsCreating);
       end;
-      // Upstream JVCL guard, enabled by the synced jedi.inc (see
-      // developer/src/ext/PATCHES.md entry 2): HAS_PROPERTY_OLDCREATEORDER
-      // is defined for D5-D27 and undefined from RTL350_UP (Delphi 11+),
-      // where Embarcadero removed the property. No Keyman patch here.
       {$IFDEF HAS_PROPERTY_OLDCREATEORDER}
       if OldCreateOrder then
         DoCreate;
