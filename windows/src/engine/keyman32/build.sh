@@ -9,7 +9,7 @@ builder_describe "Keystroke processing engine" \
   @/common/include \
   @/core:win \
   clean configure build test publish install \
-  "test-interactive  Run the opt-in interactive keyboard-injection tests (#8064 FR-023)" \
+  "test-interactive  Run the opt-in interactive keyboard-injection tests (needs a desktop)" \
   :x86 :x64 :arm64
 
 builder_parse "$@"
