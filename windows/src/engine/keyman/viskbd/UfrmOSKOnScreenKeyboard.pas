@@ -72,7 +72,7 @@ type
     VKI: TVisualKeyboardInfo;
     VisualKeyboards: TVisualKeyboardInfoList;
     FCachedShiftState: TExtShiftState;
-    // #8064: what a source OTHER THAN THIS UNIT is currently holding down. FCachedShiftState says
+    // #16462: what a source OTHER THAN THIS UNIT is currently holding down. FCachedShiftState says
     // the OSK pressed a modifier; it does NOT say the OSK is the only one holding it, and both
     // readers need that difference: ResetShiftStates, to decline a release that would cancel the
     // user's own hold, and kbdKeyPressed's FinalState, to know a suppressed hold is still owed its
@@ -129,7 +129,7 @@ uses
 {$R *.dfm}
 
 (**
- * #8064: the scan codes that identify an injector at the low level hook. Hoisted to unit level
+ * #16462: the scan codes that identify an injector at the low level hook. Hoisted to unit level
  * because UpdateUserHeldModifiers needs them as well as OskModifierEvent.
  *)
 const
@@ -155,12 +155,12 @@ const
   KEYMAN_OSK_MODIFIER_FLAG_KEYMAN_INJECTED = $00000010;
 
 type
-  /// #8064: the modifier families this unit injects into.
+  /// #16462: the modifier families this unit injects into.
   TOskModifierFamily = (omfShift, omfCtrl, omfAlt);
 
 var
   (**
-   * #8064: injections this unit has made and not yet seen come back through the low level hook
+   * #16462: injections this unit has made and not yet seen come back through the low level hook
    * feed, counted per family and per direction.
    *
    * WHY A LEDGER RATHER THAN A SCAN CODE TEST. Every event this unit injects also arrives at
@@ -188,7 +188,7 @@ var
    *)
   FOskPendingEcho: array[TOskModifierFamily, Boolean] of Integer;
 
-/// #8064: maps a modifier VK, chiral or generic, onto the family the echo ledger counts. False for
+/// #16462: maps a modifier VK, chiral or generic, onto the family the echo ledger counts. False for
 /// anything that is not a modifier -- the character keys do_keybd_event also emits.
 function OskModifierFamilyOf(vk: DWORD; var family: TOskModifierFamily): Boolean;
 begin
@@ -202,7 +202,7 @@ begin
   end;
 end;
 
-/// #8064: maps a modifier VK onto the TExtShiftState value naming that exact key. Note that
+/// #16462: maps a modifier VK onto the TExtShiftState value naming that exact key. Note that
 /// TExtShiftState has no chiral Shift values, so both Shift keys map to essShift.
 function OskModifierShiftValueOf(vk: DWORD; var shift: TExtShiftStateValue): Boolean;
 begin
@@ -220,7 +220,7 @@ begin
   end;
 end;
 
-/// #8064: is this hook event the echo of an injection this unit made? Consumes the ledger entry if
+/// #16462: is this hook event the echo of an injection this unit made? Consumes the ledger entry if
 /// so, so each injection accounts for exactly one observation.
 function ConsumeOskModifierEcho(vk: DWORD; isUp: Boolean): Boolean;
 var
@@ -242,7 +242,7 @@ var
 begin
   KL.Log('kbdKeyPressed: keybd_event vk=%x scan=%x flags=%x', [bVk, bScan, dwFlags]);
 
-  // #8064: recorded BEFORE the injection, so the echo can never arrive ahead of its own ledger
+  // #16462: recorded BEFORE the injection, so the echo can never arrive ahead of its own ledger
   // entry. Every modifier this unit injects goes through here, which is what makes this the one
   // place the ledger has to be written.
   if OskModifierFamilyOf(bVk, family) then
@@ -255,14 +255,14 @@ procedure TfrmOSKOnScreenKeyboard.kbdKeyPressed(Sender: TOnScreenKeyboard; Key: 
 var
   vk, scan: Integer;
   fkcss, ass: TExtShiftState;
-  // #8064: frozen with fkcss/ass below. Re-reading kbd.LRShift for FinalState risks a keyboard
+  // #16462: frozen with fkcss/ass below. Re-reading kbd.LRShift for FinalState risks a keyboard
   // switch landing in between, selecting essCtrl/essAlt against snapshots that encode the chiral
   // values -- no branch then matches, and a PrepState suppression goes unrestored.
   LLRShift: Boolean;
 
 
   (**
-   * #8064: PrepState is about to suppress a modifier that is down and that the OSK is not
+   * #16462: PrepState is about to suppress a modifier that is down and that the OSK is not
    * claiming, so something other than this unit is holding it -- FCachedShiftState is masked by
    * kbd.ShiftState, so a modifier absent from `fkcss` cannot be an outstanding OSK press.
    *
@@ -309,7 +309,7 @@ var
     if (shift in fkcss) and not (shift in ass) then do_keybd_event(vk, 0, FExtended or KEYEVENTF_KEYUP, 0)
     else if not (shift in fkcss) and (shift in ass) then
     begin
-      // #8064: `ass` is stale by now -- the character keys and the COM property get intervene --
+      // #16462: `ass` is stale by now -- the character keys and the COM property get intervene --
       // so restoring blind can inject a KEYDOWN the user has already released: a down state with
       // no holder, which is the stuck modifier this whole area exists to avoid. Undoing
       // PrepState's own press (the branch above) needs no such check.
@@ -389,7 +389,7 @@ begin
   fkcss := kbd.ShiftState;
   ass := GetAsyncShiftState;
 
-  // #8064: FCachedShiftState records only what the OSK has clicked outstanding, by exact chiral
+  // #16462: FCachedShiftState records only what the OSK has clicked outstanding, by exact chiral
   // identity, and is what ResetShiftStates releases from. It must never come to name what the user
   // is physically holding, or teardown releases the user's own key (I2177): `- ass` excludes that,
   // and accumulating covers earlier clicks that by now read as down. The snapshot above is taken
@@ -453,7 +453,7 @@ begin
   // to match on more bits than the normal 8 bit scan code.
   scanCode := (Flags and $0FFF0000) shr 16;
 
-  // #8064: unconditionally, and before the branches below, which each return early. This feed is
+  // #16462: unconditionally, and before the branches below, which each return early. This feed is
   // the only place the OSK can learn that a modifier it is already holding has ALSO been pressed
   // by the user -- polling cannot see it, because the key is already down.
   UpdateUserHeldModifiers(VKCode, scanCode, Flags, isUp);
@@ -484,7 +484,7 @@ begin
 end;
 
 procedure TfrmOSKOnScreenKeyboard.ShiftStateChange(kbdShift, asyncShift: TExtShiftState);
-  // #8064: the release branch below used to pick its VK from the CURRENT kbd.LRShift, so after a
+  // #16462: the release branch below used to pick its VK from the CURRENT kbd.LRShift, so after a
   // SetLRShift collapse a click-off released generic VK_CONTROL/VK_MENU (Left) while the extended
   // right-hand key stayed held -- unclearable on hardware without that physical key. It now takes
   // the chiral identity from FCachedShiftState, as ResetShiftStates does.
@@ -502,7 +502,7 @@ procedure TfrmOSKOnScreenKeyboard.ShiftStateChange(kbdShift, asyncShift: TExtShi
     if vk in [VK_RCONTROL, VK_RMENU] then FExtended := KEYEVENTF_EXTENDEDKEY else FExtended := 0;
     if (shift in fkcss) and not (shift in ass) then
     begin
-      // #8064: the sticky press ResetShiftStates will later have to release. This branch's own
+      // #16462: the sticky press ResetShiftStates will later have to release. This branch's own
       // guard is proof that NOBODY holds this key right now -- it fired precisely because the live
       // read said up -- so it is the one authoritative point at which a stale user-held record can
       // be retired. Without it a missed KEYUP would suppress every future release of this key:
@@ -616,7 +616,7 @@ procedure TfrmOSKOnScreenKeyboard.ResetShiftStates;
 var
   FRemaining, FExpandedCache: TExtShiftState;
 
-  // #8064: a keyboard switch runs SetLRShift, which collapses the chiral Ctrl/Alt entries in
+  // #16462: a keyboard switch runs SetLRShift, which collapses the chiral Ctrl/Alt entries in
   // kbd.ShiftState to generic ones, so neither it nor kbd.LRShift can still name the VK that is
   // down. FCachedShiftState survives the collapse, so release from it directly -- gated on live
   // state, so a key nobody holds is left alone and a second call is a no-op.
@@ -643,7 +643,7 @@ var
     do_keybd_event(vk, 0, extended or KEYEVENTF_KEYUP, 0);
   end;
 
-  // #8064: a hold the feed recorded but never saw released -- the feed only runs while the visual
+  // #16462: a hold the feed recorded but never saw released -- the feed only runs while the visual
   // keyboard window exists, so an event can be missed across a hide/show. A key that reads up live
   // is held by nobody, so the record is stale and saying so here is what stops a stale entry
   // suppressing releases for the rest of the session.
@@ -685,7 +685,7 @@ begin
   kbd.ShiftState    := FRemaining;
   FCachedShiftState := [];
 
-  // #8064: FUserHeldShiftState is deliberately NOT cleared here. It records what the user is
+  // #16462: FUserHeldShiftState is deliberately NOT cleared here. It records what the user is
   // physically holding, which teardown does not change, and the feed keeps it current for as long
   // as this form exists. Clearing the cache is enough to make a second call a no-op.
 
@@ -730,7 +730,7 @@ begin
 end;
 
 (**
- * #8064: maintains FUserHeldShiftState from the low level hook feed -- the modifiers a source
+ * #16462: maintains FUserHeldShiftState from the low level hook feed -- the modifiers a source
  * other than this unit is currently holding down.
  *
  * THE PROBLEM THIS EXISTS FOR. FCachedShiftState records that the OSK PRESSED a modifier. It does
@@ -804,7 +804,7 @@ begin
 end;
 
 (**
- * #8064: does the USER -- any holder other than this unit -- hold the key that `shift` names?
+ * #16462: does the USER -- any holder other than this unit -- hold the key that `shift` names?
  *
  * Two callers, asking the same question of the same field for opposite reasons. ResetShiftStates
  * asks whether a KEYUP it is about to emit would cancel a user hold as well as the OSK's press,
@@ -846,7 +846,7 @@ var
 begin
   inherited;
 
-  // #8064: FOskPendingEcho is unit level, so it outlives the form. Any count still standing here
+  // #16462: FOskPendingEcho is unit level, so it outlives the form. Any count still standing here
   // belongs to a previous instance and would otherwise be spent swallowing this instance's first
   // user event of that family.
   for family := Low(TOskModifierFamily) to High(TOskModifierFamily) do
