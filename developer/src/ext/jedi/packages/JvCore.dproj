@@ -78,6 +78,9 @@
         <DCC_SymbolReferenceInfo>2</DCC_SymbolReferenceInfo>
         <DCC_UnitSearchPath>..\jvcl\jvcl\lib\d25\win32\debug;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_DcuOutput>..\jvcl\jvcl\lib\d25\win32\debug</DCC_DcuOutput>
+        <DCC_DcpOutput>..\..\..\..\lib</DCC_DcpOutput>
+        <DCC_BplOutput>..\..\..\..\lib</DCC_BplOutput>
+        <DCC_UnitSearchPath>..\..\..\..\lib;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_Namespace>System;System.Win;WinApi;Vcl;Vcl.Imaging;Data;Data.Win;$(DCC_Namespace)</DCC_Namespace>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
