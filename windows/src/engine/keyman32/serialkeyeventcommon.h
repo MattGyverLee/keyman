@@ -2,7 +2,7 @@
 
 #include <windows.h>
 
-// #8064 FR numbers in comments in this area (FR-001, FR-014, FR-101, FR-104, ...)
+// #8064 FR numbers in comments in this area (FR-001, FR-014, FR-015b, ...)
 // refer to the #8064 audit-closeout requirements (spec 003-8064-audit-closeout).
 // That spec document is not in this repo, so every FR-tagged comment also states
 // its reason in plain words; if a comment ever relies on the number alone, the
@@ -114,65 +114,6 @@ typedef SHORT (WINAPI *PGETASYNCKEYSTATE)(int vKey);
 // message queue, a window or an interactive desktop.
 typedef BOOL (WINAPI *PPOSTMESSAGEFN)(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 
-/**
-  #8064 W5 / FR-100a, FR-101, FR-104. What a source that is NOT KEYMAN'S OWN last said about each
-  managed modifier.
-
-  A second shadow rather than a second cache. The modifier cache (kbd) records what Keyman's own
-  hook feed saw; this records what a raw-input feed saw. Neither is the OS's live state, and that
-  exclusion is deliberate: live state cannot tell "the user is holding it" from "we pressed it
-  ourselves", which is why restoring from it reopens #8064 from a new direction (FR-102).
-
-  Four properties, each load-bearing:
-
-  1. It reports unknown rather than stale. `unknown[vk]` is set wherever the signal cannot currently
-     speak for that key -- the feed is not established yet, the active desktop is not the user's, the
-     session changed, or the registration was displaced. A stale "held" is the sharpest risk here: it
-     manufactures an unmatched press, which is #8064 arriving from the one direction
-     ReconcileModifierCache is structurally blind to, because cache and OS then agree.
-
-  2. The effective read is always `held & ~unknown`; no production consumer reads `held` alone.
-     That is now enforced, not just a convention: UserHeldReportsHeld (below) is the only
-     production read path, and both production readers (the restore half in
-     PrepareInjectedInputBatch and the verification correction) go through it. A future
-     reader that reads `held` directly reintroduces the silent break this accessor exists
-     to prevent, and the test UserHeldReportsHeldReadsHeldAndNotUnknown guards the accessor
-     itself. Tests still construct signals by writing the arrays directly; that is
-     construction, not a read, and is how the accessor's cases are set up.
-
-  3. It is not authoritative alone. The restore set is `cache OR (held & ~unknown)`; the signal only
-     ever widens what the cache already justifies. It can add a press the cache missed; it cannot
-     veto one the cache asserts.
-
-  4. Its currency is the reader's responsibility rather than the structure's (FR-103a, FR-103b). The
-     feed is WM_INPUT, an input-class message, and input-class messages are retrieved behind every
-     posted message however much earlier they arrived. Both of this struct's consumers are reached
-     through a posted message, so both drain pending raw input before reading it, or they read a
-     signal that predates their own trigger. See SerialKeyEventServer::DrainPendingRawInput. Nothing
-     in these two arrays can reveal that they are behind, which is why it is written down here
-     alongside property 2.
-
-  Poison is per key and clears only on a fresh observation of that key, never on a timer. A timer
-  would decide that a key is knowable again because time passed, which is the reasoning that makes a
-  stale shadow risky in the first place. See PoisonUserHeldKeys.
-
-  256 bytes each rather than KEYMAN_MODIFIER_VK_COUNT, so a VK indexes directly and no consumer has
-  to map through KeymanModifierVks to read it -- the same shape, and the same reason, as kbd.
-*/
-struct UserHeldModifierSignal {
-  BYTE held[256];    // 0x80 where the signal last observed this key DOWN
-  BYTE unknown[256]; // 0x80 where the signal cannot currently report on this key
-};
-
-// #8064. The effective read of the signal, and the only production read path.
-// Returns TRUE only when the signal last observed this key DOWN and can
-// currently speak for it: held & ~unknown. A held key the signal cannot
-// speak for (poisoned / stale) reports FALSE, so it neither widens a
-// restore set nor blocks a verification correction. NULL reports FALSE.
-// Defined in keybd_shift.cpp, outside any _WIN64 guard so the gtest
-// project can reach it like PrepareInjectedInputBatch.
-BOOL UserHeldReportsHeld(const UserHeldModifierSignal *pSignal, BYTE vk);
-
 // Defined in keybd_shift.cpp, outside any _WIN64 guard so both architectures and the gtest project
 // can reach it. #8064 added feedIsConfigured and pRestorePressedMask, both defaulted so existing
 // call sites are unaffected; see the doc comment there.
@@ -194,15 +135,13 @@ int PrepareInjectedInputBatch(
   PGETASYNCKEYSTATE pfnGetAsyncKeyState,
   BOOL feedIsConfigured = TRUE,
   DWORD *pRestorePressedMask = NULL,
-  int *pRestoreEventIndex = NULL,
-  const UserHeldModifierSignal *pUserHeld = NULL);
+  int *pRestoreEventIndex = NULL);
 
 // #8064. Defined in keybd_shift.cpp; see its doc comment and WM_KEYMAN_VERIFY_MODIFIER_EVENT above.
 int PrepareModifierVerificationCorrection(
   LPINPUT pInputs,
   LPBYTE const kbd,
   DWORD restorePressedMask,
-  PGETASYNCKEYSTATE pfnGetAsyncKeyState,
-  const UserHeldModifierSignal *pUserHeld = NULL);
+  PGETASYNCKEYSTATE pfnGetAsyncKeyState);
 
 

@@ -260,16 +260,6 @@ BOOL ShouldFeedModifierCache(BOOL serializeInput, DWORD scanCode, ULONG_PTR extr
 */
 BOOL PostKeyEventAndDecideEat(HWND hwndServer, DWORD vkCode, DWORD flags, PPOSTMESSAGEFN pfnPost);
 
-// #8064 W5. The user-held signal's mutators. Declared unguarded and defined in keybd_shift.cpp so
-// x86, x64 and the gtest project all reach them. See UserHeldModifierSignal in
-// serialkeyeventcommon.h for what the two arrays mean and why the effective read is always
-// held & ~unknown.
-void UpdateUserHeldFromRawKeyboard(
-  UserHeldModifierSignal *pSignal,
-  USHORT vkey, USHORT makeCode, USHORT rawFlags, ULONG extraInformation);
-void PoisonUserHeldKeys(UserHeldModifierSignal *pSignal, LPBYTE const vks, int count);
-void PoisonAllUserHeldKeys(UserHeldModifierSignal *pSignal);
-
 //#define KEYEVENT_EXTRAINFO_KEYMAN 0xF00F0000   // I4370
 
 #ifndef _WIN64   // I4326
