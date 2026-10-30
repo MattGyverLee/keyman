@@ -10,26 +10,12 @@
  #pragma once
 
 /**
- * #8064. Set in the flags of WM_KEYMAN_OSK_MODIFIER_EVENT when the event was injected by Keyman
- * itself, as decided by IsKeymanInjectedKeyEvent.
+ * #8064 Set in the flags of WM_KEYMAN_OSK_MODIFIER_EVENT when IsKeymanInjectedKeyEvent says Keyman
+ * injected the event. The visual keyboard cannot decide this itself: do_keybd_event gives an
+ * injected Right Shift the real scan code 0x36, and dwExtraInfo is not carried in this message.
  *
- * The visual keyboard cannot make that decision from the scan code, and the reason is Right Shift.
- * do_keybd_event (keybd_shift.cpp) overwrites SCAN_FLAG_KEYMAN_KEY_EVENT with SCANCODE_RSHIFT for
- * VK_RSHIFT, because 0x36 is what tells the receiving app which Shift it was -- so an injected Right
- * Shift is byte-identical at the hook to a physical one. That is the same gap ShouldFeedModifierCache
- * needs its second, dwExtraInfo arm for, and dwExtraInfo is not carried in this message.
- *
- * So the decision is made here, where both inputs are in hand, and only the answer is sent.
- *
- * Value chosen clear of the KEYEVENTF_ bits that share this field (EXTENDEDKEY 0x1, KEYUP 0x2,
- * UNICODE 0x4, SCANCODE 0x8) and of the 0x0FFF0000 scan code mask.
- *
- * The consumer is the OSK half, PR #16527 (issue #16462), which redeclares this value as a
- * literal in UfrmOSKOnScreenKeyboard.pas and reads it in UpdateUserHeldModifiers. It is not in
- * this tree: that PR is sequenced after this one, so until it lands this flag is set and nothing
- * reads it. That ordering is deliberate -- the Delphi side compiles standalone, so landing it
- * first would build cleanly while nothing set the bit, and every injected modifier would be
- * attributed to the user.
+ * Clear of the KEYEVENTF_ bits that share this field (0x1-0x8) and of the 0x0FFF0000 scan code
+ * mask. Read by UfrmOSKOnScreenKeyboard.pas (#16462), which redeclares the value.
  */
 #define KEYMAN_OSK_MODIFIER_FLAG_KEYMAN_INJECTED 0x00000010
 

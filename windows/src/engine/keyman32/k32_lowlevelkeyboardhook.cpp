@@ -184,13 +184,8 @@ LRESULT _kmnLowLevelKeyboardProc(
   }
 
   if(isModifierKey(hs->vkCode)) {
-    // #8064. Provenance travels with the event, because the receiver cannot recover it. The visual
-    // keyboard uses this to tell a modifier the USER is holding from one Keyman injected, and the
-    // scan code alone cannot answer that for Right Shift -- see
-    // KEYMAN_OSK_MODIFIER_FLAG_KEYMAN_INJECTED. Same injected predicate as the cache feed below
-    // (IsKeymanInjectedKeyEvent, inside ShouldFeedModifierCache), so the two cannot drift apart
-    // on what counts as Keyman's own. Serialize gating is cache-feed only: the OSK flag is about
-    // provenance, not about whether the cache is fed.
+    // #8064 The visual keyboard cannot tell an injected Right Shift from a physical one, so the
+    // hook decides and sends the answer; see KEYMAN_OSK_MODIFIER_FLAG_KEYMAN_INJECTED.
     DWORD oskFlags = (DWORD)LLKHFFlagstoWMKeymanKeyEventFlags(hs);
     if (IsKeymanInjectedKeyEvent(hs->scanCode, hs->dwExtraInfo)) {
       oskFlags |= KEYMAN_OSK_MODIFIER_FLAG_KEYMAN_INJECTED;
@@ -203,19 +198,11 @@ LRESULT _kmnLowLevelKeyboardProc(
   // later in this function. This is intentional, as the WM_KEYMAN_MODIFIER_EVENT
   // message only updates our internal modifier state, and does not do
   // any additional processing or other serialization of the input queue.
-  // #8064 Keyman's own injected modifiers must not feed the cache: a batch's restore press can
-  // outlive the user's release, leaving the cache holding a modifier nobody holds -- undetectable
-  // by the reconcile, because the OS agrees. Tested here, not at the pass-through check below,
-  // which this post precedes on purpose so modifiers are tracked with no Keyman keyboard active.
+  // #8064 Keyman's own injected modifiers must not feed the cache; see ShouldFeedModifierCache.
   if (isModifierKey(hs->vkCode)) {
     SendDebugMessageFormat("isModifierKey [hs->vkCode:%x isUp:%d]", hs->vkCode, isUp);
-    // #8064 The decision lives in ShouldFeedModifierCache (keybd_shift.cpp) so the suite can reach
-    // it. Which term refused an event can be read from the "wparam:" line above, which prints the
-    // scan code and dwExtraInfo IsKeymanInjectedKeyEvent tests.
     if (ShouldFeedModifierCache(flag_ShouldSerializeInput, hs->scanCode, hs->dwExtraInfo)) {
-      // Not an eat: processing continues either way, so a failed feed costs sync, not input. Still
-      // guarded and logged, because PostMessage to a NULL hwnd does not fail -- it misroutes to
-      // this thread's own queue -- and a stale cache is exactly the #8064 class of bug.
+      // PostMessage to a NULL hwnd does not fail; it misroutes to this thread's own queue.
       ISerialKeyEventServer *server = ISerialKeyEventServer::GetServer();
       HWND hwndServer = server ? server->GetWindow() : NULL;
       if (hwndServer == NULL) {
@@ -280,13 +267,7 @@ LRESULT _kmnLowLevelKeyboardProc(
 
       HWND hwnd = gui.hwndFocus ? gui.hwndFocus : gui.hwndActive;
       if (!IsConsoleWindow(hwnd)) {
-        // #8064 Only eat the event (return 1) once the handoff has actually succeeded. Eating on
-        // trust destroys the user's key event whenever PostMessage fails, and for a modifier KEYUP
-        // that is how #8064 re-asserts: the OS stays latched, the cache still says down, and the
-        // clear-only reconcile can never see it. Unserialized beats destroyed.
-        // The post and the eat decision live in PostKeyEventAndDecideEat (keybd_shift.cpp) so the
-        // suite can reach them; this file keeps the server lookup and the logging, which need hook
-        // state the suite has no way to stand up.
+        // #8064 Eat the event only once the handoff has succeeded; see PostKeyEventAndDecideEat.
         ISerialKeyEventServer *server = ISerialKeyEventServer::GetServer();
         HWND hwndServer = server ? server->GetWindow() : NULL;
         if (PostKeyEventAndDecideEat(hwndServer, hs->vkCode, LLKHFFlagstoWMKeymanKeyEventFlags(hs), PostMessage)) {

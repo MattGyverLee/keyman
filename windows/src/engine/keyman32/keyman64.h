@@ -133,12 +133,8 @@
 #define EXTRAINFO_FLAG_SERIALIZED_USER_KEY_EVENT 0x4B4D0000
 
 // #8064 Marks the modifier release/restore events keybd_shift wraps an injected batch in, so the
-// hook can keep them out of the server's modifier cache. Low word separates it from the opposite-
-// meaning tag above, whose high word it shares -- and that tag has carried a non-zero dwExtraInfo
-// through SendInput to the hook since 2018, which is the evidence this channel survives the trip at
-// all. Per-event, unlike the 2014 KEYEVENT_EXTRAINFO_KEYMAN (I4370, I4378) read back via per-thread
-// GetMessageExtraInfo, which went stale under rapid typing; and the only channel surviving the Right
-// Shift scan rewrite.
+// hook can keep them out of the server's modifier cache. Needed for Right Shift, whose 0xFF scan
+// flag do_keybd_event overwrites with the real scan code.
 #define EXTRAINFO_FLAG_KEYMAN_MODIFIER_WRAP 0x4B4D0001
 
 /***************************************************************************/
