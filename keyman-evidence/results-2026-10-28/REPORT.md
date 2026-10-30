@@ -35,7 +35,10 @@ changed; nothing under `windows/`, `common/` or `core/`, so the fixed-arm result
 - **Still owed:** your hand tests (C.13, OSK C.14/C.15, B.8 T1/T2): `hand-tests-checklist.md`.
   Ruling: F.16. The 10.3 compile of fixes 5–7 is UNVERIFIED (no 10.3 here).
 - **2026-10-29: the CE route** (`delphi-ce-build.sh`, two IDE build-group builds for windows/src +
-  developer/src) PASSED end to end: `ce-route-2026-10-29.md`. A fresh-clone run is still owed.
+  developer/src) PASSED end to end: `ce-route-2026-10-29.md`.
+- **2026-10-30: the CE route on a tree with Delphi outputs cleaned** PASSED (3 IDE builds, 44 compiles
+  skipped, 2 prompts) after a fourth fix, #16043 `8464f3f1bc` (JVCL Debug output). Same file,
+  "Fresh tree". Tips now: #16043 `8464f3f1bc`, #16044 `d34abb575f`, #16191 `0fb752fbaa`.
 - **2026-10-29: scope.** `run-8064-test.ps1` (the charmap mode) is removed from #16490; host32 is the
   repro harness. Remote desktop is out of scope for 8064 and becomes a follow-up issue and test.
   Neither change touches the engine, so the A/B results above stand.
