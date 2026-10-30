@@ -7,8 +7,6 @@
      {$define DELPHI_10_UP}
     {$endif}
 
-    // Keyman patch (D11/12, vendored mbcolor): define DELPHI_*_UP on VER350/VER360
-    // too, else HTMLColors.pas drops "uses Variants" and Null won't resolve.
     {$ifdef VER350}
      {$define DELPHI_5_UP}
      {$define DELPHI_6_UP}

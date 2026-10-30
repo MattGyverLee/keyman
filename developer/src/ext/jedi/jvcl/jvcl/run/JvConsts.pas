@@ -110,7 +110,6 @@ const
   {$IFDEF DELPHI25}
   SDelphiKey = 'Software\Embarcadero\BDS\19.0';
   {$ENDIF DELPHI25}
-  // Keyman patch (see developer/src/ext/PATCHES.md): this vendored JVCL predates 10.3.
   {$IFDEF DELPHI26}
   SDelphiKey = 'Software\Embarcadero\BDS\20.0';
   {$ENDIF DELPHI26}
@@ -123,6 +122,9 @@ const
   {$IFDEF DELPHI29}
   SDelphiKey = 'Software\Embarcadero\BDS\23.0';
   {$ENDIF DELPHI29}
+  {$IFDEF DELPHI37}
+  SDelphiKey = 'Software\Embarcadero\BDS\37.0';
+  {$ENDIF DELPHI37}
 
   {$IF not declared(SDelphiKey)}
     {$MESSAGE FATAL 'Declaration for SDelphiKey is missing'}

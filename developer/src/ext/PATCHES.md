@@ -1,8 +1,8 @@
 # Vendored patches — Keyman-local changes to third-party code
 
 This file is the only record of Keyman-local patches to the vendored
-trees under `developer/src/ext/`, plus the one vendored file that is
-a straight upstream sync, not a patch. An upstream refresh of any of
+trees under `developer/src/ext/`, plus the vendored files that are
+straight upstream syncs, not patches (entries 2 and 4). An upstream refresh of any of
 these trees will silently lose the patches below unless they are
 re-applied after the refresh. That is the failure this file exists
 to prevent: a refresh that drops a patch is a build failure waiting
@@ -10,8 +10,8 @@ to happen — the Delphi 11/12 build breaks without them — not a
 silent success.
 
 Rule on refresh: re-apply exactly the patches listed here, in this
-file, and nothing else, and re-sync `jedi/jedi/jedi.inc` from
-project-jedi/jedi (entry 2) instead of hand-editing it. Do not
+file, and nothing else, and re-sync the entry 2 and entry 4 files from
+upstream instead of hand-editing them. Do not
 re-add a patch that is not listed here; an unlisted patch was
 either never made or was reverted deliberately after review.
 
@@ -99,33 +99,25 @@ list and is removed, not kept "just in case".
   this patch: **breaks as described**, `HTMLColors.pas(290): E2003 Undeclared identifier:
   'null'`, then `mbColorPalette.pas(111): F2063`. **VERIFIED: needed.**
 
-## 4. JCL + JVCL configuration for Delphi 10.3 and later — needed by entry 2's jedi.inc
+## 4. JCL + JVCL configuration for Delphi 10.3 and later — SYNCED FROM UPSTREAM, NOT A KEYMAN PATCH
 
-- Trigger: TIKE on Delphi 12 CE, after the entry 2 sync. The vendored JCL/JVCL
-  predate Delphi 10.3 and only know up to 10.2. The old vendored jedi.inc hid that:
-  its `UNKNOWN_COMPILER_VERSION` fallback defined `DELPHI25`/`BDS19` (10.2) for
-  **every** newer compiler, 10.3 included. The upstream jedi.inc correctly defines
-  `DELPHI26`/`BDS20` (10.3) … `DELPHI29`/`BDS23` (12), so the build stopped at, in order:
-  - `jvcl.inc(335): F1054 Your Delphi/BCB version is not supported by this JVCL version!`
-  - `JvConsts.pas(115): F1054 Declaration for SDelphiKey is missing`
-  - `jcl.inc(387): F1054 Your Delphi/BCB version is not supported by this JCL version!`
-  These hit 10.3 too (it gets `DELPHI26`/`BDS20` now), so without this entry the
-  sync breaks the 10.3 build chain.
-- Change:
-  - `jedi/jvcl/jvcl/common/jvcl.inc`: `{$IFDEF DELPHI26_UP}` uses `jvcld25.inc` /
-    `jvcld25_x64.inc` and defines `JVCL_CONFIGURED`.
-  - `jedi/jcl/jcl/source/include/jcl.inc`: `{$IFDEF BDS20_UP}` uses
-    `jcld25win32.inc` / `jcld25win64.inc` and defines `JCL_CONFIGURED`.
-  - `jedi/jvcl/jvcl/run/JvConsts.pas`: `SDelphiKey` for `DELPHI26`..`DELPHI29`
-    (`BDS\20.0`..`BDS\23.0`, the real registry keys; the old fallback gave
-    `BDS\19.0` to every newer compiler). Delphi 13+ still hits the FATAL.
-  The two config patches give 10.3 and later exactly the JCL/JVCL configuration they
-  had before the sync (the 10.2 one). The only behavioural change is the SDelphiKey
-  value, now correct.
-- Removal test: each patch was added because the TIKE build failed at its line,
-  in the order above, on Delphi 12 CE. The 10.3 compile is UNVERIFIED (no 10.3 here).
-- On refresh: an upstream JCL/JVCL refresh that knows 10.3+ makes this entry
-  unnecessary. Remove it then, not before.
+- Why: entry 2's jedi.inc correctly defines `DELPHI26`/`BDS20` (10.3) … `DELPHI29`/`BDS23` (12).
+  The old vendored JCL/JVCL only knew up to 10.2, so TIKE stopped, on 10.3 as well as 12, at
+  `jvcl.inc(335)`, `JvConsts.pas(115)` and `jcl.inc(387)`, each `F1054 … not supported`.
+- What changed, 2026-10-30:
+  - Whole-file syncs, each the old vendored file plus upstream's per-version blocks (no line
+    removed): `jedi/jcl/jcl/source/include/jcl.inc` from project-jedi/jcl `5ac00df9da`;
+    `jedi/jvcl/jvcl/common/jvcl.inc` and `jedi/jvcl/jvcl/run/JvConsts.pas` from
+    project-jedi/jvcl `b045b99e13`.
+  - `jedi/jvcl/jvcl/common/jvcld26.inc` … `jvcld29.inc` and their `_x64` files, from
+    project-jedi/jvcl `b045b99e13`. Upstream's copies are byte-identical to `jvcld25`.
+  - `jedi/jcld26win32.inc` … `jcld29win64.inc`: copies of Keyman's `jcld25win32.inc`. Upstream
+    JCL does not ship these; `jcl.inc` says the JCL installer creates them and that a manual
+    installation copies and adjusts `jcl.template.inc`, which is how `jcld25*` were made.
+- Effect: 10.3 and later compile with the same configuration as before (the 10.2 one), now
+  selected by upstream's own blocks. `SDelphiKey` is now the right registry key per version.
+- Verified 2026-10-30, Delphi 12 Athens CE: see the #16043 PR. 10.3 compile UNVERIFIED.
+- On refresh: re-sync these files; add the next version's `jcld*` copy if upstream adds a block.
 
 ## 5. JCL — `jedi/jcl/jcl/source/windows/JclSvcCtrl.pas`
 
@@ -136,7 +128,8 @@ list and is removed, not kept "just in case".
   dereference on **exactly** VER340, so 11 and 12, which also take a pointer, still
   dereferenced. TIKE does not use JclSvcCtrl, so only the package build hits it.
 - Change: `{$IFNDEF VER340}^{$ENDIF}` → `{$IFNDEF RTL340_UP}^{$ENDIF}` at both call sites.
-  10.3 and earlier still dereference, as before.
+  10.3 and earlier still dereference, as before. These are upstream JCL's lines, from
+  project-jedi/jcl `d1e64c6ca8` ("Introduce RAD Studio 10.4 support").
 - Removal test, 2026-10-28, Delphi 12 Athens CE: without it, the IDE Build of Jcl.dproj fails as
   above. With it, Jcl.dproj (Debug, Win32) builds, Success. 10.3 compile UNVERIFIED.
 
@@ -149,17 +142,17 @@ list and is removed, not kept "just in case".
   `Max(0, Min(255, Byte(x)))` are ambiguous on Delphi 12. (An `Integer(…)` cast does not help,
   and was tried.) The file's other calls are already written `JclLogic.Max(…)` / `JclLogic.Min(…)`.
 - Change: qualify those 18 calls the same way: `JclLogic.Max(0, JclLogic.Min(255, Byte(x)))`. This
-  selects JclLogic's `Byte` overload, and the results are unchanged.
+  selects JclLogic's `Byte` overload, and the results are unchanged. These are upstream JCL's
+  lines, from project-jedi/jcl `b7776e318e` ("Support for Delphi 12").
 - Removal test, 2026-10-29, Delphi 12 Athens CE: without it, JclVcl.dproj fails as above. With it,
   all six JEDI packages build (Debug, Win32) and `jedi/build.sh build` completes, exit 0. 10.3 compile
   UNVERIFIED.
 
 ## What is NOT patched
 
-No other file under `developer/src/ext/` carries a Keyman-local
-patch as of the #16043 tip — the JVCL entry above is a sync,
-not a patch, and entry 1 was removed, so the Keyman-local
-patches are entries 3, 4, 5 and 6 only. If a diff on refresh shows a change outside the entries
-above, it is either an upstream change to keep or a patch to
-record here with its trigger and removal test — never a change
-to carry silently.
+No other file under `developer/src/ext/` differs from what is described above. Entries 2 and 4
+are upstream syncs, entries 5 and 6 are upstream JCL lines applied on their own, and entry 1
+was removed, so the only Keyman-authored change to vendored code is entry 3 (mbcolor, which has
+no live upstream and follows the VER330/VER340 blocks already there). If a diff on refresh shows
+a change outside the entries above, it is either an upstream change to keep or a patch to
+record here with its trigger and removal test — never a change to carry silently.
