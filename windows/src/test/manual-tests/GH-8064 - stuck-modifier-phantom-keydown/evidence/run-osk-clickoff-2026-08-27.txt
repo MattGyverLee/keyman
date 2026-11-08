@@ -1,0 +1,122 @@
+=== GH-8064 OSK live click-off (Finding 4b) verification, 2026-08-27 ===
+
+Second run of the day. The first (run-osk-teardown-2026-08-27.txt) verified the
+teardown half and found the I2177 regression. This one verifies the live
+click-off half -- Finding 4b -- after 791c5f181a and ea530407c2, and re-runs the
+teardown cases against the same build.
+
+Engine:   keyman.exe Win32/Debug, built 13:34 with KLOGGING defined so that
+          do_keybd_event's vk/scan/flags are recorded. Every verdict below rests
+          on the injected event itself, not on inference from modifier polling.
+Keyboards: sil_cameroon_qwerty (<usealtgr/> -> kbd.LRShift True) and akan
+          (no usealtgr -> False). The switch between them is what drives the
+          SetLRShift collapse/expansion these cases turn on.
+Capture:  OutputDebugString via the DBWIN protocol, alongside the 60 ms
+          modifier poller (watch-modifiers.ps1).
+
+Precondition worth recording: these cases cannot be run while VKI is nil.
+UpdateKeyboard pins kbd.LRShift := True when there is no visual keyboard, so
+the True->False transition is unreachable and a null result would mean nothing.
+VKI was confirmed loaded ("VKI<>nil, VKI.Keyboard<>nil [sil_cameroon_qwerty]",
+188 keys) before the runs below. See the note at the end.
+
+
+--- A. Plain click-off, no keyboard switch (the common path) ---
+
+  [15:18:05.604] ShiftStateChange: kbdShift=essRCtrl asyncShift=
+  [15:18:05.608] keybd_event vk=A3 scan=0 flags=1
+  [15:18:07.378] ShiftStateChange: kbdShift= asyncShift=essRCtrl
+  [15:18:07.380] keybd_event vk=A3 scan=0 flags=3
+
+PASS. Press and release on the same VK with the same extended bit. With no
+collapse in play, FCachedShiftState and the current regime agree, so the new
+redirect selects VK_RCONTROL and the pre-existing fallback would have selected
+it too. Identical behaviour on the common path is what this case had to show.
+
+
+--- B. Step 2: click R Ctrl, dismiss from the tray menu ---
+
+  [15:19:07.733] ShiftStateChange: kbdShift=essRCtrl asyncShift=
+  [15:19:07.737] keybd_event vk=A3 scan=0 flags=1
+  [15:19:12.006] ResetShiftStates: FShiftState=essRCtrl Cache=essRCtrl kbd.ShiftState=essRCtrl
+  [15:19:12.010] keybd_event vk=A3 scan=0 flags=3
+
+PASS, and the ResetShiftStates line states the mechanism rather than implying
+it: Cache=essRCtrl is FCachedShiftState holding the chiral identity at teardown,
+and ReleaseCached emitted A3/flags=3 from it.
+
+
+--- C. Step 3: click R Ctrl, dismiss by switching to the Character Map tab ---
+
+  [15:19:42.030] ShiftStateChange: kbdShift=essRCtrl asyncShift=
+  [15:19:42.040] keybd_event vk=A3 scan=0 flags=1
+  [15:19:46.188] ResetShiftStates: FShiftState=essRCtrl Cache=essRCtrl kbd.ShiftState=essRCtrl
+  [15:19:46.191] keybd_event vk=A3 scan=0 flags=3
+
+PASS. The FormDestroy path -- Release/FreeAndNil runs OnDestroy and never
+OnClose. Poller showed one clean HELD block with no transients.
+
+
+--- D. Step 8: Finding 4b, True->False collapse, live click-off ---
+
+  [15:20:17.381] keybd_event vk=A3 scan=0 flags=1              press, under cameroon
+  [15:20:31.256] UpdateKeyboard: VKI<>nil ... [akan]           switch: LRShift True->False
+  [15:20:40.911] ShiftStateChange: kbdShift= asyncShift=essCtrl
+  [15:20:40.915] keybd_event vk=A3 scan=0 flags=3              release, STILL EXTENDED
+
+PASS, and this is the decisive line of the whole run. By the time of the
+release the engine's own view had collapsed to the generic essCtrl -- visible in
+`asyncShift=essCtrl` on the line above -- and the release still went out as A3
+with the extended bit, the exact key that was pressed. The previous behaviour
+emitted vk=11 unextended here, which is why it missed: an unextended VK_CONTROL
+keyup does not clear an extended VK_RCONTROL, and on hardware without a physical
+Right Ctrl key nothing the user can type will.
+
+Measured three further times immediately before this build's install
+(13:25:58 -> 13:26:02, 13:26:06 -> 13:26:06, 13:26:15 -> 13:26:25), all clean.
+
+
+--- E. Step 4: False->True expansion, teardown ---
+
+  [15:20:57.292] keybd_event vk=11 scan=0 flags=0              press, under akan (generic)
+  [15:21:08.863] UpdateKeyboard: VKI<>nil ... [sil_cameroon_qwerty]   switch: False->True
+  [15:21:20.039] ResetShiftStates: FShiftState=essLCtrl Cache=essCtrl kbd.ShiftState=essLCtrl
+  [15:21:20.045] keybd_event vk=11 scan=0 flags=2              release, matches the press
+
+PASS, and the mirror of D. The ResetShiftStates line carries the design in one
+place: kbd.ShiftState says essLCtrl, because SetLRShift expanded the generic
+essCtrl when LRShift went True, while Cache says essCtrl -- what was actually
+injected. Releasing through kbd.ShiftState would have sent VK_LCONTROL;
+releasing from the cache sent vk=11, matching the press.
+
+
+--- Unexplained, and deliberately not written off ---
+
+The 60 ms poller recorded clear-and-reassert transients during B, D and E that
+the engine log does not account for: the modifier reads up, then down again,
+with no intervening keybd_event from keyman.exe. Example, during B, where the
+engine log records exactly one press (15:19:07.737) and one release
+(15:19:12.010):
+
+  [15:19:07.848] HELD: CTRL,RCTRL
+  [15:19:10.667] ALL CLEAR          <-- no injection logged here
+  [15:19:12.046] HELD: CTRL,RCTRL   <-- nor here
+  [15:19:12.118] ALL CLEAR
+
+What this rules out is useful: keyman.exe did not inject them. What it does not
+rule out is keyman32.dll, which runs inside every hooked process and injects
+there via the C++ SendDebugMessage/ETW path -- which this OutputDebugString
+capture does not see. That blind spot is a property of the instrument, not
+evidence of absence.
+
+One correlation, on three observations and offered as a hypothesis rather than a
+finding: the transient appeared in the runs involving the tray menu and/or a
+keyboard switch (B, D, E) and not in the runs without either (A, C). Entering a
+shell notification-area menu runs a modal message loop, and Windows normalising
+modifier state around that would fit an artifact with no Keyman injection behind
+it. Testable by repeating step 2 several times and seeing whether it tracks.
+
+The verdicts above are unaffected -- every injected pair is matched, correctly
+chiral, and the final state is clean -- but an unattributed modifier producer is
+exactly what this document exists to enumerate, and it should not be closed on
+the basis that the outcomes happened to be right.

@@ -129,9 +129,21 @@
 #define KEYMSG_FLAG_TRANSITION(lParam) ((BYTE)((HIWORD(lParam) & (KF_UP | KF_REPEAT)) >> 14))
 
 // TODO: Deprecate overloading of scancodes and use dwExtraInfo instead
+// Nothing in the API blocks it: keybd_event's fourth parameter is dwExtraInfo, and all five direct
+// callers already pass it, as 0 (keyman32.cpp:924-925, kmhook_keyboard.cpp:147,
+// kmprocessactions.cpp:101-102). Retiring the scan arm means tagging those five, not a new channel.
 #define SCAN_FLAG_KEYMAN_KEY_EVENT          0xFF
 
 #define EXTRAINFO_FLAG_SERIALIZED_USER_KEY_EVENT 0x4B4D0000
+
+// #8064 Marks the modifier release/restore events keybd_shift wraps an injected batch in, so the
+// hook can keep them out of the server's modifier cache. Low word separates it from the opposite-
+// meaning tag above, whose high word it shares -- and that tag has carried a non-zero dwExtraInfo
+// through SendInput to the hook since 2018, which is the evidence this channel survives the trip at
+// all. Per-event, unlike the 2014 KEYEVENT_EXTRAINFO_KEYMAN (I4370, I4378) read back via per-thread
+// GetMessageExtraInfo, which went stale under rapid typing; and the only channel surviving the Right
+// Shift scan rewrite.
+#define EXTRAINFO_FLAG_KEYMAN_MODIFIER_WRAP 0x4B4D0001
 
 /***************************************************************************/
 // wm_keyman

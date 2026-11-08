@@ -1,0 +1,133 @@
+=== GH-8064 capability-gated probes, evaluated rather than skipped, 2026-08-27 ===
+
+Three tests in keybd_shift.tests.cpp assert real modifiers machine-wide and so
+cannot run everywhere. gtest 1.8.1 has no GTEST_SKIP(), so each detects its own
+capability at runtime and falls back to a logged WARNING plus SUCCEED(). That
+makes a skip indistinguishable from a pass in the tally -- which is why this
+capture exists: it records that on this machine they ACTUALLY EVALUATED, with
+the probe output to prove it, rather than passing vacuously.
+
+Run after the comment-condensation pass, against the same build that gates at
+x86 72 passed / 1 disabled.
+
+  cd windows/src/engine/keyman32
+  ./tests/bin/Win32/Debug/keyman32.tests.exe --gtest_filter=\
+    '*FreshThreadKeyboardStateReflectsLiveModifiers*:\
+     *ReconcileDoesNotRaceItsOwnInjectedRestorePress*:\
+     *GenericShiftSendInputReflectsInBothAsyncKeyStates*'
+
+No --gtest_also_run_disabled_tests: none of the three is DISABLED_. The only
+DISABLED_ test left in the suite is DISABLED_ResetDoesNotPressAKeyThatIsNotHeld,
+which stays that way deliberately.
+
+
+--- 1. FreshThreadKeyboardStateReflectsLiveModifiers -- PASSED (304 ms) ---
+
+  SEED PROBE  this thread : GetKeyboardState ok=1 byte=0x00, GetAsyncKeyState=0x8001
+  SEED PROBE  fresh thread: GetKeyboardState ok=1 byte=0x81, GetAsyncKeyState=0x8000
+  SEED PROBE  after release: GetAsyncKeyState=0x0000
+
+Reproduces the R-3 measurement exactly. The fresh thread's GetKeyboardState
+reports the key held (byte=0x81) while the process main thread's own reading
+reports it up (byte=0x00) with GetAsyncKeyState disagreeing at 0x8001. The
+natural reading -- that a thread which has never pumped input gets nothing
+useful -- is the reverse of what happens, which is why InitThread's seed at
+serialkeyeventserver.cpp:251 is a live reading rather than a no-op.
+
+The release landed: nothing left asserted machine-wide.
+
+
+--- 2. ReconcileDoesNotRaceItsOwnInjectedRestorePress -- PASSED (38074 ms) ---
+
+  RACE PROBE  filler=  0  races=0/100  staleReads=0/100  SendInput mean=1695us
+  RACE PROBE  filler= 32  races=0/100  staleReads=0/100  SendInput mean=52356us
+  RACE PROBE  filler=200  races=0/100  staleReads=0/100  SendInput mean=321010us
+
+300 trials, zero races, across three queue-depth regimes -- and the point of the
+filler levels is that they change the cost by two orders of magnitude (1.7 ms to
+321 ms mean) without changing the answer. SendInput does not return until the
+injected press is visible to GetAsyncKeyState, so a previous batch's own restore
+press cannot still be in flight when the next batch's CaptureLiveModifierState
+runs, and the reconcile cannot clear a byte on the strength of a stale reading
+it caused itself.
+
+This is an oracle, not a one-off measurement: it goes red if a future Windows
+makes SendInput return early. What that would break is recorded in the test's
+own comment.
+
+
+--- 3. GenericShiftSendInputReflectsInBothAsyncKeyStates -- PASSED (551 ms) ---
+
+  GENERIC VK PROBE  GetAsyncKeyState VK_SHIFT=0x8000 VK_LSHIFT=0x8001 VK_RSHIFT=0x0000
+  GENERIC VK PROBE  hook saw vk=0xA0 scan=0x00 extra=0x00000000 flags=0x10
+
+**This is the one that was still recorded as "not yet run", and it settles the
+open question it was written for.** A third party's SendInput with a generic
+wVk=VK_SHIFT and wScan=0 IS reflected in the chiral GetAsyncKeyState(VK_LSHIFT)
+-- 0x8001, held -- and the hook observes it already re-chiralised to vk=0xA0,
+not 0x10. Windows resolves the side on the way in.
+
+So CaptureLiveModifierState's deliberate decision NOT to widen its reading to the
+three generic VKs (VK_SHIFT/VK_CONTROL/VK_MENU) that the hook's isModifierKey
+also accepts is now measured rather than argued, on this machine. The fallback
+sketched in that function's comment -- OR the generic reading into both chiral
+halves when neither reports held -- is not needed here.
+
+What this does not prove: that no future Windows, and no other injector, can
+violate the assumption. The test is the guard against that, and it is in the
+suite rather than DISABLED_ precisely so the assumption cannot rot unnoticed on
+the machines that can check it.
+
+
+--- Why this file exists at all ---
+
+A capability skip logs "precondition unmet, not evaluated" as a WARNING and then
+SUCCEED()s. Read the log, not the tally, on any leg without an interactive input
+desktop -- a Session-0 CI service account will report these three as passed
+without having asserted anything. On this machine, on this run, all three
+asserted for real.
+
+
+--- Gate context for this run ---
+
+Taken after the comment-condensation pass over the engine and test sources, so
+it doubles as that change's verification. Comments only -- code compared
+byte-identical to HEAD with comments stripped -- and the full gate re-run to
+confirm it:
+
+  test:x86            72 passed, 1 disabled, exit 0
+  test:x64            71 passed, 1 disabled, 0 warnings, exit 0
+  keyman32.vcxproj    Win32 Debug -> keyman32.dll, links, exit 0
+  keyman32.vcxproj    x64   Debug -> keyman64.dll, links, exit 0
+
+Unchanged from the figures recorded before the condensation, which is what a
+comment-only change has to show.
+
+
+--- Observed the same day: a capability failure that did NOT skip ---
+
+One x64 suite run, between the two clean ones above, reported three FAILURES
+rather than three skips:
+
+  [  FAILED  ] KEYBD_SHIFT.ReconcileDoesNotRaceItsOwnInjectedRestorePress
+  [  FAILED  ] KEYBD_SHIFT.DwExtraInfoSurvivesSendInputWhereTheScanCodeDoesNot
+  [  FAILED  ] KEYBD_SHIFT.GenericShiftSendInputReflectsInBothAsyncKeyStates
+
+All three are the real-injection/hook tests. Established immediately afterwards:
+
+  - all three PASS on x64 when re-run in isolation, with correct probe output
+    (VK_SHIFT=0x8000 VK_LSHIFT=0x8001, hook saw vk=0xA0)
+  - the full x64 suite then PASSED 71/71 on the very next run
+  - no modifier was stuck: all nine VKs read up before and after
+  - the only source change since the previous clean run was comments
+
+So: interference, not a regression. Another process disturbing the input queue or
+the low level hook round trip is enough -- and on this machine another session was
+committing to this repo at the time.
+
+**Why this is recorded rather than dismissed.** The capability probe protects
+against an ABSENT capability; it cannot protect against an INTERMITTENTLY
+disturbed one. A skip is a logged SUCCEED(); this is a plain red. From a CI log
+alone an environmental false failure of these three is indistinguishable from a
+real regression, and the triage step is the one used here: re-run the failures in
+isolation before believing them.

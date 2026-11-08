@@ -1,0 +1,112 @@
+=== GH-8064 OSK teardown verification, 2026-08-27 ===
+
+Engine:   keyman.exe Win32/Debug, built from fix/windows/8064-reconcile-modifier-cache
+          under Delphi 12.0 CE (KEYMAN_DELPHI_VERSION=23.0, KEYMAN_DELPHI_CE=1).
+Keyboard: sil_cameroon_qwerty. Its .kvk header carries <usealtgr/>, so
+          UpdateKeyboard sets kbd.LRShift := True and the OSK draws separate
+          L Ctrl / R Ctrl keys. That is the chiral regime these steps require.
+Oracle:   a 60 ms poller over the nine modifier VKs, logging only state CHANGES.
+          Reads all nine, not the six chiral slots -- do_keybd_event injects the
+          side-agnostic VK, so a phantom press is never an 0xA0..0xA5 event.
+          Continuous polling is deliberate: a stuck Ctrl makes the keyboard
+          unusable, so nothing can be typed at the moment of measurement.
+
+Instrument calibrated before use -- a physical Left Shift press and release was
+confirmed visible to the poller before any null result was trusted:
+
+  [09:05:01.133] HELD: SHIFT,LSHIFT
+  [09:05:05.253] ALL CLEAR
+
+
+--- Step 1: it compiles ---
+
+PASS. Also confirmed present in the binary rather than assumed: keyman.map lists
+UfrmOSKOnScreenKeyboard.ReleaseCached, the new nested procedure, at 0001:002D454C.
+
+
+--- Step 2: click R Ctrl, dismiss from the tray menu ---
+
+  [09:28:51.407] HELD: CTRL,RCTRL
+  [09:28:56.501] ALL CLEAR
+
+PASS. LCTRL never appears: the release was aimed at the extended right-hand
+identity and not collapsed to Left, which is what releasing by recorded chiral
+identity was meant to buy. (Re-run against the rebuilt engine after the Step 6
+fix below; the pre-fix run at 09:06 passed identically.)
+
+
+--- Step 3: click R Ctrl, dismiss by switching to the Character Map tab ---
+
+  [09:08:01.287] HELD: CTRL,RCTRL
+  [09:08:06.921] ALL CLEAR
+
+PASS. This is the FormDestroy path -- Release/FreeAndNil runs OnDestroy and never
+OnClose -- so before UfrmVisualKeyboard.FormDestroy called ResetShiftStates this
+teardown released nothing at all.
+
+
+--- Step 5: click R Ctrl, close with the OSK's own X button (idempotency) ---
+
+  [09:09:37.493] HELD: CTRL,RCTRL
+  [09:09:53.431] ALL CLEAR
+
+PASS, with a stated limit. The X button reaches ResetShiftStates twice, from
+FormClose and again from FormDestroy, and one clean transition was observed. But
+the poller samples at 60 ms and the two calls fire milliseconds apart, so a
+re-press/re-release pair inside one sampling window would be invisible to it.
+What carries the result is structural: ReleaseCached is gated on membership in
+FCachedShiftState, the first call ends with FCachedShiftState := [], and the
+procedure can only ever emit KEYUP -- so a missed double would be a redundant
+key-up, which is inert. Observation and code agree; the observation alone does
+not prove it.
+
+
+--- Step 6: I2177 regression -- physically held modifier must NOT be released ---
+
+FAILED on the first build, and the failure was real. Hold physical Left Shift,
+click R Ctrl on the OSK, dismiss:
+
+  [09:11:22.244] HELD: SHIFT,LSHIFT
+  [09:11:28.153] HELD: SHIFT,CTRL,LSHIFT,RCTRL
+  [09:11:35.396] ALL CLEAR                        <-- dismissal took BOTH
+
+Cause, found by reading rather than inferred from the log: UpdateShiftStates runs
+on a 50 ms timer and ends with `kbd.ShiftState := GetAsyncShiftState`, so
+kbd.ShiftState continuously carries physically-held modifiers. kbdShiftChange
+then assigned it wholesale into FCachedShiftState, so a click made while Shift
+was held cached essShift alongside the key actually clicked, and ReleaseCached
+released it. The GetAsyncKeyState gate cannot catch this: a physically-held key
+genuinely IS down, so the gate passes. The old comment argued the resync could
+not contaminate the cache because FCachedShiftState is written "from a click and
+only from a click" -- true of when it is written, irrelevant to what it captures.
+The hazard travels in the value, not the call path.
+
+Fixed by recording only the clicked set:
+
+  FCachedShiftState := (FCachedShiftState + (fkcss - ass)) * fkcss;
+
+Re-run after rebuilding. Note the measurement protocol had to change: the first
+two attempts were INCONCLUSIVE, not failures, because sending a message required
+pressing Enter, which meant releasing Shift at the critical moment -- the log
+cannot distinguish "the fix released your Shift" from "the tester let go". The
+protocol was changed to pre-type the message and send it with the mouse, so the
+held key never has to come up. Retained here because the null result from the
+earlier protocol was not evidence of anything.
+
+  [09:35:28.344] HELD: SHIFT,CTRL,LSHIFT,RCTRL    Shift held, R Ctrl clicked
+  [09:35:48.321] HELD: CTRL,RCTRL                 tester shifted grip
+  [09:36:00.108] HELD: SHIFT,CTRL,LSHIFT,RCTRL    re-held
+  [09:36:17.269] HELD: SHIFT,LSHIFT               <-- DISMISSAL: Ctrl released,
+                                                      Shift kept
+  [09:36:27.438] ALL CLEAR                        tester released, 10 s later
+
+PASS, and unambiguously so. A tester releasing Shift produces CTRL,RCTRL, as it
+did at 09:35:48; it can never produce SHIFT,LSHIFT. Ctrl going away while Shift
+stays can only have come from the teardown. Corroborated independently: typing
+after the dismissal produced capitals, so only Shift was still down.
+
+
+--- Not yet run ---
+
+Steps 4 (False->True SetLRShift collapse), 7 (Finding 4a timing repro),
+8 (Finding 4b, expected still-broken) and 9 (normal OSK operation).
